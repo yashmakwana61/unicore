@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Inherit Student Form View to add Scholarship smart button -->
+    <record id="view_unicore_student_scholarship_ext_form" model="ir.ui.view">
+        <field name="name">unicore.student.scholarship.ext.form</field>
+        <field name="model">unicore.student</field>
+        <field name="inherit_id" ref="unicore_student.unicore_student_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_scholarship_applications"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-graduation-cap">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value"><field name="scholarship_count"/></span>
+                        <span class="o_stat_text">Scholarships</span>
+                    </div>
+                </button>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Scholarship Summary" name="scholarships">
+                    <group>
+                        <group>
+                            <field name="active_scholarship_count"/>
+                        </group>
+                        <group>
+                            <field name="total_scholarship_received"/>
+                            <field name="scholarship_currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

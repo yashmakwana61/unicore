@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Scholarship Program List View -->
+    <record id="view_unicore_scholarship_program_list" model="ir.ui.view">
+        <field name="name">unicore.scholarship.program.list</field>
+        <field name="model">unicore.scholarship.program</field>
+        <field name="arch" type="xml">
+            <list string="Scholarship Programs">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="academic_year_id"/>
+                <field name="scholarship_type"/>
+                <field name="funding_source"/>
+                <field name="award_type"/>
+                <field name="total_quota"/>
+                <field name="application_count"/>
+                <field name="approved_count"/>
+                <field name="program_state" widget="badge" 
+                       decoration-info="program_state == 'draft'" 
+                       decoration-success="program_state == 'open'" 
+                       decoration-warning="program_state == 'closed'" 
+                       decoration-muted="program_state == 'completed'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Scholarship Program Form View -->
+    <record id="view_unicore_scholarship_program_form" model="ir.ui.view">
+        <field name="name">unicore.scholarship.program.form</field>
+        <field name="model">unicore.scholarship.program</field>
+        <field name="arch" type="xml">
+            <form string="Scholarship Program">
+                <header>
+                    <button name="action_open" string="Open for Applications" type="object" class="oe_highlight" invisible="program_state != 'draft'"/>
+                    <button name="action_close" string="Close Applications" type="object" class="oe_highlight" invisible="program_state != 'open'"/>
+                    <button name="action_complete" string="Mark as Completed" type="object" class="oe_highlight" invisible="program_state != 'closed'"/>
+                    <button name="action_reset_draft" string="Reset to Draft" type="object" invisible="program_state not in ('closed', 'completed')"/>
+                    <field name="program_state" widget="statusbar" statusbar_visible="draft,open,closed,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(unicore_scholarship.action_unicore_scholarship_application)d" 
+                                type="action" 
+                                class="oe_stat_button" 
+                                icon="fa-file-text-o"
+                                context="{'search_default_scholarship_program_id': id}">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value"><field name="application_count"/></span>
+                                <span class="o_stat_text">Applications</span>
+                            </div>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active == True"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Scholarship Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="academic_year_id"/>
+                            <field name="application_deadline"/>
+                        </group>
+                        <group>
+                            <field name="scholarship_type"/>
+                            <field name="funding_source"/>
+                            <field name="sponsor_name"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Eligibility Criteria" name="eligibility">
+                            <group>
+                                <group>
+                                    <field name="min_cgpa"/>
+                                    <field name="min_attendance_percentage"/>
+                                    <field name="max_annual_income"/>
+                                    <field name="currency_id" invisible="1"/>
+                                </group>
+                                <group>
+                                    <field name="min_year_of_study"/>
+                                    <field name="max_year_of_study"/>
+                                    <field name="is_renewable"/>
+                                </group>
+                            </group>
+                            <group string="Eligible Programs">
+                                <field name="eligible_program_ids" widget="many2many_tags" placeholder="Leave empty for all programs"/>
+                            </group>
+                        </page>
+                        <page string="Award Details" name="award">
+                            <group>
+                                <group>
+                                    <field name="award_type"/>
+                                    <field name="award_amount" invisible="award_type == 'full_tuition'"/>
+                                    <field name="award_percentage" invisible="award_type not in ('fee_waiver', 'partial_tuition', 'mixed')"/>
+                                </group>
+                                <group>
+                                    <field name="total_quota"/>
+                                    <field name="approved_count"/>
+                                    <field name="total_awarded"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Scholarship Program Action -->
+    <record id="action_unicore_scholarship_program" model="ir.actions.act_window">
+        <field name="name">Scholarship Programs</field>
+        <field name="res_model">unicore.scholarship.program</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create the first Scholarship Program!
+            </p>
+        </field>
+    </record>
+
+</odoo>

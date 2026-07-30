@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_unicore_generate_sessions_wizard_form" model="ir.ui.view">
+            <field name="name">unicore.generate.sessions.wizard.form</field>
+            <field name="model">unicore.generate.sessions.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group string="Generation Settings">
+                        <group>
+                            <field name="generation_mode"/>
+                            <field name="company_id"/>
+                        </group>
+                        <group>
+                            <field name="skip_existing"/>
+                        </group>
+                    </group>
+                    <field name="course_offering_id" invisible="generation_mode != 'offering'" required="generation_mode == 'offering'"/>
+                    <field name="semester_id" invisible="generation_mode != 'semester'" required="generation_mode == 'semester'"/>
+                    <separator string="Preview"/>
+                    <group>
+                        <field name="preview_count" string="Sessions to be Generated" readonly="1"/>
+                    </group>
+                    <p class="text-muted small">
+                        Sessions are generated from confirmed timetable entries. Holiday dates are automatically excluded.
+                        Enable 'Skip Existing' to safely re-run without creating duplicates.
+                    </p>
+                    <footer>
+                        <button name="action_generate" string="Generate Sessions" type="object" class="btn-primary"/>
+                        <button string="Cancel" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_unicore_generate_sessions_wizard" model="ir.actions.act_window">
+            <field name="name">Generate Attendance Sessions</field>
+            <field name="res_model">unicore.generate.sessions.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

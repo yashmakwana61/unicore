@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="unicore_config_institution_name" model="ir.config_parameter">
+            <field name="key">unicore.institution_name</field>
+            <field name="value">My University</field>
+        </record>
+    </data>
+</odoo>

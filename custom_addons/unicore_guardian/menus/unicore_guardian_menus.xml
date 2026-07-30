@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_unicore_guardian" model="ir.actions.act_window">
+        <field name="name">Guardians</field>
+        <field name="res_model">unicore.guardian</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record id="action_unicore_guardian_student_rel" model="ir.actions.act_window">
+        <field name="name">Guardian-Student Relationships</field>
+        <field name="res_model">unicore.guardian.student.rel</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <menuitem id="menu_unicore_guardian_all"
+              name="Guardians"
+              parent="unicore_student.menu_unicore_student_root"
+              action="action_unicore_guardian"
+              sequence="40"/>
+
+    <menuitem id="menu_unicore_guardian_student_rel"
+              name="Guardian-Student Links"
+              parent="unicore_student.menu_unicore_student_root"
+              action="action_unicore_guardian_student_rel"
+              sequence="50"
+              groups="unicore_base.group_unicore_registrar"/>
+</odoo>

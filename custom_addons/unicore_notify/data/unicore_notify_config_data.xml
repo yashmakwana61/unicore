@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="1">
+
+    <!-- Default notification config for main company -->
+    <record id="unicore_notify_config_default"
+            model="unicore.notification.config">
+      <field name="name">Default Notification Config</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="email_enabled" eval="True"/>
+      <field name="email_from_name">UniCore ERP</field>
+      <field name="email_footer_text">
+This email was sent by UniCore ERP.
+If you believe you received this in error,
+please contact the university administration.
+      </field>
+      <field name="whatsapp_enabled" eval="False"/>
+      <field name="whatsapp_api_url">
+        https://graph.facebook.com/v18.0
+      </field>
+      <field name="inapp_enabled" eval="True"/>
+      <field name="notify_on_fee_due" eval="True"/>
+      <field name="notify_on_attendance_shortage"
+             eval="True"/>
+      <field name="notify_on_exam_reminder" eval="True"/>
+      <field name="notify_on_result_published"
+             eval="True"/>
+      <field name="notify_on_enrollment" eval="True"/>
+      <field name="fee_reminder_days_before" eval="7"/>
+      <field name="exam_reminder_days_before" eval="3"/>
+      <field name="active" eval="True"/>
+    </record>
+
+  </data>
+</odoo>

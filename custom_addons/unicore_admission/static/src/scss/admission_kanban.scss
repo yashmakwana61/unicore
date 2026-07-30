@@ -1,0 +1,407 @@
+// UniCore Admission Kanban View Styling
+// Custom kanban cards for the admission funnel workflow
+
+:root {
+    --uc-primary: #714B67;
+    --uc-primary-dark: #5a3c53;
+    --uc-primary-light: #a671a8;
+    --uc-gray-100: #f8f9fa;
+    --uc-gray-200: #e9ecef;
+    --uc-gray-600: #6c757d;
+    --uc-success: #28a745;
+    --uc-danger: #dc3545;
+    --uc-warning: #ffc107;
+    --uc-info: #17a2b8;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --uc-gray-100: #2b2d31;
+        --uc-gray-200: #383b42;
+        --uc-gray-600: #adb5bd;
+    }
+}
+
+.o_kanban_view {
+    .o_kanban_header {
+        background-color: var(--uc-gray-100);
+        border-bottom: 2px solid var(--uc-primary);
+
+        .o_kanban_header_title {
+            font-weight: 600;
+            color: var(--uc-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+    }
+
+    // Kanban column styling
+    .o_kanban_column {
+        background-color: var(--uc-gray-100);
+        border-radius: 4px;
+
+        &.o_column_folded {
+            background-color: var(--uc-gray-200);
+        }
+    }
+
+    // Kanban card styling
+    .oe_kanban_card {
+        background-color: white;
+        border: 1px solid var(--uc-gray-200);
+        border-radius: 6px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        overflow: hidden;
+
+        &:hover {
+            box-shadow: 0 4px 12px rgba(113, 75, 103, 0.2);
+            border-color: var(--uc-primary);
+            transform: translateY(-2px);
+        }
+
+        // Card header
+        .oe_kanban_card_header {
+            background: linear-gradient(135deg, var(--uc-primary), var(--uc-primary-light));
+            color: white;
+            padding: 12px;
+            border-bottom: 2px solid var(--uc-primary-dark);
+
+            .oe_kanban_name {
+                margin: 0;
+                font-size: 14px;
+                font-weight: 600;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+
+        // Card body
+        .oe_kanban_card_body {
+            padding: 12px;
+            font-size: 13px;
+
+            .oe_kanban_field_line {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 8px;
+                gap: 8px;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                .oe_kanban_label {
+                    font-weight: 600;
+                    color: var(--uc-gray-600);
+                    min-width: 70px;
+                }
+
+                .badge {
+                    font-size: 12px;
+                    padding: 4px 8px;
+                }
+            }
+
+            .oe_kanban_email {
+                margin-top: 8px;
+                padding-top: 8px;
+                border-top: 1px solid var(--uc-gray-200);
+
+                small {
+                    display: block;
+                    word-break: break-word;
+                }
+            }
+        }
+
+        // Card footer
+        .oe_kanban_footer {
+            padding: 8px 12px;
+            background-color: var(--uc-gray-100);
+            border-top: 1px solid var(--uc-gray-200);
+            text-align: center;
+
+            .oe_kanban_action {
+                font-size: 12px;
+                font-weight: 600;
+                color: var(--uc-primary);
+                text-decoration: none;
+                transition: color 0.2s ease;
+
+                &:hover {
+                    color: var(--uc-primary-dark);
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        // State-specific card styling
+        &.oe_kanban_color_0 {
+            border-left: 4px solid var(--uc-info);
+        }
+
+        &.oe_kanban_color_1 {
+            border-left: 4px solid var(--uc-primary);
+        }
+
+        &.oe_kanban_color_2 {
+            border-left: 4px solid var(--uc-warning);
+        }
+
+        &.oe_kanban_color_3 {
+            border-left: 4px solid var(--uc-success);
+        }
+
+        &.oe_kanban_color_4 {
+            border-left: 4px solid var(--uc-danger);
+        }
+    }
+
+    // Kanban group header styling
+    .o_kanban_group_header {
+        background-color: var(--uc-primary);
+        color: white;
+        font-weight: 600;
+        padding: 12px;
+        border-radius: 4px 4px 0 0;
+        text-transform: capitalize;
+
+        .o_group_name {
+            font-size: 14px;
+        }
+
+        .o_group_count {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    }
+
+    // Drag and drop styling
+    .oe_kanban_global_click:hover {
+        cursor: move;
+    }
+
+    // Empty state styling
+    .o_kanban_column_empty {
+        min-height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .o_empty_state {
+            text-align: center;
+            color: var(--uc-gray-600);
+            font-size: 13px;
+        }
+    }
+
+    // Mobile responsive adjustments
+    @media (max-width: 768px) {
+        .oe_kanban_card {
+            .oe_kanban_card_header {
+                padding: 10px;
+
+                .oe_kanban_name {
+                    font-size: 13px;
+                }
+            }
+
+            .oe_kanban_card_body {
+                padding: 10px;
+                font-size: 12px;
+
+                .oe_kanban_field_line {
+                    margin-bottom: 6px;
+                }
+            }
+
+            .oe_kanban_footer {
+                padding: 6px 10px;
+
+                .oe_kanban_action {
+                    font-size: 11px;
+                }
+            }
+        }
+
+        .o_kanban_group_header {
+            padding: 10px;
+
+            .o_group_name {
+                font-size: 12px;
+            }
+        }
+    }
+}
+
+// Cycle-specific column colors (for admission cycles kanban)
+.o_kanban_column {
+    // Applicant state colors
+    &[data-group-by-value="inquiry"],
+    &[data-group-by-value="'inquiry'"] {
+        .o_kanban_group_header {
+            background-color: #17a2b8;
+        }
+    }
+
+    &[data-group-by-value="applied"],
+    &[data-group-by-value="'applied'"] {
+        .o_kanban_group_header {
+            background-color: #6c757d;
+        }
+    }
+
+    &[data-group-by-value="documents_pending"],
+    &[data-group-by-value="'documents_pending'"] {
+        .o_kanban_group_header {
+            background-color: #ffc107;
+            color: #212529;
+        }
+    }
+
+    &[data-group-by-value="under_review"],
+    &[data-group-by-value="'under_review'"] {
+        .o_kanban_group_header {
+            background-color: #fd7e14;
+        }
+    }
+
+    &[data-group-by-value="shortlisted"],
+    &[data-group-by-value="'shortlisted'"] {
+        .o_kanban_group_header {
+            background-color: #714B67;
+        }
+    }
+
+    &[data-group-by-value="entrance_scheduled"],
+    &[data-group-by-value="'entrance_scheduled'"] {
+        .o_kanban_group_header {
+            background-color: #9e7ba8;
+        }
+    }
+
+    &[data-group-by-value="merit_listed"],
+    &[data-group-by-value="'merit_listed'"] {
+        .o_kanban_group_header {
+            background-color: #a671a8;
+        }
+    }
+
+    &[data-group-by-value="offer_sent"],
+    &[data-group-by-value="'offer_sent'"] {
+        .o_kanban_group_header {
+            background-color: #007bff;
+        }
+    }
+
+    &[data-group-by-value="fee_pending"],
+    &[data-group-by-value="'fee_pending'"] {
+        .o_kanban_group_header {
+            background-color: #e83e8c;
+        }
+    }
+
+    &[data-group-by-value="confirmed"],
+    &[data-group-by-value="'confirmed'"] {
+        .o_kanban_group_header {
+            background-color: #28a745;
+        }
+    }
+
+    &[data-group-by-value="rejected"],
+    &[data-group-by-value="'rejected'"] {
+        .o_kanban_group_header {
+            background-color: #dc3545;
+        }
+    }
+
+    &[data-group-by-value="withdrawn"],
+    &[data-group-by-value="'withdrawn'"] {
+        .o_kanban_group_header {
+            background-color: #6c757d;
+        }
+    }
+
+    &[data-group-by-value="waitlisted"],
+    &[data-group-by-value="'waitlisted'"] {
+        .o_kanban_group_header {
+            background-color: #20c997;
+        }
+    }
+
+    // Admission cycle states
+    &[data-group-by-value="draft"],
+    &[data-group-by-value="'draft'"] {
+        .o_kanban_group_header {
+            background-color: #6c757d;
+        }
+    }
+
+    &[data-group-by-value="active"],
+    &[data-group-by-value="'active'"] {
+        .o_kanban_group_header {
+            background-color: #28a745;
+        }
+    }
+
+    &[data-group-by-value="closed"],
+    &[data-group-by-value="'closed'"] {
+        .o_kanban_group_header {
+            background-color: #fd7e14;
+        }
+    }
+
+    &[data-group-by-value="archived"],
+    &[data-group-by-value="'archived'"] {
+        .o_kanban_group_header {
+            background-color: #dc3545;
+        }
+    }
+}
+
+// Cycle cards view (non-grouped) styling
+.o_kanban_small_cards {
+    .oe_kanban_card {
+        .oe_kanban_card_header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+
+            .state-badge {
+                font-size: 11px;
+                font-weight: 600;
+                padding: 2px 8px;
+                border-radius: 12px;
+                text-transform: capitalize;
+                white-space: nowrap;
+                background-color: rgba(255, 255, 255, 0.3);
+                color: white;
+            }
+
+            // State-specific header colors
+            &.state-draft {
+                background: linear-gradient(135deg, #6c757d, #5a6268);
+            }
+
+            &.state-active {
+                background: linear-gradient(135deg, #28a745, #20c997);
+            }
+
+            &.state-closed {
+                background: linear-gradient(135deg, #fd7e14, #ffc107);
+            }
+
+            &.state-archived {
+                background: linear-gradient(135deg, #dc3545, #e74c3c);
+            }
+        }
+    }
+}

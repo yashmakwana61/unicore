@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- =====================================================
+         Vehicle: standalone search (no existing search view)
+         ===================================================== -->
+    <record id="view_transport_vehicle_search_phase1_filters"
+            model="ir.ui.view">
+        <field name="name">unicore.transport.vehicle.search.phase1</field>
+        <field name="model">unicore.transport.vehicle</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="registration_number"/>
+                <field name="vehicle_type"/>
+                <field name="driver_name"/>
+                <field name="campus_id"/>
+                <filter name="filter_active" string="Active"
+                    domain="[('vehicle_state','=','active')]"/>
+                <filter name="filter_maintenance" string="Under Maintenance"
+                    domain="[('vehicle_state','=','maintenance')]"/>
+                <filter name="filter_retired" string="Retired"
+                    domain="[('vehicle_state','=','retired')]"/>
+                <filter name="filter_breakdown" string="Breakdown"
+                    domain="[('vehicle_state','=','breakdown')]"/>
+
+                <group name="group_by">
+                    <filter name="group_by_state" string="Status"
+                        context="{'group_by':'vehicle_state'}"/>
+                    <filter name="group_by_type" string="Vehicle Type"
+                        context="{'group_by':'vehicle_type'}"/>
+                    <filter name="group_by_campus" string="Campus"
+                        context="{'group_by':'campus_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- =====================================================
+         Route: standalone search (no existing search view)
+         ===================================================== -->
+    <record id="view_transport_route_search_phase1_filters"
+            model="ir.ui.view">
+        <field name="name">unicore.transport.route.search.phase1</field>
+        <field name="model">unicore.transport.route</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="vehicle_id"/>
+                <field name="campus_id"/>
+                <filter name="filter_active" string="Active"
+                    domain="[('route_state','=','active')]"/>
+                <filter name="filter_suspended" string="Suspended"
+                    domain="[('route_state','=','suspended')]"/>
+                <filter name="filter_discontinued" string="Discontinued"
+                    domain="[('route_state','=','discontinued')]"/>
+                <group name="group_by">
+                    <filter name="group_by_state" string="Status"
+                        context="{'group_by':'route_state'}"/>
+                    <filter name="group_by_vehicle" string="Vehicle"
+                        context="{'group_by':'vehicle_id'}"/>
+                    <filter name="group_by_direction" string="Direction"
+                        context="{'group_by':'direction'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- =====================================================
+         Pass: inherited search — missing status filters
+         ===================================================== -->
+    <record id="view_transport_pass_search_phase1_filters"
+            model="ir.ui.view">
+        <field name="name">unicore.transport.pass.search.phase1</field>
+        <field name="model">unicore.transport.pass</field>
+        <field name="inherit_id" ref="unicore_transport.view_unicore_transport_pass_search"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//filter[@name='expired']" position="after">
+                <filter name="filter_suspended" string="Suspended"
+                    domain="[('pass_state','=','suspended')]"/>
+                <filter name="filter_cancelled" string="Cancelled"
+                    domain="[('pass_state','=','cancelled')]"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- =====================================================
+         Trip: inherited search — missing status filters
+         ===================================================== -->
+    <record id="view_transport_trip_search_phase1_filters"
+            model="ir.ui.view">
+        <field name="name">unicore.transport.trip.search.phase1</field>
+        <field name="model">unicore.transport.trip</field>
+        <field name="inherit_id" ref="unicore_transport.view_unicore_transport_trip_search"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//filter[@name='scheduled']" position="after">
+                <filter name="filter_in_progress" string="In Progress"
+                    domain="[('trip_state','=','in_progress')]"/>
+                <filter name="filter_cancelled" string="Cancelled"
+                    domain="[('trip_state','=','cancelled')]"/>
+            </xpath>
+
+            <xpath expr="//group[@name='group_by']" position="inside">
+                <filter name="group_by_state" string="Status"
+                    context="{'group_by': 'trip_state'}"/>
+                <filter name="group_by_type" string="Trip Type"
+                    context="{'group_by': 'trip_type'}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

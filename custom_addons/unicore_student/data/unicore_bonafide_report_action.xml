@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_bonafide" model="ir.actions.report">
+        <field name="name">Bonafide Certificate</field>
+        <field name="model">unicore.student</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">unicore_student.bonafide_template</field>
+        <field name="report_file">unicore_student.bonafide_template</field>
+        <field name="print_report_name">'Bonafide-%s' % object.student_id_number</field>
+        <field name="paperformat_id" ref="base.paperformat_euro"/>
+    </record>
+</odoo>

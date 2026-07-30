@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="0">
+    <record id="uc_demo_exam_cs101_midterm" model="unicore.exam.schedule">
+      <field name="name">Midterm Exam - CS101</field>
+      <field name="course_offering_id" ref="uc_demo_offering_cs101"/>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="exam_type">midterm</field>
+      <field name="exam_date">2025-09-15</field>
+      <field name="exam_start_time">10.0</field>
+      <field name="exam_end_time">12.0</field>
+      <field name="venue_ids" eval="[(6, 0, [ref('uc_demo_room_a101')])]"/>
+      <field name="chief_invigilator_id" ref="uc_demo_faculty_rajesh"/>
+      <field name="exam_max_marks">40.0</field>
+      <field name="exam_state">published</field>
+    </record>
+
+    <record id="uc_demo_exam_cs101_final" model="unicore.exam.schedule">
+      <field name="name">Final Exam - CS101</field>
+      <field name="course_offering_id" ref="uc_demo_offering_cs101"/>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="exam_type">final</field>
+      <field name="exam_date">2025-11-20</field>
+      <field name="exam_start_time">9.0</field>
+      <field name="exam_end_time">12.0</field>
+      <field name="venue_ids" eval="[(6, 0, [ref('uc_demo_room_a101')])]"/>
+      <field name="chief_invigilator_id" ref="uc_demo_faculty_rajesh"/>
+      <field name="exam_max_marks">60.0</field>
+      <field name="exam_state">published</field>
+    </record>
+
+    <record id="uc_demo_exam_math101_final" model="unicore.exam.schedule">
+      <field name="name">Final Exam - MATH101</field>
+      <field name="course_offering_id" ref="uc_demo_offering_math101"/>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="exam_type">final</field>
+      <field name="exam_date">2025-11-22</field>
+      <field name="exam_start_time">9.0</field>
+      <field name="exam_end_time">12.0</field>
+      <field name="venue_ids" eval="[(6, 0, [ref('uc_demo_room_a102')])]"/>
+      <field name="chief_invigilator_id" ref="uc_demo_faculty_anita"/>
+      <field name="exam_max_marks">60.0</field>
+      <field name="exam_state">published</field>
+    </record>
+
+    <record id="uc_demo_ht_arav_cs101" model="unicore.exam.hall.ticket">
+      <field name="exam_schedule_id" ref="uc_demo_exam_cs101_final"/>
+      <field name="student_id" ref="uc_demo_student_arav"/>
+      <field name="ticket_state">approved</field>
+    </record>
+
+    <record id="uc_demo_ht_diya_cs101" model="unicore.exam.hall.ticket">
+      <field name="exam_schedule_id" ref="uc_demo_exam_cs101_final"/>
+      <field name="student_id" ref="uc_demo_student_diya"/>
+      <field name="ticket_state">approved</field>
+    </record>
+
+    <record id="uc_demo_ht_kabir_cs101" model="unicore.exam.hall.ticket">
+      <field name="exam_schedule_id" ref="uc_demo_exam_cs101_final"/>
+      <field name="student_id" ref="uc_demo_student_kabir"/>
+      <field name="ticket_state">approved</field>
+    </record>
+
+    <record id="uc_demo_seating_arav_cs101" model="unicore.exam.seating">
+      <field name="exam_schedule_id" ref="uc_demo_exam_cs101_final"/>
+      <field name="hall_ticket_id" ref="uc_demo_ht_arav_cs101"/>
+      <field name="room_id" ref="uc_demo_room_a101"/>
+      <field name="seat_number">1</field>
+    </record>
+
+    <record id="uc_demo_seating_diya_cs101" model="unicore.exam.seating">
+      <field name="exam_schedule_id" ref="uc_demo_exam_cs101_final"/>
+      <field name="hall_ticket_id" ref="uc_demo_ht_diya_cs101"/>
+      <field name="room_id" ref="uc_demo_room_a101"/>
+      <field name="seat_number">2</field>
+    </record>
+
+    <record id="uc_demo_seating_kabir_cs101" model="unicore.exam.seating">
+      <field name="exam_schedule_id" ref="uc_demo_exam_cs101_final"/>
+      <field name="hall_ticket_id" ref="uc_demo_ht_kabir_cs101"/>
+      <field name="room_id" ref="uc_demo_room_a101"/>
+      <field name="seat_number">3</field>
+    </record>
+  </data>
+</odoo>

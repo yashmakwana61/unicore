@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Batch Migration Wizard Form -->
+        <record id="view_unicore_fee_batch_wizard_form" model="ir.ui.view">
+            <field name="name">unicore.fee.invoice.batch.wizard.form</field>
+            <field name="model">unicore.fee.invoice.batch.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Batch GL Migration Wizard">
+                    <div class="alert alert-info" role="alert">
+                        <p><strong>Batch Migration Wizard</strong></p>
+                        <p>Migrate existing fee invoices to GL invoices in batch.</p>
+                        <p>This processes all matching invoices and creates GL invoices for them.</p>
+                    </div>
+
+                    <group>
+                        <group string="Migration Options">
+                            <field name="migration_type" />
+                            <field name="create_partners" />
+                        </group>
+
+                        <group string="GL Posting">
+                            <field name="auto_post" />
+                        </group>
+                    </group>
+
+                    <group string="Preview &amp; Execution">
+                        <field name="dry_run" />
+                    </group>
+
+                    <div class="alert alert-warning" role="alert" invisible="not dry_run">
+                        <p><strong>⚠ DRY RUN MODE:</strong> This will only preview what would be migrated, without making any changes.</p>
+                    </div>
+
+                    <div class="alert alert-info" role="alert">
+                        <p><strong>Migration Types:</strong></p>
+                        <ul>
+                            <li><strong>All Invoices:</strong> Migrate all sent/partial/paid/overdue invoices without GL</li>
+                            <li><strong>Sent Only:</strong> Migrate only invoices in 'Sent' status</li>
+                            <li><strong>Paid Only:</strong> Migrate only invoices in 'Paid' status</li>
+                            <li><strong>Reconcile:</strong> Auto-reconcile confirmed payments that aren't matched to GL</li>
+                        </ul>
+                    </div>
+
+                    <footer>
+                        <button name="action_migrate" string="Execute Migration" type="object" class="btn-primary" />
+                        <button string="Cancel" class="btn-secondary" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- Batch Migration Action -->
+        <record id="action_unicore_fee_batch_wizard" model="ir.actions.act_window">
+            <field name="name">Batch GL Migration</field>
+            <field name="res_model">unicore.fee.invoice.batch.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,133 @@
+// ============================================
+// UniCore Theme — Chatter & Messaging
+// (Enterprise-restrained: flat, quiet bubbles,
+//  hairline separators, no per-message cards)
+// ============================================
+
+// --- 1. Chatter container ---
+// NOTE: class prefix changed across Odoo versions (o_mail_ vs
+// o-mail-).  All three variants included as fallback.
+.o-mail-Form-chatter,
+.o_mail_chatter_container,
+.o-mail-ChatterContainer {
+    background: $uc-surface;
+    border-left: 1px solid $uc-border-light;
+    padding: 0;
+}
+
+// --- 2. Topbar (Send message / Log note / Activity buttons) ---
+.o-mail-Chatter-topbar,
+.o_chatter_topbar {
+    padding: 16px 20px 12px;
+    border-bottom: 1px solid $uc-border-light;
+    display: flex;
+    gap: 8px;
+}
+
+.o-mail-Chatter-topbar button,
+.o_chatter_topbar button {
+    border-radius: $uc-radius-field;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: none;
+    transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+// --- 3. Message thread ---
+.o-mail-Thread,
+.o_mail_thread {
+    padding: 16px 20px;
+}
+
+.o-mail-Message,
+.o_mail_message {
+    padding: 10px 0;
+    border-bottom: 1px solid $uc-bg-subtle;
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.o-mail-Message-author,
+.o_mail_info {
+    font-size: 12px;
+    font-weight: 600;
+    color: $uc-text-heading;
+}
+
+.o-mail-Message-date,
+.o_mail_message_date {
+    font-size: 11px;
+    color: $uc-text-muted;
+    font-weight: 400;
+}
+
+.o-mail-Message-content,
+.o_mail_message_body {
+    font-size: 13px;
+    color: $uc-text-body;
+    line-height: 1.5;
+    margin-top: 2px;
+}
+
+// --- 4. Log notes: thin left accent (not full background tint) ---
+.o-mail-Message-notification,
+.o_mail_note {
+    border-left: 3px solid $uc-accent;
+    padding-left: 12px;
+}
+
+// --- 5. Composer (reply / log note input) ---
+.o-mail-Composer,
+.o_composer {
+    border: 1px solid $uc-border;
+    border-radius: $uc-radius-field;
+    padding: 8px 12px;
+    margin: 12px 20px;
+    transition: $uc-transition;
+
+    &:focus-within {
+        border-color: $uc-primary;
+        box-shadow: $uc-shadow-focus;
+    }
+}
+
+.o-mail-Composer-textarea,
+.o_composer textarea {
+    border: none;
+    outline: none;
+    font-size: 13px;
+    width: 100%;
+    resize: vertical;
+}
+
+// --- 6. Activities ---
+.o-mail-Activity,
+.o_activity {
+    padding: 10px 0;
+    border-bottom: 1px solid $uc-bg-subtle;
+}
+
+.o-mail-Activity-icon,
+.o_activity_color_default {
+    color: $uc-accent;
+}
+
+// Overdue activity accent
+.o-mail-Activity.o-overdue,
+.o_activity.overdue {
+    border-left: 3px solid $uc-danger;
+    padding-left: 12px;
+}
+
+// --- 7. Avatars ---
+.o-mail-Message-avatar,
+.o_mail_message_avatar,
+.o-mail-Avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid $uc-border-light;
+}

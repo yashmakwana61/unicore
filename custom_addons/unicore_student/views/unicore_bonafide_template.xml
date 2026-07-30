@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="unicore_bonafide_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="student">
+                <t t-call="web.external_layout">
+                    <t t-set="purpose_label" t-value="data.get('purpose_label', 'general purposes')"/>
+                    <t t-set="cert_number" t-value="data.get('certificate_number', '/')"/>
+                    <t t-set="graduation_year" t-value="data.get('graduation_year', '')"/>
+                    <t t-set="salutation" t-value="get_salutation(student.gender)"/>
+                    <t t-set="year_ordinal" t-value="get_ordinal(student.current_year_of_study)"/>
+                    <t t-set="duration_str" t-value="'%d Years' % (student.program_id.duration_years or 4)"/>
+
+                    <div class="bonafide-container">
+                        <div style="text-align:right;margin-bottom:4mm;font-size:8pt;color:#666;">
+                            <div><strong>Ref:</strong> <t t-esc="cert_number"/></div>
+                            <div><strong>Date:</strong> <t t-esc="today"/></div>
+                        </div>
+
+                        <div class="bonafide-title">BONAFIDE CERTIFICATE</div>
+
+                        <div class="bonafide-to-whom">
+                            TO WHOM IT MAY CONCERN
+                        </div>
+
+                        <div class="bonafide-body">
+                            <p>This is to certify that</p>
+
+                            <p class="bonafide-student-name">
+                                <t t-esc="salutation"/> <t t-esc="student.display_name.upper()"/>
+                            </p>
+
+                            <p class="bonafide-student-id">
+                                (Student ID: <t t-esc="student.student_id_number"/>)
+                            </p>
+
+                            <p>is a bonafide student of this institution and is currently enrolled in:</p>
+
+                            <table class="bonafide-details-table">
+                                <tr>
+                                    <td class="bonafide-dt">Programme</td>
+                                    <td class="bonafide-dd">
+                                        <t t-esc="student.program_id.name"/>
+                                        <t t-if="student.specialisation_id">
+                                            (<t t-esc="student.specialisation_id.name"/>)
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="bonafide-dt">Duration</td>
+                                    <td class="bonafide-dd">
+                                        <t t-esc="duration_str"/> (<t t-esc="student.batch_year"/> – <t t-esc="graduation_year"/>)
+                                    </td>
+                                </tr>
+                                <tr t-if="year_ordinal">
+                                    <td class="bonafide-dt">Year</td>
+                                    <td class="bonafide-dd"><t t-esc="year_ordinal"/> Year</td>
+                                </tr>
+                                <tr>
+                                    <td class="bonafide-dt">Semester</td>
+                                    <td class="bonafide-dd">
+                                        <t t-if="student.current_semester_id" t-esc="student.current_semester_id.name"/>
+                                        <t t-else="">—</t>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p class="bonafide-purpose">
+                                This certificate is issued for the purpose of
+                                <strong t-esc="purpose_label"/>
+                                at his/her request.
+                            </p>
+
+                            <p>We wish him/her all the best.</p>
+                        </div>
+
+                        <div class="bonafide-signatory">
+                            <div class="bonafide-signature-line"></div>
+                            <div class="bonafide-signature-name">Registrar / Principal</div>
+                            <div class="bonafide-institution">Precisefect University</div>
+                            <div class="bonafide-date">Date: <t t-esc="today"/></div>
+                        </div>
+
+                        <div class="bonafide-seal">[OFFICE SEAL]</div>
+
+                        <div class="bonafide-note">
+                            Note: This certificate is valid for 3 months from the date of issue.
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="unicore_bonafide_styles">
+        <style>
+            .bonafide-container {
+                font-family: Arial, sans-serif;
+                font-size: 11pt;
+                line-height: 1.6;
+                padding: 10mm 15mm;
+                color: #222;
+            }
+            .bonafide-title {
+                text-align: center;
+                font-size: 18pt;
+                font-weight: bold;
+                letter-spacing: 2pt;
+                margin: 6mm 0 8mm 0;
+                padding-bottom: 3mm;
+                border-bottom: 2pt solid #1e3a5f;
+                color: #1e3a5f;
+                text-transform: uppercase;
+            }
+            .bonafide-to-whom {
+                text-align: center;
+                font-size: 12pt;
+                font-weight: bold;
+                margin: 6mm 0;
+                text-transform: uppercase;
+                letter-spacing: 1pt;
+            }
+            .bonafide-body {
+                margin: 5mm 0;
+                text-align: justify;
+            }
+            .bonafide-body p {
+                margin: 3mm 0;
+            }
+            .bonafide-student-name {
+                text-align: center;
+                font-size: 14pt;
+                font-weight: bold;
+                letter-spacing: 1pt;
+                margin: 4mm 0 1mm 0;
+            }
+            .bonafide-student-id {
+                text-align: center;
+                font-size: 10pt;
+                color: #555;
+                margin: 0 0 4mm 0;
+            }
+            .bonafide-details-table {
+                border-collapse: collapse;
+                margin: 4mm auto;
+                width: 80%;
+            }
+            .bonafide-details-table td {
+                padding: 1.5mm 2mm;
+                vertical-align: top;
+            }
+            .bonafide-dt {
+                font-weight: bold;
+                width: 30mm;
+                color: #555;
+            }
+            .bonafide-dd {
+                color: #222;
+            }
+            .bonafide-purpose {
+                margin: 5mm 0 3mm 0;
+                font-style: italic;
+            }
+            .bonafide-signatory {
+                margin-top: 10mm;
+                text-align: right;
+                padding-right: 10mm;
+            }
+            .bonafide-signature-line {
+                width: 50mm;
+                border-top: 0.5pt solid #333;
+                margin: 0 0 2mm auto;
+            }
+            .bonafide-signature-name {
+                font-weight: bold;
+                font-size: 10pt;
+            }
+            .bonafide-institution {
+                font-size: 9pt;
+                color: #555;
+            }
+            .bonafide-date {
+                font-size: 9pt;
+                color: #777;
+                margin-top: 1mm;
+            }
+            .bonafide-seal {
+                text-align: right;
+                font-size: 8pt;
+                color: #999;
+                margin-top: 2mm;
+                padding-right: 10mm;
+                font-style: italic;
+            }
+            .bonafide-note {
+                text-align: center;
+                font-size: 8pt;
+                font-style: italic;
+                color: #888;
+                margin-top: 8mm;
+                padding-top: 2mm;
+                border-top: 0.5pt solid #ddd;
+            }
+        </style>
+    </template>
+</odoo>

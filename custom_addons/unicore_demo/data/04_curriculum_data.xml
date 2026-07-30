@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="0">
+    <record id="uc_demo_course_cs101" model="unicore.course">
+      <field name="name">Introduction to Programming</field>
+      <field name="code">CS101</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="department_id" ref="uc_demo_dept_cs"/>
+      <field name="course_category">core</field>
+      <field name="course_type">theory_practical</field>
+      <field name="credit_hours">4.0</field>
+      <field name="theory_hours">3.0</field>
+      <field name="lab_hours">2.0</field>
+      <field name="internal_assessment_marks">40.0</field>
+      <field name="external_assessment_marks">60.0</field>
+      <field name="passing_marks">40.0</field>
+      <field name="course_state">active</field>
+    </record>
+
+    <record id="uc_demo_course_math101" model="unicore.course">
+      <field name="name">Discrete Mathematics</field>
+      <field name="code">MATH101</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="department_id" ref="uc_demo_dept_cs"/>
+      <field name="course_category">core</field>
+      <field name="course_type">theory</field>
+      <field name="credit_hours">3.0</field>
+      <field name="theory_hours">3.0</field>
+      <field name="internal_assessment_marks">40.0</field>
+      <field name="external_assessment_marks">60.0</field>
+      <field name="passing_marks">40.0</field>
+      <field name="course_state">active</field>
+    </record>
+
+    <record id="uc_demo_course_cs102" model="unicore.course">
+      <field name="name">Digital Logic Design</field>
+      <field name="code">CS102</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="department_id" ref="uc_demo_dept_cs"/>
+      <field name="course_category">core</field>
+      <field name="course_type">theory_practical</field>
+      <field name="credit_hours">4.0</field>
+      <field name="theory_hours">3.0</field>
+      <field name="lab_hours">2.0</field>
+      <field name="internal_assessment_marks">40.0</field>
+      <field name="external_assessment_marks">60.0</field>
+      <field name="passing_marks">40.0</field>
+      <field name="course_state">active</field>
+    </record>
+
+    <record id="uc_demo_course_eng101" model="unicore.course">
+      <field name="name">Communication Skills</field>
+      <field name="code">ENG101</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="department_id" ref="uc_demo_dept_cs"/>
+      <field name="course_category">general</field>
+      <field name="course_type">theory</field>
+      <field name="credit_hours">2.0</field>
+      <field name="theory_hours">2.0</field>
+      <field name="internal_assessment_marks">40.0</field>
+      <field name="external_assessment_marks">60.0</field>
+      <field name="passing_marks">40.0</field>
+      <field name="course_state">active</field>
+    </record>
+
+    <record id="uc_demo_course_cs201" model="unicore.course">
+      <field name="name">Data Structures and Algorithms</field>
+      <field name="code">CS201</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="department_id" ref="uc_demo_dept_cs"/>
+      <field name="course_category">core</field>
+      <field name="course_type">theory_practical</field>
+      <field name="credit_hours">4.0</field>
+      <field name="theory_hours">3.0</field>
+      <field name="lab_hours">2.0</field>
+      <field name="internal_assessment_marks">40.0</field>
+      <field name="external_assessment_marks">60.0</field>
+      <field name="passing_marks">40.0</field>
+      <field name="course_state">active</field>
+    </record>
+
+    <record id="uc_demo_course_mba101" model="unicore.course">
+      <field name="name">Principles of Management</field>
+      <field name="code">MBA101</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="department_id" ref="uc_demo_dept_mba"/>
+      <field name="course_category">core</field>
+      <field name="course_type">theory</field>
+      <field name="credit_hours">3.0</field>
+      <field name="theory_hours">3.0</field>
+      <field name="internal_assessment_marks">40.0</field>
+      <field name="external_assessment_marks">60.0</field>
+      <field name="passing_marks">40.0</field>
+      <field name="course_state">active</field>
+    </record>
+
+    <record id="uc_demo_course_mba102" model="unicore.course">
+      <field name="name">Business Statistics</field>
+      <field name="code">MBA102</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="department_id" ref="uc_demo_dept_mba"/>
+      <field name="course_category">core</field>
+      <field name="course_type">theory</field>
+      <field name="credit_hours">3.0</field>
+      <field name="theory_hours">3.0</field>
+      <field name="internal_assessment_marks">40.0</field>
+      <field name="external_assessment_marks">60.0</field>
+      <field name="passing_marks">40.0</field>
+      <field name="course_state">active</field>
+    </record>
+
+    <record id="uc_demo_course_elect1" model="unicore.course">
+      <field name="name">Web Development Fundamentals</field>
+      <field name="code">CS104</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="department_id" ref="uc_demo_dept_cs"/>
+      <field name="course_category">elective</field>
+      <field name="course_type">theory_practical</field>
+      <field name="credit_hours">3.0</field>
+      <field name="theory_hours">2.0</field>
+      <field name="lab_hours">2.0</field>
+      <field name="internal_assessment_marks">40.0</field>
+      <field name="external_assessment_marks">60.0</field>
+      <field name="passing_marks">40.0</field>
+      <field name="course_state">active</field>
+    </record>
+
+    <record id="uc_demo_prereq_cs201" model="unicore.course.prerequisite">
+      <field name="course_id" ref="uc_demo_course_cs201"/>
+      <field name="prerequisite_course_id" ref="uc_demo_course_cs101"/>
+      <field name="prerequisite_type">mandatory</field>
+    </record>
+
+    <record id="uc_demo_curriculum_btech_cs" model="unicore.curriculum">
+      <field name="name">BTECH-CS Curriculum 2025</field>
+      <field name="program_id" ref="uc_demo_program_btech_cs"/>
+      <field name="version">1.0</field>
+      <field name="effective_from_year">2025</field>
+      <field name="is_current">True</field>
+      <field name="curriculum_state">active</field>
+    </record>
+
+    <record id="uc_demo_curline_cs101" model="unicore.curriculum.line">
+      <field name="curriculum_id" ref="uc_demo_curriculum_btech_cs"/>
+      <field name="course_id" ref="uc_demo_course_cs101"/>
+      <field name="semester_number">1</field>
+      <field name="sequence">10</field>
+      <field name="is_mandatory">True</field>
+    </record>
+
+    <record id="uc_demo_curline_math101" model="unicore.curriculum.line">
+      <field name="curriculum_id" ref="uc_demo_curriculum_btech_cs"/>
+      <field name="course_id" ref="uc_demo_course_math101"/>
+      <field name="semester_number">1</field>
+      <field name="sequence">20</field>
+      <field name="is_mandatory">True</field>
+    </record>
+
+    <record id="uc_demo_curline_cs102" model="unicore.curriculum.line">
+      <field name="curriculum_id" ref="uc_demo_curriculum_btech_cs"/>
+      <field name="course_id" ref="uc_demo_course_cs102"/>
+      <field name="semester_number">1</field>
+      <field name="sequence">30</field>
+      <field name="is_mandatory">True</field>
+    </record>
+
+    <record id="uc_demo_curline_eng101" model="unicore.curriculum.line">
+      <field name="curriculum_id" ref="uc_demo_curriculum_btech_cs"/>
+      <field name="course_id" ref="uc_demo_course_eng101"/>
+      <field name="semester_number">1</field>
+      <field name="sequence">40</field>
+      <field name="is_mandatory">True</field>
+    </record>
+
+    <record id="uc_demo_offering_cs101" model="unicore.course.offering">
+      <field name="course_id" ref="uc_demo_course_cs101"/>
+      <field name="program_id" ref="uc_demo_program_btech_cs"/>
+      <field name="semester_number">1</field>
+      <field name="academic_year_id" ref="uc_demo_ay_2526"/>
+      <field name="semester_id" ref="uc_demo_sem_odd"/>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="section_code">A</field>
+      <field name="max_enrollment">40</field>
+      <field name="min_enrollment">5</field>
+      <field name="offering_state">open</field>
+    </record>
+
+    <record id="uc_demo_offering_math101" model="unicore.course.offering">
+      <field name="course_id" ref="uc_demo_course_math101"/>
+      <field name="program_id" ref="uc_demo_program_btech_cs"/>
+      <field name="semester_number">1</field>
+      <field name="academic_year_id" ref="uc_demo_ay_2526"/>
+      <field name="semester_id" ref="uc_demo_sem_odd"/>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="section_code">A</field>
+      <field name="max_enrollment">40</field>
+      <field name="min_enrollment">5</field>
+      <field name="offering_state">open</field>
+    </record>
+
+    <record id="uc_demo_offering_mba101" model="unicore.course.offering">
+      <field name="course_id" ref="uc_demo_course_mba101"/>
+      <field name="program_id" ref="uc_demo_program_mba"/>
+      <field name="semester_number">1</field>
+      <field name="academic_year_id" ref="uc_demo_ay_2526"/>
+      <field name="semester_id" ref="uc_demo_sem_odd"/>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="section_code">A</field>
+      <field name="max_enrollment">30</field>
+      <field name="min_enrollment">5</field>
+      <field name="offering_state">open</field>
+    </record>
+
+    <record id="uc_demo_offering_mba102" model="unicore.course.offering">
+      <field name="course_id" ref="uc_demo_course_mba102"/>
+      <field name="program_id" ref="uc_demo_program_mba"/>
+      <field name="semester_number">1</field>
+      <field name="academic_year_id" ref="uc_demo_ay_2526"/>
+      <field name="semester_id" ref="uc_demo_sem_odd"/>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="section_code">A</field>
+      <field name="max_enrollment">30</field>
+      <field name="min_enrollment">5</field>
+      <field name="offering_state">open</field>
+    </record>
+  </data>
+</odoo>

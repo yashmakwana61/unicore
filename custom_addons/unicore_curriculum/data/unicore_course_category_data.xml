@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="config_default_credit_hours" model="ir.config_parameter">
+            <field name="key">unicore.curriculum.default_credit_hours</field>
+            <field name="value">3.0</field>
+        </record>
+
+        <record id="config_max_credit_hours_per_course" model="ir.config_parameter">
+            <field name="key">unicore.curriculum.max_credit_hours_per_course</field>
+            <field name="value">20</field>
+        </record>
+
+        <record id="config_default_max_enrollment" model="ir.config_parameter">
+            <field name="key">unicore.curriculum.default_max_enrollment</field>
+            <field name="value">40</field>
+        </record>
+
+        <record id="config_default_min_enrollment" model="ir.config_parameter">
+            <field name="key">unicore.curriculum.default_min_enrollment</field>
+            <field name="value">5</field>
+        </record>
+
+        <record id="config_passing_percentage_default" model="ir.config_parameter">
+            <field name="key">unicore.curriculum.passing_percentage_default</field>
+            <field name="value">40</field>
+        </record>
+
+    </data>
+</odoo>

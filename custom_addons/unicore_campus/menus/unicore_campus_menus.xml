@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Window Actions are defined in their respective view files -->
+
+    <!-- Buildings Menu -->
+    <menuitem id="menu_unicore_building_list"
+              name="Buildings"
+              parent="unicore_base.menu_unicore_configuration"
+              action="action_unicore_building"
+              sequence="20"/>
+
+    <!-- Floors Menu -->
+    <menuitem id="menu_unicore_floor_list"
+              name="Floors"
+              parent="unicore_base.menu_unicore_configuration"
+              action="action_unicore_floor"
+              sequence="30"/>
+
+    <!-- Rooms Menu -->
+    <menuitem id="menu_unicore_room_list"
+              name="Rooms"
+              parent="unicore_base.menu_unicore_configuration"
+              action="action_unicore_room"
+              sequence="40"/>
+
+    <!-- Facilities Menu -->
+    <menuitem id="menu_unicore_facility_list"
+              name="Facilities"
+              parent="unicore_base.menu_unicore_configuration"
+              action="action_unicore_facility"
+              sequence="50"/>
+
+</odoo>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Extend Campus Form View -->
+    <record id="unicore_campus_ext_form_view" model="ir.ui.view">
+        <field name="name">unicore.campus.ext.form</field>
+        <field name="model">unicore.campus</field>
+        <field name="inherit_id" ref="unicore_base.unicore_campus_form_view"/>
+        <field name="arch" type="xml">
+            <!-- Add statusbar to header -->
+            <header position="inside">
+                <field name="campus_state" widget="statusbar"
+                       statusbar_visible="draft,active,suspended,closed"/>
+            </header>
+
+            <!-- State transition buttons -->
+            <xpath expr="//header" position="inside">
+                <button name="action_set_operational" type="object"
+                        string="Set Operational" class="btn-primary"
+                        invisible="campus_state != 'draft'"/>
+                <button name="action_suspend" type="object"
+                        string="Suspend"
+                        invisible="campus_state != 'active'"/>
+                <button name="action_close" type="object"
+                        string="Close"
+                        invisible="campus_state not in ('active', 'suspended')"/>
+                <button name="action_reset_draft" type="object"
+                        string="Reset to Draft"
+                        groups="unicore_base.group_unicore_admin"
+                        invisible="campus_state not in ('suspended', 'closed')"/>
+            </xpath>
+
+            <!-- Replace button_box with all smart buttons -->
+            <xpath expr="//div[@name='button_box']" position="replace">
+                <div class="oe_button_box" name="button_box">
+                    <button name="action_open_buildings" type="object"
+                            class="oe_stat_button"
+                            icon="fa-building">
+                        <field string="Buildings" name="building_count" widget="statinfo"/>
+                    </button>
+                    <button name="action_open_rooms" type="object"
+                            class="oe_stat_button"
+                            icon="fa-door-open">
+                        <field string="Rooms" name="room_count" widget="statinfo"/>
+                    </button>
+                    <button name="action_open_facilities" type="object"
+                            class="oe_stat_button"
+                            icon="fa-wrench">
+                        <field string="Facilities" name="facility_count" widget="statinfo"/>
+                    </button>
+                    <button name="action_archive"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-archive"
+                            groups="unicore_base.group_unicore_admin"
+                            invisible="active == False"
+                            confirm="Are you sure you want to archive this campus?">
+                        <div class="o_button_label">Archive</div>
+                    </button>
+                    <button name="action_unarchive"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-undo"
+                            groups="unicore_base.group_unicore_admin"
+                            invisible="active == True">
+                        <div class="o_button_label">Unarchive</div>
+                    </button>
+                </div>
+            </xpath>
+
+            <!-- Add Campus Total Room Capacity after student_capacity in right group -->
+            <xpath expr="//group[@name='right']/field[@name='student_capacity']" position="after">
+                <field name="total_room_capacity"/>
+            </xpath>
+
+            <!-- Add campus_state to left group -->
+            <xpath expr="//group[@name='left']/field[@name='active']" position="before">
+                <field name="campus_state"/>
+            </xpath>
+
+            <!-- Add Infrastructure notebook tab after address page -->
+            <xpath expr="//notebook/page[@name='address']" position="after">
+                <page name="infrastructure" string="Infrastructure">
+                    <group name="buildings_section" string="Buildings">
+                        <field name="building_ids">
+                            <list editable="bottom">
+                                <field name="code"/>
+                                <field name="name"/>
+                                <field name="building_type"/>
+                                <field name="floor_count"/>
+                            </list>
+                        </field>
+                    </group>
+                    <group name="facilities_section" string="Facilities">
+                        <field name="facility_ids">
+                            <list editable="bottom">
+                                <field name="name"/>
+                                <field name="facility_type"/>
+                                <field name="capacity"/>
+                                <field name="operating_hours"/>
+                            </list>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

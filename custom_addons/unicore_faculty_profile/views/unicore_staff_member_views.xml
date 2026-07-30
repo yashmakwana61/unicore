@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ==================== FORM VIEW ==================== -->
+    <record id="unicore_staff_member_form_view" model="ir.ui.view">
+        <field name="name">unicore.staff.member.form</field>
+        <field name="model">unicore.staff.member</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="staff_state" widget="statusbar"
+                           statusbar_visible="draft,active,on_leave,suspended,terminated,retired"
+                           clickable="False"/>
+                    <button name="action_activate" type="object" string="Activate"
+                            invisible="staff_state != 'draft'" class="btn-primary"/>
+                    <button name="action_on_leave" type="object" string="Place on Leave"
+                            invisible="staff_state != 'active'" class="btn-warning"/>
+                    <button name="action_return" type="object" string="Return to Active"
+                            invisible="staff_state != 'on_leave'" class="btn-success"/>
+                    <button name="action_suspend" type="object" string="Suspend"
+                            invisible="staff_state != 'active'"
+                            groups="unicore_base.group_unicore_admin"/>
+                    <button name="action_terminate" type="object" string="Terminate"
+                            invisible="staff_state in ('terminated','retired')"
+                            groups="unicore_base.group_unicore_admin"/>
+                    <button name="action_retire" type="object" string="Retire"
+                            invisible="staff_state != 'active'"
+                            groups="unicore_base.group_unicore_admin"/>
+                    <button name="action_reset_draft" type="object" string="Reset to Draft"
+                            groups="unicore_base.group_unicore_admin"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Staff Member" class="oe_edit_only"/>
+                        <h1>
+                            <field name="display_name" placeholder="Full name..." readonly="0"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group name="photo">
+                            <field name="image_1920" widget="image" class="oe_avatar"
+                                   style="max-width:128px; max-height:128px;"/>
+                        </group>
+                    </group>
+                    <group string="Personal Information">
+                        <group name="personal_left">
+                            <field name="name"/>
+                            <field name="last_name"/>
+                            <field name="display_name" readonly="1"/>
+                            <field name="employee_id_number" readonly="1"/>
+                            <field name="gender"/>
+                            <field name="date_of_birth"/>
+                        </group>
+                        <group name="personal_right">
+                            <field name="email"/>
+                            <field name="mobile"/>
+                            <field name="phone"/>
+                        </group>
+                    </group>
+                    <group string="Role &amp; Assignment">
+                        <group name="role_left">
+                            <field name="company_id" options="{'no_create_edit': True}"/>
+                            <field name="campus_id" options="{'no_create_edit': True}"/>
+                            <field name="department_id" options="{'no_create_edit': True}"/>
+                            <field name="staff_role"/>
+                            <field name="employment_type"/>
+                        </group>
+                        <group name="role_right">
+                            <field name="joining_date"/>
+                            <field name="contract_end_date"/>
+                            <field name="unicore_group_id" options="{'no_create': True}"/>
+                            <field name="user_id" options="{'no_create_edit': True}"/>
+                            <field name="partner_id" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ==================== LIST VIEW ==================== -->
+    <record id="unicore_staff_member_list_view" model="ir.ui.view">
+        <field name="name">unicore.staff.member.list</field>
+        <field name="model">unicore.staff.member</field>
+        <field name="arch" type="xml">
+            <list limit="40">
+                <field name="employee_id_number"/>
+                <field name="display_name"/>
+                <field name="campus_id"/>
+                <field name="department_id"/>
+                <field name="staff_role"/>
+                <field name="employment_type"/>
+                <field name="staff_state" widget="badge"
+                       decoration-primary="staff_state == 'active'"
+                       decoration-warning="staff_state == 'on_leave'"
+                       decoration-danger="staff_state == 'suspended'"
+                       decoration-muted="staff_state in ('terminated','retired')"
+                       decoration-info="staff_state == 'draft'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ==================== SEARCH VIEW ==================== -->
+    <record id="unicore_staff_member_search_view" model="ir.ui.view">
+        <field name="name">unicore.staff.member.search</field>
+        <field name="model">unicore.staff.member</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="display_name"/>
+                <field name="employee_id_number"/>
+                <field name="campus_id" options="{'no_create_edit': True}"/>
+                <field name="staff_role"/>
+                <filter name="filter_active" string="Active Staff" domain="[('staff_state', '=', 'active')]"/>
+                <separator/>
+                <filter name="group_campus" string="Campus" context="{'group_by': 'campus_id'}"/>
+                <filter name="group_role" string="Role" context="{'group_by': 'staff_role'}"/>
+                <filter name="group_dept" string="Department" context="{'group_by': 'department_id'}"/>
+                <filter name="group_status" string="Status" context="{'group_by': 'staff_state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- ==================== WINDOW ACTION ==================== -->
+    <record id="action_unicore_staff_member" model="ir.actions.act_window">
+        <field name="name">Administrative Staff</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">unicore.staff.member</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="unicore_staff_member_search_view"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Start managing administrative staff
+            </p>
+            <p>
+                Create staff member records to track administrative
+                personnel across the institution.
+            </p>
+        </field>
+    </record>
+
+</odoo>

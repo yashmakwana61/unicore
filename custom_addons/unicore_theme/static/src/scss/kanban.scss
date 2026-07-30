@@ -1,0 +1,133 @@
+// ============================================
+// UniCore Theme — Kanban View
+// (Enterprise-restrained: light card shadows,
+//  no lift-on-hover, muted grouped columns)
+// ============================================
+
+// --- 1. Ghost/placeholder cards: fully invisible ---
+// NOTE: !important justified here — ghost cards must
+// categorically never inherit real-card styling below,
+// regardless of specificity order.
+.o_kanban_view .o_kanban_record.o_kanban_ghost {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    pointer-events: none !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    margin: 0 8px !important;
+}
+
+// --- 2. Render area spacing ---
+// NOTE: .o_kanban_renderer confirmed via live DevTools
+// earlier in this project.
+.o_kanban_renderer {
+    padding: 16px;
+    background: $uc-bg-page;
+    overflow: visible;
+}
+
+// --- 3. Ungrouped kanban: explicit grid ---
+// NOTE: .o_kanban_ungrouped confirmed via live DevTools.
+.o_kanban_renderer.o_kanban_ungrouped {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    align-items: start;
+}
+
+.o_kanban_renderer.o_kanban_ungrouped > .o_kanban_record:not(.o_kanban_ghost) {
+    width: auto;
+    margin: 0;
+    min-height: 100px;
+}
+
+.o_kanban_renderer.o_kanban_ungrouped > .o_kanban_record.o_kanban_ghost {
+    display: none;
+}
+
+// --- 4. Grouped kanban: column styling ---
+.o_kanban_renderer.o_kanban_grouped {
+    gap: 12px;
+    align-items: flex-start;
+}
+
+// NOTE: .o_kanban_group and .o_kanban_header NOT yet
+// confirmed in this project — verify if grouped view
+// doesn't render correctly.
+.o_kanban_group {
+    background: $uc-bg-subtle;
+    border-radius: $uc-radius-card;
+    min-width: 260px;
+    padding-bottom: 12px;
+}
+
+.o_kanban_header {
+    padding: 12px 12px 8px;
+    font-weight: 600;
+    font-size: 13px;
+    color: $uc-text-body;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+// Column count badge — class name is unconfirmed,
+// verify in DevTools if the count isn't styled.
+.o_kanban_header .o_kanban_counter,
+.o_kanban_header .o_kanban_header_title .badge {
+    background: $uc-primary;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 500;
+    border-radius: $uc-radius-pill;
+    padding: 1px 8px;
+}
+
+// --- 5. Real cards: light border + subtle shadow ---
+// NOTE: .o_kanban_record confirmed via live DevTools.
+.o_kanban_record:not(.o_kanban_ghost) {
+    background: $uc-surface;
+    border: 1px solid $uc-border-light;
+    border-radius: $uc-radius-card;
+    box-shadow: $uc-shadow-sm;
+    padding: 12px 14px;
+    margin: 0 8px 8px;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.o_kanban_record:not(.o_kanban_ghost):hover {
+    border-color: $uc-primary;
+    box-shadow: $uc-shadow-md;
+}
+
+// NOTE: .o_kanban_record_title and .o_kanban_record_subtitle
+// are best-known Odoo patterns — unconfirmed in this project.
+.o_kanban_record_title {
+    font-weight: 600;
+    font-size: 14px;
+    color: $uc-text-heading;
+    margin-bottom: 2px;
+}
+
+.o_kanban_record_subtitle {
+    font-size: 12px;
+    color: $uc-text-muted;
+}
+
+// --- 6. Quick-create card/column ---
+// NOTE: classes below are unconfirmed — verify if quick-create
+// doesn't render with the correct style.
+.o_kanban_quick_create {
+    background: $uc-surface;
+    border: 1px dashed $uc-border;
+    border-radius: $uc-radius-card;
+}
+
+.o_column_quick_create {
+    color: $uc-text-muted;
+
+    &:hover {
+        color: $uc-primary;
+    }
+}

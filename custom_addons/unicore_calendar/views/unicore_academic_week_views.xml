@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Window Action -->
+    <record id="action_unicore_academic_week" model="ir.actions.act_window">
+        <field name="name">Academic Weeks</field>
+        <field name="res_model">unicore.academic.week</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <!-- Form View -->
+    <record id="unicore_academic_week_form_view" model="ir.ui.view">
+        <field name="name">unicore.academic.week.form</field>
+        <field name="model">unicore.academic.week</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group name="left">
+                            <field name="name"/>
+                            <field name="week_number"/>
+                            <field name="semester_id" options="{'no_create': True}"/>
+                            <field name="academic_year_id"/>
+                            <field name="week_type"/>
+                        </group>
+                        <group name="right">
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="is_current"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="unicore_academic_week_list_view" model="ir.ui.view">
+        <field name="name">unicore.academic.week.list</field>
+        <field name="model">unicore.academic.week</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="week_number"/>
+                <field name="name"/>
+                <field name="semester_id"/>
+                <field name="academic_year_id"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="week_type"/>
+                <field name="is_current"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="unicore_academic_week_search_view" model="ir.ui.view">
+        <field name="name">unicore.academic.week.search</field>
+        <field name="model">unicore.academic.week</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="semester_id"/>
+                <field name="academic_year_id"/>
+                <filter name="filter_current" string="Current Week"
+                        domain="[('is_current', '=', True)]"/>
+                <filter name="filter_teaching" string="Teaching Weeks"
+                        domain="[('week_type', '=', 'teaching')]"/>
+                <filter name="filter_exam" string="Exam Weeks"
+                        domain="[('week_type', '=', 'exam')]"/>
+                <group name="groupby">
+                    <filter name="groupby_semester" string="Semester"
+                            context="{'group_by': 'semester_id'}"/>
+                    <filter name="groupby_type" string="Week Type"
+                            context="{'group_by': 'week_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+</odoo>

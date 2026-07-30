@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <template id="report_fee_statement">
+    <t t-call="web.html_container">
+      <t t-foreach="docs" t-as="doc">
+        <t t-call="web.external_layout">
+          <div class="page">
+
+            <!-- Header -->
+            <div class="row mb-4">
+              <div class="col-12 text-center">
+                <h2>
+                  <t t-esc="doc.company_id.name"/>
+                </h2>
+                <h4>Student Fee Statement</h4>
+                <p class="text-muted">
+                  Invoice No:
+                  <strong>
+                    <t t-esc="doc.invoice_number"/>
+                  </strong>
+                </p>
+              </div>
+            </div>
+
+            <!-- Student Details -->
+            <div class="row mb-3">
+              <div class="col-6">
+                <h5>Student Information</h5>
+                <table class="table table-sm">
+                  <tr>
+                    <td><strong>Name</strong></td>
+                    <td>
+                      <t t-esc="doc.student_id.display_name"/>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>Student ID</strong></td>
+                    <td>
+                      <t t-esc="doc.student_id.student_id_number"/>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>Program</strong></td>
+                    <td>
+                      <t t-esc="doc.student_id.program_id.name"/>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>Semester</strong></td>
+                    <td>
+                      <t t-esc="doc.semester_id.name"/>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div class="col-6">
+                <h5>Invoice Details</h5>
+                <table class="table table-sm">
+                  <tr>
+                    <td><strong>Invoice Date</strong></td>
+                    <td>
+                      <t t-esc="doc.invoice_date"/>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>Due Date</strong></td>
+                    <td>
+                      <t t-esc="doc.due_date"/>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><strong>Status</strong></td>
+                    <td>
+                      <t t-esc="doc.invoice_state.upper()"/>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+
+            <!-- Fee Breakdown -->
+            <h5>Fee Breakdown</h5>
+            <table class="table table-bordered mb-3">
+              <thead class="table-dark">
+                <tr>
+                  <th>Description</th>
+                  <th>Fee Type</th>
+                  <th class="text-right">Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                <t t-foreach="doc.line_ids" t-as="line">
+                  <tr>
+                    <td><t t-esc="line.name"/></td>
+                    <td>
+                      <t t-esc="dict(line.fields_get(['fee_type'])['fee_type']['selection']).get(line.fee_type, line.fee_type)"/>
+                    </td>
+                    <td class="text-right">
+                      <t t-esc="line.amount"/>
+                    </td>
+                  </tr>
+                </t>
+              </tbody>
+            </table>
+            <!-- Totals -->
+            <div class="row justify-content-end">
+              <div class="col-4">
+                <table class="table table-sm">
+                  <tr>
+                    <td><strong>Subtotal</strong></td>
+                    <td class="text-right"><t t-esc="doc.subtotal"/></td>
+                  </tr>
+                  <t t-if="doc.discount_amount">
+                    <tr>
+                      <td><strong>Discount</strong></td>
+                      <td class="text-right"><t t-esc="doc.discount_amount"/></td>
+                    </tr>
+                  </t>
+                  <t t-if="doc.late_fee_amount">
+                    <tr>
+                      <td><strong>Late Fee</strong></td>
+                      <td class="text-right"><t t-esc="doc.late_fee_amount"/></td>
+                    </tr>
+                  </t>
+                  <tr>
+                    <td><strong>Total</strong></td>
+                    <td class="text-right"><strong><t t-esc="doc.total_amount"/></strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Paid</strong></td>
+                    <td class="text-right"><t t-esc="doc.amount_paid"/></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Outstanding</strong></td>
+                    <td class="text-right"><strong><t t-esc="doc.amount_outstanding"/></strong></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </t>
+      </t>
+    </t>
+  </template>
+</odoo>

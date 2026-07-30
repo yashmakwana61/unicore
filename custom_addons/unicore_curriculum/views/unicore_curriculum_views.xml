@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ============================================= -->
+        <!-- FORM VIEW                                     -->
+        <!-- ============================================= -->
+
+        <record id="view_unicore_curriculum_form" model="ir.ui.view">
+            <field name="name">unicore.curriculum.form</field>
+            <field name="model">unicore.curriculum</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="curriculum_state" widget="statusbar" clickable="True"/>
+                        <button name="action_submit_review" type="object"
+                                string="Submit for Review"
+                                invisible="curriculum_state != 'draft'"/>
+                        <button name="action_approve" type="object"
+                                string="Approve"
+                                invisible="curriculum_state != 'review'"/>
+                        <button name="action_activate" type="object"
+                                string="Activate"
+                                invisible="curriculum_state != 'approved'"
+                                class="btn-primary"/>
+                        <button name="action_retire" type="object"
+                                string="Retire"
+                                invisible="curriculum_state != 'active'"
+                                groups="unicore_base.group_unicore_admin"/>
+                        <button name="action_reset_draft" type="object"
+                                string="Reset to Draft"
+                                invisible="curriculum_state == 'draft'"
+                                groups="unicore_base.group_unicore_admin"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button type="object" class="oe_stat_button"
+                                    icon="fa-book" readonly="1">
+                                <field name="total_courses" widget="statinfo" string="Courses"/>
+                            </button>
+                            <button type="object" class="oe_stat_button"
+                                    icon="fa-star" readonly="1">
+                                <field name="total_credits" widget="statinfo" string="Credits"/>
+                            </button>
+                            <button type="object" class="oe_stat_button"
+                                    icon="fa-calendar" readonly="1">
+                                <field name="total_semesters" widget="statinfo" string="Semesters"/>
+                            </button>
+                        </div>
+                        <group>
+                            <group string="Curriculum Identity">
+                                <field name="name"/>
+                                <field name="program_id"/>
+                                <field name="specialisation_id"
+                                       domain="[('program_id', '=', program_id)]"/>
+                                <field name="company_id" readonly="1"/>
+                                <field name="department_id" readonly="1"/>
+                            </group>
+                            <group string="Versioning">
+                                <field name="version"/>
+                                <field name="is_current"/>
+                                <field name="effective_from_year"/>
+                                <field name="effective_to_year"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Curriculum Plan" name="curriculum_plan">
+                                <field name="curriculum_line_ids" nolabel="1">
+                                    <list editable="bottom">
+                                        <field name="semester_number"/>
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="course_id"
+                                               domain="[('course_state', 'in', ('approved','active')), ('company_id', '=', company_id)]"/>
+                                        <field name="credit_hours" readonly="1"/>
+                                        <field name="course_category" readonly="1"/>
+                                        <field name="is_elective"/>
+                                        <field name="elective_group"/>
+                                        <field name="is_mandatory"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Notes" name="notes">
+                                <field name="description" nolabel="1"/>
+                            </page>
+                            <page string="Approval Info" name="approval_info">
+                                <group>
+                                    <group>
+                                        <field name="curriculum_state" readonly="1"/>
+                                    </group>
+                                    <group>
+                                        <field name="approved_by_id" readonly="1"/>
+                                        <field name="approved_on" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- ============================================= -->
+        <!-- LIST VIEW                                     -->
+        <!-- ============================================= -->
+
+        <record id="view_unicore_curriculum_list" model="ir.ui.view">
+            <field name="name">unicore.curriculum.list</field>
+            <field name="model">unicore.curriculum</field>
+            <field name="arch" type="xml">
+                <list decoration-success="curriculum_state == 'active'"
+                      decoration-muted="curriculum_state == 'retired'"
+                      decoration-bf="is_current == True">
+                    <field name="name"/>
+                    <field name="program_id"/>
+                    <field name="version"/>
+                    <field name="total_courses"/>
+                    <field name="total_credits"/>
+                    <field name="is_current"/>
+                    <field name="curriculum_state"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ============================================= -->
+        <!-- SEARCH VIEW                                   -->
+        <!-- ============================================= -->
+
+        <record id="view_unicore_curriculum_search" model="ir.ui.view">
+            <field name="name">unicore.curriculum.search</field>
+            <field name="model">unicore.curriculum</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="program_id"/>
+                    <field name="version"/>
+                    <filter name="current_curricula" string="Current"
+                            domain="[('is_current', '=', True)]"/>
+                    <filter name="active_curricula" string="Active"
+                            domain="[('curriculum_state', '=', 'active')]"/>
+                    <filter name="draft_curricula" string="Draft"
+                            domain="[('curriculum_state', '=', 'draft')]"/>
+                    <group name="group_by">
+                        <filter name="group_by_program" string="Program"
+                                context="{'group_by': 'program_id'}"/>
+                        <filter name="group_by_state" string="Status"
+                                context="{'group_by': 'curriculum_state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- ============================================= -->
+        <!-- WINDOW ACTION                                 -->
+        <!-- ============================================= -->
+
+        <record id="action_unicore_curriculum" model="ir.actions.act_window">
+            <field name="name">Curricula</field>
+            <field name="res_model">unicore.curriculum</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+    </data>
+</odoo>

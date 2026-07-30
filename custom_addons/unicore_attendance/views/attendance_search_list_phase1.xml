@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ========================================================= -->
+    <!-- Phase 1: Session search view - missing field + group-by   -->
+    <!-- ========================================================= -->
+    <record id="view_attendance_session_search_phase1" model="ir.ui.view">
+        <field name="name">unicore.attendance.session.search.phase1</field>
+        <field name="model">unicore.attendance.session</field>
+        <field name="inherit_id" ref="unicore_attendance.view_unicore_attendance_session_search"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='course_id']" position="after">
+                <field name="course_offering_id"/>
+            </xpath>
+
+            <xpath expr="//filter[@name='group_course']" position="after">
+                <filter name="group_course_offering" string="Course Offering" context="{'group_by': 'course_offering_id'}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

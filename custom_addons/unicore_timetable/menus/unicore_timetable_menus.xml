@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ========================================== -->
+        <!-- TOP MENU (Section under UniCore root)       -->
+        <!-- ========================================== -->
+
+        <menuitem id="menu_unicore_timetable"
+                  name="Timetable"
+                  sequence="60"
+                  web_icon="unicore_timetable,static/description/icon.png"
+                  groups="unicore_base.group_unicore_faculty"/>
+
+        <!-- ========================================== -->
+        <!-- SUB MENUS                                   -->
+        <!-- ========================================== -->
+
+        <menuitem id="menu_unicore_timetable_my_schedule"
+                  name="My Schedule"
+                  parent="menu_unicore_timetable"
+                  action="action_unicore_timetable_my_schedule"
+                  sequence="10"
+                  groups="unicore_base.group_unicore_faculty"/>
+
+        <menuitem id="menu_unicore_timetable_full_schedule"
+                  name="Full Timetable"
+                  parent="menu_unicore_timetable"
+                  action="action_unicore_timetable_entry"
+                  sequence="20"
+                  groups="unicore_base.group_unicore_staff"/>
+
+        <menuitem id="menu_unicore_time_slot_list"
+                  name="Time Slots"
+                  parent="menu_unicore_timetable"
+                  action="action_unicore_time_slot"
+                  sequence="30"
+                  groups="unicore_base.group_unicore_registrar"/>
+
+        <menuitem id="menu_unicore_room_booking_list"
+                  name="Room Bookings"
+                  parent="menu_unicore_timetable"
+                  action="action_unicore_room_booking"
+                  sequence="40"
+                  groups="unicore_base.group_unicore_faculty"/>
+
+    </data>
+</odoo>

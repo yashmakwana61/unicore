@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- ACADEMIC HISTORY FORM VIEW -->
+    <record id="unicore_student_academic_history_form_view" model="ir.ui.view">
+        <field name="name">unicore.student.academic.history.form</field>
+        <field name="model">unicore.student.academic.history</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="display_name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="student_id" options="{'no_create_edit': True}"/>
+                            <field name="academic_year_id" options="{'no_create_edit': True}"/>
+                            <field name="semester_id" options="{'no_create_edit': True}"/>
+                            <field name="year_of_study"/>
+                        </group>
+                        <group>
+                            <field name="enrollment_state"/>
+                            <field name="is_current"/>
+                            <field name="campus_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Performance">
+                        <group>
+                            <field name="semester_gpa"/>
+                            <field name="cumulative_gpa"/>
+                        </group>
+                        <group>
+                            <field name="credits_attempted"/>
+                            <field name="credits_earned"/>
+                        </group>
+                    </group>
+                    <group string="Subjects">
+                        <group>
+                            <field name="total_subjects"/>
+                            <field name="subjects_passed"/>
+                        </group>
+                        <group>
+                            <field name="subjects_failed" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="details" string="Details">
+                            <field name="grade_summary"/>
+                            <field name="remarks"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ACADEMIC HISTORY TREE VIEW -->
+    <record id="unicore_student_academic_history_tree_view" model="ir.ui.view">
+        <field name="name">unicore.student.academic.history.tree</field>
+        <field name="model">unicore.student.academic.history</field>
+        <field name="arch" type="xml">
+            <list limit="40">
+                <field name="student_id"/>
+                <field name="academic_year_id"/>
+                <field name="semester_id"/>
+                <field name="year_of_study"/>
+                <field name="semester_gpa"/>
+                <field name="cumulative_gpa"/>
+                <field name="credits_earned"/>
+                <field name="enrollment_state"/>
+                <field name="is_current"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ACADEMIC HISTORY SEARCH VIEW -->
+    <record id="unicore_student_academic_history_search_view" model="ir.ui.view">
+        <field name="name">unicore.student.academic.history.search</field>
+        <field name="model">unicore.student.academic.history</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="student_id"/>
+                <field name="academic_year_id"/>
+                <field name="semester_id"/>
+                <filter name="filter_current" string="Current" domain="[('is_current', '=', True)]"/>
+                <group name="groupby">
+                    <filter name="group_year" string="Academic Year" context="{'group_by': 'academic_year_id'}"/>
+                    <filter name="group_student" string="Student" context="{'group_by': 'student_id'}"/>
+                    <filter name="group_enrollment_state" string="State" context="{'group_by': 'enrollment_state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ACADEMIC HISTORY ACTIONS -->
+    <record id="action_unicore_student_academic_history" model="ir.actions.act_window">
+        <field name="name">Academic History</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">unicore.student.academic.history</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="unicore_student_academic_history_search_view"/>
+    </record>
+</odoo>

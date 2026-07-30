@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ========================================================= -->
+    <!-- Phase 1: Grade entry search - missing field + filters      -->
+    <!-- ========================================================= -->
+    <record id="view_grade_entry_search_phase1_filters" model="ir.ui.view">
+        <field name="name">unicore.grade.entry.search.phase1</field>
+        <field name="model">unicore.grade.entry</field>
+        <field name="inherit_id" ref="unicore_grading.view_unicore_grade_entry_search"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='course_id']" position="after">
+                <field name="course_offering_id"/>
+                <field name="letter_grade"/>
+            </xpath>
+
+            <xpath expr="//filter[@name='supp_required']" position="after">
+                <filter name="filter_grade_f" string="Grade F" domain="[('letter_grade','=','F')]"/>
+            </xpath>
+
+            <xpath expr="//filter[@name='group_by_course']" position="after">
+                <filter name="group_by_course_offering" string="Course Offering" context="{'group_by': 'course_offering_id'}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- ========================================================= -->
+    <!-- Phase 1: Grade entry list decoration - warning for draft   -->
+    <!-- ========================================================= -->
+    <record id="view_grade_entry_list_phase1_decoration" model="ir.ui.view">
+        <field name="name">unicore.grade.entry.list.phase1</field>
+        <field name="model">unicore.grade.entry</field>
+        <field name="inherit_id" ref="unicore_grading.view_unicore_grade_entry_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="attributes">
+                <attribute name="decoration-warning">entry_state == 'draft'</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ========================================================= -->
+    <!-- Phase 1: Semester result search - withheld filter          -->
+    <!-- ========================================================= -->
+    <record id="view_semester_result_search_phase1_filters" model="ir.ui.view">
+        <field name="name">unicore.semester.result.search.phase1</field>
+        <field name="model">unicore.semester.result</field>
+        <field name="inherit_id" ref="unicore_grading.view_unicore_semester_result_search"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//filter[@name='supp']" position="after">
+                <filter name="filter_withheld" string="Withheld" domain="[('result_status','=','withheld')]"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,164 @@
+// ============================================
+// UniCore Theme — Navbar
+// ============================================
+
+// Header — outer wrapper: ensure full width
+.o_navbar {
+    width: 100%;
+    min-height: $uc-navbar-height;
+    display: flex;
+    align-items: center;
+    overflow: visible;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+// Inner nav — the real flex row that must fill its parent header.
+// Without explicit width:100% + flex:1 1 auto, this <nav> shrink-wraps
+// to its content (~372px), starving .o_menu_sections (flex-grow-1) of room.
+.o_main_navbar {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    flex: 1 1 auto;
+    min-height: $uc-navbar-height;
+    overflow: visible;
+}
+
+// 2. MENU BRAND
+.o_menu_brand {
+    color: #ffffff;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: $uc-transition;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.12);
+    }
+}
+
+// 3. TOP-LEVEL MENU ITEMS
+.o_menu_sections .o_nav_entry {
+    color: rgba(255, 255, 255, 0.85);
+    padding: 5px 10px;
+    border-radius: 4px;
+    margin: 0 2px;
+    transition: $uc-transition;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.15);
+        color: #ffffff;
+    }
+
+    &.active,
+    &.o_current_section {
+        background: rgba(255, 255, 255, 0.22);
+        color: #ffffff;
+        font-weight: 500;
+    }
+}
+
+// 4. HOME MENU TOGGLE
+.o_home_menu_toggle {
+    color: #ffffff;
+    min-width: 32px;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+    transition: $uc-transition;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 8px;
+    }
+}
+
+// 5. SYSTRAY
+.o_systray {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+
+    >*,
+    .o_systray_item {
+        color: rgba(255, 255, 255, 0.85);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 32px;
+        min-height: 32px;
+        border-radius: 0;
+        transition: $uc-transition;
+        position: relative;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            color: #ffffff;
+        }
+    }
+}
+
+// Notification badges inside systray items
+.o_systray .o_notification_counter,
+.o_systray .badge {
+    background: $uc-danger;
+    color: #ffffff;
+    font-size: 10px;
+    line-height: 1;
+    padding: 2px 5px;
+    border-radius: 999px;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    min-width: 16px;
+    text-align: center;
+}
+
+// 6. USER MENU
+.o_user_menu {
+    display: flex;
+    align-items: center;
+    margin-left: 4px;
+
+    .o_user_avatar {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        transition: $uc-transition;
+        object-fit: cover;
+    }
+
+    &:hover .o_user_avatar {
+        border-color: rgba(255, 255, 255, 0.6);
+    }
+}
+
+// 7. DROPDOWN PANELS
+.o_navbar .dropdown-menu {
+    background: $uc-surface;
+    border: 1px solid $uc-border-light;
+    border-radius: $uc-radius-card;
+    box-shadow: $uc-shadow-lg;
+    margin-top: 6px;
+    padding: 4px 0;
+
+    .dropdown-item {
+        padding: 8px 16px;
+        font-size: 13px;
+        transition: $uc-transition;
+
+        &:hover {
+            background: $uc-bg-subtle;
+            color: $uc-primary;
+        }
+    }
+
+    .dropdown-divider {
+        background: $uc-border-light;
+        margin: 4px 0;
+    }
+}

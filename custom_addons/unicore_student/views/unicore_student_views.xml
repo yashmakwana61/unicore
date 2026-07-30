@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- ==================== STUDENT FORM VIEW ==================== -->
+    <record id="unicore_student_form_view" model="ir.ui.view">
+        <field name="name">unicore.student.form</field>
+        <field name="model">unicore.student</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="student_state" widget="statusbar"
+                           statusbar_visible="prospect,admitted,enrolled,active,graduated,alumni"
+                           clickable="False"/>
+                    <button name="action_enroll" type="object" string="Enroll"
+                            invisible="student_state != 'admitted'" class="btn-primary"/>
+                    <button name="action_activate" type="object" string="Activate"
+                            invisible="student_state != 'enrolled'" class="btn-primary"/>
+                    <button name="action_place_on_leave" type="object" string="Place on Leave"
+                            invisible="student_state != 'active'" class="btn-warning"/>
+                    <button name="action_return_from_leave" type="object" string="Return from Leave"
+                            invisible="student_state != 'on_leave'" class="btn-success"/>
+                    <button name="action_graduate" type="object" string="Graduate"
+                            invisible="student_state != 'active'" class="btn-success"/>
+                    <button name="action_convert_to_alumni" type="object" string="Convert to Alumni"
+                            invisible="student_state != 'graduated'" class="btn-primary"/>
+                    <button name="action_withdraw" type="object" string="Withdraw"
+                            invisible="student_state not in ('admitted', 'enrolled', 'active')" class="btn-danger"/>
+                    <button name="action_expel" type="object" string="Expel"
+                            invisible="student_state not in ('active', 'on_leave')" class="btn-danger"/>
+                    <button name="action_mark_deceased" type="object" string="Mark Deceased"
+                            invisible="student_state not in ('admitted', 'enrolled', 'active', 'on_leave')" class="btn-danger"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="student_state not in ('prospect', 'admitted', 'enrolled')" class="btn-secondary"/>
+                    <button name="action_reactivate" type="object" string="Reactivate"
+                            invisible="student_state not in ('withdrawn', 'expelled', 'cancelled')" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_documents" type="object"
+                                class="oe_stat_button" icon="fa-file-alt">
+                            <field string="Documents" name="document_count" widget="statinfo"/>
+                        </button>
+                        <button name="action_open_academic_history" type="object"
+                                class="oe_stat_button" icon="fa-history">
+                            <field string="History" name="academic_history_count" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" string="Student Name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="display_name" placeholder="Full name..."
+                                   class="oe_inline" readonly="0"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="student_id_number"/>
+                                <field name="partner_id" readonly="1" options="{'force_email': True}"/>
+                                <field name="institutional_email" placeholder="institutional@university.edu"/>
+                                <field name="image_1920" widget="image" class="oe_avatar"/>
+                            </group>
+                            <group>
+                                <field name="campus_id" options="{'no_create_edit': True}"/>
+                                <field name="program_id" options="{'no_create_edit': True}"/>
+                                <field name="specialisation_id" options="{'no_create_edit': True}"/>
+                                <field name="batch_year"/>
+                                <field name="current_semester_id" options="{'no_create_edit': True}"/>
+                            </group>
+                        </group>
+                    </div>
+                    <notebook>
+                        <page name="personal" string="Personal">
+                            <group string="Personal Information">
+                                <group>
+                                    <field name="name"/>
+                                    <field name="middle_name"/>
+                                    <field name="last_name"/>
+                                    <field name="gender"/>
+                                    <field name="date_of_birth"/>
+                                    <field name="age" readonly="1"/>
+                                    <field name="place_of_birth"/>
+                                    <field name="nationality_id" options="{'no_create_edit': True}"/>
+                                    <field name="religion"/>
+                                    <field name="blood_group"/>
+                                </group>
+                                <group>
+                                    <field name="country_id" options="{'no_create_edit': True}"/>
+                                    <field name="state_id" options="{'no_create_edit': True}"/>
+                                    <field name="disability_status"/>
+                                    <field name="disability_details" invisible="disability_status == 'none'" required="disability_status != 'none'"/>
+                                </group>
+                            </group>
+                            <group string="Contact Information">
+                                <group>
+                                    <field name="email"/>
+                                    <field name="mobile"/>
+                                    <field name="phone"/>
+                                </group>
+                                <group>
+                                    <field name="address_street"/>
+                                    <field name="address_street2"/>
+                                    <field name="address_city"/>
+                                    <field name="address_zip"/>
+                                    <field name="address_state_id" options="{'no_create_edit': True}"/>
+                                    <field name="address_country_id" options="{'no_create_edit': True}"/>
+                                </group>
+                            </group>
+                            <group string="Identification Documents">
+                                <group>
+                                    <field name="is_international"/>
+                                    <field name="passport_number" invisible="is_international == False" required="is_international == True"/>
+                                    <field name="passport_expiry"/>
+                                </group>
+                                <group>
+                                    <field name="national_id"/>
+                                    <field name="visa_number" invisible="is_international == False"/>
+                                    <field name="visa_expiry" invisible="is_international == False"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page name="academic" string="Academic">
+                            <group string="Placement">
+                                <group>
+                                    <field name="faculty_id" readonly="1"/>
+                                    <field name="department_id" readonly="1"/>
+                                    <field name="program_id" options="{'no_create_edit': True}"/>
+                                    <field name="specialisation_id" options="{'no_create_edit': True}"/>
+                                </group>
+                                <group>
+                                    <field name="batch_year"/>
+                                    <field name="current_year_of_study"/>
+                                    <field name="current_semester_id" options="{'no_create_edit': True}"/>
+                                </group>
+                            </group>
+                            <group string="Admission Details">
+                                <group>
+                                    <field name="admission_date"/>
+                                    <field name="admission_number"/>
+                                </group>
+                                <group>
+                                    <field name="expected_graduation_date"/>
+                                    <field name="actual_graduation_date"/>
+                                </group>
+                            </group>
+                            <group string="Academic Performance">
+                                <group>
+                                    <field name="cgpa"/>
+                                    <field name="completion_percentage" widget="progressbar"/>
+                                </group>
+                                <group>
+                                    <field name="total_credits_earned"/>
+                                    <field name="total_credits_required"/>
+                                </group>
+                            </group>
+                            <separator string="Academic History"/>
+                            <field name="academic_history_ids" readonly="0">
+                                <list editable="bottom" limit="20">
+                                    <field name="academic_year_id" options="{'no_create_edit': True}"/>
+                                    <field name="semester_id" options="{'no_create_edit': True}"/>
+                                    <field name="year_of_study"/>
+                                    <field name="semester_gpa"/>
+                                    <field name="cumulative_gpa"/>
+                                    <field name="credits_attempted"/>
+                                    <field name="credits_earned"/>
+                                    <field name="enrollment_state"/>
+                                    <field name="is_current"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page name="documents" string="Documents">
+                            <field name="document_ids" readonly="0">
+                                <list editable="bottom" limit="20">
+                                    <field name="document_type"/>
+                                    <field name="name"/>
+                                    <field name="file_name"/>
+                                    <field name="is_verified"/>
+                                    <field name="verified_by"/>
+                                    <field name="issue_date"/>
+                                    <field name="expiry_date"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page name="guardians" string="Guardians / Emergency">
+                            <field name="guardian_ids" readonly="0">
+                                <list editable="bottom" limit="20">
+                                    <field name="name"/>
+                                    <field name="relationship"/>
+                                    <field name="is_primary"/>
+                                    <field name="mobile"/>
+                                    <field name="email"/>
+                                    <field name="is_emergency_only"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page name="tracking" string="Tracking">
+                            <group>
+                                <group>
+                                    <field name="status_change_date"/>
+                                    <field name="status_change_reason"/>
+                                </group>
+                                <group>
+                                    <field name="has_portal_access"/>
+                                    <field name="sequence"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ==================== STUDENT TREE VIEW ==================== -->
+    <record id="unicore_student_tree_view" model="ir.ui.view">
+        <field name="name">unicore.student.tree</field>
+        <field name="model">unicore.student</field>
+        <field name="arch" type="xml">
+            <list limit="40">
+                <field name="student_id_number"/>
+                <field name="display_name"/>
+                <field name="program_id"/>
+                <field name="campus_id"/>
+                <field name="student_state" widget="badge" decoration-primary="student_state == 'active'"
+                       decoration-success="student_state in ('graduated','alumni')"
+                       decoration-warning="student_state in ('admitted','enrolled')"
+                       decoration-danger="student_state in ('withdrawn','expelled','deceased','cancelled')"
+                       decoration-info="student_state in ('prospect','on_leave')"/>
+                <field name="batch_year"/>
+                <field name="email"/>
+                <field name="mobile"/>
+                <field name="cgpa"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ==================== STUDENT SEARCH VIEW ==================== -->
+    <record id="unicore_student_search_view" model="ir.ui.view">
+        <field name="name">unicore.student.search</field>
+        <field name="model">unicore.student</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="student_id_number"/>
+                <field name="email"/>
+                <field name="mobile"/>
+                <field name="nationality_id"/>
+                <filter name="filter_active" string="Active" domain="[('student_state', '=', 'active')]"/>
+                <filter name="filter_enrolled" string="Enrolled" domain="[('student_state', '=', 'enrolled')]"/>
+                <filter name="filter_graduated" string="Graduated" domain="[('student_state', '=', 'graduated')]"/>
+                <filter name="filter_alumni" string="Alumni" domain="[('student_state', '=', 'alumni')]"/>
+                <separator/>
+                <filter name="group_program" string="Program" context="{'group_by': 'program_id'}"/>
+                <filter name="group_campus" string="Campus" context="{'group_by': 'campus_id'}"/>
+                <filter name="group_state" string="Status" context="{'group_by': 'student_state'}"/>
+                <separator/>
+                <filter name="filter_international" string="International" domain="[('is_international', '=', True)]"/>
+                <separator/>
+                <group name="groupby">
+                    <filter name="group_batch_year" string="Batch Year" context="{'group_by': 'batch_year'}"/>
+                    <filter name="group_gender" string="Gender" context="{'group_by': 'gender'}"/>
+                    <filter name="group_company" string="Company" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ==================== STUDENT KANBAN VIEW ==================== -->
+    <record id="unicore_student_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.student.kanban</field>
+        <field name="model">unicore.student</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color">
+                <field name="student_id_number"/>
+                <field name="display_name"/>
+                <field name="student_state"/>
+                <field name="email"/>
+                <field name="cgpa"/>
+                <field name="image_1920"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <img t-if="record.image_1920.raw_value"
+                                     t-att-src="'/web/image?model=unicore.student&amp;field=image_1920&amp;id=' + record.id.raw_value"
+                                     alt="Student Photo" style="width:100px; height:100px; border-radius:50%; object-fit:cover;"/>
+                                <t t-if="!record.image_1920.raw_value">
+                                    <span t-esc="record.display_name.value[0]" style="font-size:3rem; background:#eee; border-radius:50%; width:100px; height:100px; display:flex; align-items:center; justify-content:center;"/>
+                                </t>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title">
+                                    <field name="display_name"/>
+                                </strong>
+                                <div class="text-muted o_kanban_record_subtitle">
+                                    <field name="student_id_number"/>
+                                </div>
+                                <div>
+                                    <field name="student_state" widget="badge"/>
+                                </div>
+                                <div>
+                                    <i class="fa fa-envelope" title="Email"/> <field name="email"/>
+                                </div>
+                                <div>
+                                    <i class="fa fa-graduation-cap"/> CGPA: <field name="cgpa"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ==================== ACTIONS ==================== -->
+    <record id="action_unicore_student" model="ir.actions.act_window">
+        <field name="name">Students</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">unicore.student</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="unicore_student_search_view"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Start managing students
+            </p>
+            <p>
+                Create a new student record to track the complete student lifecycle
+                from admission through graduation and alumni status.
+            </p>
+        </field>
+    </record>
+</odoo>

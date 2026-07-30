@@ -1,0 +1,298 @@
+import logging
+
+from datetime import date, timedelta
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
+
+_logger = logging.getLogger(__name__)
+
+
+class UnicoreAcademicYear(models.Model):
+    """Academic Year representing the annual academic calendar."""
+
+    _name = 'unicore.academic.year'
+    _description = 'Academic Year'
+    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _order = 'date_start desc'
+    _check_company_auto = True
+
+    name = fields.Char(
+        string='Academic Year',
+        required=True,
+        help='e.g. 2024-2025, AY-2025',
+        tracking=True,
+    )
+    code = fields.Char(
+        string='Year Code',
+        required=True,
+        size=20,
+        help='e.g. AY2425, 2024-25',
+    )
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        string='Institution',
+        required=True,
+        default=lambda self: self.env.company,
+        ondelete='restrict',
+        tracking=True,
+    )
+    campus_ids = fields.Many2many(
+        comodel_name='unicore.campus',
+        relation='unicore_academic_year_campus_rel',
+        column1='academic_year_id',
+        column2='campus_id',
+        string='Applicable Campuses',
+        help='Leave empty to apply to all campuses',
+    )
+    date_start = fields.Date(
+        string='Start Date',
+        required=True,
+        tracking=True,
+    )
+    date_end = fields.Date(
+        string='End Date',
+        required=True,
+        tracking=True,
+    )
+    year_type = fields.Selection(
+        selection=[
+            ('semester', 'Semester Based'),
+            ('trimester', 'Trimester Based'),
+            ('quarter', 'Quarter Based'),
+            ('annual', 'Annual'),
+        ],
+        string='Year Structure',
+        default='semester',
+        required=True,
+        tracking=True,
+    )
+    semester_ids = fields.One2many(
+        comodel_name='unicore.semester',
+        inverse_name='academic_year_id',
+        string='Semesters / Terms',
+    )
+    holiday_ids = fields.One2many(
+        comodel_name='unicore.holiday',
+        inverse_name='academic_year_id',
+        string='Holidays',
+    )
+    semester_count = fields.Integer(
+        string='Total Semesters',
+        compute='_compute_semester_count',
+        store=True,
+    )
+    week_count = fields.Integer(
+        string='Total Weeks',
+        compute='_compute_week_count',
+        store=False,
+    )
+    holiday_count = fields.Integer(
+        string='Total Holidays',
+        compute='_compute_holiday_count',
+        store=True,
+    )
+    total_working_days = fields.Integer(
+        string='Total Working Days',
+        compute='_compute_total_working_days',
+        store=False,
+    )
+    year_state = fields.Selection(
+        selection=[
+            ('draft', 'Draft'),
+            ('confirmed', 'Confirmed'),
+            ('active', 'Active / Current'),
+            ('completed', 'Completed'),
+            ('cancelled', 'Cancelled'),
+        ],
+        string='Status',
+        default='draft',
+        required=True,
+        tracking=True,
+    )
+    is_current = fields.Boolean(
+        string='Is Current Year',
+        compute='_compute_is_current',
+        store=True,
+    )
+    previous_year_id = fields.Many2one(
+        comodel_name='unicore.academic.year',
+        string='Previous Academic Year',
+        domain="[('company_id', '=', company_id)]",
+        help='Link to the preceding academic year',
+    )
+    next_year_id = fields.Many2one(
+        comodel_name='unicore.academic.year',
+        string='Next Academic Year',
+        domain="[('company_id', '=', company_id)]",
+        help='Link to the following academic year',
+    )
+
+    _unique_year_code_company = models.Constraint(
+        'UNIQUE(code, company_id)',
+        'Academic year code must be unique per institution.',
+    )
+
+    @api.depends('semester_ids')
+    def _compute_semester_count(self):
+        for record in self:
+            record.semester_count = len(record.semester_ids)
+
+    @api.depends('holiday_ids')
+    def _compute_holiday_count(self):
+        for record in self:
+            record.holiday_count = len(record.holiday_ids)
+
+    def _compute_week_count(self):
+        week_model = self.env['unicore.academic.week']
+        for record in self:
+            record.week_count = week_model.search_count(
+                [('academic_year_id', '=', record.id)]
+            )
+
+    def _compute_total_working_days(self):
+        holiday_model = self.env['unicore.holiday']
+        for record in self:
+            if record.date_start and record.date_end:
+                total = (record.date_end - record.date_start).days + 1
+                holidays = holiday_model.search([
+                    ('academic_year_id', '=', record.id),
+                    ('date_start', '>=', record.date_start),
+                    ('date_end', '<=', record.date_end),
+                    ('affects_attendance', '=', True),
+                ])
+                holiday_days = sum(
+                    (h.date_end - h.date_start).days + 1 for h in holidays
+                )
+                record.total_working_days = max(total - holiday_days, 0)
+            else:
+                record.total_working_days = 0
+
+    @api.depends('year_state', 'date_start', 'date_end')
+    def _compute_is_current(self):
+        today = date.today()
+        for record in self:
+            record.is_current = bool(
+                record.year_state == 'active'
+                and record.date_start
+                and record.date_end
+                and record.date_start <= today <= record.date_end
+            )
+
+    @api.constrains('date_start', 'date_end')
+    def _check_date_range(self):
+        for record in self:
+            if record.date_start and record.date_end:
+                if record.date_end <= record.date_start:
+                    raise ValidationError(
+                        _('End date must be after start date.')
+                    )
+
+    @api.constrains('date_start', 'date_end', 'year_state', 'company_id')
+    def _check_overlap_active(self):
+        for record in self:
+            if record.year_state not in ('cancelled',) and record.date_start and record.date_end:
+                overlapping = self.search([
+                    ('company_id', '=', record.company_id.id),
+                    ('id', '!=', record.id),
+                    ('year_state', 'not in', ('cancelled',)),
+                    ('date_start', '<', record.date_end),
+                    ('date_end', '>', record.date_start),
+                ])
+                if overlapping:
+                    raise ValidationError(
+                        _('Academic year dates cannot overlap with another academic year for the same institution.')
+                    )
+
+    @api.constrains('year_state', 'company_id')
+    def _check_single_active(self):
+        for record in self:
+            if record.year_state == 'active':
+                other_active = self.search([
+                    ('company_id', '=', record.company_id.id),
+                    ('id', '!=', record.id),
+                    ('year_state', '=', 'active'),
+                ])
+                if other_active:
+                    raise ValidationError(
+                        _('Only one academic year can be active per institution at a time.')
+                    )
+
+    def action_confirm(self):
+        self.ensure_one()
+        if not self.date_start or not self.date_end:
+            raise UserError(_('Start date and end date must be set before confirmation.'))
+        if not self.semester_ids:
+            raise UserError(_('At least one semester must exist before confirming the academic year.'))
+        self.year_state = 'confirmed'
+
+    def action_activate(self):
+        self.ensure_one()
+        other_active = self.search([
+            ('company_id', '=', self.company_id.id),
+            ('id', '!=', self.id),
+            ('year_state', '=', 'active'),
+        ])
+        for previous in other_active:
+            previous.year_state = 'completed'
+            _logger.info(
+                'Academic year %s (%s) auto-completed when %s (%s) was activated.',
+                previous.name, previous.code, self.name, self.code,
+            )
+        self.year_state = 'active'
+
+    def action_complete(self):
+        self.ensure_one()
+        self.year_state = 'completed'
+
+    def action_cancel(self):
+        self.ensure_one()
+        self.year_state = 'cancelled'
+
+    def action_reset_draft(self):
+        self.ensure_one()
+        self.year_state = 'draft'
+
+    def action_open_semesters(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Semesters'),
+            'res_model': 'unicore.semester',
+            'view_mode': 'list,form',
+            'domain': [('academic_year_id', '=', self.id)],
+            'context': {'default_academic_year_id': self.id},
+        }
+
+    def action_open_weeks(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Academic Weeks'),
+            'res_model': 'unicore.academic.week',
+            'view_mode': 'list,form',
+            'domain': [('academic_year_id', '=', self.id)],
+            'context': {'default_academic_year_id': self.id},
+        }
+
+    def action_open_holidays(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Holidays'),
+            'res_model': 'unicore.holiday',
+            'view_mode': 'list,form',
+            'domain': [('academic_year_id', '=', self.id)],
+            'context': {'default_academic_year_id': self.id},
+        }
+
+    @api.model
+    def get_current_year(self, company_id=None):
+        company = company_id or self.env.company.id
+        current = self.search([
+            ('company_id', '=', company),
+            ('year_state', '=', 'active'),
+            ('date_start', '<=', date.today()),
+            ('date_end', '>=', date.today()),
+        ], limit=1)
+        return current

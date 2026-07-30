@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Level 2: Faculty & Staff Section -->
+    <menuitem id="menu_unicore_faculty_staff"
+              name="Faculty &amp; Staff"
+              parent="unicore_base.menu_unicore_root"
+              sequence="40"
+              groups="unicore_base.group_unicore_staff"/>
+
+    <!-- Level 3: Faculty Members -->
+    <menuitem id="menu_unicore_faculty_member_all"
+              name="Faculty Members"
+              parent="menu_unicore_faculty_staff"
+              action="action_unicore_faculty_member"
+              sequence="10"/>
+
+    <menuitem id="menu_unicore_faculty_member_active"
+              name="Active Faculty"
+              parent="menu_unicore_faculty_staff"
+              action="action_unicore_faculty_member_active"
+              sequence="20"/>
+
+    <!-- Level 3: Administrative Staff -->
+    <menuitem id="menu_unicore_staff_member_all"
+              name="Administrative Staff"
+              parent="menu_unicore_faculty_staff"
+              action="action_unicore_staff_member"
+              sequence="30"/>
+
+    <!-- Level 3: Publications (Manager only) -->
+    <menuitem id="menu_unicore_faculty_publications"
+              name="Publications"
+              parent="menu_unicore_faculty_staff"
+              action="action_unicore_faculty_publication"
+              sequence="40"
+              groups="unicore_base.group_unicore_manager"/>
+
+    <!-- Level 3: Teaching Workload (Registrar only) -->
+    <menuitem id="menu_unicore_faculty_workload"
+              name="Teaching Workload"
+              parent="menu_unicore_faculty_staff"
+              action="action_unicore_faculty_workload"
+              sequence="50"
+              groups="unicore_base.group_unicore_registrar"/>
+
+</odoo>

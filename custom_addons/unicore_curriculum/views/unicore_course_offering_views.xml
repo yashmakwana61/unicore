@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ============================================= -->
+        <!-- FORM VIEW                                     -->
+        <!-- ============================================= -->
+
+        <record id="view_unicore_course_offering_form" model="ir.ui.view">
+            <field name="name">unicore.course.offering.form</field>
+            <field name="model">unicore.course.offering</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="offering_state" widget="statusbar" clickable="True"/>
+                        <button name="action_open_enrollment" type="object"
+                                string="Open Enrollment"
+                                invisible="offering_state != 'draft'"
+                                class="btn-primary"/>
+                        <button name="action_start" type="object"
+                                string="Start"
+                                invisible="offering_state != 'open'"/>
+                        <button name="action_complete" type="object"
+                                string="Complete"
+                                invisible="offering_state != 'ongoing'"/>
+                        <button name="action_cancel" type="object"
+                                string="Cancel"
+                                invisible="offering_state in ('completed','cancelled')"
+                                groups="unicore_base.group_unicore_registrar"/>
+                        <button name="action_reset_draft" type="object"
+                                string="Reset to Draft"
+                                invisible="offering_state in ('draft','completed')"
+                                groups="unicore_base.group_unicore_admin"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button type="object" class="oe_stat_button"
+                                    icon="fa-chair" readonly="1">
+                                <field name="available_seats" widget="statinfo" string="Available Seats"/>
+                            </button>
+                            <button type="object" class="oe_stat_button"
+                                    icon="fa-exclamation-triangle"
+                                    invisible="not is_full"
+                                    style="color: red;" readonly="1">
+                                <div class="o_stat_info">
+                                    <span class="o_stat_text">Full</span>
+                                </div>
+                            </button>
+                        </div>
+                        <widget name="web_ribbon" title="Cancelled"
+                                invisible="offering_state != 'cancelled'"
+                                bg_color="text-bg-danger"/>
+                        <widget name="web_ribbon" title="Full"
+                                invisible="not is_full"
+                                bg_color="text-bg-warning"/>
+                        <group>
+                            <group string="Offering Identity">
+                                <field name="name" readonly="1"/>
+                                <field name="offering_code" readonly="1"/>
+                                <field name="section_code"/>
+                                <field name="course_id"/>
+                                <field name="curriculum_line_id"/>
+                                <field name="program_id"/>
+                                <field name="semester_number"/>
+                            </group>
+                            <group string="Institution">
+                                <field name="company_id" options="{'no_create': True}"/>
+                                <field name="campus_id"
+                                       domain="[('company_id', '=', company_id)]"/>
+                                <field name="academic_year_id"/>
+                                <field name="semester_id"
+                                       domain="[('academic_year_id', '=', academic_year_id)]"/>
+                                <field name="credit_hours" readonly="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Instructor Assignment">
+                                <field name="faculty_member_id"
+                                       domain="[('company_id', '=', company_id), ('member_state', '=', 'active')]"/>
+                                <field name="co_instructor_ids" widget="many2many_tags"/>
+                            </group>
+                            <group string="Enrollment Capacity">
+                                <field name="max_enrollment"/>
+                                <field name="min_enrollment"/>
+                                <field name="enrolled_count" readonly="1"/>
+                                <field name="available_seats" readonly="1"/>
+                                <field name="is_full" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="Status">
+                            <field name="offering_state" readonly="1"/>
+                            <field name="cancellation_reason"
+                                   invisible="offering_state != 'cancelled'"/>
+                        </group>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- ============================================= -->
+        <!-- LIST VIEW                                     -->
+        <!-- ============================================= -->
+
+        <record id="view_unicore_course_offering_list" model="ir.ui.view">
+            <field name="name">unicore.course.offering.list</field>
+            <field name="model">unicore.course.offering</field>
+            <field name="arch" type="xml">
+                <list decoration-success="offering_state == 'ongoing'"
+                      decoration-warning="is_full == True"
+                      decoration-muted="offering_state in ('completed','cancelled')"
+                      decoration-info="offering_state == 'draft'">
+                    <field name="offering_code"/>
+                    <field name="course_id"/>
+                    <field name="section_code"/>
+                    <field name="semester_id"/>
+                    <field name="campus_id"/>
+                    <field name="faculty_member_id"/>
+                    <field name="enrolled_count"/>
+                    <field name="max_enrollment"/>
+                    <field name="offering_state"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ============================================= -->
+        <!-- SEARCH VIEW                                   -->
+        <!-- ============================================= -->
+
+        <record id="view_unicore_course_offering_search" model="ir.ui.view">
+            <field name="name">unicore.course.offering.search</field>
+            <field name="model">unicore.course.offering</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="course_id"/>
+                    <field name="offering_code"/>
+                    <field name="faculty_member_id"/>
+                    <field name="campus_id"/>
+                    <field name="semester_id"/>
+                    <filter name="open_offerings" string="Open for Enrollment"
+                            domain="[('offering_state', '=', 'open')]"/>
+                    <filter name="ongoing_offerings" string="Ongoing"
+                            domain="[('offering_state', '=', 'ongoing')]"/>
+                    <filter name="full_sections" string="Full Sections"
+                            domain="[('is_full', '=', True)]"/>
+                    <filter name="my_offerings" string="My Offerings"
+                            domain="['|', ('faculty_member_id.partner_id.user_ids', 'in', [uid]), ('co_instructor_ids.partner_id.user_ids', 'in', [uid])]"/>
+                    <group>
+                        <filter name="group_by_course" string="Course"
+                                context="{'group_by': 'course_id'}"/>
+                        <filter name="group_by_semester" string="Semester"
+                                context="{'group_by': 'semester_id'}"/>
+                        <filter name="group_by_campus" string="Campus"
+                                context="{'group_by': 'campus_id'}"/>
+                        <filter name="group_by_instructor" string="Instructor"
+                                context="{'group_by': 'faculty_member_id'}"/>
+                        <filter name="group_by_state" string="Status"
+                                context="{'group_by': 'offering_state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- ============================================= -->
+        <!-- KANBAN VIEW                                   -->
+        <!-- ============================================= -->
+
+        <record id="view_unicore_course_offering_kanban" model="ir.ui.view">
+            <field name="name">unicore.course.offering.kanban</field>
+            <field name="model">unicore.course.offering</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="offering_state">
+                    <templates>
+                        <t t-name="card">
+                            <div class="oe_kanban_card oe_kanban_global_click">
+                                <div class="o_kanban_card_header">
+                                    <strong><field name="offering_code"/></strong>
+                                </div>
+                                <div class="o_kanban_card_body">
+                                    <div><field name="course_id"/></div>
+                                    <div><field name="faculty_member_id"/></div>
+                                    <div><field name="campus_id"/></div>
+                                    <div class="o_kanban_card_bottom">
+                                        <span class="o_kanban_badge">
+                                            <field name="enrolled_count"/> / <field name="max_enrollment"/>
+                                        </span>
+                                        <span class="o_kanban_badge"
+                                              t-if="record.offering_state.raw_value == 'open'"
+                                              style="background-color: #17a2b8; color: white;">
+                                            Open
+                                        </span>
+                                        <span class="o_kanban_badge"
+                                              t-if="record.offering_state.raw_value == 'ongoing'"
+                                              style="background-color: #28a745; color: white;">
+                                            Ongoing
+                                        </span>
+                                        <span class="o_kanban_badge"
+                                              t-if="record.offering_state.raw_value == 'completed'"
+                                              style="background-color: #6c757d; color: white;">
+                                            Completed
+                                        </span>
+                                        <span class="o_kanban_badge"
+                                              t-if="record.offering_state.raw_value == 'draft'"
+                                              style="background-color: #ffc107; color: black;">
+                                            Draft
+                                        </span>
+                                        <span class="o_kanban_badge"
+                                              t-if="record.offering_state.raw_value == 'cancelled'"
+                                              style="background-color: #dc3545; color: white;">
+                                            Cancelled
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+    </data>
+</odoo>

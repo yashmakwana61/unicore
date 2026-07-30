@@ -1,0 +1,950 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!--
+  =====================================================
+  PORTAL HOME — Add UniCore Student links to /my/ page
+  =====================================================
+  -->
+  <template id="portal_my_home_unicore_student"
+            name="UniCore Student Portal Home"
+            inherit_id="portal.portal_my_home"
+            priority="30">
+    <xpath expr="//div[hasclass('o_portal_docs')]"
+           position="inside">
+      <t t-call="portal.portal_docs_entry">
+        <t t-set="icon">/web/image/unicore_portal_student/static/src/img/icon_portal.png</t>
+        <t t-set="title">My Academic Portal</t>
+        <t t-set="url">/my/unicore/student</t>
+        <t t-set="placeholder_count">unicore_courses</t>
+        <t t-set="count" t-value="unicore_courses or 0"/>
+        <t t-set="text">Active Courses</t>
+      </t>
+    </xpath>
+  </template>
+
+  <!--
+  =====================================================
+  BASE LAYOUT for all student portal pages
+  =====================================================
+  -->
+  <template id="portal_student_layout"
+            name="Student Portal Base Layout">
+    <t t-call="portal.portal_layout">
+      <t t-set="breadcrumbs_searchbar" t-value="True"/>
+      <t t-call="portal.portal_searchbar">
+        <t t-set="title">Student Portal</t>
+      </t>
+      <div class="unicore-portal-layout">
+        <!-- Sidebar Toggle (mobile) -->
+        <button class="btn btn-primary d-md-none unicore-sidebar-toggle mb-2" type="button"
+                data-bs-toggle="collapse" data-bs-target="#unicoreSidebar"
+                aria-expanded="false" aria-controls="unicoreSidebar">
+          <i class="fa fa-bars"></i> Menu
+        </button>
+
+        <div class="d-flex align-items-start gap-3">
+          <!-- Sidebar -->
+          <div class="unicore-sidebar collapse d-md-block" id="unicoreSidebar">
+            <nav class="nav flex-column">
+              <a class="nav-link unicore-nav-item"
+                 t-att-class="'active' if page_name == 'student_dashboard' else ''"
+                 href="/my/unicore/student">
+                <i class="fa fa-tachometer fa-fw"></i>
+                <span>Dashboard</span>
+              </a>
+              <a class="nav-link unicore-nav-item"
+                 t-att-class="'active' if page_name == 'student_courses' else ''"
+                 href="/my/unicore/student/courses">
+                <i class="fa fa-book fa-fw"></i>
+                <span>My Courses</span>
+              </a>
+              <a class="nav-link unicore-nav-item"
+                 t-att-class="'active' if page_name == 'student_attendance' else ''"
+                 href="/my/unicore/student/attendance">
+                <i class="fa fa-calendar-check-o fa-fw"></i>
+                <span>Attendance</span>
+              </a>
+              <a class="nav-link unicore-nav-item"
+                 t-att-class="'active' if page_name == 'student_exams' else ''"
+                 href="/my/unicore/student/exams">
+                <i class="fa fa-ticket fa-fw"></i>
+                <span>Exams</span>
+              </a>
+              <a class="nav-link unicore-nav-item"
+                 t-att-class="'active' if page_name == 'student_results' else ''"
+                 href="/my/unicore/student/results">
+                <i class="fa fa-graduation-cap fa-fw"></i>
+                <span>Results</span>
+              </a>
+              <a class="nav-link unicore-nav-item"
+                 t-att-class="'active' if page_name == 'student_fees' else ''"
+                 href="/my/unicore/student/fees">
+                <i class="fa fa-money fa-fw"></i>
+                <span>Fees</span>
+              </a>
+              <a class="nav-link unicore-nav-item"
+                 t-att-class="'active' if page_name == 'student_scholarships' else ''"
+                 href="/my/unicore/student/scholarships">
+                <i class="fa fa-trophy fa-fw"></i>
+                <span>Scholarships</span>
+              </a>
+            </nav>
+          </div>
+          <!-- Page Content -->
+          <div class="unicore-sidebar-content flex-grow-1 min-width-0">
+            <t t-raw="0"/>
+          </div>
+        </div>
+      </div>
+    </t>
+  </template>
+
+  <!--
+  =====================================================
+  TEMPLATE 1: STUDENT DASHBOARD
+  =====================================================
+  -->
+  <template id="portal_student_dashboard"
+            name="Student Dashboard">
+    <t t-call="unicore_portal_student.portal_student_layout">
+      <div class="container">
+
+        <!-- Welcome Header -->
+        <div class="row mb-4">
+          <div class="col-12">
+            <h3 class="text-primary">
+              Welcome, <t t-esc="student.display_name"/>
+            </h3>
+            <p class="text-muted mb-0">
+              Student ID:
+              <strong>
+                <t t-esc="student.student_id_number"/>
+              </strong>
+              | Program:
+              <strong>
+                <t t-esc="student.program_id.name"/>
+              </strong>
+              | Year:
+              <strong>
+                <t t-esc="student.current_year_of_study"/>
+              </strong>
+            </p>
+          </div>
+        </div>
+
+        <!-- KPI Cards Row -->
+        <div class="row mb-4 g-3">
+
+          <!-- CGPA Card -->
+          <div class="col-6 col-md-3">
+            <div class="card text-center border-primary h-100">
+              <div class="card-body">
+                <h2 class="text-primary mb-0">
+                  <t t-esc="'%.2f' % student.cgpa"/>
+                </h2>
+                <small class="text-muted">CGPA</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Active Courses Card -->
+          <div class="col-6 col-md-3">
+            <div class="card text-center border-success h-100">
+              <div class="card-body">
+                <h2 class="text-success mb-0">
+                  <t t-esc="enrollment_count"/>
+                </h2>
+                <small class="text-muted">
+                  Active Courses
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Attendance Alerts Card -->
+          <div class="col-6 col-md-3">
+            <div t-att-class="'card text-center h-100 ' + ('border-danger' if shortage_count > 0 else 'border-secondary')">
+              <div class="card-body">
+                <h2 t-att-class="'mb-0 ' + ('text-danger' if shortage_count > 0 else 'text-secondary')">
+                  <t t-esc="shortage_count"/>
+                </h2>
+                <small class="text-muted">
+                  Attendance Alerts
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Outstanding Fees Card -->
+          <div class="col-6 col-md-3">
+            <div t-att-class="'card text-center h-100 ' + ('border-warning' if outstanding_amount > 0 else 'border-secondary')">
+              <div class="card-body">
+                <h2 t-att-class="'mb-0 ' + ('text-warning' if outstanding_amount > 0 else 'text-secondary')">
+                  <t t-esc="outstanding_invoice_count"/>
+                </h2>
+                <small class="text-muted">
+                  Pending Fee Invoices
+                </small>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Alerts Section -->
+        <t t-if="shortage_count > 0">
+          <div class="alert alert-danger" role="alert">
+            <strong>⚠ Attendance Warning:</strong>
+            You have
+            <strong>
+              <t t-esc="shortage_count"/>
+            </strong>
+            course(s) with attendance below the
+            required minimum. You may be ineligible
+            for examinations.
+            <a href="/my/unicore/student/attendance"
+               class="alert-link">
+              View Attendance →
+            </a>
+          </div>
+        </t>
+        <t t-if="outstanding_amount > 0">
+          <div class="alert alert-warning" role="alert">
+            <strong>📋 Fee Due:</strong>
+            You have outstanding fee payments.
+            <a href="/my/unicore/student/fees"
+               class="alert-link">
+              View Fees →
+            </a>
+          </div>
+        </t>
+
+        <!-- Quick Links -->
+        <div class="row mt-2 g-3">
+          <div class="col-6 col-md-4">
+            <a href="/my/unicore/student/courses"
+               class="card text-center text-decoration-none h-100">
+              <div class="card-body">
+                <i class="fa fa-book fa-2x text-primary mb-2"/>
+                <p class="mb-0">
+                  <strong>My Courses</strong>
+                </p>
+              </div>
+            </a>
+          </div>
+          <div class="col-6 col-md-4">
+            <a href="/my/unicore/student/exams"
+               class="card text-center text-decoration-none h-100">
+              <div class="card-body">
+                <i class="fa fa-ticket fa-2x text-info mb-2"/>
+                <p class="mb-0">
+                  <strong>Hall Tickets</strong>
+                </p>
+              </div>
+            </a>
+          </div>
+          <div class="col-6 col-md-4">
+            <a href="/my/unicore/student/results"
+               class="card text-center text-decoration-none h-100">
+              <div class="card-body">
+                <i class="fa fa-graduation-cap fa-2x text-success mb-2"/>
+                <p class="mb-0">
+                  <strong>My Results</strong>
+                </p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </t>
+  </template>
+
+  <!--
+  =====================================================
+  TEMPLATE 2: MY COURSES
+  =====================================================
+  -->
+  <template id="portal_student_courses"
+            name="My Courses">
+    <t t-call="unicore_portal_student.portal_student_layout">
+      <div class="container">
+        <h4 class="mb-3">My Enrolled Courses</h4>
+
+        <t t-if="not enrollments">
+          <div class="alert alert-info">
+            No enrolled courses found.
+          </div>
+        </t>
+
+        <t t-foreach="enrollments" t-as="enr">
+          <div class="card mb-3">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <strong>
+                <t t-esc="enr.course_id.code"/> —
+                <t t-esc="enr.course_id.name"/>
+              </strong>
+              <span t-att-class="'badge ' + ('bg-success' if enr.enrollment_state == 'registered' else 'bg-secondary')">
+                <t t-esc="enr.enrollment_state.upper()"/>
+              </span>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <p class="mb-1">
+                    <strong>Credits:</strong>
+                    <t t-esc="enr.credit_hours"/>
+                  </p>
+                  <p class="mb-1">
+                    <strong>Semester:</strong>
+                    <t t-esc="enr.semester_id.name"/>
+                  </p>
+                  <t t-if="enr.course_offering_id.faculty_member_id">
+                    <p class="mb-1">
+                      <strong>Instructor:</strong>
+                      <t t-esc="enr.course_offering_id.faculty_member_id.display_name"/>
+                    </p>
+                  </t>
+                </div>
+                <div class="col-md-6">
+                  <!-- Timetable -->
+                  <t t-set="entries" t-value="timetable_map.get(enr.id, [])"/>
+                  <t t-if="entries">
+                    <p class="mb-1">
+                      <strong>Schedule:</strong>
+                    </p>
+                    <ul class="list-unstyled mb-0">
+                      <t t-foreach="entries" t-as="entry">
+                        <li class="small">
+                          <i class="fa fa-clock-o"/>
+                          <t t-esc="dict([('0','Mon'),('1','Tue'),('2','Wed'),('3','Thu'),('4','Fri'),('5','Sat'),('6','Sun')]).get(entry.day_of_week, '')"/>
+                          —
+                          <t t-esc="entry.time_slot_id.display_label"/>
+                          | Room:
+                          <t t-esc="entry.room_id.code"/>
+                        </li>
+                      </t>
+                    </ul>
+                  </t>
+                </div>
+              </div>
+            </div>
+          </div>
+        </t>
+
+      </div>
+    </t>
+  </template>
+
+  <!--
+  =====================================================
+  TEMPLATE 3: MY ATTENDANCE
+  =====================================================
+  -->
+  <template id="portal_student_attendance"
+            name="My Attendance">
+    <t t-call="unicore_portal_student.portal_student_layout">
+      <div class="container">
+        <h4 class="mb-3">My Attendance Records</h4>
+
+        <t t-if="shortage_records">
+          <div class="alert alert-danger mb-3">
+            <strong>⚠ Critical:</strong>
+            You have shortage in
+            <strong>
+              <t t-esc="len(shortage_records)"/>
+            </strong>
+            course(s). Contact your faculty immediately.
+          </div>
+        </t>
+
+        <t t-if="not attendance_records">
+          <div class="alert alert-info">
+            No attendance records found.
+          </div>
+        </t>
+
+        <table class="table table-hover" t-if="attendance_records">
+          <thead class="table-dark">
+            <tr>
+              <th>Course</th>
+              <th>Semester</th>
+              <th>Sessions Held</th>
+              <th>Present</th>
+              <th>Attendance %</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <t t-foreach="attendance_records" t-as="rec">
+              <tr t-att-class="'table-danger' if rec.shortage_alert else ('table-warning' if rec.warning_alert else '')">
+                <td>
+                  <strong>
+                    <t t-esc="rec.course_id.code"/>
+                  </strong><br/>
+                  <small class="text-muted">
+                    <t t-esc="rec.course_id.name"/>
+                  </small>
+                </td>
+                <td>
+                  <t t-esc="rec.semester_id.name"/>
+                </td>
+                <td>
+                  <t t-esc="rec.total_sessions_held"/>
+                </td>
+                <td>
+                  <t t-esc="rec.sessions_present"/>
+                  +
+                  <t t-esc="rec.sessions_late"/>
+                  late
+                </td>
+                <td>
+                  <strong>
+                    <t t-esc="'%.1f%%' % rec.cumulative_attendance_percentage"/>
+                  </strong>
+                </td>
+                <td>
+                  <t t-if="rec.shortage_alert">
+                    <span class="badge bg-danger">
+                      SHORTAGE
+                    </span>
+                  </t>
+                  <t t-elif="rec.warning_alert">
+                    <span class="badge bg-warning text-dark">
+                      WARNING
+                    </span>
+                  </t>
+                  <t t-else="">
+                    <span class="badge bg-success">OK</span>
+                  </t>
+                </td>
+              </tr>
+            </t>
+          </tbody>
+        </table>
+
+      </div>
+    </t>
+  </template>
+
+  <!--
+  =====================================================
+  TEMPLATE 4: MY EXAMS (Hall Tickets)
+  =====================================================
+  -->
+  <template id="portal_student_exams"
+            name="My Exam Hall Tickets">
+    <t t-call="unicore_portal_student.portal_student_layout">
+      <div class="container">
+        <h4 class="mb-3">My Exam Hall Tickets</h4>
+
+        <t t-if="not all_tickets">
+          <div class="alert alert-info">
+            No hall tickets found.
+          </div>
+        </t>
+
+        <t t-if="upcoming_tickets">
+          <h5 class="text-primary mb-3">
+            Upcoming Exams
+          </h5>
+          <t t-foreach="upcoming_tickets" t-as="ticket">
+            <div class="card mb-3">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <strong>
+                  <t t-esc="ticket.exam_schedule_id.name"/>
+                </strong>
+                <span t-att-class="'badge ' + ('bg-success' if ticket.ticket_state == 'approved' else 'bg-warning text-dark')">
+                  <t t-esc="ticket.ticket_state.upper()"/>
+                </span>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <p class="mb-1">
+                      <strong>Ticket No:</strong>
+                      <span class="font-monospace">
+                        <t t-esc="ticket.ticket_number"/>
+                      </span>
+                    </p>
+                    <p class="mb-1">
+                      <strong>Course:</strong>
+                      <t t-esc="ticket.course_id.name"/>
+                    </p>
+                    <p class="mb-1">
+                      <strong>Exam Date:</strong>
+                      <t t-esc="ticket.exam_date"/>
+                    </p>
+                    <p class="mb-1">
+                      <strong>Exam Type:</strong>
+                      <t t-esc="ticket.exam_type"/>
+                    </p>
+                  </div>
+                  <div class="col-md-6">
+                    <t t-if="ticket.seating_id">
+                      <p class="mb-1">
+                        <strong>Room:</strong>
+                        <t t-esc="ticket.seating_id.room_id.name"/>
+                      </p>
+                      <p class="mb-1">
+                        <strong>Seat:</strong>
+                        <span class="badge bg-primary fs-6">
+                          <t t-esc="ticket.seating_id.seat_label"/>
+                        </span>
+                      </p>
+                    </t>
+                    <t t-else="">
+                      <p class="text-muted">
+                        Seat not assigned yet.
+                      </p>
+                    </t>
+                    <t t-if="ticket.eligibility_status == 'ineligible'">
+                      <div class="alert alert-danger alert-sm mt-2 mb-0 p-2">
+                        <small>
+                          ⚠ Ineligible:
+                          <t t-esc="ticket.eligibility_note"/>
+                        </small>
+                      </div>
+                    </t>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </t>
+        </t>
+
+        <t t-if="past_tickets">
+          <h5 class="text-secondary mb-3 mt-4">
+            Past Exams
+          </h5>
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th>Ticket No.</th>
+                <th>Course</th>
+                <th>Exam Date</th>
+                <th>Type</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <t t-foreach="past_tickets" t-as="ticket">
+                <tr>
+                  <td>
+                    <code>
+                      <t t-esc="ticket.ticket_number"/>
+                    </code>
+                  </td>
+                  <td>
+                    <t t-esc="ticket.course_id.code"/>
+                  </td>
+                  <td>
+                    <t t-esc="ticket.exam_date"/>
+                  </td>
+                  <td>
+                    <t t-esc="ticket.exam_type"/>
+                  </td>
+                  <td>
+                    <span class="badge bg-secondary">
+                      <t t-esc="ticket.ticket_state"/>
+                    </span>
+                  </td>
+                </tr>
+              </t>
+            </tbody>
+          </table>
+        </t>
+
+      </div>
+    </t>
+  </template>
+
+  <!--
+  =====================================================
+  TEMPLATE 5: MY RESULTS
+  =====================================================
+  -->
+  <template id="portal_student_results"
+            name="My Results">
+    <t t-call="unicore_portal_student.portal_student_layout">
+      <div class="container">
+        <h4 class="mb-3">My Academic Results</h4>
+
+        <!-- CGPA Summary -->
+        <div class="card mb-4 border-primary">
+          <div class="card-body text-center">
+            <h2 class="text-primary mb-0">
+              <t t-esc="'%.2f' % student.cgpa"/>
+            </h2>
+            <p class="text-muted mb-0">
+              Cumulative GPA
+            </p>
+            <small class="text-muted">
+              Credits Earned:
+              <t t-esc="student.total_credits_earned"/>
+            </small>
+          </div>
+        </div>
+
+        <!-- Semester Results Summary -->
+        <t t-if="semester_results">
+          <h5 class="mb-3">Semester Results</h5>
+          <table class="table table-bordered mb-4">
+            <thead class="table-dark">
+              <tr>
+                <th>Semester</th>
+                <th>GPA</th>
+                <th>Credits Earned</th>
+                <th>Passed</th>
+                <th>Failed</th>
+                <th>Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              <t t-foreach="semester_results"
+                 t-as="result">
+                <tr t-att-class="'table-success' if result.result_status == 'pass' else ('table-danger' if result.result_status == 'fail' else 'table-warning')">
+                  <td>
+                    <t t-esc="result.semester_id.name"/>
+                  </td>
+                  <td>
+                    <strong>
+                      <t t-esc="'%.2f' % result.semester_gpa"/>
+                    </strong>
+                  </td>
+                  <td>
+                    <t t-esc="result.credits_earned"/>
+                  </td>
+                  <td class="text-success">
+                    <t t-esc="result.courses_passed"/>
+                  </td>
+                  <td class="text-danger">
+                    <t t-esc="result.courses_failed"/>
+                  </td>
+                  <td>
+                    <span t-att-class="'badge ' + ('bg-success' if result.result_status == 'pass' else ('bg-danger' if result.result_status == 'fail' else 'bg-warning text-dark'))">
+                      <t t-esc="result.result_status.upper()"/>
+                    </span>
+                  </td>
+                </tr>
+              </t>
+            </tbody>
+          </table>
+        </t>
+
+        <!-- Detailed Grade Entries -->
+        <t t-if="grade_entries">
+          <h5 class="mb-3">Course Grades</h5>
+          <table class="table table-hover">
+            <thead class="table-secondary">
+              <tr>
+                <th>Course</th>
+                <th>Semester</th>
+                <th>Internal</th>
+                <th>External</th>
+                <th>Total</th>
+                <th>%</th>
+                <th>Grade</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <t t-foreach="grade_entries" t-as="entry">
+                <tr t-att-class="'table-success' if entry.is_pass else 'table-danger'">
+                  <td>
+                    <strong>
+                      <t t-esc="entry.course_id.code"/>
+                    </strong>
+                    <br/>
+                    <small class="text-muted">
+                      <t t-esc="entry.course_id.name"/>
+                    </small>
+                  </td>
+                  <td>
+                    <t t-esc="entry.semester_id.name"/>
+                  </td>
+                  <td>
+                    <t t-esc="entry.internal_marks"/>
+                  </td>
+                  <td>
+                    <t t-esc="entry.external_marks"/>
+                  </td>
+                  <td>
+                    <t t-esc="entry.total_marks_obtained"/>
+                  </td>
+                  <td>
+                    <t t-esc="'%.1f' % entry.percentage"/>%
+                  </td>
+                  <td>
+                    <span class="badge bg-primary">
+                      <t t-esc="entry.letter_grade"/>
+                    </span>
+                  </td>
+                  <td>
+                    <span t-att-class="'badge ' + ('bg-success' if entry.is_pass else 'bg-danger')">
+                      <t t-esc="'PASS' if entry.is_pass else 'FAIL'"/>
+                    </span>
+                  </td>
+                </tr>
+              </t>
+            </tbody>
+          </table>
+        </t>
+
+        <t t-if="not grade_entries and not semester_results">
+          <div class="alert alert-info">
+            No published results available yet.
+          </div>
+        </t>
+
+      </div>
+    </t>
+  </template>
+
+  <!--
+  =====================================================
+  TEMPLATE 6: MY FEES
+  =====================================================
+  -->
+  <template id="portal_student_fees"
+            name="My Fee Invoices">
+    <t t-call="unicore_portal_student.portal_student_layout">
+      <div class="container">
+        <h4 class="mb-3">My Fee Invoices</h4>
+
+        <!-- Fee Summary Cards -->
+        <div class="row mb-4 g-3">
+          <div class="col-6">
+            <div class="card text-center border-success">
+              <div class="card-body">
+                <h4 class="text-success mb-0">
+                  <t t-esc="total_paid"/>
+                </h4>
+                <small class="text-muted">Total Paid</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div t-att-class="'card text-center ' + ('border-danger' if total_outstanding > 0 else 'border-secondary')">
+              <div class="card-body">
+                <h4 t-att-class="'mb-0 ' + ('text-danger' if total_outstanding > 0 else 'text-secondary')">
+                  <t t-esc="total_outstanding"/>
+                </h4>
+                <small class="text-muted">
+                  Outstanding
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <t t-if="not invoices">
+          <div class="alert alert-info">
+            No fee invoices found.
+          </div>
+        </t>
+
+        <t t-foreach="invoices" t-as="inv">
+          <div class="card mb-3">
+            <div class="card-header d-flex justify-content-between">
+              <span>
+                <strong>
+                  <t t-esc="inv.invoice_number"/>
+                </strong>
+                — <t t-esc="inv.semester_id.name"/>
+              </span>
+              <span t-att-class="'badge ' + ('bg-success' if inv.invoice_state == 'paid' else ('bg-danger' if inv.invoice_state == 'overdue' else ('bg-warning text-dark' if inv.invoice_state == 'partial' else 'bg-secondary')))">
+                <t t-esc="inv.invoice_state.upper()"/>
+              </span>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <!-- Fee Lines -->
+                  <table class="table table-sm mb-0">
+                    <t t-foreach="inv.line_ids" t-as="line">
+                      <tr>
+                        <td>
+                          <t t-esc="line.name"/>
+                        </td>
+                        <td class="text-end">
+                          <t t-esc="line.amount"/>
+                        </td>
+                      </tr>
+                    </t>
+                    <t t-if="inv.discount_amount > 0">
+                      <tr class="text-success">
+                        <td>
+                          Scholarship / Discount
+                        </td>
+                        <td class="text-end">
+                          - <t t-esc="inv.discount_amount"/>
+                        </td>
+                      </tr>
+                    </t>
+                    <tr class="fw-bold table-light">
+                      <td>Total</td>
+                      <td class="text-end">
+                        <t t-esc="inv.total_amount"/>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="col-md-6">
+                  <p class="mb-1">
+                    <strong>Invoice Date:</strong>
+                    <t t-esc="inv.invoice_date"/>
+                  </p>
+                  <p class="mb-1">
+                    <strong>Due Date:</strong>
+                    <span t-att-class="'text-danger fw-bold' if inv.invoice_state == 'overdue' else ''">
+                      <t t-esc="inv.due_date"/>
+                    </span>
+                  </p>
+                  <p class="mb-1">
+                    <strong>Paid:</strong>
+                    <span class="text-success">
+                      <t t-esc="inv.amount_paid"/>
+                    </span>
+                  </p>
+                  <p class="mb-1">
+                    <strong>Outstanding:</strong>
+                    <span t-att-class="'text-danger fw-bold' if inv.amount_outstanding > 0 else 'text-success'">
+                      <t t-esc="inv.amount_outstanding"/>
+                    </span>
+                  </p>
+
+                  <!-- Payments -->
+                  <t t-set="confirmed_pmts"
+                     t-value="inv.payment_ids.filtered(lambda p: p.payment_state == 'confirmed')"/>
+                  <t t-if="confirmed_pmts">
+                    <p class="mt-2 mb-1">
+                      <strong>Payments:</strong>
+                    </p>
+                    <ul class="list-unstyled small">
+                      <t t-foreach="confirmed_pmts"
+                         t-as="pmt">
+                        <li>
+                          <t t-esc="pmt.payment_date"/>
+                          — <t t-esc="pmt.amount"/>
+                          (<t t-esc="pmt.payment_method"/>)
+                          <br/>
+                          <code class="small">
+                            <t t-esc="pmt.receipt_number"/>
+                          </code>
+                        </li>
+                      </t>
+                    </ul>
+                  </t>
+                </div>
+              </div>
+            </div>
+          </div>
+        </t>
+
+      </div>
+    </t>
+  </template>
+
+  <!--
+  =====================================================
+  TEMPLATE 7: MY SCHOLARSHIPS
+  =====================================================
+  -->
+  <template id="portal_student_scholarships"
+            name="My Scholarships">
+    <t t-call="unicore_portal_student.portal_student_layout">
+      <div class="container">
+        <h4 class="mb-3">My Scholarship Applications</h4>
+
+        <t t-if="approved_apps">
+          <div class="alert alert-success mb-3">
+            <strong>🎉 Active Scholarship:</strong>
+            You have
+            <strong>
+              <t t-esc="len(approved_apps)"/>
+            </strong>
+            approved scholarship(s).
+          </div>
+        </t>
+
+        <t t-if="not applications">
+          <div class="alert alert-info">
+            No scholarship applications found.
+            <a href="/my/unicore/student"
+               class="alert-link">
+              Return to Dashboard
+            </a>
+          </div>
+        </t>
+
+        <t t-foreach="applications" t-as="app">
+          <div class="card mb-3">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <strong>
+                <t t-esc="app.scholarship_program_id.name"/>
+              </strong>
+              <span t-att-class="'badge ' + ('bg-success' if app.application_state == 'approved' else ('bg-danger' if app.application_state == 'rejected' else ('bg-warning text-dark' if app.application_state in ('submitted','under_review','shortlisted') else 'bg-secondary')))">
+                <t t-esc="app.application_state.upper().replace('_',' ')"/>
+              </span>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <p class="mb-1">
+                    <strong>App Number:</strong>
+                    <code>
+                      <t t-esc="app.application_number"/>
+                    </code>
+                  </p>
+                  <p class="mb-1">
+                    <strong>Type:</strong>
+                    <t t-esc="app.scholarship_program_id.scholarship_type"/>
+                  </p>
+                  <p class="mb-1">
+                    <strong>Applied On:</strong>
+                    <t t-esc="app.application_date"/>
+                  </p>
+                  <p class="mb-1">
+                    <strong>Eligible:</strong>
+                    <span t-att-class="'text-success' if app.is_eligible else 'text-danger'">
+                      <t t-esc="'Yes' if app.is_eligible else 'No'"/>
+                    </span>
+                  </p>
+                </div>
+                <div class="col-md-6">
+                  <!-- Awards -->
+                  <t t-if="app.award_ids">
+                    <p class="mb-1">
+                      <strong>Awards:</strong>
+                    </p>
+                    <t t-foreach="app.award_ids"
+                       t-as="award">
+                      <t t-if="award.award_state == 'disbursed'">
+                        <div class="alert alert-success p-2 mb-1">
+                          <small>
+                            <t t-esc="award.award_number"/>
+                            —
+                            <t t-esc="award.award_amount"/>
+                            (
+                            <t t-esc="award.semester_id.name"/>
+                            )
+                            via
+                            <t t-esc="award.disbursement_method"/>
+                          </small>
+                        </div>
+                      </t>
+                    </t>
+                  </t>
+                </div>
+              </div>
+            </div>
+          </div>
+        </t>
+
+      </div>
+    </t>
+  </template>
+
+</odoo>

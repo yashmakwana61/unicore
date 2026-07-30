@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_unicore_document_search_phase1_filters" model="ir.ui.view">
+        <field name="name">unicore.document.search.phase1</field>
+        <field name="model">unicore.document</field>
+        <field name="inherit_id" ref="unicore_documents.view_unicore_document_search"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//filter[@name='student_visible']" position="after">
+                <filter name="filter_draft" string="Draft"
+                    domain="[('document_state','=','draft')]"/>
+                <filter name="filter_archived" string="Archived"
+                    domain="[('document_state','=','archived')]"/>
+                <separator/>
+                <filter name="type_marksheet" string="Marksheet / Transcript"
+                    domain="[('document_type','=','marksheet')]"/>
+                <filter name="type_certificate" string="Certificate / Degree"
+                    domain="[('document_type','=','certificate')]"/>
+                <filter name="type_id_proof" string="ID Proof"
+                    domain="[('document_type','=','id_proof')]"/>
+                <filter name="type_bonafide" string="Bonafide Letter"
+                    domain="[('document_type','=','bonafide')]"/>
+                <filter name="type_fee_receipt" string="Fee Receipt"
+                    domain="[('document_type','=','fee_receipt')]"/>
+                <filter name="type_admission_letter" string="Admission Letter"
+                    domain="[('document_type','=','admission_letter')]"/>
+                <filter name="type_noc" string="No Objection Certificate"
+                    domain="[('document_type','=','noc')]"/>
+                <filter name="type_appointment" string="Appointment Letter"
+                    domain="[('document_type','=','appointment_letter')]"/>
+                <filter name="type_contract" string="Employment Contract"
+                    domain="[('document_type','=','contract')]"/>
+                <filter name="type_experience" string="Experience Letter"
+                    domain="[('document_type','=','experience_letter')]"/>
+                <filter name="type_qualification" string="Qualification Certificate"
+                    domain="[('document_type','=','qualification_cert')]"/>
+                <filter name="type_policy" string="Policy Document"
+                    domain="[('document_type','=','policy')]"/>
+                <filter name="type_circular" string="Circular / Notice"
+                    domain="[('document_type','=','circular')]"/>
+                <filter name="type_academic_calendar" string="Academic Calendar"
+                    domain="[('document_type','=','academic_calendar')]"/>
+                <filter name="type_meeting_minutes" string="Meeting Minutes"
+                    domain="[('document_type','=','meeting_minutes')]"/>
+                <filter name="type_audit" string="Audit Report"
+                    domain="[('document_type','=','audit_report')]"/>
+                <filter name="type_accreditation" string="Accreditation Document"
+                    domain="[('document_type','=','accreditation')]"/>
+                <filter name="type_template" string="Document Template"
+                    domain="[('document_type','=','template')]"/>
+                <filter name="type_other" string="Other"
+                    domain="[('document_type','=','other')]"/>
+            </xpath>
+
+            <xpath expr="//group[@name='group_by']" position="inside">
+                <filter name="group_by_state" string="Status"
+                    context="{'group_by': 'document_state'}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

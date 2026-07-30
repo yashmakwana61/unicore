@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ========================================== -->
+        <!-- FORM VIEW                                   -->
+        <!-- ========================================== -->
+
+        <record id="view_unicore_room_booking_form" model="ir.ui.view">
+            <field name="name">unicore.room.booking.form</field>
+            <field name="model">unicore.room.booking</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="booking_state" widget="statusbar" clickable="True"/>
+                        <button name="action_approve" type="object"
+                                string="Approve"
+                                invisible="booking_state != 'requested'"
+                                class="btn-primary"
+                                groups="unicore_base.group_unicore_registrar"/>
+                        <button name="action_cancel" type="object"
+                                string="Cancel"
+                                invisible="booking_state == 'cancelled'"/>
+                        <button name="action_reset_requested" type="object"
+                                string="Reset to Requested"
+                                invisible="booking_state != 'cancelled'"
+                                groups="unicore_base.group_unicore_admin"/>
+                    </header>
+                    <sheet>
+                        <group string="Booking Details">
+                            <group>
+                                <field name="name"/>
+                                <field name="company_id"/>
+                                <field name="campus_id"/>
+                                <field name="room_id"/>
+                            </group>
+                            <group>
+                                <field name="booking_date"/>
+                                <field name="day_of_week" readonly="1"/>
+                                <field name="time_slot_id"/>
+                            </group>
+                        </group>
+                        <group string="Request Info">
+                            <group>
+                                <field name="requested_by_id"/>
+                                <field name="purpose"/>
+                                <field name="related_course_offering_id"/>
+                            </group>
+                            <group>
+                                <field name="booking_state" readonly="1"/>
+                                <field name="approved_by_id" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="Description">
+                            <field name="description" nolabel="1"/>
+                        </group>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- LIST VIEW                                   -->
+        <!-- ========================================== -->
+
+        <record id="view_unicore_room_booking_list" model="ir.ui.view">
+            <field name="name">unicore.room.booking.list</field>
+            <field name="model">unicore.room.booking</field>
+            <field name="arch" type="xml">
+                <list decoration-success="booking_state == 'approved'"
+                      decoration-muted="booking_state == 'cancelled'"
+                      decoration-warning="booking_state == 'requested'">
+                    <field name="name"/>
+                    <field name="booking_date"/>
+                    <field name="room_id"/>
+                    <field name="time_slot_id"/>
+                    <field name="requested_by_id"/>
+                    <field name="purpose"/>
+                    <field name="booking_state"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- SEARCH VIEW                                 -->
+        <!-- ========================================== -->
+
+        <record id="view_unicore_room_booking_search" model="ir.ui.view">
+            <field name="name">unicore.room.booking.search</field>
+            <field name="model">unicore.room.booking</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="room_id"/>
+                    <field name="requested_by_id"/>
+                    <filter name="filter_pending_approval" string="Pending Approval"
+                            domain="[('booking_state', '=', 'requested')]"/>
+                    <filter name="filter_approved" string="Approved Bookings"
+                            domain="[('booking_state', '=', 'approved')]"/>
+                    <filter name="filter_my_requests" string="My Requests"
+                            domain="[('requested_by_id.partner_id.user_ids', 'in', [uid])]"/>
+                    <group name="group_by">
+                        <filter name="group_by_room" string="Room"
+                                context="{'group_by': 'room_id'}"/>
+                        <filter name="group_by_purpose" string="Purpose"
+                                context="{'group_by': 'purpose'}"/>
+                        <filter name="group_by_status" string="Status"
+                                context="{'group_by': 'booking_state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- WINDOW ACTION                               -->
+        <!-- ========================================== -->
+
+        <record id="action_unicore_room_booking" model="ir.actions.act_window">
+            <field name="name">Room Bookings</field>
+            <field name="res_model">unicore.room.booking</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="0">
+    <record id="uc_demo_student_arav" model="unicore.student">
+      <field name="name">Aarav</field>
+      <field name="last_name">Patel</field>
+      <field name="gender">male</field>
+      <field name="date_of_birth">2005-04-12</field>
+      <field name="email">aarav.patel@student.pfu.edu</field>
+      <field name="mobile">+919000000101</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="program_id" ref="uc_demo_program_btech_cs"/>
+      <field name="admission_date">2025-07-01</field>
+      <field name="current_year_of_study">1</field>
+      <field name="current_semester_id" ref="uc_demo_sem_odd"/>
+      <field name="student_state">enrolled</field>
+      <field name="specialisation_id" ref="uc_demo_spec_se"/>
+    </record>
+
+    <record id="uc_demo_student_diya" model="unicore.student">
+      <field name="name">Diya</field>
+      <field name="last_name">Shah</field>
+      <field name="gender">female</field>
+      <field name="date_of_birth">2005-08-25</field>
+      <field name="email">diya.shah@student.pfu.edu</field>
+      <field name="mobile">+919000000102</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="program_id" ref="uc_demo_program_btech_cs"/>
+      <field name="admission_date">2025-07-02</field>
+      <field name="current_year_of_study">1</field>
+      <field name="current_semester_id" ref="uc_demo_sem_odd"/>
+      <field name="student_state">enrolled</field>
+      <field name="specialisation_id" ref="uc_demo_spec_ai"/>
+    </record>
+
+    <record id="uc_demo_student_kabir" model="unicore.student">
+      <field name="name">Kabir</field>
+      <field name="last_name">Joshi</field>
+      <field name="gender">male</field>
+      <field name="date_of_birth">2004-11-10</field>
+      <field name="email">kabir.joshi@student.pfu.edu</field>
+      <field name="mobile">+919000000103</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="program_id" ref="uc_demo_program_btech_cs"/>
+      <field name="admission_date">2025-07-03</field>
+      <field name="current_year_of_study">1</field>
+      <field name="current_semester_id" ref="uc_demo_sem_odd"/>
+      <field name="student_state">enrolled</field>
+    </record>
+
+    <record id="uc_demo_student_myra" model="unicore.student">
+      <field name="name">Myra</field>
+      <field name="last_name">Desai</field>
+      <field name="gender">female</field>
+      <field name="date_of_birth">2005-02-18</field>
+      <field name="email">myra.desai@student.pfu.edu</field>
+      <field name="mobile">+919000000104</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="program_id" ref="uc_demo_program_btech_cs"/>
+      <field name="admission_date">2025-07-04</field>
+      <field name="current_year_of_study">1</field>
+      <field name="current_semester_id" ref="uc_demo_sem_odd"/>
+      <field name="student_state">enrolled</field>
+    </record>
+
+    <record id="uc_demo_student_aryan" model="unicore.student">
+      <field name="name">Aryan</field>
+      <field name="last_name">Mehta</field>
+      <field name="gender">male</field>
+      <field name="date_of_birth">2004-12-05</field>
+      <field name="email">aryan.mehta@student.pfu.edu</field>
+      <field name="mobile">+919000000105</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="program_id" ref="uc_demo_program_btech_cs"/>
+      <field name="admission_date">2025-07-05</field>
+      <field name="current_year_of_study">1</field>
+      <field name="current_semester_id" ref="uc_demo_sem_odd"/>
+      <field name="student_state">enrolled</field>
+    </record>
+
+    <record id="uc_demo_student_vivaan" model="unicore.student">
+      <field name="name">Vivaan</field>
+      <field name="last_name">Chauhan</field>
+      <field name="gender">male</field>
+      <field name="date_of_birth">2005-06-30</field>
+      <field name="email">vivaan.chauhan@student.pfu.edu</field>
+      <field name="mobile">+919000000201</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="program_id" ref="uc_demo_program_btech_ec"/>
+      <field name="admission_date">2025-07-06</field>
+      <field name="current_year_of_study">1</field>
+      <field name="current_semester_id" ref="uc_demo_sem_odd"/>
+      <field name="student_state">enrolled</field>
+    </record>
+
+    <record id="uc_demo_student_zara" model="unicore.student">
+      <field name="name">Zara</field>
+      <field name="last_name">Bhatt</field>
+      <field name="gender">female</field>
+      <field name="date_of_birth">2005-09-15</field>
+      <field name="email">zara.bhatt@student.pfu.edu</field>
+      <field name="mobile">+919000000202</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="program_id" ref="uc_demo_program_btech_ec"/>
+      <field name="admission_date">2025-07-07</field>
+      <field name="current_year_of_study">1</field>
+      <field name="current_semester_id" ref="uc_demo_sem_odd"/>
+      <field name="student_state">enrolled</field>
+    </record>
+
+    <record id="uc_demo_student_rohan" model="unicore.student">
+      <field name="name">Rohan</field>
+      <field name="last_name">Sharma</field>
+      <field name="gender">male</field>
+      <field name="date_of_birth">2002-03-10</field>
+      <field name="email">rohan.sharma@student.pfu.edu</field>
+      <field name="mobile">+919000000301</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="program_id" ref="uc_demo_program_mba"/>
+      <field name="admission_date">2025-07-08</field>
+      <field name="current_year_of_study">1</field>
+      <field name="current_semester_id" ref="uc_demo_sem_odd"/>
+      <field name="student_state">enrolled</field>
+    </record>
+
+    <record id="uc_demo_student_nisha" model="unicore.student">
+      <field name="name">Nisha</field>
+      <field name="last_name">Verma</field>
+      <field name="gender">female</field>
+      <field name="date_of_birth">2002-11-20</field>
+      <field name="email">nisha.verma@student.pfu.edu</field>
+      <field name="mobile">+919000000302</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="program_id" ref="uc_demo_program_mba"/>
+      <field name="admission_date">2025-07-09</field>
+      <field name="current_year_of_study">1</field>
+      <field name="current_semester_id" ref="uc_demo_sem_odd"/>
+      <field name="student_state">enrolled</field>
+    </record>
+
+    <record id="uc_demo_student_arjun" model="unicore.student">
+      <field name="name">Arjun</field>
+      <field name="last_name">Singh</field>
+      <field name="gender">male</field>
+      <field name="date_of_birth">2001-08-05</field>
+      <field name="email">arjun.singh@student.pfu.edu</field>
+      <field name="mobile">+919000000303</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="program_id" ref="uc_demo_program_mba"/>
+      <field name="admission_date">2025-07-10</field>
+      <field name="current_year_of_study">1</field>
+      <field name="current_semester_id" ref="uc_demo_sem_odd"/>
+      <field name="student_state">enrolled</field>
+    </record>
+
+    <record id="uc_demo_contact_arav" model="unicore.student.emergency.contact">
+      <field name="student_id" ref="uc_demo_student_arav"/>
+      <field name="name">Neha Patel</field>
+      <field name="relationship">mother</field>
+      <field name="mobile">+919000000901</field>
+    </record>
+
+    <record id="uc_demo_contact_diya" model="unicore.student.emergency.contact">
+      <field name="student_id" ref="uc_demo_student_diya"/>
+      <field name="name">Rajesh Shah</field>
+      <field name="relationship">father</field>
+      <field name="mobile">+919000000902</field>
+    </record>
+
+    <record id="uc_demo_contact_rohan" model="unicore.student.emergency.contact">
+      <field name="student_id" ref="uc_demo_student_rohan"/>
+      <field name="name">Priya Sharma</field>
+      <field name="relationship">mother</field>
+      <field name="mobile">+919000000903</field>
+    </record>
+  </data>
+</odoo>

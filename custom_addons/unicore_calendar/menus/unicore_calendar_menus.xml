@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Academic Calendar Top Menu -->
+    <menuitem id="menu_unicore_calendar"
+              name="Academic Calendar"
+              parent="unicore_base.menu_unicore_root"
+              sequence="20"
+              groups="unicore_base.group_unicore_staff"/>
+
+    <!-- Academic Years -->
+    <menuitem id="menu_unicore_academic_year_list"
+              name="Academic Years"
+              parent="menu_unicore_calendar"
+              action="action_unicore_academic_year"
+              sequence="10"/>
+
+    <!-- Semesters -->
+    <menuitem id="menu_unicore_semester_list"
+              name="Semesters"
+              parent="menu_unicore_calendar"
+              action="action_unicore_semester"
+              sequence="20"/>
+
+    <!-- Academic Weeks -->
+    <menuitem id="menu_unicore_academic_week_list"
+              name="Academic Weeks"
+              parent="menu_unicore_calendar"
+              action="action_unicore_academic_week"
+              sequence="30"/>
+
+    <!-- Holidays & Events -->
+    <menuitem id="menu_unicore_holiday_list"
+              name="Holidays &amp; Events"
+              parent="menu_unicore_calendar"
+              action="action_unicore_holiday"
+              sequence="40"/>
+
+</odoo>

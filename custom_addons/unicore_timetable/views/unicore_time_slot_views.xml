@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ========================================== -->
+        <!-- FORM VIEW                                   -->
+        <!-- ========================================== -->
+
+        <record id="view_unicore_time_slot_form" model="ir.ui.view">
+            <field name="name">unicore.time.slot.form</field>
+            <field name="model">unicore.time.slot</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group string="Slot Identity">
+                                <field name="name"/>
+                                <field name="company_id"/>
+                                <field name="campus_id"/>
+                                <field name="sequence"/>
+                            </group>
+                            <group string="Timing">
+                                <field name="slot_type"/>
+                                <field name="start_time" widget="float_time"/>
+                                <field name="end_time" widget="float_time"/>
+                                <field name="duration_minutes" readonly="1"/>
+                                <field name="is_break" readonly="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- LIST VIEW                                   -->
+        <!-- ========================================== -->
+
+        <record id="view_unicore_time_slot_list" model="ir.ui.view">
+            <field name="name">unicore.time.slot.list</field>
+            <field name="model">unicore.time.slot</field>
+            <field name="arch" type="xml">
+                <list decoration-muted="is_break == True">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="campus_id"/>
+                    <field name="start_time" widget="float_time"/>
+                    <field name="end_time" widget="float_time"/>
+                    <field name="duration_minutes"/>
+                    <field name="slot_type"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- SEARCH VIEW                                 -->
+        <!-- ========================================== -->
+
+        <record id="view_unicore_time_slot_search" model="ir.ui.view">
+            <field name="name">unicore.time.slot.search</field>
+            <field name="model">unicore.time.slot</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="campus_id"/>
+                    <filter name="filter_lecture_slots" string="Lecture Slots"
+                            domain="[('slot_type', '=', 'lecture')]"/>
+                    <filter name="filter_break_periods" string="Break Periods"
+                            domain="[('is_break', '=', True)]"/>
+                    <group name="group_by">
+                        <filter name="group_by_campus" string="Campus"
+                                context="{'group_by': 'campus_id'}"/>
+                        <filter name="group_by_slot_type" string="Slot Type"
+                                context="{'group_by': 'slot_type'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- WINDOW ACTION                               -->
+        <!-- ========================================== -->
+
+        <record id="action_unicore_time_slot" model="ir.actions.act_window">
+            <field name="name">Time Slots</field>
+            <field name="res_model">unicore.time.slot</field>
+            <field name="view_mode">list,form</field>
+            <field name="context">{'search_default_group_by_campus': 0}</field>
+        </record>
+
+    </data>
+</odoo>

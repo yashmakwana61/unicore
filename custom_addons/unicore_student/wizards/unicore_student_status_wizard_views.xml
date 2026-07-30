@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="unicore_student_status_wizard_form" model="ir.ui.view">
+        <field name="name">unicore.student.status.wizard.form</field>
+        <field name="model">unicore.student.status.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Change Status">
+                <group>
+                    <field name="student_id" string="Student" readonly="1"/>
+                    <field name="current_state" string="Current Status" readonly="1"/>
+                    <field name="target_state" string="New Status" readonly="1"/>
+                    <field name="date"/>
+                    <field name="reason" nolabel="1" placeholder="Provide a detailed reason for this status change..."/>
+                </group>
+                <footer>
+                    <button type="object" name="action_confirm" string="Confirm" class="btn-primary"/>
+                    <button type="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_unicore_student_status_wizard" model="ir.actions.act_window">
+        <field name="name">Status Change</field>
+        <field name="res_model">unicore.student.status.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

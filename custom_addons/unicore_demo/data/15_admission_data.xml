@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="0">
+    <record id="uc_demo_adm_cycle_2025" model="unicore.admission.cycle">
+      <field name="name">Fall 2025 Admissions</field>
+      <field name="code">ADM-2025</field>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="academic_year_id" ref="uc_demo_ay_2526"/>
+      <field name="start_date">2025-03-01</field>
+      <field name="end_date">2025-06-30</field>
+      <field name="state">closed</field>
+      <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record id="uc_demo_adm_seat_btech" model="unicore.admission.cycle.seat">
+      <field name="cycle_id" ref="uc_demo_adm_cycle_2025"/>
+      <field name="program_id" ref="uc_demo_program_btech_cs"/>
+      <field name="total_seats">60</field>
+      <field name="reserved_seats">15</field>
+    </record>
+
+    <record id="uc_demo_adm_seat_mba" model="unicore.admission.cycle.seat">
+      <field name="cycle_id" ref="uc_demo_adm_cycle_2025"/>
+      <field name="program_id" ref="uc_demo_program_mba"/>
+      <field name="total_seats">30</field>
+      <field name="reserved_seats">5</field>
+    </record>
+
+    <record id="uc_demo_applicant_rohit" model="unicore.admission.applicant">
+      <field name="name">Rohit</field>
+      <field name="last_name">Verma</field>
+      <field name="email">rohit.verma@email.com</field>
+      <field name="mobile">+919000000401</field>
+      <field name="gender">male</field>
+      <field name="date_of_birth">2005-01-15</field>
+      <field name="cycle_id" ref="uc_demo_adm_cycle_2025"/>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="program_id" ref="uc_demo_program_btech_cs"/>
+      <field name="aggregate_percentage">88.5</field>
+      <field name="state">confirmed</field>
+      <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record id="uc_demo_applicant_ananya" model="unicore.admission.applicant">
+      <field name="name">Ananya</field>
+      <field name="last_name">Singh</field>
+      <field name="email">ananya.singh@email.com</field>
+      <field name="mobile">+919000000402</field>
+      <field name="gender">female</field>
+      <field name="date_of_birth">2005-06-20</field>
+      <field name="cycle_id" ref="uc_demo_adm_cycle_2025"/>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="program_id" ref="uc_demo_program_mba"/>
+      <field name="aggregate_percentage">75.0</field>
+      <field name="state">offer_sent</field>
+      <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record id="uc_demo_applicant_vikram" model="unicore.admission.applicant">
+      <field name="name">Vikram</field>
+      <field name="last_name">Reddy</field>
+      <field name="email">vikram.reddy@email.com</field>
+      <field name="mobile">+919000000403</field>
+      <field name="gender">male</field>
+      <field name="date_of_birth">2004-11-30</field>
+      <field name="cycle_id" ref="uc_demo_adm_cycle_2025"/>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="program_id" ref="uc_demo_program_btech_cs"/>
+      <field name="aggregate_percentage">92.0</field>
+      <field name="state">rejected</field>
+      <field name="rejection_reason">Incomplete documentation</field>
+      <field name="company_id" ref="base.main_company"/>
+    </record>
+  </data>
+</odoo>

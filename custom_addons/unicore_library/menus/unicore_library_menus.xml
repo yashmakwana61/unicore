@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- ROOT MENU — Standalone App -->
+  <menuitem
+    id="menu_unicore_library_root"
+    name="Library"
+    sequence="170"
+    web_icon="unicore_library,static/description/icon.png"
+    groups="unicore_base.group_unicore_staff,unicore_base.group_unicore_admin"/>
+
+  <!-- Issue Book (Quick Action) -->
+  <menuitem
+    id="menu_unicore_library_issue_new"
+    name="Issue Book"
+    parent="menu_unicore_library_root"
+    action="action_unicore_library_issue_new"
+    sequence="10"
+    groups="unicore_base.group_unicore_staff"/>
+
+  <!-- Circulation -->
+  <menuitem
+    id="menu_unicore_library_circulation"
+    name="Circulation"
+    parent="menu_unicore_library_root"
+    sequence="20"
+    groups="unicore_base.group_unicore_staff"/>
+
+  <menuitem
+    id="menu_unicore_library_issues"
+    name="All Issues"
+    parent="menu_unicore_library_circulation"
+    action="action_unicore_library_issue"
+    sequence="10"
+    groups="unicore_base.group_unicore_staff"/>
+
+  <menuitem
+    id="menu_unicore_library_overdue"
+    name="Overdue Books"
+    parent="menu_unicore_library_circulation"
+    action="action_unicore_library_overdue"
+    sequence="20"
+    groups="unicore_base.group_unicore_staff"/>
+
+  <menuitem
+    id="menu_unicore_library_reservations"
+    name="Reservations"
+    parent="menu_unicore_library_circulation"
+    action="action_unicore_library_reservation"
+    sequence="30"
+    groups="unicore_base.group_unicore_staff"/>
+
+  <!-- Catalogue -->
+  <menuitem
+    id="menu_unicore_library_catalogue"
+    name="Catalogue"
+    parent="menu_unicore_library_root"
+    sequence="30"
+    groups="unicore_base.group_unicore_staff"/>
+
+  <menuitem
+    id="menu_unicore_library_books"
+    name="All Books"
+    parent="menu_unicore_library_catalogue"
+    action="action_unicore_library_book"
+    sequence="10"
+    groups="unicore_base.group_unicore_staff"/>
+
+  <menuitem
+    id="menu_unicore_library_available"
+    name="Available Now"
+    parent="menu_unicore_library_catalogue"
+    action="action_unicore_library_book_available"
+    sequence="20"
+    groups="unicore_base.group_unicore_staff"/>
+
+  <!-- Members -->
+  <menuitem
+    id="menu_unicore_library_members"
+    name="Members"
+    parent="menu_unicore_library_root"
+    action="action_unicore_library_member"
+    sequence="40"
+    groups="unicore_base.group_unicore_staff"/>
+
+  <!-- Configuration -->
+  <menuitem
+    id="menu_unicore_library_config"
+    name="Configuration"
+    parent="menu_unicore_library_root"
+    sequence="90"
+    groups="unicore_base.group_unicore_admin"/>
+
+  <menuitem
+    id="menu_unicore_library_subjects"
+    name="Subjects"
+    parent="menu_unicore_library_config"
+    action="action_unicore_library_subject"
+    sequence="10"
+    groups="unicore_base.group_unicore_admin"/>
+
+  <menuitem
+    id="menu_unicore_library_publishers"
+    name="Publishers"
+    parent="menu_unicore_library_config"
+    action="action_unicore_library_publisher"
+    sequence="20"
+    groups="unicore_base.group_unicore_admin"/>
+
+  <menuitem
+    id="menu_unicore_library_authors"
+    name="Authors"
+    parent="menu_unicore_library_config"
+    action="action_unicore_library_author"
+    sequence="30"
+    groups="unicore_base.group_unicore_admin"/>
+
+</odoo>

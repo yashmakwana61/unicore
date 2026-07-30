@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- Extend student form to show grade history -->
+  <record id="view_unicore_student_grading_ext"
+          model="ir.ui.view">
+    <field name="name">unicore.student.grading.ext</field>
+    <field name="model">unicore.student</field>
+    <field name="inherit_id"
+           ref="unicore_student.unicore_student_form_view"/>
+    <field name="arch" type="xml">
+
+      <!-- Add smart button for grade entries -->
+      <xpath expr="//div[@name='button_box']"
+             position="inside">
+        <button type="object"
+          name="action_view_grade_entries"
+          class="oe_stat_button"
+          icon="fa-graduation-cap">
+          <field name="grade_entry_count_student"
+                 widget="statinfo"
+                 string="Grades"/>
+        </button>
+      </xpath>
+
+      <!-- Add Grades notebook tab -->
+      <xpath expr="//notebook" position="inside">
+        <page string="Academic Results"
+              groups="unicore_base.group_unicore_registrar">
+          <field name="enrollment_ids_for_grades">
+            <list editable="bottom">
+              <field name="course_id"/>
+              <field name="semester_id"/>
+              <field name="credit_hours"/>
+              <field name="grade_status"/>
+              <field name="final_grade_letter"/>
+              <field name="enrollment_state"/>
+            </list>
+          </field>
+        </page>
+      </xpath>
+
+    </field>
+  </record>
+
+</odoo>

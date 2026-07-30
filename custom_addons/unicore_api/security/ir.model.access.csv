@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_unicore_api_key_admin,unicore.api.key.admin,model_unicore_api_key,group_unicore_api_admin,1,1,1,1
+access_unicore_api_key_user,unicore.api.key.user,model_unicore_api_key,group_unicore_api_user,1,0,0,0

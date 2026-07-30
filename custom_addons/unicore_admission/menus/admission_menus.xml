@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Root menu for Admission module -->
+    <menuitem id="menu_unicore_admission_root"
+              name="Admission"
+              sequence="30"
+              web_icon="unicore_admission,static/description/icon.png"
+              groups="unicore_base.group_unicore_admin,unicore_base.group_unicore_registrar"/>
+
+    <menuitem id="menu_unicore_admission_cycles"
+              name="Admission Cycles"
+              parent="menu_unicore_admission_root"
+              action="action_unicore_admission_cycle"
+              sequence="10"/>
+
+    <menuitem id="menu_unicore_admission_applicants"
+              name="Applicants"
+              parent="menu_unicore_admission_root"
+              action="action_unicore_admission_applicant"
+              sequence="20"/>
+
+    <menuitem id="menu_unicore_admission_entrance_tests"
+              name="Entrance Tests"
+              parent="menu_unicore_admission_root"
+              action="action_unicore_admission_entrance_test"
+              sequence="30"/>
+
+    <menuitem id="menu_unicore_admission_offer_letters"
+              name="Offer Letters"
+              parent="menu_unicore_admission_root"
+              action="action_unicore_admission_offer_letter"
+              sequence="40"/>
+
+</odoo>

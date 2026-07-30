@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ============================================================ -->
+        <!-- EXTEND COURSE OFFERING FORM                                   -->
+        <!-- Add smart buttons + enrolled students / waitlist notebook     -->
+        <!-- ============================================================ -->
+
+        <record id="view_unicore_course_offering_form_ext_enrollment"
+                model="ir.ui.view">
+            <field name="name">unicore.course.offering.form.ext.enrollment</field>
+            <field name="model">unicore.course.offering</field>
+            <field name="inherit_id"
+                   ref="unicore_curriculum.view_unicore_course_offering_form"/>
+            <field name="arch" type="xml">
+
+                <!-- Add enrolled students stat button -->
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_view_enrollments" type="object"
+                            class="oe_stat_button" icon="fa-users"
+                            groups="unicore_base.group_unicore_staff">
+                        <field name="enrolled_count" widget="statinfo"
+                               string="Enrolled"/>
+                    </button>
+                    <button name="action_view_waitlist" type="object"
+                            class="oe_stat_button" icon="fa-clock-o"
+                            groups="unicore_base.group_unicore_registrar"
+                            invisible="waitlist_count == 0">
+                        <field name="waitlist_count" widget="statinfo"
+                               string="Waitlist"/>
+                    </button>
+                </xpath>
+
+                <!-- Add notebook with Enrolled Students + Waitlist pages
+                     at the end of the sheet (form has no notebook yet) -->
+                <xpath expr="//sheet" position="inside">
+                    <notebook>
+                        <page string="Enrolled Students"
+                              groups="unicore_base.group_unicore_staff">
+                            <field name="enrollment_ids" editable="0">
+                                <list>
+                                    <field name="student_id"/>
+                                    <field name="registration_type"/>
+                                    <field name="credit_hours"/>
+                                    <field name="grade_status"/>
+                                    <field name="enrollment_state"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Waitlist"
+                              groups="unicore_base.group_unicore_registrar"
+                              invisible="waitlist_count == 0">
+                            <field name="waitlist_ids" editable="0">
+                                <list>
+                                    <field name="position"/>
+                                    <field name="student_id"/>
+                                    <field name="waitlist_date"/>
+                                    <field name="waitlist_state"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

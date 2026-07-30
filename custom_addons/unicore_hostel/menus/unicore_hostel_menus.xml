@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- ROOT MENU — Standalone App -->
+  <menuitem
+    id="menu_unicore_hostel_root"
+    name="Hostel"
+    sequence="180"
+    web_icon="unicore_hostel,static/description/icon.png"
+    groups="unicore_base.group_unicore_staff,unicore_base.group_unicore_admin"/>
+
+  <!-- Allocations -->
+  <menuitem
+    id="menu_unicore_hostel_allocations"
+    name="Room Allocations"
+    parent="menu_unicore_hostel_root"
+    sequence="10"
+    groups="unicore_base.group_unicore_staff"/>
+
+  <menuitem
+    id="menu_unicore_hostel_alloc_checkedin"
+    name="Currently Checked In"
+    parent="menu_unicore_hostel_allocations"
+    action="action_unicore_hostel_allocation"
+    sequence="10"
+    groups="unicore_base.group_unicore_staff"/>
+
+  <menuitem
+    id="menu_unicore_hostel_alloc_all"
+    name="All Allocations"
+    parent="menu_unicore_hostel_allocations"
+    action="action_unicore_hostel_allocation_all"
+    sequence="20"
+    groups="unicore_base.group_unicore_staff"/>
+
+  <!-- Rooms -->
+  <menuitem
+    id="menu_unicore_hostel_rooms"
+    name="Rooms"
+    parent="menu_unicore_hostel_root"
+    sequence="20"
+    groups="unicore_base.group_unicore_staff"/>
+
+  <menuitem
+    id="menu_unicore_hostel_rooms_available"
+    name="Available Rooms"
+    parent="menu_unicore_hostel_rooms"
+    action="action_unicore_hostel_room_available"
+    sequence="10"
+    groups="unicore_base.group_unicore_staff"/>
+
+  <menuitem
+    id="menu_unicore_hostel_rooms_all"
+    name="All Rooms"
+    parent="menu_unicore_hostel_rooms"
+    action="action_unicore_hostel_room"
+    sequence="20"
+    groups="unicore_base.group_unicore_staff"/>
+
+  <!-- Maintenance -->
+  <menuitem
+    id="menu_unicore_hostel_maintenance"
+    name="Maintenance"
+    parent="menu_unicore_hostel_root"
+    sequence="30"
+    groups="unicore_base.group_unicore_staff"/>
+
+  <menuitem
+    id="menu_unicore_hostel_maint_open"
+    name="Open Requests"
+    parent="menu_unicore_hostel_maintenance"
+    action="action_unicore_hostel_maintenance"
+    sequence="10"
+    groups="unicore_base.group_unicore_staff"/>
+
+  <menuitem
+    id="menu_unicore_hostel_maint_urgent"
+    name="Urgent / High Priority"
+    parent="menu_unicore_hostel_maintenance"
+    action="action_unicore_hostel_maintenance_urgent"
+    sequence="20"
+    groups="unicore_base.group_unicore_staff"/>
+
+  <!-- Configuration -->
+  <menuitem
+    id="menu_unicore_hostel_config"
+    name="Configuration"
+    parent="menu_unicore_hostel_root"
+    sequence="90"
+    groups="unicore_base.group_unicore_admin"/>
+
+  <menuitem
+    id="menu_unicore_hostel_blocks"
+    name="Hostel Blocks"
+    parent="menu_unicore_hostel_config"
+    action="action_unicore_hostel_block"
+    sequence="10"
+    groups="unicore_base.group_unicore_admin"/>
+
+</odoo>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ============================================================ -->
+        <!-- FORM VIEW (READ-ONLY)                                         -->
+        <!-- ============================================================ -->
+
+        <record id="view_unicore_enrollment_log_form" model="ir.ui.view">
+            <field name="name">unicore.enrollment.log.form</field>
+            <field name="model">unicore.enrollment.log</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <widget name="web_ribbon" title="Audit Record"
+                                bg_color="text-bg-secondary"/>
+                        <group>
+                            <group>
+                                <field name="enrollment_id" readonly="1"/>
+                                <field name="student_id" readonly="1"/>
+                                <field name="course_offering_id" readonly="1"/>
+                                <field name="company_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="action" readonly="1" widget="badge"/>
+                                <field name="action_date" readonly="1"/>
+                                <field name="performed_by_id" readonly="1"/>
+                            </group>
+                        </group>
+                        <field name="notes" readonly="1"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- LIST VIEW (READ-ONLY)                                         -->
+        <!-- ============================================================ -->
+
+        <record id="view_unicore_enrollment_log_list" model="ir.ui.view">
+            <field name="name">unicore.enrollment.log.list</field>
+            <field name="model">unicore.enrollment.log</field>
+            <field name="arch" type="xml">
+                <list decoration-success="action == 'registered'"
+                      decoration-muted="action in ('dropped','withdrawn','cancelled')"
+                      decoration-info="action == 'completed'">
+                    <field name="action_date"/>
+                    <field name="student_id"/>
+                    <field name="course_offering_id"/>
+                    <field name="action"/>
+                    <field name="performed_by_id"/>
+                    <field name="notes"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- SEARCH VIEW                                                   -->
+        <!-- ============================================================ -->
+
+        <record id="view_unicore_enrollment_log_search" model="ir.ui.view">
+            <field name="name">unicore.enrollment.log.search</field>
+            <field name="model">unicore.enrollment.log</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="student_id"/>
+                    <field name="course_offering_id"/>
+                    <field name="performed_by_id"/>
+                    <filter name="registrations" string="Registrations"
+                            domain="[('action', '=', 'registered')]"/>
+                    <filter name="drops" string="Drops"
+                            domain="[('action', '=', 'dropped')]"/>
+                    <filter name="withdrawals" string="Withdrawals"
+                            domain="[('action', '=', 'withdrawn')]"/>
+                    <group>
+                        <filter name="group_by_student" string="Student"
+                                context="{'group_by': 'student_id'}"/>
+                        <filter name="group_by_action" string="Action"
+                                context="{'group_by': 'action'}"/>
+                        <filter name="group_by_performer" string="Performed By"
+                                context="{'group_by': 'performed_by_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- WINDOW ACTION                                                 -->
+        <!-- ============================================================ -->
+
+        <record id="action_unicore_enrollment_log" model="ir.actions.act_window">
+            <field name="name">Enrollment Audit Log</field>
+            <field name="res_model">unicore.enrollment.log</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+    </data>
+</odoo>

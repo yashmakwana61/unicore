@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="1">
+
+    <!-- unicore.grade.scale rules -->
+    <record id="rule_unicore_grade_scale_company"
+            model="ir.rule">
+      <field name="name">Grade Scale: Company Isolation
+      </field>
+      <field name="model_id"
+             ref="unicore_grading.model_unicore_grade_scale"/>
+      <field name="domain_force">
+        ['|',('company_id','=',False),
+             ('company_id','in',company_ids)]
+      </field>
+      <field name="groups"
+             eval="[(4,ref('base.group_user'))]"/>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_write" eval="True"/>
+      <field name="perm_create" eval="True"/>
+      <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- unicore.grade.entry rules -->
+    <record id="rule_unicore_grade_entry_company"
+            model="ir.rule">
+      <field name="name">Grade Entry: Company Isolation
+      </field>
+      <field name="model_id"
+             ref="unicore_grading.model_unicore_grade_entry"/>
+      <field name="domain_force">
+        ['|',('company_id','=',False),
+             ('company_id','in',company_ids)]
+      </field>
+      <field name="groups"
+             eval="[(4,ref('base.group_user'))]"/>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_write" eval="True"/>
+      <field name="perm_create" eval="True"/>
+      <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_unicore_grade_entry_student"
+            model="ir.rule">
+      <field name="name">Grade Entry: Student Own Records
+      </field>
+      <field name="model_id"
+             ref="unicore_grading.model_unicore_grade_entry"/>
+      <field name="domain_force">
+        [('student_id.partner_id.user_ids','in',[user.id]),
+         ('entry_state','in',
+          ['published','locked'])]
+      </field>
+      <field name="groups"
+             eval="[(4,ref('unicore_base.group_unicore_student'))]"/>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_write" eval="False"/>
+      <field name="perm_create" eval="False"/>
+      <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_unicore_grade_entry_faculty"
+            model="ir.rule">
+      <field name="name">Grade Entry: Faculty Own Courses
+      </field>
+      <field name="model_id"
+             ref="unicore_grading.model_unicore_grade_entry"/>
+      <field name="domain_force">
+        [('course_offering_id.faculty_member_id'
+          '.partner_id.user_ids','in',[user.id])]
+      </field>
+      <field name="groups"
+             eval="[(4,ref('unicore_base.group_unicore_faculty'))]"/>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_write" eval="True"/>
+      <field name="perm_create" eval="True"/>
+      <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_unicore_grade_entry_admin"
+            model="ir.rule">
+      <field name="name">Grade Entry: Admin Bypass</field>
+      <field name="model_id"
+             ref="unicore_grading.model_unicore_grade_entry"/>
+      <field name="domain_force">[(1,'=',1)]</field>
+      <field name="groups"
+             eval="[(4,ref('unicore_base.group_unicore_admin'))]"/>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_write" eval="True"/>
+      <field name="perm_create" eval="True"/>
+      <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- unicore.semester.result rules -->
+    <record id="rule_unicore_semester_result_company"
+            model="ir.rule">
+      <field name="name">Semester Result: Company Isolation
+      </field>
+      <field name="model_id"
+             ref="unicore_grading.model_unicore_semester_result"/>
+      <field name="domain_force">
+        ['|',('company_id','=',False),
+             ('company_id','in',company_ids)]
+      </field>
+      <field name="groups"
+             eval="[(4,ref('base.group_user'))]"/>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_write" eval="True"/>
+      <field name="perm_create" eval="True"/>
+      <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_unicore_semester_result_student"
+            model="ir.rule">
+      <field name="name">Semester Result: Student Own Result
+      </field>
+      <field name="model_id"
+             ref="unicore_grading.model_unicore_semester_result"/>
+      <field name="domain_force">
+        [('student_id.partner_id.user_ids','in',[user.id]),
+         ('is_published','=',True)]
+      </field>
+      <field name="groups"
+             eval="[(4,ref('unicore_base.group_unicore_student'))]"/>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_write" eval="False"/>
+      <field name="perm_create" eval="False"/>
+      <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_unicore_semester_result_admin"
+            model="ir.rule">
+      <field name="name">Semester Result: Admin Bypass</field>
+      <field name="model_id"
+             ref="unicore_grading.model_unicore_semester_result"/>
+      <field name="domain_force">[(1,'=',1)]</field>
+      <field name="groups"
+             eval="[(4,ref('unicore_base.group_unicore_admin'))]"/>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_write" eval="True"/>
+      <field name="perm_create" eval="True"/>
+      <field name="perm_unlink" eval="True"/>
+    </record>
+
+  </data>
+</odoo>

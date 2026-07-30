@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- Form View -->
+  <record id="view_unicore_grade_scale_form"
+          model="ir.ui.view">
+    <field name="name">unicore.grade.scale.form</field>
+    <field name="model">unicore.grade.scale</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <widget name="web_ribbon"
+            title="Default Scale"
+            invisible="not is_default"
+            bg_color="text-bg-success"/>
+          <group>
+            <group>
+              <field name="name"/>
+              <field name="company_id"/>
+              <field name="sequence"/>
+              <field name="is_default"/>
+            </group>
+            <group>
+              <field name="max_gpa"/>
+              <field name="active"/>
+            </group>
+          </group>
+          <group string="Description">
+            <field name="description" nolabel="1"/>
+          </group>
+          <notebook>
+            <page string="Grade Lines">
+              <field name="line_ids">
+                <list editable="bottom">
+                  <field name="letter_grade"/>
+                  <field name="min_percentage"/>
+                  <field name="max_percentage"/>
+                  <field name="grade_point"/>
+                  <field name="is_passing"/>
+                  <field name="description"/>
+                </list>
+              </field>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <!-- List View -->
+  <record id="view_unicore_grade_scale_list"
+          model="ir.ui.view">
+    <field name="name">unicore.grade.scale.list</field>
+    <field name="model">unicore.grade.scale</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="sequence" widget="handle"/>
+        <field name="name"/>
+        <field name="company_id"/>
+        <field name="max_gpa"/>
+        <field name="is_default"/>
+        <field name="active"/>
+      </list>
+    </field>
+  </record>
+
+  <!-- Search View -->
+  <record id="view_unicore_grade_scale_search"
+          model="ir.ui.view">
+    <field name="name">unicore.grade.scale.search</field>
+    <field name="model">unicore.grade.scale</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="name"/>
+        <filter name="default_only" string="Default Scales"
+          domain="[('is_default','=',True)]"/>
+        <separator/>
+        <filter name="group_by_company"
+          string="Institution"
+          context="{'group_by':'company_id'}"/>
+      </search>
+    </field>
+  </record>
+
+  <!-- Window Action -->
+  <record id="action_unicore_grade_scale"
+          model="ir.actions.act_window">
+    <field name="name">Grade Scales</field>
+    <field name="res_model">unicore.grade.scale</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+</odoo>

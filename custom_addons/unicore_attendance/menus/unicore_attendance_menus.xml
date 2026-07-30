@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="menu_unicore_attendance"
+                  name="Attendance"
+                  sequence="80"
+                  web_icon="unicore_attendance,static/description/icon.png"
+                  groups="unicore_base.group_unicore_faculty"/>
+
+        <menuitem id="menu_unicore_attendance_my"
+                  name="My Attendance"
+                  parent="menu_unicore_attendance"
+                  action="action_unicore_attendance_my"
+                  sequence="10"
+                  groups="unicore_base.group_unicore_student"/>
+
+        <menuitem id="menu_unicore_attendance_session_open"
+                  name="Open Sessions"
+                  parent="menu_unicore_attendance"
+                  action="action_unicore_attendance_session_open"
+                  sequence="20"
+                  groups="unicore_base.group_unicore_faculty"/>
+
+        <menuitem id="menu_unicore_attendance_session_today"
+                  name="Today's Sessions"
+                  parent="menu_unicore_attendance"
+                  action="action_unicore_attendance_session_today"
+                  sequence="30"
+                  groups="unicore_base.group_unicore_staff"/>
+
+        <menuitem id="menu_unicore_attendance_session_all"
+                  name="All Sessions"
+                  parent="menu_unicore_attendance"
+                  action="action_unicore_attendance_session"
+                  sequence="40"
+                  groups="unicore_base.group_unicore_registrar"/>
+
+        <menuitem id="menu_unicore_attendance_shortage"
+                  name="Shortage Alerts"
+                  parent="menu_unicore_attendance"
+                  action="action_unicore_attendance_shortage"
+                  sequence="50"
+                  groups="unicore_base.group_unicore_staff"/>
+
+        <menuitem id="menu_unicore_attendance_record_all"
+                  name="All Records"
+                  parent="menu_unicore_attendance"
+                  action="action_unicore_attendance_record"
+                  sequence="60"
+                  groups="unicore_base.group_unicore_registrar"/>
+
+        <menuitem id="menu_unicore_attendance_policy"
+                  name="Attendance Policies"
+                  parent="menu_unicore_attendance"
+                  action="action_unicore_attendance_policy"
+                  sequence="70"
+                  groups="unicore_base.group_unicore_manager"/>
+
+        <menuitem id="menu_unicore_generate_sessions"
+                  name="Generate Sessions"
+                  parent="menu_unicore_attendance"
+                  action="action_unicore_generate_sessions_wizard"
+                  sequence="80"
+                  groups="unicore_base.group_unicore_registrar"/>
+
+    </data>
+</odoo>

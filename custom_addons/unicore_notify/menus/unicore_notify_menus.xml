@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ROOT MENU — Under UniCore Base app -->
+    <menuitem
+        id="menu_unicore_notify_root"
+        name="Notifications"
+        sequence="250"
+        web_icon="unicore_notify,static/description/icon.png"
+        groups="unicore_base.group_unicore_registrar,unicore_base.group_unicore_admin"/>
+
+    <!-- Level 2: Notification Log -->
+    <menuitem
+        id="menu_unicore_notify_logs"
+        name="Notification Log"
+        parent="menu_unicore_notify_root"
+        sequence="10"
+        groups="unicore_base.group_unicore_registrar"/>
+
+    <menuitem
+        id="menu_unicore_notify_log_all"
+        name="All Notifications"
+        parent="menu_unicore_notify_logs"
+        action="action_unicore_notification_log"
+        sequence="10"
+        groups="unicore_base.group_unicore_registrar"/>
+
+    <menuitem
+        id="menu_unicore_notify_log_today"
+        name="Today's Notifications"
+        parent="menu_unicore_notify_logs"
+        action="action_unicore_notification_log_today"
+        sequence="20"
+        groups="unicore_base.group_unicore_registrar"/>
+
+    <menuitem
+        id="menu_unicore_notify_log_failed"
+        name="Failed Notifications"
+        parent="menu_unicore_notify_logs"
+        action="action_unicore_notification_log_failed"
+        sequence="30"
+        groups="unicore_base.group_unicore_registrar"/>
+
+    <!-- Level 2: Configuration -->
+    <menuitem
+        id="menu_unicore_notify_config_root"
+        name="Configuration"
+        parent="menu_unicore_notify_root"
+        sequence="90"
+        groups="unicore_base.group_unicore_admin"/>
+
+    <menuitem
+        id="menu_unicore_notify_templates"
+        name="Notification Templates"
+        parent="menu_unicore_notify_config_root"
+        action="action_unicore_notification_template"
+        sequence="10"
+        groups="unicore_base.group_unicore_admin"/>
+
+    <menuitem
+        id="menu_unicore_notify_config"
+        name="Notification Settings"
+        parent="menu_unicore_notify_config_root"
+        action="action_unicore_notification_config"
+        sequence="20"
+        groups="unicore_base.group_unicore_admin"/>
+
+</odoo>

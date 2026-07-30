@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo noupdate="1">
+
+    <!-- STUDENT: company isolation -->
+    <record id="rule_unicore_student_company" model="ir.rule">
+        <field name="name">unicore.student: company isolation</field>
+        <field name="model_id" ref="model_unicore_student"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- STUDENT: campus isolation for staff (non-student users) -->
+    <record id="rule_unicore_student_campus" model="ir.rule">
+        <field name="name">unicore.student: campus isolation</field>
+        <field name="model_id" ref="model_unicore_student"/>
+        <field name="global" eval="False"/>
+        <field name="groups" eval="[(4, ref('unicore_base.group_unicore_faculty')), (4, ref('unicore_base.group_unicore_staff'))]"/>
+        <field name="domain_force">[
+            '|',
+            ('campus_id', 'in', user.unicore_campus_ids.ids),
+            ('company_id', 'in', company_ids),
+        ]</field>
+    </record>
+
+    <!-- STUDENT: self-view for student user (portal-like) -->
+    <record id="rule_unicore_student_self" model="ir.rule">
+        <field name="name">unicore.student: self-view only</field>
+        <field name="model_id" ref="model_unicore_student"/>
+        <field name="global" eval="False"/>
+        <field name="groups" eval="[(4, ref('unicore_base.group_unicore_student'))]"/>
+        <field name="domain_force">[('partner_id.user_ids', 'in', [user.id])]</field>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- DOCUMENT: company isolation -->
+    <record id="rule_unicore_student_document_company" model="ir.rule">
+        <field name="name">unicore.student.document: company isolation</field>
+        <field name="model_id" ref="model_unicore_student_document"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- EMERGENCY CONTACT: company isolation -->
+    <record id="rule_unicore_student_emergency_contact_company" model="ir.rule">
+        <field name="name">unicore.student.emergency.contact: company isolation</field>
+        <field name="model_id" ref="model_unicore_student_emergency_contact"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- ACADEMIC HISTORY: company isolation -->
+    <record id="rule_unicore_student_academic_history_company" model="ir.rule">
+        <field name="name">unicore.student.academic.history: company isolation</field>
+        <field name="model_id" ref="model_unicore_student_academic_history"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- ADMIN BYPASS: Full access for admin group -->
+    <record id="rule_unicore_student_admin" model="ir.rule">
+        <field name="name">unicore.student: admin bypass</field>
+        <field name="model_id" ref="model_unicore_student"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('unicore_base.group_unicore_admin'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_unicore_student_document_admin" model="ir.rule">
+        <field name="name">unicore.student.document: admin bypass</field>
+        <field name="model_id" ref="model_unicore_student_document"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('unicore_base.group_unicore_admin'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_unicore_student_emergency_contact_admin" model="ir.rule">
+        <field name="name">unicore.student.emergency.contact: admin bypass</field>
+        <field name="model_id" ref="model_unicore_student_emergency_contact"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('unicore_base.group_unicore_admin'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_unicore_student_academic_history_admin" model="ir.rule">
+        <field name="name">unicore.student.academic.history: admin bypass</field>
+        <field name="model_id" ref="model_unicore_student_academic_history"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('unicore_base.group_unicore_admin'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+</odoo>

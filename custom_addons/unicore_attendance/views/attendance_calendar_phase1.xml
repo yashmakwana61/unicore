@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ========================================================= -->
+        <!-- Phase 1: Calendar view of attendance sessions             -->
+        <!-- session_date is a real Date field. course_offering_id,    -->
+        <!-- instructor_id, room_id are stored related fields.         -->
+        <!-- ========================================================= -->
+        <record id="view_unicore_attendance_session_calendar" model="ir.ui.view">
+            <field name="name">unicore.attendance.session.calendar</field>
+            <field name="model">unicore.attendance.session</field>
+            <field name="type">calendar</field>
+            <field name="arch" type="xml">
+                <calendar date_start="session_date" string="Session Calendar" color="course_offering_id">
+                    <field name="course_offering_id"/>
+                    <field name="time_slot_id"/>
+                    <field name="room_id"/>
+                    <field name="instructor_id"/>
+                    <field name="session_state"/>
+                </calendar>
+            </field>
+        </record>
+
+        <!-- ========================================================= -->
+        <!-- Window action for the calendar view                       -->
+        <!-- ========================================================= -->
+        <record id="action_unicore_attendance_session_calendar" model="ir.actions.act_window">
+            <field name="name">Session Calendar</field>
+            <field name="res_model">unicore.attendance.session</field>
+            <field name="view_mode">calendar,list,kanban</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    View scheduled lecture sessions on the calendar.
+                </p>
+            </field>
+        </record>
+
+        <!-- ========================================================= -->
+        <!-- Menu item under the Timetable menu (cross-module)         -->
+        <!-- ========================================================= -->
+        <menuitem id="menu_unicore_session_calendar"
+                  name="Session Calendar"
+                  parent="unicore_timetable.menu_unicore_timetable"
+                  action="action_unicore_attendance_session_calendar"
+                  sequence="25"
+                  groups="unicore_base.group_unicore_staff"/>
+
+    </data>
+</odoo>

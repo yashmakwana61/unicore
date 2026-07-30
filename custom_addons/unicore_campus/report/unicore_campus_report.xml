@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_campus_summary" model="ir.actions.report">
+        <field name="name">Campus Summary</field>
+        <field name="model">unicore.campus</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">unicore_campus.report_campus_summary</field>
+        <field name="report_file">unicore_campus.report_campus_summary</field>
+        <field name="binding_model_id" ref="unicore_base.model_unicore_campus"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'CampusSummary_%(object.name)s_%(object.code)s'</field>
+    </record>
+
+    <!-- Report Template -->
+    <record id="report_campus_summary_template" model="ir.ui.view">
+        <field name="name">unicore.campus.report.summary</field>
+        <field name="type">qweb</field>
+        <field name="arch" type="xml">
+            <template id="report_campus_summary" name="Campus Infrastructure Summary">
+                <t t-call="web.html_container">
+                    <t t-foreach="docs" t-as="doc">
+                        <t t-call="web.internal_layout">
+                            <div class="page">
+                                <h2 class="text-center">Campus Infrastructure Summary</h2>
+                                <h3 class="text-center" t-esc="doc.name"/>
+                                <hr/>
+
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td><strong>Campus Code</strong></td>
+                                        <td t-esc="doc.code"/>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Campus Type</strong></td>
+                                        <td t-esc="doc.campus_type"/>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>State</strong></td>
+                                        <td t-esc="doc.campus_state"/>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Institution</strong></td>
+                                        <td t-esc="doc.company_id.name"/>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Address</strong></td>
+                                        <td>
+                                            <span t-esc="doc.address_city"/>
+                                            <t t-if="doc.address_state_id">
+                                                , <span t-esc="doc.address_state_id.name"/>
+                                            </t>
+                                            <t t-if="doc.address_country_id">
+                                                , <span t-esc="doc.address_country_id.name"/>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <h4>Infrastructure Summary</h4>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Metric</th>
+                                            <th class="text-right">Count</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Buildings</td>
+                                            <td class="text-right" t-esc="doc.building_count"/>
+                                        </tr>
+                                        <tr>
+                                            <td>Total Floors</td>
+                                            <td class="text-right">
+                                                <t t-esc="sum(doc.building_ids.mapped('floor_count'))"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total Rooms</td>
+                                            <td class="text-right" t-esc="doc.room_count"/>
+                                        </tr>
+                                        <tr>
+                                            <td>Total Capacity</td>
+                                            <td class="text-right" t-esc="doc.total_room_capacity"/>
+                                        </tr>
+                                        <tr>
+                                            <td>Facilities</td>
+                                            <td class="text-right" t-esc="len(doc.facility_ids)"/>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <p class="text-muted text-center">
+                                    Generated on
+                                    <span t-esc="context_timestamp(datetime.now()).strftime('%B %d, %Y')"/>
+                                </p>
+                            </div>
+                        </t>
+                    </t>
+                </t>
+            </template>
+        </field>
+    </record>
+
+</odoo>

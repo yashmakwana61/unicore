@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_unicore_attendance_record_form" model="ir.ui.view">
+            <field name="name">unicore.attendance.record.form</field>
+            <field name="model">unicore.attendance.record</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <widget name="web_ribbon" title="Shortage Alert" invisible="not shortage_alert" bg_color="text-bg-danger"/>
+                        <widget name="web_ribbon" title="Warning" invisible="not warning_alert" bg_color="text-bg-warning"/>
+                    </header>
+                    <sheet>
+                        <group string="Record Details">
+                            <group>
+                                <field name="session_id"/>
+                                <field name="student_id"/>
+                                <field name="enrollment_id"/>
+                                <field name="course_offering_id" readonly="1"/>
+                                <field name="course_id" readonly="1"/>
+                                <field name="semester_id" readonly="1"/>
+                                <field name="session_date" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="status"/>
+                                <field name="late_minutes" invisible="status != 'late'"/>
+                                <field name="excuse_reason" invisible="status != 'excused'"/>
+                                <field name="remarks"/>
+                                <field name="company_id" readonly="1"/>
+                            </group>
+                        </group>
+                        <separator string="Cumulative Attendance"/>
+                        <group>
+                            <group>
+                                <field name="total_sessions_held" readonly="1"/>
+                                <field name="sessions_present" readonly="1"/>
+                                <field name="sessions_absent" readonly="1"/>
+                                <field name="sessions_late" readonly="1"/>
+                                <field name="sessions_excused" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="cumulative_attendance_percentage" readonly="1" widget="percentage"/>
+                                <field name="shortage_alert" readonly="1"/>
+                                <field name="warning_alert" readonly="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_unicore_attendance_record_list" model="ir.ui.view">
+            <field name="name">unicore.attendance.record.list</field>
+            <field name="model">unicore.attendance.record</field>
+            <field name="arch" type="xml">
+                <list decoration-danger="shortage_alert == True" decoration-warning="warning_alert == True" decoration-success="status == 'present'" decoration-muted="status == 'excused'">
+                    <field name="session_date"/>
+                    <field name="student_id"/>
+                    <field name="course_id"/>
+                    <field name="status"/>
+                    <field name="cumulative_attendance_percentage"/>
+                    <field name="shortage_alert"/>
+                    <field name="warning_alert"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_unicore_attendance_record_search" model="ir.ui.view">
+            <field name="name">unicore.attendance.record.search</field>
+            <field name="model">unicore.attendance.record</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="student_id"/>
+                    <field name="course_id"/>
+                    <field name="semester_id"/>
+                    <field name="session_id"/>
+                    <field name="course_offering_id"/>
+                    <filter string="Present" name="filter_present" domain="[('status','=','present')]"/>
+                    <filter string="Absent" name="filter_absent" domain="[('status','=','absent')]"/>
+                    <filter string="Late" name="filter_late" domain="[('status','=','late')]"/>
+                    <filter string="Excused" name="filter_excused" domain="[('status','=','excused')]"/>
+                    <filter string="Shortage Alert" name="filter_shortage" domain="[('shortage_alert','=',True)]"/>
+                    <filter string="Warning Alert" name="filter_warning" domain="[('warning_alert','=',True)]"/>
+                    <separator/>
+                    <filter string="Student" name="group_student" context="{'group_by':'student_id'}"/>
+                    <filter string="Course" name="group_course" context="{'group_by':'course_id'}"/>
+                    <filter string="Semester" name="group_semester" context="{'group_by':'semester_id'}"/>
+                    <filter string="Status" name="group_status" context="{'group_by':'status'}"/>
+                    <filter string="Shortage Alert" name="group_shortage" context="{'group_by':'shortage_alert'}"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_unicore_attendance_record" model="ir.actions.act_window">
+            <field name="name">Attendance Records</field>
+            <field name="res_model">unicore.attendance.record</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record id="action_unicore_attendance_shortage" model="ir.actions.act_window">
+            <field name="name">Attendance Shortage Alerts</field>
+            <field name="res_model">unicore.attendance.record</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('shortage_alert','=',True)]</field>
+            <field name="context">{'search_default_group_course': 1}</field>
+        </record>
+
+        <record id="action_unicore_attendance_my" model="ir.actions.act_window">
+            <field name="name">My Attendance</field>
+            <field name="res_model">unicore.attendance.record</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('student_id.partner_id.user_ids','in',[uid])]</field>
+            <field name="context">{'search_default_group_course': 1}</field>
+        </record>
+
+    </data>
+</odoo>

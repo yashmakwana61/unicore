@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="view_unicore_hostel_block_form"
+          model="ir.ui.view">
+    <field name="name">unicore.hostel.block.form</field>
+    <field name="model">unicore.hostel.block</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+          <field name="block_state"
+            widget="statusbar"
+            statusbar_visible="active,
+              under_renovation,inactive"/>
+        </header>
+        <sheet>
+          <widget name="web_ribbon"
+            title="Active"
+            invisible="block_state != 'active'"
+            bg_color="text-bg-success"/>
+          <widget name="web_ribbon"
+            title="Renovation"
+            invisible="block_state !=
+              'under_renovation'"
+            bg_color="text-bg-warning"/>
+          <div class="oe_button_box"
+               name="button_box">
+            <button type="object"
+              name="action_view_rooms"
+              class="oe_stat_button"
+              icon="fa-door-open">
+              <field name="total_rooms"
+                     widget="statinfo"
+                     string="Rooms"/>
+            </button>
+            <button type="object"
+              name="action_view_rooms"
+              class="oe_stat_button"
+              icon="fa-bed">
+              <field name="available_beds"
+                     widget="statinfo"
+                     string="Available Beds"/>
+            </button>
+            <button type="object"
+              name="action_view_rooms"
+              class="oe_stat_button"
+              icon="fa-percent">
+              <field name="occupancy_rate"
+                     widget="statinfo"
+                     string="Occupancy %"/>
+            </button>
+          </div>
+          <group>
+            <group string="Block Details">
+              <field name="name"/>
+              <field name="code"/>
+              <field name="company_id"/>
+              <field name="campus_id"/>
+              <field name="gender_type"/>
+              <field name="block_type"/>
+              <field name="total_floors"/>
+            </group>
+            <group string="Warden">
+              <field name="warden_name"/>
+              <field name="warden_mobile"/>
+              <field name="warden_email"/>
+              <field name="asst_warden_name"/>
+            </group>
+          </group>
+          <group>
+            <group string="Capacity">
+              <field name="total_capacity"
+                     readonly="1"/>
+              <field name="occupied_beds"
+                     readonly="1"/>
+              <field name="available_beds"
+                     readonly="1"/>
+              <field name="occupancy_rate"
+                     readonly="1"/>
+            </group>
+            <group string="Facilities">
+              <field name="has_wifi"/>
+              <field name="has_mess"/>
+              <field name="mess_name"
+                invisible="not has_mess"/>
+              <field name="monthly_mess_fee"
+                invisible="not has_mess"/>
+              <field name="has_common_room"/>
+              <field name="has_gym"/>
+              <field name="has_washing_machine"/>
+            </group>
+          </group>
+          <notebook>
+            <page string="Rooms">
+              <field name="room_ids">
+                <list>
+                  <field name="room_number"/>
+                  <field name="floor_number"/>
+                  <field name="room_type"/>
+                  <field name="capacity"/>
+                  <field name="current_occupancy"/>
+                  <field name="available_beds"/>
+                  <field name="monthly_rent"/>
+                  <field name="room_state"/>
+                </list>
+              </field>
+            </page>
+            <page string="Notes">
+              <field name="notes" nolabel="1"/>
+            </page>
+          </notebook>
+        </sheet>
+        <chatter/>
+      </form>
+    </field>
+  </record>
+
+  <record id="view_unicore_hostel_block_list"
+          model="ir.ui.view">
+    <field name="name">unicore.hostel.block.list</field>
+    <field name="model">unicore.hostel.block</field>
+    <field name="arch" type="xml">
+      <list decoration-success=
+              "block_state == 'active'"
+            decoration-warning=
+              "block_state == 'under_renovation'"
+            decoration-muted=
+              "block_state in ('inactive','closed')">
+        <field name="name"/>
+        <field name="code"/>
+        <field name="gender_type"/>
+        <field name="block_type"/>
+        <field name="warden_name"/>
+        <field name="total_rooms"/>
+        <field name="total_capacity"/>
+        <field name="occupied_beds"/>
+        <field name="available_beds"/>
+        <field name="occupancy_rate"/>
+        <field name="block_state"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="action_unicore_hostel_block"
+          model="ir.actions.act_window">
+    <field name="name">Hostel Blocks</field>
+    <field name="res_model">unicore.hostel.block</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+</odoo>

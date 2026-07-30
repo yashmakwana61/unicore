@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    PATCH REQUIRED — Add this method to unicore_exam/models/unicore_exam_schedule.py
+    ==============================================================================
+    Insert the following method into the UniCoreExamSchedule class (after existing
+    state methods, before the class end):
+
+        def action_approve_all_eligible_tickets(self):
+            self.ensure_one()
+            eligible_draft = self.hall_ticket_ids.filtered(
+                lambda t: (t.ticket_state == 'draft'
+                           and t.eligibility_status == 'eligible')
+            )
+            for ticket in eligible_draft:
+                ticket.ticket_state = 'approved'
+            self.message_post(
+                body=_('%d eligible tickets approved.') % len(eligible_draft)
+            )
+    ==============================================================================
+-->
+<odoo>
+    <data>
+
+        <!-- ============================================================ -->
+        <!-- EXAM SCHEDULE — FORM VIEW                                     -->
+        <!-- ============================================================ -->
+        <record id="view_unicore_exam_schedule_form" model="ir.ui.view">
+            <field name="name">unicore.exam.schedule.form</field>
+            <field name="model">unicore.exam.schedule</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="exam_state" widget="statusbar"/>
+                        <button name="action_publish" type="object" string="Publish" invisible="exam_state != 'draft'" class="btn-primary"/>
+                        <button name="action_generate_hall_tickets" type="object" string="Generate Hall Tickets" invisible="exam_state not in ('published', 'hall_tickets_generated')" class="btn-primary"/>
+                        <button name="action_generate_seating" type="object" string="Generate Seating Plan" invisible="exam_state not in ('hall_tickets_generated', 'seating_generated')"/>
+                        <button name="action_mark_ongoing" type="object" string="Mark Ongoing" invisible="exam_state != 'seating_generated'"/>
+                        <button name="action_complete" type="object" string="Complete" invisible="exam_state != 'ongoing'"/>
+                        <button name="action_cancel" type="object" string="Cancel" invisible="exam_state in ('completed', 'cancelled')" groups="unicore_base.group_unicore_admin"/>
+                        <button name="action_reset_draft" type="object" string="Reset to Draft" invisible="exam_state == 'draft'" groups="unicore_base.group_unicore_admin"/>
+                        <widget name="web_ribbon" title="Cancelled" invisible="exam_state != 'cancelled'" bg_color="text-bg-danger"/>
+                        <widget name="web_ribbon" title="Completed" invisible="exam_state != 'completed'" bg_color="text-bg-success"/>
+                    </header>
+                    <div class="button_box" name="button_box">
+                        <button name="%(action_unicore_exam_hall_ticket)d" type="action" icon="fa-ticket" groups="unicore_base.group_unicore_staff">
+                            <div class="o_stat_info">
+                                <field name="hall_ticket_count" widget="statinfo"/>
+                                <span class="o_stat_text">Hall Tickets</span>
+                            </div>
+                        </button>
+                        <button type="object" icon="fa-check-circle" disabled="1" groups="unicore_base.group_unicore_registrar">
+                            <div class="o_stat_info">
+                                <field name="eligible_count" widget="statinfo" class="text-success"/>
+                                <span class="o_stat_text">Eligible</span>
+                            </div>
+                        </button>
+                        <button type="object" icon="fa-times-circle" disabled="1" invisible="ineligible_count == 0" groups="unicore_base.group_unicore_registrar">
+                            <div class="o_stat_info">
+                                <field name="ineligible_count" widget="statinfo" class="text-danger"/>
+                                <span class="o_stat_text">Ineligible</span>
+                            </div>
+                        </button>
+                        <button name="%(action_unicore_exam_seating)d" type="action" icon="fa-th" groups="unicore_base.group_unicore_staff">
+                            <div class="o_stat_info">
+                                <field name="seating_count" widget="statinfo"/>
+                                <span class="o_stat_text">Seats Assigned</span>
+                            </div>
+                        </button>
+                    </div>
+                    <sheet>
+                        <group string="Exam Identity">
+                            <group>
+                                <field name="name"/>
+                                <field name="course_offering_id"/>
+                                <field name="course_id" readonly="1"/>
+                                <field name="semester_id" readonly="1"/>
+                                <field name="campus_id" readonly="1"/>
+                                <field name="company_id"/>
+                            </group>
+                            <group>
+                                <field name="exam_type"/>
+                                <field name="exam_date"/>
+                                <field name="exam_start_time" widget="float_time"/>
+                                <field name="exam_end_time" widget="float_time"/>
+                                <field name="duration_minutes" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="Marks">
+                            <group>
+                                <field name="exam_max_marks"/>
+                                <field name="total_marks" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="passing_marks" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="Venue &amp; Supervision">
+                            <group>
+                                <field name="venue_ids" widget="many2many_tags"/>
+                                <field name="total_venue_capacity" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="chief_invigilator_id"/>
+                                <field name="invigilator_ids" widget="many2many_tags"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Hall Tickets" groups="unicore_base.group_unicore_registrar">
+                                <button name="action_approve_all_eligible_tickets" type="object" string="Approve All Eligible" class="btn-success mb-2" invisible="exam_state not in ('hall_tickets_generated', 'seating_generated')"/>
+                                <field name="hall_ticket_ids" nolabel="1">
+                                    <list>
+                                        <field name="ticket_number"/>
+                                        <field name="student_id"/>
+                                        <field name="eligibility_status"/>
+                                        <field name="eligibility_note"/>
+                                        <field name="ticket_state"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Seating Plan" groups="unicore_base.group_unicore_staff">
+                                <field name="seating_ids" nolabel="1">
+                                    <list>
+                                        <field name="room_id"/>
+                                        <field name="seat_number"/>
+                                        <field name="seat_label" readonly="1"/>
+                                        <field name="student_id"/>
+                                        <field name="special_requirements"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Exam Instructions">
+                                <field name="instructions" widget="html" nolabel="1"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- EXAM SCHEDULE — LIST VIEW                                     -->
+        <!-- ============================================================ -->
+        <record id="view_unicore_exam_schedule_list" model="ir.ui.view">
+            <field name="name">unicore.exam.schedule.list</field>
+            <field name="model">unicore.exam.schedule</field>
+            <field name="arch" type="xml">
+                <list decoration-success="exam_state == 'completed'" decoration-warning="exam_state == 'ongoing'" decoration-info="exam_state == 'published'" decoration-muted="exam_state == 'cancelled'" decoration-bf="exam_state == 'seating_generated'">
+                    <field name="exam_date"/>
+                    <field name="name"/>
+                    <field name="course_id"/>
+                    <field name="exam_type"/>
+                    <field name="semester_id"/>
+                    <field name="duration_minutes"/>
+                    <field name="exam_max_marks"/>
+                    <field name="hall_ticket_count"/>
+                    <field name="exam_state"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- EXAM SCHEDULE — SEARCH VIEW                                   -->
+        <!-- ============================================================ -->
+        <record id="view_unicore_exam_schedule_search" model="ir.ui.view">
+            <field name="name">unicore.exam.schedule.search</field>
+            <field name="model">unicore.exam.schedule</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="course_id"/>
+                    <field name="semester_id"/>
+                    <field name="exam_type"/>
+                    <separator/>
+                    <filter name="filter_draft" string="Draft Exams" domain="[('exam_state','=','draft')]"/>
+                    <filter name="filter_published" string="Published" domain="[('exam_state','=','published')]"/>
+                    <filter name="filter_hall_tickets" string="Hall Tickets Generated" domain="[('exam_state','=','hall_tickets_generated')]"/>
+                    <filter name="filter_seating" string="Seating Generated" domain="[('exam_state','=','seating_generated')]"/>
+                    <filter name="filter_ongoing" string="Ongoing" domain="[('exam_state','=','ongoing')]"/>
+                    <filter name="filter_completed" string="Completed" domain="[('exam_state','=','completed')]"/>
+                    <filter name="filter_upcoming" string="Upcoming Exams" domain="[('exam_date','>=',context_today().strftime('%Y-%m-%d'))]"/>
+                    <filter name="filter_this_semester" string="This Semester" domain="[('semester_id.is_current','=',True)]"/>
+                    <separator/>
+                    <filter name="group_by_exam_type" string="Exam Type" context="{'group_by':'exam_type'}"/>
+                    <filter name="group_by_course" string="Course" context="{'group_by':'course_id'}"/>
+                    <filter name="group_by_semester" string="Semester" context="{'group_by':'semester_id'}"/>
+                    <filter name="group_by_campus" string="Campus" context="{'group_by':'campus_id'}"/>
+                    <filter name="group_by_state" string="Status" context="{'group_by':'exam_state'}"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- EXAM SCHEDULE — KANBAN VIEW                                   -->
+        <!-- ============================================================ -->
+        <record id="view_unicore_exam_schedule_kanban" model="ir.ui.view">
+            <field name="name">unicore.exam.schedule.kanban</field>
+            <field name="model">unicore.exam.schedule</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="exam_state">
+                    <templates>
+                        <t t-name="card">
+                            <div class="oe_kanban_global_click">
+                                <div class="o_kanban_record_top mb-2">
+                                    <field name="name"/>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <div><field name="course_id"/></div>
+                                    <div><field name="exam_type" widget="badge"/></div>
+                                    <div><field name="exam_date"/></div>
+                                    <div><field name="duration_minutes"/> minutes</div>
+                                    <div><field name="hall_ticket_count"/> tickets · <field name="eligible_count"/> eligible</div>
+                                    <div><field name="exam_state" widget="badge"/></div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- WINDOW ACTIONS                                                -->
+        <!-- ============================================================ -->
+        <record id="action_unicore_exam_schedule" model="ir.actions.act_window">
+            <field name="name">Exam Schedules</field>
+            <field name="res_model">unicore.exam.schedule</field>
+            <field name="view_mode">list,kanban,form</field>
+            <field name="context">{'search_default_group_by_semester': 1}</field>
+        </record>
+
+        <record id="action_unicore_exam_upcoming" model="ir.actions.act_window">
+            <field name="name">Upcoming Exams</field>
+            <field name="res_model">unicore.exam.schedule</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('exam_date','&gt;=',context_today().strftime('%Y-%m-%d')),('exam_state','not in',['cancelled','completed'])]</field>
+        </record>
+
+        <record id="action_unicore_exam_ongoing" model="ir.actions.act_window">
+            <field name="name">Ongoing Exams</field>
+            <field name="res_model">unicore.exam.schedule</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('exam_state','=','ongoing')]</field>
+        </record>
+
+    </data>
+</odoo>

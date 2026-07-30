@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Wizard Action -->
+    <record id="action_unicore_generate_weeks_wizard" model="ir.actions.act_window">
+        <field name="name">Generate Academic Weeks</field>
+        <field name="res_model">unicore.generate.weeks.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Wizard Form View -->
+    <record id="unicore_generate_weeks_wizard_form_view" model="ir.ui.view">
+        <field name="name">unicore.generate.weeks.wizard.form</field>
+        <field name="model">unicore.generate.weeks.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group name="settings" string="Settings">
+                        <field name="semester_id" options="{'no_create': True}"/>
+                        <field name="week_start_day"/>
+                        <field name="default_week_type"/>
+                    </group>
+                </group>
+                <group name="preview" string="Preview" col="1"
+                       invisible="not preview_line_ids">
+                    <field name="preview_line_ids">
+                        <list editable="bottom">
+                            <field name="week_number"/>
+                            <field name="name"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="week_type"/>
+                        </list>
+                    </field>
+                </group>
+                <footer>
+                    <button name="action_preview" type="object"
+                            string="Preview Weeks" class="btn-secondary"/>
+                    <button name="action_generate" type="object"
+                            string="Generate Weeks" class="btn-primary"/>
+                    <button special="cancel" string="Cancel" class="btn-default"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+    =========================================================================
+    STUDENT SELF-VIEW RECORD RULES
+    =========================================================================
+    These rules enforce portal data isolation at the database layer.
+    Every rule links the current user's partner_id to student records,
+    ensuring portal users can only see their own data.
+
+    Target group: group_unicore_student
+    Pattern:
+      Model with student_id → [('student_id.partner_id', '=', user.partner_id.id)]
+      unicore.student       → [('partner_id', '=', user.partner_id.id)]
+
+    NOTE: Portal controllers currently use .sudo() which bypasses these
+    rules. The proper fix requires:
+      1. Adding ACLs (perm_read=1) for group_unicore_student on each model
+      2. Removing .sudo() from portal controller queries
+    These rules serve as defense-in-depth for any code path not using .sudo().
+    =========================================================================
+    -->
+    <data noupdate="1">
+
+        <!-- ============================================================== -->
+        <!-- unicore.student — own record only                              -->
+        <!-- ============================================================== -->
+        <record id="rule_unicore_student_self_view" model="ir.rule">
+            <field name="name">Student: Self-View (Own Record Only)</field>
+            <field name="model_id" ref="unicore_student.model_unicore_student"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">[('partner_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_student'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- ============================================================== -->
+        <!-- unicore.enrollment — own enrollments only                      -->
+        <!-- ============================================================== -->
+        <record id="rule_unicore_enrollment_self_view" model="ir.rule">
+            <field name="name">Enrollment: Self-View (Own Enrollments Only)</field>
+            <field name="model_id" ref="unicore_enrollment.model_unicore_enrollment"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">[('student_id.partner_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_student'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- ============================================================== -->
+        <!-- unicore.grade.entry — own published/locked grades only         -->
+        <!-- ============================================================== -->
+        <record id="rule_unicore_grade_entry_self_view" model="ir.rule">
+            <field name="name">Grade Entry: Self-View (Own Published Grades)</field>
+            <field name="model_id" ref="unicore_grading.model_unicore_grade_entry"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">['&amp;', ('student_id.partner_id', '=', user.partner_id.id), ('entry_state', 'in', ('published', 'locked'))]</field>
+            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_student'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- ============================================================== -->
+        <!-- unicore.semester.result — own published results only            -->
+        <!-- ============================================================== -->
+        <record id="rule_unicore_semester_result_self_view" model="ir.rule">
+            <field name="name">Semester Result: Self-View (Own Published Only)</field>
+            <field name="model_id" ref="unicore_grading.model_unicore_semester_result"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">['&amp;', ('student_id.partner_id', '=', user.partner_id.id), ('is_published', '=', True)]</field>
+            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_student'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- ============================================================== -->
+        <!-- unicore.fee.invoice — own invoices only                         -->
+        <!-- ============================================================== -->
+        <record id="rule_unicore_fee_invoice_self_view" model="ir.rule">
+            <field name="name">Fee Invoice: Self-View (Own Invoices Only)</field>
+            <field name="model_id" ref="unicore_fees.model_unicore_fee_invoice"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">[('student_id.partner_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_student'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- ============================================================== -->
+        <!-- unicore.attendance.record — own attendance only                 -->
+        <!-- ============================================================== -->
+        <record id="rule_unicore_attendance_record_self_view" model="ir.rule">
+            <field name="name">Attendance Record: Self-View (Own Attendance Only)</field>
+            <field name="model_id" ref="unicore_attendance.model_unicore_attendance_record"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">[('student_id.partner_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_student'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- ============================================================== -->
+        <!-- unicore.library.issue — own library issues only                 -->
+        <!-- ============================================================== -->
+        <record id="rule_unicore_library_issue_self_view" model="ir.rule">
+            <field name="name">Library Issue: Self-View (Own Issues Only)</field>
+            <field name="model_id" ref="unicore_library.model_unicore_library_issue"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">[('student_id.partner_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_student'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- ============================================================== -->
+        <!-- unicore.hostel.allocation — own hostel records only             -->
+        <!-- ============================================================== -->
+        <record id="rule_unicore_hostel_allocation_self_view" model="ir.rule">
+            <field name="name">Hostel Allocation: Self-View (Own Allocation Only)</field>
+            <field name="model_id" ref="unicore_hostel.model_unicore_hostel_allocation"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">[('student_id.partner_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_student'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- ============================================================== -->
+        <!-- unicore.transport.pass — own transport passes only              -->
+        <!-- ============================================================== -->
+        <record id="rule_unicore_transport_pass_self_view" model="ir.rule">
+            <field name="name">Transport Pass: Self-View (Own Passes Only)</field>
+            <field name="model_id" ref="unicore_transport.model_unicore_transport_pass"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">[('student_id.partner_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_student'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- ============================================================== -->
+        <!-- unicore.exam.hall.ticket — own hall tickets only                -->
+        <!-- ============================================================== -->
+        <record id="rule_unicore_exam_hall_ticket_self_view" model="ir.rule">
+            <field name="name">Exam Hall Ticket: Self-View (Own Tickets Only)</field>
+            <field name="model_id" ref="unicore_exam.model_unicore_exam_hall_ticket"/>
+            <field name="global" eval="False"/>
+            <field name="domain_force">[('student_id.partner_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_student'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+    </data>
+
+</odoo>

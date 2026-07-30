@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Scholarship Application List View -->
+    <record id="view_unicore_scholarship_application_list" model="ir.ui.view">
+        <field name="name">unicore.scholarship.application.list</field>
+        <field name="model">unicore.scholarship.application</field>
+        <field name="arch" type="xml">
+            <list string="Scholarship Applications">
+                <field name="application_number"/>
+                <field name="student_id"/>
+                <field name="scholarship_program_id"/>
+                <field name="application_date"/>
+                <field name="is_eligible" widget="boolean_toggle" readonly="1"/>
+                <field name="application_state" widget="badge" 
+                       decoration-info="application_state == 'submitted'" 
+                       decoration-warning="application_state == 'under_review'" 
+                       decoration-primary="application_state == 'shortlisted'" 
+                       decoration-success="application_state == 'approved'" 
+                       decoration-danger="application_state == 'rejected'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Scholarship Application Form View -->
+    <record id="view_unicore_scholarship_application_form" model="ir.ui.view">
+        <field name="name">unicore.scholarship.application.form</field>
+        <field name="model">unicore.scholarship.application</field>
+        <field name="arch" type="xml">
+            <form string="Scholarship Application">
+                <header>
+                    <button name="action_submit" string="Submit" type="object" class="oe_highlight" invisible="application_state != 'draft'"/>
+                    <button name="action_start_review" string="Start Review" type="object" class="oe_highlight" invisible="application_state != 'submitted'"/>
+                    <button name="action_shortlist" string="Shortlist" type="object" class="oe_highlight" invisible="application_state != 'under_review'"/>
+                    <button name="action_approve" string="Approve" type="object" class="oe_highlight" invisible="application_state not in ('under_review', 'shortlisted')"/>
+                    <button name="action_reject" string="Reject" type="object" invisible="application_state not in ('submitted', 'under_review', 'shortlisted')"/>
+                    <button name="action_withdraw" string="Withdraw" type="object" invisible="application_state in ('approved', 'rejected', 'withdrawn')"/>
+                    <field name="application_state" widget="statusbar" statusbar_visible="draft,submitted,under_review,approved,rejected"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(unicore_scholarship.action_unicore_scholarship_award)d" 
+                                type="action" 
+                                class="oe_stat_button" 
+                                icon="fa-money"
+                                context="{'search_default_application_id': id}">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value"><field name="award_count"/></span>
+                                <span class="o_stat_text">Awards</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="application_number" placeholder="New Application"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="student_id" readonly="application_state != 'draft'"/>
+                            <field name="scholarship_program_id" readonly="application_state != 'draft'"/>
+                            <field name="academic_year_id"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="application_state != 'draft'"/>
+                        </group>
+                        <group>
+                            <field name="application_date"/>
+                            <field name="annual_family_income" readonly="application_state != 'draft'"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Student Snapshot" name="snapshot">
+                            <group>
+                                <group>
+                                    <field name="student_cgpa"/>
+                                    <field name="student_attendance_percentage"/>
+                                </group>
+                                <group>
+                                    <field name="student_program_id"/>
+                                    <field name="student_year_of_study"/>
+                                </group>
+                            </group>
+                            <group string="Statement &amp; Achievements">
+                                <field name="statement_of_purpose" readonly="application_state != 'draft'"/>
+                                <field name="achievements" readonly="application_state != 'draft'"/>
+                            </group>
+                        </page>
+                        <page string="Eligibility &amp; Review" name="review">
+                            <group>
+                                <group>
+                                    <field name="eligibility_checked"/>
+                                    <field name="is_eligible"/>
+                                    <field name="rank" readonly="application_state not in ('under_review', 'shortlisted')"/>
+                                </group>
+                                <group>
+                                    <field name="reviewed_by_id"/>
+                                    <field name="review_date"/>
+                                </group>
+                            </group>
+                            <group>
+                                <field name="eligibility_notes"/>
+                                <field name="review_notes" readonly="application_state not in ('under_review', 'shortlisted')"/>
+                                <field name="rejection_reason" readonly="application_state not in ('under_review', 'shortlisted', 'rejected')"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Scholarship Application Action -->
+    <record id="action_unicore_scholarship_application" model="ir.actions.act_window">
+        <field name="name">Scholarship Applications</field>
+        <field name="res_model">unicore.scholarship.application</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Submit a new Scholarship Application!
+            </p>
+        </field>
+    </record>
+
+</odoo>

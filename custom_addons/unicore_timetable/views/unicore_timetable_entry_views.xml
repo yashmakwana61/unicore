@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ========================================== -->
+        <!-- FORM VIEW                                   -->
+        <!-- ========================================== -->
+
+        <record id="view_unicore_timetable_entry_form" model="ir.ui.view">
+            <field name="name">unicore.timetable.entry.form</field>
+            <field name="model">unicore.timetable.entry</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="entry_state" widget="statusbar" clickable="True"/>
+                        <button name="action_confirm" type="object"
+                                string="Confirm"
+                                invisible="entry_state != 'draft'"
+                                class="btn-primary"/>
+                        <button name="action_cancel" type="object"
+                                string="Cancel"
+                                invisible="entry_state == 'cancelled'"
+                                groups="unicore_base.group_unicore_registrar"/>
+                        <button name="action_reset_draft" type="object"
+                                string="Reset to Draft"
+                                invisible="entry_state == 'draft'"
+                                groups="unicore_base.group_unicore_admin"/>
+                    </header>
+                    <sheet>
+                        <group string="Class Identity">
+                            <group>
+                                <field name="course_offering_id"/>
+                                <field name="course_id" readonly="1"/>
+                                <field name="semester_id" readonly="1"/>
+                                <field name="campus_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="company_id" readonly="1"/>
+                                <field name="display_name" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="Schedule">
+                            <group>
+                                <field name="day_of_week"/>
+                                <field name="time_slot_id"/>
+                            </group>
+                            <group>
+                                <field name="room_id"/>
+                                <field name="instructor_id"/>
+                            </group>
+                        </group>
+                        <group string="Date Range">
+                            <group>
+                                <field name="date_start" readonly="1"/>
+                                <field name="date_end" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="override_date_start"/>
+                                <field name="override_date_end"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="effective_date_start" readonly="1"/>
+                            <field name="effective_date_end" readonly="1"/>
+                        </group>
+                        <group string="Notes" name="notes_group">
+                            <field name="notes" nolabel="1"/>
+                        </group>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- LIST VIEW (Primary Schedule View)           -->
+        <!-- ========================================== -->
+
+        <record id="view_unicore_timetable_entry_list" model="ir.ui.view">
+            <field name="name">unicore.timetable.entry.list</field>
+            <field name="model">unicore.timetable.entry</field>
+            <field name="arch" type="xml">
+                <list decoration-success="entry_state == 'confirmed'"
+                      decoration-muted="entry_state == 'cancelled'"
+                      decoration-info="entry_state == 'draft'">
+                    <field name="day_of_week"/>
+                    <field name="time_slot_id"/>
+                    <field name="course_id"/>
+                    <field name="room_id"/>
+                    <field name="instructor_id"/>
+                    <field name="campus_id"/>
+                    <field name="entry_state"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- KANBAN VIEW (Secondary — grouped by Day)    -->
+        <!-- ========================================== -->
+        <!--
+        NOTE: A true weekly grid/calendar widget would
+        be ideal here but requires OWL component
+        development (Enterprise territory). For v1,
+        the kanban view grouped by day of week provides
+        a readable schedule view. A dedicated grid
+        widget module (unicore_timetable_grid) is a
+        candidate future enhancement once OWL component
+        patterns are established elsewhere in the
+        codebase.
+        -->
+
+        <record id="view_unicore_timetable_entry_kanban" model="ir.ui.view">
+            <field name="name">unicore.timetable.entry.kanban</field>
+            <field name="model">unicore.timetable.entry</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="time_slot_id"/>
+                    <field name="course_id"/>
+                    <field name="room_id"/>
+                    <field name="instructor_id"/>
+                    <field name="entry_state"/>
+                    <templates>
+                        <t t-name="card">
+                            <div class="oe_kanban_card">
+                                <div class="o_kanban_card_header">
+                                    <strong>
+                                        <field name="time_slot_id"/>
+                                    </strong>
+                                </div>
+                                <div class="o_kanban_card_content">
+                                    <div class="o_kanban_primary">
+                                        <field name="course_id"/>
+                                    </div>
+                                    <div class="o_kanban_primary">
+                                        <field name="room_id"/>
+                                    </div>
+                                    <div>
+                                        <field name="instructor_id"/>
+                                    </div>
+                                    <div>
+                                        <field name="entry_state" widget="badge"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- SEARCH VIEW                                 -->
+        <!-- ========================================== -->
+
+        <record id="view_unicore_timetable_entry_search" model="ir.ui.view">
+            <field name="name">unicore.timetable.entry.search</field>
+            <field name="model">unicore.timetable.entry</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="course_id"/>
+                    <field name="room_id"/>
+                    <field name="instructor_id"/>
+                    <field name="campus_id"/>
+                    <filter name="filter_confirmed" string="Confirmed Entries"
+                            domain="[('entry_state', '=', 'confirmed')]"/>
+                    <filter name="filter_draft" string="Draft Entries"
+                            domain="[('entry_state', '=', 'draft')]"/>
+                    <filter name="filter_my_schedule" string="My Schedule"
+                            domain="[('instructor_id.partner_id.user_ids', 'in', [uid])]"/>
+                    <group name="group_by">
+                        <filter name="group_by_day_of_week" string="Day of Week"
+                                context="{'group_by': 'day_of_week'}"/>
+                        <filter name="group_by_time_slot" string="Time Slot"
+                                context="{'group_by': 'time_slot_id'}"/>
+                        <filter name="group_by_room" string="Room"
+                                context="{'group_by': 'room_id'}"/>
+                        <filter name="group_by_instructor" string="Instructor"
+                                context="{'group_by': 'instructor_id'}"/>
+                        <filter name="group_by_campus" string="Campus"
+                                context="{'group_by': 'campus_id'}"/>
+                        <filter name="group_by_status" string="Status"
+                                context="{'group_by': 'entry_state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- WINDOW ACTION 1 — Full Schedule             -->
+        <!-- ========================================== -->
+
+        <record id="action_unicore_timetable_entry" model="ir.actions.act_window">
+            <field name="name">Timetable Entries</field>
+            <field name="res_model">unicore.timetable.entry</field>
+            <field name="view_mode">list,kanban,form</field>
+            <field name="context">{'search_default_group_by_day_of_week': 1}</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- WINDOW ACTION 2 — My Schedule (Faculty)     -->
+        <!-- ========================================== -->
+
+        <record id="action_unicore_timetable_my_schedule" model="ir.actions.act_window">
+            <field name="name">My Teaching Schedule</field>
+            <field name="res_model">unicore.timetable.entry</field>
+            <field name="view_mode">list,kanban</field>
+            <field name="domain">[('instructor_id.partner_id.user_ids', 'in', [uid])]</field>
+            <field name="context">{'search_default_group_by_day_of_week': 1}</field>
+        </record>
+
+    </data>
+</odoo>

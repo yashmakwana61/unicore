@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+    Room type reference data placeholder.
+    Room types are defined as Selection fields on unicore.room.
+    Add reference records here when room types are migrated to
+    a dedicated model in a future version.
+    -->
+
+</odoo>

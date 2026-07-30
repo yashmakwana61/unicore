@@ -1,0 +1,247 @@
+// ============================================
+// UniCore Theme — Form View (Enterprise-aligned)
+// ============================================
+
+// 1. FORM BACKGROUND — flush white, full width, no floating card
+.o_form_sheet_bg {
+    position: relative;
+    overflow-y: auto;
+    background: $uc-surface;
+    padding: 0 32px 24px; // top padding REMOVED — was causing the gap
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+// 2. FORM SHEET — no card effect, flush with background
+.o_form_sheet {
+    background: $uc-surface;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    max-width: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+// 3. FIELD GROUPS
+.o_group .o_inner_group {
+    row-gap: 8px;
+}
+
+.o_form_label {
+    color: $uc-text-heading;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: normal;
+    padding-right: 12px;
+}
+
+.o_field_widget {
+    color: $uc-text-body;
+    font-size: 13px;
+}
+
+// 4. FIELD INPUTS
+.o_field_widget input,
+.o_field_widget select,
+.o_field_widget textarea {
+    border: 1px solid $uc-border;
+    border-radius: $uc-radius-field;
+    padding: 5px 10px;
+    min-height: 32px;
+    background: $uc-surface;
+    transition: $uc-transition;
+
+    &:hover {
+        background: $uc-bg-subtle;
+        border-color: $uc-border;
+    }
+
+    &:focus {
+        border-color: $uc-primary;
+        box-shadow: $uc-shadow-focus;
+        outline: none;
+    }
+}
+
+// Placeholder styling
+.o_field_widget input::placeholder,
+.o_field_widget textarea::placeholder {
+    color: $uc-text-muted;
+    opacity: 0.7;
+}
+
+// 5. STAT BUTTONS
+button.oe_stat_button.btn-outline-secondary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: $uc-surface;
+    border: 1px solid $uc-border-light;
+    border-radius: 6px;
+    padding: 8px 16px;
+    color: $uc-text-body;
+    transition: $uc-transition;
+
+    &:hover {
+        border-color: $uc-primary;
+        background: $uc-bg-subtle;
+        color: $uc-text-body;
+    }
+}
+
+.oe_stat_button .o_stat_value {
+    display: block;
+    font-size: 18px;
+    font-weight: 600;
+    color: $uc-primary;
+    line-height: 1.2;
+}
+
+.oe_stat_button .o_stat_text {
+    display: block;
+    font-size: 11px;
+    color: $uc-text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.oe_stat_button .o_button_icon {
+    color: $uc-text-muted;
+    font-size: 15px;
+}
+
+.oe_stat_button:hover .o_button_icon {
+    color: $uc-primary;
+}
+
+// 6. SECTION DIVIDERS
+.o_horizontal_separator {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: $uc-text-muted;
+    border-bottom: 1px solid $uc-border-light;
+    padding-bottom: 6px;
+    margin: 24px 0 16px 0;
+}
+
+.o_form_sheet .o_horizontal_separator:first-child {
+    margin-top: 0;
+}
+
+// 7. STATUSBAR — white background, sits flush with sheet; sticky so scrolled content goes behind it
+.o_form_statusbar {
+    width: calc(100% + 64px); // extend full-bleed to counter the
+    // parent's horizontal padding
+    margin: 0 -32px 16px; // pull flush to both edges, keep
+    // bottom spacing before form content
+    background-color: $uc-surface;
+    opacity: 1;
+    padding: 12px 32px; // re-apply horizontal padding inside
+    // itself, so buttons don't touch edges
+    border-bottom: 1px solid $uc-border-light;
+    position: sticky;
+    top: 0; // now genuinely flush — no padding above it
+    z-index: 100;
+    isolation: isolate;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
+}
+
+.o_statusbar_buttons {
+    gap: 8px;
+}
+
+.o_statusbar_buttons .btn {
+    border-radius: $uc-radius-field;
+    padding: 6px 16px;
+    font-weight: 500;
+    font-size: 13px;
+    box-shadow: none;
+    transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.o_statusbar_buttons .btn:hover {
+    filter: brightness(0.96);
+}
+
+.o_statusbar_buttons .btn-secondary {
+    background: $uc-surface;
+    border: 1px solid $uc-border;
+    color: $uc-text-body;
+}
+
+.o_statusbar_buttons .btn-secondary:hover {
+    background: $uc-bg-subtle;
+    border-color: $uc-primary;
+}
+
+.o_arrow_button {
+    background: transparent;
+    color: $uc-text-muted;
+
+    &.active,
+    &.o_current {
+        background: $uc-primary;
+        color: #ffffff;
+        font-weight: 500;
+    }
+
+    &:hover:not(.active):not(.o_current) {
+        background: $uc-bg-page;
+    }
+}
+
+// 8. TITLE — reset positioning so it stays behind the sticky statusbar
+.oe_title,
+.oe_title h1 {
+    position: static;
+    z-index: auto;
+}
+
+// 9. NOTEBOOK HEADERS — sticky below statusbar
+.o_notebook_headers {
+    background-color: $uc-surface;
+    opacity: 1;
+    position: sticky;
+    top: 0;
+    z-index: 90;
+    border-bottom: 1px solid $uc-border-light;
+}
+
+// 10. NOTEBOOK / TABS
+.o_notebook .nav-link {
+    color: $uc-text-muted;
+    font-size: 13px;
+    font-weight: 500;
+    border-bottom: 2px solid transparent;
+    padding: 8px 4px;
+    margin-right: 20px;
+    transition: $uc-transition;
+
+    &.active {
+        color: $uc-primary;
+        border-bottom-color: $uc-primary;
+        font-weight: 600;
+    }
+
+    &:hover:not(.active) {
+        color: $uc-text-body;
+    }
+}
+
+// 11. WEB RIBBON — default background only, keep Odoo positioning
+.o_web_ribbon {
+    background: $uc-primary;
+}
+
+// 12. REQUIRED FIELD INDICATOR
+.o_form_label.o_required_modifier {
+    border-left: 3px solid rgba($uc-danger, 0.5);
+    padding-left: 6px;
+}

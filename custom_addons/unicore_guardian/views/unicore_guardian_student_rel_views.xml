@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="unicore_guardian_student_rel_view_form" model="ir.ui.view">
+        <field name="name">unicore.guardian.student.rel.form</field>
+        <field name="model">unicore.guardian.student.rel</field>
+        <field name="arch" type="xml">
+            <form string="Guardian-Student Relationship">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="guardian_id"/>
+                            <field name="student_id"/>
+                            <field name="relationship_type"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="is_active_relationship"/>
+                        </group>
+                        <group>
+                            <field name="is_primary_guardian"/>
+                            <field name="is_financial_guarantor"/>
+                            <field name="can_view_academic_records"/>
+                            <field name="can_view_fee_records"/>
+                            <field name="can_receive_notifications"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="notes" nolabel="1" placeholder="Relationship Notes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="unicore_guardian_student_rel_view_list" model="ir.ui.view">
+        <field name="name">unicore.guardian.student.rel.list</field>
+        <field name="model">unicore.guardian.student.rel</field>
+        <field name="arch" type="xml">
+            <list string="Guardian-Student Relationships">
+                <field name="guardian_id"/>
+                <field name="student_id"/>
+                <field name="relationship_type"/>
+                <field name="is_primary_guardian"/>
+                <field name="is_financial_guarantor"/>
+                <field name="can_view_academic_records"/>
+                <field name="can_view_fee_records"/>
+                <field name="can_receive_notifications"/>
+                <field name="is_active_relationship"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="unicore_guardian_student_rel_view_search" model="ir.ui.view">
+        <field name="name">unicore.guardian.student.rel.search</field>
+        <field name="model">unicore.guardian.student.rel</field>
+        <field name="arch" type="xml">
+            <search string="Search Relationships">
+                <field name="guardian_id"/>
+                <field name="student_id"/>
+                <field name="relationship_type"/>
+                
+                <filter name="filter_primary" string="Primary Guardians" domain="[('is_primary_guardian', '=', True)]"/>
+                <filter name="filter_financial" string="Financial Guarantors" domain="[('is_financial_guarantor', '=', True)]"/>
+                <filter name="filter_active" string="Active Relationships" domain="[('is_active_relationship', '=', True)]"/>
+
+                <group name="groupby">
+                    <filter string="Guardian" name="groupby_guardian" context="{'group_by': 'guardian_id'}"/>
+                    <filter string="Student" name="groupby_student" context="{'group_by': 'student_id'}"/>
+                    <filter string="Relationship Type" name="groupby_rel_type" context="{'group_by': 'relationship_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

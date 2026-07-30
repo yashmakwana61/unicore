@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="unicore_attendance_policy_theory_default" model="unicore.attendance.policy">
+            <field name="name">Standard Theory Attendance Policy</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="policy_scope">global</field>
+            <field name="sequence">100</field>
+            <field name="min_attendance_percentage">75.0</field>
+            <field name="warning_threshold_percentage">80.0</field>
+            <field name="is_exam_eligibility_linked" eval="True"/>
+            <field name="description">Default policy for all theory-based courses. Minimum 75% attendance required for exam eligibility. Warning issued below 80%.</field>
+        </record>
+
+        <record id="unicore_attendance_policy_lab_default" model="unicore.attendance.policy">
+            <field name="name">Lab and Practical Attendance Policy</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="policy_scope">course_type</field>
+            <field name="course_type">practical</field>
+            <field name="sequence">50</field>
+            <field name="min_attendance_percentage">80.0</field>
+            <field name="warning_threshold_percentage">85.0</field>
+            <field name="is_exam_eligibility_linked" eval="True"/>
+            <field name="description">Lab and practical sessions require 80% minimum attendance. Stricter than theory due to hands-on skill development requirements.</field>
+        </record>
+
+        <record id="unicore_attendance_policy_online_default" model="unicore.attendance.policy">
+            <field name="name">Online Course Attendance Policy</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="policy_scope">course_type</field>
+            <field name="course_type">online</field>
+            <field name="sequence">50</field>
+            <field name="min_attendance_percentage">60.0</field>
+            <field name="warning_threshold_percentage">70.0</field>
+            <field name="is_exam_eligibility_linked" eval="False"/>
+            <field name="description">Online courses have a relaxed attendance threshold of 60%. Exam eligibility is not linked to attendance for online courses as engagement is measured differently.</field>
+        </record>
+
+        <record id="unicore_attendance_policy_global_default" model="unicore.attendance.policy">
+            <field name="name">Global Attendance Policy (Fallback)</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="policy_scope">global</field>
+            <field name="sequence">999</field>
+            <field name="min_attendance_percentage">75.0</field>
+            <field name="warning_threshold_percentage">80.0</field>
+            <field name="is_exam_eligibility_linked" eval="True"/>
+            <field name="description">Fallback policy applied when no more specific policy matches a course offering. All institutions must have this policy active.</field>
+        </record>
+
+    </data>
+</odoo>

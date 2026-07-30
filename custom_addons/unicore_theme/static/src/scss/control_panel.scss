@@ -1,0 +1,146 @@
+// ============================================
+// UniCore Theme — Control Panel
+// ============================================
+
+// FIX BUG 2: use top:0 not top:$uc-navbar-height; in Odoo 19 normal-flow layout
+// .o_control_panel sits directly after .o_navbar in the DOM, so sticky top:0
+// correctly keeps it flush below the navbar without a double gap.
+.o_control_panel {
+    background: $uc-surface;
+    border-bottom: 1px solid $uc-border-light;
+    padding: 8px 0;
+    position: sticky;
+    top: 0;
+    margin-top: 0;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    z-index: 100;
+}
+
+// Remove side padding so content spans edge-to-edge like navbar
+.o_content {
+    padding: 0;
+}
+
+// 2. BREADCRUMB
+.o_breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    a,
+    .o_breadcrumb_item:not(:last-child) {
+        color: $uc-text-muted;
+        font-size: 13px;
+        padding: 2px 6px;
+        border-radius: 4px;
+        transition: $uc-transition;
+
+        &:hover {
+            color: $uc-primary;
+            background: $uc-bg-subtle;
+        }
+    }
+
+    .o_breadcrumb_item:last-child,
+    .breadcrumb-item.active {
+        color: $uc-text-heading;
+        font-weight: 600;
+    }
+
+    .breadcrumb-item + .breadcrumb-item::before {
+        color: $uc-text-muted;
+    }
+
+    // Handle Odoo's native breadcrumb separator
+    .o_breadcrumb_item:not(:last-child)::after,
+    .breadcrumb-item + .breadcrumb-item::before {
+        content: "/";
+        color: $uc-text-muted;
+        padding: 0 6px;
+    }
+}
+
+// FIX BUG 3: default border is neutral grey ($uc-border), purple only on focus-within
+// 3. SEARCH VIEW
+.o_searchview {
+    border-radius: $uc-radius-pill;
+    background: $uc-bg-subtle;
+    border: 1px solid $uc-border;
+    height: 32px;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    transition: $uc-transition;
+
+    &:focus-within {
+        border-color: $uc-primary;
+        box-shadow: $uc-shadow-focus;
+        background: $uc-surface;
+    }
+}
+
+.o_searchview_input {
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 13px;
+    flex: 1;
+    min-width: 0;
+}
+
+// 4. VIEW SWITCH BUTTONS
+.o_cp_switch_buttons {
+    border: 1px solid $uc-border;
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+}
+
+.o_switch_view {
+    padding: 6px 10px;
+    background: transparent;
+    color: $uc-text-muted;
+    border: none;
+    transition: $uc-transition;
+    display: flex;
+    align-items: center;
+
+    &:hover:not(.active) {
+        background: $uc-bg-subtle;
+    }
+
+    &.active {
+        background: $uc-primary;
+        color: #ffffff;
+    }
+}
+
+// 5. CONTROL PANEL BUTTONS AREA
+.o_control_panel_buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+// 6. PAGINATION
+.o_pager,
+.o_cp_pager {
+    color: $uc-text-muted;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    .o_pager_previous,
+    .o_pager_next,
+    .fa-chevron-left,
+    .fa-chevron-right {
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: $uc-transition;
+
+        &:hover {
+            background: $uc-bg-subtle;
+        }
+    }
+}

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Window Action -->
+    <record id="action_unicore_holiday" model="ir.actions.act_window">
+        <field name="name">Holidays &amp; Events</field>
+        <field name="res_model">unicore.holiday</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <!-- Form View -->
+    <record id="unicore_holiday_form_view" model="ir.ui.view">
+        <field name="name">unicore.holiday.form</field>
+        <field name="model">unicore.holiday</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group name="left">
+                            <field name="name"/>
+                            <field name="holiday_type"/>
+                            <field name="company_id" options="{'no_create': True}"/>
+                            <field name="academic_year_id" options="{'no_create': True}"/>
+                            <field name="semester_id" options="{'no_create': True}"/>
+                            <field name="campus_ids" widget="many2many_tags"/>
+                        </group>
+                        <group name="right">
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="duration_days"/>
+                            <field name="affects_attendance"/>
+                            <field name="is_compensatory"/>
+                        </group>
+                    </group>
+                    <group name="description" string="Description">
+                        <field name="description"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="unicore_holiday_list_view" model="ir.ui.view">
+        <field name="name">unicore.holiday.list</field>
+        <field name="model">unicore.holiday</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="holiday_type"/>
+                <field name="academic_year_id"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="duration_days"/>
+                <field name="affects_attendance"/>
+                <field name="campus_ids"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="unicore_holiday_search_view" model="ir.ui.view">
+        <field name="name">unicore.holiday.search</field>
+        <field name="model">unicore.holiday</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="academic_year_id"/>
+                <field name="holiday_type"/>
+                <filter name="filter_affects_attendance" string="Affects Attendance"
+                        domain="[('affects_attendance', '=', True)]"/>
+                <filter name="filter_compensatory" string="Compensatory Required"
+                        domain="[('is_compensatory', '=', True)]"/>
+                <group name="groupby">
+                    <filter name="groupby_type" string="Holiday Type"
+                            context="{'group_by': 'holiday_type'}"/>
+                    <filter name="groupby_year" string="Academic Year"
+                            context="{'group_by': 'academic_year_id'}"/>
+                    <filter name="groupby_semester" string="Semester"
+                            context="{'group_by': 'semester_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+</odoo>

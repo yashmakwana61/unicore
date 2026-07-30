@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ==================== FORM VIEW ==================== -->
+    <record id="unicore_faculty_workload_form_view" model="ir.ui.view">
+        <field name="name">unicore.faculty.workload.form</field>
+        <field name="model">unicore.faculty.workload</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group name="left">
+                            <field name="faculty_member_id" options="{'no_create_edit': True}"/>
+                            <field name="academic_year_id" options="{'no_create_edit': True}"/>
+                            <field name="semester_id" options="{'no_create_edit': True}"/>
+                            <field name="course_name"/>
+                            <field name="course_code"/>
+                            <field name="workload_type"/>
+                        </group>
+                        <group name="right">
+                            <field name="program_id" options="{'no_create_edit': True}"/>
+                            <field name="room_id" options="{'no_create_edit': True}"/>
+                            <field name="weekly_hours"/>
+                            <field name="student_count"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ==================== LIST VIEW ==================== -->
+    <record id="unicore_faculty_workload_list_view" model="ir.ui.view">
+        <field name="name">unicore.faculty.workload.list</field>
+        <field name="model">unicore.faculty.workload</field>
+        <field name="arch" type="xml">
+            <list limit="40">
+                <field name="faculty_member_id"/>
+                <field name="academic_year_id"/>
+                <field name="semester_id"/>
+                <field name="course_name"/>
+                <field name="course_code"/>
+                <field name="workload_type"/>
+                <field name="weekly_hours"/>
+                <field name="student_count"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ==================== SEARCH VIEW ==================== -->
+    <record id="unicore_faculty_workload_search_view" model="ir.ui.view">
+        <field name="name">unicore.faculty.workload.search</field>
+        <field name="model">unicore.faculty.workload</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="faculty_member_id" options="{'no_create_edit': True}"/>
+                <field name="course_name"/>
+                <field name="academic_year_id" options="{'no_create_edit': True}"/>
+                <field name="semester_id" options="{'no_create_edit': True}"/>
+                <group name="groupby">
+                    <filter name="group_faculty" string="Faculty Member" context="{'group_by': 'faculty_member_id'}"/>
+                    <filter name="group_semester" string="Semester" context="{'group_by': 'semester_id'}"/>
+                    <filter name="group_workload_type" string="Workload Type" context="{'group_by': 'workload_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ==================== WINDOW ACTION ==================== -->
+    <record id="action_unicore_faculty_workload" model="ir.actions.act_window">
+        <field name="name">Teaching Workload</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">unicore.faculty.workload</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="unicore_faculty_workload_search_view"/>
+    </record>
+
+</odoo>

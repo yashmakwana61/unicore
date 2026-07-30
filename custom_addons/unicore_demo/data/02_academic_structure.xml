@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="0">
+    <record id="uc_demo_faculty_eng" model="unicore.faculty">
+      <field name="name">Faculty of Engineering and Technology</field>
+      <field name="code">ENG</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="established_year">1995</field>
+      <field name="faculty_state">active</field>
+      <field name="sequence">10</field>
+    </record>
+
+    <record id="uc_demo_faculty_bus" model="unicore.faculty">
+      <field name="name">Faculty of Business Administration</field>
+      <field name="code">BUS</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="established_year">1998</field>
+      <field name="faculty_state">active</field>
+      <field name="sequence">20</field>
+    </record>
+
+    <record id="uc_demo_dept_cs" model="unicore.department">
+      <field name="name">Department of Computer Science</field>
+      <field name="code">CS</field>
+      <field name="faculty_id" ref="uc_demo_faculty_eng"/>
+      <field name="dept_state">active</field>
+      <field name="established_year">1995</field>
+      <field name="email">cs@pfu.precisefect.com</field>
+    </record>
+
+    <record id="uc_demo_dept_ec" model="unicore.department">
+      <field name="name">Department of Electronics and Communication</field>
+      <field name="code">EC</field>
+      <field name="faculty_id" ref="uc_demo_faculty_eng"/>
+      <field name="dept_state">active</field>
+      <field name="established_year">1997</field>
+    </record>
+
+    <record id="uc_demo_dept_mba" model="unicore.department">
+      <field name="name">Department of Management Studies</field>
+      <field name="code">MGMT</field>
+      <field name="faculty_id" ref="uc_demo_faculty_bus"/>
+      <field name="dept_state">active</field>
+      <field name="established_year">1998</field>
+    </record>
+
+    <record id="uc_demo_program_btech_cs" model="unicore.program">
+      <field name="name">Bachelor of Technology in Computer Science</field>
+      <field name="code">BTECH-CS</field>
+      <field name="department_id" ref="uc_demo_dept_cs"/>
+      <field name="program_type">undergraduate</field>
+      <field name="degree_title">Bachelor of Technology</field>
+      <field name="duration_years">4.0</field>
+      <field name="credit_system">credit_hours</field>
+      <field name="total_credits">160</field>
+      <field name="program_state">active</field>
+      <field name="tuition_fee_per_semester">45000.0</field>
+      <field name="accreditation_status">accredited</field>
+      <field name="accreditation_body">AICTE</field>
+    </record>
+
+    <record id="uc_demo_program_btech_ec" model="unicore.program">
+      <field name="name">Bachelor of Technology in Electronics</field>
+      <field name="code">BTECH-EC</field>
+      <field name="department_id" ref="uc_demo_dept_ec"/>
+      <field name="program_type">undergraduate</field>
+      <field name="degree_title">Bachelor of Technology</field>
+      <field name="duration_years">4.0</field>
+      <field name="credit_system">credit_hours</field>
+      <field name="total_credits">160</field>
+      <field name="program_state">active</field>
+      <field name="tuition_fee_per_semester">42000.0</field>
+    </record>
+
+    <record id="uc_demo_program_mba" model="unicore.program">
+      <field name="name">Master of Business Administration</field>
+      <field name="code">MBA</field>
+      <field name="department_id" ref="uc_demo_dept_mba"/>
+      <field name="program_type">postgraduate</field>
+      <field name="degree_title">Master of Business Administration</field>
+      <field name="duration_years">2.0</field>
+      <field name="credit_system">credit_hours</field>
+      <field name="total_credits">90</field>
+      <field name="program_state">active</field>
+      <field name="tuition_fee_per_semester">55000.0</field>
+    </record>
+
+    <record id="uc_demo_spec_ai" model="unicore.specialisation">
+      <field name="name">Artificial Intelligence</field>
+      <field name="code">AI</field>
+      <field name="program_id" ref="uc_demo_program_btech_cs"/>
+      <field name="min_credits">30</field>
+    </record>
+
+    <record id="uc_demo_spec_se" model="unicore.specialisation">
+      <field name="name">Software Engineering</field>
+      <field name="code">SE</field>
+      <field name="program_id" ref="uc_demo_program_btech_cs"/>
+      <field name="min_credits">30</field>
+      <field name="is_default">True</field>
+    </record>
+  </data>
+</odoo>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <!-- Extend the Community AppsMenu template to inject our search and grid -->
+    <t t-name="unicore_theme.NavBar.AppsMenu.Extension" t-inherit="web.NavBar.AppsMenu" t-inherit-mode="extension">
+        <xpath expr="//DropdownItem[@t-foreach='apps']" position="replace">
+            <div class="o_apps_mega_menu">
+                <!-- 1. Search Input Bar -->
+                <div class="o_apps_menu_search p-2">
+                    <input type="text" class="form-control" autofocus="autofocus" placeholder="Search apps..." 
+                           t-on-input="_onAppsSearchInput" 
+                           t-ref="appsSearchInput" 
+                           t-on-keydown="_onAppsSearchKeydown"/>
+                </div>
+
+                <!-- 2. Grid Layout container -->
+                <div class="o_apps_menu_grid">
+                    <!-- Iterate over the filtered apps using our patched getDisplayedApps method -->
+                    <DropdownItem
+                        t-foreach="this.getDisplayedApps(apps)"
+                        t-as="app"
+                        t-key="app.id"
+                        class="{ 'o_app': true, 'focus': menuService.getCurrentApp() === app or this.state.focusedAppIndex === app_index }"
+                        onSelected="() => this.onNavBarDropdownItemSelection(app)"
+                        attrs="{ href: getMenuItemHref(app), 'data-menu-xmlid': app.xmlid, 'data-section': app.id }"
+                    >
+                        <!-- Enhanced Grid UI (Icon + Name) -->
+                        <div class="d-flex flex-column align-items-center">
+                            <img t-if="app.webIconData" class="o_app_icon mb-2" t-attf-src="{{app.webIconData}}"/>
+                            <span class="o_app_name text-center" t-esc="app.name"/>
+                        </div>
+                    </DropdownItem>
+                </div>
+            </div>
+        </xpath>
+    </t>
+</templates>

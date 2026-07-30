@@ -1,0 +1,737 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <template id="portal_my_home_unicore_guardian"
+            name="UniCore Guardian Portal Home"
+            inherit_id="portal.portal_my_home"
+            priority="25">
+    <xpath expr="//div[hasclass('o_portal_docs')]"
+           position="inside">
+      <t t-call="portal.portal_docs_entry">
+        <t t-set="title">Guardian Portal</t>
+        <t t-set="url">/my/unicore/guardian</t>
+        <t t-set="placeholder_count">unicore_wards</t>
+        <t t-set="count"
+           t-value="unicore_wards or 0"/>
+        <t t-set="text">My Wards</t>
+      </t>
+    </xpath>
+  </template>
+
+  <template id="portal_guardian_layout"
+            name="Guardian Portal Base Layout">
+    <t t-call="portal.portal_layout">
+      <t t-set="breadcrumbs_searchbar" t-value="True"/>
+      <t t-call="portal.portal_searchbar">
+        <t t-set="title">Guardian Portal</t>
+      </t>
+      <div class="container mb-3">
+        <div class="row">
+          <div class="col-12">
+            <nav class="nav nav-pills flex-wrap">
+              <a t-att-class="'nav-link' + (' active' if page_name == 'guardian_dashboard' else '')"
+                 href="/my/unicore/guardian">
+                Dashboard
+              </a>
+              <a t-att-class="'nav-link' + (' active' if page_name == 'guardian_exams' else '')"
+                 href="/my/unicore/guardian/exams">
+                Exams
+              </a>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <t t-raw="0"/>
+    </t>
+  </template>
+
+  <template id="portal_guardian_no_permission"
+            name="Guardian No Permission">
+    <t t-call="unicore_portal_guardian.portal_guardian_layout">
+      <div class="container">
+        <div class="alert alert-warning mt-3"
+             role="alert">
+          <h5><i class="fa fa-lock"/> Access Restricted</h5>
+          <p>
+            You do not have permission to view
+            <strong>
+              <t t-esc="student.display_name"/>
+            </strong>
+            's records in this section.
+          </p>
+          <a href="/my/unicore/guardian"
+             class="btn btn-primary">
+            Back to Dashboard
+          </a>
+        </div>
+      </div>
+    </t>
+  </template>
+
+  <template id="portal_guardian_dashboard"
+            name="Guardian Dashboard">
+    <t t-call="unicore_portal_guardian.portal_guardian_layout">
+      <div class="container">
+
+        <div class="row mb-4">
+          <div class="col-12">
+            <h3 class="text-primary">
+              Welcome,
+              <t t-esc="guardian.display_name"/>
+            </h3>
+            <p class="text-muted mb-0">
+              Wards under your care:
+              <strong>
+                <t t-esc="ward_count"/>
+              </strong>
+            </p>
+          </div>
+        </div>
+
+        <t t-if="not ward_data">
+          <div class="alert alert-info">
+            No wards are currently linked to your account.
+          </div>
+        </t>
+
+        <t t-foreach="ward_data" t-as="wd">
+          <t t-set="student" t-value="wd['student']"/>
+          <t t-set="relation" t-value="wd['relation']"/>
+          <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">
+                <t t-esc="student.display_name"/>
+                <small class="text-muted ms-2">
+                  ID:
+                  <code>
+                    <t t-esc="student.student_id_number"/>
+                  </code>
+                </small>
+              </h5>
+              <span class="badge bg-info">
+                <t t-esc="relation.relationship_type.replace('_',' ').title()"/>
+              </span>
+            </div>
+            <div class="card-body">
+
+              <div class="row mb-3 g-2">
+                <div class="col-md-4">
+                  <div class="card text-center border-primary h-100">
+                    <div class="card-body py-2">
+                      <h3 class="text-primary mb-0">
+                        <t t-esc="'%.2f' % student.cgpa"/>
+                      </h3>
+                      <small class="text-muted">CGPA</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div t-att-class="'card text-center h-100 ' + ('border-danger' if wd['shortage_count'] > 0 else 'border-secondary')">
+                    <div class="card-body py-2">
+                      <h3 t-att-class="'mb-0 ' + ('text-danger' if wd['shortage_count'] > 0 else 'text-secondary')">
+                        <t t-esc="wd['shortage_count']"/>
+                      </h3>
+                      <small class="text-muted">
+                        Attendance Alerts
+                      </small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div t-att-class="'card text-center h-100 ' + ('border-warning' if wd['pending_fees'] > 0 else 'border-secondary')">
+                    <div class="card-body py-2">
+                      <h3 t-att-class="'mb-0 ' + ('text-warning' if wd['pending_fees'] > 0 else 'text-secondary')">
+                        <t t-esc="'%.0f' % wd['pending_fees']"/>
+                      </h3>
+                      <small class="text-muted">
+                        Pending Fees
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <t t-if="wd['shortage_count'] > 0">
+                <div class="alert alert-danger py-2 mb-3">
+                  <small>
+                    <strong>Attendance Warning:</strong>
+                    <t t-esc="student.display_name"/>
+                    has attendance shortage in
+                    <strong>
+                      <t t-esc="wd['shortage_count']"/>
+                    </strong>
+                    course(s).
+                  </small>
+                </div>
+              </t>
+
+              <div class="d-flex gap-2 flex-wrap">
+                <t t-if="wd['can_view_academic']">
+                  <a t-att-href="'/my/unicore/guardian/attendance/%d' % student.id"
+                     class="btn btn-sm btn-outline-primary">
+                    <i class="fa fa-calendar-check-o"/> Attendance
+                  </a>
+                  <a t-att-href="'/my/unicore/guardian/academic/%d' % student.id"
+                     class="btn btn-sm btn-outline-success">
+                    <i class="fa fa-graduation-cap"/> Academic
+                  </a>
+                </t>
+                <t t-if="wd['can_view_fees']">
+                  <a t-att-href="'/my/unicore/guardian/fees/%d' % student.id"
+                     class="btn btn-sm btn-outline-warning">
+                    <i class="fa fa-money"/> Fees
+                  </a>
+                </t>
+              </div>
+
+            </div>
+          </div>
+        </t>
+
+      </div>
+    </t>
+  </template>
+
+  <template id="portal_guardian_ward_attendance"
+            name="Guardian Ward Attendance">
+    <t t-call="unicore_portal_guardian.portal_guardian_layout">
+      <div class="container">
+
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="/my/unicore/guardian">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">
+              Attendance: <t t-esc="student.display_name"/>
+            </li>
+          </ol>
+        </nav>
+
+        <h4 class="mb-3">
+          Attendance Records —
+          <t t-esc="student.display_name"/>
+        </h4>
+
+        <t t-if="shortage_records">
+          <div class="alert alert-danger mb-3">
+            <strong>Critical:</strong>
+            Attendance shortage in
+            <strong>
+              <t t-esc="len(shortage_records)"/>
+            </strong>
+            course(s).
+          </div>
+        </t>
+
+        <t t-if="not attendance_records">
+          <div class="alert alert-info">
+            No attendance records found.
+          </div>
+        </t>
+
+        <table class="table table-hover"
+               t-if="attendance_records">
+          <thead class="table-dark">
+            <tr>
+              <th>Course</th>
+              <th>Semester</th>
+              <th>Sessions Held</th>
+              <th>Present</th>
+              <th>%</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <t t-foreach="attendance_records"
+               t-as="rec">
+              <tr t-att-class="'table-danger' if rec.shortage_alert else ''">
+                <td>
+                  <strong>
+                    <t t-esc="rec.course_id.code"/>
+                  </strong>
+                  <br/>
+                  <small class="text-muted">
+                    <t t-esc="rec.course_id.name"/>
+                  </small>
+                </td>
+                <td>
+                  <t t-esc="rec.semester_id.name"/>
+                </td>
+                <td>
+                  <t t-esc="rec.total_sessions_held"/>
+                </td>
+                <td>
+                  <t t-esc="rec.sessions_present"/>
+                  +
+                  <t t-esc="rec.sessions_late"/>
+                  late
+                </td>
+                <td>
+                  <strong>
+                    <t t-esc="'%.1f%%' % rec.cumulative_attendance_percentage"/>
+                  </strong>
+                </td>
+                <td>
+                  <t t-if="rec.shortage_alert">
+                    <span class="badge bg-danger">SHORTAGE</span>
+                  </t>
+                  <t t-elif="rec.warning_alert">
+                    <span class="badge bg-warning text-dark">WARNING</span>
+                  </t>
+                  <t t-else="">
+                    <span class="badge bg-success">OK</span>
+                  </t>
+                </td>
+              </tr>
+            </t>
+          </tbody>
+        </table>
+
+        <a href="/my/unicore/guardian"
+           class="btn btn-outline-secondary mt-2">
+          Back to Dashboard
+        </a>
+
+      </div>
+    </t>
+  </template>
+
+  <template id="portal_guardian_ward_academic"
+            name="Guardian Ward Academic">
+    <t t-call="unicore_portal_guardian.portal_guardian_layout">
+      <div class="container">
+
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="/my/unicore/guardian">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">
+              Academic:
+              <t t-esc="student.display_name"/>
+            </li>
+          </ol>
+        </nav>
+
+        <h4 class="mb-3">
+          Academic Performance —
+          <t t-esc="student.display_name"/>
+        </h4>
+
+        <div class="card mb-4 border-primary">
+          <div class="card-body text-center">
+            <h2 class="text-primary mb-0">
+              <t t-esc="'%.2f' % student.cgpa"/>
+            </h2>
+            <p class="text-muted mb-0">Cumulative GPA</p>
+            <small class="text-muted">
+              Credits Earned:
+              <t t-esc="student.total_credits_earned"/>
+            </small>
+          </div>
+        </div>
+
+        <t t-if="semester_results">
+          <h5 class="mb-3">Semester Results</h5>
+          <table class="table table-bordered mb-4">
+            <thead class="table-dark">
+              <tr>
+                <th>Semester</th>
+                <th>GPA</th>
+                <th>Credits</th>
+                <th>Passed</th>
+                <th>Failed</th>
+                <th>Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              <t t-foreach="semester_results"
+                 t-as="result">
+                <tr t-att-class="'table-success' if result.result_status == 'pass' else ('table-danger' if result.result_status == 'fail' else 'table-warning')">
+                  <td>
+                    <t t-esc="result.semester_id.name"/>
+                  </td>
+                  <td>
+                    <strong>
+                      <t t-esc="'%.2f' % result.semester_gpa"/>
+                    </strong>
+                  </td>
+                  <td>
+                    <t t-esc="result.credits_earned"/>
+                  </td>
+                  <td class="text-success">
+                    <t t-esc="result.courses_passed"/>
+                  </td>
+                  <td class="text-danger">
+                    <t t-esc="result.courses_failed"/>
+                  </td>
+                  <td>
+                    <span t-att-class="'badge ' + ('bg-success' if result.result_status == 'pass' else ('bg-danger' if result.result_status == 'fail' else 'bg-warning text-dark'))">
+                      <t t-esc="result.result_status.upper()"/>
+                    </span>
+                  </td>
+                </tr>
+              </t>
+            </tbody>
+          </table>
+        </t>
+
+        <t t-if="grade_entries">
+          <h5 class="mb-3">Course Grades</h5>
+          <table class="table table-hover">
+            <thead class="table-secondary">
+              <tr>
+                <th>Course</th>
+                <th>Semester</th>
+                <th>Internal</th>
+                <th>External</th>
+                <th>Total</th>
+                <th>%</th>
+                <th>Grade</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <t t-foreach="grade_entries" t-as="entry">
+                <tr t-att-class="'table-success' if entry.is_pass else 'table-danger'">
+                  <td>
+                    <strong>
+                      <t t-esc="entry.course_id.code"/>
+                    </strong>
+                    <br/>
+                    <small class="text-muted">
+                      <t t-esc="entry.course_id.name"/>
+                    </small>
+                  </td>
+                  <td>
+                    <t t-esc="entry.semester_id.name"/>
+                  </td>
+                  <td>
+                    <t t-esc="entry.internal_marks"/>
+                  </td>
+                  <td>
+                    <t t-esc="entry.external_marks"/>
+                  </td>
+                  <td>
+                    <t t-esc="entry.total_marks_obtained"/>
+                  </td>
+                  <td>
+                    <t t-esc="'%.1f' % entry.percentage"/>%
+                  </td>
+                  <td>
+                    <span class="badge bg-primary">
+                      <t t-esc="entry.letter_grade"/>
+                    </span>
+                  </td>
+                  <td>
+                    <span t-att-class="'badge ' + ('bg-success' if entry.is_pass else 'bg-danger')">
+                      <t t-esc="'PASS' if entry.is_pass else 'FAIL'"/>
+                    </span>
+                  </td>
+                </tr>
+              </t>
+            </tbody>
+          </table>
+        </t>
+
+        <t t-if="not grade_entries and not semester_results">
+          <div class="alert alert-info">
+            No published results available yet.
+          </div>
+        </t>
+
+        <a href="/my/unicore/guardian"
+           class="btn btn-outline-secondary mt-2">
+          Back to Dashboard
+        </a>
+
+      </div>
+    </t>
+  </template>
+
+  <template id="portal_guardian_ward_fees"
+            name="Guardian Ward Fee Invoices">
+    <t t-call="unicore_portal_guardian.portal_guardian_layout">
+      <div class="container">
+
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="/my/unicore/guardian">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">
+              Fees: <t t-esc="student.display_name"/>
+            </li>
+          </ol>
+        </nav>
+
+        <h4 class="mb-3">
+          Fee Invoices —
+          <t t-esc="student.display_name"/>
+        </h4>
+
+        <div class="row mb-4 g-3">
+          <div class="col-6">
+            <div class="card text-center border-success">
+              <div class="card-body">
+                <h4 class="text-success mb-0">
+                  <t t-esc="total_paid"/>
+                </h4>
+                <small class="text-muted">Total Paid</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div t-att-class="'card text-center ' + ('border-danger' if total_outstanding > 0 else 'border-secondary')">
+              <div class="card-body">
+                <h4 t-att-class="'mb-0 ' + ('text-danger' if total_outstanding > 0 else 'text-secondary')">
+                  <t t-esc="total_outstanding"/>
+                </h4>
+                <small class="text-muted">Outstanding</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <t t-if="not invoices">
+          <div class="alert alert-info">
+            No fee invoices found.
+          </div>
+        </t>
+
+        <t t-foreach="invoices" t-as="inv">
+          <div class="card mb-3">
+            <div class="card-header d-flex justify-content-between">
+              <span>
+                <strong>
+                  <t t-esc="inv.invoice_number"/>
+                </strong>
+                — <t t-esc="inv.semester_id.name"/>
+              </span>
+              <span t-att-class="'badge ' + ('bg-success' if inv.invoice_state == 'paid' else ('bg-danger' if inv.invoice_state == 'overdue' else ('bg-warning text-dark' if inv.invoice_state == 'partial' else 'bg-secondary')))">
+                <t t-esc="inv.invoice_state.upper()"/>
+              </span>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <table class="table table-sm mb-0">
+                    <t t-foreach="inv.line_ids" t-as="line">
+                      <tr>
+                        <td>
+                          <t t-esc="line.name"/>
+                        </td>
+                        <td class="text-end">
+                          <t t-esc="line.amount"/>
+                        </td>
+                      </tr>
+                    </t>
+                    <t t-if="inv.discount_amount > 0">
+                      <tr class="text-success">
+                        <td>Scholarship / Discount</td>
+                        <td class="text-end">
+                          - <t t-esc="inv.discount_amount"/>
+                        </td>
+                      </tr>
+                    </t>
+                    <tr class="fw-bold table-light">
+                      <td>Total</td>
+                      <td class="text-end">
+                        <t t-esc="inv.total_amount"/>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="col-md-6">
+                  <p class="mb-1">
+                    <strong>Invoice Date:</strong>
+                    <t t-esc="inv.invoice_date"/>
+                  </p>
+                  <p class="mb-1">
+                    <strong>Due Date:</strong>
+                    <span t-att-class="'text-danger fw-bold' if inv.invoice_state == 'overdue' else ''">
+                      <t t-esc="inv.due_date"/>
+                    </span>
+                  </p>
+                  <p class="mb-1">
+                    <strong>Paid:</strong>
+                    <span class="text-success">
+                      <t t-esc="inv.amount_paid"/>
+                    </span>
+                  </p>
+                  <p class="mb-1">
+                    <strong>Outstanding:</strong>
+                    <span t-att-class="'text-danger fw-bold' if inv.amount_outstanding > 0 else 'text-success'">
+                      <t t-esc="inv.amount_outstanding"/>
+                    </span>
+                  </p>
+
+                  <t t-set="confirmed_pmts"
+                     t-value="inv.payment_ids.filtered(lambda p: p.payment_state == 'confirmed')"/>
+                  <t t-if="confirmed_pmts">
+                    <p class="mt-2 mb-1">
+                      <strong>Payments:</strong>
+                    </p>
+                    <ul class="list-unstyled small">
+                      <t t-foreach="confirmed_pmts"
+                         t-as="pmt">
+                        <li>
+                          <t t-esc="pmt.payment_date"/>
+                          — <t t-esc="pmt.amount"/>
+                          (<t t-esc="pmt.payment_method"/>)
+                          <br/>
+                          <code class="small">
+                            <t t-esc="pmt.receipt_number"/>
+                          </code>
+                        </li>
+                      </t>
+                    </ul>
+                  </t>
+                </div>
+              </div>
+            </div>
+          </div>
+        </t>
+
+        <a href="/my/unicore/guardian"
+           class="btn btn-outline-secondary mt-2">
+          Back to Dashboard
+        </a>
+
+      </div>
+    </t>
+  </template>
+
+  <template id="portal_guardian_exams"
+            name="Guardian Exam Schedule">
+    <t t-call="unicore_portal_guardian.portal_guardian_layout">
+      <div class="container">
+        <h4 class="mb-3">Exam Schedules &amp; Hall Tickets</h4>
+
+        <t t-if="not ward_exam_data">
+          <div class="alert alert-info">
+            No ward exam information available.
+          </div>
+        </t>
+
+        <t t-foreach="ward_exam_data" t-as="wed">
+          <t t-set="student" t-value="wed['student']"/>
+          <h5 class="mt-4 mb-3 text-primary">
+            <t t-esc="student.display_name"/>
+            <small class="text-muted">
+              (<t t-esc="student.student_id_number"/>)
+            </small>
+          </h5>
+
+          <t t-if="wed['upcoming_schedules']">
+            <h6 class="text-secondary">Upcoming Exams</h6>
+            <table class="table table-sm table-bordered mb-3">
+              <thead class="table-dark">
+                <tr>
+                  <th>Exam</th>
+                  <th>Course</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <t t-foreach="wed['upcoming_schedules']"
+                   t-as="exam">
+                  <tr>
+                    <td>
+                      <t t-esc="exam.name"/>
+                    </td>
+                    <td>
+                      <t t-esc="exam.course_id.code"/>
+                    </td>
+                    <td>
+                      <t t-esc="exam.exam_date"/>
+                    </td>
+                    <td>
+                      <t t-esc="'%02d:%02d' % (int(exam.exam_start_time), int((exam.exam_start_time % 1) * 60))"/>
+                      —
+                      <t t-esc="'%02d:%02d' % (int(exam.exam_end_time), int((exam.exam_end_time % 1) * 60))"/>
+                    </td>
+                    <td>
+                      <span class="badge bg-secondary">
+                        <t t-esc="exam.exam_type"/>
+                      </span>
+                    </td>
+                    <td>
+                      <span t-att-class="'badge ' + ('bg-success' if exam.exam_state == 'completed' else ('bg-warning text-dark' if exam.exam_state == 'ongoing' else 'bg-info text-dark'))">
+                        <t t-esc="exam.exam_state"/>
+                      </span>
+                    </td>
+                  </tr>
+                </t>
+              </tbody>
+            </table>
+          </t>
+
+          <t t-if="wed['tickets']">
+            <h6 class="text-secondary">Hall Tickets</h6>
+            <t t-foreach="wed['tickets']" t-as="ticket">
+              <div class="card mb-2">
+                <div class="card-header d-flex justify-content-between align-items-center py-2">
+                  <strong>
+                    <t t-esc="ticket.exam_schedule_id.name"/>
+                  </strong>
+                  <span t-att-class="'badge ' + ('bg-success' if ticket.ticket_state == 'approved' else ('bg-warning text-dark' if ticket.ticket_state == 'draft' else 'bg-secondary'))">
+                    <t t-esc="ticket.ticket_state.upper()"/>
+                  </span>
+                </div>
+                <div class="card-body py-2">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <small>
+                        <strong>Ticket No:</strong>
+                        <span class="font-monospace">
+                          <t t-esc="ticket.ticket_number"/>
+                        </span>
+                        <br/>
+                        <strong>Course:</strong>
+                        <t t-esc="ticket.course_id.name"/>
+                        <br/>
+                        <strong>Date:</strong>
+                        <t t-esc="ticket.exam_date"/>
+                      </small>
+                    </div>
+                    <div class="col-md-6">
+                      <t t-if="ticket.seating_id">
+                        <small>
+                          <strong>Room:</strong>
+                          <t t-esc="ticket.seating_id.room_id.name"/>
+                          <br/>
+                          <strong>Seat:</strong>
+                          <span class="badge bg-primary">
+                            <t t-esc="ticket.seating_id.seat_label"/>
+                          </span>
+                        </small>
+                      </t>
+                      <t t-else="">
+                        <small class="text-muted">
+                          Seat not assigned.
+                        </small>
+                      </t>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </t>
+          </t>
+
+          <t t-if="not wed['upcoming_schedules'] and not wed['tickets']">
+            <div class="alert alert-light py-2">
+              <small>No exam data available.</small>
+            </div>
+          </t>
+        </t>
+
+      </div>
+    </t>
+  </template>
+
+</odoo>

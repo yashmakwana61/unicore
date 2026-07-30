@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ============================================================ -->
+        <!-- SEATING — FORM VIEW                                          -->
+        <!-- ============================================================ -->
+        <record id="view_unicore_exam_seating_form" model="ir.ui.view">
+            <field name="name">unicore.exam.seating.form</field>
+            <field name="model">unicore.exam.seating</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group string="Seating Assignment">
+                            <group>
+                                <field name="exam_schedule_id"/>
+                                <field name="hall_ticket_id"/>
+                                <field name="student_id" readonly="1"/>
+                                <field name="course_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="room_id"/>
+                                <field name="seat_number"/>
+                                <field name="seat_label" readonly="1" class="o_field_emphasize"/>
+                                <field name="exam_date" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="Special Requirements" invisible="not special_requirements">
+                            <field name="special_requirements" nolabel="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- SEATING — LIST VIEW                                           -->
+        <!-- ============================================================ -->
+        <record id="view_unicore_exam_seating_list" model="ir.ui.view">
+            <field name="name">unicore.exam.seating.list</field>
+            <field name="model">unicore.exam.seating</field>
+            <field name="arch" type="xml">
+                <list default_order="room_id asc, seat_number asc">
+                    <field name="seat_label"/>
+                    <field name="student_id"/>
+                    <field name="room_id"/>
+                    <field name="seat_number"/>
+                    <field name="exam_schedule_id"/>
+                    <field name="exam_date"/>
+                    <field name="special_requirements"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- SEATING — SEARCH VIEW                                         -->
+        <!-- ============================================================ -->
+        <record id="view_unicore_exam_seating_search" model="ir.ui.view">
+            <field name="name">unicore.exam.seating.search</field>
+            <field name="model">unicore.exam.seating</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="student_id"/>
+                    <field name="room_id"/>
+                    <field name="exam_schedule_id"/>
+                    <separator/>
+                    <filter name="filter_special" string="Has Special Requirements" domain="[('special_requirements','!=',False)]"/>
+                    <separator/>
+                    <filter name="group_by_room" string="Room" context="{'group_by':'room_id'}"/>
+                    <filter name="group_by_exam" string="Exam Schedule" context="{'group_by':'exam_schedule_id'}"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- WINDOW ACTIONS                                                -->
+        <!-- ============================================================ -->
+        <record id="action_unicore_exam_seating" model="ir.actions.act_window">
+            <field name="name">Seating Plans</field>
+            <field name="res_model">unicore.exam.seating</field>
+            <field name="view_mode">list,form</field>
+            <field name="context">{'search_default_group_by_room': 1}</field>
+        </record>
+
+        <record id="action_unicore_exam_seating_my" model="ir.actions.act_window">
+            <field name="name">My Seat Assignment</field>
+            <field name="res_model">unicore.exam.seating</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('student_id.partner_id.user_ids','in',[uid])]</field>
+        </record>
+
+    </data>
+</odoo>

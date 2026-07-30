@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo noupdate="1">
+
+    <!-- ADMISSION CYCLE: company isolation -->
+    <record id="rule_admission_cycle_company" model="ir.rule">
+        <field name="name">unicore.admission.cycle: company isolation</field>
+        <field name="model_id" ref="model_unicore_admission_cycle"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- ADMISSION CYCLE SEAT: company isolation -->
+    <record id="rule_admission_cycle_seat_company" model="ir.rule">
+        <field name="name">unicore.admission.cycle.seat: company isolation</field>
+        <field name="model_id" ref="model_unicore_admission_cycle_seat"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- ADMISSION APPLICANT: company isolation -->
+    <record id="rule_admission_applicant_company" model="ir.rule">
+        <field name="name">unicore.admission.applicant: company isolation</field>
+        <field name="model_id" ref="model_unicore_admission_applicant"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- ENTRANCE TEST: company isolation -->
+    <record id="rule_admission_entrance_test_company" model="ir.rule">
+        <field name="name">unicore.admission.entrance.test: company isolation</field>
+        <field name="model_id" ref="model_unicore_admission_entrance_test"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- ENTRANCE TEST LINE: company isolation -->
+    <record id="rule_admission_entrance_test_line_company" model="ir.rule">
+        <field name="name">unicore.admission.entrance.test.line: company isolation</field>
+        <field name="model_id" ref="model_unicore_admission_entrance_test_line"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- OFFER LETTER: company isolation -->
+    <record id="rule_admission_offer_letter_company" model="ir.rule">
+        <field name="name">unicore.admission.offer.letter: company isolation</field>
+        <field name="model_id" ref="model_unicore_admission_offer_letter"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+</odoo>

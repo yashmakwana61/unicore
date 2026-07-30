@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_unicore_bonafide_wizard_form" model="ir.ui.view">
+        <field name="name">UniCore Bonafide Wizard</field>
+        <field name="model">unicore.bonafide.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Bonafide Certificate">
+                <group>
+                    <field name="student_id" required="1"/>
+                    <field name="purpose"/>
+                    <field name="purpose_other"/>
+                    <field name="certificate_number"/>
+                </group>
+                <footer>
+                    <button string="Print" type="object" name="action_print" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_unicore_bonafide_wizard" model="ir.actions.act_window">
+        <field name="name">Bonafide Certificate</field>
+        <field name="res_model">unicore.bonafide.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

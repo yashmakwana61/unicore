@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="time_slot_period_1" model="unicore.time.slot">
+            <field name="name">Period 1</field>
+            <field name="sequence" eval="10"/>
+            <field name="start_time" eval="9.0"/>
+            <field name="end_time" eval="10.0"/>
+            <field name="slot_type">lecture</field>
+        </record>
+
+        <record id="time_slot_period_2" model="unicore.time.slot">
+            <field name="name">Period 2</field>
+            <field name="sequence" eval="20"/>
+            <field name="start_time" eval="10.0"/>
+            <field name="end_time" eval="11.0"/>
+            <field name="slot_type">lecture</field>
+        </record>
+
+        <record id="time_slot_break_1" model="unicore.time.slot">
+            <field name="name">Morning Break</field>
+            <field name="sequence" eval="30"/>
+            <field name="start_time" eval="11.0"/>
+            <field name="end_time" eval="11.25"/>
+            <field name="slot_type">break</field>
+        </record>
+
+        <record id="time_slot_period_3" model="unicore.time.slot">
+            <field name="name">Period 3</field>
+            <field name="sequence" eval="40"/>
+            <field name="start_time" eval="11.25"/>
+            <field name="end_time" eval="12.25"/>
+            <field name="slot_type">lecture</field>
+        </record>
+
+        <record id="time_slot_period_4" model="unicore.time.slot">
+            <field name="name">Period 4</field>
+            <field name="sequence" eval="50"/>
+            <field name="start_time" eval="12.25"/>
+            <field name="end_time" eval="13.25"/>
+            <field name="slot_type">lecture</field>
+        </record>
+
+        <record id="time_slot_lunch" model="unicore.time.slot">
+            <field name="name">Lunch Break</field>
+            <field name="sequence" eval="60"/>
+            <field name="start_time" eval="13.25"/>
+            <field name="end_time" eval="14.25"/>
+            <field name="slot_type">lunch</field>
+        </record>
+
+        <record id="time_slot_period_5" model="unicore.time.slot">
+            <field name="name">Period 5</field>
+            <field name="sequence" eval="70"/>
+            <field name="start_time" eval="14.25"/>
+            <field name="end_time" eval="15.25"/>
+            <field name="slot_type">lecture</field>
+        </record>
+
+        <record id="time_slot_period_6" model="unicore.time.slot">
+            <field name="name">Period 6</field>
+            <field name="sequence" eval="80"/>
+            <field name="start_time" eval="15.25"/>
+            <field name="end_time" eval="16.25"/>
+            <field name="slot_type">lecture</field>
+        </record>
+
+    </data>
+</odoo>

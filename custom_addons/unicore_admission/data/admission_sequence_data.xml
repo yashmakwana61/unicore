@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo noupdate="1">
+
+    <record id="seq_unicore_admission_applicant" model="ir.sequence">
+        <field name="name">Admission Application Number</field>
+        <field name="code">unicore.admission.applicant</field>
+        <field name="prefix">APP/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_unicore_admission_offer_letter" model="ir.sequence">
+        <field name="name">Offer Letter Number</field>
+        <field name="code">unicore.admission.offer.letter</field>
+        <field name="prefix">OFR/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+</odoo>

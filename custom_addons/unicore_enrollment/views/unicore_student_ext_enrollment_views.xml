@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ============================================================ -->
+        <!-- EXTEND STUDENT FORM                                           -->
+        <!-- Add enrollments smart button + Enrollments notebook tab       -->
+        <!-- ============================================================ -->
+
+        <record id="view_unicore_student_form_ext_enrollment"
+                model="ir.ui.view">
+            <field name="name">unicore.student.form.ext.enrollment</field>
+            <field name="model">unicore.student</field>
+            <field name="inherit_id"
+                   ref="unicore_student.unicore_student_form_view"/>
+            <field name="arch" type="xml">
+
+                <!-- Add enrollments stat button to button_box -->
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_open_enrollments" type="object"
+                            class="oe_stat_button" icon="fa-book">
+                        <field name="active_enrollment_count" widget="statinfo"
+                               string="Enrollments"/>
+                    </button>
+                </xpath>
+
+                <!-- Add Enrollments notebook page at the end of the notebook -->
+                <xpath expr="//notebook" position="inside">
+                    <page string="Enrollments"
+                          groups="unicore_base.group_unicore_registrar"
+                          name="enrollments">
+                        <field name="enrollment_ids" editable="0">
+                            <list>
+                                <field name="course_id"/>
+                                <field name="semester_id"/>
+                                <field name="credit_hours"/>
+                                <field name="grade_status"/>
+                                <field name="enrollment_state"/>
+                                <field name="registration_date"/>
+                            </list>
+                        </field>
+                        <group>
+                            <field name="total_credits_this_semester"
+                                   readonly="1"/>
+                            <field name="total_credits_earned" readonly="1"/>
+                        </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

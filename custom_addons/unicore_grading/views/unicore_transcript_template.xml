@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="unicore_transcript_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="student">
+                <t t-set="td" t-value="transcript_data[student_index]"/>
+                <t t-call="unicore_grading.unicore_transcript_styles"/>
+
+                <div class="tr-container">
+                    <!-- HEADER -->
+                    <div class="tr-header">
+                        <div class="tr-institution">Precisefect University</div>
+                        <div class="tr-dept">ACADEMIC TRANSCRIPT</div>
+                        <div class="tr-subhead">Official Statement of Academic Record</div>
+                    </div>
+
+                    <!-- STUDENT INFO -->
+                    <table class="tr-info-table">
+                        <tr>
+                            <td class="tr-info-label">Student Name</td>
+                            <td class="tr-info-value" colspan="3" t-esc="student.display_name"/>
+                        </tr>
+                        <tr>
+                            <td class="tr-info-label">Student ID</td>
+                            <td class="tr-info-value" t-esc="student.student_id_number"/>
+                            <td class="tr-info-label">Date of Birth</td>
+                            <td class="tr-info-value" t-esc="student.date_of_birth"/>
+                        </tr>
+                        <tr>
+                            <td class="tr-info-label">Program</td>
+                            <td class="tr-info-value" colspan="3" t-esc="student.program_id.name"/>
+                        </tr>
+                        <tr t-if="student.specialisation_id">
+                            <td class="tr-info-label">Specialisation</td>
+                            <td class="tr-info-value" colspan="3" t-esc="student.specialisation_id.name"/>
+                        </tr>
+                        <tr>
+                            <td class="tr-info-label">Batch</td>
+                            <td class="tr-info-value" t-esc="student.batch_year"/>
+                            <td class="tr-info-label">Campus</td>
+                            <td class="tr-info-value" t-esc="student.campus_id.name"/>
+                        </tr>
+                    </table>
+
+                    <!-- SEMESTER RESULTS -->
+                    <t t-foreach="td['semester_data']" t-as="sem">
+                        <div class="tr-semester-header">
+                            <t t-esc="sem['semester'].name"/>
+                            <span class="tr-semester-status" t-esc="sem['result_status']"/>
+                        </div>
+
+                        <table class="tr-course-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:14mm;">Code</th>
+                                    <th>Course</th>
+                                    <th style="width:12mm;">Credits</th>
+                                    <th style="width:14mm;">Internal</th>
+                                    <th style="width:14mm;">External</th>
+                                    <th style="width:14mm;">Total</th>
+                                    <th style="width:10mm;">Grade</th>
+                                    <th style="width:12mm;">GP</th>
+                                    <th style="width:16mm;">Grade Pts</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="sem['course_rows']" t-as="row">
+                                    <tr>
+                                        <td t-esc="row['code']"/>
+                                        <td t-esc="row['course_name']"/>
+                                        <td style="text-align:center;" t-esc="row['credit_hours']"/>
+                                        <td style="text-align:center;" t-esc="row['internal_marks']"/>
+                                        <td style="text-align:center;" t-esc="row['external_marks']"/>
+                                        <td style="text-align:center;">
+                                            <t t-esc="row['total_marks']"/>
+                                            <span class="tr-max-mark">/<t t-esc="row['total_max']"/></span>
+                                        </td>
+                                        <td style="text-align:center;">
+                                            <span t-att-class="'tr-grade-pass' if row['is_pass'] else 'tr-grade-fail'" t-esc="row['letter_grade']"/>
+                                        </td>
+                                        <td style="text-align:center;" t-esc="row['grade_point']"/>
+                                        <td style="text-align:center;" t-esc="row['grade_points_earned']"/>
+                                    </tr>
+                                </t>
+                                <t t-if="not sem['course_rows']">
+                                    <tr>
+                                        <td colspan="9" style="text-align:center;padding:3mm 0;color:#999;">
+                                            No grade entries published for this semester.
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <table class="tr-semester-summary">
+                            <tr>
+                                <td class="tr-summary-label">Credits Attempted</td>
+                                <td class="tr-summary-value" t-esc="sem['credits_attempted']"/>
+                                <td class="tr-summary-label">Credits Earned</td>
+                                <td class="tr-summary-value" t-esc="sem['credits_earned']"/>
+                                <td class="tr-summary-label">Semester GPA</td>
+                                <td class="tr-summary-value tr-gpa" t-esc="sem['semester_gpa']"/>
+                                <td class="tr-summary-label">Passed / Failed</td>
+                                <td class="tr-summary-value">
+                                    <t t-esc="sem['courses_passed']"/> / <t t-esc="sem['courses_failed']"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </t>
+
+                    <t t-if="not td['semester_data']">
+                        <div class="tr-no-data">
+                            No published semester results found for this student.
+                        </div>
+                    </t>
+
+                    <!-- OVERALL SUMMARY -->
+                    <div class="tr-summary-header">Cumulative Summary</div>
+                    <table class="tr-cumulative-table">
+                        <tr>
+                            <td class="tr-summary-label">Total Credits Earned</td>
+                            <td class="tr-summary-value" t-esc="td['total_credits_earned']"/>
+                            <td class="tr-summary-label">Credits Required</td>
+                            <td class="tr-summary-value" t-esc="td['total_credits_required']"/>
+                        </tr>
+                        <tr>
+                            <td class="tr-summary-label">Cumulative GPA (CGPA)</td>
+                            <td class="tr-summary-value tr-cgpa" t-esc="td['cgpa']"/>
+                            <td class="tr-summary-label">Completion</td>
+                            <td class="tr-summary-value">
+                                <t t-esc="'%d%%' % round(student.completion_percentage) if student.completion_percentage else '0%'"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- FOOTER -->
+                    <div class="tr-footer">
+                        <div class="tr-footer-line"></div>
+                        <table class="tr-signature-table">
+                            <tr>
+                                <td style="width:33%;text-align:center;">
+                                    <div class="tr-signature-line"></div>
+                                    <div class="tr-signature-label">Registrar</div>
+                                </td>
+                                <td style="width:33%;text-align:center;">
+                                    <div class="tr-signature-line"></div>
+                                    <div class="tr-signature-label">Controller of Examinations</div>
+                                </td>
+                                <td style="width:33%;text-align:center;">
+                                    <div class="tr-signature-line"></div>
+                                    <div class="tr-signature-label">Principal / Dean</div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="tr-disclaimer">
+                            This is a computer-generated transcript issued by Precisefect University.
+                            Any unauthorised alteration or forgery is a punishable offence.
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="unicore_transcript_styles">
+        <style>
+            .tr-container {
+                font-family: Arial, 'Helvetica Neue', sans-serif;
+                font-size: 9pt;
+                color: #222;
+                line-height: 1.5;
+                padding: 8mm 10mm;
+            }
+            .tr-header {
+                text-align: center;
+                margin-bottom: 6mm;
+                padding-bottom: 4mm;
+                border-bottom: 2pt solid #1e3a5f;
+            }
+            .tr-institution {
+                font-size: 18pt;
+                font-weight: bold;
+                color: #1e3a5f;
+                letter-spacing: 1.5pt;
+            }
+            .tr-dept {
+                font-size: 14pt;
+                font-weight: bold;
+                color: #2563eb;
+                margin: 2mm 0 1mm 0;
+                letter-spacing: 3pt;
+                text-transform: uppercase;
+            }
+            .tr-subhead {
+                font-size: 8pt;
+                color: #666;
+                font-style: italic;
+            }
+            .tr-info-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 5mm;
+            }
+            .tr-info-table td {
+                padding: 1.2mm 1.5mm;
+                border-bottom: 0.5pt solid #ddd;
+                vertical-align: top;
+            }
+            .tr-info-label {
+                font-weight: bold;
+                color: #555;
+                width: 28mm;
+                font-size: 8pt;
+            }
+            .tr-info-value {
+                color: #222;
+            }
+            .tr-semester-header {
+                font-size: 10pt;
+                font-weight: bold;
+                color: #1e3a5f;
+                background-color: #eef2ff;
+                padding: 1.5mm 2mm;
+                margin-top: 4mm;
+                border-left: 3pt solid #2563eb;
+            }
+            .tr-semester-status {
+                float: right;
+                font-size: 8pt;
+                font-weight: normal;
+                color: #fff;
+                background-color: #155724;
+                padding: 0.3mm 2mm;
+                border-radius: 0.5mm;
+                text-transform: uppercase;
+            }
+            .tr-course-table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 8pt;
+                margin-bottom: 0;
+            }
+            .tr-course-table th {
+                background-color: #1e3a5f;
+                color: white;
+                padding: 1.2mm 1mm;
+                text-align: left;
+                font-size: 7.5pt;
+            }
+            .tr-course-table td {
+                padding: 1mm;
+                border-bottom: 0.5pt solid #eee;
+            }
+            .tr-course-table tbody tr:nth-child(even) {
+                background-color: #f8faff;
+            }
+            .tr-max-mark {
+                font-size: 6.5pt;
+                color: #999;
+            }
+            .tr-grade-pass {
+                font-weight: bold;
+                color: #155724;
+            }
+            .tr-grade-fail {
+                font-weight: bold;
+                color: #721c24;
+            }
+            .tr-semester-summary {
+                width: 100%;
+                border-collapse: collapse;
+                background-color: #f0f4ff;
+                font-size: 8pt;
+                margin-bottom: 3mm;
+            }
+            .tr-semester-summary td {
+                padding: 1mm 1.5mm;
+                border: 0.5pt solid #d0d9f0;
+            }
+            .tr-summary-label {
+                font-weight: bold;
+                color: #555;
+                font-size: 7.5pt;
+            }
+            .tr-summary-value {
+                color: #222;
+            }
+            .tr-gpa {
+                font-weight: bold;
+                color: #1e3a5f;
+            }
+            .tr-no-data {
+                text-align: center;
+                padding: 8mm;
+                color: #999;
+                font-style: italic;
+            }
+            .tr-summary-header {
+                font-size: 10pt;
+                font-weight: bold;
+                color: #1e3a5f;
+                background-color: #eef2ff;
+                padding: 1.5mm 2mm;
+                margin-top: 5mm;
+                border-left: 3pt solid #2563eb;
+            }
+            .tr-cumulative-table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 9pt;
+                margin-bottom: 6mm;
+            }
+            .tr-cumulative-table td {
+                padding: 1.5mm 2mm;
+                border-bottom: 0.5pt solid #ddd;
+            }
+            .tr-cgpa {
+                font-size: 12pt;
+                font-weight: bold;
+                color: #1e3a5f;
+            }
+            .tr-footer {
+                margin-top: 8mm;
+                padding-top: 3mm;
+                border-top: 1pt solid #1e3a5f;
+            }
+            .tr-signature-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 5mm 0 3mm 0;
+            }
+            .tr-signature-line {
+                width: 60%;
+                border-top: 0.5pt solid #333;
+                margin: 0 auto 1.5mm auto;
+            }
+            .tr-signature-label {
+                font-size: 8pt;
+                color: #555;
+            }
+            .tr-disclaimer {
+                text-align: center;
+                font-size: 6.5pt;
+                color: #999;
+                margin-top: 3mm;
+                padding-top: 1.5mm;
+                border-top: 0.5pt solid #ddd;
+            }
+        </style>
+    </template>
+</odoo>

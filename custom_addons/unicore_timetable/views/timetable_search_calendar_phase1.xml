@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ========================================================= -->
+        <!-- Phase 1: Timetable search view - missing field + filter   -->
+        <!-- ========================================================= -->
+        <record id="view_timetable_search_phase1_filters" model="ir.ui.view">
+            <field name="name">unicore.timetable.entry.search.phase1</field>
+            <field name="model">unicore.timetable.entry</field>
+            <field name="inherit_id" ref="unicore_timetable.view_unicore_timetable_entry_search"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='course_id']" position="after">
+                    <field name="course_offering_id"/>
+                    <field name="day_of_week"/>
+                </xpath>
+
+                <xpath expr="//filter[@name='filter_draft']" position="after">
+                    <filter name="filter_cancelled" string="Cancelled Entries" domain="[('entry_state','=','cancelled')]"/>
+                </xpath>
+
+                <xpath expr="//filter[@name='group_by_day_of_week']" position="after">
+                    <filter name="group_by_course_offering" string="Course Offering" context="{'group_by': 'course_offering_id'}"/>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

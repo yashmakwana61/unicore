@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_unicore_library_issue_search_phase1_filters" model="ir.ui.view">
+        <field name="name">unicore.library.issue.search.phase1</field>
+        <field name="model">unicore.library.issue</field>
+        <field name="inherit_id" ref="unicore_library.view_unicore_library_issue_search"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//filter[@name='issued']" position="after">
+                <filter name="filter_returned" string="Returned"
+                    domain="[('issue_state','=','returned')]"/>
+                <filter name="filter_lost" string="Lost"
+                    domain="[('issue_state','=','lost')]"/>
+                <filter name="filter_cancelled" string="Cancelled"
+                    domain="[('issue_state','=','cancelled')]"/>
+            </xpath>
+
+            <xpath expr="//group[@name='group_by']" position="inside">
+                <filter name="group_by_book" string="Book"
+                    context="{'group_by': 'book_id'}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

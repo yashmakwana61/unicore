@@ -1,0 +1,254 @@
+// UniCore Admission Dashboard Styling
+// Uses design tokens from unicore_theme
+
+:root {
+    --uc-primary: #714B67;
+    --uc-primary-dark: #5a3c53;
+    --uc-primary-light: #a671a8;
+    --uc-gray-100: #f8f9fa;
+    --uc-gray-200: #e9ecef;
+    --uc-gray-400: #ced4da;
+    --uc-gray-600: #6c757d;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --uc-primary: #9e7ba8;
+        --uc-gray-100: #2b2d31;
+        --uc-gray-200: #383b42;
+        --uc-gray-400: #4a4d54;
+        --uc-gray-600: #adb5bd;
+    }
+}
+
+.o_admission_dashboard {
+    padding: 20px;
+    background-color: var(--uc-gray-100);
+    min-height: 100vh;
+
+    .o_dashboard_loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 400px;
+
+        .spinner {
+            font-size: 18px;
+            color: var(--uc-gray-600);
+        }
+    }
+
+    // Filters Section
+    .o_dashboard_filters {
+        background-color: white;
+        border: 1px solid var(--uc-gray-200);
+        border-radius: 6px;
+        margin-bottom: 20px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+        .card-header {
+            background-color: var(--uc-gray-100);
+            border-bottom: 1px solid var(--uc-gray-200);
+            border-radius: 6px 6px 0 0;
+
+            h5 {
+                margin: 0;
+                font-weight: 600;
+                color: var(--uc-primary);
+            }
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        input,
+        select {
+            border: 1px solid var(--uc-gray-400);
+            border-radius: 4px;
+            padding: 8px 12px;
+            font-size: 14px;
+
+            &:focus {
+                border-color: var(--uc-primary);
+                outline: none;
+                box-shadow: 0 0 0 3px rgba(113, 75, 103, 0.1);
+            }
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 6px;
+            color: var(--uc-gray-600);
+        }
+    }
+
+    // KPI Cards Section
+    .o_dashboard_kpis {
+        .kpi-card {
+            background-color: white;
+            border: 1px solid var(--uc-gray-200);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            &:hover {
+                border-color: var(--uc-primary);
+                box-shadow: 0 4px 12px rgba(113, 75, 103, 0.15);
+                transform: translateY(-2px);
+            }
+
+            .kpi-label {
+                font-size: 12px;
+                font-weight: 600;
+                color: var(--uc-gray-600);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                margin-bottom: 8px;
+            }
+
+            .kpi-value {
+                font-size: 28px;
+                font-weight: 700;
+                color: var(--uc-primary);
+                line-height: 1.2;
+            }
+        }
+    }
+
+    // Charts Section
+    .o_dashboard_charts {
+        .card {
+            background-color: white;
+            border: 1px solid var(--uc-gray-200);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+
+            .card-body {
+                padding: 20px;
+                position: relative;
+                min-height: 350px;
+            }
+
+            canvas {
+                max-width: 100%;
+            }
+        }
+    }
+
+    // Tables Section
+    .o_dashboard_tables {
+        .card {
+            background-color: white;
+            border: 1px solid var(--uc-gray-200);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+            .card-header {
+                background-color: var(--uc-gray-100);
+                border-bottom: 1px solid var(--uc-gray-200);
+                padding: 12px 15px;
+                border-radius: 8px 8px 0 0;
+
+                h6 {
+                    margin: 0;
+                    font-weight: 600;
+                    color: var(--uc-primary);
+                    font-size: 14px;
+                }
+            }
+
+            .card-body {
+                padding: 0;
+            }
+
+            table {
+                margin-bottom: 0;
+
+                thead {
+                    background-color: var(--uc-gray-100);
+
+                    th {
+                        font-weight: 600;
+                        color: var(--uc-primary);
+                        border-bottom: 2px solid var(--uc-gray-200);
+                        padding: 10px 12px;
+                        font-size: 12px;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                    }
+                }
+
+                tbody {
+                    tr {
+                        border-bottom: 1px solid var(--uc-gray-200);
+
+                        &:hover {
+                            background-color: var(--uc-gray-100);
+                        }
+
+                        td {
+                            padding: 10px 12px;
+                            font-size: 14px;
+                            color: var(--uc-gray-600);
+                        }
+                    }
+
+                    tr:last-child {
+                        border-bottom: none;
+                    }
+                }
+            }
+        }
+    }
+
+    // Responsive adjustments
+    @media (max-width: 768px) {
+        padding: 10px;
+
+        .o_dashboard_filters {
+            .card-body {
+                padding: 10px;
+            }
+
+            .row {
+                flex-direction: column;
+            }
+
+            .col-md-2 {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+
+        .o_dashboard_kpis {
+            .kpi-card {
+                margin-bottom: 10px;
+
+                .kpi-value {
+                    font-size: 22px;
+                }
+            }
+        }
+
+        .o_dashboard_charts,
+        .o_dashboard_tables {
+            .row {
+                flex-direction: column;
+            }
+
+            .col-md-6,
+            .col-md-4 {
+                width: 100%;
+            }
+        }
+    }
+}

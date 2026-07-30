@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Form View -->
+        <record id="unicore_fee_accounting_config_form" model="ir.ui.view">
+            <field name="name">unicore.fee.accounting.config.form</field>
+            <field name="model">unicore.fee.accounting.config</field>
+            <field name="arch" type="xml">
+                <form string="Fee Accounting Configuration">
+                    <sheet>
+                        <div class="alert alert-info" role="alert">
+                            <p><b>Setup Instructions:</b> Configure GL account mappings for automatic invoice posting to accounting module. Only one active configuration per institution.</p>
+                        </div>
+
+                        <group>
+                            <group string="Institution &amp; Journal">
+                                <field name="company_id" />
+                                <field name="journal_id" />
+                                <field name="is_active" />
+                            </group>
+
+                            <group string="GL Account Configuration">
+                                <field name="revenue_account_id" />
+                                <field name="receivable_account_id" />
+                            </group>
+                        </group>
+
+                        <group string="Taxes &amp; Automation Settings">
+                            <group>
+                                <field name="tax_ids" widget="many2many_tags" />
+                            </group>
+
+                            <group>
+                                <field name="auto_post_invoice" />
+                                <field name="auto_create_partner" />
+                                <field name="sync_partner_on_update" />
+                            </group>
+                        </group>
+
+                        <footer>
+                            <field name="created_by_id" readonly="1" />
+                            <field name="updated_by_id" readonly="1" />
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="unicore_fee_accounting_config_tree" model="ir.ui.view">
+            <field name="name">unicore.fee.accounting.config.tree</field>
+            <field name="model">unicore.fee.accounting.config</field>
+            <field name="arch" type="xml">
+                <list string="Fee Accounting Configurations">
+                    <field name="company_id" />
+                    <field name="journal_id" />
+                    <field name="revenue_account_id" />
+                    <field name="auto_post_invoice" />
+                    <field name="is_active" widget="boolean" />
+                </list>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="unicore_fee_accounting_config_action" model="ir.actions.act_window">
+            <field name="name">Fee Accounting Configuration</field>
+            <field name="res_model">unicore.fee.accounting.config</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                                         (0, 0, {'sequence': 1, 'view_mode': 'list', 'view_id': ref('unicore_fee_accounting_config_tree')}),
+                                         (0, 0, {'sequence': 2, 'view_mode': 'form', 'view_id': ref('unicore_fee_accounting_config_form')})]"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new Fee Accounting Configuration
+                </p>
+                <p>
+                    Configure GL account mappings for automatic invoice posting.
+                    Set up the sales journal, revenue account, and posting preferences.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

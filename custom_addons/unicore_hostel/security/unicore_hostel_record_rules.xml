@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="1">
+
+    <record id="rule_unicore_hostel_block_company"
+            model="ir.rule">
+      <field name="name">Hostel Block: Company Isolation</field>
+      <field name="model_id"
+        ref="unicore_hostel.model_unicore_hostel_block"/>
+      <field name="domain_force">
+        ['|',('company_id','=',False),
+             ('company_id','in',company_ids)]
+      </field>
+      <field name="groups"
+        eval="[(4,ref('base.group_user'))]"/>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_write" eval="True"/>
+      <field name="perm_create" eval="True"/>
+      <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_unicore_hostel_room_company"
+            model="ir.rule">
+      <field name="name">Hostel Room: Company Isolation</field>
+      <field name="model_id"
+        ref="unicore_hostel.model_unicore_hostel_room"/>
+      <field name="domain_force">
+        ['|',('company_id','=',False),
+             ('company_id','in',company_ids)]
+      </field>
+      <field name="groups"
+        eval="[(4,ref('base.group_user'))]"/>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_write" eval="True"/>
+      <field name="perm_create" eval="True"/>
+      <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_unicore_hostel_allocation_company"
+            model="ir.rule">
+      <field name="name">Hostel Allocation: Company Isolation</field>
+      <field name="model_id"
+        ref="unicore_hostel.model_unicore_hostel_allocation"/>
+      <field name="domain_force">
+        ['|',('company_id','=',False),
+             ('company_id','in',company_ids)]
+      </field>
+      <field name="groups"
+        eval="[(4,ref('base.group_user'))]"/>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_write" eval="True"/>
+      <field name="perm_create" eval="True"/>
+      <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_unicore_hostel_allocation_student"
+            model="ir.rule">
+      <field name="name">Hostel Allocation: Student Own Record</field>
+      <field name="model_id"
+        ref="unicore_hostel.model_unicore_hostel_allocation"/>
+      <field name="domain_force">
+        [('student_id.partner_id.user_ids',
+          'in', [user.id])]
+      </field>
+      <field name="groups"
+        eval="[(4,ref('unicore_base.group_unicore_student'))]"/>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_write" eval="False"/>
+      <field name="perm_create" eval="False"/>
+      <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_unicore_hostel_maintenance_company"
+            model="ir.rule">
+      <field name="name">Hostel Maintenance: Company Isolation</field>
+      <field name="model_id"
+        ref="unicore_hostel.model_unicore_hostel_maintenance"/>
+      <field name="domain_force">
+        ['|',('company_id','=',False),
+             ('company_id','in',company_ids)]
+      </field>
+      <field name="groups"
+        eval="[(4,ref('base.group_user'))]"/>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_write" eval="True"/>
+      <field name="perm_create" eval="True"/>
+      <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_unicore_hostel_maintenance_student"
+            model="ir.rule">
+      <field name="name">Hostel Maintenance: Student Own Requests</field>
+      <field name="model_id"
+        ref="unicore_hostel.model_unicore_hostel_maintenance"/>
+      <field name="domain_force">
+        [('student_id.partner_id.user_ids',
+          'in', [user.id])]
+      </field>
+      <field name="groups"
+        eval="[(4,ref('unicore_base.group_unicore_student'))]"/>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_write" eval="True"/>
+      <field name="perm_create" eval="True"/>
+      <field name="perm_unlink" eval="False"/>
+    </record>
+
+  </data>
+</odoo>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ========================================================= -->
+    <!-- Phase 1: Search view filters and group-bys                -->
+    <!-- ========================================================= -->
+    <record id="view_admission_search_phase1_filters" model="ir.ui.view">
+        <field name="name">unicore.admission.applicant.search.phase1</field>
+        <field name="model">unicore.admission.applicant</field>
+        <field name="inherit_id" ref="unicore_admission.admission_applicant_search_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//filter[@name='active_applications']" position="after">
+
+                <filter name="state_applied" string="Applied" domain="[('state','=','applied')]"/>
+                <filter name="state_documents_pending" string="Documents Pending" domain="[('state','=','documents_pending')]"/>
+                <filter name="state_under_review" string="Under Review" domain="[('state','=','under_review')]"/>
+                <filter name="state_shortlisted" string="Shortlisted" domain="[('state','=','shortlisted')]"/>
+                <filter name="state_entrance_scheduled" string="Entrance Scheduled" domain="[('state','=','entrance_scheduled')]"/>
+                <filter name="state_merit_listed" string="Merit Listed" domain="[('state','=','merit_listed')]"/>
+                <filter name="state_offer_sent" string="Offer Sent" domain="[('state','=','offer_sent')]"/>
+                <filter name="state_fee_pending" string="Fee Pending" domain="[('state','=','fee_pending')]"/>
+                <filter name="state_rejected" string="Rejected" domain="[('state','=','rejected')]"/>
+                <filter name="state_withdrawn" string="Withdrawn" domain="[('state','=','withdrawn')]"/>
+                <filter name="state_waitlisted" string="Waitlisted" domain="[('state','=','waitlisted')]"/>
+
+                <separator/>
+
+                <filter name="filter_campus" string="Campus" context="{'group_by': 'campus_id'}"/>
+                <filter name="filter_program" string="Program" context="{'group_by': 'program_id'}"/>
+
+            </xpath>
+
+            <xpath expr="//filter[@name='group_by_program']" position="after">
+
+                <filter name="groupby_campus" string="Campus" context="{'group_by': 'campus_id'}"/>
+
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- ========================================================= -->
+    <!-- Phase 1: List view row decorations                        -->
+    <!-- ========================================================= -->
+    <record id="view_admission_list_phase1_decoration" model="ir.ui.view">
+        <field name="name">unicore.admission.applicant.list.phase1</field>
+        <field name="model">unicore.admission.applicant</field>
+        <field name="inherit_id" ref="unicore_admission.admission_applicant_list_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//list" position="attributes">
+                <attribute name="decoration-danger">state in ('rejected', 'withdrawn')</attribute>
+                <attribute name="decoration-success">state == 'confirmed'</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- STUDENT ENROLLMENT REPORT -->
+
+  <record id="view_unicore_student_enroll_pivot"
+          model="ir.ui.view">
+    <field name="name">unicore.student.enrollment.report.pivot</field>
+    <field name="model">unicore.student.enrollment.report</field>
+    <field name="arch" type="xml">
+      <pivot string="Student Enrollment Analytics"
+             disable_linking="False">
+        <field name="program_id" type="row"/>
+        <field name="batch_year" type="col"/>
+        <field name="student_count" type="measure"/>
+        <field name="avg_cgpa" type="measure"/>
+      </pivot>
+    </field>
+  </record>
+
+  <record id="view_unicore_student_enroll_graph"
+          model="ir.ui.view">
+    <field name="name">unicore.student.enrollment.report.graph</field>
+    <field name="model">unicore.student.enrollment.report</field>
+    <field name="arch" type="xml">
+      <graph string="Student Enrollment Trends"
+             type="bar"
+             stacked="1">
+        <field name="program_id"/>
+        <field name="student_count" type="measure"/>
+      </graph>
+    </field>
+  </record>
+
+  <record id="view_unicore_student_enroll_list"
+          model="ir.ui.view">
+    <field name="name">unicore.student.enrollment.report.list</field>
+    <field name="model">unicore.student.enrollment.report</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="program_id"/>
+        <field name="batch_year"/>
+        <field name="gender"/>
+        <field name="student_state"/>
+        <field name="student_count"/>
+        <field name="avg_cgpa"/>
+        <field name="max_cgpa"/>
+        <field name="min_cgpa"/>
+        <field name="avg_credits_earned"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_unicore_student_enroll_search"
+          model="ir.ui.view">
+    <field name="name">unicore.student.enrollment.report.search</field>
+    <field name="model">unicore.student.enrollment.report</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="program_id"/>
+        <field name="batch_year"/>
+        <filter name="active_students"
+          string="Active Students"
+          domain="[('student_state','in',['enrolled','active'])]"/>
+        <group name="group_by">
+          <filter name="group_by_program"
+            string="Program"
+            context="{'group_by':'program_id'}"/>
+          <filter name="group_by_batch"
+            string="Batch Year"
+            context="{'group_by':'batch_year'}"/>
+          <filter name="group_by_gender"
+            string="Gender"
+            context="{'group_by':'gender'}"/>
+          <filter name="group_by_state"
+            string="State"
+            context="{'group_by':'student_state'}"/>
+        </group>
+      </search>
+    </field>
+  </record>
+
+  <record id="action_unicore_student_enrollment_report"
+          model="ir.actions.act_window">
+    <field name="name">Student Enrollment Analytics</field>
+    <field name="res_model">unicore.student.enrollment.report</field>
+    <field name="view_mode">graph,pivot,list</field>
+    <field name="context">
+      {'search_default_active_students': 1}
+    </field>
+  </record>
+
+  <!-- ATTENDANCE REPORT -->
+
+  <record id="view_unicore_attendance_report_pivot"
+          model="ir.ui.view">
+    <field name="name">unicore.attendance.report.pivot</field>
+    <field name="model">unicore.attendance.report</field>
+    <field name="arch" type="xml">
+      <pivot string="Attendance Analytics">
+        <field name="course_id" type="row"/>
+        <field name="semester_id" type="col"/>
+        <field name="avg_attendance_pct"
+               type="measure"/>
+        <field name="shortage_rate" type="measure"/>
+        <field name="student_count" type="measure"/>
+      </pivot>
+    </field>
+  </record>
+
+  <record id="view_unicore_attendance_report_graph"
+          model="ir.ui.view">
+    <field name="name">unicore.attendance.report.graph</field>
+    <field name="model">unicore.attendance.report</field>
+    <field name="arch" type="xml">
+      <graph string="Attendance Shortage Analysis"
+             type="bar">
+        <field name="course_id"/>
+        <field name="shortage_count" type="measure"/>
+        <field name="student_count" type="measure"/>
+      </graph>
+    </field>
+  </record>
+
+  <record id="view_unicore_attendance_report_list"
+          model="ir.ui.view">
+    <field name="name">unicore.attendance.report.list</field>
+    <field name="model">unicore.attendance.report</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="course_id"/>
+        <field name="semester_id"/>
+        <field name="student_count"/>
+        <field name="avg_attendance_pct"/>
+        <field name="min_attendance_pct"/>
+        <field name="shortage_count"/>
+        <field name="shortage_rate"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="action_unicore_attendance_report"
+          model="ir.actions.act_window">
+    <field name="name">Attendance Analytics</field>
+    <field name="res_model">unicore.attendance.report</field>
+    <field name="view_mode">graph,pivot,list</field>
+  </record>
+
+</odoo>

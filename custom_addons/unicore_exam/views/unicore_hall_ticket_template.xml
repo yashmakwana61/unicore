@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="unicore_hall_ticket_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="ticket">
+                <t t-set="td" t-value="ticket_data[ticket_index]"/>
+                <t t-set="s" t-value="td['schedule']"/>
+                <t t-set="student" t-value="td['student']"/>
+
+                <!-- STUDENT COPY -->
+                <div class="ht-copy">
+                    <div class="ht-copy-label">STUDENT COPY</div>
+
+                    <div class="ht-card" style="page-break-after:always;">
+                        <div class="ht-ribbon"></div>
+                        <div class="ht-body">
+                            <table class="ht-header-table">
+                                <tr>
+                                    <td class="ht-logo-cell" style="width:35mm;text-align:center;">
+                                        <div style="font-size:18pt;font-weight:bold;color:#1e3a5f;letter-spacing:0.5pt;">
+                                            PRECISEFECT<br/>UNIVERSITY
+                                        </div>
+                                        <div style="font-size:7pt;color:#666;margin-top:1mm;">
+                                            EXAMINATION DEPARTMENT
+                                        </div>
+                                    </td>
+                                    <td style="text-align:right;vertical-align:top;">
+                                        <div class="ht-photo-box">
+                                            <img t-if="student.image_1920"
+                                                 t-att-src="'data:image/png;base64,' + student.image_1920.decode('utf-8')"
+                                                 style="width:28mm;height:33mm;object-fit:cover;display:block;"/>
+                                            <span t-else="" class="ht-photo-placeholder">Affix<br/>Photo</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <div class="ht-title">
+                                HALL TICKET — ADMIT CARD
+                            </div>
+                            <div class="ht-subtitle" t-esc="s.name"/>
+
+                            <table class="ht-info-table">
+                                <tr>
+                                    <td class="ht-label">Hall Ticket No</td>
+                                    <td class="ht-value ht-value-emphasis" colspan="3" t-esc="ticket.ticket_number"/>
+                                </tr>
+                                <tr>
+                                    <td class="ht-label">Student ID</td>
+                                    <td class="ht-value" t-esc="student.student_id_number"/>
+                                    <td class="ht-label">Seat No</td>
+                                    <td class="ht-value" t-esc="td['seat_number'] or 'To be allotted'"/>
+                                </tr>
+                                <tr>
+                                    <td class="ht-label">Student Name</td>
+                                    <td class="ht-value" colspan="3" t-esc="student.display_name"/>
+                                </tr>
+                                <tr>
+                                    <td class="ht-label">Program</td>
+                                    <td class="ht-value" colspan="3">
+                                        <t t-esc="student.program_id.code + ' — ' + student.program_id.name if student.program_id and student.program_id.code else student.program_id.name"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="ht-label">Semester</td>
+                                    <td class="ht-value" t-esc="td['semester'].name if td['semester'] else ''"/>
+                                    <td class="ht-label">Year</td>
+                                    <td class="ht-value">
+                                        <t t-if="student.current_year_of_study == 1">1st</t>
+                                        <t t-elif="student.current_year_of_study == 2">2nd</t>
+                                        <t t-elif="student.current_year_of_study == 3">3rd</t>
+                                        <t t-else="">4th</t>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="ht-label">Exam Type</td>
+                                    <td class="ht-value" colspan="3" t-esc="dict(ticket._fields['exam_type']._description_selection(ticket.env)).get(ticket.exam_type, ticket.exam_type)"/>
+                                </tr>
+                                <tr>
+                                    <td class="ht-label">Venue</td>
+                                    <td class="ht-value" colspan="3">
+                                        <t t-foreach="td['venue_list']" t-as="venue">
+                                            <t t-esc="venue.name"/>
+                                            <t t-if="not venue_last">, </t>
+                                        </t>
+                                        <t t-if="not td['venue_list']">To be announced</t>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="ht-label">Room</td>
+                                    <td class="ht-value" t-esc="td['room_name'] or 'To be allotted'"/>
+                                    <td class="ht-label">Campus</td>
+                                    <td class="ht-value" t-esc="ticket.campus_id.name or ''"/>
+                                </tr>
+                            </table>
+
+                            <div class="ht-section-title">EXAMINATION SCHEDULE</div>
+                            <table class="ht-schedule-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width:24mm;">Date</th>
+                                        <th>Subject</th>
+                                        <th style="width:18mm;">Code</th>
+                                        <th style="width:22mm;">Time</th>
+                                        <th style="width:15mm;">Max Marks</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="td['exam_rows']" t-as="row">
+                                        <tr>
+                                            <td t-esc="row['exam_date'] or 'TBD'"/>
+                                            <td t-esc="row['course'].name"/>
+                                            <td t-esc="row['course'].code"/>
+                                            <td>
+                                                <t t-esc="row['exam_start']"/>
+                                                <t t-if="row['exam_end']"> — <t t-esc="row['exam_end']"/></t>
+                                            </td>
+                                            <td style="text-align:right;">
+                                                <t t-esc="row['course'].total_marks if row['course'].total_marks else 100"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <t t-if="not td['exam_rows']">
+                                        <tr>
+                                            <td colspan="5" style="text-align:center;padding:4mm 0;color:#999;">
+                                                No courses found for this semester.
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+
+                            <div class="ht-section-title">ELIGIBILITY STATUS</div>
+                            <div class="ht-eligibility-box">
+                                <t t-if="ticket.eligibility_status in ('eligible', 'override')">
+                                    <span class="ht-eligible-badge">✓ Eligible to Appear</span>
+                                </t>
+                                <t t-else="">
+                                    <span class="ht-ineligible-badge">✗ Not Eligible to Appear</span>
+                                    <div t-if="ticket.eligibility_note" class="ht-eligibility-note" t-esc="ticket.eligibility_note"/>
+                                </t>
+
+                                <t t-if="ticket.eligibility_status == 'override'">
+                                    <div style="margin-top:1mm;font-size:7pt;color:#856404;font-style:italic;">
+                                        Override approved by Examination Department
+                                    </div>
+                                </t>
+
+                                <div class="ht-ticket-state" t-if="ticket.ticket_state == 'approved'">
+                                    ✓ APPROVED
+                                </div>
+                                <div class="ht-ticket-state ht-ticket-blocked" t-if="ticket.ticket_state == 'blocked'">
+                                    ✗ BLOCKED
+                                </div>
+                            </div>
+
+                            <div class="ht-section-title">INSTRUCTIONS TO CANDIDATES</div>
+                            <div class="ht-instructions">
+                                <t t-if="s.instructions">
+                                    <t t-raw="s.instructions"/>
+                                </t>
+                                <t t-else="">
+                                    <ol style="margin:0;padding-left:14mm;">
+                                        <li>Carry this hall ticket to every examination session.</li>
+                                        <li>Arrive at the examination hall 15 minutes before the scheduled start.</li>
+                                        <li>No electronic devices (mobile phones, smart watches, calculators unless permitted) are allowed inside the examination hall.</li>
+                                        <li>Present this hall ticket along with a valid photo ID (College ID / Aadhaar / Driving License) to the invigilator on entry.</li>
+                                        <li>Use only black or blue ink pens. Write your ticket number and seat number on the answer booklet cover.</li>
+                                        <li>Do not engage in any unfair means. Violation will result in disciplinary action as per university regulations.</li>
+                                        <li>No additional answer sheets will be provided after the last 15 minutes of the examination.</li>
+                                        <li>Hall ticket must be signed by the student and presented to the invigilator at each session.</li>
+                                    </ol>
+                                </t>
+                            </div>
+
+                            <table class="ht-signature-table">
+                                <tr>
+                                    <td style="width:50%;text-align:center;">
+                                        <div style="margin-top:10mm;border-top:0.5pt solid #333;padding-top:1mm;font-size:8pt;">
+                                            Student Signature
+                                        </div>
+                                    </td>
+                                    <td style="width:50%;text-align:center;">
+                                        <div style="margin-top:10mm;border-top:0.5pt solid #333;padding-top:1mm;font-size:8pt;">
+                                            Controller of Examinations
+                                        </div>
+                                        <div style="font-size:7pt;color:#888;margin-top:3mm;">(with Stamp)</div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <div class="ht-disclaimer">
+                                This is a computer-generated hall ticket. The student must verify all details and report discrepancies to the Examination Department immediately.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- INSTITUTION COPY -->
+                    <div class="ht-copy">
+                        <div class="ht-copy-label ht-copy-label-inst">INSTITUTION COPY</div>
+
+                        <div class="ht-card">
+                            <div class="ht-ribbon"></div>
+                            <div class="ht-body">
+                                <table class="ht-header-table">
+                                    <tr>
+                                        <td class="ht-logo-cell" style="width:35mm;text-align:center;">
+                                            <div style="font-size:18pt;font-weight:bold;color:#1e3a5f;letter-spacing:0.5pt;">
+                                                PRECISEFECT<br/>UNIVERSITY
+                                            </div>
+                                            <div style="font-size:7pt;color:#666;margin-top:1mm;">
+                                                EXAMINATION DEPARTMENT
+                                            </div>
+                                        </td>
+                                        <td style="text-align:right;vertical-align:top;">
+                                            <div class="ht-photo-box">
+                                                <img t-if="student.image_1920"
+                                                     t-att-src="'data:image/png;base64,' + student.image_1920.decode('utf-8')"
+                                                     style="width:28mm;height:33mm;object-fit:cover;display:block;"/>
+                                                <span t-else="" class="ht-photo-placeholder">Affix<br/>Photo</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <div class="ht-title">
+                                    HALL TICKET — ADMIT CARD
+                                </div>
+                                <div class="ht-subtitle" t-esc="s.name"/>
+
+                                <table class="ht-info-table">
+                                    <tr>
+                                        <td class="ht-label">Hall Ticket No</td>
+                                        <td class="ht-value ht-value-emphasis" colspan="3" t-esc="ticket.ticket_number"/>
+                                    </tr>
+                                    <tr>
+                                        <td class="ht-label">Student ID</td>
+                                        <td class="ht-value" t-esc="student.student_id_number"/>
+                                        <td class="ht-label">Seat No</td>
+                                        <td class="ht-value" t-esc="td['seat_number'] or 'To be allotted'"/>
+                                    </tr>
+                                    <tr>
+                                        <td class="ht-label">Student Name</td>
+                                        <td class="ht-value" colspan="3" t-esc="student.display_name"/>
+                                    </tr>
+                                    <tr>
+                                        <td class="ht-label">Program</td>
+                                        <td class="ht-value" colspan="3">
+                                            <t t-esc="student.program_id.code + ' — ' + student.program_id.name if student.program_id and student.program_id.code else student.program_id.name"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="ht-label">Semester</td>
+                                        <td class="ht-value" t-esc="td['semester'].name if td['semester'] else ''"/>
+                                        <td class="ht-label">Year</td>
+                                        <td class="ht-value">
+                                            <t t-if="student.current_year_of_study == 1">1st</t>
+                                            <t t-elif="student.current_year_of_study == 2">2nd</t>
+                                            <t t-elif="student.current_year_of_study == 3">3rd</t>
+                                            <t t-else="">4th</t>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="ht-label">Exam Type</td>
+                                        <td class="ht-value" colspan="3" t-esc="dict(ticket._fields['exam_type']._description_selection(ticket.env)).get(ticket.exam_type, ticket.exam_type)"/>
+                                    </tr>
+                                    <tr>
+                                        <td class="ht-label">Venue</td>
+                                        <td class="ht-value" colspan="3">
+                                            <t t-foreach="td['venue_list']" t-as="venue">
+                                                <t t-esc="venue.name"/>
+                                                <t t-if="not venue_last">, </t>
+                                            </t>
+                                            <t t-if="not td['venue_list']">To be announced</t>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="ht-label">Room</td>
+                                        <td class="ht-value" t-esc="td['room_name'] or 'To be allotted'"/>
+                                        <td class="ht-label">Campus</td>
+                                        <td class="ht-value" t-esc="ticket.campus_id.name or ''"/>
+                                    </tr>
+                                </table>
+
+                                <div class="ht-section-title">EXAMINATION SCHEDULE</div>
+                                <table class="ht-schedule-table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:24mm;">Date</th>
+                                            <th>Subject</th>
+                                            <th style="width:18mm;">Code</th>
+                                            <th style="width:22mm;">Time</th>
+                                            <th style="width:15mm;">Max Marks</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="td['exam_rows']" t-as="row">
+                                            <tr>
+                                                <td t-esc="row['exam_date'] or 'TBD'"/>
+                                                <td t-esc="row['course'].name"/>
+                                                <td t-esc="row['course'].code"/>
+                                                <td>
+                                                    <t t-esc="row['exam_start']"/>
+                                                    <t t-if="row['exam_end']"> — <t t-esc="row['exam_end']"/></t>
+                                                </td>
+                                                <td style="text-align:right;">
+                                                    <t t-esc="row['course'].total_marks if row['course'].total_marks else 100"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <t t-if="not td['exam_rows']">
+                                            <tr>
+                                                <td colspan="5" style="text-align:center;padding:4mm 0;color:#999;">
+                                                    No courses found for this semester.
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+
+                                <div class="ht-section-title">ELIGIBILITY STATUS</div>
+                                <div class="ht-eligibility-box">
+                                    <t t-if="ticket.eligibility_status in ('eligible', 'override')">
+                                        <span class="ht-eligible-badge">✓ Eligible to Appear</span>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="ht-ineligible-badge">✗ Not Eligible to Appear</span>
+                                        <div t-if="ticket.eligibility_note" class="ht-eligibility-note" t-esc="ticket.eligibility_note"/>
+                                    </t>
+
+                                    <t t-if="ticket.eligibility_status == 'override'">
+                                        <div style="margin-top:1mm;font-size:7pt;color:#856404;font-style:italic;">
+                                            Override approved by Examination Department
+                                        </div>
+                                    </t>
+
+                                    <div class="ht-ticket-state" t-if="ticket.ticket_state == 'approved'">
+                                        ✓ APPROVED
+                                    </div>
+                                    <div class="ht-ticket-state ht-ticket-blocked" t-if="ticket.ticket_state == 'blocked'">
+                                        ✗ BLOCKED
+                                    </div>
+                                </div>
+
+                                <div class="ht-section-title">INSTRUCTIONS TO CANDIDATES</div>
+                                <div class="ht-instructions">
+                                    <t t-if="s.instructions">
+                                        <t t-raw="s.instructions"/>
+                                    </t>
+                                    <t t-else="">
+                                        <ol style="margin:0;padding-left:14mm;">
+                                            <li>Carry this hall ticket to every examination session.</li>
+                                            <li>Arrive at the examination hall 15 minutes before the scheduled start.</li>
+                                            <li>No electronic devices (mobile phones, smart watches, calculators unless permitted) are allowed inside the examination hall.</li>
+                                            <li>Present this hall ticket along with a valid photo ID (College ID / Aadhaar / Driving License) to the invigilator on entry.</li>
+                                            <li>Use only black or blue ink pens. Write your ticket number and seat number on the answer booklet cover.</li>
+                                            <li>Do not engage in any unfair means. Violation will result in disciplinary action as per university regulations.</li>
+                                            <li>No additional answer sheets will be provided after the last 15 minutes of the examination.</li>
+                                            <li>Hall ticket must be signed by the student and presented to the invigilator at each session.</li>
+                                        </ol>
+                                    </t>
+                                </div>
+
+                                <table class="ht-signature-table">
+                                    <tr>
+                                        <td style="width:50%;text-align:center;">
+                                            <div style="margin-top:10mm;border-top:0.5pt solid #333;padding-top:1mm;font-size:8pt;">
+                                                Student Signature
+                                            </div>
+                                        </td>
+                                        <td style="width:50%;text-align:center;">
+                                            <div style="margin-top:10mm;border-top:0.5pt solid #333;padding-top:1mm;font-size:8pt;">
+                                                Controller of Examinations
+                                            </div>
+                                            <div style="font-size:7pt;color:#888;margin-top:3mm;">(with Stamp)</div>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <div class="ht-disclaimer">
+                                    This is a computer-generated hall ticket. The student must verify all details and report discrepancies to the Examination Department immediately.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="unicore_hall_ticket_styles">
+        <style>
+            .ht-copy {
+                margin: 0;
+                padding: 0;
+            }
+            .ht-copy-label {
+                text-align: right;
+                font-size: 8pt;
+                color: #666;
+                margin-bottom: 2mm;
+                padding: 1mm 2mm;
+                border-bottom: 0.5pt solid #ccc;
+                text-transform: uppercase;
+                letter-spacing: 1pt;
+            }
+            .ht-copy-label-inst {
+                color: #c0392b;
+            }
+            .ht-card {
+                position: relative;
+                padding: 0;
+                margin: 0;
+                font-family: Arial, sans-serif;
+                font-size: 9pt;
+                color: #222;
+                border: 1pt solid #1e3a5f;
+                border-radius: 2mm;
+                overflow: hidden;
+                background: #ffffff;
+            }
+            .ht-ribbon {
+                height: 3mm;
+                background: linear-gradient(90deg, #1e3a5f, #2563eb, #1e3a5f);
+            }
+            .ht-body {
+                padding: 5mm 6mm 4mm 6mm;
+            }
+            .ht-header-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 2mm;
+            }
+            .ht-photo-box {
+                width: 30mm;
+                height: 35mm;
+                border: 1pt solid #333;
+                display: inline-block;
+                text-align: center;
+                overflow: hidden;
+                background: #f5f5f5;
+            }
+            .ht-photo-placeholder {
+                display: block;
+                margin-top: 10mm;
+                font-size: 7pt;
+                color: #999;
+            }
+            .ht-title {
+                text-align: center;
+                font-size: 14pt;
+                font-weight: bold;
+                color: #1e3a5f;
+                letter-spacing: 1.5pt;
+                margin: 3mm 0 1mm 0;
+            }
+            .ht-subtitle {
+                text-align: center;
+                font-size: 9pt;
+                color: #555;
+                margin-bottom: 4mm;
+                padding-bottom: 2mm;
+                border-bottom: 0.5pt solid #1e3a5f;
+            }
+            .ht-info-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 4mm;
+            }
+            .ht-info-table td {
+                padding: 1.5mm 1mm;
+                border-bottom: 0.5pt solid #ddd;
+                vertical-align: top;
+            }
+            .ht-label {
+                font-weight: bold;
+                color: #555;
+                width: 26mm;
+                font-size: 8pt;
+            }
+            .ht-value {
+                color: #222;
+            }
+            .ht-value-emphasis {
+                font-size: 11pt;
+                font-weight: bold;
+                color: #1e3a5f;
+            }
+            .ht-section-title {
+                font-size: 10pt;
+                font-weight: bold;
+                color: #1e3a5f;
+                margin: 3mm 0 1.5mm 0;
+                padding: 0.5mm 0;
+                border-bottom: 1pt solid #2563eb;
+            }
+            .ht-schedule-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 4mm;
+                font-size: 8.5pt;
+            }
+            .ht-schedule-table th {
+                background-color: #1e3a5f;
+                color: white;
+                padding: 1.5mm 1mm;
+                text-align: left;
+                font-size: 8pt;
+            }
+            .ht-schedule-table td {
+                padding: 1.2mm 1mm;
+                border-bottom: 0.5pt solid #ddd;
+            }
+            .ht-schedule-table tbody tr:nth-child(even) {
+                background-color: #f8faff;
+            }
+            .ht-eligibility-box {
+                border: 1pt solid #ddd;
+                border-radius: 1mm;
+                padding: 2mm 3mm;
+                margin-bottom: 4mm;
+                background: #fafafa;
+            }
+            .ht-eligible-badge {
+                display: inline-block;
+                color: #155724;
+                font-weight: bold;
+                font-size: 10pt;
+                border: 1pt solid #155724;
+                border-radius: 1mm;
+                padding: 1mm 3mm;
+                background: #d4edda;
+            }
+            .ht-ineligible-badge {
+                display: inline-block;
+                color: #721c24;
+                font-weight: bold;
+                font-size: 10pt;
+                border: 1pt solid #721c24;
+                border-radius: 1mm;
+                padding: 1mm 3mm;
+                background: #f8d7da;
+            }
+            .ht-eligibility-note {
+                margin-top: 1.5mm;
+                font-size: 8pt;
+                color: #721c24;
+                font-style: italic;
+            }
+            .ht-ticket-state {
+                display: inline-block;
+                margin-left: 3mm;
+                font-size: 8pt;
+                font-weight: bold;
+                color: #155724;
+                border: 0.5pt solid #155724;
+                border-radius: 0.5mm;
+                padding: 0.5mm 2mm;
+                background: #d4edda;
+            }
+            .ht-ticket-blocked {
+                color: #721c24;
+                border-color: #721c24;
+                background: #f8d7da;
+            }
+            .ht-instructions {
+                font-size: 8pt;
+                line-height: 1.6;
+                margin-bottom: 4mm;
+                padding: 1mm 0;
+            }
+            .ht-instructions ol li {
+                margin-bottom: 0.5mm;
+            }
+            .ht-signature-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 5mm 0 3mm 0;
+            }
+            .ht-disclaimer {
+                text-align: center;
+                font-size: 6.5pt;
+                color: #999;
+                margin-top: 2mm;
+                padding-top: 1mm;
+                border-top: 0.5pt solid #ddd;
+            }
+        </style>
+    </template>
+</odoo>

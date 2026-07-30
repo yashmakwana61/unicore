@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Scholarship Award List View -->
+    <record id="view_unicore_scholarship_award_list" model="ir.ui.view">
+        <field name="name">unicore.scholarship.award.list</field>
+        <field name="model">unicore.scholarship.award</field>
+        <field name="arch" type="xml">
+            <list string="Scholarship Awards">
+                <field name="award_number"/>
+                <field name="student_id"/>
+                <field name="scholarship_program_id"/>
+                <field name="semester_id"/>
+                <field name="award_amount" sum="Total"/>
+                <field name="disbursement_method"/>
+                <field name="disbursement_date"/>
+                <field name="award_state" widget="badge" 
+                       decoration-info="award_state == 'approved'" 
+                       decoration-success="award_state == 'disbursed'" 
+                       decoration-danger="award_state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Scholarship Award Form View -->
+    <record id="view_unicore_scholarship_award_form" model="ir.ui.view">
+        <field name="name">unicore.scholarship.award.form</field>
+        <field name="model">unicore.scholarship.award</field>
+        <field name="arch" type="xml">
+            <form string="Scholarship Award">
+                <header>
+                    <button name="action_approve_award" string="Approve" type="object" class="oe_highlight" invisible="award_state != 'draft'"/>
+                    <button name="action_disburse" string="Disburse" type="object" class="oe_highlight" invisible="award_state != 'approved'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="award_state in ('disbursed', 'cancelled')"/>
+                    <field name="award_state" widget="statusbar" statusbar_visible="draft,approved,disbursed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="award_number" placeholder="New Award"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="application_id" readonly="award_state != 'draft'"/>
+                            <field name="student_id"/>
+                            <field name="scholarship_program_id"/>
+                            <field name="semester_id" readonly="award_state != 'draft'"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="award_amount" readonly="award_state != 'draft'"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="disbursement_method" readonly="award_state != 'draft'"/>
+                            <field name="disbursement_date" readonly="award_state == 'disbursed'"/>
+                            <field name="reference" readonly="award_state == 'disbursed'"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Fee Adjustments" name="fee_adjust" invisible="disbursement_method != 'fee_adjustment'">
+                            <group>
+                                <field name="fee_invoice_id" readonly="award_state != 'draft'"/>
+                                <field name="fee_adjustment_applied"/>
+                            </group>
+                        </page>
+                        <page string="Remarks" name="remarks">
+                            <field name="remarks" placeholder="Any additional notes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Scholarship Award Action -->
+    <record id="action_unicore_scholarship_award" model="ir.actions.act_window">
+        <field name="name">Scholarship Awards</field>
+        <field name="res_model">unicore.scholarship.award</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Record a new Scholarship Award!
+            </p>
+        </field>
+    </record>
+
+</odoo>

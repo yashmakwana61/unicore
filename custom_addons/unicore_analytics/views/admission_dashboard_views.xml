@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- Register the Admission Dashboard Client Action -->
+  <record id="action_unicore_admission_dashboard" model="ir.actions.client">
+    <field name="name">Admission Dashboard</field>
+    <field name="tag">unicore_admission_dashboard</field>
+    <field name="target">main</field>
+  </record>
+
+  <!-- Add the Dashboard to the menu -->
+  <menuitem
+    id="menu_unicore_analytics_admission_dashboard"
+    name="Admission Dashboard"
+    parent="unicore_analytics.menu_unicore_analytics_admission"
+    action="action_unicore_admission_dashboard"
+    sequence="5"
+    groups="unicore_base.group_unicore_manager"/>
+
+</odoo>

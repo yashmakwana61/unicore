@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="0">
+    <record id="uc_demo_lib_publisher_pearson" model="unicore.library.publisher">
+      <field name="name">Pearson Education</field>
+    </record>
+
+    <record id="uc_demo_lib_publisher_wiley" model="unicore.library.publisher">
+      <field name="name">Wiley</field>
+    </record>
+
+    <record id="uc_demo_lib_publisher_mcgraw" model="unicore.library.publisher">
+      <field name="name">McGraw Hill</field>
+    </record>
+
+    <record id="uc_demo_lib_author_cormen" model="unicore.library.author">
+      <field name="name">Thomas H. Cormen</field>
+    </record>
+
+    <record id="uc_demo_lib_author_knuth" model="unicore.library.author">
+      <field name="name">Donald E. Knuth</field>
+    </record>
+
+    <record id="uc_demo_lib_author_drucker" model="unicore.library.author">
+      <field name="name">Peter F. Drucker</field>
+    </record>
+
+    <record id="uc_demo_lib_book_clrs" model="unicore.library.book">
+      <field name="title">Introduction to Algorithms</field>
+      <field name="isbn">978-0262033848</field>
+      <field name="publisher_id" ref="uc_demo_lib_publisher_mcgraw"/>
+      <field name="author_ids" eval="[(6, 0, [ref('uc_demo_lib_author_cormen')])]"/>
+      <field name="book_type">book</field>
+      <field name="total_copies">3</field>
+      <field name="available_copies">2</field>
+    </record>
+
+    <record id="uc_demo_lib_book_knuth" model="unicore.library.book">
+      <field name="title">The Art of Computer Programming</field>
+      <field name="isbn">978-0201896831</field>
+      <field name="publisher_id" ref="uc_demo_lib_publisher_pearson"/>
+      <field name="author_ids" eval="[(6, 0, [ref('uc_demo_lib_author_knuth')])]"/>
+      <field name="book_type">book</field>
+      <field name="total_copies">1</field>
+      <field name="available_copies">1</field>
+    </record>
+
+    <record id="uc_demo_lib_book_drucker" model="unicore.library.book">
+      <field name="title">The Effective Executive</field>
+      <field name="isbn">978-0060833459</field>
+      <field name="publisher_id" ref="uc_demo_lib_publisher_wiley"/>
+      <field name="author_ids" eval="[(6, 0, [ref('uc_demo_lib_author_drucker')])]"/>
+      <field name="book_type">reference</field>
+      <field name="total_copies">2</field>
+      <field name="available_copies">2</field>
+    </record>
+
+    <record id="uc_demo_lib_copy_clrs_1" model="unicore.library.book.copy">
+      <field name="book_id" ref="uc_demo_lib_book_clrs"/>
+      <field name="accession_number">ACC-001</field>
+      <field name="condition">good</field>
+      <field name="copy_state">available</field>
+    </record>
+
+    <record id="uc_demo_lib_copy_clrs_2" model="unicore.library.book.copy">
+      <field name="book_id" ref="uc_demo_lib_book_clrs"/>
+      <field name="accession_number">ACC-002</field>
+      <field name="condition">good</field>
+      <field name="copy_state">available</field>
+    </record>
+
+    <record id="uc_demo_lib_copy_clrs_3" model="unicore.library.book.copy">
+      <field name="book_id" ref="uc_demo_lib_book_clrs"/>
+      <field name="accession_number">ACC-003</field>
+      <field name="condition">fair</field>
+      <field name="copy_state">available</field>
+    </record>
+
+    <record id="uc_demo_lib_copy_knuth_1" model="unicore.library.book.copy">
+      <field name="book_id" ref="uc_demo_lib_book_knuth"/>
+      <field name="accession_number">ACC-004</field>
+      <field name="condition">good</field>
+      <field name="copy_state">available</field>
+    </record>
+
+    <record id="uc_demo_lib_copy_drucker_1" model="unicore.library.book.copy">
+      <field name="book_id" ref="uc_demo_lib_book_drucker"/>
+      <field name="accession_number">ACC-005</field>
+      <field name="condition">new</field>
+      <field name="copy_state">available</field>
+    </record>
+
+    <record id="uc_demo_lib_copy_drucker_2" model="unicore.library.book.copy">
+      <field name="book_id" ref="uc_demo_lib_book_drucker"/>
+      <field name="accession_number">ACC-006</field>
+      <field name="condition">good</field>
+      <field name="copy_state">available</field>
+    </record>
+
+    <record id="uc_demo_lib_member_arav" model="unicore.library.member">
+      <field name="student_id" ref="uc_demo_student_arav"/>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="member_state">active</field>
+    </record>
+
+    <record id="uc_demo_lib_member_diya" model="unicore.library.member">
+      <field name="student_id" ref="uc_demo_student_diya"/>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="member_state">active</field>
+    </record>
+
+    <record id="uc_demo_lib_member_rajesh" model="unicore.library.member">
+      <field name="member_type">faculty</field>
+      <field name="faculty_member_id" ref="uc_demo_faculty_rajesh"/>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="member_state">active</field>
+    </record>
+  </data>
+</odoo>

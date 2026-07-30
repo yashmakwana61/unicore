@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="unicore_theme.AppsLandingScreen" owl="1">
+        <div class="o_apps_landing_screen">
+            <div class="o_apps_landing_search">
+                <input type="text" class="form-control" placeholder="Search apps..." 
+                       t-on-input="onSearchInput" t-ref="appsSearchInput"/>
+            </div>
+            <div class="o_apps_landing_grid">
+                <t t-foreach="displayedApps" t-as="app" t-key="app.id">
+                    <div class="o_app_tile" t-att-class="{'focus': state.focusedAppIndex === app_index}" t-on-click="() => this.openApp(app)">
+                        <img t-if="app.webIconData" class="o_app_icon" t-attf-src="{{app.webIconData}}"/>
+                        <span class="o_app_name" t-esc="app.name"/>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </t>
+</templates>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="view_unicore_hostel_room_form"
+          model="ir.ui.view">
+    <field name="name">unicore.hostel.room.form</field>
+    <field name="model">unicore.hostel.room</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <widget name="web_ribbon"
+            title="Full"
+            invisible="not is_full"
+            bg_color="text-bg-danger"/>
+          <widget name="web_ribbon"
+            title="Available"
+            invisible="is_full or
+              room_state != 'available'"
+            bg_color="text-bg-success"/>
+          <group>
+            <group string="Room Details">
+              <field name="room_number"/>
+              <field name="block_id"/>
+              <field name="floor_number"/>
+              <field name="room_type"/>
+              <field name="capacity"/>
+              <field name="current_occupancy"
+                     readonly="1"/>
+              <field name="available_beds"
+                     readonly="1"/>
+              <field name="is_full" readonly="1"/>
+              <field name="room_state"/>
+            </group>
+            <group string="Fees">
+              <field name="monthly_rent"/>
+              <field name="security_deposit"/>
+              <field name="currency_id" readonly="1"/>
+            </group>
+          </group>
+          <group string="Amenities">
+            <group>
+              <field name="has_ac"/>
+              <field name="has_attached_bath"/>
+              <field name="has_balcony"/>
+            </group>
+            <group>
+              <field name="has_study_table"/>
+              <field name="has_wardrobe"/>
+            </group>
+          </group>
+          <notebook>
+            <page string="Current Residents">
+              <field name="allocation_ids"
+                     readonly="1">
+                <list>
+                  <field name="student_id"/>
+                  <field name="actual_checkin"/>
+                  <field name="expected_checkout"/>
+                  <field name="allocation_state"/>
+                </list>
+              </field>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="view_unicore_hostel_room_list"
+          model="ir.ui.view">
+    <field name="name">unicore.hostel.room.list</field>
+    <field name="model">unicore.hostel.room</field>
+    <field name="arch" type="xml">
+      <list decoration-success=
+              "available_beds > 0 and
+               room_state == 'available'"
+            decoration-danger=
+              "is_full"
+            decoration-warning=
+              "room_state == 'partial'"
+            decoration-muted=
+              "room_state in
+              ('maintenance','closed')">
+        <field name="room_number"/>
+        <field name="block_id"/>
+        <field name="floor_number"/>
+        <field name="room_type"/>
+        <field name="capacity"/>
+        <field name="current_occupancy"/>
+        <field name="available_beds"/>
+        <field name="monthly_rent"/>
+        <field name="has_ac"/>
+        <field name="has_attached_bath"/>
+        <field name="room_state"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_unicore_hostel_room_search"
+          model="ir.ui.view">
+    <field name="name">unicore.hostel.room.search</field>
+    <field name="model">unicore.hostel.room</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="room_number"/>
+        <field name="block_id"/>
+        <filter name="available" string="Available"
+          domain="[('room_state','in',['available','partial']),
+            ('available_beds','>',0)]"/>
+        <filter name="full" string="Full"
+          domain="[('is_full','=',True)]"/>
+        <filter name="ac" string="Air Conditioned"
+          domain="[('has_ac','=',True)]"/>
+        <group name="group_by">
+          <filter name="group_by_block"
+            string="Block"
+            context="{'group_by':'block_id'}"/>
+          <filter name="group_by_type"
+            string="Room Type"
+            context="{'group_by':'room_type'}"/>
+          <filter name="group_by_floor"
+            string="Floor"
+            context="{'group_by':'floor_number'}"/>
+        </group>
+      </search>
+    </field>
+  </record>
+
+  <record id="action_unicore_hostel_room"
+          model="ir.actions.act_window">
+    <field name="name">Hostel Rooms</field>
+    <field name="res_model">unicore.hostel.room</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <record id="action_unicore_hostel_room_available"
+          model="ir.actions.act_window">
+    <field name="name">Available Rooms</field>
+    <field name="res_model">unicore.hostel.room</field>
+    <field name="view_mode">list,form</field>
+    <field name="domain">
+      [('available_beds','>',0),
+       ('room_state','in',['available','partial'])]
+    </field>
+  </record>
+
+</odoo>

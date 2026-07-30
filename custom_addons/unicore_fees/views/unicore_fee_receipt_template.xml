@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="unicore_fee_receipt_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="payment">
+                <t t-call="web.external_layout">
+                    <t t-set="invoice" t-value="payment.invoice_id"/>
+                    <t t-set="student" t-value="invoice.student_id"/>
+
+                    <div class="receipt-container">
+                        <div class="receipt-title">
+                            FEE PAYMENT RECEIPT
+                        </div>
+
+                        <table class="receipt-header-table">
+                            <tr>
+                                <td class="label-cell">Receipt No.</td>
+                                <td class="value-cell" t-esc="payment.receipt_number"/>
+                                <td class="label-cell">Date</td>
+                                <td class="value-cell">
+                                    <t t-esc="payment.payment_date"/>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table class="receipt-student-table">
+                            <tr>
+                                <td class="label-cell">Student ID</td>
+                                <td class="value-cell" colspan="3" t-esc="student.student_id_number"/>
+                            </tr>
+                            <tr>
+                                <td class="label-cell">Student Name</td>
+                                <td class="value-cell" colspan="3" t-esc="student.display_name"/>
+                            </tr>
+                            <tr>
+                                <td class="label-cell">Program</td>
+                                <td class="value-cell" colspan="3" t-esc="student.program_id.code + ' — ' + student.program_id.name if student.program_id.code else student.program_id.name"/>
+                            </tr>
+                            <tr>
+                                <td class="label-cell">Semester</td>
+                                <td class="value-cell" colspan="3" t-esc="invoice.semester_id.name"/>
+                            </tr>
+                            <tr>
+                                <td class="label-cell">Academic Year</td>
+                                <td class="value-cell" colspan="3" t-esc="invoice.academic_year_id.name"/>
+                            </tr>
+                        </table>
+
+                        <div class="section-title">PAYMENT DETAILS</div>
+
+                        <table class="receipt-invoice-lines-table">
+                            <thead>
+                                <tr>
+                                    <th>Fee Type</th>
+                                    <th>Invoice No</th>
+                                    <th class="amount-cell">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="invoice.line_ids" t-as="line">
+                                    <td t-esc="line.name"/>
+                                    <td t-esc="invoice.invoice_number"/>
+                                    <td class="amount-cell" t-esc="indian_format(line.amount)"/>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="receipt-totals-table">
+                            <tr>
+                                <td class="label-cell">Total Invoice Amount</td>
+                                <td class="amount-cell" t-esc="indian_format(invoice.total_amount)"/>
+                            </tr>
+                            <t t-if="invoice.discount_amount">
+                                <tr>
+                                    <td class="label-cell">Discount (<t t-esc="invoice.discount_reason or ''"/>)</td>
+                                    <td class="amount-cell">-<t t-esc="indian_format(invoice.discount_amount)"/></td>
+                                </tr>
+                            </t>
+                            <t t-if="invoice.late_fee_amount">
+                                <tr>
+                                    <td class="label-cell">Late Fee</td>
+                                    <td class="amount-cell" t-esc="indian_format(invoice.late_fee_amount)"/>
+                                </tr>
+                            </t>
+                            <tr class="separator-row">
+                                <td colspan="2"><hr/></td>
+                            </tr>
+                            <tr class="amount-row">
+                                <td class="label-cell">Amount Paid</td>
+                                <td class="amount-cell paid-amount" t-esc="indian_format(payment.amount)"/>
+                            </tr>
+                            <tr>
+                                <td class="label-cell">Payment Mode</td>
+                                <td class="amount-cell" t-esc="dict(payment._fields['payment_method']._description_selection(payment.env)).get(payment.payment_method, payment.payment_method)"/>
+                            </tr>
+                            <tr t-if="payment.transaction_reference">
+                                <td class="label-cell">Reference</td>
+                                <td class="amount-cell" t-esc="payment.transaction_reference"/>
+                            </tr>
+                            <tr class="separator-row">
+                                <td colspan="2"><hr/></td>
+                            </tr>
+                            <tr class="amount-row">
+                                <td class="label-cell">Balance Due</td>
+                                <td class="amount-cell balance-amount" t-esc="indian_format(invoice.amount_outstanding)"/>
+                            </tr>
+                        </table>
+
+                        <div class="amount-words">
+                            Amount in Words: <strong t-esc="amount_to_words(payment.amount)"/>
+                        </div>
+
+                        <div class="signatory-section">
+                            <div class="signatory-block">
+                                <div class="signatory-line">Authorised Signatory</div>
+                                <div class="signatory-line">Accounts Department</div>
+                            </div>
+                        </div>
+
+                        <div class="disclaimer">
+                            This is a computer-generated receipt. No signature required.
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="unicore_fee_receipt_styles">
+        <style>
+            .receipt-container {
+                font-family: Arial, sans-serif;
+                font-size: 10pt;
+                padding: 10mm;
+                position: relative;
+            }
+            .receipt-title {
+                text-align: center;
+                font-size: 16pt;
+                font-weight: bold;
+                margin: 8mm 0 6mm 0;
+                letter-spacing: 1pt;
+                color: #1e3a5f;
+                border-bottom: 2pt solid #1e3a5f;
+                padding-bottom: 3mm;
+            }
+            .receipt-header-table,
+            .receipt-student-table,
+            .receipt-invoice-lines-table,
+            .receipt-totals-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 4mm;
+            }
+            .receipt-student-table td,
+            .receipt-header-table td {
+                padding: 2mm 1mm;
+                border-bottom: 0.5pt solid #ddd;
+            }
+            .label-cell {
+                font-weight: bold;
+                color: #555;
+                width: 30mm;
+                vertical-align: top;
+            }
+            .value-cell {
+                color: #222;
+            }
+            .section-title {
+                font-size: 12pt;
+                font-weight: bold;
+                color: #1e3a5f;
+                margin: 4mm 0 2mm 0;
+                padding: 1mm 0;
+                border-bottom: 1pt solid #1e3a5f;
+            }
+            .receipt-invoice-lines-table th {
+                background-color: #1e3a5f;
+                color: white;
+                padding: 2mm 1mm;
+                text-align: left;
+                font-size: 9pt;
+            }
+            .receipt-invoice-lines-table td {
+                padding: 1.5mm 1mm;
+                border-bottom: 0.5pt solid #ddd;
+            }
+            .amount-cell {
+                text-align: right;
+                width: 40mm;
+                font-family: 'Courier New', monospace;
+            }
+            th.amount-cell {
+                text-align: right;
+            }
+            .receipt-totals-table td {
+                padding: 1.5mm 1mm;
+                border: none;
+            }
+            .separator-row td {
+                padding: 0;
+            }
+            .separator-row hr {
+                border: none;
+                border-top: 1pt dashed #999;
+                margin: 1mm 0;
+            }
+            .amount-row td {
+                padding-top: 2mm;
+            }
+            .paid-amount {
+                font-size: 12pt;
+                font-weight: bold;
+                color: #1a7a2e;
+            }
+            .balance-amount {
+                font-size: 12pt;
+                font-weight: bold;
+                color: #c0392b;
+            }
+            .amount-words {
+                margin: 5mm 0 3mm 0;
+                padding: 2mm;
+                border-top: 1pt solid #333;
+                border-bottom: 1pt solid #333;
+                font-size: 10pt;
+                color: #333;
+            }
+            .signatory-section {
+                margin: 8mm 0 4mm 0;
+                text-align: right;
+            }
+            .signatory-block {
+                display: inline-block;
+                text-align: center;
+            }
+            .signatory-line {
+                margin: 2mm 0;
+                font-size: 10pt;
+            }
+            .signatory-line:first-child {
+                margin-top: 8mm;
+                border-top: 1pt solid #333;
+                padding-top: 2mm;
+            }
+            .disclaimer {
+                text-align: center;
+                font-size: 8pt;
+                color: #999;
+                margin-top: 5mm;
+                padding-top: 2mm;
+                border-top: 0.5pt solid #ddd;
+            }
+
+            /* DUPLICATE watermark (hidden by default, shown for reprints) */
+            .duplicate-watermark {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(-30deg);
+                font-size: 48pt;
+                font-weight: bold;
+                color: rgba(200, 0, 0, 0.15);
+                border: 4pt solid rgba(200, 0, 0, 0.2);
+                padding: 4mm 12mm;
+                border-radius: 4mm;
+                pointer-events: none;
+                z-index: 999;
+            }
+        </style>
+    </template>
+</odoo>

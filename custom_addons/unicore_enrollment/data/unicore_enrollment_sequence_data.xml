@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Auto-waitlist toggle: when True, full offerings auto-route
+             the student to the waitlist instead of blocking with an
+             error. Read in Part 1's create() via context key
+             'auto_waitlist' which defaults to True. -->
+        <record id="config_auto_waitlist" model="ir.config_parameter">
+            <field name="key">unicore.enrollment.auto_waitlist_enabled</field>
+            <field name="value">True</field>
+        </record>
+
+        <!-- Prerequisite strict mode: when True, mandatory prerequisite
+             failures block enrollment entirely. When False, warnings are
+             logged but enrollment proceeds — useful for institutions
+             that allow advisor override without an extra admin step. -->
+        <record id="config_prerequisite_strict" model="ir.config_parameter">
+            <field name="key">unicore.enrollment.prerequisite_check_strict</field>
+            <field name="value">True</field>
+        </record>
+
+        <!-- Schedule conflict strict mode: when True, timetable overlaps
+             block enrollment. When False, conflicts only warn — some
+             institutions allow double-booking with override approval. -->
+        <record id="config_schedule_strict" model="ir.config_parameter">
+            <field name="key">unicore.enrollment.schedule_conflict_strict</field>
+            <field name="value">True</field>
+        </record>
+
+        <!-- Maximum credits per semester: future enforcement point.
+             Not yet enforced in this module's validation chain —
+             listed here as a configurable ceiling metadata record
+             that the UI can reference and future modules can enforce. -->
+        <record id="config_max_credits" model="ir.config_parameter">
+            <field name="key">unicore.enrollment.max_credits_per_semester</field>
+            <field name="value">24</field>
+        </record>
+
+    </data>
+</odoo>

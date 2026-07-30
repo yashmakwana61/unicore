@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="0">
+    <record id="uc_demo_vehicle_bus01" model="unicore.transport.vehicle">
+      <field name="name">Bus-01</field>
+      <field name="registration_number">GJ-01-AB-1234</field>
+      <field name="vehicle_type">bus</field>
+      <field name="seating_capacity">50</field>
+      <field name="driver_name">Ramesh</field>
+      <field name="driver_mobile">+919000000701</field>
+      <field name="vehicle_state">active</field>
+      <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record id="uc_demo_vehicle_bus02" model="unicore.transport.vehicle">
+      <field name="name">Bus-02</field>
+      <field name="registration_number">GJ-01-CD-5678</field>
+      <field name="vehicle_type">bus</field>
+      <field name="seating_capacity">40</field>
+      <field name="driver_name">Suresh</field>
+      <field name="driver_mobile">+919000000702</field>
+      <field name="vehicle_state">active</field>
+      <field name="company_id" ref="base.main_company"/>
+    </record>
+
+    <record id="uc_demo_route_satellite" model="unicore.transport.route">
+      <field name="name">Satellite Route</field>
+      <field name="code">RT-01</field>
+      <field name="vehicle_id" ref="uc_demo_vehicle_bus01"/>
+      <field name="total_distance_km">12.5</field>
+      <field name="route_state">active</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="direction">both</field>
+    </record>
+
+    <record id="uc_demo_route_prahlad" model="unicore.transport.route">
+      <field name="name">Prahlad Nagar Route</field>
+      <field name="code">RT-02</field>
+      <field name="vehicle_id" ref="uc_demo_vehicle_bus02"/>
+      <field name="total_distance_km">8.0</field>
+      <field name="route_state">active</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="direction">both</field>
+    </record>
+
+    <record id="uc_demo_stop_satellite" model="unicore.transport.stop">
+      <field name="route_id" ref="uc_demo_route_satellite"/>
+      <field name="name">Satellite Cross Roads</field>
+      <field name="sequence">10</field>
+      <field name="distance_from_campus_km">2.0</field>
+    </record>
+
+    <record id="uc_demo_stop_ambavadi" model="unicore.transport.stop">
+      <field name="route_id" ref="uc_demo_route_satellite"/>
+      <field name="name">Ambavadi</field>
+      <field name="sequence">20</field>
+      <field name="distance_from_campus_km">5.0</field>
+    </record>
+
+    <record id="uc_demo_stop_navrang" model="unicore.transport.stop">
+      <field name="route_id" ref="uc_demo_route_satellite"/>
+      <field name="name">Navrangpura</field>
+      <field name="sequence">30</field>
+      <field name="distance_from_campus_km">8.5</field>
+    </record>
+
+    <record id="uc_demo_pass_arav" model="unicore.transport.pass">
+      <field name="student_id" ref="uc_demo_student_arav"/>
+      <field name="route_id" ref="uc_demo_route_satellite"/>
+      <field name="semester_id" ref="uc_demo_sem_odd"/>
+      <field name="transport_fee">5000.0</field>
+      <field name="pass_state">active</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="academic_year_id" ref="uc_demo_ay_2526"/>
+      <field name="valid_from">2025-07-01</field>
+      <field name="valid_until">2025-12-31</field>
+    </record>
+
+    <record id="uc_demo_pass_kabir" model="unicore.transport.pass">
+      <field name="student_id" ref="uc_demo_student_kabir"/>
+      <field name="route_id" ref="uc_demo_route_satellite"/>
+      <field name="semester_id" ref="uc_demo_sem_odd"/>
+      <field name="transport_fee">5000.0</field>
+      <field name="pass_state">active</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="academic_year_id" ref="uc_demo_ay_2526"/>
+      <field name="valid_from">2025-07-01</field>
+      <field name="valid_until">2025-12-31</field>
+    </record>
+
+    <record id="uc_demo_pass_rohan" model="unicore.transport.pass">
+      <field name="student_id" ref="uc_demo_student_rohan"/>
+      <field name="route_id" ref="uc_demo_route_prahlad"/>
+      <field name="semester_id" ref="uc_demo_sem_odd"/>
+      <field name="transport_fee">4000.0</field>
+      <field name="pass_state">active</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="academic_year_id" ref="uc_demo_ay_2526"/>
+      <field name="valid_from">2025-07-01</field>
+      <field name="valid_until">2025-12-31</field>
+    </record>
+  </data>
+</odoo>

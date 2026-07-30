@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Module Category -->
+        <record id="module_category_unicore_curriculum" model="ir.module.category">
+            <field name="name">UniCore / Curriculum</field>
+            <field name="sequence">10</field>
+        </record>
+    </data>
+</odoo>

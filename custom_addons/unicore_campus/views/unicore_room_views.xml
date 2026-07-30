@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Window Action -->
+    <record id="action_unicore_room" model="ir.actions.act_window">
+        <field name="name">Rooms</field>
+        <field name="res_model">unicore.room</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <!-- Form View -->
+    <record id="unicore_room_form_view" model="ir.ui.view">
+        <field name="name">unicore.room.form</field>
+        <field name="model">unicore.room</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="room_state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group name="left">
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="room_type"/>
+                            <field name="floor_id" options="{'no_create': True}"/>
+                            <field name="building_id"/>
+                            <field name="campus_id"/>
+                        </group>
+                        <group name="right">
+                            <field name="capacity"/>
+                            <field name="exam_capacity"/>
+                            <field name="room_state"/>
+                        </group>
+                    </group>
+                    <group name="amenities" string="Amenities">
+                        <field name="has_projector"/>
+                        <field name="has_ac"/>
+                        <field name="has_smartboard"/>
+                        <field name="has_internet"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="unicore_room_list_view" model="ir.ui.view">
+        <field name="name">unicore.room.list</field>
+        <field name="model">unicore.room</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="room_type"/>
+                <field name="building_id"/>
+                <field name="campus_id"/>
+                <field name="capacity"/>
+                <field name="room_state" optional="show"/>
+                <field name="has_projector" optional="hide"/>
+                <field name="has_ac" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="unicore_room_search_view" model="ir.ui.view">
+        <field name="name">unicore.room.search</field>
+        <field name="model">unicore.room</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="campus_id"/>
+                <field name="building_id"/>
+                <filter name="filter_available" string="Available"
+                        domain="[('room_state', '=', 'available')]"/>
+                <filter name="filter_maintenance" string="Under Maintenance"
+                        domain="[('room_state', '=', 'maintenance')]"/>
+                <filter name="filter_room_type" string="Room Type"
+                        context="{'group_by': 'room_type'}"/>
+                <group name="groupby">
+                    <filter name="groupby_room_type" string="Room Type"
+                            context="{'group_by': 'room_type'}"/>
+                    <filter name="groupby_campus" string="Campus"
+                            context="{'group_by': 'campus_id'}"/>
+                    <filter name="groupby_building" string="Building"
+                            context="{'group_by': 'building_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Kanban View -->
+    <record id="unicore_room_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.room.kanban</field>
+        <field name="model">unicore.room</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color">
+                <field name="code"/>
+                <field name="room_type"/>
+                <field name="capacity"/>
+                <field name="room_state"/>
+                <field name="campus_id"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <field name="code" class="fw-bold fs-5"/>
+                            <field name="room_type"/>
+                            <field name="capacity"/>
+                            <field name="campus_id"/>
+                            <field name="room_state" widget="badge"/>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>

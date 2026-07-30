@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="0">
+    <record id="uc_demo_campus_main" model="unicore.campus">
+      <field name="name">Main Campus</field>
+      <field name="code">MAIN</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="campus_type">main</field>
+      <field name="is_main_campus">True</field>
+      <field name="street">University Road, Satellite</field>
+      <field name="city">Ahmedabad</field>
+      <field name="zip">380015</field>
+      <field name="country_id" ref="base.in"/>
+      <field name="phone">+91 79 2600 0001</field>
+      <field name="email">main@pfu.precisefect.com</field>
+      <field name="student_capacity">5000</field>
+      <field name="campus_state">active</field>
+    </record>
+
+    <record id="uc_demo_building_a" model="unicore.building">
+      <field name="name">Academic Block A</field>
+      <field name="code">BLK-A</field>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="building_type">academic</field>
+      <field name="construction_year">2000</field>
+      <field name="total_area_sqft">45000.0</field>
+      <field name="sequence">10</field>
+    </record>
+
+    <record id="uc_demo_building_b" model="unicore.building">
+      <field name="name">Science &amp; Lab Complex</field>
+      <field name="code">BLK-B</field>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="building_type">lab</field>
+      <field name="construction_year">2005</field>
+      <field name="total_area_sqft">35000.0</field>
+      <field name="sequence">20</field>
+    </record>
+
+    <record id="uc_demo_floor_a1" model="unicore.floor">
+      <field name="name">Ground Floor</field>
+      <field name="floor_number">0</field>
+      <field name="building_id" ref="uc_demo_building_a"/>
+    </record>
+
+    <record id="uc_demo_floor_a2" model="unicore.floor">
+      <field name="name">First Floor</field>
+      <field name="floor_number">1</field>
+      <field name="building_id" ref="uc_demo_building_a"/>
+    </record>
+
+    <record id="uc_demo_floor_b1" model="unicore.floor">
+      <field name="name">Ground Floor</field>
+      <field name="floor_number">0</field>
+      <field name="building_id" ref="uc_demo_building_b"/>
+    </record>
+
+    <record id="uc_demo_floor_b2" model="unicore.floor">
+      <field name="name">First Floor</field>
+      <field name="floor_number">1</field>
+      <field name="building_id" ref="uc_demo_building_b"/>
+    </record>
+
+    <record id="uc_demo_room_a101" model="unicore.room">
+      <field name="name">Lecture Hall 101</field>
+      <field name="code">A101</field>
+      <field name="floor_id" ref="uc_demo_floor_a1"/>
+      <field name="room_type">lecture_hall</field>
+      <field name="capacity">60</field>
+      <field name="exam_capacity">50</field>
+      <field name="has_projector">True</field>
+      <field name="has_internet">True</field>
+      <field name="room_state">available</field>
+    </record>
+
+    <record id="uc_demo_room_a102" model="unicore.room">
+      <field name="name">Classroom 102</field>
+      <field name="code">A102</field>
+      <field name="floor_id" ref="uc_demo_floor_a1"/>
+      <field name="room_type">classroom</field>
+      <field name="capacity">40</field>
+      <field name="exam_capacity">35</field>
+      <field name="has_projector">True</field>
+      <field name="room_state">available</field>
+    </record>
+
+    <record id="uc_demo_room_a201" model="unicore.room">
+      <field name="name">Computer Lab 201</field>
+      <field name="code">A201</field>
+      <field name="floor_id" ref="uc_demo_floor_a2"/>
+      <field name="room_type">computer_lab</field>
+      <field name="capacity">30</field>
+      <field name="exam_capacity">25</field>
+      <field name="has_internet">True</field>
+      <field name="has_smartboard">True</field>
+      <field name="room_state">available</field>
+    </record>
+
+    <record id="uc_demo_room_a202" model="unicore.room">
+      <field name="name">Seminar Room 202</field>
+      <field name="code">A202</field>
+      <field name="floor_id" ref="uc_demo_floor_a2"/>
+      <field name="room_type">seminar</field>
+      <field name="capacity">25</field>
+      <field name="exam_capacity">20</field>
+      <field name="has_projector">True</field>
+      <field name="has_ac">True</field>
+      <field name="room_state">available</field>
+    </record>
+
+    <record id="uc_demo_room_b101" model="unicore.room">
+      <field name="name">Physics Lab</field>
+      <field name="code">B101</field>
+      <field name="floor_id" ref="uc_demo_floor_b1"/>
+      <field name="room_type">lab</field>
+      <field name="capacity">25</field>
+      <field name="exam_capacity">20</field>
+      <field name="room_state">available</field>
+    </record>
+
+    <record id="uc_demo_room_b201" model="unicore.room">
+      <field name="name">Computer Lab 201</field>
+      <field name="code">B201</field>
+      <field name="floor_id" ref="uc_demo_floor_b2"/>
+      <field name="room_type">computer_lab</field>
+      <field name="capacity">30</field>
+      <field name="exam_capacity">25</field>
+      <field name="has_internet">True</field>
+      <field name="room_state">available</field>
+    </record>
+
+    <record id="uc_demo_facility_canteen" model="unicore.facility">
+      <field name="name">Campus Cafeteria</field>
+      <field name="facility_type">canteen</field>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="capacity">200</field>
+      <field name="operating_hours">Mon-Sat 8am-8pm</field>
+    </record>
+
+    <record id="uc_demo_facility_sports" model="unicore.facility">
+      <field name="name">Sports Complex</field>
+      <field name="facility_type">sports</field>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="capacity">500</field>
+    </record>
+
+    <record id="uc_demo_facility_medical" model="unicore.facility">
+      <field name="name">Health Center</field>
+      <field name="facility_type">medical</field>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="capacity">20</field>
+      <field name="operating_hours">Mon-Fri 9am-5pm</field>
+    </record>
+  </data>
+</odoo>

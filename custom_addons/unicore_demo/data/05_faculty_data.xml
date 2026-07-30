@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="0">
+    <record id="uc_demo_faculty_rajesh" model="unicore.faculty.member">
+      <field name="name">Rajesh</field>
+      <field name="last_name">Kumar</field>
+      <field name="gender">male</field>
+      <field name="date_of_birth">1975-06-15</field>
+      <field name="email">rajesh.kumar@pfu.precisefect.com</field>
+      <field name="institutional_email">r.kumar@pfu.precisefect.com</field>
+      <field name="mobile">+919876500001</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="academic_faculty_id" ref="uc_demo_faculty_eng"/>
+      <field name="department_id" ref="uc_demo_dept_cs"/>
+      <field name="designation">professor</field>
+      <field name="employment_type">full_time</field>
+      <field name="joining_date">2005-08-01</field>
+      <field name="max_weekly_hours">16</field>
+      <field name="is_hod">True</field>
+      <field name="member_state">active</field>
+      <field name="primary_campus_id" ref="uc_demo_campus_main"/>
+    </record>
+
+    <record id="uc_demo_faculty_anita" model="unicore.faculty.member">
+      <field name="name">Anita</field>
+      <field name="last_name">Desai</field>
+      <field name="gender">female</field>
+      <field name="date_of_birth">1982-03-22</field>
+      <field name="email">anita.desai@pfu.precisefect.com</field>
+      <field name="institutional_email">a.desai@pfu.precisefect.com</field>
+      <field name="mobile">+919876500002</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="academic_faculty_id" ref="uc_demo_faculty_eng"/>
+      <field name="department_id" ref="uc_demo_dept_cs"/>
+      <field name="designation">assoc_professor</field>
+      <field name="employment_type">full_time</field>
+      <field name="joining_date">2010-07-15</field>
+      <field name="max_weekly_hours">18</field>
+      <field name="member_state">active</field>
+      <field name="primary_campus_id" ref="uc_demo_campus_main"/>
+    </record>
+
+    <record id="uc_demo_faculty_suresh" model="unicore.faculty.member">
+      <field name="name">Suresh</field>
+      <field name="last_name">Mehta</field>
+      <field name="gender">male</field>
+      <field name="date_of_birth">1970-09-10</field>
+      <field name="email">suresh.mehta@pfu.precisefect.com</field>
+      <field name="institutional_email">s.mehta@pfu.precisefect.com</field>
+      <field name="mobile">+919876500003</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="academic_faculty_id" ref="uc_demo_faculty_bus"/>
+      <field name="department_id" ref="uc_demo_dept_mba"/>
+      <field name="designation">professor</field>
+      <field name="employment_type">full_time</field>
+      <field name="joining_date">2000-06-01</field>
+      <field name="max_weekly_hours">16</field>
+      <field name="is_hod">True</field>
+      <field name="member_state">active</field>
+      <field name="primary_campus_id" ref="uc_demo_campus_main"/>
+    </record>
+
+    <record id="uc_demo_staff_rohit" model="unicore.staff.member">
+      <field name="name">Rohit</field>
+      <field name="last_name">Verma</field>
+      <field name="gender">male</field>
+      <field name="email">rohit.verma@pfu.precisefect.com</field>
+      <field name="mobile">+919876500010</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="staff_role">registrar</field>
+      <field name="employment_type">full_time</field>
+      <field name="joining_date">2015-01-10</field>
+      <field name="staff_state">active</field>
+    </record>
+
+    <record id="uc_demo_qual_rajesh_phd" model="unicore.faculty.qualification">
+      <field name="faculty_member_id" ref="uc_demo_faculty_rajesh"/>
+      <field name="qualification_level">phd</field>
+      <field name="degree_title">PhD in Computer Science</field>
+      <field name="field_of_study">Artificial Intelligence</field>
+      <field name="institution_name">IIT Bombay</field>
+      <field name="country_id" ref="base.in"/>
+      <field name="year_of_completion">2003</field>
+      <field name="is_highest">True</field>
+      <field name="is_verified">True</field>
+    </record>
+
+    <record id="uc_demo_qual_anita_mtech" model="unicore.faculty.qualification">
+      <field name="faculty_member_id" ref="uc_demo_faculty_anita"/>
+      <field name="qualification_level">masters</field>
+      <field name="degree_title">M.Tech in Computer Science</field>
+      <field name="field_of_study">Computer Networks</field>
+      <field name="institution_name">IIT Delhi</field>
+      <field name="country_id" ref="base.in"/>
+      <field name="year_of_completion">2007</field>
+      <field name="is_highest">True</field>
+      <field name="is_verified">True</field>
+    </record>
+
+    <record id="uc_demo_offering_faculty_cs101" model="unicore.course.offering">
+      <field name="course_id" ref="uc_demo_course_cs101"/>
+      <field name="program_id" ref="uc_demo_program_btech_cs"/>
+      <field name="semester_number">1</field>
+      <field name="academic_year_id" ref="uc_demo_ay_2526"/>
+      <field name="semester_id" ref="uc_demo_sem_odd"/>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="faculty_member_id" ref="uc_demo_faculty_rajesh"/>
+      <field name="section_code">B</field>
+      <field name="max_enrollment">40</field>
+      <field name="min_enrollment">5</field>
+      <field name="offering_state">open</field>
+    </record>
+
+    <record id="uc_demo_offering_faculty_math101" model="unicore.course.offering">
+      <field name="course_id" ref="uc_demo_course_math101"/>
+      <field name="program_id" ref="uc_demo_program_btech_cs"/>
+      <field name="semester_number">1</field>
+      <field name="academic_year_id" ref="uc_demo_ay_2526"/>
+      <field name="semester_id" ref="uc_demo_sem_odd"/>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="faculty_member_id" ref="uc_demo_faculty_anita"/>
+      <field name="section_code">B</field>
+      <field name="max_enrollment">40</field>
+      <field name="min_enrollment">5</field>
+      <field name="offering_state">open</field>
+    </record>
+
+    <record id="uc_demo_offering_faculty_mba101" model="unicore.course.offering">
+      <field name="course_id" ref="uc_demo_course_mba101"/>
+      <field name="program_id" ref="uc_demo_program_mba"/>
+      <field name="semester_number">1</field>
+      <field name="academic_year_id" ref="uc_demo_ay_2526"/>
+      <field name="semester_id" ref="uc_demo_sem_odd"/>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="faculty_member_id" ref="uc_demo_faculty_suresh"/>
+      <field name="section_code">B</field>
+      <field name="max_enrollment">30</field>
+      <field name="min_enrollment">5</field>
+      <field name="offering_state">open</field>
+    </record>
+
+    <record id="uc_demo_offering_faculty_mba102" model="unicore.course.offering">
+      <field name="course_id" ref="uc_demo_course_mba102"/>
+      <field name="program_id" ref="uc_demo_program_mba"/>
+      <field name="semester_number">1</field>
+      <field name="academic_year_id" ref="uc_demo_ay_2526"/>
+      <field name="semester_id" ref="uc_demo_sem_odd"/>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="campus_id" ref="uc_demo_campus_main"/>
+      <field name="faculty_member_id" ref="uc_demo_faculty_suresh"/>
+      <field name="section_code">B</field>
+      <field name="max_enrollment">30</field>
+      <field name="min_enrollment">5</field>
+      <field name="offering_state">open</field>
+    </record>
+  </data>
+</odoo>

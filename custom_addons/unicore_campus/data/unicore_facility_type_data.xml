@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+    Facility type reference data placeholder.
+    Facility types are defined as Selection fields on unicore.facility.
+    Add reference records here when facility types are migrated to
+    a dedicated model in a future version.
+    -->
+
+</odoo>

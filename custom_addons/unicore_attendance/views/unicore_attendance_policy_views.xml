@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_unicore_attendance_policy_form" model="ir.ui.view">
+            <field name="name">unicore.attendance.policy.form</field>
+            <field name="model">unicore.attendance.policy</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group string="Policy Identity">
+                            <group>
+                                <field name="name"/>
+                                <field name="company_id"/>
+                                <field name="sequence"/>
+                                <field name="policy_scope"/>
+                            </group>
+                            <group>
+                                <field name="min_attendance_percentage"/>
+                                <field name="warning_threshold_percentage"/>
+                                <field name="is_exam_eligibility_linked"/>
+                            </group>
+                        </group>
+                        <group string="Scope Details">
+                            <group>
+                                <field name="course_type" invisible="policy_scope != 'course_type'"/>
+                                <field name="course_id" invisible="policy_scope != 'course'"/>
+                                <field name="course_offering_id" invisible="policy_scope != 'offering'"/>
+                            </group>
+                        </group>
+                        <group string="Description">
+                            <field name="description" nolabel="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_unicore_attendance_policy_list" model="ir.ui.view">
+            <field name="name">unicore.attendance.policy.list</field>
+            <field name="model">unicore.attendance.policy</field>
+            <field name="arch" type="xml">
+                <list decoration-info="policy_scope == 'global'" decoration-success="policy_scope == 'offering'">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="company_id"/>
+                    <field name="policy_scope"/>
+                    <field name="min_attendance_percentage"/>
+                    <field name="warning_threshold_percentage"/>
+                    <field name="is_exam_eligibility_linked"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_unicore_attendance_policy_search" model="ir.ui.view">
+            <field name="name">unicore.attendance.policy.search</field>
+            <field name="model">unicore.attendance.policy</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="company_id"/>
+                    <filter string="Global Policies" name="filter_global" domain="[('policy_scope','=','global')]"/>
+                    <filter string="Exam Eligibility Linked" name="filter_exam_linked" domain="[('is_exam_eligibility_linked','=',True)]"/>
+                    <filter string="Policy Scope" name="group_scope" context="{'group_by':'policy_scope'}"/>
+                    <filter string="Institution" name="group_company" context="{'group_by':'company_id'}"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_unicore_attendance_policy" model="ir.actions.act_window">
+            <field name="name">Attendance Policies</field>
+            <field name="res_model">unicore.attendance.policy</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+    </data>
+</odoo>

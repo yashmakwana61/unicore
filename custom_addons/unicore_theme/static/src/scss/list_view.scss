@@ -1,0 +1,129 @@
+// ============================================
+// UniCore Theme — List View
+// (Enterprise-restrained: flat, hairline borders,
+//  muted header, subtle hover, no cards/shadows)
+// ============================================
+
+// 1. LIST CONTAINER — flat, no card shadow
+// NOTE: .o_list_view is typically the <div> wrapping the table.
+// If the container is a different element, adjust selector.
+.o_list_view {
+    background: $uc-surface;
+}
+
+// 2. TABLE HEADER — light grey bar, uppercase muted caption
+// NOTE: selector assumes a <table> child directly inside
+// .o_list_view.  Odoo may use .o_list_table instead of a bare
+// <table> — verify in DevTools.
+.o_list_view table thead {
+    background: $uc-bg-subtle;
+    border-bottom: 2px solid $uc-border-light;
+}
+
+.o_list_view table thead th {
+    color: $uc-text-muted;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 10px 12px;
+    white-space: nowrap;
+}
+
+.o_list_view table thead th.o_column_sortable {
+    cursor: pointer;
+
+    &:hover {
+        color: $uc-text-heading;
+        background: $uc-border-light;
+    }
+}
+
+// 3. TABLE ROWS — hairline bottom border, subtle hover
+.o_list_view table tbody tr {
+    border-bottom: 1px solid $uc-bg-subtle;
+    transition: background-color 150ms ease;
+
+    &:hover {
+        background: $uc-bg-subtle;
+    }
+}
+
+.o_list_view table tbody tr.o_selected_row {
+    // NOTE: $uc-primary-light not defined in tokens, fallback
+    // to a tint.  If the background looks wrong, adjust the
+    // alpha or replace with a dedicated token.
+    background: rgba($uc-primary, 0.06);
+}
+
+// 4. DATA CELLS
+.o_list_view table tbody td {
+    padding: 8px 12px;
+    font-size: 13px;
+    color: $uc-text-body;
+    vertical-align: middle;
+}
+
+// 5. ROW SELECTOR / CHECKBOX CELL
+.o_list_record_selector {
+    padding-left: 12px;
+    width: 36px;
+}
+
+// 6. ROW DECORATIONS — thin 3px left border accent (Enterprise-restrained)
+// NOTE: Odoo's decoration classes vary by version.  The exact classes
+// below are a best guess based on Odoo 17–19 patterns.  If a decorated
+// row doesn't get the accent, inspect the real DOM and correct the
+// selectors.  The attribute selectors are a safety net.
+.o_data_row.o_decoration_success,
+tr.o_data_row[class*="success"] {
+    border-left: 3px solid $uc-success;
+}
+.o_data_row.o_decoration_danger,
+tr.o_data_row[class*="danger"] {
+    border-left: 3px solid $uc-danger;
+}
+.o_data_row.o_decoration_warning,
+tr.o_data_row[class*="warning"] {
+    border-left: 3px solid $uc-warning;
+}
+.o_data_row.o_decoration_info,
+tr.o_data_row[class*="info"] {
+    border-left: 3px solid $uc-info;
+}
+.o_data_row.o_decoration_muted,
+tr.o_data_row[class*="muted"] {
+    color: $uc-text-muted;
+    font-style: italic;
+}
+
+// 7. OPTIONAL COLUMNS DROPDOWN
+.o_optional_columns_dropdown {
+    color: $uc-text-muted;
+
+    &:hover {
+        color: $uc-primary;
+    }
+}
+
+// 8. LIST FOOTER (totals row)
+// NOTE: only present when the list view has an aggregate row.
+.o_list_footer {
+    background: $uc-bg-subtle;
+    font-weight: 600;
+    border-top: 2px solid $uc-border-light;
+
+    td {
+        padding: 8px 12px;
+    }
+}
+
+// 9. EDITABLE ROW — inline-edit field styling
+// NOTE: applies when a selected row is in inline edit mode.
+// The input selector may need adjustment if Odoo wraps the
+// widget differently.
+.o_list_view table tbody tr.o_selected_row td.o_field_widget input {
+    border: 1px solid $uc-primary;
+    border-radius: $uc-radius-field;
+    padding: 3px 6px;
+}

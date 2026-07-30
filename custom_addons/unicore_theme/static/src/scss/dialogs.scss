@@ -1,0 +1,126 @@
+// ============================================
+// UniCore Theme — Dialogs, Notifications, Alerts & Empty States
+// (Enterprise-restrained: light-tint alerts with accent borders,
+//  quiet empty states, properly elevated modals)
+// ============================================
+
+// --- 1. Modal shell ---
+.modal-content {
+    border: none;
+    border-radius: $uc-radius-card;
+    box-shadow: $uc-shadow-lg;
+    overflow: hidden;
+}
+
+.modal-header {
+    background: $uc-bg-subtle;
+    border-bottom: 1px solid $uc-border-light;
+    padding: 14px 20px;
+}
+
+.modal-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: $uc-text-heading;
+}
+
+.modal-body {
+    padding: 20px;
+    font-size: 13px;
+    color: $uc-text-body;
+}
+
+.modal-footer {
+    background: $uc-bg-subtle;
+    border-top: 1px solid $uc-border-light;
+    padding: 12px 20px;
+    gap: 8px;
+}
+
+.modal-backdrop {
+    background: rgba($uc-text-heading, 0.55);
+}
+
+// --- 2. Toast notifications ---
+// NOTE: exact Odoo 19 class uncertain — using both likely
+// variants as fallback
+.o_notification,
+.o-mail-Notification {
+    border-radius: $uc-radius-card;
+    box-shadow: $uc-shadow-lg;
+    border-left: 4px solid $uc-primary;
+    min-width: 280px;
+    background: $uc-surface;
+    padding: 12px 16px;
+
+    &.border-success { border-left-color: $uc-success; }
+    &.border-danger  { border-left-color: $uc-danger; }
+    &.border-warning { border-left-color: $uc-warning; }
+    &.border-info    { border-left-color: $uc-info; }
+}
+
+// --- 3. Bootstrap alerts — thin left accent, light tint,
+//        NOT a heavy full-saturation block ---
+.alert {
+    border-radius: 0 6px 6px 0;
+    border: none;
+    border-left: 4px solid transparent;
+    padding: 10px 16px;
+    font-size: 13px;
+}
+
+.alert-success {
+    background: rgba($uc-success, 0.08);
+    border-left-color: $uc-success;
+    color: darken($uc-success, 10%);
+}
+
+.alert-danger {
+    background: rgba($uc-danger, 0.08);
+    border-left-color: $uc-danger;
+    color: darken($uc-danger, 10%);
+}
+
+.alert-warning {
+    background: rgba($uc-warning, 0.12);
+    border-left-color: $uc-warning;
+    color: darken($uc-warning, 25%);
+}
+
+.alert-info {
+    background: rgba($uc-info, 0.08);
+    border-left-color: $uc-info;
+    color: darken($uc-info, 10%);
+}
+
+// --- 4. Empty states ("no records found") ---
+.o_nocontent_help {
+    color: $uc-text-muted;
+    text-align: center;
+    padding: 48px 24px;
+
+    img, .fa {
+        opacity: 0.35;
+        margin-bottom: 16px;
+    }
+
+    h2, .o_nocontent_help_title {
+        color: $uc-text-heading;
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 6px;
+    }
+
+    p {
+        font-size: 13px;
+        color: $uc-text-muted;
+    }
+}
+
+// --- 5. Tooltips (minor polish) ---
+.tooltip .tooltip-inner {
+    background: $uc-text-heading;
+    font-size: 12px;
+    border-radius: $uc-radius-field;
+    padding: 6px 10px;
+}

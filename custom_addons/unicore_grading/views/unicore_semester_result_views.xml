@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- Form View -->
+  <record id="view_unicore_semester_result_form"
+          model="ir.ui.view">
+    <field name="name">
+      unicore.semester.result.form
+    </field>
+    <field name="model">unicore.semester.result</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+          <button name="action_publish_result"
+            string="Publish Result"
+            type="object"
+            invisible="is_published"
+            class="btn-primary"
+            groups="unicore_base.group_unicore_registrar"/>
+          <button name="action_withhold"
+            string="Withhold Result"
+            type="object"
+            invisible="result_status == 'withheld'"
+            groups="unicore_base.group_unicore_admin"/>
+        </header>
+        <sheet>
+          <widget name="web_ribbon"
+            title="Published"
+            invisible="not is_published"
+            bg_color="text-bg-success"/>
+          <widget name="web_ribbon"
+            title="Withheld"
+            invisible="result_status != 'withheld'"
+            bg_color="text-bg-danger"/>
+          <group>
+            <group string="Result Details">
+              <field name="student_id"/>
+              <field name="semester_id"/>
+              <field name="company_id"/>
+              <field name="result_status"
+                     widget="badge"/>
+              <field name="is_published"/>
+              <field name="published_on" readonly="1"/>
+            </group>
+            <group string="Academic Performance">
+              <field name="semester_gpa"/>
+              <field name="credits_attempted"/>
+              <field name="credits_earned"/>
+              <field name="total_grade_points"/>
+              <field name="courses_passed"/>
+              <field name="courses_failed"/>
+            </group>
+          </group>
+          <group string="Remarks">
+            <field name="remarks" nolabel="1"/>
+          </group>
+        </sheet>
+        <chatter/>
+      </form>
+    </field>
+  </record>
+
+  <!-- List View -->
+  <record id="view_unicore_semester_result_list"
+          model="ir.ui.view">
+    <field name="name">
+      unicore.semester.result.list
+    </field>
+    <field name="model">unicore.semester.result</field>
+    <field name="arch" type="xml">
+      <list decoration-success="result_status == 'pass'"
+            decoration-danger="result_status == 'fail'"
+            decoration-warning="result_status ==
+              'supplementary'"
+            decoration-muted="result_status ==
+              'withheld'">
+        <field name="student_id"/>
+        <field name="semester_id"/>
+        <field name="semester_gpa"/>
+        <field name="credits_attempted"/>
+        <field name="credits_earned"/>
+        <field name="courses_passed"/>
+        <field name="courses_failed"/>
+        <field name="result_status"/>
+        <field name="is_published"/>
+      </list>
+    </field>
+  </record>
+
+  <!-- Search View -->
+  <record id="view_unicore_semester_result_search"
+          model="ir.ui.view">
+    <field name="name">
+      unicore.semester.result.search
+    </field>
+    <field name="model">unicore.semester.result</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="student_id"/>
+        <field name="semester_id"/>
+        <filter name="published" string="Published"
+          domain="[('is_published','=',True)]"/>
+        <filter name="pass_result" string="Pass"
+          domain="[('result_status','=','pass')]"/>
+        <filter name="fail_result" string="Fail"
+          domain="[('result_status','=','fail')]"/>
+        <filter name="supp" string="Supplementary"
+          domain="[('result_status','=',
+            'supplementary')]"/>
+        <separator/>
+        <filter name="group_by_semester"
+          string="Semester"
+          context="{'group_by':'semester_id'}"/>
+        <filter name="group_by_result"
+          string="Result"
+          context="{'group_by':'result_status'}"/>
+      </search>
+    </field>
+  </record>
+
+  <!-- Window Actions -->
+  <record id="action_unicore_semester_result"
+          model="ir.actions.act_window">
+    <field name="name">Semester Results</field>
+    <field name="res_model">unicore.semester.result</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <record id="action_unicore_semester_result_my"
+          model="ir.actions.act_window">
+    <field name="name">My Results</field>
+    <field name="res_model">unicore.semester.result</field>
+    <field name="view_mode">list,form</field>
+    <field name="domain">
+      [('student_id.partner_id.user_ids',
+        'in', [uid]),
+       ('is_published','=',True)]
+    </field>
+  </record>
+
+</odoo>

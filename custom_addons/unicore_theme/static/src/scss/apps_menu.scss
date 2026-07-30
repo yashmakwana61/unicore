@@ -1,0 +1,104 @@
+// ============================================
+// UniCore Theme — Apps Menu Mega-Panel
+// ============================================
+
+// ============================================
+// UniCore Theme — Full Screen Apps Menu
+// ============================================
+
+.o_apps_mega_menu {
+    // Break out of the dropdown and cover the whole screen below the navbar
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba($uc-surface, 0.98);
+    backdrop-filter: blur(10px);
+    z-index: 1050;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+
+    .o_apps_menu_search {
+        margin: 40px auto 20px auto;
+        width: 100%;
+        max-width: 600px;
+        background: transparent;
+        border: none;
+        padding: 0 16px;
+
+        input.form-control {
+            border-radius: $uc-radius-pill;
+            border: 2px solid $uc-border;
+            padding: 12px 24px;
+            font-size: 16px;
+            box-shadow: $uc-shadow-sm;
+            transition: $uc-transition;
+
+            &:focus {
+                border-color: $uc-primary;
+                box-shadow: $uc-shadow-focus;
+            }
+        }
+    }
+
+    .o_apps_menu_grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 24px;
+        padding: 24px 10%;
+        max-width: 1200px;
+        width: 100%;
+        margin: 0 auto;
+        align-content: flex-start;
+        box-sizing: border-box;
+    }
+
+    .dropdown-item.o_app {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 16px 8px;
+        border-radius: $uc-radius-card;
+        white-space: normal;
+        transition: $uc-transition;
+        border: 1px solid transparent;
+        background: transparent;
+        color: $uc-text-body;
+
+        .o_app_icon {
+            width: 72px;
+            height: 72px;
+            object-fit: contain;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            box-shadow: $uc-shadow-sm;
+            transition: $uc-transition;
+        }
+
+        .o_app_name {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.3;
+            text-align: center;
+        }
+
+        &:hover,
+        &.focus {
+            background: rgba($uc-primary, 0.05);
+            border-color: transparent;
+            transform: translateY(-4px);
+
+            .o_app_icon {
+                box-shadow: $uc-shadow-md;
+            }
+        }
+
+        &.focus {
+            box-shadow: $uc-shadow-focus;
+            border-radius: $uc-radius-card;
+        }
+    }
+}

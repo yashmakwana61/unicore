@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ==================== FORM VIEW ==================== -->
+    <record id="unicore_faculty_publication_form_view" model="ir.ui.view">
+        <field name="name">unicore.faculty.publication.form</field>
+        <field name="model">unicore.faculty.publication</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group name="left">
+                            <field name="faculty_member_id" options="{'no_create_edit': True}"/>
+                            <field name="title"/>
+                            <field name="publication_type"/>
+                            <field name="journal_or_venue"/>
+                            <field name="publication_year"/>
+                            <field name="doi_or_isbn"/>
+                            <field name="url" widget="url"/>
+                        </group>
+                        <group name="right">
+                            <field name="co_authors"/>
+                            <field name="is_indexed"/>
+                            <field name="index_type" invisible="not is_indexed"/>
+                        </group>
+                    </group>
+                    <group string="Abstract">
+                        <field name="abstract" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ==================== LIST VIEW ==================== -->
+    <record id="unicore_faculty_publication_list_view" model="ir.ui.view">
+        <field name="name">unicore.faculty.publication.list</field>
+        <field name="model">unicore.faculty.publication</field>
+        <field name="arch" type="xml">
+            <list limit="40">
+                <field name="faculty_member_id"/>
+                <field name="title"/>
+                <field name="publication_type"/>
+                <field name="journal_or_venue"/>
+                <field name="publication_year"/>
+                <field name="is_indexed"/>
+                <field name="index_type"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ==================== SEARCH VIEW ==================== -->
+    <record id="unicore_faculty_publication_search_view" model="ir.ui.view">
+        <field name="name">unicore.faculty.publication.search</field>
+        <field name="model">unicore.faculty.publication</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="title"/>
+                <field name="faculty_member_id" options="{'no_create_edit': True}"/>
+                <field name="publication_type"/>
+                <filter name="filter_indexed" string="Indexed Only" domain="[('is_indexed', '=', True)]"/>
+                <filter name="filter_journal" string="Journal Articles" domain="[('publication_type', '=', 'journal')]"/>
+                <filter name="filter_conference" string="Conference Papers" domain="[('publication_type', '=', 'conference')]"/>
+                <group name="groupby">
+                    <filter name="group_faculty" string="Faculty Member" context="{'group_by': 'faculty_member_id'}"/>
+                    <filter name="group_type" string="Publication Type" context="{'group_by': 'publication_type'}"/>
+                    <filter name="group_year" string="Year" context="{'group_by': 'publication_year'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ==================== WINDOW ACTION ==================== -->
+    <record id="action_unicore_faculty_publication" model="ir.actions.act_window">
+        <field name="name">Publications</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">unicore.faculty.publication</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="unicore_faculty_publication_search_view"/>
+    </record>
+
+</odoo>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ========================================================= -->
+    <!-- Phase 1: Exam schedule search - missing filters + group-by -->
+    <!-- ========================================================= -->
+    <record id="view_exam_search_phase1_filters" model="ir.ui.view">
+        <field name="name">unicore.exam.schedule.search.phase1</field>
+        <field name="model">unicore.exam.schedule</field>
+        <field name="inherit_id" ref="unicore_exam.view_unicore_exam_schedule_search"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='exam_type']" position="after">
+                <field name="course_offering_id"/>
+                <field name="venue_ids"/>
+                <field name="exam_date"/>
+            </xpath>
+
+            <xpath expr="//filter[@name='filter_completed']" position="after">
+                <filter name="filter_cancelled" string="Cancelled" domain="[('exam_state','=','cancelled')]"/>
+            </xpath>
+
+            <xpath expr="//filter[@name='filter_upcoming']" position="after">
+                <filter name="filter_next_7_days" string="Next 7 Days" domain="[('exam_date','&gt;=',context_today().strftime('%Y-%m-%d')),('exam_date','&lt;=',(context_today() + datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]"/>
+            </xpath>
+
+            <xpath expr="//filter[@name='group_by_course']" position="after">
+                <filter name="group_by_course_offering" string="Course Offering" context="{'group_by': 'course_offering_id'}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

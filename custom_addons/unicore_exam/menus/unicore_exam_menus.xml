@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Level 2 — Top Section -->
+        <menuitem
+            id="menu_unicore_exam"
+            name="Examinations"
+            sequence="90"
+            web_icon="unicore_exam,static/description/icon.png"
+            groups="unicore_base.group_unicore_staff"/>
+
+        <!-- Level 3 — Student Self-Service -->
+        <menuitem
+            id="menu_unicore_exam_my_tickets"
+            name="My Hall Tickets"
+            parent="menu_unicore_exam"
+            action="action_unicore_exam_hall_ticket_my"
+            sequence="10"
+            groups="unicore_base.group_unicore_student"/>
+
+        <menuitem
+            id="menu_unicore_exam_my_seat"
+            name="My Seat Assignment"
+            parent="menu_unicore_exam"
+            action="action_unicore_exam_seating_my"
+            sequence="20"
+            groups="unicore_base.group_unicore_student"/>
+
+        <!-- Level 3 — Faculty -->
+        <menuitem
+            id="menu_unicore_exam_upcoming"
+            name="Upcoming Exams"
+            parent="menu_unicore_exam"
+            action="action_unicore_exam_upcoming"
+            sequence="30"
+            groups="unicore_base.group_unicore_faculty"/>
+
+        <!-- Level 3 — Registrar -->
+        <menuitem
+            id="menu_unicore_exam_schedule_all"
+            name="All Exam Schedules"
+            parent="menu_unicore_exam"
+            action="action_unicore_exam_schedule"
+            sequence="40"
+            groups="unicore_base.group_unicore_registrar"/>
+
+        <menuitem
+            id="menu_unicore_exam_hall_ticket_all"
+            name="Hall Tickets"
+            parent="menu_unicore_exam"
+            action="action_unicore_exam_hall_ticket"
+            sequence="50"
+            groups="unicore_base.group_unicore_registrar"/>
+
+        <menuitem
+            id="menu_unicore_exam_hall_ticket_ineligible"
+            name="Ineligible Students"
+            parent="menu_unicore_exam"
+            action="action_unicore_exam_hall_ticket_ineligible"
+            sequence="60"
+            groups="unicore_base.group_unicore_registrar"/>
+
+        <!-- Level 3 — Staff -->
+        <menuitem
+            id="menu_unicore_exam_seating_all"
+            name="Seating Plans"
+            parent="menu_unicore_exam"
+            action="action_unicore_exam_seating"
+            sequence="70"
+            groups="unicore_base.group_unicore_staff"/>
+
+    </data>
+</odoo>

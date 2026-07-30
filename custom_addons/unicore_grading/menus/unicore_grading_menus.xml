@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- Level 2: Grading top menu -->
+  <menuitem id="menu_unicore_grading"
+    name="Grading"
+    sequence="100"
+    web_icon="unicore_grading,static/description/icon.png"
+    groups="unicore_base.group_unicore_faculty"/>
+
+  <!-- Level 3: Student self-service -->
+  <menuitem id="menu_unicore_my_results"
+    name="My Results"
+    parent="menu_unicore_grading"
+    action="action_unicore_grade_entry_my"
+    sequence="10"
+    groups="unicore_base.group_unicore_student"/>
+
+  <menuitem id="menu_unicore_my_semester_results"
+    name="My Semester Results"
+    parent="menu_unicore_grading"
+    action="action_unicore_semester_result_my"
+    sequence="20"
+    groups="unicore_base.group_unicore_student"/>
+
+  <!-- Level 3: Faculty -->
+  <menuitem id="menu_unicore_grade_entry_all"
+    name="Grade Entry"
+    parent="menu_unicore_grading"
+    action="action_unicore_grade_entry"
+    sequence="30"
+    groups="unicore_base.group_unicore_faculty"/>
+
+  <!-- Level 3: Registrar -->
+  <menuitem id="menu_unicore_grade_pending"
+    name="Pending Verification"
+    parent="menu_unicore_grading"
+    action="action_unicore_grade_entry_pending"
+    sequence="40"
+    groups="unicore_base.group_unicore_registrar"/>
+
+  <menuitem id="menu_unicore_semester_results"
+    name="Semester Results"
+    parent="menu_unicore_grading"
+    action="action_unicore_semester_result"
+    sequence="50"
+    groups="unicore_base.group_unicore_registrar"/>
+
+  <!-- Level 3: Manager -->
+  <menuitem id="menu_unicore_grade_scale"
+    name="Grade Scales"
+    parent="menu_unicore_grading"
+    action="action_unicore_grade_scale"
+    sequence="60"
+    groups="unicore_base.group_unicore_manager"/>
+
+</odoo>

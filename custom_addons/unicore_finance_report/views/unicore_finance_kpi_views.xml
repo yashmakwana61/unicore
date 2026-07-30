@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- Form View for KPI -->
+  <record id="view_unicore_finance_kpi_form"
+          model="ir.ui.view">
+    <field name="name">unicore.finance.kpi.form</field>
+    <field name="model">unicore.finance.kpi</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <group>
+            <group string="Period">
+              <field name="kpi_date" readonly="1"/>
+              <field name="company_id" readonly="1"/>
+              <field name="semester_id" readonly="1"/>
+              <field name="currency_id" readonly="1"/>
+            </group>
+            <group string="Collection Summary">
+              <field name="total_billed" readonly="1"/>
+              <field name="total_collected"
+                     readonly="1"/>
+              <field name="total_outstanding"
+                     readonly="1"/>
+              <field name="collection_efficiency"
+                     readonly="1"/>
+            </group>
+          </group>
+          <group>
+            <group string="Student Counts">
+              <field name="total_students_billed"
+                     readonly="1"/>
+              <field name="total_students_paid"
+                     readonly="1"/>
+              <field name="total_students_overdue"
+                     readonly="1"/>
+              <field name="total_students_scholarship"
+                     readonly="1"/>
+            </group>
+            <group string="Payment Methods">
+              <field name="online_collected"
+                     readonly="1"/>
+              <field name="bank_transfer_collected"
+                     readonly="1"/>
+              <field name="cash_collected" readonly="1"/>
+              <field name="other_collected" readonly="1"/>
+            </group>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <!-- List View -->
+  <record id="view_unicore_finance_kpi_list"
+          model="ir.ui.view">
+    <field name="name">unicore.finance.kpi.list</field>
+    <field name="model">unicore.finance.kpi</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="kpi_date"/>
+        <field name="semester_id"/>
+        <field name="total_billed"/>
+        <field name="total_collected"/>
+        <field name="total_outstanding"/>
+        <field name="collection_efficiency"/>
+        <field name="total_students_billed"/>
+        <field name="total_students_paid"/>
+        <field name="total_students_overdue"/>
+      </list>
+    </field>
+  </record>
+
+  <!-- Graph View -->
+  <record id="view_unicore_finance_kpi_graph"
+          model="ir.ui.view">
+    <field name="name">
+      unicore.finance.kpi.graph
+    </field>
+    <field name="model">unicore.finance.kpi</field>
+    <field name="arch" type="xml">
+      <graph string="Collection Efficiency"
+             type="bar">
+        <field name="kpi_date" interval="month"/>
+        <field name="total_billed" type="measure"/>
+        <field name="total_collected" type="measure"/>
+      </graph>
+    </field>
+  </record>
+
+  <!-- Window Action -->
+  <record id="action_unicore_finance_kpi"
+          model="ir.actions.act_window">
+    <field name="name">Financial KPIs</field>
+    <field name="res_model">unicore.finance.kpi</field>
+    <field name="view_mode">list,graph,form</field>
+  </record>
+
+</odoo>

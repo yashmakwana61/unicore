@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="unicore_student_id_card_template">
+        <t t-call="web.html_container">
+            <div class="page">
+                <t t-foreach="docs" t-as="student">
+                    <div class="id-card">
+                        <div class="id-card-header">
+                            PRECISEFECT UNIVERSITY
+                        </div>
+
+                        <div class="id-card-body">
+                            <div class="id-card-photo">
+                                <img t-if="student.image_1920"
+                                     t-att-src="'data:image/png;base64,' + student.image_1920.decode('utf-8')"
+                                     style="width:100%;height:100%;object-fit:cover"
+                                     alt="Photo"/>
+                                <span t-else="">PHOTO</span>
+                            </div>
+
+                            <div class="id-card-info">
+                                <div class="id-card-name">
+                                    <span t-esc="student.display_name"/>
+                                </div>
+                                <div class="id-card-field">
+                                    <span class="id-card-label">ID:</span>
+                                    <span class="id-card-value" t-esc="student.student_id_number"/>
+                                </div>
+                                <div class="id-card-field">
+                                    <span class="id-card-label">PROG:</span>
+                                    <span class="id-card-value">
+                                        <t t-esc="student.program_id.code"/>
+                                        <t t-if="student.program_id.name">
+                                            — <t t-esc="student.program_id.name"/>
+                                        </t>
+                                    </span>
+                                </div>
+                                <div class="id-card-field">
+                                    <span class="id-card-label">YEAR:</span>
+                                    <span class="id-card-value">
+                                        <t t-if="student.current_year_of_study == 1">1st Year</t>
+                                        <t t-elif="student.current_year_of_study == 2">2nd Year</t>
+                                        <t t-elif="student.current_year_of_study == 3">3rd Year</t>
+                                        <t t-else="">4th Year</t>
+                                    </span>
+                                </div>
+                                <div class="id-card-field">
+                                    <span class="id-card-label">BATCH:</span>
+                                    <span class="id-card-value" t-esc="student.batch_year"/>
+                                </div>
+                                <div class="id-card-field">
+                                    <span class="id-card-label">CAMPUS:</span>
+                                    <span class="id-card-value" t-esc="student.campus_id.name"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="id-card-footer">
+                            <span>Valid: AY <t t-esc="student.current_academic_year_id.name"/></span>
+                            <span>[BARCODE]</span>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+    <template id="unicore_student_id_card_template_no_inherit">
+        <style>
+            .id-card {
+                width: 85.6mm;
+                height: 54mm;
+                border: 1px solid #333;
+                border-radius: 4mm;
+                padding: 3mm;
+                margin: 5mm;
+                page-break-inside: avoid;
+                display: flex;
+                flex-direction: column;
+                font-family: Arial, sans-serif;
+                font-size: 8pt;
+                background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+                color: white;
+                position: relative;
+                overflow: hidden;
+            }
+            .id-card-header {
+                text-align: center;
+                font-size: 7pt;
+                font-weight: bold;
+                border-bottom: 0.5pt solid rgba(255,255,255,0.5);
+                padding-bottom: 1mm;
+                margin-bottom: 2mm;
+            }
+            .id-card-body {
+                display: flex;
+                gap: 2mm;
+                flex: 1;
+            }
+            .id-card-photo {
+                width: 18mm;
+                height: 22mm;
+                background: rgba(255,255,255,0.2);
+                border: 0.5pt solid rgba(255,255,255,0.5);
+                border-radius: 1mm;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 6pt;
+                text-align: center;
+                flex-shrink: 0;
+                overflow: hidden;
+            }
+            .id-card-info {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5mm;
+            }
+            .id-card-name {
+                font-size: 9pt;
+                font-weight: bold;
+                color: #ffd700;
+            }
+            .id-card-field {
+                font-size: 7pt;
+                display: flex;
+                gap: 1mm;
+            }
+            .id-card-label {
+                opacity: 0.8;
+                min-width: 12mm;
+            }
+            .id-card-value {
+                font-weight: bold;
+            }
+            .id-card-footer {
+                border-top: 0.5pt solid rgba(255,255,255,0.5);
+                padding-top: 1mm;
+                font-size: 6pt;
+                display: flex;
+                justify-content: space-between;
+                opacity: 0.9;
+            }
+        </style>
+    </template>
+</odoo>

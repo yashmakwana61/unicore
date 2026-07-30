@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- ROOT MENU - Standalone App (no parent) -->
+  <menuitem
+    id="menu_unicore_documents_root"
+    name="Documents"
+    sequence="160"
+    web_icon="unicore_documents,static/description/icon.png"
+    groups="unicore_base.group_unicore_registrar,unicore_base.group_unicore_manager,unicore_base.group_unicore_admin"/>
+
+  <!-- All Documents -->
+  <menuitem
+    id="menu_unicore_docs_all"
+    name="All Documents"
+    parent="menu_unicore_documents_root"
+    action="action_unicore_document_all"
+    sequence="10"
+    groups="unicore_base.group_unicore_registrar"/>
+
+  <!-- Student Documents -->
+  <menuitem
+    id="menu_unicore_docs_student"
+    name="Student Documents"
+    parent="menu_unicore_documents_root"
+    action="action_unicore_document_student"
+    sequence="20"
+    groups="unicore_base.group_unicore_registrar"/>
+
+  <!-- Institutional Documents -->
+  <menuitem
+    id="menu_unicore_docs_institutional"
+    name="Institutional"
+    parent="menu_unicore_documents_root"
+    action="action_unicore_document_institutional"
+    sequence="30"
+    groups="unicore_base.group_unicore_staff"/>
+
+  <!-- Pending Verification -->
+  <menuitem
+    id="menu_unicore_docs_pending"
+    name="Pending Verification"
+    parent="menu_unicore_documents_root"
+    action="action_unicore_document_unverified"
+    sequence="40"
+    groups="unicore_base.group_unicore_registrar"/>
+
+  <!-- Templates -->
+  <menuitem
+    id="menu_unicore_docs_templates"
+    name="Document Templates"
+    parent="menu_unicore_documents_root"
+    action="action_unicore_doc_template"
+    sequence="50"
+    groups="unicore_base.group_unicore_manager"/>
+
+  <!-- Configuration -->
+  <menuitem
+    id="menu_unicore_docs_config"
+    name="Configuration"
+    parent="menu_unicore_documents_root"
+    sequence="90"
+    groups="unicore_base.group_unicore_admin"/>
+
+  <menuitem
+    id="menu_unicore_docs_categories"
+    name="Document Categories"
+    parent="menu_unicore_docs_config"
+    action="action_unicore_doc_category"
+    sequence="10"
+    groups="unicore_base.group_unicore_admin"/>
+
+</odoo>

@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_unicore_enrollment_portal,Enrollment Portal,unicore_enrollment.model_unicore_enrollment,base.group_portal,1,0,0,0
+access_unicore_grade_entry_portal,Grade Entry Portal,unicore_grading.model_unicore_grade_entry,base.group_portal,1,0,0,0
+access_unicore_semester_result_portal,Semester Result Portal,unicore_grading.model_unicore_semester_result,base.group_portal,1,0,0,0
+access_unicore_fee_invoice_portal,Fee Invoice Portal,unicore_fees.model_unicore_fee_invoice,base.group_portal,1,0,0,0
+access_unicore_fee_payment_portal,Fee Payment Portal,unicore_fees.model_unicore_fee_payment,base.group_portal,1,0,0,0
+access_unicore_hall_ticket_portal,Hall Ticket Portal,unicore_exam.model_unicore_exam_hall_ticket,base.group_portal,1,0,0,0
+access_unicore_attendance_record_portal,Attendance Portal,unicore_attendance.model_unicore_attendance_record,base.group_portal,1,0,0,0
+access_unicore_scholarship_app_portal,Scholarship App Portal,unicore_scholarship.model_unicore_scholarship_application,base.group_portal,1,0,0,0
+access_unicore_timetable_entry_portal,Timetable Entry Portal,unicore_timetable.model_unicore_timetable_entry,base.group_portal,1,0,0,0
+access_unicore_student_portal,Student Portal,unicore_student.model_unicore_student,base.group_portal,1,0,0,0

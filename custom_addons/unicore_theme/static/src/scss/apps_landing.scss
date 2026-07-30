@@ -1,0 +1,101 @@
+// ============================================
+// UniCore Theme — Apps Landing Screen
+// ============================================
+
+// Scoped class applied to <body> during onMounted
+.o_unicore_apps_landing_active {
+
+    // We MUST use !important here because .o_navbar has its own flex/display 
+    // rules (e.g. d-flex) that will override a simple `display: none`. This is a 
+    // deliberate, reversible state toggle tied strictly to the component lifecycle.
+    .o_navbar {
+        display: none !important;
+    }
+}
+
+.o_apps_landing_screen {
+    width: 100vw;
+    height: 100vh;
+    background-color: $uc-surface; // Full brand-color takeover (no navbar to anchor purple)
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding-top: 8vh; // Space at the top to breathe
+
+    .o_apps_landing_search {
+        margin: 0 auto 40px auto;
+        width: 100%;
+        max-width: 600px;
+        padding: 0 24px;
+
+        input.form-control {
+            border-radius: $uc-radius-pill;
+            border: none;
+            padding: 16px 32px;
+            font-size: 1.25rem;
+            box-shadow: $uc-shadow-md;
+            transition: $uc-transition;
+
+            &:focus {
+                box-shadow: $uc-shadow-focus;
+                outline: none;
+            }
+        }
+    }
+
+    .o_apps_landing_grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 32px;
+        padding: 0 10% 64px 10%;
+        max-width: 1400px;
+        width: 100%;
+        margin: 0 auto;
+        align-content: flex-start;
+        box-sizing: border-box;
+    }
+
+    .o_app_tile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 24px 16px;
+        border-radius: $uc-radius-card;
+        transition: $uc-transition;
+        cursor: pointer;
+        color: $uc-text-heading;
+
+        .o_app_icon {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 16px;
+            border-radius: 16px;
+            box-shadow: $uc-shadow-sm;
+            transition: $uc-transition;
+        }
+
+        .o_app_name {
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 1.3;
+            text-align: center;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); // Better legibility on primary color
+        }
+
+        &:hover,
+        &.focus {
+            background: rgba(255, 255, 255, 0.1); // Glass effect overlay
+            transform: translateY(-4px); // Lift effect
+
+            .o_app_icon {
+                box-shadow: $uc-shadow-md;
+            }
+        }
+
+        &.focus {
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4);
+        }
+    }
+}

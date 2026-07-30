@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="0">
+    <record id="uc_demo_grade_scale" model="unicore.grade.scale">
+      <field name="name">Standard 10-Point Scale</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="max_gpa">10.0</field>
+    </record>
+
+    <record id="uc_demo_gsl_o" model="unicore.grade.scale.line">
+      <field name="scale_id" ref="uc_demo_grade_scale"/>
+      <field name="letter_grade">O</field>
+      <field name="min_percentage">90.0</field>
+      <field name="max_percentage">100.0</field>
+      <field name="grade_point">10.0</field>
+      <field name="is_passing">True</field>
+    </record>
+
+    <record id="uc_demo_gsl_aplus" model="unicore.grade.scale.line">
+      <field name="scale_id" ref="uc_demo_grade_scale"/>
+      <field name="letter_grade">A+</field>
+      <field name="min_percentage">80.0</field>
+      <field name="max_percentage">90.0</field>
+      <field name="grade_point">9.0</field>
+      <field name="is_passing">True</field>
+    </record>
+
+    <record id="uc_demo_gsl_a" model="unicore.grade.scale.line">
+      <field name="scale_id" ref="uc_demo_grade_scale"/>
+      <field name="letter_grade">A</field>
+      <field name="min_percentage">70.0</field>
+      <field name="max_percentage">80.0</field>
+      <field name="grade_point">8.0</field>
+      <field name="is_passing">True</field>
+    </record>
+
+    <record id="uc_demo_gsl_bplus" model="unicore.grade.scale.line">
+      <field name="scale_id" ref="uc_demo_grade_scale"/>
+      <field name="letter_grade">B+</field>
+      <field name="min_percentage">60.0</field>
+      <field name="max_percentage">70.0</field>
+      <field name="grade_point">7.0</field>
+      <field name="is_passing">True</field>
+    </record>
+
+    <record id="uc_demo_gsl_b" model="unicore.grade.scale.line">
+      <field name="scale_id" ref="uc_demo_grade_scale"/>
+      <field name="letter_grade">B</field>
+      <field name="min_percentage">50.0</field>
+      <field name="max_percentage">60.0</field>
+      <field name="grade_point">6.0</field>
+      <field name="is_passing">True</field>
+    </record>
+
+    <record id="uc_demo_gsl_c" model="unicore.grade.scale.line">
+      <field name="scale_id" ref="uc_demo_grade_scale"/>
+      <field name="letter_grade">C</field>
+      <field name="min_percentage">40.0</field>
+      <field name="max_percentage">50.0</field>
+      <field name="grade_point">5.0</field>
+      <field name="is_passing">True</field>
+    </record>
+
+    <record id="uc_demo_gsl_f" model="unicore.grade.scale.line">
+      <field name="scale_id" ref="uc_demo_grade_scale"/>
+      <field name="letter_grade">F</field>
+      <field name="min_percentage">0.0</field>
+      <field name="max_percentage">40.0</field>
+      <field name="grade_point">0.0</field>
+      <field name="is_passing">False</field>
+    </record>
+
+    <record id="uc_demo_grade_arav_cs101" model="unicore.grade.entry">
+      <field name="enrollment_id" ref="uc_demo_enr_arav_cs101"/>
+      <field name="internal_marks">35.0</field>
+      <field name="external_marks">50.0</field>
+      <field name="entry_state">verified</field>
+    </record>
+
+    <record id="uc_demo_grade_diya_cs101" model="unicore.grade.entry">
+      <field name="enrollment_id" ref="uc_demo_enr_diya_cs101"/>
+      <field name="internal_marks">38.0</field>
+      <field name="external_marks">55.0</field>
+      <field name="entry_state">verified</field>
+    </record>
+
+    <record id="uc_demo_grade_kabir_cs101" model="unicore.grade.entry">
+      <field name="enrollment_id" ref="uc_demo_enr_kabir_cs101"/>
+      <field name="internal_marks">25.0</field>
+      <field name="external_marks">30.0</field>
+      <field name="entry_state">verified</field>
+    </record>
+
+    <record id="uc_demo_grade_arav_math101" model="unicore.grade.entry">
+      <field name="enrollment_id" ref="uc_demo_enr_arav_math101"/>
+      <field name="internal_marks">30.0</field>
+      <field name="external_marks">45.0</field>
+      <field name="entry_state">verified</field>
+    </record>
+
+    <record id="uc_demo_grade_diya_math101" model="unicore.grade.entry">
+      <field name="enrollment_id" ref="uc_demo_enr_diya_math101"/>
+      <field name="internal_marks">35.0</field>
+      <field name="external_marks">58.0</field>
+      <field name="entry_state">verified</field>
+    </record>
+  </data>
+</odoo>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="1">
+
+    <!-- ROOT CATEGORIES -->
+
+    <record id="cat_student_docs" model="unicore.document.category">
+      <field name="name">Student Documents</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="category_type">student</field>
+      <field name="sequence">10</field>
+      <field name="icon">fa-user-graduate</field>
+      <field name="color">1</field>
+      <field name="is_student_visible">True</field>
+    </record>
+
+    <record id="cat_faculty_docs" model="unicore.document.category">
+      <field name="name">Faculty Documents</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="category_type">faculty</field>
+      <field name="sequence">20</field>
+      <field name="icon">fa-chalkboard-teacher</field>
+      <field name="color">2</field>
+    </record>
+
+    <record id="cat_institutional" model="unicore.document.category">
+      <field name="name">Institutional Documents</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="category_type">institutional</field>
+      <field name="sequence">30</field>
+      <field name="icon">fa-university</field>
+      <field name="color">3</field>
+      <field name="is_public">True</field>
+    </record>
+
+    <record id="cat_templates" model="unicore.document.category">
+      <field name="name">Document Templates</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="category_type">template</field>
+      <field name="sequence">40</field>
+      <field name="icon">fa-file-alt</field>
+      <field name="color">4</field>
+    </record>
+
+    <record id="cat_applicant_docs" model="unicore.document.category">
+      <field name="name">Applicant Documents</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="category_type">applicant</field>
+      <field name="sequence">50</field>
+      <field name="icon">fa-file-user</field>
+      <field name="color">5</field>
+    </record>
+
+    <!-- STUDENT SUB-CATEGORIES -->
+
+    <record id="cat_marksheets" model="unicore.document.category">
+      <field name="name">Marksheets</field>
+      <field name="parent_id" ref="cat_student_docs"/>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="category_type">student</field>
+      <field name="sequence">10</field>
+      <field name="is_student_visible">True</field>
+    </record>
+
+    <record id="cat_id_proofs" model="unicore.document.category">
+      <field name="name">ID Proofs</field>
+      <field name="parent_id" ref="cat_student_docs"/>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="category_type">student</field>
+      <field name="sequence">20</field>
+    </record>
+
+    <record id="cat_certificates" model="unicore.document.category">
+      <field name="name">Certificates</field>
+      <field name="parent_id" ref="cat_student_docs"/>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="category_type">student</field>
+      <field name="sequence">30</field>
+      <field name="is_student_visible">True</field>
+    </record>
+
+    <record id="cat_fee_receipts" model="unicore.document.category">
+      <field name="name">Fee Receipts</field>
+      <field name="parent_id" ref="cat_student_docs"/>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="category_type">student</field>
+      <field name="sequence">40</field>
+      <field name="is_student_visible">True</field>
+    </record>
+
+    <!-- INSTITUTIONAL SUB-CATEGORIES -->
+
+    <record id="cat_policies" model="unicore.document.category">
+      <field name="name">Policies</field>
+      <field name="parent_id" ref="cat_institutional"/>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="category_type">institutional</field>
+      <field name="sequence">10</field>
+      <field name="is_public">True</field>
+    </record>
+
+    <record id="cat_circulars" model="unicore.document.category">
+      <field name="name">Circulars and Notices</field>
+      <field name="parent_id" ref="cat_institutional"/>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="category_type">institutional</field>
+      <field name="sequence">20</field>
+      <field name="is_public">True</field>
+    </record>
+
+    <record id="cat_academic_calendars" model="unicore.document.category">
+      <field name="name">Academic Calendars</field>
+      <field name="parent_id" ref="cat_institutional"/>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="category_type">institutional</field>
+      <field name="sequence">30</field>
+      <field name="is_public">True</field>
+    </record>
+
+    <!-- FACULTY SUB-CATEGORIES -->
+
+    <record id="cat_faculty_contracts" model="unicore.document.category">
+      <field name="name">Contracts</field>
+      <field name="parent_id" ref="cat_faculty_docs"/>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="category_type">faculty</field>
+      <field name="sequence">10</field>
+    </record>
+
+    <record id="cat_faculty_qualifications" model="unicore.document.category">
+      <field name="name">Qualification Certificates</field>
+      <field name="parent_id" ref="cat_faculty_docs"/>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="category_type">faculty</field>
+      <field name="sequence">20</field>
+    </record>
+
+  </data>
+</odoo>

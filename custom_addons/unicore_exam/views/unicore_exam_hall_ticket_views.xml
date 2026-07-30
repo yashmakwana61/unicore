@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ============================================================ -->
+        <!-- HALL TICKET — FORM VIEW                                      -->
+        <!-- ============================================================ -->
+        <record id="view_unicore_exam_hall_ticket_form" model="ir.ui.view">
+            <field name="name">unicore.exam.hall.ticket.form</field>
+            <field name="model">unicore.exam.hall.ticket</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="ticket_state" widget="statusbar"/>
+                        <button name="action_approve" type="object" string="Approve" invisible="ticket_state != 'draft'" class="btn-primary" groups="unicore_base.group_unicore_registrar"/>
+                        <button name="action_override_approve" type="object" string="Override Approve" invisible="ticket_state != 'draft' or eligibility_status != 'ineligible'" class="btn-warning" groups="unicore_base.group_unicore_admin"/>
+                        <button name="action_block" type="object" string="Block" invisible="ticket_state not in ('draft','approved')" groups="unicore_base.group_unicore_registrar"/>
+                        <button name="action_mark_used" type="object" string="Mark Used" invisible="ticket_state != 'approved'" groups="unicore_base.group_unicore_registrar"/>
+                        <button name="action_cancel" type="object" string="Cancel" invisible="ticket_state in ('used','cancelled')" groups="unicore_base.group_unicore_admin"/>
+                        <widget name="web_ribbon" title="INELIGIBLE" invisible="eligibility_status not in ('ineligible','ineligible_fees')" bg_color="text-bg-danger"/>
+                        <widget name="web_ribbon" title="OVERRIDE" invisible="eligibility_status != 'override'" bg_color="text-bg-warning"/>
+                        <widget name="web_ribbon" title="BLOCKED" invisible="ticket_state != 'blocked'" bg_color="text-bg-secondary"/>
+                    </header>
+                    <sheet>
+                        <group string="Ticket Details">
+                            <group>
+                                <field name="ticket_number" readonly="1" class="o_field_emphasize"/>
+                                <field name="exam_schedule_id"/>
+                                <field name="student_id"/>
+                                <field name="enrollment_id"/>
+                            </group>
+                            <group>
+                                <field name="course_id" readonly="1"/>
+                                <field name="exam_type" readonly="1"/>
+                                <field name="exam_date" readonly="1"/>
+                                <field name="semester_id" readonly="1"/>
+                                <field name="campus_id" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="Eligibility">
+                            <group>
+                                <field name="eligibility_status" readonly="1" widget="badge"/>
+                            </group>
+                            <group>
+                                <field name="ticket_state" readonly="1" widget="badge"/>
+                            </group>
+                        </group>
+                        <group string="Eligibility Note" invisible="not eligibility_note">
+                            <field name="eligibility_note" readonly="1" nolabel="1"/>
+                        </group>
+                        <group string="Seat Assignment" invisible="not seating_id">
+                            <field name="seating_id" readonly="1" nolabel="1"/>
+                        </group>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- HALL TICKET — LIST VIEW                                       -->
+        <!-- ============================================================ -->
+        <record id="view_unicore_exam_hall_ticket_list" model="ir.ui.view">
+            <field name="name">unicore.exam.hall.ticket.list</field>
+            <field name="model">unicore.exam.hall.ticket</field>
+            <field name="arch" type="xml">
+                <list decoration-success="ticket_state == 'approved' and eligibility_status == 'eligible'" decoration-danger="eligibility_status in ('ineligible','ineligible_fees')" decoration-warning="eligibility_status == 'override'" decoration-muted="ticket_state in ('blocked','cancelled')">
+                    <field name="ticket_number"/>
+                    <field name="student_id"/>
+                    <field name="exam_schedule_id"/>
+                    <field name="exam_date"/>
+                    <field name="course_id"/>
+                    <field name="eligibility_status"/>
+                    <field name="ticket_state"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- HALL TICKET — SEARCH VIEW                                     -->
+        <!-- ============================================================ -->
+        <record id="view_unicore_exam_hall_ticket_search" model="ir.ui.view">
+            <field name="name">unicore.exam.hall.ticket.search</field>
+            <field name="model">unicore.exam.hall.ticket</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="ticket_number"/>
+                    <field name="student_id"/>
+                    <field name="exam_schedule_id"/>
+                    <field name="course_id"/>
+                    <separator/>
+                    <filter name="filter_approved" string="Approved" domain="[('ticket_state','=','approved')]"/>
+                    <filter name="filter_draft" string="Draft" domain="[('ticket_state','=','draft')]"/>
+                    <filter name="filter_ineligible" string="Ineligible Students" domain="[('eligibility_status','in',['ineligible','ineligible_fees'])]"/>
+                    <filter name="filter_override" string="Override Approved" domain="[('eligibility_status','=','override')]"/>
+                    <filter name="filter_blocked" string="Blocked" domain="[('ticket_state','=','blocked')]"/>
+                    <filter name="filter_my_ticket" string="My Ticket" domain="[('student_id.partner_id.user_ids','in',[uid])]"/>
+                    <separator/>
+                    <filter name="group_by_exam" string="Exam Schedule" context="{'group_by':'exam_schedule_id'}"/>
+                    <filter name="group_by_eligibility" string="Eligibility Status" context="{'group_by':'eligibility_status'}"/>
+                    <filter name="group_by_ticket_state" string="Ticket State" context="{'group_by':'ticket_state'}"/>
+                    <filter name="group_by_course" string="Course" context="{'group_by':'course_id'}"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- WINDOW ACTIONS                                                -->
+        <!-- ============================================================ -->
+        <record id="action_unicore_exam_hall_ticket" model="ir.actions.act_window">
+            <field name="name">Hall Tickets</field>
+            <field name="res_model">unicore.exam.hall.ticket</field>
+            <field name="view_mode">list,form</field>
+            <field name="context">{'search_default_group_by_exam': 1}</field>
+        </record>
+
+        <record id="action_unicore_exam_hall_ticket_ineligible" model="ir.actions.act_window">
+            <field name="name">Ineligible Hall Tickets</field>
+            <field name="res_model">unicore.exam.hall.ticket</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('eligibility_status','in',['ineligible','ineligible_fees'])]</field>
+        </record>
+
+        <record id="action_unicore_exam_hall_ticket_my" model="ir.actions.act_window">
+            <field name="name">My Hall Tickets</field>
+            <field name="res_model">unicore.exam.hall.ticket</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('student_id.partner_id.user_ids','in',[uid])]</field>
+        </record>
+
+    </data>
+</odoo>

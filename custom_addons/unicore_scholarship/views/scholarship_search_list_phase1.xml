@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ========================================================= -->
+    <!-- Phase 1: Award search view - filters + group-bys           -->
+    <!-- ========================================================= -->
+    <record id="view_scholarship_award_search_phase1_filters" model="ir.ui.view">
+        <field name="name">unicore.scholarship.award.search.phase1</field>
+        <field name="model">unicore.scholarship.award</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="award_number"/>
+                <field name="student_id"/>
+                <field name="scholarship_program_id"/>
+                <field name="semester_id"/>
+                <field name="award_amount"/>
+                <field name="disbursement_method"/>
+                <separator/>
+                <filter name="filter_draft" string="Draft" domain="[('award_state','=','draft')]"/>
+                <filter name="filter_approved" string="Approved" domain="[('award_state','=','approved')]"/>
+                <filter name="filter_disbursed" string="Disbursed" domain="[('award_state','=','disbursed')]"/>
+                <filter name="filter_cancelled" string="Cancelled" domain="[('award_state','=','cancelled')]"/>
+                <separator/>
+                <filter name="group_by_state" string="Status" context="{'group_by':'award_state'}"/>
+                <filter name="group_by_program" string="Scholarship Program" context="{'group_by':'scholarship_program_id'}"/>
+                <filter name="group_by_semester" string="Semester" context="{'group_by':'semester_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- ========================================================= -->
+    <!-- Phase 1: Award list decoration - row-level highlights      -->
+    <!-- ========================================================= -->
+    <record id="view_scholarship_award_list_phase1_decoration" model="ir.ui.view">
+        <field name="name">unicore.scholarship.award.list.phase1</field>
+        <field name="model">unicore.scholarship.award</field>
+        <field name="inherit_id" ref="unicore_scholarship.view_unicore_scholarship_award_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="attributes">
+                <attribute name="decoration-info">award_state == 'draft'</attribute>
+                <attribute name="decoration-success">award_state in ('approved', 'disbursed')</attribute>
+                <attribute name="decoration-danger">award_state == 'cancelled'</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ========================================================= -->
+    <!-- Phase 1: Program search view - filters + group-bys         -->
+    <!-- ========================================================= -->
+    <record id="view_scholarship_program_search_phase1_filters" model="ir.ui.view">
+        <field name="name">unicore.scholarship.program.search.phase1</field>
+        <field name="model">unicore.scholarship.program</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="academic_year_id"/>
+                <field name="scholarship_type"/>
+                <field name="award_type"/>
+                <separator/>
+                <filter name="filter_draft" string="Draft" domain="[('program_state','=','draft')]"/>
+                <filter name="filter_open" string="Open" domain="[('program_state','=','open')]"/>
+                <filter name="filter_closed" string="Closed" domain="[('program_state','=','closed')]"/>
+                <filter name="filter_completed" string="Completed" domain="[('program_state','=','completed')]"/>
+                <filter name="filter_active" string="Active" domain="[('active','=',True)]"/>
+                <separator/>
+                <filter name="group_by_state" string="Status" context="{'group_by':'program_state'}"/>
+                <filter name="group_by_type" string="Scholarship Type" context="{'group_by':'scholarship_type'}"/>
+                <filter name="group_by_academic_year" string="Academic Year" context="{'group_by':'academic_year_id'}"/>
+            </search>
+        </field>
+    </record>
+
+</odoo>

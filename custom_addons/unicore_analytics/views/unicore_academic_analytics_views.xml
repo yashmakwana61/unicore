@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- GRADE DISTRIBUTION REPORT -->
+
+  <record id="view_unicore_grade_dist_pivot"
+          model="ir.ui.view">
+    <field name="name">unicore.grade.distribution.report.pivot</field>
+    <field name="model">unicore.grade.distribution.report</field>
+    <field name="arch" type="xml">
+      <pivot string="Grade Distribution Analytics">
+        <field name="course_id" type="row"/>
+        <field name="letter_grade" type="col"/>
+        <field name="student_count" type="measure"/>
+        <field name="pass_rate" type="measure"/>
+      </pivot>
+    </field>
+  </record>
+
+  <record id="view_unicore_grade_dist_graph"
+          model="ir.ui.view">
+    <field name="name">unicore.grade.distribution.report.graph</field>
+    <field name="model">unicore.grade.distribution.report</field>
+    <field name="arch" type="xml">
+      <graph string="Grade Distribution"
+             type="bar"
+             stacked="0">
+        <field name="letter_grade"/>
+        <field name="student_count" type="measure"/>
+      </graph>
+    </field>
+  </record>
+
+  <record id="view_unicore_grade_dist_list"
+          model="ir.ui.view">
+    <field name="name">unicore.grade.distribution.report.list</field>
+    <field name="model">unicore.grade.distribution.report</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="course_id"/>
+        <field name="semester_id"/>
+        <field name="letter_grade"/>
+        <field name="student_count"/>
+        <field name="pass_count"/>
+        <field name="fail_count"/>
+        <field name="avg_percentage"/>
+        <field name="avg_grade_point"/>
+        <field name="pass_rate"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="action_unicore_grade_dist_report"
+          model="ir.actions.act_window">
+    <field name="name">Grade Distribution Analytics</field>
+    <field name="res_model">unicore.grade.distribution.report</field>
+    <field name="view_mode">graph,pivot,list</field>
+  </record>
+
+  <!-- SEMESTER RESULT REPORT -->
+
+  <record id="view_unicore_sem_result_report_pivot"
+          model="ir.ui.view">
+    <field name="name">unicore.semester.result.report.pivot</field>
+    <field name="model">unicore.semester.result.report</field>
+    <field name="arch" type="xml">
+      <pivot string="Semester Result Analytics">
+        <field name="program_id" type="row"/>
+        <field name="result_status" type="col"/>
+        <field name="student_count" type="measure"/>
+        <field name="avg_semester_gpa" type="measure"/>
+      </pivot>
+    </field>
+  </record>
+
+  <record id="view_unicore_sem_result_report_graph"
+          model="ir.ui.view">
+    <field name="name">unicore.semester.result.report.graph</field>
+    <field name="model">unicore.semester.result.report</field>
+    <field name="arch" type="xml">
+      <graph string="Semester Pass / Fail Analysis"
+             type="bar"
+             stacked="1">
+        <field name="program_id"/>
+        <field name="student_count" type="measure"/>
+      </graph>
+    </field>
+  </record>
+
+  <record id="view_unicore_sem_result_report_list"
+          model="ir.ui.view">
+    <field name="name">unicore.semester.result.report.list</field>
+    <field name="model">unicore.semester.result.report</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="semester_id"/>
+        <field name="program_id"/>
+        <field name="result_status"/>
+        <field name="student_count"/>
+        <field name="avg_semester_gpa"/>
+        <field name="avg_credits_earned"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="action_unicore_sem_result_report"
+          model="ir.actions.act_window">
+    <field name="name">Semester Result Analytics</field>
+    <field name="res_model">unicore.semester.result.report</field>
+    <field name="view_mode">graph,pivot,list</field>
+  </record>
+
+</odoo>

@@ -1,0 +1,65 @@
+// SCSS tokens
+$uc-primary:        #714B67;
+$uc-primary-dark:   #5a3a52;
+$uc-primary-darker: #432c3e;
+$uc-secondary:      #017e84;
+$uc-accent:         #e8a838;
+$uc-surface:        #ffffff;
+$uc-bg-page:        #f0eff3;
+$uc-bg-subtle:      #f5f4f7;
+$uc-border:         #d0d5dd;
+$uc-border-light:   #e8eaed;
+$uc-text-heading:   #1a1a2e;
+$uc-text-body:      #3d3d3d;
+$uc-text-muted:     #6c757d;
+$uc-success:        #28a745;
+$uc-warning:        #ffc107;
+$uc-danger:         #dc3545;
+$uc-info:           #007bff;
+
+$uc-navbar-height:  46px;
+$uc-radius-card:    8px;
+$uc-radius-field:   4px;
+$uc-radius-pill:    999px;
+
+$uc-shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+$uc-shadow-md: 0 4px 12px rgba(0,0,0,0.10);
+$uc-shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+$uc-shadow-focus: 0 0 0 3px rgba(113,75,103,0.20);
+$uc-transition: all 200ms ease;
+
+// CSS custom properties
+:root {
+    --uc-primary:        #{$uc-primary};
+    --uc-primary-dark:   #{$uc-primary-dark};
+    --uc-primary-darker: #{$uc-primary-darker};
+    --uc-secondary:      #{$uc-secondary};
+    --uc-accent:         #{$uc-accent};
+    --uc-surface:        #{$uc-surface};
+    --uc-bg-page:        #{$uc-bg-page};
+    --uc-bg-subtle:      #{$uc-bg-subtle};
+    --uc-border:         #{$uc-border};
+    --uc-border-light:   #{$uc-border-light};
+    --uc-text-heading:   #{$uc-text-heading};
+    --uc-text-body:      #{$uc-text-body};
+    --uc-text-muted:     #{$uc-text-muted};
+    --uc-navbar-height:  #{$uc-navbar-height};
+    --uc-radius-card:    #{$uc-radius-card};
+    --uc-radius-field:   #{$uc-radius-field};
+    --uc-radius-pill:    #{$uc-radius-pill};
+    --uc-shadow-sm:      #{$uc-shadow-sm};
+    --uc-shadow-md:      #{$uc-shadow-md};
+    --uc-shadow-lg:      #{$uc-shadow-lg};
+    --uc-shadow-focus:   #{$uc-shadow-focus};
+    --uc-transition:     #{$uc-transition};
+}
+
+// Minimal base
+body,
+.o_web_client,
+.o_action_manager {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    color: $uc-text-body;
+    background: $uc-bg-page;
+    -webkit-font-smoothing: antialiased;
+}

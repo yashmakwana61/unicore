@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Window Action -->
+    <record id="action_unicore_academic_year" model="ir.actions.act_window">
+        <field name="name">Academic Years</field>
+        <field name="res_model">unicore.academic.year</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+
+    <!-- Form View -->
+    <record id="unicore_academic_year_form_view" model="ir.ui.view">
+        <field name="name">unicore.academic.year.form</field>
+        <field name="model">unicore.academic.year</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="year_state" widget="statusbar"
+                           statusbar_visible="draft,confirmed,active,completed"/>
+                    <button name="action_confirm" type="object"
+                            string="Confirm" class="btn-primary"
+                            invisible="year_state != 'draft'"/>
+                    <button name="action_activate" type="object"
+                            string="Activate"
+                            invisible="year_state != 'confirmed'"/>
+                    <button name="action_complete" type="object"
+                            string="Complete"
+                            invisible="year_state != 'active'"/>
+                    <button name="action_cancel" type="object"
+                            string="Cancel"
+                            groups="unicore_base.group_unicore_admin"
+                            invisible="year_state in ('completed', 'cancelled')"/>
+                    <button name="action_reset_draft" type="object"
+                            string="Reset to Draft"
+                            groups="unicore_base.group_unicore_admin"
+                            invisible="year_state != 'cancelled'"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_semesters" type="object"
+                                class="oe_stat_button" icon="fa-layer-group">
+                            <field string="Semesters" name="semester_count" widget="statinfo"/>
+                        </button>
+                        <button name="action_open_weeks" type="object"
+                                class="oe_stat_button" icon="fa-calendar-week">
+                            <field string="Weeks" name="week_count" widget="statinfo"/>
+                        </button>
+                        <button name="action_open_holidays" type="object"
+                                class="oe_stat_button" icon="fa-calendar-alt">
+                            <field string="Holidays" name="holiday_count" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group name="left">
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="company_id" options="{'no_create': True}"/>
+                            <field name="year_type"/>
+                            <field name="previous_year_id" options="{'no_create': True}"/>
+                            <field name="next_year_id" options="{'no_create': True}"/>
+                        </group>
+                        <group name="right">
+                            <field name="year_state"/>
+                            <field name="is_current"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="total_working_days"/>
+                            <field name="campus_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="semesters" string="Semesters">
+                            <field name="semester_ids">
+                                <list editable="bottom">
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="semester_type"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                    <field name="week_count"/>
+                                    <field name="semester_state"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page name="holidays" string="Holidays">
+                            <field name="holiday_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="holiday_type"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                    <field name="duration_days"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="unicore_academic_year_list_view" model="ir.ui.view">
+        <field name="name">unicore.academic.year.list</field>
+        <field name="model">unicore.academic.year</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="year_type"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="semester_count"/>
+                <field name="is_current"/>
+                <field name="year_state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="unicore_academic_year_search_view" model="ir.ui.view">
+        <field name="name">unicore.academic.year.search</field>
+        <field name="model">unicore.academic.year</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id"/>
+                <filter name="filter_current" string="Current Year"
+                        domain="[('is_current', '=', True)]"/>
+                <filter name="filter_active" string="Active Years"
+                        domain="[('year_state', '=', 'active')]"/>
+                <filter name="filter_draft" string="Draft Years"
+                        domain="[('year_state', '=', 'draft')]"/>
+                <group name="groupby">
+                    <filter name="groupby_institution" string="Institution"
+                            context="{'group_by': 'company_id'}"/>
+                    <filter name="groupby_type" string="Year Type"
+                            context="{'group_by': 'year_type'}"/>
+                    <filter name="groupby_status" string="Status"
+                            context="{'group_by': 'year_state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+</odoo>

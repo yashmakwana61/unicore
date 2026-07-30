@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ============================================= -->
+        <!-- FORM VIEW                                     -->
+        <!-- ============================================= -->
+
+        <record id="view_unicore_curriculum_line_form" model="ir.ui.view">
+            <field name="name">unicore.curriculum.line.form</field>
+            <field name="model">unicore.curriculum.line</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="curriculum_id"/>
+                                <field name="course_id"/>
+                                <field name="program_id" readonly="1"/>
+                                <field name="company_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="semester_number"/>
+                                <field name="sequence"/>
+                                <field name="credit_hours" readonly="1"/>
+                                <field name="course_category" readonly="1"/>
+                                <field name="course_type" readonly="1"/>
+                                <field name="is_elective"/>
+                                <field name="elective_group"
+                                       invisible="not is_elective"/>
+                                <field name="is_mandatory"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ============================================= -->
+        <!-- LIST VIEW                                     -->
+        <!-- ============================================= -->
+
+        <record id="view_unicore_curriculum_line_list" model="ir.ui.view">
+            <field name="name">unicore.curriculum.line.list</field>
+            <field name="model">unicore.curriculum.line</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="curriculum_id"/>
+                    <field name="semester_number"/>
+                    <field name="course_id"/>
+                    <field name="credit_hours"/>
+                    <field name="course_category"/>
+                    <field name="is_elective"/>
+                    <field name="is_mandatory"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ============================================= -->
+        <!-- SEARCH VIEW                                   -->
+        <!-- ============================================= -->
+
+        <record id="view_unicore_curriculum_line_search" model="ir.ui.view">
+            <field name="name">unicore.curriculum.line.search</field>
+            <field name="model">unicore.curriculum.line</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="curriculum_id"/>
+                    <field name="course_id"/>
+                    <group name="group_by">
+                        <filter name="group_by_curriculum" string="Curriculum"
+                                context="{'group_by': 'curriculum_id'}"/>
+                        <filter name="group_by_semester" string="Semester Number"
+                                context="{'group_by': 'semester_number'}"/>
+                        <filter name="group_by_category" string="Course Category"
+                                context="{'group_by': 'course_category'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- ============================================= -->
+        <!-- WINDOW ACTION                                 -->
+        <!-- ============================================= -->
+
+        <record id="action_unicore_curriculum_line" model="ir.actions.act_window">
+            <field name="name">Curriculum Lines</field>
+            <field name="res_model">unicore.curriculum.line</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+    </data>
+</odoo>

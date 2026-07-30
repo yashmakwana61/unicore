@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="1">
+
+    <!-- Scholarship Program rules -->
+    <record id="rule_unicore_scholarship_program_company"
+            model="ir.rule">
+      <field name="name">
+        Scholarship Program: Company Isolation
+      </field>
+      <field name="model_id"
+        ref="unicore_scholarship.model_unicore_scholarship_program"/>
+      <field name="domain_force">
+        ['|',('company_id','=',False),
+             ('company_id','in',company_ids)]
+      </field>
+      <field name="groups"
+        eval="[(4,ref('base.group_user'))]"/>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_write" eval="True"/>
+      <field name="perm_create" eval="True"/>
+      <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_unicore_scholarship_program_admin"
+            model="ir.rule">
+      <field name="name">
+        Scholarship Program: Admin Bypass
+      </field>
+      <field name="model_id"
+        ref="unicore_scholarship.model_unicore_scholarship_program"/>
+      <field name="domain_force">[(1,'=',1)]</field>
+      <field name="groups"
+        eval="[(4,ref('unicore_base.group_unicore_admin'))]"/>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_write" eval="True"/>
+      <field name="perm_create" eval="True"/>
+      <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- Scholarship Application rules -->
+    <record id="rule_unicore_scholarship_app_company"
+            model="ir.rule">
+      <field name="name">
+        Scholarship Application: Company Isolation
+      </field>
+      <field name="model_id"
+        ref="unicore_scholarship.model_unicore_scholarship_application"/>
+      <field name="domain_force">
+        ['|',('company_id','=',False),
+             ('company_id','in',company_ids)]
+      </field>
+      <field name="groups"
+        eval="[(4,ref('base.group_user'))]"/>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_write" eval="True"/>
+      <field name="perm_create" eval="True"/>
+      <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_unicore_scholarship_app_student"
+            model="ir.rule">
+      <field name="name">
+        Scholarship Application: Student Own Only
+      </field>
+      <field name="model_id"
+        ref="unicore_scholarship.model_unicore_scholarship_application"/>
+      <field name="domain_force">
+        [('student_id.partner_id.user_ids',
+          'in',[user.id])]
+      </field>
+      <field name="groups"
+        eval="[(4,ref('unicore_base.group_unicore_student'))]"/>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_write" eval="True"/>
+      <field name="perm_create" eval="True"/>
+      <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_unicore_scholarship_app_admin"
+            model="ir.rule">
+      <field name="name">
+        Scholarship Application: Admin Bypass
+      </field>
+      <field name="model_id"
+        ref="unicore_scholarship.model_unicore_scholarship_application"/>
+      <field name="domain_force">[(1,'=',1)]</field>
+      <field name="groups"
+        eval="[(4,ref('unicore_base.group_unicore_admin'))]"/>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_write" eval="True"/>
+      <field name="perm_create" eval="True"/>
+      <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- Scholarship Award rules -->
+    <record id="rule_unicore_scholarship_award_company"
+            model="ir.rule">
+      <field name="name">
+        Scholarship Award: Company Isolation
+      </field>
+      <field name="model_id"
+        ref="unicore_scholarship.model_unicore_scholarship_award"/>
+      <field name="domain_force">
+        ['|',('company_id','=',False),
+             ('company_id','in',company_ids)]
+      </field>
+      <field name="groups"
+        eval="[(4,ref('base.group_user'))]"/>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_write" eval="True"/>
+      <field name="perm_create" eval="True"/>
+      <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <record id="rule_unicore_scholarship_award_student"
+            model="ir.rule">
+      <field name="name">
+        Scholarship Award: Student Own Awards
+      </field>
+      <field name="model_id"
+        ref="unicore_scholarship.model_unicore_scholarship_award"/>
+      <field name="domain_force">
+        [('student_id.partner_id.user_ids',
+          'in',[user.id])]
+      </field>
+      <field name="groups"
+        eval="[(4,ref('unicore_base.group_unicore_student'))]"/>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_write" eval="False"/>
+      <field name="perm_create" eval="False"/>
+      <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="rule_unicore_scholarship_award_admin"
+            model="ir.rule">
+      <field name="name">
+        Scholarship Award: Admin Bypass
+      </field>
+      <field name="model_id"
+        ref="unicore_scholarship.model_unicore_scholarship_award"/>
+      <field name="domain_force">[(1,'=',1)]</field>
+      <field name="groups"
+        eval="[(4,ref('unicore_base.group_unicore_admin'))]"/>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_write" eval="True"/>
+      <field name="perm_create" eval="True"/>
+      <field name="perm_unlink" eval="True"/>
+    </record>
+
+  </data>
+</odoo>

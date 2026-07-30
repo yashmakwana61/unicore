@@ -1,0 +1,87 @@
+"""
+UniCore Enrollment Log Model
+Immutable, append-only audit trail of every
+enrollment state change. Created automatically by
+unicore.enrollment action methods — never created
+or edited directly by users. Required for
+accreditation and compliance record-keeping.
+"""
+from odoo import api, fields, models, _
+from odoo.exceptions import UserError
+import logging
+
+_logger = logging.getLogger(__name__)
+
+
+class UniCoreEnrollmentLog(models.Model):
+    _name = 'unicore.enrollment.log'
+    _description = 'Enrollment Audit Log'
+    _order = 'action_date desc'
+
+    enrollment_id = fields.Many2one(
+        comodel_name='unicore.enrollment',
+        string='Enrollment',
+        required=True,
+        ondelete='cascade',
+        index=True,
+    )
+
+    student_id = fields.Many2one(
+        comodel_name='unicore.student',
+        string='Student',
+        required=True,
+        ondelete='cascade',
+        index=True,
+    )
+
+    course_offering_id = fields.Many2one(
+        comodel_name='unicore.course.offering',
+        string='Course Offering',
+        required=True,
+        ondelete='cascade',
+    )
+
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        string='Institution',
+        related='course_offering_id.company_id',
+        store=True,
+        readonly=True,
+    )
+
+    action = fields.Selection(
+        string='Action',
+        required=True,
+        selection=[
+            ('registered', 'Registered'),
+            ('dropped', 'Dropped'),
+            ('withdrawn', 'Withdrawn'),
+            ('completed', 'Completed'),
+            ('cancelled', 'Cancelled'),
+        ],
+    )
+
+    action_date = fields.Datetime(
+        string='Action Date',
+        required=True,
+    )
+
+    performed_by_id = fields.Many2one(
+        comodel_name='res.users',
+        string='Performed By',
+        required=True,
+    )
+
+    notes = fields.Text(string='Notes')
+
+    def write(self, vals):
+        raise UserError(
+            _('Enrollment log entries are immutable and cannot be edited. '
+              'This is an audit compliance requirement.')
+        )
+
+    def unlink(self):
+        raise UserError(
+            _('Enrollment log entries are immutable and cannot be deleted. '
+              'This is an audit compliance requirement.')
+        )

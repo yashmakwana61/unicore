@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Extend Fee Invoice Form to show GL Invoice Link -->
+        <record id="view_unicore_fee_invoice_form_gl_ext" model="ir.ui.view">
+            <field name="name">unicore.fee.invoice.form.gl.ext</field>
+            <field name="model">unicore.fee.invoice</field>
+            <field name="inherit_id" ref="unicore_fees.view_unicore_fee_invoice_form"/>
+            <field name="arch" type="xml">
+
+                <!-- Add GL Invoice stat button in button_box -->
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button type="object" name="action_view_account_invoice" class="oe_stat_button" icon="fa-file-pdf" invisible="not account_move_id">
+                        <field name="gl_status" widget="statinfo" string="GL Invoice"/>
+                    </button>
+                </xpath>
+
+                <!-- Add GL Invoice info section -->
+                <xpath expr="//group[@name='invoice_details']" position="inside">
+                    <field name="account_move_id" readonly="1" groups="unicore_base.group_unicore_admin,unicore_base.group_unicore_finance" />
+                </xpath>
+
+                <!-- Add GL Status and Invoice Number to amounts section -->
+                <xpath expr="//group[@name='dates_amounts']" position="inside">
+                    <field name="gl_invoice_number" readonly="1" groups="unicore_base.group_unicore_admin,unicore_base.group_unicore_finance" />
+                    <field name="gl_status" readonly="1" groups="unicore_base.group_unicore_admin,unicore_base.group_unicore_finance" />
+                    <field name="gl_fully_reconciled" readonly="1" groups="unicore_base.group_unicore_admin,unicore_base.group_unicore_finance" />
+                </xpath>
+
+                <!-- Add GL Invoice Info Page in Notebook -->
+                <xpath expr="//notebook/page[@name='fee_breakdown']" position="after">
+                    <page string="GL Integration" groups="unicore_base.group_unicore_admin,unicore_base.group_unicore_finance" invisible="not account_move_id">
+                        <group>
+                            <field name="account_move_id" readonly="1" />
+                            <field name="gl_invoice_number" readonly="1" />
+                            <field name="gl_status" readonly="1" />
+                        </group>
+
+                        <div class="alert alert-info" role="alert" invisible="gl_status != 'draft'">
+                            <p><strong>ℹ Draft State:</strong> GL Invoice is in draft state. Click the GL Invoice button to review and post.</p>
+                        </div>
+
+                        <div class="alert alert-success" role="alert" invisible="gl_status != 'posted'">
+                            <p><strong>✓ Posted:</strong> GL Invoice has been posted to GL. You can now record payments.</p>
+                            <p>Click the <strong>Record Payment</strong> button to process student payments in the Accounting module.</p>
+                        </div>
+
+                        <div class="alert alert-success" role="alert" invisible="invoice_state != 'paid'">
+                            <p><strong>✓ Fully Paid:</strong> All payments have been received and reconciled in the GL.</p>
+                        </div>
+
+                        <div class="alert alert-warning" role="alert" invisible="gl_status != 'posted' or invoice_state == 'paid'">
+                            <p><strong>⚠ Awaiting Payment:</strong> GL Invoice is posted. Click <strong>Record Payment</strong> to record student payment.</p>
+                        </div>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+        <!-- Extend Fee Invoice List to show GL Status -->
+        <record id="view_unicore_fee_invoice_list_gl_ext" model="ir.ui.view">
+            <field name="name">unicore.fee.invoice.list.gl.ext</field>
+            <field name="model">unicore.fee.invoice</field>
+            <field name="inherit_id" ref="unicore_fees.view_unicore_fee_invoice_list"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invoice_state']" position="after">
+                    <field name="gl_status" groups="unicore_base.group_unicore_admin,unicore_base.group_unicore_finance" />
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

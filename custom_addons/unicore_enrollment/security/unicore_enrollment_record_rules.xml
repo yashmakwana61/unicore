@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- ============================================================ -->
+        <!-- RECORD RULES: unicore.enrollment                              -->
+        <!-- ============================================================ -->
+
+        <record id="rule_unicore_enrollment_company" model="ir.rule">
+            <field name="name">Enrollment: Company Isolation</field>
+            <field name="model_id" ref="model_unicore_enrollment"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="rule_unicore_enrollment_student_self" model="ir.rule">
+            <field name="name">Enrollment: Student Own Records Only</field>
+            <field name="model_id" ref="model_unicore_enrollment"/>
+            <field name="domain_force">[('student_id.partner_id.user_ids', 'in', [user.id])]</field>
+            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_student'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="rule_unicore_enrollment_faculty_own" model="ir.rule">
+            <field name="name">Enrollment: Faculty Own Offering Enrollments</field>
+            <field name="model_id" ref="model_unicore_enrollment"/>
+            <field name="domain_force">[('course_offering_id.faculty_member_id.partner_id.user_ids', 'in', [user.id])]</field>
+            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_faculty'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="rule_unicore_enrollment_admin" model="ir.rule">
+            <field name="name">Enrollment: Admin Bypass</field>
+            <field name="model_id" ref="model_unicore_enrollment"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_admin'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- RECORD RULES: unicore.enrollment.waitlist                     -->
+        <!-- ============================================================ -->
+
+        <record id="rule_unicore_enrollment_waitlist_company" model="ir.rule">
+            <field name="name">Waitlist: Company Isolation</field>
+            <field name="model_id" ref="model_unicore_enrollment_waitlist"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="rule_unicore_enrollment_waitlist_student" model="ir.rule">
+            <field name="name">Waitlist: Student Own Entries Only</field>
+            <field name="model_id" ref="model_unicore_enrollment_waitlist"/>
+            <field name="domain_force">[('student_id.partner_id.user_ids', 'in', [user.id])]</field>
+            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_student'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="rule_unicore_enrollment_waitlist_faculty" model="ir.rule">
+            <field name="name">Waitlist: Faculty Own Offering Waitlists</field>
+            <field name="model_id" ref="model_unicore_enrollment_waitlist"/>
+            <field name="domain_force">[('course_offering_id.faculty_member_id.partner_id.user_ids', 'in', [user.id])]</field>
+            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_faculty'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="rule_unicore_enrollment_waitlist_admin" model="ir.rule">
+            <field name="name">Waitlist: Admin Bypass</field>
+            <field name="model_id" ref="model_unicore_enrollment_waitlist"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_admin'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- RECORD RULES: unicore.enrollment.log                          -->
+        <!-- ============================================================ -->
+
+        <record id="rule_unicore_enrollment_log_company" model="ir.rule">
+            <field name="name">Enrollment Log: Company Isolation</field>
+            <field name="model_id" ref="model_unicore_enrollment_log"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="rule_unicore_enrollment_log_student" model="ir.rule">
+            <field name="name">Enrollment Log: Student Own Log Entries</field>
+            <field name="model_id" ref="model_unicore_enrollment_log"/>
+            <field name="domain_force">[('student_id.partner_id.user_ids', 'in', [user.id])]</field>
+            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_student'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="rule_unicore_enrollment_log_faculty" model="ir.rule">
+            <field name="name">Enrollment Log: Faculty Own Offering Logs</field>
+            <field name="model_id" ref="model_unicore_enrollment_log"/>
+            <field name="domain_force">[('course_offering_id.faculty_member_id.partner_id.user_ids', 'in', [user.id])]</field>
+            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_faculty'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="rule_unicore_enrollment_log_admin" model="ir.rule">
+            <field name="name">Enrollment Log: Admin Bypass</field>
+            <field name="model_id" ref="model_unicore_enrollment_log"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_admin'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+    </data>
+</odoo>

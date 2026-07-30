@@ -1,0 +1,41 @@
+{
+    'name': 'UniCore Students',
+    'version': '19.0.1.0.0',
+    'category': 'Education',
+    'summary': 'Complete student profile and lifecycle management',
+    'description': '''
+Manages the complete student lifecycle in UniCore ERP.
+Covers student profiles, enrollment history,
+document management, emergency contacts,
+academic history and status transitions.
+    ''',
+    'author': 'Precisefect Solutions Pvt. Ltd.',
+    'website': 'https://precisefect.com',
+    'license': 'OPL-1',
+    'depends': [
+        'unicore_base',
+        'unicore_security',
+        'unicore_campus',
+        'unicore_academic',
+        'unicore_calendar',
+    ],
+    'data': [
+        'security/unicore_student_record_rules.xml',
+        'security/ir.model.access.csv',
+        'data/unicore_student_sequence_data.xml',
+        'data/unicore_bonafide_sequence.xml',
+        'wizards/unicore_student_status_wizard_views.xml',
+        'wizards/unicore_bonafide_wizard_views.xml',
+        'views/unicore_student_views.xml',
+        'views/unicore_student_document_views.xml',
+        'views/unicore_student_academic_history_views.xml',
+        'views/unicore_student_id_card_template.xml',
+        'views/unicore_bonafide_template.xml',
+        'data/unicore_student_id_card_report.xml',
+        'data/unicore_bonafide_report_action.xml',
+        'menus/unicore_student_menus.xml',
+    ],
+    'installable': True,
+    'application': True,
+    'auto_install': False,
+}

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Academic Structure Top Menu -->
+    <menuitem id="menu_unicore_academic"
+              name="Academic Structure"
+              parent="unicore_base.menu_unicore_root"
+              sequence="10"
+              groups="unicore_base.group_unicore_staff"/>
+
+    <!-- Faculties -->
+    <menuitem id="menu_unicore_faculty_list"
+              name="Faculties"
+              parent="menu_unicore_academic"
+              action="action_unicore_faculty"
+              sequence="10"/>
+
+    <!-- Departments -->
+    <menuitem id="menu_unicore_department_list"
+              name="Departments"
+              parent="menu_unicore_academic"
+              action="action_unicore_department"
+              sequence="20"/>
+
+    <!-- Programs -->
+    <menuitem id="menu_unicore_program_list"
+              name="Programs"
+              parent="menu_unicore_academic"
+              action="action_unicore_program"
+              sequence="30"/>
+
+    <!-- Specialisations -->
+    <menuitem id="menu_unicore_specialisation_list"
+              name="Specialisations"
+              parent="menu_unicore_academic"
+              action="action_unicore_specialisation"
+              sequence="40"/>
+
+</odoo>

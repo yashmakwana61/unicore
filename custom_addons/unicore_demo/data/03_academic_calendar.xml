@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="0">
+    <record id="uc_demo_ay_2526" model="unicore.academic.year">
+      <field name="name">Academic Year 2025-26</field>
+      <field name="code">AY2526</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="date_start">2025-07-01</field>
+      <field name="date_end">2026-06-30</field>
+      <field name="year_type">semester</field>
+      <field name="year_state">active</field>
+      <field name="is_current">True</field>
+    </record>
+
+    <record id="uc_demo_sem_odd" model="unicore.semester">
+      <field name="name">Odd Semester 2025</field>
+      <field name="code">ODD-2526</field>
+      <field name="academic_year_id" ref="uc_demo_ay_2526"/>
+      <field name="semester_type">odd</field>
+      <field name="sequence">10</field>
+      <field name="date_start">2025-07-15</field>
+      <field name="date_end">2025-11-30</field>
+      <field name="registration_start">2025-07-01</field>
+      <field name="registration_end">2025-07-20</field>
+      <field name="add_drop_end">2025-07-31</field>
+      <field name="withdrawal_end">2025-09-30</field>
+      <field name="exam_start">2025-11-10</field>
+      <field name="exam_end">2025-11-28</field>
+      <field name="result_declaration_date">2025-12-15</field>
+      <field name="semester_state">ongoing</field>
+    </record>
+
+    <record id="uc_demo_sem_even" model="unicore.semester">
+      <field name="name">Even Semester 2026</field>
+      <field name="code">EVEN-2526</field>
+      <field name="academic_year_id" ref="uc_demo_ay_2526"/>
+      <field name="semester_type">even</field>
+      <field name="sequence">20</field>
+      <field name="date_start">2026-01-05</field>
+      <field name="date_end">2026-05-31</field>
+      <field name="registration_start">2025-12-20</field>
+      <field name="registration_end">2026-01-10</field>
+      <field name="exam_start">2026-05-10</field>
+      <field name="exam_end">2026-05-29</field>
+      <field name="semester_state">confirmed</field>
+    </record>
+
+    <record id="uc_demo_holiday_diwali" model="unicore.holiday">
+      <field name="name">Diwali Break</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="academic_year_id" ref="uc_demo_ay_2526"/>
+      <field name="semester_id" ref="uc_demo_sem_odd"/>
+      <field name="date_start">2025-10-20</field>
+      <field name="date_end">2025-10-24</field>
+      <field name="holiday_type">cultural</field>
+      <field name="affects_attendance">True</field>
+    </record>
+
+    <record id="uc_demo_holiday_republic" model="unicore.holiday">
+      <field name="name">Republic Day</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="academic_year_id" ref="uc_demo_ay_2526"/>
+      <field name="date_start">2026-01-26</field>
+      <field name="date_end">2026-01-26</field>
+      <field name="holiday_type">national</field>
+      <field name="affects_attendance">True</field>
+    </record>
+
+    <record id="uc_demo_holiday_independence" model="unicore.holiday">
+      <field name="name">Independence Day</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="academic_year_id" ref="uc_demo_ay_2526"/>
+      <field name="date_start">2025-08-15</field>
+      <field name="date_end">2025-08-15</field>
+      <field name="holiday_type">national</field>
+      <field name="affects_attendance">True</field>
+    </record>
+  </data>
+</odoo>
