@@ -16,7 +16,33 @@ _logger = logging.getLogger(__name__)
 class UniCoreFinanceKPI(models.Model):
     _name = 'unicore.finance.kpi'
     _description = 'Financial KPI Record'
+    _rec_name = 'display_name'
     _inherit = ['unicore.mixin']
+
+    display_name = fields.Char(
+        string='Display Name',
+        compute='_compute_display_name',
+        store=True,
+        depends=['company_id.display_name', 'semester_id.display_name',
+                 'kpi_date'],
+    )
+
+    @api.depends('company_id.display_name', 'semester_id.display_name',
+                 'kpi_date')
+    def _compute_display_name(self):
+        for rec in self:
+            context = (
+                rec.semester_id.display_name
+                or rec.company_id.display_name
+                or ''
+            )
+            if rec.kpi_date:
+                rec.display_name = '%s - %s' % (
+                    context,
+                    rec.kpi_date.strftime('%b %Y'),
+                )
+            else:
+                rec.display_name = context
     _order = 'company_id, kpi_date desc'
     _check_company_auto = True
 

@@ -16,6 +16,34 @@ _logger = logging.getLogger(__name__)
 class UniCoreCurriculumLine(models.Model):
     _name = 'unicore.curriculum.line'
     _description = 'Curriculum Course Line'
+    _rec_name = 'display_name'
+
+    display_name = fields.Char(
+        string='Display Name',
+        compute='_compute_display_name',
+        store=True,
+        depends=['curriculum_id.display_name', 'course_id.display_name',
+                 'semester_number'],
+    )
+
+    @api.depends('curriculum_id.display_name', 'course_id.display_name',
+                 'semester_number')
+    def _compute_display_name(self):
+        for rec in self:
+            curriculum_name = (
+                rec.curriculum_id.display_name if rec.curriculum_id else ''
+            )
+            course_name = (
+                rec.course_id.display_name if rec.course_id else ''
+            )
+            if rec.semester_number:
+                rec.display_name = '%s - Sem %s - %s' % (
+                    curriculum_name, rec.semester_number, course_name
+                )
+            else:
+                rec.display_name = '%s - %s' % (
+                    curriculum_name, course_name
+                )
     _order = 'curriculum_id, semester_number, sequence'
     _check_company_auto = True
 

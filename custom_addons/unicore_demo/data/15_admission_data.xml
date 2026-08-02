@@ -2,12 +2,12 @@
 <odoo>
   <data noupdate="0">
     <record id="uc_demo_adm_cycle_2025" model="unicore.admission.cycle">
-      <field name="name">Fall 2025 Admissions</field>
-      <field name="code">ADM-2025</field>
+      <field name="name">Fall 2026 Admissions</field>
+      <field name="code">ADM-2026</field>
       <field name="campus_id" ref="uc_demo_campus_main"/>
       <field name="academic_year_id" ref="uc_demo_ay_2526"/>
-      <field name="start_date">2025-03-01</field>
-      <field name="end_date">2025-06-30</field>
+      <field name="start_date">2026-03-01</field>
+      <field name="end_date">2026-06-30</field>
       <field name="state">closed</field>
       <field name="company_id" ref="base.main_company"/>
     </record>

@@ -19,7 +19,27 @@ class UniCoreTransportTrip(models.Model):
     _inherit = ['unicore.mixin', 'mail.thread']
     _order = 'trip_date desc, route_id'
     _check_company_auto = True
-    _rec_name = 'trip_number'
+    _rec_name = 'display_name'
+
+    display_name = fields.Char(
+        string='Display Name',
+        compute='_compute_display_name',
+        store=True,
+        depends=['trip_number', 'route_id.display_name', 'trip_date'],
+    )
+
+    @api.depends('trip_number', 'route_id.display_name', 'trip_date')
+    def _compute_display_name(self):
+        for rec in self:
+            route_name = (
+                rec.route_id.display_name if rec.route_id else ''
+            )
+            parts = [part for part in (
+                rec.trip_number, route_name
+            ) if part]
+            if rec.trip_date:
+                parts.append(rec.trip_date.strftime('%d %b %Y'))
+            rec.display_name = ' - '.join(parts)
 
     trip_number = fields.Char(
         string='Trip Number',

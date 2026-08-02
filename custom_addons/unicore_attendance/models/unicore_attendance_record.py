@@ -19,6 +19,27 @@ _logger = logging.getLogger(__name__)
 class UniCoreAttendanceRecord(models.Model):
     _name = 'unicore.attendance.record'
     _description = 'Student Attendance Record'
+    _rec_name = 'display_name'
+
+    display_name = fields.Char(
+        string='Display Name',
+        compute='_compute_display_name',
+        store=True,
+        depends=['student_id.display_name', 'session_id.display_name'],
+    )
+
+    @api.depends('student_id.display_name', 'session_id.display_name')
+    def _compute_display_name(self):
+        for rec in self:
+            student_name = (
+                rec.student_id.display_name if rec.student_id else ''
+            )
+            session_name = (
+                rec.session_id.display_name if rec.session_id else ''
+            )
+            rec.display_name = 'Attendance - %s - %s' % (
+                student_name, session_name
+            )
     _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'session_id desc, student_id'
     _check_company_auto = True
@@ -232,7 +253,11 @@ class UniCoreAttendanceRecord(models.Model):
 
     def write(self, vals):
         for rec in self:
-            if rec.session_id.session_state == 'closed' and not self.env.context.get('force_write_closed_session'):
+            if (
+                rec.session_id.session_state == 'closed'
+                and not self.env.context.get('force_write_closed_session')
+                and not self.env.context.get('install_mode')
+            ):
                 raise UserError(
                     _('Cannot modify attendance records for a closed session. Reopen the session first (admin only).')
                 )

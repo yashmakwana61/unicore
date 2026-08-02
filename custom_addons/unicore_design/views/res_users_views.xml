@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Inherit the main user form view to add preferences -->
+    <record id="view_users_form_inherit" model="ir.ui.view">
+        <field name="name">res.users.form.inherit.unicore_design</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='other_preferences']" position="inside">
+                <group string="Theme Settings">
+                    <field name="theme_font_family"/>
+                    <field name="theme_list_density"/>
+                    <field name="theme_border_radius"/>
+                    <field name="theme_chatter_position"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit the simple user preferences form view -->
+    <record id="view_users_form_simple_modif_inherit" model="ir.ui.view">
+        <field name="name">res.users.preferences.form.inherit.unicore_design</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='other_preferences']" position="inside">
+                <group string="Theme Settings">
+                    <field name="theme_font_family"/>
+                    <field name="theme_list_density"/>
+                    <field name="theme_border_radius"/>
+                    <field name="theme_chatter_position"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

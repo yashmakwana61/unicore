@@ -7,7 +7,29 @@ class OfferLetter(models.Model):
     _description = 'Offer Letter'
     _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'offer_date desc, id desc'
-    _rec_name = 'letter_number'
+    _rec_name = 'display_name'
+
+    display_name = fields.Char(
+        string='Display Name',
+        compute='_compute_display_name',
+        store=True,
+        depends=['letter_number', 'applicant_id.display_name'],
+    )
+
+    @api.depends('letter_number', 'applicant_id.display_name')
+    def _compute_display_name(self):
+        for rec in self:
+            applicant_name = (
+                rec.applicant_id.display_name
+                or rec.applicant_name
+                or ''
+            )
+            if applicant_name:
+                rec.display_name = '%s - %s' % (
+                    rec.letter_number, applicant_name
+                )
+            else:
+                rec.display_name = rec.letter_number or ''
 
     letter_number = fields.Char(
         string='Letter No.', readonly=True, copy=False,

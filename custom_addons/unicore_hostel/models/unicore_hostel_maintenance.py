@@ -20,7 +20,27 @@ class UniCoreHostelMaintenance(models.Model):
                 'mail.activity.mixin']
     _order = 'request_date desc, priority desc'
     _check_company_auto = True
-    _rec_name = 'request_number'
+    _rec_name = 'display_name'
+
+    display_name = fields.Char(
+        string='Display Name',
+        compute='_compute_display_name',
+        store=True,
+        depends=['request_number', 'room_id.display_name'],
+    )
+
+    @api.depends('request_number', 'room_id.display_name')
+    def _compute_display_name(self):
+        for rec in self:
+            room_name = (
+                rec.room_id.display_name if rec.room_id else ''
+            )
+            if room_name:
+                rec.display_name = '%s - %s' % (
+                    rec.request_number, room_name
+                )
+            else:
+                rec.display_name = rec.request_number or ''
 
     request_number = fields.Char(
         string='Request Number',

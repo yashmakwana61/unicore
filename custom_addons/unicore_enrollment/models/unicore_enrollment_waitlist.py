@@ -17,7 +17,36 @@ _logger = logging.getLogger(__name__)
 class UniCoreEnrollmentWaitlist(models.Model):
     _name = 'unicore.enrollment.waitlist'
     _description = 'Enrollment Waitlist Entry'
+    _rec_name = 'display_name'
     _inherit = ['unicore.mixin', 'mail.thread']
+
+    display_name = fields.Char(
+        string='Display Name',
+        compute='_compute_display_name',
+        store=True,
+        depends=['student_id.display_name', 'course_offering_id.display_name',
+                 'position'],
+    )
+
+    @api.depends('student_id.display_name', 'course_offering_id.display_name',
+                 'position')
+    def _compute_display_name(self):
+        for rec in self:
+            student_name = (
+                rec.student_id.display_name if rec.student_id else ''
+            )
+            offering_name = (
+                rec.course_offering_id.display_name
+                if rec.course_offering_id else ''
+            )
+            if rec.position:
+                rec.display_name = 'Waitlist #%s - %s - %s' % (
+                    rec.position, student_name, offering_name
+                )
+            else:
+                rec.display_name = '%s - %s' % (
+                    student_name, offering_name
+                )
     _order = 'course_offering_id, position'
     _check_company_auto = True
 

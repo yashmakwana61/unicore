@@ -15,7 +15,28 @@ _logger = logging.getLogger(__name__)
 class UniCoreLibraryReservation(models.Model):
     _name = 'unicore.library.reservation'
     _description = 'Book Reservation'
+    _rec_name = 'display_name'
     _inherit = ['unicore.mixin', 'mail.thread']
+
+    display_name = fields.Char(
+        string='Display Name',
+        compute='_compute_display_name',
+        store=True,
+        depends=['reservation_number', 'book_id.display_name'],
+    )
+
+    @api.depends('reservation_number', 'book_id.display_name')
+    def _compute_display_name(self):
+        for rec in self:
+            book_name = (
+                rec.book_id.display_name if rec.book_id else ''
+            )
+            if book_name:
+                rec.display_name = '%s - %s' % (
+                    rec.reservation_number, book_name
+                )
+            else:
+                rec.display_name = rec.reservation_number or ''
     _order = 'book_id, queue_number asc'
     _check_company_auto = True
 

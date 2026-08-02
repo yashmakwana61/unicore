@@ -10,6 +10,7 @@ _logger = logging.getLogger(__name__)
 class FacultyPublication(models.Model):
     _name = 'unicore.faculty.publication'
     _description = 'Faculty Publication or Research Work'
+    _rec_name = 'title'
     _order = 'faculty_member_id, publication_year desc'
 
     faculty_member_id = fields.Many2one(

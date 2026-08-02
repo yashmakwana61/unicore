@@ -2,7 +2,7 @@
 <odoo>
   <data noupdate="0">
     <record id="uc_demo_fee_struct_btech" model="unicore.fee.structure">
-      <field name="name">BTECH-CS Fee Structure 2025-26</field>
+      <field name="name">BTECH-CS Fee Structure 2026-27</field>
       <field name="program_id" ref="uc_demo_program_btech_cs"/>
       <field name="academic_year_id" ref="uc_demo_ay_2526"/>
       <field name="company_id" ref="base.main_company"/>
@@ -49,8 +49,8 @@
       <field name="fee_structure_id" ref="uc_demo_fee_struct_btech"/>
       <field name="company_id" ref="base.main_company"/>
       <field name="currency_id" ref="base.INR"/>
-      <field name="invoice_date">2025-07-01</field>
-      <field name="due_date">2025-08-15</field>
+      <field name="invoice_date">2026-07-01</field>
+      <field name="due_date">2026-08-15</field>
       <field name="invoice_state">sent</field>
     </record>
 
@@ -89,8 +89,8 @@
       <field name="fee_structure_id" ref="uc_demo_fee_struct_btech"/>
       <field name="company_id" ref="base.main_company"/>
       <field name="currency_id" ref="base.INR"/>
-      <field name="invoice_date">2025-07-01</field>
-      <field name="due_date">2025-08-15</field>
+      <field name="invoice_date">2026-07-01</field>
+      <field name="due_date">2026-08-15</field>
       <field name="invoice_state">paid</field>
     </record>
 
@@ -126,7 +126,7 @@
       <field name="invoice_id" ref="uc_demo_invoice_diya"/>
       <field name="amount">55000.0</field>
       <field name="currency_id" ref="base.INR"/>
-      <field name="payment_date">2025-07-15</field>
+      <field name="payment_date">2026-07-15</field>
       <field name="payment_method">online</field>
       <field name="payment_state">confirmed</field>
     </record>

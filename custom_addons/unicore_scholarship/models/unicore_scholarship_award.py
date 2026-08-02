@@ -16,7 +16,28 @@ _logger = logging.getLogger(__name__)
 class UniCoreScholarshipAward(models.Model):
     _name = 'unicore.scholarship.award'
     _description = 'Scholarship Award Disbursement'
+    _rec_name = 'display_name'
     _inherit = ['unicore.mixin', 'mail.thread']
+
+    display_name = fields.Char(
+        string='Display Name',
+        compute='_compute_display_name',
+        store=True,
+        depends=['award_number', 'student_id.display_name'],
+    )
+
+    @api.depends('award_number', 'student_id.display_name')
+    def _compute_display_name(self):
+        for rec in self:
+            student_name = (
+                rec.student_id.display_name if rec.student_id else ''
+            )
+            if student_name:
+                rec.display_name = '%s - %s' % (
+                    rec.award_number, student_name
+                )
+            else:
+                rec.display_name = rec.award_number or ''
     _order = 'disbursement_date desc'
     _check_company_auto = True
 

@@ -15,6 +15,26 @@ _logger = logging.getLogger(__name__)
 class UniCoreCoursePrerequisite(models.Model):
     _name = 'unicore.course.prerequisite'
     _description = 'Course Prerequisite'
+    _rec_name = 'display_name'
+
+    display_name = fields.Char(
+        string='Display Name',
+        compute='_compute_display_name',
+        store=True,
+        depends=['course_id.display_name', 'prerequisite_course_id.display_name'],
+    )
+
+    @api.depends('course_id.display_name', 'prerequisite_course_id.display_name')
+    def _compute_display_name(self):
+        for rec in self:
+            course_name = (
+                rec.course_id.display_name if rec.course_id else ''
+            )
+            prereq_name = (
+                rec.prerequisite_course_id.display_name
+                if rec.prerequisite_course_id else ''
+            )
+            rec.display_name = '%s -> %s' % (course_name, prereq_name)
     _order = 'course_id, prerequisite_course_id'
 
     course_id = fields.Many2one(

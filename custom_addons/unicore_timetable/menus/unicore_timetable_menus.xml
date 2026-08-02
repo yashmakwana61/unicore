@@ -10,7 +10,7 @@
                   name="Timetable"
                   sequence="60"
                   web_icon="unicore_timetable,static/description/icon.png"
-                  groups="unicore_base.group_unicore_faculty"/>
+                  groups="unicore_base.group_unicore_faculty,base.group_system"/>
 
         <!-- ========================================== -->
         <!-- SUB MENUS                                   -->
@@ -28,21 +28,21 @@
                   parent="menu_unicore_timetable"
                   action="action_unicore_timetable_entry"
                   sequence="20"
-                  groups="unicore_base.group_unicore_staff"/>
+                  groups="unicore_base.group_unicore_staff,base.group_system"/>
 
         <menuitem id="menu_unicore_time_slot_list"
                   name="Time Slots"
                   parent="menu_unicore_timetable"
                   action="action_unicore_time_slot"
                   sequence="30"
-                  groups="unicore_base.group_unicore_registrar"/>
+                  groups="unicore_base.group_unicore_registrar,base.group_system"/>
 
         <menuitem id="menu_unicore_room_booking_list"
                   name="Room Bookings"
                   parent="menu_unicore_timetable"
                   action="action_unicore_room_booking"
                   sequence="40"
-                  groups="unicore_base.group_unicore_faculty"/>
+                  groups="unicore_base.group_unicore_faculty,base.group_system"/>
 
     </data>
 </odoo>

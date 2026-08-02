@@ -19,7 +19,30 @@ class UniCoreTransportPass(models.Model):
     _inherit = ['unicore.mixin', 'mail.thread']
     _order = 'academic_year_id desc, student_id'
     _check_company_auto = True
-    _rec_name = 'pass_number'
+    _rec_name = 'display_name'
+
+    display_name = fields.Char(
+        string='Display Name',
+        compute='_compute_display_name',
+        store=True,
+        depends=['pass_number', 'student_id.display_name'],
+    )
+
+    @api.depends('pass_number', 'student_id.display_name')
+    def _compute_display_name(self):
+        for rec in self:
+            code = (
+                rec.pass_number
+                if rec.pass_number and rec.pass_number != '/'
+                else ''
+            )
+            student_name = (
+                rec.student_id.display_name if rec.student_id else ''
+            )
+            if code and student_name:
+                rec.display_name = '%s - %s' % (code, student_name)
+            else:
+                rec.display_name = student_name or code
 
     pass_number = fields.Char(
         string='Pass Number',

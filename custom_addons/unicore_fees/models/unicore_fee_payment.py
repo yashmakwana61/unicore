@@ -12,7 +12,27 @@ class UniCoreFeePayment(models.Model):
     _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'payment_date desc, id desc'
     _check_company_auto = True
-    _rec_name = 'receipt_number'
+    _rec_name = 'display_name'
+
+    display_name = fields.Char(
+        string='Display Name',
+        compute='_compute_display_name',
+        store=True,
+        depends=['receipt_number', 'invoice_id.display_name'],
+    )
+
+    @api.depends('receipt_number', 'invoice_id.display_name')
+    def _compute_display_name(self):
+        for rec in self:
+            invoice_name = (
+                rec.invoice_id.display_name if rec.invoice_id else ''
+            )
+            if invoice_name:
+                rec.display_name = '%s - %s' % (
+                    rec.receipt_number, invoice_name
+                )
+            else:
+                rec.display_name = rec.receipt_number or ''
 
     receipt_number = fields.Char(
         string='Receipt Number',

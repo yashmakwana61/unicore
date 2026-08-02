@@ -20,7 +20,30 @@ class UniCoreHostelAllocation(models.Model):
                 'mail.activity.mixin']
     _order = 'academic_year_id desc, student_id'
     _check_company_auto = True
-    _rec_name = 'allocation_number'
+    _rec_name = 'display_name'
+
+    display_name = fields.Char(
+        string='Display Name',
+        compute='_compute_display_name',
+        store=True,
+        depends=['allocation_number', 'student_id.display_name'],
+    )
+
+    @api.depends('allocation_number', 'student_id.display_name')
+    def _compute_display_name(self):
+        for rec in self:
+            code = (
+                rec.allocation_number
+                if rec.allocation_number and rec.allocation_number != '/'
+                else ''
+            )
+            student_name = (
+                rec.student_id.display_name if rec.student_id else ''
+            )
+            if code and student_name:
+                rec.display_name = '%s - %s' % (code, student_name)
+            else:
+                rec.display_name = student_name or code
 
     allocation_number = fields.Char(
         string='Allocation Number',

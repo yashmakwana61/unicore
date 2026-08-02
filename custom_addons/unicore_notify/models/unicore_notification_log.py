@@ -15,6 +15,38 @@ _logger = logging.getLogger(__name__)
 class UniCoreNotificationLog(models.Model):
     _name = 'unicore.notification.log'
     _description = 'Notification Log'
+    _rec_name = 'display_name'
+
+    display_name = fields.Char(
+        string='Display Name',
+        compute='_compute_display_name',
+        store=True,
+        depends=['message_subject', 'recipient_email', 'recipient_mobile',
+                 'student_id.display_name', 'guardian_id.display_name',
+                 'faculty_member_id.display_name'],
+    )
+
+    @api.depends('message_subject', 'recipient_email', 'recipient_mobile',
+                 'student_id.display_name', 'guardian_id.display_name',
+                 'faculty_member_id.display_name')
+    def _compute_display_name(self):
+        for rec in self:
+            recipient = (
+                rec.recipient_email or rec.recipient_mobile or ''
+            )
+            if not recipient:
+                recipient = (
+                    rec.student_id.display_name
+                    or rec.guardian_id.display_name
+                    or rec.faculty_member_id.display_name
+                    or ''
+                )
+            if recipient:
+                rec.display_name = '%s - %s' % (
+                    rec.message_subject or '', recipient
+                )
+            else:
+                rec.display_name = rec.message_subject or ''
     _order = 'sent_at desc'
     _check_company_auto = True
 

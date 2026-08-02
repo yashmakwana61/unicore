@@ -16,6 +16,39 @@ _logger = logging.getLogger(__name__)
 class UniCoreEnrollmentLog(models.Model):
     _name = 'unicore.enrollment.log'
     _description = 'Enrollment Audit Log'
+    _rec_name = 'display_name'
+
+    display_name = fields.Char(
+        string='Display Name',
+        compute='_compute_display_name',
+        store=True,
+        depends=['student_id.display_name', 'course_offering_id.display_name',
+                 'action'],
+    )
+
+    @api.depends('student_id.display_name', 'course_offering_id.display_name',
+                 'action')
+    def _compute_display_name(self):
+        action_labels = dict(
+            self._fields['action'].selection
+        ) if 'action' in self._fields else {}
+        for rec in self:
+            student_name = (
+                rec.student_id.display_name if rec.student_id else ''
+            )
+            offering_name = (
+                rec.course_offering_id.display_name
+                if rec.course_offering_id else ''
+            )
+            action_label = action_labels.get(rec.action, rec.action or '')
+            if action_label:
+                rec.display_name = '%s - %s (%s)' % (
+                    student_name, offering_name, action_label
+                )
+            else:
+                rec.display_name = '%s - %s' % (
+                    student_name, offering_name
+                )
     _order = 'action_date desc'
 
     enrollment_id = fields.Many2one(

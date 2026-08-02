@@ -20,7 +20,27 @@ class UniCoreFeeInvoice(models.Model):
     _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'invoice_date desc, student_id'
     _check_company_auto = True
-    _rec_name = 'invoice_number'
+    _rec_name = 'display_name'
+
+    display_name = fields.Char(
+        string='Display Name',
+        compute='_compute_display_name',
+        store=True,
+        depends=['invoice_number', 'student_id.display_name'],
+    )
+
+    @api.depends('invoice_number', 'student_id.display_name')
+    def _compute_display_name(self):
+        for rec in self:
+            student_name = (
+                rec.student_id.display_name if rec.student_id else ''
+            )
+            if student_name:
+                rec.display_name = '%s - %s' % (
+                    rec.invoice_number, student_name
+                )
+            else:
+                rec.display_name = rec.invoice_number or ''
 
     invoice_number = fields.Char(
         string='Invoice Number',

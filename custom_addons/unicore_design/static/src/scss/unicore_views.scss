@@ -1,0 +1,519 @@
+/* ==========================================================================
+   UniCore Design - Custom View Density, Group Headers, Kanban Flyout & Refresher
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Custom View Density (Default, Cozy/Compact, Roomy/Comfortable)
+   -------------------------------------------------------------------------- */
+.o_list_renderer {
+    /* Cozy / Compact density */
+    &.o_theme_density_compact,
+    &.o_theme_density_cozy,
+    [data-unicore-density="compact"] &,
+    [data-unicore-density="cozy"] & {
+        .o_data_row > td,
+        .o_data_row > th {
+            padding-top: 0.25rem !important;
+            padding-bottom: 0.25rem !important;
+            font-size: 0.85rem;
+            line-height: 1.25;
+        }
+    }
+
+    /* Roomy / Comfortable density */
+    &.o_theme_density_comfortable,
+    &.o_theme_density_roomy,
+    [data-unicore-density="comfortable"] &,
+    [data-unicore-density="roomy"] & {
+        .o_data_row > td,
+        .o_data_row > th {
+            padding-top: 0.75rem !important;
+            padding-bottom: 0.75rem !important;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+    }
+
+    /* Default density */
+    &.o_theme_density_default,
+    [data-unicore-density="default"] & {
+        .o_data_row > td,
+        .o_data_row > th {
+            padding-top: 0.45rem;
+            padding-bottom: 0.45rem;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+    }
+}
+
+/* --------------------------------------------------------------------------
+   2. Toggleable Group Headers Styling & Caret Transition
+   -------------------------------------------------------------------------- */
+.o_list_renderer {
+    .o_group_header {
+        background-color: var(--unicore-group-header-bg, rgba(0, 0, 0, 0.03)) !important;
+        border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+        transition: background-color 0.15s ease-in-out;
+
+        &:hover {
+            background-color: var(--unicore-group-header-hover-bg, rgba(0, 0, 0, 0.06)) !important;
+        }
+
+        .o_group_name {
+            user-select: none;
+        }
+
+        .o_group_caret {
+            display: inline-block;
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--primary, #6c5ce7);
+        }
+
+        &.o_group_open .o_group_caret {
+            transform: rotate(0deg);
+        }
+    }
+}
+
+/* --------------------------------------------------------------------------
+   3. Shift+Click Kanban Flyout Side-Panel (Responsive & Adaptive)
+   -------------------------------------------------------------------------- */
+.o_unicore_flyout_wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1055;
+    display: flex;
+    justify-content: flex-end;
+    pointer-events: auto;
+
+    .o_unicore_flyout_backdrop {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(3px);
+        animation: unicoreFadeIn 0.2s ease-out forwards;
+    }
+
+    .o_unicore_flyout_panel {
+        position: relative;
+        width: 650px;
+        max-width: 90vw;
+        height: 100%;
+        background-color: var(--unicore-flyout-bg, #ffffff);
+        display: flex;
+        flex-direction: column;
+        z-index: 1;
+        animation: unicoreSlideInRight 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        box-shadow: -6px 0 24px rgba(0, 0, 0, 0.18);
+
+        @media (max-width: 768px) {
+            width: 100vw;
+            max-width: 100vw;
+        }
+
+        .o_unicore_flyout_header {
+            background-color: var(--unicore-flyout-header-bg, #f8f9fa);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .o_unicore_flyout_body {
+            background-color: var(--unicore-flyout-body-bg, #ffffff);
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+
+            /* Responsive Form View Container Overrides */
+            .o_form_view {
+                padding: 0 !important;
+                background: transparent !important;
+                display: block !important;
+                width: 100% !important;
+
+                .o_form_sheet_bg {
+                    background: transparent !important;
+                    padding: 0 !important;
+                    border: none !important;
+                }
+
+                .o_form_sheet {
+                    max-width: 100% !important;
+                    min-width: 0 !important;
+                    width: 100% !important;
+                    border: none !important;
+                    box-shadow: none !important;
+                    margin: 0 !important;
+                    padding: 0.5rem 0.25rem !important;
+                    background: transparent !important;
+                }
+
+                /* Force statusbar items to wrap cleanly */
+                .o_form_statusbar {
+                    margin: 0 0 1rem 0 !important;
+                    padding: 0.5rem !important;
+                    flex-wrap: wrap !important;
+                    gap: 0.5rem;
+                    border-radius: 6px;
+
+                    .o_statusbar_buttons {
+                        flex-wrap: wrap;
+                        gap: 0.25rem;
+                    }
+
+                    .o_statusbar_status {
+                        max-width: 100%;
+                        overflow-x: auto;
+                    }
+                }
+
+                /* Adapt multi-column form groups to stack vertically */
+                .o_group {
+                    display: block !important;
+                    width: 100% !important;
+                    margin-bottom: 0.75rem !important;
+
+                    .o_inner_group {
+                        display: grid !important;
+                        grid-template-columns: minmax(100px, max-content) 1fr !important;
+                        width: 100% !important;
+                        gap: 0.4rem 0.75rem !important;
+
+                        @media (max-width: 576px) {
+                            grid-template-columns: 1fr !important;
+                        }
+
+                        tr {
+                            display: contents !important;
+                        }
+
+                        td {
+                            width: auto !important;
+                            padding: 0.2rem 0 !important;
+                        }
+                    }
+                }
+
+                /* Responsive Notebook tabs */
+                .o_notebook {
+                    margin-top: 1rem !important;
+
+                    .nav-tabs {
+                        flex-wrap: wrap !important;
+                        gap: 0.25rem;
+                    }
+                }
+
+                /* Force Chatter to stay at the bottom in Kanban Flyout */
+                .o_FormRenderer_chatterContainer,
+                .o-aside {
+                    max-width: 100% !important;
+                    width: 100% !important;
+                    margin-top: 1.5rem !important;
+                    border-left: none !important;
+                    float: none !important;
+                    display: block !important;
+                }
+            }
+        }
+    }
+}
+
+@keyframes unicoreSlideInRight {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes unicoreFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   4. Smart Refresher Button
+   -------------------------------------------------------------------------- */
+.o_smart_refresher_btn {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background-color: var(--primary, #6c5ce7);
+        color: #ffffff;
+        border-color: var(--primary, #6c5ce7);
+        transform: rotate(45deg);
+    }
+}
+
+/* --------------------------------------------------------------------------
+   5. Resizable Chatter Drag Handle
+   -------------------------------------------------------------------------- */
+.o-unicore-chatter-drag-handle {
+    position: absolute;
+    top: 0;
+    left: -3px;
+    width: 6px;
+    height: 100%;
+    cursor: col-resize;
+    z-index: 10;
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+    border-radius: 3px;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 4px;
+        height: 40px;
+        border-radius: 2px;
+        background: rgba(0, 0, 0, 0.12);
+        transition: background 0.2s ease, height 0.2s ease;
+    }
+
+    &:hover {
+        background-color: rgba(76, 110, 245, 0.10);
+
+        &::before {
+            background: var(--primary, #6c5ce7);
+            height: 56px;
+        }
+    }
+
+    &.dragging,
+    &:active {
+        background-color: rgba(76, 110, 245, 0.18);
+
+        &::before {
+            background: var(--primary, #6c5ce7);
+            height: 72px;
+            box-shadow: 0 0 6px rgba(76, 110, 245, 0.4);
+        }
+    }
+}
+
+/* Ensure side-chatter container has position:relative for the drag handle */
+.o-mail-Form-chatter.o-aside {
+    position: relative;
+}
+
+/* Lock cursor globally while dragging the chatter resize handle */
+body.o_unicore_chatter_dragging {
+    cursor: col-resize !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+
+    * {
+        cursor: col-resize !important;
+        pointer-events: none !important;
+    }
+
+    /* Keep the drag handle interactive */
+    .o-unicore-chatter-drag-handle {
+        pointer-events: auto !important;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   6. Fullscreen Form View
+   -------------------------------------------------------------------------- */
+body.o_unicore_fullscreen {
+    /* Hide the top navbar */
+    .o_navbar,
+    nav.o_main_navbar,
+    header.o_navbar {
+        display: none !important;
+    }
+
+    /* Hide the sidebar (UniCore custom sidebar) */
+    .o_unicore_sidebar,
+    .o_unicore_sidebar_toggle {
+        display: none !important;
+    }
+
+    /* Reset the sidebar push so the form takes full width */
+    .o_web_client {
+        padding-left: 0 !important;
+    }
+
+    /* Expand the action manager to take the full viewport */
+    .o_action_manager {
+        height: 100vh !important;
+        max-height: 100vh !important;
+    }
+
+    /* Expand the form sheet to use all available space */
+    .o_form_view {
+        .o_form_sheet_bg {
+            padding: 0 !important;
+        }
+
+        .o_form_sheet {
+            max-width: 100% !important;
+            width: 100% !important;
+            margin: 0 auto !important;
+            padding: 16px 24px !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+    }
+
+    /* Hide the control panel breadcrumb but keep buttons */
+    .o_control_panel {
+        .breadcrumb {
+            display: none !important;
+        }
+    }
+}
+
+/* Fullscreen toggle button styling */
+.o_unicore_fullscreen_btn {
+    border-radius: 6px;
+    padding: 4px 10px;
+    transition: all 0.2s ease;
+    font-size: 0.85rem;
+
+    &:hover {
+        background-color: var(--primary, #6c5ce7);
+        color: #ffffff;
+        border-color: var(--primary, #6c5ce7);
+    }
+
+    &.active {
+        background-color: var(--primary, #6c5ce7);
+        color: #ffffff;
+        border-color: var(--primary, #6c5ce7);
+    }
+}
+
+/* Chatter position toggle button styling */
+.o_unicore_chatter_toggle_btn {
+    border-radius: 6px;
+    padding: 4px 10px;
+    transition: all 0.2s ease;
+    font-size: 0.85rem;
+
+    &:hover {
+        background-color: var(--primary, #6c5ce7);
+        color: #ffffff;
+        border-color: var(--primary, #6c5ce7);
+    }
+}
+
+/* --------------------------------------------------------------------------
+   7. Unified Visual Input Styling
+   -------------------------------------------------------------------------- */
+.o_form_view {
+    /* Text-like inputs and selects: subtle bottom border style */
+    .o_field_widget input.o_input,
+    .o_field_widget textarea.o_input,
+    .o_field_widget select.o_input,
+    .o_field_widget .o_input,
+    .o_input {
+        border: none !important;
+        border-bottom: 2px solid rgba(0, 0, 0, 0.12) !important;
+        border-radius: 0 !important;
+        background-color: transparent !important;
+        padding: 6px 2px !important;
+        transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+
+        &:focus {
+            border-bottom-color: var(--primary, #6c5ce7) !important;
+            box-shadow: 0 1px 0 0 var(--primary, #6c5ce7) !important;
+            outline: none !important;
+            background-color: rgba(76, 110, 245, 0.03) !important;
+        }
+
+        &:hover:not(:focus):not(:disabled):not([readonly]) {
+            border-bottom-color: rgba(0, 0, 0, 0.25) !important;
+        }
+
+        &:disabled,
+        &[readonly] {
+            border-bottom-style: dotted !important;
+            border-bottom-color: rgba(0, 0, 0, 0.08) !important;
+            background-color: transparent !important;
+            opacity: 0.8;
+        }
+    }
+
+    /* Read-only fields: clean look without borders */
+    .o_readonly_modifier .o_field_widget .o_input,
+    .o_field_widget.o_readonly_modifier .o_input {
+        border-bottom-color: transparent !important;
+        background-color: transparent !important;
+    }
+
+    /* Many2one / relational dropdowns */
+    .o_field_many2one .o_field_many2one_selection,
+    .o_field_many2one_avatar .o_m2o_avatar {
+        border: none !important;
+        border-bottom: 2px solid rgba(0, 0, 0, 0.12) !important;
+        border-radius: 0 !important;
+        transition: border-color 0.2s ease;
+
+        &:focus-within {
+            border-bottom-color: var(--primary, #6c5ce7) !important;
+        }
+    }
+
+    /* Tags fields (many2many_tags) */
+    .o_field_many2many_tags .o_input_dropdown input {
+        border: none !important;
+        border-bottom: 2px solid rgba(0, 0, 0, 0.12) !important;
+        border-radius: 0 !important;
+
+        &:focus {
+            border-bottom-color: var(--primary, #6c5ce7) !important;
+        }
+    }
+}
+
+/* --------------------------------------------------------------------------
+   8. Context-Aware Form Sheet Sizing for Ultra-Wide Monitors
+   -------------------------------------------------------------------------- */
+@media (min-width: 1400px) {
+    .o_form_view .o_form_sheet {
+        max-width: 1140px !important;
+    }
+}
+
+@media (min-width: 1600px) {
+    .o_form_view .o_form_sheet {
+        max-width: 1320px !important;
+    }
+}
+
+@media (min-width: 1920px) {
+    .o_form_view .o_form_sheet {
+        max-width: 1540px !important;
+    }
+}
+
+@media (min-width: 2560px) {
+    .o_form_view .o_form_sheet {
+        max-width: 1900px !important;
+    }
+}
+
+/* In fullscreen mode, always use 100% width regardless of breakpoint */
+body.o_unicore_fullscreen .o_form_view .o_form_sheet {
+    max-width: 100% !important;
+}
+

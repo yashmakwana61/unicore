@@ -6,7 +6,7 @@
       <field name="course_offering_id" ref="uc_demo_offering_cs101"/>
       <field name="company_id" ref="base.main_company"/>
       <field name="exam_type">midterm</field>
-      <field name="exam_date">2025-09-15</field>
+      <field name="exam_date">2026-09-15</field>
       <field name="exam_start_time">10.0</field>
       <field name="exam_end_time">12.0</field>
       <field name="venue_ids" eval="[(6, 0, [ref('uc_demo_room_a101')])]"/>
@@ -20,7 +20,7 @@
       <field name="course_offering_id" ref="uc_demo_offering_cs101"/>
       <field name="company_id" ref="base.main_company"/>
       <field name="exam_type">final</field>
-      <field name="exam_date">2025-11-20</field>
+      <field name="exam_date">2026-11-20</field>
       <field name="exam_start_time">9.0</field>
       <field name="exam_end_time">12.0</field>
       <field name="venue_ids" eval="[(6, 0, [ref('uc_demo_room_a101')])]"/>
@@ -34,7 +34,7 @@
       <field name="course_offering_id" ref="uc_demo_offering_math101"/>
       <field name="company_id" ref="base.main_company"/>
       <field name="exam_type">final</field>
-      <field name="exam_date">2025-11-22</field>
+      <field name="exam_date">2026-11-22</field>
       <field name="exam_start_time">9.0</field>
       <field name="exam_end_time">12.0</field>
       <field name="venue_ids" eval="[(6, 0, [ref('uc_demo_room_a102')])]"/>

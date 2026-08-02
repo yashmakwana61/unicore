@@ -18,7 +18,31 @@ _logger = logging.getLogger(__name__)
 class UniCoreExamSeating(models.Model):
     _name = 'unicore.exam.seating'
     _description = 'Exam Seating Assignment'
+    _rec_name = 'display_name'
     _inherit = ['unicore.mixin']
+
+    display_name = fields.Char(
+        string='Display Name',
+        compute='_compute_display_name',
+        store=True,
+        depends=['exam_schedule_id.display_name', 'student_id.display_name',
+                 'seat_label'],
+    )
+
+    @api.depends('exam_schedule_id.display_name', 'student_id.display_name',
+                 'seat_label')
+    def _compute_display_name(self):
+        for rec in self:
+            schedule_name = (
+                rec.exam_schedule_id.display_name
+                if rec.exam_schedule_id else ''
+            )
+            student_name = (
+                rec.student_id.display_name if rec.student_id else ''
+            )
+            rec.display_name = '%s - %s - Seat %s' % (
+                schedule_name, student_name, rec.seat_label or ''
+            )
     _order = 'exam_schedule_id, room_id, seat_number'
     _check_company_auto = True
 

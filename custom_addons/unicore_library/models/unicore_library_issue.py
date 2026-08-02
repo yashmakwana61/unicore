@@ -20,7 +20,29 @@ class UniCoreLibraryIssue(models.Model):
     _inherit = ['unicore.mixin', 'mail.thread']
     _order = 'issue_date desc'
     _check_company_auto = True
-    _rec_name = 'issue_number'
+    _rec_name = 'display_name'
+
+    display_name = fields.Char(
+        string='Display Name',
+        compute='_compute_display_name',
+        store=True,
+        depends=['issue_number', 'member_id.display_name', 'book_id.display_name'],
+    )
+
+    @api.depends('issue_number', 'member_id.display_name', 'book_id.display_name')
+    def _compute_display_name(self):
+        for rec in self:
+            context = (
+                rec.member_id.display_name
+                or rec.book_id.display_name
+                or ''
+            )
+            if context:
+                rec.display_name = '%s - %s' % (
+                    rec.issue_number, context
+                )
+            else:
+                rec.display_name = rec.issue_number or ''
 
     issue_number = fields.Char(
         string='Issue Number',

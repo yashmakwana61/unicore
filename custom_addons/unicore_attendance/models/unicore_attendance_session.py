@@ -23,6 +23,7 @@ class UniCoreAttendanceSession(models.Model):
     _description = 'Attendance Session'
     _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'session_date desc, timetable_entry_id'
+    _rec_name = 'display_name'
     _check_company_auto = True
 
     timetable_entry_id = fields.Many2one(
@@ -104,6 +105,13 @@ class UniCoreAttendanceSession(models.Model):
         required=True,
         tracking=True,
         index=True,
+    )
+
+    display_name = fields.Char(
+        string='Display Name',
+        compute='_compute_display_name',
+        store=True,
+        depends=['timetable_entry_id.display_name', 'session_date'],
     )
 
     day_of_week = fields.Selection(
@@ -225,6 +233,21 @@ class UniCoreAttendanceSession(models.Model):
                 rec.day_of_week = str(rec.session_date.weekday())
             else:
                 rec.day_of_week = False
+
+    @api.depends('timetable_entry_id.display_name', 'session_date')
+    def _compute_display_name(self):
+        for rec in self:
+            entry_name = (
+                rec.timetable_entry_id.display_name
+                if rec.timetable_entry_id else ''
+            )
+            if rec.session_date:
+                rec.display_name = '%s - %s' % (
+                    entry_name,
+                    rec.session_date.strftime('%d %b %Y'),
+                )
+            else:
+                rec.display_name = entry_name
 
     @api.depends('attendance_record_ids', 'attendance_record_ids.status')
     def _compute_attendance_stats(self):

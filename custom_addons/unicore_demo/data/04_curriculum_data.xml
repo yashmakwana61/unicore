@@ -132,10 +132,10 @@
     </record>
 
     <record id="uc_demo_curriculum_btech_cs" model="unicore.curriculum">
-      <field name="name">BTECH-CS Curriculum 2025</field>
+      <field name="name">BTECH-CS Curriculum 2026</field>
       <field name="program_id" ref="uc_demo_program_btech_cs"/>
       <field name="version">1.0</field>
-      <field name="effective_from_year">2025</field>
+      <field name="effective_from_year">2026</field>
       <field name="is_current">True</field>
       <field name="curriculum_state">active</field>
     </record>

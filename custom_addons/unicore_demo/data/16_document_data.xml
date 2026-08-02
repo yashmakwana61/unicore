@@ -25,20 +25,20 @@
     </record>
 
     <record id="uc_demo_doc_calendar" model="unicore.document">
-      <field name="name">Academic Calendar 2025-26</field>
+      <field name="name">Academic Calendar 2026-27</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="category_id" ref="uc_demo_doc_cat_academic"/>
       <field name="document_type">academic_calendar</field>
-      <field name="upload_date">2025-07-01</field>
+      <field name="upload_date">2026-07-01</field>
       <field name="document_state">active</field>
     </record>
 
     <record id="uc_demo_doc_policy" model="unicore.document">
-      <field name="name">Attendance Policy 2025-26</field>
+      <field name="name">Attendance Policy 2026-27</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="category_id" ref="uc_demo_doc_cat_academic"/>
       <field name="document_type">policy</field>
-      <field name="upload_date">2025-07-01</field>
+      <field name="upload_date">2026-07-01</field>
       <field name="document_state">active</field>
     </record>
   </data>

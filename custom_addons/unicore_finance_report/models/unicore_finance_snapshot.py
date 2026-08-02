@@ -18,7 +18,33 @@ _logger = logging.getLogger(__name__)
 class UniCoreFinanceSnapshot(models.Model):
     _name = 'unicore.finance.snapshot'
     _description = 'Daily Financial Snapshot'
+    _rec_name = 'display_name'
     _inherit = ['unicore.mixin']
+
+    display_name = fields.Char(
+        string='Display Name',
+        compute='_compute_display_name',
+        store=True,
+        depends=['academic_year_id.display_name', 'semester_id.display_name',
+                 'snapshot_date'],
+    )
+
+    @api.depends('academic_year_id.display_name', 'semester_id.display_name',
+                 'snapshot_date')
+    def _compute_display_name(self):
+        for rec in self:
+            context = (
+                rec.academic_year_id.display_name
+                or rec.semester_id.display_name
+                or ''
+            )
+            if rec.snapshot_date:
+                rec.display_name = '%s - %s' % (
+                    context,
+                    rec.snapshot_date.strftime('%d %b %Y'),
+                )
+            else:
+                rec.display_name = context
     _order = 'snapshot_date desc, company_id'
     _check_company_auto = True
 

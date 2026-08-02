@@ -15,7 +15,28 @@ _logger = logging.getLogger(__name__)
 class UniCoreHostelRoom(models.Model):
     _name = 'unicore.hostel.room'
     _description = 'Hostel Room'
+    _rec_name = 'display_name'
     _inherit = ['unicore.mixin']
+
+    display_name = fields.Char(
+        string='Display Name',
+        compute='_compute_display_name',
+        store=True,
+        depends=['room_number', 'block_id.display_name'],
+    )
+
+    @api.depends('room_number', 'block_id.display_name')
+    def _compute_display_name(self):
+        for rec in self:
+            block_name = (
+                rec.block_id.display_name if rec.block_id else ''
+            )
+            if block_name:
+                rec.display_name = '%s - %s' % (
+                    rec.room_number, block_name
+                )
+            else:
+                rec.display_name = rec.room_number or ''
     _order = 'block_id, floor_number, room_number'
     _check_company_auto = True
 

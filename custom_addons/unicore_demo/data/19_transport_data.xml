@@ -74,8 +74,8 @@
       <field name="pass_state">active</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="academic_year_id" ref="uc_demo_ay_2526"/>
-      <field name="valid_from">2025-07-01</field>
-      <field name="valid_until">2025-12-31</field>
+      <field name="valid_from">2026-07-01</field>
+      <field name="valid_until">2026-12-31</field>
     </record>
 
     <record id="uc_demo_pass_kabir" model="unicore.transport.pass">
@@ -86,8 +86,8 @@
       <field name="pass_state">active</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="academic_year_id" ref="uc_demo_ay_2526"/>
-      <field name="valid_from">2025-07-01</field>
-      <field name="valid_until">2025-12-31</field>
+      <field name="valid_from">2026-07-01</field>
+      <field name="valid_until">2026-12-31</field>
     </record>
 
     <record id="uc_demo_pass_rohan" model="unicore.transport.pass">
@@ -98,8 +98,8 @@
       <field name="pass_state">active</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="academic_year_id" ref="uc_demo_ay_2526"/>
-      <field name="valid_from">2025-07-01</field>
-      <field name="valid_until">2025-12-31</field>
+      <field name="valid_from">2026-07-01</field>
+      <field name="valid_until">2026-12-31</field>
     </record>
   </data>
 </odoo>

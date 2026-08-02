@@ -16,7 +16,31 @@ _logger = logging.getLogger(__name__)
 class UniCoreSemesterResult(models.Model):
     _name = 'unicore.semester.result'
     _description = 'Semester Result'
+    _rec_name = 'display_name'
     _inherit = ['unicore.mixin', 'mail.thread']
+
+    display_name = fields.Char(
+        string='Display Name',
+        compute='_compute_display_name',
+        store=True,
+        depends=['student_id.display_name', 'semester_id.display_name'],
+    )
+
+    @api.depends('student_id.display_name', 'semester_id.display_name')
+    def _compute_display_name(self):
+        for rec in self:
+            student_name = (
+                rec.student_id.display_name if rec.student_id else ''
+            )
+            semester_name = (
+                rec.semester_id.display_name if rec.semester_id else ''
+            )
+            if semester_name:
+                rec.display_name = '%s - %s' % (
+                    student_name, semester_name
+                )
+            else:
+                rec.display_name = student_name
     _order = 'student_id, semester_id desc'
     _check_company_auto = True
 

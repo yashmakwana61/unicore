@@ -44,7 +44,7 @@
                   parent="unicore_timetable.menu_unicore_timetable"
                   action="action_unicore_attendance_session_calendar"
                   sequence="25"
-                  groups="unicore_base.group_unicore_staff"/>
+                  groups="unicore_base.group_unicore_staff,base.group_system"/>
 
     </data>
 </odoo>
