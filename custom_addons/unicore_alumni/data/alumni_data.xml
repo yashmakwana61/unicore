@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="mass_mailing_list_alumni" model="mailing.list">
+        <field name="name">UniCore Alumni</field>
+        <field name="unicore_alumni_list">True</field>
+    </record>
+
+</odoo>

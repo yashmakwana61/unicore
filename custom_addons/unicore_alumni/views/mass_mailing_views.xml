@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_mass_mailing_list_form_alumni_ext"
+            model="ir.ui.view">
+        <field name="name">mailing.list.form.alumni.ext</field>
+        <field name="model">mailing.list</field>
+        <field name="inherit_id" ref="mass_mailing.mailing_list_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group[1]" position="inside">
+                <field name="unicore_alumni_list" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_mass_mailing_list_tree_alumni_ext"
+            model="ir.ui.view">
+        <field name="name">mailing.list.tree.alumni.ext</field>
+        <field name="model">mailing.list</field>
+        <field name="inherit_id" ref="mass_mailing.mailing_list_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <field name="unicore_alumni_list" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="crm_lead_view_form_website_ext"
+            model="ir.ui.view">
+        <field name="name">crm.lead.form.website.ext</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group[1]" position="inside">
+                <field name="website_enquiry" invisible="1"/>
+                <field name="website_page_url"
+                       placeholder="https://admissions.example.com/enquire"
+                       invisible="not website_enquiry"/>
+                <field name="admission_applicant_id"
+                       readonly="1"
+                       invisible="not admission_applicant_id"/>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_website_page"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-globe"
+                        invisible="not website_page_url">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Website Page</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

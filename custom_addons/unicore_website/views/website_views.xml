@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_website_form_admissions_ext"
+            model="ir.ui.view">
+        <field name="name">website.form.admissions.ext</field>
+        <field name="model">website</field>
+        <field name="inherit_id" ref="website.view_website_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group[1]" position="inside">
+                <field name="unicore_admissions_page" invisible="1"/>
+                <field name="admissions_page_url"
+                       placeholder="/admissions/enquire"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
