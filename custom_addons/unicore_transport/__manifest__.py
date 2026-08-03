@@ -2,38 +2,21 @@
     'name': 'Transport',
     'version': '19.0.1.0.0',
     'category': 'Education',
-    'summary': 'University student transport '
-               'management with routes and passes',
+    'summary': 'University student transport management with routes and passes',
     'description': """
-        UniCore Transport provides complete university
-        transport management:
-
-        - Vehicles: bus and van fleet with capacity,
-          driver, insurance and fitness certificate
-          tracking
-        - Routes: named transport routes with ordered
-          stop sequences and timing
-        - Route Stops: pick-up/drop points along
-          each route with distance from campus
-        - Transport Passes: student subscription to
-          a route for an academic term with fee
-          tracking and pass number generation
-        - Trip Logs: daily trip records for
-          operational tracking and reporting
-        - Transport Fees: semester-wise charges per
-          route/stop with collection tracking
-
-        Appears as a dedicated app in the Odoo
-        home screen.
+        University student transport management with routes and passes
     """,
     'author': 'Precisefect Solutions Pvt. Ltd.',
     'website': 'https://precisefect.com',
     'license': 'OPL-1',
     'depends': [
-        'unicore_base', 'unicore_security',
-        'unicore_campus', 'unicore_academic',
-        'unicore_calendar', 'unicore_student',
         'mail',
+        'unicore_academic',
+        'unicore_base',
+        'unicore_calendar',
+        'unicore_campus',
+        'unicore_security',
+        'unicore_student',
     ],
     'data': [
         'security/unicore_transport_record_rules.xml',
@@ -44,11 +27,14 @@
         'views/unicore_transport_pass_views.xml',
         'views/unicore_transport_trip_views.xml',
         'views/transport_search_phase1.xml',
+        'views/unicore_transport_kanban_views.xml',
+        'views/unicore_transport_calendar_views.xml',
         'menus/unicore_transport_menus.xml',
+        'views/unicore_transport_view_mode_ext.xml',
+        'views/unicore_transport_cleanup.xml',
     ],
     'images': ['static/description/icon.png'],
-    'web_icon': 'unicore_transport,'
-                'static/description/icon.png',
+    'web_icon': 'unicore_transport,static/description/icon.png',
     'installable': True,
     'application': True,
     'auto_install': False,

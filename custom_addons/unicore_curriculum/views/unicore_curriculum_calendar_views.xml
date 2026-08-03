@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Curriculum Calendar
+         ============================================================ -->
+    <record id="unicore_curriculum_calendar_view" model="ir.ui.view">
+        <field name="name">unicore.curriculum.calendar</field>
+        <field name="model">unicore.curriculum</field>
+        <field name="type">calendar</field>
+        <field name="arch" type="xml">
+            <calendar date_start="approved_on" color="color" string="Curriculum Calendar">
+                <field name="curriculum_state"/>
+                <field name="program_id"/>
+                <field name="department_id"/>
+                <field name="version"/>
+            </calendar>
+        </field>
+    </record>
+
+    
+
+</odoo>

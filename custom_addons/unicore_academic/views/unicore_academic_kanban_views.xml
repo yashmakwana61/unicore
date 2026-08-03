@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Department Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_department_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.department.kanban</field>
+        <field name="model">unicore.department</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="dept_state">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="faculty_id"/>
+                <field name="dept_state"/>
+                <field name="program_count"/>
+                <field name="established_year"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="code" class="fw-bold fs-5"/>
+                                <field name="dept_state" widget="badge"/>
+                            </div>
+                            <field name="name"/>
+                            <field name="faculty_id"/>
+                            <div class="text-muted mt-1 small">
+                                <t t-if="record.established_year.raw_value">
+                                    Established: <field name="established_year"/>
+                                </t>
+                            </div>
+                            <div class="mt-2 text-muted small">
+                                <span class="fw-bold"><field name="program_count"/></span> Programs
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>

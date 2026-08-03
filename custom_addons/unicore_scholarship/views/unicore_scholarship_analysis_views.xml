@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Scholarship Application Analysis
+         ============================================================ -->
+    
+
+    <record id="unicore_scholarship_application_pivot_view" model="ir.ui.view">
+        <field name="name">unicore.scholarship.application.pivot</field>
+        <field name="model">unicore.scholarship.application</field>
+        <field name="arch" type="xml">
+            <pivot string="Scholarship Application Analysis">
+                <field name="scholarship_program_id" type="row"/>
+                <field name="application_state" type="col"/>
+                <field name="student_cgpa" type="measure"/>
+                <field name="annual_family_income" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="unicore_scholarship_application_graph_view" model="ir.ui.view">
+        <field name="name">unicore.scholarship.application.graph</field>
+        <field name="model">unicore.scholarship.application</field>
+        <field name="arch" type="xml">
+            <graph string="Scholarship Application Analysis" type="bar">
+                <field name="scholarship_program_id" type="row"/>
+                <field name="student_cgpa" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Scholarship Award Analysis
+         ============================================================ -->
+    
+
+    <record id="unicore_scholarship_award_pivot_view" model="ir.ui.view">
+        <field name="name">unicore.scholarship.award.pivot</field>
+        <field name="model">unicore.scholarship.award</field>
+        <field name="arch" type="xml">
+            <pivot string="Scholarship Award Analysis">
+                <field name="award_state" type="row"/>
+                <field name="disbursement_method" type="col"/>
+                <field name="award_amount" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="unicore_scholarship_award_graph_view" model="ir.ui.view">
+        <field name="name">unicore.scholarship.award.graph</field>
+        <field name="model">unicore.scholarship.award</field>
+        <field name="arch" type="xml">
+            <graph string="Scholarship Award Analysis" type="bar">
+                <field name="scholarship_program_id" type="row"/>
+                <field name="award_amount" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+</odoo>

@@ -2,42 +2,31 @@
     'name': 'Notifications',
     'version': '19.0.1.0.0',
     'category': 'Education',
-    'summary': 'Multi-channel notification engine '
-               'for email, WhatsApp and in-app alerts',
+    'summary': 'Multi-channel notification engine for email, WhatsApp and in-app alerts',
     'description': """
-        UniCore Notifications provides a unified
-        notification engine for UniCore ERP:
-
-        - Notification Templates: reusable message
-          templates with Jinja2-style variable
-          substitution for email and WhatsApp
-        - WhatsApp Business API Integration:
-          HTTP-based message delivery via Meta
-          WhatsApp Business Cloud API
-        - Email Delivery: via Odoo native mail.mail
-        - Notification Log: complete audit trail
-          of all sent/failed notifications
-        - Company-Level Config: API credentials and
-          default settings per institution
-
-        Other modules call this engine's methods
-        to send notifications on events such as
-        fee due, attendance shortage, exam reminder,
-        result published, etc.
+        Multi-channel notification engine for email, WhatsApp and in-app alerts
     """,
     'author': 'Precisefect Solutions Pvt. Ltd.',
     'website': 'https://precisefect.com',
     'license': 'OPL-1',
     'depends': [
-        'unicore_base', 'unicore_security',
-        'unicore_campus', 'unicore_academic',
-        'unicore_calendar', 'unicore_student',
-        'unicore_faculty_profile', 'unicore_guardian',
-        'unicore_curriculum', 'unicore_timetable',
-        'unicore_enrollment', 'unicore_attendance',
-        'unicore_exam', 'unicore_grading',
-        'unicore_fees', 'unicore_scholarship',
         'mail',
+        'unicore_academic',
+        'unicore_attendance',
+        'unicore_base',
+        'unicore_calendar',
+        'unicore_campus',
+        'unicore_curriculum',
+        'unicore_enrollment',
+        'unicore_exam',
+        'unicore_faculty_profile',
+        'unicore_fees',
+        'unicore_grading',
+        'unicore_guardian',
+        'unicore_scholarship',
+        'unicore_security',
+        'unicore_student',
+        'unicore_timetable',
     ],
     'data': [
         'security/unicore_notify_record_rules.xml',
@@ -47,7 +36,10 @@
         'views/unicore_notification_config_views.xml',
         'views/unicore_notification_template_views.xml',
         'views/unicore_notification_log_views.xml',
+        'views/unicore_notify_analysis_views.xml',
         'menus/unicore_notify_menus.xml',
+        'views/unicore_notify_view_mode_ext.xml',
+        'views/unicore_notify_cleanup.xml',
     ],
     'images': ['static/description/icon.png'],
     'web_icon': 'unicore_notify,static/description/icon.png',

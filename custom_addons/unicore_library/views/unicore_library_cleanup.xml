@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Remove the separate board/calendar/analysis/activity actions and menus.
+         The underlying views are kept and exposed via view_mode on the main actions. -->
+
+    <delete model="ir.actions.act_window" id="action_unicore_library_book_activity"/>
+    <delete model="ir.actions.act_window" id="action_unicore_library_book_analysis"/>
+    <delete model="ir.actions.act_window" id="action_unicore_library_issue_analysis"/>
+    <delete model="ir.actions.act_window" id="action_unicore_library_issue_calendar"/>
+    <delete model="ir.actions.act_window" id="action_unicore_library_issue_kanban"/>
+    <delete model="ir.actions.act_window" id="action_unicore_library_member_analysis"/>
+    <delete model="ir.actions.act_window" id="action_unicore_library_member_calendar"/>
+    <delete model="ir.actions.act_window" id="action_unicore_library_member_kanban"/>
+    <delete model="ir.actions.act_window" id="action_unicore_library_reservation_calendar"/>
+    <delete model="ir.actions.act_window" id="action_unicore_library_reservation_kanban"/>
+
+    <delete model="ir.ui.menu" id="menu_unicore_library_book_activity"/>
+    <delete model="ir.ui.menu" id="menu_unicore_library_book_analysis"/>
+    <delete model="ir.ui.menu" id="menu_unicore_library_issue_analysis"/>
+    <delete model="ir.ui.menu" id="menu_unicore_library_issue_board"/>
+    <delete model="ir.ui.menu" id="menu_unicore_library_issue_calendar"/>
+    <delete model="ir.ui.menu" id="menu_unicore_library_member_analysis"/>
+    <delete model="ir.ui.menu" id="menu_unicore_library_member_board"/>
+    <delete model="ir.ui.menu" id="menu_unicore_library_member_calendar"/>
+    <delete model="ir.ui.menu" id="menu_unicore_library_reservation_board"/>
+    <delete model="ir.ui.menu" id="menu_unicore_library_reservation_calendar"/>
+
+</odoo>

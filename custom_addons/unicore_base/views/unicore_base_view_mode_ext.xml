@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Expose the new kanban/calendar/pivot/graph/activity views through the
+         view switcher on the existing actions. -->
+
+    <record id="action_unicore_campus" model="ir.actions.act_window">
+        <field name="view_mode">list,form,kanban</field>
+    </record>
+
+</odoo>

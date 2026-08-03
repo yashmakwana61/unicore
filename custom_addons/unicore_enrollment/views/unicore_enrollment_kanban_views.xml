@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Enrollment Waitlist Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_enrollment_waitlist_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.enrollment.waitlist.kanban</field>
+        <field name="model">unicore.enrollment.waitlist</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="waitlist_state">
+                <field name="display_name"/>
+                <field name="student_id"/>
+                <field name="course_offering_id"/>
+                <field name="position"/>
+                <field name="waitlist_state"/>
+                <field name="waitlist_date"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="display_name" class="fw-bold fs-5"/>
+                                <field name="waitlist_state" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1">
+                                <field name="student_id"/>
+                            </div>
+                            <div class="text-muted mt-1 small">
+                                <field name="course_offering_id"/>
+                            </div>
+                            <div class="row mt-3 text-center">
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="position"/></span>
+                                    <span class="text-muted small">Position</span>
+                                </div>
+                                <div class="col-8">
+                                    <span class="fw-bold d-block"><field name="waitlist_date"/></span>
+                                    <span class="text-muted small">Waitlisted On</span>
+                                </div>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>

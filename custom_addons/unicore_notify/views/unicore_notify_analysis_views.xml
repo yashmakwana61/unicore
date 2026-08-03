@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Notification Log Analysis
+         ============================================================ -->
+    <record id="unicore_notification_log_pivot_view" model="ir.ui.view">
+        <field name="name">unicore.notification.log.pivot</field>
+        <field name="model">unicore.notification.log</field>
+        <field name="arch" type="xml">
+            <pivot string="Notification Log Analysis">
+                <field name="channel" type="row"/>
+                <field name="delivery_status" type="row"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="unicore_notification_log_graph_view" model="ir.ui.view">
+        <field name="name">unicore.notification.log.graph</field>
+        <field name="model">unicore.notification.log</field>
+        <field name="arch" type="xml">
+            <graph string="Notification Log Analysis" type="bar">
+                <field name="channel" type="row"/>
+            </graph>
+        </field>
+    </record>
+
+    
+
+</odoo>

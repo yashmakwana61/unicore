@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Admission Applicant Activities
+         ============================================================ -->
+    
+
+    <record id="unicore_admission_applicant_activity_view" model="ir.ui.view">
+        <field name="name">unicore.admission.applicant.activity</field>
+        <field name="model">unicore.admission.applicant</field>
+        <field name="arch" type="xml">
+            <activity string="Applicant Activities"/>
+        </field>
+    </record>
+
+</odoo>

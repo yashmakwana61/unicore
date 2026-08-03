@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Remove the separate board/calendar/analysis/activity actions and menus.
+         The underlying views are kept and exposed via view_mode on the main actions. -->
+
+    <delete model="ir.actions.act_window" id="action_unicore_transport_pass_calendar"/>
+    <delete model="ir.actions.act_window" id="action_unicore_transport_pass_kanban"/>
+    <delete model="ir.actions.act_window" id="action_unicore_transport_route_kanban"/>
+    <delete model="ir.actions.act_window" id="action_unicore_transport_trip_calendar"/>
+    <delete model="ir.actions.act_window" id="action_unicore_transport_trip_kanban"/>
+    <delete model="ir.actions.act_window" id="action_unicore_transport_vehicle_kanban"/>
+
+    <delete model="ir.ui.menu" id="menu_unicore_transport_pass_board"/>
+    <delete model="ir.ui.menu" id="menu_unicore_transport_pass_calendar"/>
+    <delete model="ir.ui.menu" id="menu_unicore_transport_route_board"/>
+    <delete model="ir.ui.menu" id="menu_unicore_transport_trip_board"/>
+    <delete model="ir.ui.menu" id="menu_unicore_transport_trip_calendar"/>
+    <delete model="ir.ui.menu" id="menu_unicore_transport_vehicle_board"/>
+
+</odoo>

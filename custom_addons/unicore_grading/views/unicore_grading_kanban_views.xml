@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Grade Entry Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_grade_entry_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.grade.entry.kanban</field>
+        <field name="model">unicore.grade.entry</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="entry_state">
+                <field name="display_name"/>
+                <field name="entry_state"/>
+                <field name="student_id"/>
+                <field name="course_id"/>
+                <field name="internal_marks"/>
+                <field name="external_marks"/>
+                <field name="percentage"/>
+                <field name="grade_point"/>
+                <field name="letter_grade"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="display_name" class="fw-bold fs-5"/>
+                                <field name="entry_state" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1">
+                                <field name="student_id"/> · <field name="course_id"/>
+                            </div>
+                            <div class="row mt-3 text-center">
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="internal_marks"/></span>
+                                    <span class="text-muted small">Internal</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="external_marks"/></span>
+                                    <span class="text-muted small">External</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="percentage"/></span>
+                                    <span class="text-muted small">%</span>
+                                </div>
+                            </div>
+                            <div class="mt-2 text-muted small">
+                                Grade Point: <field name="grade_point"/> · Letter: <field name="letter_grade"/>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Semester Result Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_semester_result_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.semester.result.kanban</field>
+        <field name="model">unicore.semester.result</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="result_status">
+                <field name="display_name"/>
+                <field name="result_status"/>
+                <field name="student_id"/>
+                <field name="semester_id"/>
+                <field name="semester_gpa"/>
+                <field name="courses_passed"/>
+                <field name="courses_failed"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="display_name" class="fw-bold fs-5"/>
+                                <field name="result_status" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1">
+                                <field name="student_id"/> · <field name="semester_id"/>
+                            </div>
+                            <div class="row mt-3 text-center">
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="semester_gpa"/></span>
+                                    <span class="text-muted small">GPA</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="courses_passed"/></span>
+                                    <span class="text-muted small">Passed</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="courses_failed"/></span>
+                                    <span class="text-muted small">Failed</span>
+                                </div>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Grade Scale Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_grade_scale_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.grade.scale.kanban</field>
+        <field name="model">unicore.grade.scale</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color">
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="is_default"/>
+                <field name="max_gpa"/>
+                <field name="sequence"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="name" class="fw-bold fs-5"/>
+                                <t t-if="record.is_default.raw_value">
+                                    <span class="badge text-bg-success">Default</span>
+                                </t>
+                            </div>
+                            <div class="text-muted mt-1">
+                                <field name="company_id"/>
+                            </div>
+                            <div class="text-muted mt-1 small">
+                                Max GPA: <field name="max_gpa"/> · Sequence: <field name="sequence"/>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>

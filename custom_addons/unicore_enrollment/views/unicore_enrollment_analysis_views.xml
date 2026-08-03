@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Enrollment Analysis
+         ============================================================ -->
+    
+
+    <record id="unicore_enrollment_pivot_view" model="ir.ui.view">
+        <field name="name">unicore.enrollment.pivot</field>
+        <field name="model">unicore.enrollment</field>
+        <field name="arch" type="xml">
+            <pivot string="Enrollment Analysis">
+                <field name="enrollment_state" type="row"/>
+                <field name="credit_hours" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="unicore_enrollment_graph_view" model="ir.ui.view">
+        <field name="name">unicore.enrollment.graph</field>
+        <field name="model">unicore.enrollment</field>
+        <field name="arch" type="xml">
+            <graph string="Enrollment Analysis" type="bar">
+                <field name="course_offering_id" type="row"/>
+                <field name="credit_hours" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Enrollment Waitlist Analysis
+         ============================================================ -->
+    
+
+    <record id="unicore_enrollment_waitlist_pivot_view" model="ir.ui.view">
+        <field name="name">unicore.enrollment.waitlist.pivot</field>
+        <field name="model">unicore.enrollment.waitlist</field>
+        <field name="arch" type="xml">
+            <pivot string="Enrollment Waitlist Analysis">
+                <field name="waitlist_state" type="row"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="unicore_enrollment_waitlist_graph_view" model="ir.ui.view">
+        <field name="name">unicore.enrollment.waitlist.graph</field>
+        <field name="model">unicore.enrollment.waitlist</field>
+        <field name="arch" type="xml">
+            <graph string="Enrollment Waitlist Analysis" type="bar">
+                <field name="waitlist_state" type="row"/>
+            </graph>
+        </field>
+    </record>
+
+</odoo>

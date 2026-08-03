@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ========================================================= -->
+        <!-- Timetable Entry Calendar                                  -->
+        <!-- date_start/date_end are computed Date fields.             -->
+        <!-- ========================================================= -->
+        
+
+        <record id="unicore_timetable_entry_calendar_view" model="ir.ui.view">
+            <field name="name">unicore.timetable.entry.calendar</field>
+            <field name="model">unicore.timetable.entry</field>
+            <field name="arch" type="xml">
+                <calendar date_start="date_start" date_stop="date_end" color="color" string="Timetable Entry Calendar">
+                    <field name="course_offering_id"/>
+                    <field name="instructor_id"/>
+                    <field name="room_id"/>
+                    <field name="entry_state"/>
+                </calendar>
+            </field>
+        </record>
+
+        <!-- ========================================================= -->
+        <!-- Room Booking Calendar                                      -->
+        <!-- booking_date is a single Date field (no end date).         -->
+        <!-- ========================================================= -->
+        
+
+        <record id="unicore_room_booking_calendar_view" model="ir.ui.view">
+            <field name="name">unicore.room.booking.calendar</field>
+            <field name="model">unicore.room.booking</field>
+            <field name="arch" type="xml">
+                <calendar date_start="booking_date" color="color" string="Room Booking Calendar">
+                    <field name="room_id"/>
+                    <field name="time_slot_id"/>
+                    <field name="purpose"/>
+                    <field name="booking_state"/>
+                </calendar>
+            </field>
+        </record>
+
+    </data>
+</odoo>

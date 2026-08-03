@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Transport Vehicle Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_transport_vehicle_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.transport.vehicle.kanban</field>
+        <field name="model">unicore.transport.vehicle</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="vehicle_state">
+                <field name="display_name"/>
+                <field name="registration_number"/>
+                <field name="vehicle_type"/>
+                <field name="seating_capacity"/>
+                <field name="campus_id"/>
+                <field name="route_count"/>
+                <field name="vehicle_state"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="display_name" class="fw-bold fs-5"/>
+                                <field name="vehicle_state" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1 small">
+                                <field name="registration_number"/> · <field name="vehicle_type"/>
+                            </div>
+                            <div class="row mt-3 text-center">
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="seating_capacity"/></span>
+                                    <span class="text-muted small">Seats</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="route_count"/></span>
+                                    <span class="text-muted small">Routes</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="campus_id"/></span>
+                                    <span class="text-muted small">Campus</span>
+                                </div>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Transport Route Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_transport_route_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.transport.route.kanban</field>
+        <field name="model">unicore.transport.route</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="route_state">
+                <field name="display_name"/>
+                <field name="campus_id"/>
+                <field name="vehicle_id"/>
+                <field name="direction"/>
+                <field name="fee_per_semester"/>
+                <field name="currency_id"/>
+                <field name="stop_count"/>
+                <field name="active_pass_count"/>
+                <field name="route_state"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="display_name" class="fw-bold fs-5"/>
+                                <field name="route_state" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1 small">
+                                <field name="campus_id"/> · <field name="direction"/>
+                            </div>
+                            <div class="text-muted mt-1 small">
+                                <field name="vehicle_id"/>
+                            </div>
+                            <div class="row mt-3 text-center">
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="stop_count"/></span>
+                                    <span class="text-muted small">Stops</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="active_pass_count"/></span>
+                                    <span class="text-muted small">Passes</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="fee_per_semester" widget="monetary" options="{'currency_field': 'currency_id'}"/></span>
+                                    <span class="text-muted small">Fee</span>
+                                </div>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Transport Pass Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_transport_pass_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.transport.pass.kanban</field>
+        <field name="model">unicore.transport.pass</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="pass_state">
+                <field name="display_name"/>
+                <field name="student_id"/>
+                <field name="route_id"/>
+                <field name="valid_from"/>
+                <field name="valid_until"/>
+                <field name="transport_fee"/>
+                <field name="currency_id"/>
+                <field name="pass_state"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="display_name" class="fw-bold fs-5"/>
+                                <field name="pass_state" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1 small">
+                                <field name="student_id"/> → <field name="route_id"/>
+                            </div>
+                            <div class="mt-2 text-muted small">
+                                Valid: <field name="valid_from"/> → <field name="valid_until"/>
+                            </div>
+                            <div class="mt-2 text-muted small">
+                                Fee: <field name="transport_fee" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Transport Trip Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_transport_trip_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.transport.trip.kanban</field>
+        <field name="model">unicore.transport.trip</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="trip_state">
+                <field name="display_name"/>
+                <field name="trip_date"/>
+                <field name="route_id"/>
+                <field name="vehicle_id"/>
+                <field name="trip_type"/>
+                <field name="delay_minutes"/>
+                <field name="actual_passengers"/>
+                <field name="expected_passengers"/>
+                <field name="trip_state"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="display_name" class="fw-bold fs-5"/>
+                                <field name="trip_state" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1 small">
+                                <field name="trip_date"/> · <field name="trip_type"/>
+                            </div>
+                            <div class="text-muted mt-1 small">
+                                <field name="route_id"/> · <field name="vehicle_id"/>
+                            </div>
+                            <div class="row mt-3 text-center">
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="actual_passengers"/></span>
+                                    <span class="text-muted small">Passengers</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="delay_minutes"/></span>
+                                    <span class="text-muted small">Delay (min)</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="expected_passengers"/></span>
+                                    <span class="text-muted small">Expected</span>
+                                </div>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>

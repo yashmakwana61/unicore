@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Fee Invoice Calendar View
+         ============================================================ -->
+    
+
+    <record id="unicore_fee_invoice_calendar_view" model="ir.ui.view">
+        <field name="name">unicore.fee.invoice.calendar</field>
+        <field name="model">unicore.fee.invoice</field>
+        <field name="type">calendar</field>
+        <field name="arch" type="xml">
+            <calendar date_start="invoice_date" date_stop="due_date" color="color" string="Fee Invoice Calendar">
+                <field name="student_id"/>
+                <field name="semester_id"/>
+                <field name="invoice_state"/>
+            </calendar>
+        </field>
+    </record>
+
+</odoo>

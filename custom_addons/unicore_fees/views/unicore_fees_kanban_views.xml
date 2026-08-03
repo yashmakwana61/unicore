@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Fee Invoice Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_fee_invoice_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.fee.invoice.kanban</field>
+        <field name="model">unicore.fee.invoice</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="invoice_state">
+                <field name="display_name"/>
+                <field name="student_id"/>
+                <field name="semester_id"/>
+                <field name="total_amount"/>
+                <field name="amount_outstanding"/>
+                <field name="due_date"/>
+                <field name="invoice_state"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="display_name" class="fw-bold fs-5"/>
+                                <field name="invoice_state" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1">
+                                <field name="student_id"/>
+                                <t t-if="record.semester_id.raw_value">
+                                    · <field name="semester_id"/>
+                                </t>
+                            </div>
+                            <div class="row mt-3 text-center">
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="total_amount"/></span>
+                                    <span class="text-muted small">Total</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="amount_outstanding"/></span>
+                                    <span class="text-muted small">Outstanding</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="due_date"/></span>
+                                    <span class="text-muted small">Due Date</span>
+                                </div>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Fee Structure Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_fee_structure_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.fee.structure.kanban</field>
+        <field name="model">unicore.fee.structure</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="structure_state">
+                <field name="name"/>
+                <field name="program_id"/>
+                <field name="academic_year_id"/>
+                <field name="semester_id"/>
+                <field name="total_amount"/>
+                <field name="structure_state"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="name" class="fw-bold fs-5"/>
+                                <field name="structure_state" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1">
+                                <t t-if="record.program_id.raw_value">
+                                    <field name="program_id"/> ·
+                                </t>
+                                <field name="academic_year_id"/>
+                                <t t-if="record.semester_id.raw_value">
+                                    · <field name="semester_id"/>
+                                </t>
+                            </div>
+                            <div class="mt-2">
+                                <span class="fw-bold"><field name="total_amount"/></span>
+                                <span class="text-muted small"> Total Fee</span>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>

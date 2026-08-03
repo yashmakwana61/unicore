@@ -26,6 +26,8 @@
               action="action_unicore_scholarship_award"
               sequence="30"/>
 
+    <!-- Board Menus -->
+
     <!-- Configuration Menu -->
     <menuitem id="menu_unicore_scholarship_config"
               name="Configuration"

@@ -3,23 +3,18 @@
     'version': '19.0.1.0.0',
     'category': 'Education',
     'summary': 'Faculty member and administrative staff profile management',
-    'description': '''
-        Manages faculty member and administrative staff
-        profiles for UniCore ERP.
-        Covers academic qualifications, publications,
-        teaching workload, designations and contracts.
-        Separate from unicore.faculty which is the
-        academic organisational unit.
-    ''',
+    'description': """
+        Faculty member and administrative staff profile management
+    """,
     'author': 'Precisefect Solutions Pvt. Ltd.',
     'website': 'https://precisefect.com',
     'license': 'OPL-1',
     'depends': [
-        'unicore_base',
-        'unicore_security',
-        'unicore_campus',
         'unicore_academic',
+        'unicore_base',
         'unicore_calendar',
+        'unicore_campus',
+        'unicore_security',
         'unicore_student',
     ],
     'data': [
@@ -31,7 +26,10 @@
         'views/unicore_faculty_workload_views.xml',
         'views/unicore_staff_member_views.xml',
         'views/unicore_faculty_member_views.xml',
+        'views/unicore_faculty_profile_kanban_views.xml',
         'menus/unicore_faculty_profile_menus.xml',
+        'views/unicore_faculty_profile_view_mode_ext.xml',
+        'views/unicore_faculty_profile_cleanup.xml',
     ],
     'installable': True,
     'application': True,

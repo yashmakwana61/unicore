@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Room Booking Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_room_booking_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.room.booking.kanban</field>
+        <field name="model">unicore.room.booking</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="booking_state">
+                <field name="name"/>
+                <field name="campus_id"/>
+                <field name="room_id"/>
+                <field name="booking_date"/>
+                <field name="time_slot_id"/>
+                <field name="requested_by_id"/>
+                <field name="purpose"/>
+                <field name="booking_state"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="name" class="fw-bold fs-5"/>
+                                <field name="booking_state" widget="badge"/>
+                            </div>
+                            <field name="room_id"/>
+                            <field name="campus_id"/>
+                            <div class="text-muted mt-1 small">
+                                <field name="booking_date"/> · <field name="time_slot_id"/>
+                            </div>
+                            <div class="text-muted small">
+                                <field name="purpose"/>
+                                <t t-if="record.requested_by_id.raw_value">
+                                    · <field name="requested_by_id"/>
+                                </t>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Time Slot Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_time_slot_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.time.slot.kanban</field>
+        <field name="model">unicore.time.slot</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="slot_type">
+                <field name="name"/>
+                <field name="campus_id"/>
+                <field name="display_label"/>
+                <field name="duration_minutes"/>
+                <field name="slot_type"/>
+                <field name="sequence"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="name" class="fw-bold fs-5"/>
+                                <field name="slot_type" widget="badge"/>
+                            </div>
+                            <field name="campus_id"/>
+                            <div class="text-muted mt-1 small">
+                                <field name="display_label"/>
+                            </div>
+                            <div class="mt-2 text-muted small">
+                                Duration: <field name="duration_minutes"/> minutes
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>

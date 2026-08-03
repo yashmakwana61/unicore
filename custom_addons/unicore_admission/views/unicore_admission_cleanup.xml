@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Remove the separate board/calendar/analysis/activity actions and menus.
+         The underlying views are kept and exposed via view_mode on the main actions. -->
+
+    <delete model="ir.actions.act_window" id="action_unicore_admission_applicant_activity"/>
+    <delete model="ir.actions.act_window" id="action_unicore_admission_cycle_calendar"/>
+    <delete model="ir.actions.act_window" id="action_unicore_admission_entrance_test_kanban"/>
+    <delete model="ir.actions.act_window" id="action_unicore_admission_offer_letter_kanban"/>
+    <delete model="ir.actions.act_window" id="action_unicore_entrance_test_calendar"/>
+    <delete model="ir.actions.act_window" id="action_unicore_offer_letter_calendar"/>
+
+    <delete model="ir.ui.menu" id="menu_unicore_admission_applicant_activity"/>
+    <delete model="ir.ui.menu" id="menu_unicore_admission_cycle_calendar"/>
+    <delete model="ir.ui.menu" id="menu_unicore_admission_entrance_test_board"/>
+    <delete model="ir.ui.menu" id="menu_unicore_admission_entrance_test_calendar"/>
+    <delete model="ir.ui.menu" id="menu_unicore_admission_offer_letter_board"/>
+    <delete model="ir.ui.menu" id="menu_unicore_admission_offer_letter_calendar"/>
+
+</odoo>

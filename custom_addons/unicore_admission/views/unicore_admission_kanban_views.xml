@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Offer Letter Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_admission_offer_letter_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.admission.offer.letter.kanban</field>
+        <field name="model">unicore.admission.offer.letter</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="state">
+                <field name="display_name"/>
+                <field name="applicant_id"/>
+                <field name="program_name"/>
+                <field name="offer_date"/>
+                <field name="valid_until"/>
+                <field name="state"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="display_name" class="fw-bold fs-5"/>
+                                <field name="state" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1">
+                                <field name="applicant_id"/>
+                            </div>
+                            <div class="text-muted mt-1 small">
+                                <t t-if="record.program_name.raw_value">
+                                    <field name="program_name"/>
+                                </t>
+                            </div>
+                            <div class="mt-2 text-muted small">
+                                Offered: <field name="offer_date"/>
+                                <t t-if="record.valid_until.raw_value">
+                                    · Valid until: <field name="valid_until"/>
+                                </t>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Entrance Test Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_admission_entrance_test_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.admission.entrance.test.kanban</field>
+        <field name="model">unicore.admission.entrance.test</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="state">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="cycle_id"/>
+                <field name="test_date"/>
+                <field name="max_marks"/>
+                <field name="state"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="name" class="fw-bold fs-5"/>
+                                <field name="state" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1">
+                                <field name="cycle_id"/>
+                            </div>
+                            <div class="text-muted mt-1 small">
+                                <t t-if="record.code.raw_value">
+                                    <field name="code"/> ·
+                                </t>
+                                <field name="test_date"/>
+                            </div>
+                            <div class="mt-2 text-muted small">
+                                Max marks: <field name="max_marks"/>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>

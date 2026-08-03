@@ -31,4 +31,6 @@
               action="action_unicore_facility"
               sequence="50"/>
 
+    <!-- Campus Board -->
+
 </odoo>

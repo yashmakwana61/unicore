@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Attendance Record Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_attendance_record_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.attendance.record.kanban</field>
+        <field name="model">unicore.attendance.record</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="status">
+                <field name="display_name"/>
+                <field name="status"/>
+                <field name="student_id"/>
+                <field name="course_id"/>
+                <field name="session_id"/>
+                <field name="session_date"/>
+                <field name="sessions_present"/>
+                <field name="total_sessions_held"/>
+                <field name="cumulative_attendance_percentage"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="display_name" class="fw-bold fs-5"/>
+                                <field name="status" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1">
+                                <field name="student_id"/>
+                                <t t-if="record.course_id.raw_value">
+                                    · <field name="course_id"/>
+                                </t>
+                            </div>
+                            <div class="text-muted small">
+                                <field name="session_id"/> · <field name="session_date"/>
+                            </div>
+                            <div class="row mt-3 text-center">
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="sessions_present"/></span>
+                                    <span class="text-muted small">Present</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="total_sessions_held"/></span>
+                                    <span class="text-muted small">Held</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="cumulative_attendance_percentage"/></span>
+                                    <span class="text-muted small">%</span>
+                                </div>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>

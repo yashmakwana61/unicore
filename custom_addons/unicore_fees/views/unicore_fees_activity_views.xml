@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Fee Invoice Activity View
+         ============================================================ -->
+    
+
+    <record id="unicore_fee_invoice_activity_view" model="ir.ui.view">
+        <field name="name">unicore.fee.invoice.activity</field>
+        <field name="model">unicore.fee.invoice</field>
+        <field name="arch" type="xml">
+            <activity string="Fee Invoice Activities"/>
+        </field>
+    </record>
+
+</odoo>

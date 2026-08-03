@@ -6,7 +6,7 @@
     name="Grading"
     sequence="100"
     web_icon="unicore_grading,static/description/icon.png"
-    groups="unicore_base.group_unicore_faculty"/>
+    groups="unicore_base.group_unicore_faculty,unicore_base.group_unicore_admin"/>
 
   <!-- Level 3: Student self-service -->
   <menuitem id="menu_unicore_my_results"
@@ -29,7 +29,7 @@
     parent="menu_unicore_grading"
     action="action_unicore_grade_entry"
     sequence="30"
-    groups="unicore_base.group_unicore_faculty"/>
+    groups="unicore_base.group_unicore_faculty,unicore_base.group_unicore_admin"/>
 
   <!-- Level 3: Registrar -->
   <menuitem id="menu_unicore_grade_pending"

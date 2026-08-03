@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Enrollment Calendar
+         ============================================================ -->
+    
+
+    <record id="unicore_enrollment_calendar_view" model="ir.ui.view">
+        <field name="name">unicore.enrollment.calendar</field>
+        <field name="model">unicore.enrollment</field>
+        <field name="type">calendar</field>
+        <field name="arch" type="xml">
+            <calendar date_start="registration_date" color="color" string="Enrollment Calendar">
+                <field name="enrollment_state"/>
+                <field name="registration_type"/>
+                <field name="student_id"/>
+                <field name="course_offering_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Enrollment Waitlist Calendar
+         ============================================================ -->
+    
+
+    <record id="unicore_enrollment_waitlist_calendar_view" model="ir.ui.view">
+        <field name="name">unicore.enrollment.waitlist.calendar</field>
+        <field name="model">unicore.enrollment.waitlist</field>
+        <field name="type">calendar</field>
+        <field name="arch" type="xml">
+            <calendar date_start="waitlist_date" color="color" string="Enrollment Waitlist Calendar">
+                <field name="waitlist_state"/>
+                <field name="student_id"/>
+                <field name="course_offering_id"/>
+                <field name="position"/>
+            </calendar>
+        </field>
+    </record>
+
+</odoo>

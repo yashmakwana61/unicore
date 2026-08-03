@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Exam Schedule Activities
+         ============================================================ -->
+    
+
+    <record id="unicore_exam_schedule_activity_view" model="ir.ui.view">
+        <field name="name">unicore.exam.schedule.activity</field>
+        <field name="model">unicore.exam.schedule</field>
+        <field name="arch" type="xml">
+            <activity string="Exam Schedule Activities"/>
+        </field>
+    </record>
+
+</odoo>

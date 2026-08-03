@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Library Member Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_library_member_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.library.member.kanban</field>
+        <field name="model">unicore.library.member</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="member_state">
+                <field name="display_name"/>
+                <field name="member_type"/>
+                <field name="student_id"/>
+                <field name="faculty_member_id"/>
+                <field name="valid_until"/>
+                <field name="member_state"/>
+                <field name="outstanding_fines"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="display_name" class="fw-bold fs-5"/>
+                                <field name="member_state" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1">
+                                <field name="member_type"/>
+                                <t t-if="record.student_id.raw_value">
+                                    · <field name="student_id"/>
+                                </t>
+                                <t t-if="record.faculty_member_id.raw_value">
+                                    · <field name="faculty_member_id"/>
+                                </t>
+                            </div>
+                            <div class="row mt-3 text-center">
+                                <div class="col-6">
+                                    <span class="fw-bold d-block"><field name="outstanding_fines"/></span>
+                                    <span class="text-muted small">Fines</span>
+                                </div>
+                                <div class="col-6">
+                                    <span class="fw-bold d-block"><field name="valid_until"/></span>
+                                    <span class="text-muted small">Valid Until</span>
+                                </div>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Library Issue Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_library_issue_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.library.issue.kanban</field>
+        <field name="model">unicore.library.issue</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="issue_state">
+                <field name="display_name"/>
+                <field name="member_id"/>
+                <field name="book_id"/>
+                <field name="book_copy_id"/>
+                <field name="issue_date"/>
+                <field name="due_date"/>
+                <field name="issue_state"/>
+                <field name="fine_amount"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="display_name" class="fw-bold fs-5"/>
+                                <field name="issue_state" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1">
+                                <field name="book_id"/> · <field name="book_copy_id"/>
+                            </div>
+                            <div class="text-muted small">
+                                <field name="member_id"/>
+                            </div>
+                            <div class="row mt-3 text-center">
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="issue_date"/></span>
+                                    <span class="text-muted small">Issued</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="due_date"/></span>
+                                    <span class="text-muted small">Due</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="fine_amount"/></span>
+                                    <span class="text-muted small">Fine</span>
+                                </div>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Library Reservation Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_library_reservation_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.library.reservation.kanban</field>
+        <field name="model">unicore.library.reservation</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="reservation_state">
+                <field name="display_name"/>
+                <field name="member_id"/>
+                <field name="book_id"/>
+                <field name="reservation_date"/>
+                <field name="queue_number"/>
+                <field name="reservation_state"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="display_name" class="fw-bold fs-5"/>
+                                <field name="reservation_state" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1">
+                                <field name="book_id"/> · <field name="member_id"/>
+                            </div>
+                            <div class="row mt-3 text-center">
+                                <div class="col-6">
+                                    <span class="fw-bold d-block"><field name="queue_number"/></span>
+                                    <span class="text-muted small">Queue #</span>
+                                </div>
+                                <div class="col-6">
+                                    <span class="fw-bold d-block"><field name="reservation_date"/></span>
+                                    <span class="text-muted small">Reserved</span>
+                                </div>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>

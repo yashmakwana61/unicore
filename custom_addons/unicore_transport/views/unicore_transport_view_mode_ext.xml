@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Expose the new kanban/calendar/pivot/graph/activity views through the
+         view switcher on the existing actions. -->
+
+    <record id="action_unicore_transport_fee_pending" model="ir.actions.act_window">
+        <field name="view_mode">list,form,kanban,calendar</field>
+    </record>
+
+    <record id="action_unicore_transport_pass" model="ir.actions.act_window">
+        <field name="view_mode">list,form,kanban,calendar</field>
+    </record>
+
+    <record id="action_unicore_transport_route" model="ir.actions.act_window">
+        <field name="view_mode">list,form,kanban</field>
+    </record>
+
+    <record id="action_unicore_transport_trip" model="ir.actions.act_window">
+        <field name="view_mode">list,form,kanban,calendar</field>
+    </record>
+
+    <record id="action_unicore_transport_trip_incidents" model="ir.actions.act_window">
+        <field name="view_mode">list,form,kanban,calendar</field>
+    </record>
+
+    <record id="action_unicore_transport_vehicle" model="ir.actions.act_window">
+        <field name="view_mode">list,form,kanban</field>
+    </record>
+
+    <record id="action_unicore_transport_vehicle_expiring" model="ir.actions.act_window">
+        <field name="view_mode">list,form,kanban</field>
+    </record>
+
+</odoo>

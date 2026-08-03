@@ -4,22 +4,7 @@
     'category': 'Education',
     'summary': 'Complete campus, building, room and facility management',
     'description': """
-UniCore Campus Management
-=========================
-
-Complete campus infrastructure management module for UniCore ERP.
-
-This module extends the base campus model with full infrastructure
-management including buildings, floors, rooms, and facilities.
-
-Key features:
-- Multi-building campus management with floor-by-floor breakdown
-- Room inventory with type classification and amenity tracking
-- Facility management (sports, medical, canteen, etc.)
-- Campus state workflow (Draft → Operational → Suspended → Closed)
-- Smart dashboard with building/room/facility counts
-- Printable campus infrastructure summary report
-- Full multi-company and multi-campus data isolation
+        Complete campus, building, room and facility management
     """,
     'author': 'Precisefect Solutions Pvt. Ltd.',
     'website': 'https://precisefect.com',
@@ -38,7 +23,10 @@ Key features:
         'views/unicore_floor_views.xml',
         'views/unicore_room_views.xml',
         'views/unicore_facility_views.xml',
+        'views/unicore_campus_kanban_views.xml',
         'menus/unicore_campus_menus.xml',
+        'views/unicore_campus_view_mode_ext.xml',
+        'views/unicore_campus_cleanup.xml',
     ],
     'installable': True,
     'application': False,

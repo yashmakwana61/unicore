@@ -3,9 +3,10 @@
     <data>
 
         <!-- ========================================================= -->
-        <!-- Phase 1: Calendar view of attendance sessions             -->
+        <!-- Calendar view of attendance sessions                      -->
         <!-- session_date is a real Date field. course_offering_id,    -->
         <!-- instructor_id, room_id are stored related fields.         -->
+        <!-- Exposed via view_mode=calendar on the main session action. -->
         <!-- ========================================================= -->
         <record id="view_unicore_attendance_session_calendar" model="ir.ui.view">
             <field name="name">unicore.attendance.session.calendar</field>
@@ -21,30 +22,6 @@
                 </calendar>
             </field>
         </record>
-
-        <!-- ========================================================= -->
-        <!-- Window action for the calendar view                       -->
-        <!-- ========================================================= -->
-        <record id="action_unicore_attendance_session_calendar" model="ir.actions.act_window">
-            <field name="name">Session Calendar</field>
-            <field name="res_model">unicore.attendance.session</field>
-            <field name="view_mode">calendar,list,kanban</field>
-            <field name="help" type="html">
-                <p class="o_view_nocontent_smiling_face">
-                    View scheduled lecture sessions on the calendar.
-                </p>
-            </field>
-        </record>
-
-        <!-- ========================================================= -->
-        <!-- Menu item under the Timetable menu (cross-module)         -->
-        <!-- ========================================================= -->
-        <menuitem id="menu_unicore_session_calendar"
-                  name="Session Calendar"
-                  parent="unicore_timetable.menu_unicore_timetable"
-                  action="action_unicore_attendance_session_calendar"
-                  sequence="25"
-                  groups="unicore_base.group_unicore_staff,base.group_system"/>
 
     </data>
 </odoo>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Campus Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_campus_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.campus.kanban</field>
+        <field name="model">unicore.campus</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="campus_state">
+                <field name="campus_display_name"/>
+                <field name="campus_type"/>
+                <field name="campus_state"/>
+                <field name="city"/>
+                <field name="building_count"/>
+                <field name="facility_count"/>
+                <field name="total_room_capacity"/>
+                <field name="student_capacity"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-column">
+                        <main class="w-100">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="campus_display_name" class="fw-bold fs-5"/>
+                                <field name="campus_state" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1">
+                                <field name="campus_type"/>
+                                <t t-if="record.city.raw_value">
+                                    · <field name="city"/>
+                                </t>
+                            </div>
+                            <div class="row mt-3 text-center">
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="building_count"/></span>
+                                    <span class="text-muted small">Buildings</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="facility_count"/></span>
+                                    <span class="text-muted small">Facilities</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="total_room_capacity"/></span>
+                                    <span class="text-muted small">Seats</span>
+                                </div>
+                            </div>
+                            <div class="mt-2 text-muted small">
+                                Capacity: <field name="student_capacity"/> students
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Building Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_building_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.building.kanban</field>
+        <field name="model">unicore.building</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="building_type">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="building_type"/>
+                <field name="campus_id"/>
+                <field name="floor_count"/>
+                <field name="total_area_sqft"/>
+                <field name="construction_year"/>
+                <field name="image"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <img t-att-src="record.image.raw_value ? 'data:image/png;base64,'+record.image.raw_value : '/unicore_campus/static/description/icon.png'"
+                             class="o_kanban_image rounded shadow-sm me-3" alt="building"/>
+                        <main>
+                            <field name="code" class="fw-bold fs-5"/>
+                            <field name="name"/>
+                            <field name="campus_id"/>
+                            <field name="building_type" widget="badge"/>
+                            <div class="text-muted mt-1 small">
+                                Floors: <field name="floor_count"/> · Area: <field name="total_area_sqft"/> sq.ft
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Facility Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_facility_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.facility.kanban</field>
+        <field name="model">unicore.facility</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="facility_type">
+                <field name="name"/>
+                <field name="facility_type"/>
+                <field name="campus_id"/>
+                <field name="capacity"/>
+                <field name="operating_hours"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <field name="name" class="fw-bold fs-5"/>
+                            <field name="campus_id"/>
+                            <field name="facility_type" widget="badge"/>
+                            <div class="text-muted mt-1 small">
+                                <span t-if="record.capacity.raw_value">
+                                    Capacity: <field name="capacity"/> ·
+                                </span>
+                                <field name="operating_hours"/>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>

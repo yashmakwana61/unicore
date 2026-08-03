@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Academic Year Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_academic_year_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.academic.year.kanban</field>
+        <field name="model">unicore.academic.year</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="year_state">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="year_type"/>
+                <field name="year_state"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="semester_count"/>
+                <field name="week_count"/>
+                <field name="holiday_count"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="name" class="fw-bold fs-5"/>
+                                <field name="year_state" widget="badge"/>
+                            </div>
+                            <field name="code"/>
+                            <field name="year_type" widget="badge"/>
+                            <div class="text-muted mt-1 small">
+                                <field name="date_start"/> · <field name="date_end"/>
+                            </div>
+                            <div class="row mt-3 text-center">
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="semester_count"/></span>
+                                    <span class="text-muted small">Semesters</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="week_count"/></span>
+                                    <span class="text-muted small">Weeks</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="holiday_count"/></span>
+                                    <span class="text-muted small">Holidays</span>
+                                </div>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Semester Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_semester_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.semester.kanban</field>
+        <field name="model">unicore.semester</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="semester_state">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="academic_year_id"/>
+                <field name="semester_type"/>
+                <field name="semester_state"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="week_count"/>
+                <field name="teaching_weeks"/>
+                <field name="total_days"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="name" class="fw-bold fs-5"/>
+                                <field name="semester_state" widget="badge"/>
+                            </div>
+                            <field name="code"/>
+                            <field name="academic_year_id"/>
+                            <div class="text-muted mt-1 small">
+                                <field name="date_start"/> · <field name="date_end"/>
+                            </div>
+                            <div class="row mt-3 text-center">
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="week_count"/></span>
+                                    <span class="text-muted small">Weeks</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="teaching_weeks"/></span>
+                                    <span class="text-muted small">Teaching</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="total_days"/></span>
+                                    <span class="text-muted small">Days</span>
+                                </div>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>

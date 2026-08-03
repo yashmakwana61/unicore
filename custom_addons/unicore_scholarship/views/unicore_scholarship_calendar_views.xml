@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Scholarship Application Calendar
+         ============================================================ -->
+    
+
+    <record id="unicore_scholarship_application_calendar_view" model="ir.ui.view">
+        <field name="name">unicore.scholarship.application.calendar</field>
+        <field name="model">unicore.scholarship.application</field>
+        <field name="type">calendar</field>
+        <field name="arch" type="xml">
+            <calendar date_start="application_date" color="color" string="Scholarship Application Calendar">
+                <field name="application_state"/>
+                <field name="student_id"/>
+                <field name="scholarship_program_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Scholarship Award Calendar
+         ============================================================ -->
+    
+
+    <record id="unicore_scholarship_award_calendar_view" model="ir.ui.view">
+        <field name="name">unicore.scholarship.award.calendar</field>
+        <field name="model">unicore.scholarship.award</field>
+        <field name="type">calendar</field>
+        <field name="arch" type="xml">
+            <calendar date_start="disbursement_date" color="color" string="Scholarship Award Calendar">
+                <field name="award_state"/>
+                <field name="disbursement_method"/>
+                <field name="student_id"/>
+                <field name="semester_id"/>
+            </calendar>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Semester Result Calendar View
+         ============================================================ -->
+    
+
+    <record id="unicore_semester_result_calendar_view" model="ir.ui.view">
+        <field name="name">unicore.semester.result.calendar</field>
+        <field name="model">unicore.semester.result</field>
+        <field name="arch" type="xml">
+            <calendar date_start="published_on" color="color" string="Semester Result Calendar">
+                <field name="student_id"/>
+                <field name="semester_id"/>
+                <field name="result_status"/>
+            </calendar>
+        </field>
+    </record>
+
+</odoo>

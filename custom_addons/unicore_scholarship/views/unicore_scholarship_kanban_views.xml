@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Scholarship Program Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_scholarship_program_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.scholarship.program.kanban</field>
+        <field name="model">unicore.scholarship.program</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="program_state">
+                <field name="name"/>
+                <field name="scholarship_type"/>
+                <field name="funding_source"/>
+                <field name="academic_year_id"/>
+                <field name="award_amount"/>
+                <field name="total_quota"/>
+                <field name="application_count"/>
+                <field name="program_state"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main class="w-100">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="name" class="fw-bold fs-5"/>
+                                <field name="program_state" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1">
+                                <field name="scholarship_type"/>
+                                <t t-if="record.funding_source.raw_value">
+                                    · <field name="funding_source"/>
+                                </t>
+                            </div>
+                            <div class="text-muted small mt-1">
+                                <field name="academic_year_id"/>
+                            </div>
+                            <div class="row mt-3 text-center">
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="award_amount"/></span>
+                                    <span class="text-muted small">Award</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="total_quota"/></span>
+                                    <span class="text-muted small">Quota</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="application_count"/></span>
+                                    <span class="text-muted small">Applications</span>
+                                </div>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Scholarship Application Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_scholarship_application_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.scholarship.application.kanban</field>
+        <field name="model">unicore.scholarship.application</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="application_state">
+                <field name="display_name"/>
+                <field name="student_id"/>
+                <field name="scholarship_program_id"/>
+                <field name="application_date"/>
+                <field name="application_state"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main class="w-100">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="display_name" class="fw-bold fs-5"/>
+                                <field name="application_state" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1">
+                                <field name="student_id"/>
+                            </div>
+                            <div class="text-muted small mt-1">
+                                <field name="scholarship_program_id"/>
+                            </div>
+                            <div class="text-muted small mt-2">
+                                Applied: <field name="application_date"/>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Scholarship Award Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_scholarship_award_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.scholarship.award.kanban</field>
+        <field name="model">unicore.scholarship.award</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="award_state">
+                <field name="display_name"/>
+                <field name="student_id"/>
+                <field name="scholarship_program_id"/>
+                <field name="semester_id"/>
+                <field name="award_amount"/>
+                <field name="disbursement_method"/>
+                <field name="award_state"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main class="w-100">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="display_name" class="fw-bold fs-5"/>
+                                <field name="award_state" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1">
+                                <field name="student_id"/>
+                            </div>
+                            <div class="text-muted small mt-1">
+                                <field name="scholarship_program_id"/>
+                            </div>
+                            <div class="row mt-3 text-center">
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="award_amount"/></span>
+                                    <span class="text-muted small">Award</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="semester_id"/></span>
+                                    <span class="text-muted small">Semester</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="disbursement_method"/></span>
+                                    <span class="text-muted small">Method</span>
+                                </div>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>

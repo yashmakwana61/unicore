@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Transport Trip Calendar View
+         ============================================================ -->
+    
+
+    <record id="unicore_transport_trip_calendar_view" model="ir.ui.view">
+        <field name="name">unicore.transport.trip.calendar</field>
+        <field name="model">unicore.transport.trip</field>
+        <field name="type">calendar</field>
+        <field name="arch" type="xml">
+            <calendar date_start="trip_date" color="color" string="Transport Trip Calendar">
+                <field name="route_id"/>
+                <field name="vehicle_id"/>
+                <field name="trip_type"/>
+                <field name="trip_state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Transport Pass Calendar View
+         ============================================================ -->
+    
+
+    <record id="unicore_transport_pass_calendar_view" model="ir.ui.view">
+        <field name="name">unicore.transport.pass.calendar</field>
+        <field name="model">unicore.transport.pass</field>
+        <field name="type">calendar</field>
+        <field name="arch" type="xml">
+            <calendar date_start="valid_from" date_stop="valid_until" color="color" string="Transport Pass Calendar">
+                <field name="student_id"/>
+                <field name="route_id"/>
+                <field name="pass_state"/>
+            </calendar>
+        </field>
+    </record>
+
+</odoo>

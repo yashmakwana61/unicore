@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Hall Ticket Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_exam_hall_ticket_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.exam.hall.ticket.kanban</field>
+        <field name="model">unicore.exam.hall.ticket</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="ticket_state">
+                <field name="display_name"/>
+                <field name="ticket_state"/>
+                <field name="student_id"/>
+                <field name="eligibility_status"/>
+                <field name="exam_schedule_id"/>
+                <field name="course_id"/>
+                <field name="exam_date"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="display_name" class="fw-bold fs-5"/>
+                                <field name="ticket_state" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1">
+                                <field name="student_id"/>
+                                <t t-if="record.eligibility_status.raw_value">
+                                    · <field name="eligibility_status"/>
+                                </t>
+                            </div>
+                            <div class="text-muted small">
+                                <field name="exam_schedule_id"/> · <field name="course_id"/>
+                            </div>
+                            <div class="mt-2 text-muted small">
+                                Exam Date: <field name="exam_date"/>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Exam Seating Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_exam_seating_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.exam.seating.kanban</field>
+        <field name="model">unicore.exam.seating</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color">
+                <field name="display_name"/>
+                <field name="student_id"/>
+                <field name="room_id"/>
+                <field name="seat_label"/>
+                <field name="course_id"/>
+                <field name="exam_date"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <field name="display_name" class="fw-bold fs-5"/>
+                            <field name="student_id"/>
+                            <div class="text-muted mt-1 small">
+                                <field name="room_id"/> · Seat <field name="seat_label"/>
+                            </div>
+                            <div class="text-muted small">
+                                <field name="course_id"/> · <field name="exam_date"/>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>

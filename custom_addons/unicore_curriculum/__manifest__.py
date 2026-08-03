@@ -1,17 +1,20 @@
 {
     'name': 'UniCore Curriculum',
     'version': '19.0.1.0.0',
-    'summary': 'Program and Curriculum Management for UniCore ERP',
-    'author': 'Precisefect Solutions Pvt. Ltd.',
     'category': 'Education',
+    'summary': 'Program and Curriculum Management for UniCore ERP',
+    'description': """
+        Program and Curriculum Management for UniCore ERP
+    """,
+    'author': 'Precisefect Solutions Pvt. Ltd.',
     'license': 'OPL-1',
     'depends': [
         'base',
-        'unicore_base',
-        'unicore_security',
-        'unicore_campus',
         'unicore_academic',
+        'unicore_base',
+        'unicore_campus',
         'unicore_faculty_profile',
+        'unicore_security',
     ],
     'data': [
         'security/security.xml',
@@ -23,7 +26,11 @@
         'views/unicore_course_offering_views.xml',
         'views/unicore_curriculum_views.xml',
         'views/unicore_curriculum_line_views.xml',
+        'views/unicore_curriculum_kanban_views.xml',
+        'views/unicore_curriculum_calendar_views.xml',
         'menus/unicore_curriculum_menus.xml',
+        'views/unicore_curriculum_view_mode_ext.xml',
+        'views/unicore_curriculum_cleanup.xml',
     ],
     'installable': True,
     'application': True,

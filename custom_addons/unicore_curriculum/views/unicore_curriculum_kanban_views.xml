@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Curriculum Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_curriculum_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.curriculum.kanban</field>
+        <field name="model">unicore.curriculum</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="curriculum_state">
+                <field name="name"/>
+                <field name="version"/>
+                <field name="program_id"/>
+                <field name="department_id"/>
+                <field name="curriculum_state"/>
+                <field name="total_courses"/>
+                <field name="total_credits"/>
+                <field name="total_semesters"/>
+                <field name="effective_from_year"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="name" class="fw-bold fs-5"/>
+                                <field name="curriculum_state" widget="badge"/>
+                            </div>
+                            <field name="program_id"/>
+                            <field name="department_id"/>
+                            <div class="text-muted small">
+                                Version: <field name="version"/>
+                                <t t-if="record.effective_from_year.raw_value">
+                                    · From <field name="effective_from_year"/>
+                                </t>
+                            </div>
+                            <div class="row mt-3 text-center">
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="total_courses"/></span>
+                                    <span class="text-muted small">Courses</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="total_credits"/></span>
+                                    <span class="text-muted small">Credits</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="total_semesters"/></span>
+                                    <span class="text-muted small">Semesters</span>
+                                </div>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>

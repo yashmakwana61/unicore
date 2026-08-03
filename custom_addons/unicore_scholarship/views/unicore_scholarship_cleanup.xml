@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Remove the separate board/calendar/analysis/activity actions and menus.
+         The underlying views are kept and exposed via view_mode on the main actions. -->
+
+    <delete model="ir.actions.act_window" id="action_unicore_scholarship_application_activity"/>
+    <delete model="ir.actions.act_window" id="action_unicore_scholarship_application_analysis"/>
+    <delete model="ir.actions.act_window" id="action_unicore_scholarship_application_calendar"/>
+    <delete model="ir.actions.act_window" id="action_unicore_scholarship_application_kanban"/>
+    <delete model="ir.actions.act_window" id="action_unicore_scholarship_award_analysis"/>
+    <delete model="ir.actions.act_window" id="action_unicore_scholarship_award_calendar"/>
+    <delete model="ir.actions.act_window" id="action_unicore_scholarship_award_kanban"/>
+    <delete model="ir.actions.act_window" id="action_unicore_scholarship_program_kanban"/>
+
+    <delete model="ir.ui.menu" id="menu_unicore_scholarship_application_activity"/>
+    <delete model="ir.ui.menu" id="menu_unicore_scholarship_application_analysis"/>
+    <delete model="ir.ui.menu" id="menu_unicore_scholarship_application_board"/>
+    <delete model="ir.ui.menu" id="menu_unicore_scholarship_application_calendar"/>
+    <delete model="ir.ui.menu" id="menu_unicore_scholarship_award_analysis"/>
+    <delete model="ir.ui.menu" id="menu_unicore_scholarship_award_board"/>
+    <delete model="ir.ui.menu" id="menu_unicore_scholarship_award_calendar"/>
+    <delete model="ir.ui.menu" id="menu_unicore_scholarship_program_board"/>
+
+</odoo>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Hostel Block Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_hostel_block_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.hostel.block.kanban</field>
+        <field name="model">unicore.hostel.block</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="block_state">
+                <field name="display_name"/>
+                <field name="campus_id"/>
+                <field name="block_type"/>
+                <field name="gender_type"/>
+                <field name="total_capacity"/>
+                <field name="occupied_beds"/>
+                <field name="available_beds"/>
+                <field name="occupancy_rate"/>
+                <field name="block_state"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="display_name" class="fw-bold fs-5"/>
+                                <field name="block_state" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1 small">
+                                <field name="campus_id"/> · <field name="block_type"/> · <field name="gender_type"/>
+                            </div>
+                            <div class="row mt-3 text-center">
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="total_capacity"/></span>
+                                    <span class="text-muted small">Capacity</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="occupied_beds"/></span>
+                                    <span class="text-muted small">Occupied</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="available_beds"/></span>
+                                    <span class="text-muted small">Available</span>
+                                </div>
+                            </div>
+                            <div class="mt-2 text-muted small">
+                                Occupancy: <field name="occupancy_rate"/>%
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Hostel Room Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_hostel_room_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.hostel.room.kanban</field>
+        <field name="model">unicore.hostel.room</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="room_state">
+                <field name="display_name"/>
+                <field name="block_id"/>
+                <field name="room_type"/>
+                <field name="capacity"/>
+                <field name="current_occupancy"/>
+                <field name="available_beds"/>
+                <field name="monthly_rent"/>
+                <field name="currency_id"/>
+                <field name="room_state"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="display_name" class="fw-bold fs-5"/>
+                                <field name="room_state" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1 small">
+                                <field name="block_id"/> · <field name="room_type"/>
+                            </div>
+                            <div class="row mt-3 text-center">
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="capacity"/></span>
+                                    <span class="text-muted small">Capacity</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="current_occupancy"/></span>
+                                    <span class="text-muted small">Occupied</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="available_beds"/></span>
+                                    <span class="text-muted small">Available</span>
+                                </div>
+                            </div>
+                            <div class="mt-2 text-muted small">
+                                Rent: <field name="monthly_rent" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Hostel Allocation Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_hostel_allocation_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.hostel.allocation.kanban</field>
+        <field name="model">unicore.hostel.allocation</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="allocation_state">
+                <field name="display_name"/>
+                <field name="student_id"/>
+                <field name="room_id"/>
+                <field name="block_id"/>
+                <field name="expected_checkin"/>
+                <field name="expected_checkout"/>
+                <field name="allocation_state"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="display_name" class="fw-bold fs-5"/>
+                                <field name="allocation_state" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1 small">
+                                <field name="student_id"/> → <field name="room_id"/>
+                            </div>
+                            <div class="mt-2 text-muted small">
+                                Check-In: <field name="expected_checkin"/> ·
+                                Check-Out: <field name="expected_checkout"/>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Hostel Maintenance Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_hostel_maintenance_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.hostel.maintenance.kanban</field>
+        <field name="model">unicore.hostel.maintenance</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="maintenance_state">
+                <field name="display_name"/>
+                <field name="room_id"/>
+                <field name="issue_type"/>
+                <field name="priority"/>
+                <field name="request_date"/>
+                <field name="maintenance_state"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="display_name" class="fw-bold fs-5"/>
+                                <field name="maintenance_state" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1 small">
+                                <field name="room_id"/> · <field name="issue_type"/>
+                            </div>
+                            <div class="mt-2">
+                                <field name="priority" widget="badge"/>
+                            </div>
+                            <div class="mt-2 text-muted small">
+                                Requested: <field name="request_date"/>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Grade Entry Analysis
+         ============================================================ -->
+    
+
+    <record id="unicore_grade_entry_pivot_view" model="ir.ui.view">
+        <field name="name">unicore.grade.entry.pivot</field>
+        <field name="model">unicore.grade.entry</field>
+        <field name="arch" type="xml">
+            <pivot string="Grade Entry Analysis">
+                <field name="entry_state" type="row"/>
+                <field name="internal_marks" type="measure"/>
+                <field name="external_marks" type="measure"/>
+                <field name="percentage" type="measure"/>
+                <field name="grade_point" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="unicore_grade_entry_graph_view" model="ir.ui.view">
+        <field name="name">unicore.grade.entry.graph</field>
+        <field name="model">unicore.grade.entry</field>
+        <field name="arch" type="xml">
+            <graph string="Grade Entry Analysis" type="bar">
+                <field name="course_id" type="row"/>
+                <field name="percentage" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Semester Result Analysis
+         ============================================================ -->
+    
+
+    <record id="unicore_semester_result_pivot_view" model="ir.ui.view">
+        <field name="name">unicore.semester.result.pivot</field>
+        <field name="model">unicore.semester.result</field>
+        <field name="arch" type="xml">
+            <pivot string="Semester Result Analysis">
+                <field name="result_status" type="row"/>
+                <field name="semester_gpa" type="measure"/>
+                <field name="credits_earned" type="measure"/>
+                <field name="courses_passed" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="unicore_semester_result_graph_view" model="ir.ui.view">
+        <field name="name">unicore.semester.result.graph</field>
+        <field name="model">unicore.semester.result</field>
+        <field name="arch" type="xml">
+            <graph string="Semester Result Analysis" type="bar">
+                <field name="semester_id" type="row"/>
+                <field name="semester_gpa" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+</odoo>

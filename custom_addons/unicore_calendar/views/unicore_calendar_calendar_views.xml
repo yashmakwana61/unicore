@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Holiday Calendar
+         ============================================================ -->
+    
+
+    <record id="unicore_holiday_calendar_view" model="ir.ui.view">
+        <field name="name">unicore.holiday.calendar</field>
+        <field name="model">unicore.holiday</field>
+        <field name="arch" type="xml">
+            <calendar date_start="date_start" date_stop="date_end" color="color" string="Holiday Calendar">
+                <field name="holiday_type"/>
+                <field name="academic_year_id"/>
+                <field name="semester_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Academic Week Calendar
+         ============================================================ -->
+    
+
+    <record id="unicore_academic_week_calendar_view" model="ir.ui.view">
+        <field name="name">unicore.academic.week.calendar</field>
+        <field name="model">unicore.academic.week</field>
+        <field name="arch" type="xml">
+            <calendar date_start="date_start" date_stop="date_end" color="color" string="Academic Week Calendar">
+                <field name="week_type"/>
+                <field name="semester_id"/>
+                <field name="academic_year_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Academic Year Calendar
+         ============================================================ -->
+    
+
+    <record id="unicore_academic_year_calendar_view" model="ir.ui.view">
+        <field name="name">unicore.academic.year.calendar</field>
+        <field name="model">unicore.academic.year</field>
+        <field name="arch" type="xml">
+            <calendar date_start="date_start" date_stop="date_end" color="color" string="Academic Year Calendar">
+                <field name="year_type"/>
+                <field name="year_state"/>
+                <field name="code"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Semester Calendar
+         ============================================================ -->
+    
+
+    <record id="unicore_semester_calendar_view" model="ir.ui.view">
+        <field name="name">unicore.semester.calendar</field>
+        <field name="model">unicore.semester</field>
+        <field name="arch" type="xml">
+            <calendar date_start="date_start" date_stop="date_end" color="color" string="Semester Calendar">
+                <field name="semester_type"/>
+                <field name="semester_state"/>
+                <field name="academic_year_id"/>
+            </calendar>
+        </field>
+    </record>
+
+</odoo>

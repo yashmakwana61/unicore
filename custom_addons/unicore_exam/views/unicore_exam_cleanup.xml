@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Remove the separate board/calendar/analysis/activity actions and menus.
+         The underlying views are kept and exposed via view_mode on the main actions. -->
+
+    <delete model="ir.actions.act_window" id="action_unicore_exam_hall_ticket_calendar"/>
+    <delete model="ir.actions.act_window" id="action_unicore_exam_hall_ticket_kanban"/>
+    <delete model="ir.actions.act_window" id="action_unicore_exam_schedule_activity"/>
+    <delete model="ir.actions.act_window" id="action_unicore_exam_schedule_calendar"/>
+    <delete model="ir.actions.act_window" id="action_unicore_exam_seating_calendar"/>
+    <delete model="ir.actions.act_window" id="action_unicore_exam_seating_kanban"/>
+
+    <delete model="ir.ui.menu" id="menu_unicore_exam_hall_ticket_board"/>
+    <delete model="ir.ui.menu" id="menu_unicore_exam_hall_ticket_calendar"/>
+    <delete model="ir.ui.menu" id="menu_unicore_exam_schedule_activity"/>
+    <delete model="ir.ui.menu" id="menu_unicore_exam_schedule_calendar"/>
+    <delete model="ir.ui.menu" id="menu_unicore_exam_seating_board"/>
+    <delete model="ir.ui.menu" id="menu_unicore_exam_seating_calendar"/>
+
+</odoo>

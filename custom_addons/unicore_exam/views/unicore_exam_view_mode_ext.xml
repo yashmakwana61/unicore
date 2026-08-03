@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Expose the new kanban/calendar/pivot/graph/activity views through the
+         view switcher on the existing actions. -->
+
+    <record id="action_unicore_exam_hall_ticket" model="ir.actions.act_window">
+        <field name="view_mode">list,form,kanban,calendar</field>
+    </record>
+
+    <record id="action_unicore_exam_hall_ticket_ineligible" model="ir.actions.act_window">
+        <field name="view_mode">list,form,kanban,calendar</field>
+    </record>
+
+    <record id="action_unicore_exam_hall_ticket_my" model="ir.actions.act_window">
+        <field name="view_mode">list,form,kanban,calendar</field>
+    </record>
+
+    <record id="action_unicore_exam_ongoing" model="ir.actions.act_window">
+        <field name="view_mode">list,form,kanban,calendar,activity</field>
+    </record>
+
+    <record id="action_unicore_exam_schedule" model="ir.actions.act_window">
+        <field name="view_mode">list,kanban,form,calendar,activity</field>
+    </record>
+
+    <record id="action_unicore_exam_seating" model="ir.actions.act_window">
+        <field name="view_mode">list,form,kanban,calendar</field>
+    </record>
+
+    <record id="action_unicore_exam_seating_my" model="ir.actions.act_window">
+        <field name="view_mode">list,form,kanban,calendar</field>
+    </record>
+
+    <record id="action_unicore_exam_upcoming" model="ir.actions.act_window">
+        <field name="view_mode">list,form,kanban,calendar,activity</field>
+    </record>
+
+</odoo>

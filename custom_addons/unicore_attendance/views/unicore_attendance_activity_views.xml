@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Attendance Record Activities
+         ============================================================ -->
+    
+
+    <record id="unicore_attendance_record_activity_view" model="ir.ui.view">
+        <field name="name">unicore.attendance.record.activity</field>
+        <field name="model">unicore.attendance.record</field>
+        <field name="arch" type="xml">
+            <activity string="Attendance Record Activities"/>
+        </field>
+    </record>
+
+</odoo>

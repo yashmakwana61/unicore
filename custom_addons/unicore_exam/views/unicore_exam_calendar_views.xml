@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Exam Schedule Calendar View
+         ============================================================ -->
+    
+
+    <record id="unicore_exam_schedule_calendar_view" model="ir.ui.view">
+        <field name="name">unicore.exam.schedule.calendar</field>
+        <field name="model">unicore.exam.schedule</field>
+        <field name="arch" type="xml">
+            <calendar date_start="exam_date" color="color" string="Exam Schedule Calendar">
+                <field name="course_offering_id"/>
+                <field name="exam_type"/>
+                <field name="exam_state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Hall Ticket Calendar View
+         ============================================================ -->
+    
+
+    <record id="unicore_exam_hall_ticket_calendar_view" model="ir.ui.view">
+        <field name="name">unicore.exam.hall.ticket.calendar</field>
+        <field name="model">unicore.exam.hall.ticket</field>
+        <field name="arch" type="xml">
+            <calendar date_start="exam_date" color="color" string="Hall Ticket Calendar">
+                <field name="student_id"/>
+                <field name="exam_schedule_id"/>
+                <field name="eligibility_status"/>
+                <field name="ticket_state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Exam Seating Calendar View
+         ============================================================ -->
+    
+
+    <record id="unicore_exam_seating_calendar_view" model="ir.ui.view">
+        <field name="name">unicore.exam.seating.calendar</field>
+        <field name="model">unicore.exam.seating</field>
+        <field name="arch" type="xml">
+            <calendar date_start="exam_date" color="color" string="Exam Seating Calendar">
+                <field name="student_id"/>
+                <field name="room_id"/>
+                <field name="seat_label"/>
+                <field name="course_id"/>
+            </calendar>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Staff Member Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_staff_member_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.staff.member.kanban</field>
+        <field name="model">unicore.staff.member</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="staff_state">
+                <field name="display_name"/>
+                <field name="staff_role"/>
+                <field name="employment_type"/>
+                <field name="department_id"/>
+                <field name="staff_state"/>
+                <field name="image_1920"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <img t-att-src="record.image_1920.raw_value ? 'data:image/png;base64,'+record.image_1920.raw_value : '/unicore_base/static/description/icon.png'"
+                             class="o_kanban_image rounded shadow-sm me-3" alt="staff"/>
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="display_name" class="fw-bold fs-5"/>
+                                <field name="staff_state" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1">
+                                <field name="staff_role"/>
+                                <t t-if="record.employment_type.raw_value">
+                                    · <field name="employment_type"/>
+                                </t>
+                            </div>
+                            <div class="text-muted small mt-1">
+                                <t t-if="record.department_id.raw_value">
+                                    <field name="department_id"/>
+                                </t>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Faculty Publication Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_faculty_publication_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.faculty.publication.kanban</field>
+        <field name="model">unicore.faculty.publication</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" default_group_by="publication_type">
+                <field name="title"/>
+                <field name="faculty_member_id"/>
+                <field name="publication_type"/>
+                <field name="publication_year"/>
+                <field name="index_type"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="title" class="fw-bold fs-5"/>
+                                <field name="publication_type" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1">
+                                <field name="faculty_member_id"/>
+                            </div>
+                            <div class="text-muted mt-1 small">
+                                <field name="publication_year"/>
+                                <t t-if="record.index_type.raw_value">
+                                    · <field name="index_type"/>
+                                </t>
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Faculty Workload Kanban Board
+         ============================================================ -->
+    
+
+    <record id="unicore_faculty_workload_kanban_view" model="ir.ui.view">
+        <field name="name">unicore.faculty.workload.kanban</field>
+        <field name="model">unicore.faculty.workload</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" default_group_by="workload_type">
+                <field name="course_name"/>
+                <field name="course_code"/>
+                <field name="faculty_member_id"/>
+                <field name="academic_year_id"/>
+                <field name="semester_id"/>
+                <field name="workload_type"/>
+                <field name="weekly_hours"/>
+                <templates>
+                    <t t-name="card" class="flex-row">
+                        <main>
+                            <div class="d-flex justify-content-between align-items-start">
+                                <field name="course_name" class="fw-bold fs-5"/>
+                                <field name="workload_type" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1">
+                                <field name="faculty_member_id"/>
+                            </div>
+                            <div class="text-muted mt-1 small">
+                                <field name="academic_year_id"/>
+                                <t t-if="record.semester_id.raw_value">
+                                    · <field name="semester_id"/>
+                                </t>
+                            </div>
+                            <div class="mt-2 text-muted small">
+                                <t t-if="record.course_code.raw_value">
+                                    <field name="course_code"/> ·
+                                </t>
+                                Load: <field name="weekly_hours"/> hrs/week
+                            </div>
+                        </main>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>

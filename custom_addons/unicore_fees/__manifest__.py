@@ -4,27 +4,28 @@
     'category': 'Education',
     'summary': 'Student fee management, invoicing and payment tracking',
     'description': """
-UniCore Fees is a standalone application for managing student fee operations:
-
-- Fee Structures: configurable per program, semester and campus with line-item breakdown
-- Fee Invoices: auto-generated per student per semester with installment support
-- Fee Payments: payment recording and outstanding balance tracking
-- Financial Dashboard: revenue, outstanding and collection rate reporting
-
-Appears as a dedicated app in the Odoo home screen alongside other Odoo apps.
+        Student fee management, invoicing and payment tracking
     """,
     'author': 'Precisefect Solutions Pvt. Ltd.',
     'website': 'https://precisefect.com',
     'license': 'OPL-1',
     'depends': [
-        'unicore_base', 'unicore_security',
-        'unicore_campus', 'unicore_academic',
-        'unicore_calendar', 'unicore_student',
-        'unicore_faculty_profile', 'unicore_guardian',
-        'unicore_curriculum', 'unicore_timetable',
-        'unicore_enrollment', 'unicore_attendance',
-        'unicore_exam', 'unicore_grading', 'mail',
         'account',
+        'mail',
+        'unicore_academic',
+        'unicore_attendance',
+        'unicore_base',
+        'unicore_calendar',
+        'unicore_campus',
+        'unicore_curriculum',
+        'unicore_enrollment',
+        'unicore_exam',
+        'unicore_faculty_profile',
+        'unicore_grading',
+        'unicore_guardian',
+        'unicore_security',
+        'unicore_student',
+        'unicore_timetable',
     ],
     'data': [
         'security/unicore_fees_record_rules.xml',
@@ -41,12 +42,16 @@ Appears as a dedicated app in the Odoo home screen alongside other Odoo apps.
         'views/unicore_fee_accounting_config_views.xml',
         'views/unicore_fee_batch_wizard_views.xml',
         'views/fee_invoice_search_phase1.xml',
+        'views/unicore_fees_kanban_views.xml',
+        'views/unicore_fees_calendar_views.xml',
+        'views/unicore_fees_activity_views.xml',
         'menus/unicore_fees_menus.xml',
+        'views/unicore_fees_view_mode_ext.xml',
+        'views/unicore_fees_cleanup.xml',
     ],
     'images': ['static/description/icon.png'],
+    'web_icon': 'unicore_fees,static/description/icon.png',
     'installable': True,
     'application': True,
     'auto_install': False,
-    'web_icon': 'unicore_fees,static/description/icon.png',
-    'post_init_hook': 'post_init_hook',
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Expose the new kanban/calendar/pivot/graph/activity views through the
+         view switcher on the existing actions. -->
+
+    <record id="action_unicore_hostel_allocation" model="ir.actions.act_window">
+        <field name="view_mode">list,form,kanban,calendar,pivot,graph,activity</field>
+    </record>
+
+    <record id="action_unicore_hostel_allocation_all" model="ir.actions.act_window">
+        <field name="view_mode">list,form,kanban,calendar,pivot,graph,activity</field>
+    </record>
+
+    <record id="action_unicore_hostel_block" model="ir.actions.act_window">
+        <field name="view_mode">list,form,kanban,pivot,graph</field>
+    </record>
+
+    <record id="action_unicore_hostel_maintenance" model="ir.actions.act_window">
+        <field name="view_mode">list,form,kanban,calendar,pivot,graph</field>
+    </record>
+
+    <record id="action_unicore_hostel_maintenance_urgent" model="ir.actions.act_window">
+        <field name="view_mode">list,form,kanban,calendar,pivot,graph</field>
+    </record>
+
+    <record id="action_unicore_hostel_room" model="ir.actions.act_window">
+        <field name="view_mode">list,form,kanban,pivot,graph</field>
+    </record>
+
+    <record id="action_unicore_hostel_room_available" model="ir.actions.act_window">
+        <field name="view_mode">list,form,kanban,pivot,graph</field>
+    </record>
+
+</odoo>

@@ -4,31 +4,20 @@
     'category': 'Education',
     'summary': 'Complete admission lifecycle from inquiry to confirmed enrollment',
     'description': """
-        Manages the full admission workflow in UniCore ERP.
-        Supports 13-state progression: Inquiry → Applied → Documents Pending
-        → Under Review → Shortlisted → Entrance Scheduled → Merit Listed
-        → Offer Sent → Fee Pending → Confirmed / Rejected / Withdrawn / Waitlisted.
-
-        Features:
-        - Admission cycles with configurable seat allocation per program
-        - Applicant tracking with document submission status
-        - Entrance test scheduling and result management
-        - Composite score calculation (aggregate + entrance + interview)
-        - Offer letter generation and acceptance tracking
-        - Auto-create student record on admission confirmation
+        Complete admission lifecycle from inquiry to confirmed enrollment
     """,
     'author': 'Precisefect Solutions Pvt. Ltd.',
     'website': 'https://precisefect.com',
     'license': 'OPL-1',
     'depends': [
-        'unicore_base',
-        'unicore_security',
-        'unicore_campus',
-        'unicore_academic',
-        'unicore_calendar',
-        'unicore_student',
-        'unicore_fees',
         'mail',
+        'unicore_academic',
+        'unicore_base',
+        'unicore_calendar',
+        'unicore_campus',
+        'unicore_fees',
+        'unicore_security',
+        'unicore_student',
     ],
     'data': [
         'security/ir.model.access.csv',
@@ -39,13 +28,13 @@
         'views/entrance_test_views.xml',
         'views/offer_letter_views.xml',
         'views/admission_search_list_phase1.xml',
+        'views/unicore_admission_kanban_views.xml',
+        'views/unicore_admission_calendar_views.xml',
+        'views/unicore_admission_activity_views.xml',
         'menus/admission_menus.xml',
+        'views/unicore_admission_view_mode_ext.xml',
+        'views/unicore_admission_cleanup.xml',
     ],
-    'assets': {
-        'web.assets_backend': [
-            'unicore_admission/static/src/scss/admission_kanban.scss',
-        ],
-    },
     'images': ['static/description/icon.png'],
     'web_icon': 'unicore_admission,static/description/icon.png',
     'installable': True,
