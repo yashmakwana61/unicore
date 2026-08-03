@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_unicore_payment_tx_admin,Payment Tx Admin,payment.model_payment_transaction,unicore_base.group_unicore_admin,1,0,0,0
+access_unicore_payment_tx_finance,Payment Tx Finance,payment.model_payment_transaction,unicore_base.group_unicore_finance,1,0,0,0
+access_unicore_payment_tx_manager,Payment Tx Manager,payment.model_payment_transaction,unicore_base.group_unicore_manager,1,0,0,0
+access_unicore_payment_tx_portal,Payment Tx Portal,payment.model_payment_transaction,base.group_portal,1,0,0,0

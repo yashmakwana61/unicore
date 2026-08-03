@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Portal: "Pay Online" button on the student fee page -->
+    <record id="portal_student_fees_pay_online"
+            model="ir.ui.view">
+        <field name="name">unicore payment portal fees pay online</field>
+        <field name="inherit_id"
+               ref="unicore_portal_student.portal_student_fees"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('card-body')][.//table[hasclass('table')]]" position="inside">
+                <div class="mt-3 text-end">
+                    <t t-if="inv._is_payable_online()">
+                        <a t-att-href="inv.get_online_payment_portal_url()"
+                           target="_blank"
+                           class="btn btn-sm btn-primary"
+                           role="button">
+                            <i class="fa fa-credit-card me-1"/>
+                            Pay Online
+                        </a>
+                    </t>
+                    <t t-elif="inv.account_move_id and inv.amount_outstanding > 0">
+                        <small class="text-muted">
+                            Online payment unavailable
+                        </small>
+                    </t>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
