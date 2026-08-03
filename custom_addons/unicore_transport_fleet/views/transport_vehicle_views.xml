@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_unicore_transport_vehicle_form_fleet_ext"
+            model="ir.ui.view">
+        <field name="name">unicore.transport.vehicle.form.fleet.ext</field>
+        <field name="model">unicore.transport.vehicle</field>
+        <field name="inherit_id" ref="unicore_transport.view_unicore_transport_vehicle_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_fleet_vehicle"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-car"
+                        invisible="not fleet_vehicle_id">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Fleet Vehicle</span>
+                    </div>
+                </button>
+                <button name="action_sync_to_fleet"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-link"
+                        invisible="fleet_vehicle_id"
+                        groups="unicore_base.group_unicore_admin,unicore_base.group_unicore_manager">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Link to Fleet</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
