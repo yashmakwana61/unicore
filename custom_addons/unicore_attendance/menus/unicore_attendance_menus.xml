@@ -5,8 +5,7 @@
         <menuitem id="menu_unicore_attendance"
                   name="Attendance"
                   sequence="80"
-                  web_icon="unicore_attendance,static/description/icon.png"
-                  groups="unicore_base.group_unicore_faculty"/>
+                  web_icon="unicore_attendance,static/description/icon.png"/>
 
         <menuitem id="menu_unicore_attendance_my"
                   name="My Attendance"

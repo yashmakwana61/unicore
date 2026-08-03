@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_unicore_admission_applicant_form_crm_ext"
+            model="ir.ui.view">
+        <field name="name">unicore.admission.applicant.form.crm.ext</field>
+        <field name="model">unicore.admission.applicant</field>
+        <field name="inherit_id" ref="unicore_admission.admission_applicant_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_crm_lead" type="object"
+                        class="oe_stat_button" icon="fa-address-card"
+                        invisible="not crm_lead_id">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">CRM Opportunity</span>
+                    </div>
+                </button>
+                <button name="action_sync_to_crm" type="object"
+                        class="oe_stat_button" icon="fa-link"
+                        invisible="crm_lead_id"
+                        groups="unicore_base.group_unicore_admin,unicore_base.group_unicore_manager">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Link to CRM</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

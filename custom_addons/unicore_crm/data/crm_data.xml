@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="crm_team_admissions" model="crm.team">
+        <field name="name">Admissions</field>
+    </record>
+
+    <record id="crm_stage_inquiry" model="crm.stage">
+        <field name="name">Inquiry</field>
+        <field name="sequence">10</field>
+        <field name="uni_admission_state">inquiry</field>
+        <field name="team_ids" eval="[(4, ref('crm_team_admissions'))]"/>
+    </record>
+
+    <record id="crm_stage_applied" model="crm.stage">
+        <field name="name">Applied</field>
+        <field name="sequence">20</field>
+        <field name="uni_admission_state">applied</field>
+        <field name="team_ids" eval="[(4, ref('crm_team_admissions'))]"/>
+    </record>
+
+    <record id="crm_stage_documents_pending" model="crm.stage">
+        <field name="name">Documents Pending</field>
+        <field name="sequence">30</field>
+        <field name="uni_admission_state">documents_pending</field>
+        <field name="team_ids" eval="[(4, ref('crm_team_admissions'))]"/>
+    </record>
+
+    <record id="crm_stage_under_review" model="crm.stage">
+        <field name="name">Under Review</field>
+        <field name="sequence">40</field>
+        <field name="uni_admission_state">under_review</field>
+        <field name="team_ids" eval="[(4, ref('crm_team_admissions'))]"/>
+    </record>
+
+    <record id="crm_stage_shortlisted" model="crm.stage">
+        <field name="name">Shortlisted</field>
+        <field name="sequence">50</field>
+        <field name="uni_admission_state">shortlisted</field>
+        <field name="team_ids" eval="[(4, ref('crm_team_admissions'))]"/>
+    </record>
+
+    <record id="crm_stage_entrance_scheduled" model="crm.stage">
+        <field name="name">Entrance Scheduled</field>
+        <field name="sequence">60</field>
+        <field name="uni_admission_state">entrance_scheduled</field>
+        <field name="team_ids" eval="[(4, ref('crm_team_admissions'))]"/>
+    </record>
+
+    <record id="crm_stage_merit_listed" model="crm.stage">
+        <field name="name">Merit Listed</field>
+        <field name="sequence">70</field>
+        <field name="uni_admission_state">merit_listed</field>
+        <field name="team_ids" eval="[(4, ref('crm_team_admissions'))]"/>
+    </record>
+
+    <record id="crm_stage_offer_sent" model="crm.stage">
+        <field name="name">Offer Sent</field>
+        <field name="sequence">80</field>
+        <field name="uni_admission_state">offer_sent</field>
+        <field name="team_ids" eval="[(4, ref('crm_team_admissions'))]"/>
+    </record>
+
+    <record id="crm_stage_fee_pending" model="crm.stage">
+        <field name="name">Fee Pending</field>
+        <field name="sequence">90</field>
+        <field name="uni_admission_state">fee_pending</field>
+        <field name="team_ids" eval="[(4, ref('crm_team_admissions'))]"/>
+    </record>
+
+    <record id="crm_stage_confirmed" model="crm.stage">
+        <field name="name">Confirmed</field>
+        <field name="sequence">100</field>
+        <field name="uni_admission_state">confirmed</field>
+        <field name="team_ids" eval="[(4, ref('crm_team_admissions'))]"/>
+        <field name="is_won">True</field>
+    </record>
+
+    <record id="crm_stage_rejected" model="crm.stage">
+        <field name="name">Rejected</field>
+        <field name="sequence">110</field>
+        <field name="uni_admission_state">rejected</field>
+        <field name="team_ids" eval="[(4, ref('crm_team_admissions'))]"/>
+    </record>
+
+    <record id="crm_stage_withdrawn" model="crm.stage">
+        <field name="name">Withdrawn</field>
+        <field name="sequence">120</field>
+        <field name="uni_admission_state">withdrawn</field>
+        <field name="team_ids" eval="[(4, ref('crm_team_admissions'))]"/>
+    </record>
+
+    <record id="crm_stage_waitlisted" model="crm.stage">
+        <field name="name">Waitlisted</field>
+        <field name="sequence">130</field>
+        <field name="uni_admission_state">waitlisted</field>
+        <field name="team_ids" eval="[(4, ref('crm_team_admissions'))]"/>
+    </record>
+
+</odoo>
