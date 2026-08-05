@@ -21,6 +21,16 @@
         <t t-set="text">Active Courses</t>
       </t>
     </xpath>
+    <xpath expr="//div[hasclass('o_portal_docs')]"
+           position="inside">
+      <t t-call="portal.portal_docs_entry">
+        <t t-set="title">Assignments</t>
+        <t t-set="url">/my/unicore/student/assignments</t>
+        <t t-set="placeholder_count">unicore_assignments</t>
+        <t t-set="count" t-value="unicore_assignments or 0"/>
+        <t t-set="text">Pending Assignments</t>
+      </t>
+    </xpath>
   </template>
 
   <!--
@@ -64,6 +74,12 @@
                  href="/my/unicore/student/attendance">
                 <i class="fa fa-calendar-check-o fa-fw"></i>
                 <span>Attendance</span>
+              </a>
+              <a class="nav-link unicore-nav-item"
+                 t-att-class="'active' if page_name in ('student_assignments','student_assignment_detail') else ''"
+                 href="/my/unicore/student/assignments">
+                <i class="fa fa-tasks fa-fw"></i>
+                <span>Assignments</span>
               </a>
               <a class="nav-link unicore-nav-item"
                  t-att-class="'active' if page_name == 'student_exams' else ''"

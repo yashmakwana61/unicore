@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================================ -->
+    <!-- VIEWS: unicore.asset                                         -->
+    <!-- ============================================================ -->
+
+    <!-- ======================== FORM ======================== -->
+    <record id="view_unicore_asset_form" model="ir.ui.view">
+        <field name="name">unicore.asset.form</field>
+        <field name="model">unicore.asset</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="asset_state" widget="statusbar"
+                           statusbar_visible="available,in_use,maintenance,retired"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_requests" type="object"
+                                class="oe_stat_button" icon="fa-tasks">
+                            <field name="request_count" string="Requests" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="Asset Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Details">
+                            <field name="code"/>
+                            <field name="asset_type"/>
+                            <field name="description" widget="text"/>
+                            <field name="image" widget="image"/>
+                        </group>
+                        <group string="Location">
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="campus_id"/>
+                            <field name="building_id"/>
+                            <field name="room_id"/>
+                        </group>
+                        <group string="Inventory">
+                            <field name="quantity_total"/>
+                            <field name="quantity_available"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Requests" name="requests">
+                            <field name="current_request_ids" readonly="1"/>
+                        </page>
+                        <page string="Chatter" name="chatter">
+                            <field name="message_follower_ids"/>
+                            <field name="activity_ids"/>
+                            <field name="message_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ======================== LIST ======================== -->
+    <record id="view_unicore_asset_list" model="ir.ui.view">
+        <field name="name">unicore.asset.list</field>
+        <field name="model">unicore.asset</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="asset_type"/>
+                <field name="campus_id"/>
+                <field name="building_id"/>
+                <field name="quantity_total"/>
+                <field name="quantity_available"/>
+                <field name="asset_state" widget="badge"
+                       decoration-success="asset_state == 'available'"
+                       decoration-warning="asset_state == 'in_use'"
+                       decoration-danger="asset_state == 'maintenance'"
+                       decoration-muted="asset_state == 'retired'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ======================== SEARCH ======================== -->
+    <record id="view_unicore_asset_search" model="ir.ui.view">
+        <field name="name">unicore.asset.search</field>
+        <field name="model">unicore.asset</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="asset_type"/>
+                <field name="campus_id"/>
+                <field name="building_id"/>
+                <separator/>
+                <filter string="Available" name="available"
+                        domain="[('asset_state', '=', 'available')]"/>
+                <filter string="In Use" name="in_use"
+                        domain="[('asset_state', '=', 'in_use')]"/>
+                <filter string="Under Maintenance" name="maintenance"
+                        domain="[('asset_state', '=', 'maintenance')]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Asset Type" name="group_type"
+                            context="{'group_by': 'asset_type'}"/>
+                    <filter string="Campus" name="group_campus"
+                            context="{'group_by': 'campus_id'}"/>
+                    <filter string="Building" name="group_building"
+                            context="{'group_by': 'building_id'}"/>
+                    <filter string="Status" name="group_state"
+                            context="{'group_by': 'asset_state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ======================== ACTION ======================== -->
+    <record id="action_unicore_asset" model="ir.actions.act_window">
+        <field name="name">Assets</field>
+        <field name="res_model">unicore.asset</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_unicore_asset_search"/>
+        <field name="context">{'search_default_available': 0}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first asset
+            </p>
+            <p>
+                Register physical equipment and assets that can be
+                requested by faculty and staff.
+            </p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!--
+  =====================================================
+  TEMPLATE: MY ASSIGNMENTS (list per offering)
+  =====================================================
+  -->
+  <template id="portal_faculty_assignments"
+            name="My Assignments">
+    <t t-call="unicore_portal_faculty.portal_faculty_layout">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h4 class="mb-0">My Assignments</h4>
+          <span class="text-muted">
+            <t t-esc="total_assignments"/> assignment(s)
+          </span>
+        </div>
+
+        <t t-if="not offering_data">
+          <div class="alert alert-info">
+            You have no active courses to create assignments for.
+          </div>
+        </t>
+
+        <t t-foreach="offering_data" t-as="off_data">
+          <div class="card mb-3">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <strong>
+                <t t-esc="off_data['offering'].course_id.code"/> —
+                <t t-esc="off_data['offering'].course_id.name"/>
+                <span class="badge bg-light text-dark ms-2">
+                  <t t-esc="off_data['offering'].section_code or 'Section'"/>
+                </span>
+              </strong>
+              <div>
+                <span class="badge bg-secondary me-2">
+                  <t t-esc="off_data['assignment_count']"/> assignment(s)
+                </span>
+                <a t-attf-href="/my/unicore/faculty/assignments/new/#{off_data['offering'].id}"
+                   class="btn btn-sm btn-primary">
+                  <i class="fa fa-plus"/> New Assignment
+                </a>
+              </div>
+            </div>
+            <div class="card-body">
+              <t t-if="off_data['assignments']">
+                <table class="table table-sm table-hover mb-0">
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Type</th>
+                      <th>Due Date</th>
+                      <th>Max Marks</th>
+                      <th>Status</th>
+                      <th class="text-center">Submissions</th>
+                      <th class="text-center">Graded</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <t t-foreach="off_data['assignments']" t-as="assignment">
+                      <tr>
+                        <td>
+                          <a t-attf-href="/my/unicore/faculty/assignments/#{assignment.id}">
+                            <t t-esc="assignment.title"/>
+                          </a>
+                        </td>
+                        <td><t t-esc="assignment.assignment_type"/></td>
+                        <td><t t-esc="assignment.due_date"/></td>
+                        <td><t t-esc="assignment.max_marks"/></td>
+                        <td>
+                          <span t-att-class="'badge ' + ('bg-success' if assignment.assignment_state == 'published' else ('bg-warning text-dark' if assignment.assignment_state == 'draft' else 'bg-dark'))">
+                            <t t-esc="assignment.assignment_state"/>
+                          </span>
+                        </td>
+                        <td class="text-center">
+                          <t t-esc="assignment.submitted_count"/>
+                        </td>
+                        <td class="text-center">
+                          <t t-esc="assignment.graded_count"/>
+                        </td>
+                        <td class="text-end">
+                          <a t-attf-href="/my/unicore/faculty/assignments/#{assignment.id}"
+                             class="btn btn-sm btn-outline-primary">
+                            View
+                          </a>
+                        </td>
+                      </tr>
+                    </t>
+                  </tbody>
+                </table>
+              </t>
+              <t t-else="">
+                <p class="text-muted mb-0">
+                  No assignments yet for this course.
+                </p>
+              </t>
+            </div>
+          </div>
+        </t>
+      </div>
+    </t>
+  </template>
+
+  <!--
+  =====================================================
+  TEMPLATE: CREATE ASSIGNMENT
+  =====================================================
+  -->
+  <template id="portal_faculty_assignment_create"
+            name="Create Assignment">
+    <t t-call="unicore_portal_faculty.portal_faculty_layout">
+      <div class="container">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="/my/unicore/faculty/assignments">Assignments</a>
+            </li>
+            <li class="breadcrumb-item active">New Assignment</li>
+          </ol>
+        </nav>
+
+        <div class="card mb-3">
+          <div class="card-header">
+            <h4 class="mb-0">
+              New Assignment —
+              <t t-esc="offering.course_id.code"/> /
+              <t t-esc="offering.course_id.name"/>
+            </h4>
+          </div>
+          <div class="card-body">
+            <form t-attf-action="/my/unicore/faculty/assignments/new/#{offering.id}/save"
+                  method="post">
+              <input type="hidden" name="csrf_token"
+                     t-att-value="csrf_token"/>
+
+              <div class="mb-3">
+                <label class="form-label">Title *</label>
+                <input type="text" class="form-control" name="title"
+                       required="required"
+                       placeholder="e.g. Week 4 — Data Structures Lab"/>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Assignment Type</label>
+                  <select class="form-select" name="assignment_type">
+                    <t t-foreach="assignment_types" t-as="atype">
+                      <option t-att-value="atype[0]">
+                        <t t-esc="atype[1]"/>
+                      </option>
+                    </t>
+                  </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Rubric (optional)</label>
+                  <select class="form-select" name="rubric_id">
+                    <option value="">— No rubric —</option>
+                    <t t-foreach="rubrics" t-as="rubric">
+                      <option t-att-value="rubric.id">
+                        <t t-esc="rubric.name"/>
+                        (<t t-esc="rubric.total_points"/> pts)
+                      </option>
+                    </t>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label class="form-label">Maximum Marks *</label>
+                  <input type="number" class="form-control"
+                         name="max_marks" step="0.01" min="0"
+                         value="10" required="required"/>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label class="form-label">Pass Marks</label>
+                  <input type="number" class="form-control"
+                         name="pass_marks" step="0.01" min="0" value="0"/>
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label class="form-label">Due Date *</label>
+                  <input type="date" class="form-control" name="due_date"
+                         required="required"/>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Due Time</label>
+                  <input type="time" class="form-control" name="due_time"
+                         value="23:59"/>
+                </div>
+                <div class="col-md-6 mb-3 d-flex align-items-end">
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox"
+                           name="is_late_submission_allowed"
+                           id="late_switch" checked="checked"/>
+                    <label class="form-check-label" for="late_switch">
+                      Allow late submissions
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Late Penalty (%)</label>
+                <input type="number" class="form-control"
+                       name="late_penalty_percent" step="0.01" min="0"
+                       value="0"/>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea class="form-control" rows="5"
+                          name="description"
+                          placeholder="Instructions, requirements, references..."/>
+              </div>
+
+              <div class="d-flex gap-2">
+                <button type="submit" name="action" value="save"
+                        class="btn btn-primary">
+                  <i class="fa fa-save"/> Save as Draft
+                </button>
+                <button type="submit" name="action" value="publish"
+                        class="btn btn-success">
+                  <i class="fa fa-paper-plane"/> Save &amp; Publish
+                </button>
+                <a href="/my/unicore/faculty/assignments"
+                   class="btn btn-outline-secondary">Cancel</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </t>
+  </template>
+
+  <!--
+  =====================================================
+  TEMPLATE: ASSIGNMENT DETAIL (submissions)
+  =====================================================
+  -->
+  <template id="portal_faculty_assignment_detail"
+            name="Assignment Detail">
+    <t t-call="unicore_portal_faculty.portal_faculty_layout">
+      <div class="container">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="/my/unicore/faculty/assignments">Assignments</a>
+            </li>
+            <li class="breadcrumb-item active">
+              <t t-esc="assignment.title"/>
+            </li>
+          </ol>
+        </nav>
+
+        <div class="card mb-3">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">
+              <t t-esc="assignment.course_id.code"/> —
+              <t t-esc="assignment.title"/>
+            </h4>
+            <span t-att-class="'badge ' + ('bg-success' if assignment.assignment_state == 'published' else ('bg-warning text-dark' if assignment.assignment_state == 'draft' else 'bg-dark'))">
+              <t t-esc="assignment.assignment_state"/>
+            </span>
+          </div>
+          <div class="card-body">
+            <div class="row mb-3">
+              <div class="col-md-3">
+                <div class="border rounded p-2 text-center">
+                  <div class="text-muted small">Due</div>
+                  <div>
+                    <t t-esc="assignment.due_date"/>
+                    <t t-if="assignment.due_time"> at <t t-esc="assignment.due_time"/></t>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="border rounded p-2 text-center">
+                  <div class="text-muted small">Max Marks</div>
+                  <div><t t-esc="assignment.max_marks"/></div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="border rounded p-2 text-center">
+                  <div class="text-muted small">Enrolled</div>
+                  <div><t t-esc="len(enrollments)"/></div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="border rounded p-2 text-center">
+                  <div class="text-muted small">Graded</div>
+                  <div><t t-esc="assignment.graded_count"/> / <t t-esc="assignment.submitted_count"/></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-end mb-2">
+              <a t-attf-href="/my/unicore/faculty/assignments/new/#{assignment.course_offering_id.id}"
+                 class="btn btn-sm btn-outline-primary">
+                <i class="fa fa-plus"/> New Assignment
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">Student Submissions</h5>
+          </div>
+          <div class="card-body">
+            <table class="table table-sm table-hover">
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Status</th>
+                  <th>Submitted</th>
+                  <th>Late</th>
+                  <th>Marks</th>
+                  <th>%</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <t t-foreach="enrollments" t-as="enr">
+                  <t t-set="sub" t-value="submission_map.get(enr.student_id.id, False)"/>
+                  <tr>
+                    <td>
+                      <t t-esc="enr.student_id.display_name"/>
+                    </td>
+                    <td>
+                      <t t-if="sub">
+                        <span t-att-class="'badge ' + ('bg-success' if sub.state == 'graded' else ('bg-warning text-dark' if sub.state == 'late' else ('bg-info' if sub.state == 'submitted' else 'bg-secondary')))">
+                          <t t-esc="sub.state"/>
+                        </span>
+                      </t>
+                      <t t-else="">
+                        <span class="badge bg-light text-dark">no submission</span>
+                      </t>
+                    </td>
+                    <td>
+                      <t t-esc="sub.submission_date if sub else '—'"/>
+                    </td>
+                    <td>
+                      <t t-if="sub and sub.is_late">
+                        <i class="fa fa-exclamation-triangle text-danger"/>
+                      </t>
+                      <t t-else="">—</t>
+                    </td>
+                    <td>
+                      <t t-esc="sub.marks_obtained if sub and sub.state == 'graded' else '—'"/>
+                    </td>
+                    <td>
+                      <t t-esc="sub.marks_percentage if sub and sub.state == 'graded' else '—'"/>
+                    </td>
+                    <td class="text-end">
+                      <t t-if="sub and sub.state in ('submitted','late','graded','returned')">
+                        <a t-attf-href="/my/unicore/faculty/assignments/#{assignment.id}/grade/#{sub.id}"
+                           class="btn btn-sm btn-outline-primary">
+                          <t t-esc="'Regrade' if sub.state == 'graded' else 'Grade'"/>
+                        </a>
+                      </t>
+                    </td>
+                  </tr>
+                </t>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </t>
+  </template>
+
+  <!--
+  =====================================================
+  TEMPLATE: GRADE SUBMISSION
+  =====================================================
+  -->
+  <template id="portal_faculty_assignment_grade"
+            name="Grade Submission">
+    <t t-call="unicore_portal_faculty.portal_faculty_layout">
+      <div class="container">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="/my/unicore/faculty/assignments">Assignments</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a t-attf-href="/my/unicore/faculty/assignments/#{assignment.id}">
+                <t t-esc="assignment.title"/>
+              </a>
+            </li>
+            <li class="breadcrumb-item active">
+              <t t-esc="submission.student_id.display_name"/>
+            </li>
+          </ol>
+        </nav>
+
+        <div class="row">
+          <div class="col-md-5">
+            <!-- Submission details -->
+            <div class="card mb-3">
+              <div class="card-header">
+                <h5 class="mb-0">Submission</h5>
+              </div>
+              <div class="card-body">
+                <p class="mb-1">
+                  <strong>Student:</strong>
+                  <t t-esc="submission.student_id.display_name"/>
+                </p>
+                <p class="mb-1">
+                  <strong>Submitted:</strong>
+                  <t t-esc="submission.submission_date"/>
+                </p>
+                <p class="mb-1">
+                  <strong>Status:</strong>
+                  <span t-att-class="'badge ' + ('bg-warning text-dark' if submission.state == 'late' else 'bg-info')">
+                    <t t-esc="submission.state"/>
+                  </span>
+                  <t t-if="submission.is_late">
+                    <span class="badge bg-danger">late</span>
+                  </t>
+                </p>
+                <p class="mb-1">
+                  <strong>Attempt:</strong>
+                  <t t-esc="submission.attempt_count"/>
+                </p>
+                <t t-if="submission.submission_text">
+                  <hr/>
+                  <strong>Student Notes:</strong>
+                  <p class="text-muted">
+                    <t t-esc="submission.submission_text"/>
+                  </p>
+                </t>
+                <t t-if="submission.submission_file">
+                  <a t-attf-href="/web/content/unicore.assignment.submission/#{submission.id}/submission_file?download=true&amp;filename=#{submission.submission_filename}"
+                     class="btn btn-outline-primary btn-sm mt-2">
+                    <i class="fa fa-download"/> Download submission
+                  </a>
+                </t>
+                <t t-else="">
+                  <p class="text-muted mt-2 mb-0">
+                    No file uploaded — graded on notes only.
+                  </p>
+                </t>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-7">
+            <!-- Grading form -->
+            <div class="card mb-3">
+              <div class="card-header">
+                <h5 class="mb-0">Grade</h5>
+              </div>
+              <div class="card-body">
+                <form t-attf-action="/my/unicore/faculty/assignments/#{assignment.id}/grade/#{submission.id}/save"
+                      method="post">
+                  <input type="hidden" name="csrf_token"
+                         t-att-value="csrf_token"/>
+
+                  <div class="row mb-3">
+                    <div class="col-md-6">
+                      <label class="form-label">Marks Obtained</label>
+                      <input type="number" class="form-control"
+                             name="marks_obtained" step="0.01" min="0"
+                             t-att-value="submission.marks_obtained if submission.state == 'graded' else ''"/>
+                      <div class="form-text">
+                        Max: <t t-esc="assignment.max_marks"/>
+                        <t t-if="assignment.rubric_id">
+                          (Rubric total: <t t-esc="assignment.rubric_id.total_points"/>)
+                        </t>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">Previous</label>
+                      <div class="border rounded p-2 text-center">
+                        <t t-if="submission.state == 'graded'">
+                          <t t-esc="submission.marks_obtained"/> / <t t-esc="assignment.max_marks"/>
+                          (<t t-esc="submission.grade_letter or '—'"/>)
+                        </t>
+                        <t t-else="">Not graded yet</t>
+                      </div>
+                    </div>
+                  </div>
+
+                  <t t-if="assignment.rubric_id and assignment.rubric_id.criterion_ids">
+                    <h6>Rubric Evaluation</h6>
+                    <table class="table table-sm table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Criterion</th>
+                          <th class="text-center">Max</th>
+                          <th class="text-center">Points Awarded</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <t t-foreach="assignment.rubric_id.criterion_ids"
+                           t-as="criterion">
+                          <tr>
+                            <td>
+                              <t t-esc="criterion.name"/>
+                              <t t-if="criterion.description">
+                                <div class="text-muted small">
+                                  <t t-esc="criterion.description"/>
+                                </div>
+                              </t>
+                            </td>
+                            <td class="text-center">
+                              <t t-esc="criterion.max_points"/>
+                            </td>
+                            <td class="text-center" style="width: 120px;">
+                              <input type="number" class="form-control form-control-sm"
+                                     step="0.01" min="0"
+                                     t-att-name="'criterion_' + str(criterion.id)"
+                                     t-att-value="submission.rubric_evaluation_ids.filtered(lambda l: l.criterion_id.id == criterion.id).points_awarded if submission.rubric_evaluation_ids.filtered(lambda l: l.criterion_id.id == criterion.id) else 0"/>
+                            </td>
+                          </tr>
+                        </t>
+                      </tbody>
+                    </table>
+                  </t>
+
+                  <div class="mb-3">
+                    <label class="form-label">Feedback</label>
+                    <textarea class="form-control" rows="4"
+                              name="feedback"
+                              placeholder="Write constructive feedback...">
+<t t-esc="submission.feedback or ''"/></textarea>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">
+                      Annotations (JSON)
+                      <span class="text-muted small">
+                        — positional comments against the submitted file
+                      </span>
+                    </label>
+                    <textarea class="form-control font-monospace"
+                              rows="4" name="annotations"
+                              placeholder='[{"page":1,"x":120,"y":340,"text":"Revisit this"}]'><t t-esc="submission.annotations or ''"/></textarea>
+                    <div class="form-text">
+                      Stored as JSON for v1. A PDF-markup editor is a
+                      future enhancement.
+                    </div>
+                  </div>
+
+                  <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-success">
+                      <i class="fa fa-check"/> Save Grade
+                    </button>
+                    <a t-attf-href="/my/unicore/faculty/assignments/#{assignment.id}"
+                       class="btn btn-outline-secondary">Back</a>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </t>
+  </template>
+
+</odoo>

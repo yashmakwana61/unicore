@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_unicore_notice_tree" model="ir.ui.view">
+        <field name="name">unicore.notice.list</field>
+        <field name="model">unicore.notice</field>
+        <field name="arch" type="xml">
+            <list string="Notices" sample="1">
+                <field name="title"/>
+                <field name="notice_type"/>
+                <field name="audience"/>
+                <field name="publish_date"/>
+                <field name="expiry_date"/>
+                <field name="pinned"/>
+                <field name="active"/>
+                <field name="company_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_unicore_notice_form" model="ir.ui.view">
+        <field name="name">unicore.notice.form</field>
+        <field name="model">unicore.notice</field>
+        <field name="arch" type="xml">
+            <form string="Notice">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="title"/>
+                            <field name="notice_type"/>
+                            <field name="audience"/>
+                            <field name="publish_date"/>
+                            <field name="expiry_date"/>
+                        </group>
+                        <group>
+                            <field name="publisher_id"/>
+                            <field name="company_id"/>
+                            <field name="pinned"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Content">
+                            <field name="body"/>
+                        </page>
+                        <page string="Attachment">
+                            <field name="attachment_name" invisible="1"/>
+                            <field name="attachment" filename="attachment_name"/>
+                        </page>
+                        <page string="Targeting">
+                            <field name="campus_ids"/>
+                            <field name="program_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_unicore_notice_search" model="ir.ui.view">
+        <field name="name">unicore.notice.search</field>
+        <field name="model">unicore.notice</field>
+        <field name="arch" type="xml">
+            <search string="Search Notices">
+                <field name="title"/>
+                <field name="body"/>
+                <filter string="Pinned" name="pinned" domain="[('pinned','=',True)]"/>
+                <filter string="Active" name="active" domain="[('active','=',True)]"/>
+                <separator/>
+                <filter string="General" name="general" domain="[('notice_type','=','general')]"/>
+                <filter string="Academic" name="academic" domain="[('notice_type','=','academic')]"/>
+                <filter string="Exam" name="exam" domain="[('notice_type','=','exam')]"/>
+                <filter string="Fee" name="fee" domain="[('notice_type','=','fee')]"/>
+                <filter string="Event" name="event" domain="[('notice_type','=','event')]"/>
+                <group name="groupby">
+                    <filter string="Notice Type" name="group_notice_type" context="{'group_by':'notice_type'}"/>
+                    <filter string="Audience" name="group_audience" context="{'group_by':'audience'}"/>
+                    <filter string="Company" name="group_company" context="{'group_by':'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_unicore_notice" model="ir.actions.act_window">
+        <field name="name">Notices</field>
+        <field name="res_model">unicore.notice</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

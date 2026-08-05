@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ============================================================ -->
+        <!-- LEVEL 2: Top-Level Menu (sequence 87)                        -->
+        <!-- ============================================================ -->
+
+        <menuitem id="menu_unicore_gradebook"
+                  name="Grade Book"
+                  parent="unicore_base.menu_unicore_root"
+                  sequence="87"
+                  groups="unicore_base.group_unicore_faculty,unicore_base.group_unicore_admin"/>
+
+        <!-- ============================================================ -->
+        <!-- LEVEL 3: Sub-menus under Grade Book                          -->
+        <!-- ============================================================ -->
+
+        <menuitem id="menu_unicore_gradebook_all"
+                  name="All Grade Books"
+                  parent="menu_unicore_gradebook"
+                  action="action_unicore_gradebook_all"
+                  sequence="10"
+                  groups="unicore_base.group_unicore_faculty,unicore_base.group_unicore_admin"/>
+
+        <menuitem id="menu_unicore_gradebook_my"
+                  name="My Grade Books"
+                  parent="menu_unicore_gradebook"
+                  action="action_unicore_gradebook_my"
+                  sequence="20"
+                  groups="unicore_base.group_unicore_faculty"/>
+
+        <menuitem id="menu_unicore_gradebook_pending"
+                  name="Pending Grade Entry Sync"
+                  parent="menu_unicore_gradebook"
+                  action="action_unicore_gradebook_student_line_pending"
+                  sequence="30"
+                  groups="unicore_base.group_unicore_faculty,unicore_base.group_unicore_admin"/>
+
+        <menuitem id="menu_unicore_gradebook_scores"
+                  name="Assignment Scores"
+                  parent="menu_unicore_gradebook"
+                  action="action_unicore_gradebook_assignment_line_all"
+                  sequence="40"
+                  groups="unicore_base.group_unicore_faculty,unicore_base.group_unicore_admin"/>
+
+        <menuitem id="menu_unicore_my_assignment_scores"
+                  name="My Assignment Scores"
+                  parent="menu_unicore_gradebook"
+                  action="action_unicore_gradebook_assignment_line_my"
+                  sequence="50"
+                  groups="unicore_base.group_unicore_student"/>
+
+    </data>
+</odoo>

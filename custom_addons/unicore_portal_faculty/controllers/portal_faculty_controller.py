@@ -6,13 +6,19 @@ the currently logged-in faculty member.
 Faculty can write attendance and submit grades.
 """
 
+from datetime import date, datetime
+
 from odoo import http, _
 from odoo.http import request
 from odoo.addons.portal.controllers.portal import (
     CustomerPortal
 )
-from odoo.exceptions import AccessError
+from odoo.exceptions import AccessError, UserError
 from werkzeug.exceptions import NotFound
+import json
+import logging
+
+_logger = logging.getLogger(__name__)
 
 
 class UniCoreFacultyPortal(CustomerPortal):
@@ -38,23 +44,18 @@ class UniCoreFacultyPortal(CustomerPortal):
                          ['open', 'ongoing']),
                     ])
                 )
+            if 'unicore_faculty_assignments' in counters:
+                values['unicore_faculty_assignments'] = (
+                    request.env['unicore.assignment']
+                    .sudo()
+                    .search_count([
+                        ('faculty_member_id', '=',
+                         faculty.id),
+                        ('assignment_state', '=',
+                         'published'),
+                    ])
+                )
         return values
-
-    def _get_current_faculty(self):
-        """
-        Find unicore.faculty.member linked to current user
-        via partner_id. Works for both internal users
-        and portal users.
-        """
-        partner = request.env.user.partner_id
-        faculty = (
-            request.env['unicore.faculty.member']
-            .sudo()
-            .search([
-                ('partner_id', '=', partner.id),
-            ], limit=1)
-        )
-        return faculty
 
     def _get_current_faculty(self):
         """
@@ -825,4 +826,534 @@ class UniCoreFacultyPortal(CustomerPortal):
             'unicore_portal_faculty'
             '.portal_faculty_profile',
             values,
+        )
+
+    # ===================================================
+    # ROUTE: MY NOTICES
+    # ===================================================
+
+    @http.route(
+        '/my/unicore/faculty/notices',
+        type='http',
+        auth='user',
+        website=True,
+    )
+    def faculty_notices(self, page=1, date_begin=None, date_end=None, **kwargs):
+        faculty = self._faculty_required()
+        if not isinstance(
+            faculty,
+            request.env['unicore.faculty.member'].__class__
+        ):
+            return faculty
+
+        Notice = request.env['unicore.notice'].sudo()
+        notices = Notice.search([
+            ('publisher_id', '!=', False),
+        ], order='pinned desc, publish_date desc')
+
+        today = date.today()
+        notices = notices.filtered(
+            lambda n: not n.expiry_date or n.expiry_date >= today
+        )
+
+        faculty_campus_ids = faculty.campus_ids.ids if faculty else []
+        notices = notices.filtered(
+            lambda n: n.audience == 'all'
+            or (n.audience == 'faculty')
+            or (n.audience == 'specific'
+                and any(c.id in faculty_campus_ids for c in n.campus_ids))
+        )
+
+        notice_count = len(notices)
+        pager = portal_pager(
+            url='/my/unicore/faculty/notices',
+            total=notice_count,
+            page=page,
+            step=20,
+        )
+        notices = notices[(pager['offset']):(pager['offset'] + pager['step'])]
+
+        values = {
+            'faculty': faculty,
+            'notices': notices,
+            'page_name': 'faculty_notices',
+            'pager': pager,
+            'date_begin': date_begin,
+            'date_end': date_end,
+        }
+        return request.render(
+            'unicore_notice_board.portal_faculty_notices',
+            values,
+        )
+
+    # ===================================================
+    # ROUTE: MY ASSIGNMENTS (list per offering)
+    # ===================================================
+
+    @http.route(
+        '/my/unicore/faculty/assignments',
+        type='http',
+        auth='user',
+        website=True,
+    )
+    def faculty_assignments(self, **kwargs):
+        """
+        List all assignments grouped by course offering for
+        the current faculty member, with submission stats.
+        """
+        faculty = self._faculty_required()
+        if not isinstance(
+            faculty,
+            request.env['unicore.faculty.member'].__class__
+        ):
+            return faculty
+
+        offerings = self._get_faculty_offerings(faculty)
+        offering_ids = offerings.ids
+
+        Assignment = request.env['unicore.assignment'].sudo()
+        assignments = Assignment.search([
+            ('course_offering_id', 'in', offering_ids),
+        ], order='due_date desc')
+
+        # group by offering
+        offering_data = []
+        for offering in offerings:
+            off_assignments = assignments.filtered(
+                lambda a: a.course_offering_id.id == offering.id
+            )
+            offering_data.append({
+                'offering': offering,
+                'assignments': off_assignments,
+                'assignment_count': len(off_assignments),
+            })
+
+        values = {
+            'faculty': faculty,
+            'offerings': offerings,
+            'offering_data': offering_data,
+            'assignments': assignments,
+            'total_assignments': len(assignments),
+            'pending_grading': assignments.mapped(
+                'submission_ids'
+            ).filtered(
+                lambda s: s.state in ('submitted', 'late')
+            ),
+            'page_name': 'faculty_assignments',
+        }
+        return request.render(
+            'unicore_portal_faculty'
+            '.portal_faculty_assignments',
+            values,
+        )
+
+    # ===================================================
+    # ROUTE: CREATE ASSIGNMENT (GET — form)
+    # ===================================================
+
+    @http.route(
+        '/my/unicore/faculty/assignments/new/'
+        '<int:offering_id>',
+        type='http',
+        auth='user',
+        website=True,
+    )
+    def faculty_assignment_create(self, offering_id,
+                                   **kwargs):
+        """
+        Create a new assignment for a course offering.
+        """
+        faculty = self._faculty_required()
+        if not isinstance(
+            faculty,
+            request.env['unicore.faculty.member'].__class__
+        ):
+            return faculty
+
+        Offering = request.env[
+            'unicore.course.offering'
+        ].sudo()
+        offering = Offering.browse(offering_id)
+        if not offering.exists():
+            raise NotFound()
+        if offering.faculty_member_id.id != faculty.id:
+            raise AccessError(
+                _('You do not teach this course.')
+            )
+
+        Rubric = request.env['unicore.assignment.rubric'].sudo()
+        rubrics = Rubric.search([
+            ('company_id', '=', offering.company_id.id),
+        ])
+
+        values = {
+            'faculty': faculty,
+            'offering': offering,
+            'rubrics': rubrics,
+            'assignment_types': [
+                ('homework', 'Homework'),
+                ('project', 'Project'),
+                ('lab', 'Lab'),
+                ('quiz', 'Quiz'),
+            ],
+            'page_name': 'faculty_assignment_create',
+        }
+        return request.render(
+            'unicore_portal_faculty'
+            '.portal_faculty_assignment_create',
+            values,
+        )
+
+    # ===================================================
+    # ROUTE: CREATE ASSIGNMENT (POST — save)
+    # ===================================================
+
+    @http.route(
+        '/my/unicore/faculty/assignments/new/'
+        '<int:offering_id>/save',
+        type='http',
+        auth='user',
+        website=True,
+        methods=['POST'],
+        csrf=True,
+    )
+    def faculty_assignment_create_save(self, offering_id,
+                                        **kwargs):
+        """
+        Save a newly created assignment and optionally
+        publish it immediately.
+        """
+        faculty = self._faculty_required()
+        if not isinstance(
+            faculty,
+            request.env['unicore.faculty.member'].__class__
+        ):
+            return faculty
+
+        Offering = request.env[
+            'unicore.course.offering'
+        ].sudo()
+        offering = Offering.browse(offering_id)
+        if not offering.exists():
+            raise NotFound()
+        if offering.faculty_member_id.id != faculty.id:
+            raise AccessError(
+                _('You do not teach this course.')
+            )
+
+        title = (kwargs.get('title') or '').strip()
+        if not title:
+            raise UserError(_('Title is required.'))
+
+        try:
+            max_marks = float(kwargs.get('max_marks') or 0)
+        except (ValueError, TypeError):
+            max_marks = 0.0
+        try:
+            pass_marks = float(kwargs.get('pass_marks') or 0)
+        except (ValueError, TypeError):
+            pass_marks = 0.0
+
+        due_date_str = kwargs.get('due_date')
+        due_date = False
+        if due_date_str:
+            try:
+                due_date = datetime.strptime(
+                    due_date_str, '%Y-%m-%d'
+                ).date()
+            except ValueError:
+                due_date = False
+        if not due_date:
+            raise UserError(_('A valid due date is required.'))
+
+        assignment_type = kwargs.get('assignment_type') or 'homework'
+        description = kwargs.get('description') or ''
+        rubric_id = kwargs.get('rubric_id')
+        due_time = kwargs.get('due_time') or '23:59'
+
+        assignment_vals = {
+            'title': title,
+            'description': description,
+            'assignment_type': assignment_type,
+            'max_marks': max_marks,
+            'pass_marks': pass_marks,
+            'due_date': due_date,
+            'due_time': due_time,
+            'course_offering_id': offering.id,
+            'is_late_submission_allowed': bool(
+                kwargs.get('is_late_submission_allowed')
+            ),
+            'late_penalty_percent': float(
+                kwargs.get('late_penalty_percent') or 0
+            ),
+        }
+        if rubric_id:
+            assignment_vals['rubric_id'] = int(rubric_id)
+
+        action = kwargs.get('action', 'save')
+        if action == 'publish':
+            assignment_vals['assignment_state'] = 'published'
+
+        Assignment = request.env['unicore.assignment'].sudo()
+        assignment = Assignment.create(assignment_vals)
+
+        if action == 'publish':
+            try:
+                assignment._notify_students()
+            except Exception as e:
+                _logger.error(
+                    'Assignment notify failed: %s', str(e)
+                )
+
+        return request.redirect(
+            '/my/unicore/faculty/assignments/%d'
+            % assignment.id
+        )
+
+    # ===================================================
+    # ROUTE: ASSIGNMENT DETAIL (submissions list)
+    # ===================================================
+
+    @http.route(
+        '/my/unicore/faculty/assignments/'
+        '<int:assignment_id>',
+        type='http',
+        auth='user',
+        website=True,
+    )
+    def faculty_assignment_detail(self, assignment_id,
+                                   **kwargs):
+        """
+        Detail view of an assignment with the list of
+        student submissions and grading status.
+        """
+        faculty = self._faculty_required()
+        if not isinstance(
+            faculty,
+            request.env['unicore.faculty.member'].__class__
+        ):
+            return faculty
+
+        Assignment = request.env['unicore.assignment'].sudo()
+        assignment = Assignment.browse(assignment_id)
+        if not assignment.exists():
+            raise NotFound()
+        if assignment.faculty_member_id.id != faculty.id:
+            raise AccessError(
+                _('You do not teach this course.')
+            )
+
+        Enrollment = request.env['unicore.enrollment'].sudo()
+        enrollments = Enrollment.search([
+            ('course_offering_id', '=',
+             assignment.course_offering_id.id),
+            ('enrollment_state', '=', 'registered'),
+        ], order='student_id')
+
+        Submission = request.env[
+            'unicore.assignment.submission'
+        ].sudo()
+        submissions = Submission.search([
+            ('assignment_id', '=', assignment.id),
+        ])
+        submission_map = {
+            s.student_id.id: s for s in submissions
+        }
+
+        values = {
+            'faculty': faculty,
+            'assignment': assignment,
+            'enrollments': enrollments,
+            'submission_map': submission_map,
+            'submissions': submissions,
+            'page_name': 'faculty_assignment_detail',
+        }
+        return request.render(
+            'unicore_portal_faculty'
+            '.portal_faculty_assignment_detail',
+            values,
+        )
+
+    # ===================================================
+    # ROUTE: GRADE SUBMISSION (GET — form)
+    # ===================================================
+
+    @http.route(
+        '/my/unicore/faculty/assignments/'
+        '<int:assignment_id>/grade/<int:submission_id>',
+        type='http',
+        auth='user',
+        website=True,
+    )
+    def faculty_assignment_grade(self, assignment_id,
+                                  submission_id, **kwargs):
+        """
+        Grade form for a single submission. Shows marks,
+        feedback, rubric criteria and annotation JSON input.
+        """
+        faculty = self._faculty_required()
+        if not isinstance(
+            faculty,
+            request.env['unicore.faculty.member'].__class__
+        ):
+            return faculty
+
+        Assignment = request.env['unicore.assignment'].sudo()
+        assignment = Assignment.browse(assignment_id)
+        if not assignment.exists():
+            raise NotFound()
+        if assignment.faculty_member_id.id != faculty.id:
+            raise AccessError(
+                _('You do not teach this course.')
+            )
+
+        Submission = request.env[
+            'unicore.assignment.submission'
+        ].sudo()
+        submission = Submission.browse(submission_id)
+        if not submission.exists() or (
+                submission.assignment_id.id != assignment.id):
+            raise NotFound()
+
+        # Pre-populate rubric evaluation lines if rubric present
+        if (assignment.rubric_id
+                and not submission.rubric_evaluation_ids):
+            commands = []
+            for criterion in assignment.rubric_id.criterion_ids:
+                commands.append((0, 0, {
+                    'criterion_id': criterion.id,
+                    'points_awarded': 0.0,
+                }))
+            submission.rubric_evaluation_ids = commands
+
+        try:
+            annotations = submission.get_annotations()
+        except Exception:
+            annotations = []
+
+        values = {
+            'faculty': faculty,
+            'assignment': assignment,
+            'submission': submission,
+            'annotations': annotations,
+            'page_name': 'faculty_assignment_grade',
+        }
+        return request.render(
+            'unicore_portal_faculty'
+            '.portal_faculty_assignment_grade',
+            values,
+        )
+
+    # ===================================================
+    # ROUTE: GRADE SUBMISSION (POST — save)
+    # ===================================================
+
+    @http.route(
+        '/my/unicore/faculty/assignments/'
+        '<int:assignment_id>/grade/<int:submission_id>/save',
+        type='http',
+        auth='user',
+        website=True,
+        methods=['POST'],
+        csrf=True,
+    )
+    def faculty_assignment_grade_save(self, assignment_id,
+                                       submission_id,
+                                       **kwargs):
+        """
+        Save the grading of a submission: marks, feedback,
+        rubric evaluation and annotations.
+        """
+        faculty = self._faculty_required()
+        if not isinstance(
+            faculty,
+            request.env['unicore.faculty.member'].__class__
+        ):
+            return faculty
+
+        Assignment = request.env['unicore.assignment'].sudo()
+        assignment = Assignment.browse(assignment_id)
+        if not assignment.exists():
+            raise NotFound()
+        if assignment.faculty_member_id.id != faculty.id:
+            raise AccessError(
+                _('You do not teach this course.')
+            )
+
+        Submission = request.env[
+            'unicore.assignment.submission'
+        ].sudo()
+        submission = Submission.browse(submission_id)
+        if not submission.exists() or (
+                submission.assignment_id.id != assignment.id):
+            raise NotFound()
+
+        try:
+            marks = float(kwargs.get('marks_obtained') or 0)
+        except (ValueError, TypeError):
+            marks = 0.0
+        feedback = kwargs.get('feedback') or ''
+
+        # Rubric evaluation
+        rubric_eval_vals = []
+        for key, value in kwargs.items():
+            if key.startswith('criterion_'):
+                criterion_id = int(key.split('_')[1])
+                try:
+                    points = float(value or 0)
+                except (ValueError, TypeError):
+                    points = 0.0
+                rubric_eval_vals.append((criterion_id, points))
+
+        existing_eval = {
+            line.criterion_id.id: line
+            for line in submission.rubric_evaluation_ids
+        }
+        for criterion_id, points in rubric_eval_vals:
+            if criterion_id in existing_eval:
+                existing_eval[criterion_id].write({
+                    'points_awarded': points,
+                })
+            else:
+                submission.rubric_evaluation_ids = [
+                    (0, 0, {
+                        'criterion_id': criterion_id,
+                        'points_awarded': points,
+                    }),
+                ]
+
+        # If a rubric is used and no explicit marks given,
+        # default marks to rubric points awarded
+        if (assignment.rubric_id
+                and kwargs.get('marks_obtained') in (None, '')):
+            marks = submission.rubric_points_awarded
+
+        # Annotations (JSON text)
+        annotations_raw = kwargs.get('annotations') or ''
+        try:
+            annotation_list = json.loads(annotations_raw) \
+                if annotations_raw.strip() else []
+            if not isinstance(annotation_list, list):
+                annotation_list = []
+        except (ValueError, TypeError):
+            annotation_list = []
+
+        submission.write({
+            'marks_obtained': marks,
+            'feedback': feedback,
+            'annotations': json.dumps(
+                annotation_list, ensure_ascii=False
+            ) if annotation_list else False,
+        })
+
+        # Set graded state and notify the student (action_grade
+        # also records graded_by / graded_date).
+        try:
+            submission.action_grade()
+        except Exception as e:
+            _logger.error('Grade finalize failed: %s', str(e))
+
+        return request.redirect(
+            '/my/unicore/faculty/assignments/%d'
+            % assignment.id
         )

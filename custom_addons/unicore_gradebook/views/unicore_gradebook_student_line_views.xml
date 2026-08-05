@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ============================================================ -->
+        <!-- GRADE BOOK STUDENT LINE LIST                                 -->
+        <!-- ============================================================ -->
+
+        <record id="view_unicore_gradebook_student_line_list"
+                model="ir.ui.view">
+            <field name="name">unicore.gradebook.student.line.list</field>
+            <field name="model">unicore.gradebook.student.line</field>
+            <field name="arch" type="xml">
+                <list string="Grade Book Lines"
+                      decoration-muted="can_apply_ca_marks == False and is_synced == False"
+                      decoration-success="is_synced == True">
+                    <field name="config_id"/>
+                    <field name="student_id"/>
+                    <field name="course_id"/>
+                    <field name="semester_id"/>
+                    <field name="graded_assignment_count"
+                           string="Graded"/>
+                    <field name="total_obtained_marks"
+                           string="Obtained"/>
+                    <field name="total_possible_marks"
+                           string="Possible"/>
+                    <field name="assignment_percentage"
+                           string="Score %"/>
+                    <field name="computed_ca_component"
+                           string="CA Marks"/>
+                    <field name="current_ca_marks"
+                           string="Current CA"/>
+                    <field name="grade_entry_state"
+                           string="Entry"/>
+                    <field name="company_id" optional="hide"
+                           groups="unicore_base.group_unicore_admin"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- GRADE BOOK STUDENT LINE SEARCH                               -->
+        <!-- ============================================================ -->
+
+        <record id="view_unicore_gradebook_student_line_search"
+                model="ir.ui.view">
+            <field name="name">unicore.gradebook.student.line.search</field>
+            <field name="model">unicore.gradebook.student.line</field>
+            <field name="arch" type="xml">
+                <search string="Grade Book Lines">
+                    <field name="student_id"/>
+                    <field name="config_id"/>
+                    <field name="course_id"/>
+                    <field name="semester_id"/>
+                    <filter name="filter_pending"
+                            string="Pending Grade Entry Sync"
+                            domain="[('can_apply_ca_marks', '=', True), ('is_synced', '=', False)]"/>
+                    <filter name="filter_synced"
+                            string="Synced to Grade Entries"
+                            domain="[('is_synced', '=', True)]"/>
+                    <separator/>
+                    <filter name="group_config" string="Grade Book"
+                            context="{'group_by': 'config_id'}"/>
+                    <filter name="group_course" string="Course"
+                            context="{'group_by': 'course_id'}"/>
+                    <filter name="group_semester" string="Semester"
+                            context="{'group_by': 'semester_id'}"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- GRADE BOOK STUDENT LINE ACTION                               -->
+        <!-- ============================================================ -->
+
+        <record id="action_unicore_gradebook_student_line_all"
+                model="ir.actions.act_window">
+            <field name="name">Grade Book Lines</field>
+            <field name="res_model">unicore.gradebook.student.line</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record id="action_unicore_gradebook_student_line_pending"
+                model="ir.actions.act_window">
+            <field name="name">Pending Grade Entry Sync</field>
+            <field name="res_model">unicore.gradebook.student.line</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('can_apply_ca_marks', '=', True), ('is_synced', '=', False)]</field>
+        </record>
+
+    </data>
+</odoo>

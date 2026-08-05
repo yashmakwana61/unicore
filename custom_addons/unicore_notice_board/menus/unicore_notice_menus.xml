@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="menu_unicore_notice_root" model="ir.ui.menu">
+        <field name="name">Notice Board</field>
+        <field name="parent_id" eval="False"/>
+        <field name="sequence">20</field>
+        <field name="web_icon">unicore_notice_board,static/description/icon.png</field>
+    </record>
+
+    <record id="menu_unicore_notice" model="ir.ui.menu">
+        <field name="name">Notices</field>
+        <field name="parent_id" ref="menu_unicore_notice_root"/>
+        <field name="action" ref="action_unicore_notice"/>
+        <field name="sequence">10</field>
+    </record>
+</odoo>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Cleanup placeholders.
+         No standalone analysis/kanban/calendar actions were created for
+         this module — the views are exposed via view_mode on the main
+         actions (see unicore_assignment_view_mode_ext.xml), so there is
+         nothing to remove here.
+         This file is kept to follow the standard module structure. -->
+
+</odoo>

@@ -20,6 +20,16 @@
            t-value="unicore_faculty_courses or 0"/>
         <t t-set="text">Active Courses</t>
       </t>
+      <t t-call="portal.portal_docs_entry">
+        <t t-set="title">Assignments</t>
+        <t t-set="url">/my/unicore/faculty/assignments</t>
+        <t t-set="placeholder_count">
+          unicore_faculty_assignments
+        </t>
+        <t t-set="count"
+           t-value="unicore_faculty_assignments or 0"/>
+        <t t-set="text">Published Assignments</t>
+      </t>
     </xpath>
   </template>
 
@@ -49,6 +59,10 @@
               <a t-att-class="'nav-link' + (' active' if page_name in ('faculty_courses','faculty_course_detail') else '')"
                  href="/my/unicore/faculty/courses">
                 My Courses
+              </a>
+              <a t-att-class="'nav-link' + (' active' if page_name in ('faculty_assignments','faculty_assignment_detail','faculty_assignment_grade','faculty_assignment_create') else '')"
+                 href="/my/unicore/faculty/assignments">
+                Assignments
               </a>
               <a t-att-class="'nav-link' + (' active' if page_name == 'faculty_exams' else '')"
                  href="/my/unicore/faculty/exams">

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ============================================================ -->
+        <!-- ASSIGNMENT CALENDAR VIEW                                      -->
+        <!-- ============================================================ -->
+
+        <record id="view_unicore_assignment_calendar" model="ir.ui.view">
+            <field name="name">unicore.assignment.calendar</field>
+            <field name="model">unicore.assignment</field>
+            <field name="arch" type="xml">
+                <calendar string="Assignments"
+                          date_start="due_date"
+                          color="color"
+                          event_limit="8">
+                    <field name="title"/>
+                    <field name="course_id"/>
+                    <field name="assignment_state"/>
+                    <field name="color"/>
+                </calendar>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- ASSIGNMENT ANALYSIS (PIVOT + GRAPH)                           -->
+        <!-- ============================================================ -->
+
+        <record id="view_unicore_assignment_pivot" model="ir.ui.view">
+            <field name="name">unicore.assignment.pivot</field>
+            <field name="model">unicore.assignment</field>
+            <field name="arch" type="xml">
+                <pivot string="Assignment Analysis">
+                    <field name="course_id" type="row"/>
+                    <field name="assignment_type" type="col"/>
+                    <field name="submission_count" type="measure"/>
+                    <field name="graded_count" type="measure"/>
+                    <field name="avg_marks" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record id="view_unicore_assignment_graph" model="ir.ui.view">
+            <field name="name">unicore.assignment.graph</field>
+            <field name="model">unicore.assignment</field>
+            <field name="arch" type="xml">
+                <graph string="Assignment Analysis">
+                    <field name="assignment_type"/>
+                    <field name="submission_count" type="measure"/>
+                    <field name="graded_count" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+    </data>
+</odoo>

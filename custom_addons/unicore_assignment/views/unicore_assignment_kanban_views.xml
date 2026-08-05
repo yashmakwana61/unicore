@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ============================================================ -->
+        <!-- ASSIGNMENT KANBAN VIEW                                        -->
+        <!-- ============================================================ -->
+
+        <record id="view_unicore_assignment_kanban" model="ir.ui.view">
+            <field name="name">unicore.assignment.kanban</field>
+            <field name="model">unicore.assignment</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <field name="title"/>
+                    <field name="assignment_type"/>
+                    <field name="assignment_state"/>
+                    <field name="course_id"/>
+                    <field name="due_date"/>
+                    <field name="max_marks"/>
+                    <field name="submitted_count"/>
+                    <field name="graded_count"/>
+                    <field name="enrolled_count"/>
+                    <field name="color"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                <div class="oe_kanban_content">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <span class="o_kanban_record_title">
+                                                <field name="title"/>
+                                            </span>
+                                        </div>
+                                        <field name="assignment_state"
+                                               widget="badge"
+                                               class="ms-1"/>
+                                    </div>
+                                    <div class="text-muted small">
+                                        <field name="course_id"/>
+                                        <span class="mx-1">|</span>
+                                        <field name="assignment_type"/>
+                                    </div>
+                                    <div class="mt-2 d-flex justify-content-between">
+                                        <span>
+                                            <i class="fa fa-calendar"/> Due:
+                                            <field name="due_date"/>
+                                        </span>
+                                        <span>
+                                            <i class="fa fa-trophy"/> Max:
+                                            <field name="max_marks"/>
+                                        </span>
+                                    </div>
+                                    <div class="mt-2 progress" style="height: 8px;">
+                                        <t t-set="rate"
+                                           t-value="int(submitted_count * 100.0 / (enrolled_count or 1))"/>
+                                        <div class="progress-bar"
+                                             t-att-style="'width: %s%%' % rate"/>
+                                    </div>
+                                    <div class="mt-1 text-muted small">
+                                        <field name="submitted_count"/> /
+                                        <field name="enrolled_count"/> submitted
+                                        |
+                                        <field name="graded_count"/> graded
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- SUBMISSION KANBAN VIEW (per student)                          -->
+        <!-- ============================================================ -->
+
+        <record id="view_unicore_assignment_submission_kanban" model="ir.ui.view">
+            <field name="name">unicore.assignment.submission.kanban</field>
+            <field name="model">unicore.assignment.submission</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <field name="display_name"/>
+                    <field name="state"/>
+                    <field name="student_id"/>
+                    <field name="assignment_id"/>
+                    <field name="marks_obtained"/>
+                    <field name="grade_letter"/>
+                    <field name="color"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                <div class="oe_kanban_content">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <span class="o_kanban_record_title">
+                                            <field name="student_id"/>
+                                        </span>
+                                        <field name="state" widget="badge"
+                                               class="ms-1"/>
+                                    </div>
+                                    <div class="text-muted small">
+                                        <field name="assignment_id"/>
+                                    </div>
+                                    <div class="mt-2 d-flex justify-content-between">
+                                        <span>
+                                            <i class="fa fa-calendar-check-o"/>
+                                            <field name="submission_date"/>
+                                        </span>
+                                        <t t-if="state == 'graded'">
+                                            <span>
+                                                <i class="fa fa-trophy"/> 
+                                                <field name="marks_obtained"/>
+                                                (<field name="grade_letter"/>)
+                                            </span>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+    </data>
+</odoo>

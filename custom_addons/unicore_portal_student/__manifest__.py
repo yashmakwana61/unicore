@@ -36,11 +36,13 @@
         'unicore_enrollment', 'unicore_attendance',
         'unicore_exam', 'unicore_grading',
         'unicore_fees', 'unicore_scholarship',
-        'unicore_notify', 'portal',
+        'unicore_notify', 'unicore_assignment',
+        'portal',
     ],
     'data': [
         'security/ir.model.access.csv',
         'views/portal_student_templates.xml',
+        'views/portal_student_assignment_templates.xml',
         'views/unicore_student_ext_views.xml',
     ],
     'assets': {

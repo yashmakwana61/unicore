@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================================ -->
+    <!-- Menus: Asset Request Module                                  -->
+    <!-- ============================================================ -->
+
+    <!-- Top-level menu -->
+    <menuitem id="menu_unicore_asset_request_root"
+              name="Asset Requests"
+              web_icon="unicore_asset_request,static/description/icon.png"
+              sequence="45"/>
+
+    <!-- Assets -->
+    <menuitem id="menu_unicore_asset_catalog"
+              name="Asset Catalog"
+              parent="menu_unicore_asset_request_root"
+              sequence="10"/>
+
+    <menuitem id="menu_unicore_asset_list"
+              name="Assets"
+              parent="menu_unicore_asset_catalog"
+              action="action_unicore_asset"
+              sequence="10"/>
+
+    <!-- Requests -->
+    <menuitem id="menu_unicore_asset_request_requests"
+              name="Requests"
+              parent="menu_unicore_asset_request_root"
+              sequence="20"/>
+
+    <menuitem id="menu_unicore_asset_request_all"
+              name="All Requests"
+              parent="menu_unicore_asset_request_requests"
+              action="action_unicore_asset_request"
+              sequence="10"/>
+
+    <menuitem id="menu_unicore_asset_request_new"
+              name="New Request"
+              parent="menu_unicore_asset_request_requests"
+              action="action_unicore_asset_request"
+              sequence="20"/>
+
+    <!-- Workflow sub-menus -->
+    <menuitem id="menu_unicore_asset_request_draft"
+              name="Draft"
+              parent="menu_unicore_asset_request_requests"
+              action="action_unicore_asset_request_draft"
+              sequence="30"/>
+
+    <menuitem id="menu_unicore_asset_request_submitted"
+              name="Pending Approval"
+              parent="menu_unicore_asset_request_requests"
+              action="action_unicore_asset_request_submitted"
+              sequence="40"/>
+
+    <menuitem id="menu_unicore_asset_request_approved"
+              name="Approved"
+              parent="menu_unicore_asset_request_requests"
+              action="action_unicore_asset_request_approved"
+              sequence="50"/>
+
+    <menuitem id="menu_unicore_asset_request_fulfilled"
+              name="Fulfilled"
+              parent="menu_unicore_asset_request_requests"
+              action="action_unicore_asset_request_fulfilled"
+              sequence="60"/>
+
+    <menuitem id="menu_unicore_asset_request_rejected"
+              name="Rejected"
+              parent="menu_unicore_asset_request_requests"
+              action="action_unicore_asset_request_rejected"
+              sequence="70"/>
+</odoo>

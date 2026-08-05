@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ============================================================ -->
+        <!-- SUBMISSION FORM VIEW                                          -->
+        <!-- ============================================================ -->
+
+        <record id="view_unicore_assignment_submission_form" model="ir.ui.view">
+            <field name="name">unicore.assignment.submission.form</field>
+            <field name="model">unicore.assignment.submission</field>
+            <field name="arch" type="xml">
+                <form string="Submission">
+                    <header>
+                        <field name="state" widget="statusbar"
+                               clickable="False"/>
+                        <button name="action_grade" type="object"
+                                string="Grade Now"
+                                class="btn-primary"
+                                invisible="state not in ('submitted','late','returned')"/>
+                        <button name="action_return" type="object"
+                                string="Return for Revision"
+                                invisible="state != 'graded'"/>
+                        <button name="action_reopen" type="object"
+                                string="Reopen"
+                                invisible="state != 'graded'"
+                                groups="unicore_base.group_unicore_admin"/>
+                        <button name="action_submit" type="object"
+                                string="Submit"
+                                invisible="state not in ('draft','returned')"
+                                groups="unicore_base.group_unicore_student"/>
+                        <button name="action_reset_to_draft" type="object"
+                                string="Reset to Draft"
+                                invisible="state != 'returned'"/>
+                    </header>
+                    <sheet>
+                        <group name="submission_identity" string="Submission">
+                            <group>
+                                <field name="assignment_id"/>
+                                <field name="student_id"/>
+                                <field name="enrollment_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="course_id" readonly="1"/>
+                                <field name="course_offering_id" readonly="1"/>
+                                <field name="rubric_id" readonly="1"/>
+                            </group>
+                        </group>
+                        <group name="submission_content" string="Submitted Work">
+                            <group>
+                                <field name="submission_date" readonly="1"/>
+                                <field name="attempt_count" readonly="1"/>
+                                <field name="state" readonly="1" widget="badge"/>
+                                <field name="is_late" readonly="1"/>
+                                <field name="late_minutes" readonly="1"
+                                       invisible="not is_late"/>
+                            </group>
+                            <group>
+                                <field name="submission_file" filename="submission_filename"/>
+                                <field name="submission_filename" invisible="1"/>
+                            </group>
+                        </group>
+                        <group name="submission_notes" string="Student Notes">
+                            <field name="submission_text" nolabel="1"/>
+                        </group>
+                        <separator string="Grading"/>
+                        <group name="grading_main">
+                            <group>
+                                <field name="marks_obtained"/>
+                                <field name="marks_percentage" readonly="1"/>
+                                <field name="grade_letter" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="graded_by_id" readonly="1"/>
+                                <field name="graded_date" readonly="1"/>
+                            </group>
+                        </group>
+                        <group name="grading_feedback" string="Feedback">
+                            <field name="feedback" nolabel="1"
+                                   placeholder="Write feedback for the student..."/>
+                        </group>
+                        <group name="rubric_eval" string="Rubric Evaluation"
+                               invisible="not rubric_id">
+                            <field name="rubric_points_awarded" readonly="1"/>
+                            <field name="rubric_total" readonly="1"/>
+                            <field name="rubric_evaluation_ids" string="Criteria">
+                                <list editable="bottom">
+                                    <field name="criterion_id"/>
+                                    <field name="max_points" readonly="1"/>
+                                    <field name="points_awarded"/>
+                                    <field name="comments"/>
+                                </list>
+                            </field>
+                        </group>
+                        <group name="annotations_group" string="Annotations"
+                               invisible="annotation_count == 0">
+                            <p class="text-muted">
+                                Positional comments against the submitted file.
+                            </p>
+                            <field name="annotations" nolabel="1"/>
+                            <field name="annotation_count" readonly="1"/>
+                        </group>
+                        <group name="company_group"
+                               groups="unicore_base.group_unicore_admin">
+                            <field name="company_id" readonly="1"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- SUBMISSION LIST VIEW                                          -->
+        <!-- ============================================================ -->
+
+        <record id="view_unicore_assignment_submission_list" model="ir.ui.view">
+            <field name="name">unicore.assignment.submission.list</field>
+            <field name="model">unicore.assignment.submission</field>
+            <field name="arch" type="xml">
+                <list string="Submissions">
+                    <field name="student_id"/>
+                    <field name="assignment_id"/>
+                    <field name="course_id" optional="hide"/>
+                    <field name="submission_date"/>
+                    <field name="is_late" optional="hide"/>
+                    <field name="state" widget="badge"/>
+                    <field name="marks_obtained" optional="show"/>
+                    <field name="marks_percentage" optional="hide"/>
+                    <field name="grade_letter" optional="hide"/>
+                    <field name="graded_by_id" optional="hide"/>
+                    <field name="company_id" optional="hide"
+                           groups="unicore_base.group_unicore_admin"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- SUBMISSION SEARCH VIEW                                        -->
+        <!-- ============================================================ -->
+
+        <record id="view_unicore_assignment_submission_search" model="ir.ui.view">
+            <field name="name">unicore.assignment.submission.search</field>
+            <field name="model">unicore.assignment.submission</field>
+            <field name="arch" type="xml">
+                <search string="Submissions">
+                    <field name="student_id"/>
+                    <field name="assignment_id"/>
+                    <field name="course_id"/>
+                    <filter name="submission_pending" string="Pending Grading"
+                            domain="[('state', 'in', ['submitted','late'])]"/>
+                    <filter name="submission_graded" string="Graded"
+                            domain="[('state', '=', 'graded')]"/>
+                    <filter name="submission_late" string="Late"
+                            domain="[('state', '=', 'late')]"/>
+                    <separator/>
+                    <filter name="group_sub_course" string="Course"
+                            context="{'group_by': 'course_id'}"/>
+                    <filter name="group_sub_state" string="Status"
+                            context="{'group_by': 'state'}"/>
+                    <filter name="group_sub_offering" string="Offering"
+                            context="{'group_by': 'course_offering_id'}"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- SUBMISSION ACTIONS                                            -->
+        <!-- ============================================================ -->
+
+        <record id="action_unicore_assignment_submission_all" model="ir.actions.act_window">
+            <field name="name">All Submissions</field>
+            <field name="res_model">unicore.assignment.submission</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No submissions yet
+                </p>
+                <p>
+                    Submissions appear when students upload work for a
+                    published assignment.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_unicore_assignment_submission_pending" model="ir.actions.act_window">
+            <field name="name">Pending Grading</field>
+            <field name="res_model">unicore.assignment.submission</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('state', 'in', ['submitted','late'])]</field>
+        </record>
+
+        <record id="action_unicore_assignment_submission_my" model="ir.actions.act_window">
+            <field name="name">My Submissions</field>
+            <field name="res_model">unicore.assignment.submission</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('student_id.partner_id.user_ids', 'in', [uid])]</field>
+        </record>
+
+    </data>
+</odoo>

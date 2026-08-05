@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ============================================================ -->
+        <!-- EXTEND COURSE OFFERING FORM (Assignments smart button)        -->
+        <!-- ============================================================ -->
+
+        <record id="view_unicore_course_offering_form_ext_assignment"
+                model="ir.ui.view">
+            <field name="name">unicore.course.offering.form.ext.assignment</field>
+            <field name="model">unicore.course.offering</field>
+            <field name="inherit_id"
+                   ref="unicore_curriculum.view_unicore_course_offering_form"/>
+            <field name="arch" type="xml">
+
+                <!-- Add assignments stat button to the button box -->
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_view_assignments" type="object"
+                            class="oe_stat_button" icon="fa-tasks"
+                            groups="unicore_base.group_unicore_faculty">
+                        <field name="assignment_count" widget="statinfo"
+                               string="Assignments"/>
+                    </button>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

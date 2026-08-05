@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="1">
+
+    <!-- ========== ASSIGNMENT PUBLISHED (to students) ========== -->
+
+    <record id="template_assignment_published_email"
+            model="unicore.notification.template">
+      <field name="name">Assignment Published — Email</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="trigger_event">assignment_published</field>
+      <field name="channel">email</field>
+      <field name="recipient_type">student</field>
+      <field name="email_subject">
+        New Assignment: {assignment_title} — {course_name}
+      </field>
+      <field name="email_body_html"><![CDATA[
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+  <h2 style="color: #2c3e50;">New Assignment Published</h2>
+  <p>Dear {student_name},</p>
+  <p>A new <strong>{assignment_type}</strong> assignment has been published for
+     <strong>{course_name}</strong>.</p>
+  <ul>
+    <li><strong>Title:</strong> {assignment_title}</li>
+    <li><strong>Due Date:</strong> {due_date}</li>
+    <li><strong>Maximum Marks:</strong> {max_marks}</li>
+  </ul>
+  <p>Please log in to the student portal to view the details and submit
+     your work before the due date.</p>
+  <p>Regards,<br/>{institution_name}</p>
+</div>
+      ]]></field>
+      <field name="is_system_template" eval="True"/>
+      <field name="is_active_trigger" eval="True"/>
+      <field name="language_code">en</field>
+      <field name="active" eval="True"/>
+    </record>
+
+    <record id="template_assignment_published_whatsapp"
+            model="unicore.notification.template">
+      <field name="name">Assignment Published — WhatsApp</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="trigger_event">assignment_published</field>
+      <field name="channel">whatsapp</field>
+      <field name="recipient_type">student</field>
+      <field name="whatsapp_body">
+📚 New Assignment — {institution_name}
+
+Dear {student_name},
+
+A new {assignment_type} assignment has been published for {course_name}:
+• {assignment_title}
+• Due: {due_date}
+• Max Marks: {max_marks}
+
+Submit before the due date via the student portal.
+      </field>
+      <field name="is_system_template" eval="True"/>
+      <field name="is_active_trigger" eval="True"/>
+      <field name="language_code">en</field>
+      <field name="active" eval="True"/>
+    </record>
+
+    <record id="template_assignment_published_inapp"
+            model="unicore.notification.template">
+      <field name="name">Assignment Published — In-App</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="trigger_event">assignment_published</field>
+      <field name="channel">inapp</field>
+      <field name="recipient_type">student</field>
+      <field name="inapp_body">
+📚 New {assignment_type} assignment for {course_name}: {assignment_title}. Due {due_date}. Max marks: {max_marks}.
+      </field>
+      <field name="is_system_template" eval="True"/>
+      <field name="is_active_trigger" eval="True"/>
+      <field name="language_code">en</field>
+      <field name="active" eval="True"/>
+    </record>
+
+    <!-- ========== ASSIGNMENT SUBMITTED (to faculty) ========== -->
+
+    <record id="template_assignment_submitted_email"
+            model="unicore.notification.template">
+      <field name="name">Assignment Submitted — Email</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="trigger_event">assignment_submitted</field>
+      <field name="channel">email</field>
+      <field name="recipient_type">faculty</field>
+      <field name="email_subject">
+        Submission Received: {assignment_title} — {course_name}
+      </field>
+      <field name="email_body_html"><![CDATA[
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+  <h2 style="color: #2c3e50;">Assignment Submission Received</h2>
+  <p>Dear {faculty_name},</p>
+  <p><strong>{student_name}</strong> has submitted the assignment
+     <strong>{assignment_title}</strong> for <strong>{course_name}</strong>
+     on {submission_date}.</p>
+  <p>You can review and grade it from the faculty portal.</p>
+  <p>Regards,<br/>{institution_name}</p>
+</div>
+      ]]></field>
+      <field name="is_system_template" eval="True"/>
+      <field name="is_active_trigger" eval="True"/>
+      <field name="language_code">en</field>
+      <field name="active" eval="True"/>
+    </record>
+
+    <record id="template_assignment_submitted_whatsapp"
+            model="unicore.notification.template">
+      <field name="name">Assignment Submitted — WhatsApp</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="trigger_event">assignment_submitted</field>
+      <field name="channel">whatsapp</field>
+      <field name="recipient_type">faculty</field>
+      <field name="whatsapp_body">
+📥 Submission Received — {institution_name}
+
+Dear {faculty_name},
+
+{student_name} submitted {assignment_title} ({course_name}) on {submission_date}.
+
+Grade it from the faculty portal.
+      </field>
+      <field name="is_system_template" eval="True"/>
+      <field name="is_active_trigger" eval="True"/>
+      <field name="language_code">en</field>
+      <field name="active" eval="True"/>
+    </record>
+
+    <record id="template_assignment_submitted_inapp"
+            model="unicore.notification.template">
+      <field name="name">Assignment Submitted — In-App</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="trigger_event">assignment_submitted</field>
+      <field name="channel">inapp</field>
+      <field name="recipient_type">faculty</field>
+      <field name="inapp_body">
+📥 {student_name} submitted {assignment_title} ({course_name}) on {submission_date}.
+      </field>
+      <field name="is_system_template" eval="True"/>
+      <field name="is_active_trigger" eval="True"/>
+      <field name="language_code">en</field>
+      <field name="active" eval="True"/>
+    </record>
+
+    <!-- ========== ASSIGNMENT GRADED (to student) ========== -->
+
+    <record id="template_assignment_graded_email"
+            model="unicore.notification.template">
+      <field name="name">Assignment Graded — Email</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="trigger_event">assignment_graded</field>
+      <field name="channel">email</field>
+      <field name="recipient_type">student</field>
+      <field name="email_subject">
+        Assignment Graded: {assignment_title} — {course_name}
+      </field>
+      <field name="email_body_html"><![CDATA[
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+  <h2 style="color: #2c3e50;">Assignment Graded</h2>
+  <p>Dear {student_name},</p>
+  <p>Your submission for <strong>{assignment_title}</strong>
+     ({course_name}) has been graded.</p>
+  <p>Marks obtained: <strong>{marks_obtained}</strong> /
+     <strong>{max_marks}</strong></p>
+  <p>Please review the feedback in the student portal.</p>
+  <p>Regards,<br/>{institution_name}</p>
+</div>
+      ]]></field>
+      <field name="is_system_template" eval="True"/>
+      <field name="is_active_trigger" eval="True"/>
+      <field name="language_code">en</field>
+      <field name="active" eval="True"/>
+    </record>
+
+    <record id="template_assignment_graded_whatsapp"
+            model="unicore.notification.template">
+      <field name="name">Assignment Graded — WhatsApp</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="trigger_event">assignment_graded</field>
+      <field name="channel">whatsapp</field>
+      <field name="recipient_type">student</field>
+      <field name="whatsapp_body">
+✅ Assignment Graded — {institution_name}
+
+Dear {student_name},
+
+Your submission for {assignment_title} ({course_name}) has been graded.
+
+Marks: {marks_obtained} / {max_marks}
+
+Review feedback in the student portal.
+      </field>
+      <field name="is_system_template" eval="True"/>
+      <field name="is_active_trigger" eval="True"/>
+      <field name="language_code">en</field>
+      <field name="active" eval="True"/>
+    </record>
+
+    <record id="template_assignment_graded_inapp"
+            model="unicore.notification.template">
+      <field name="name">Assignment Graded — In-App</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="trigger_event">assignment_graded</field>
+      <field name="channel">inapp</field>
+      <field name="recipient_type">student</field>
+      <field name="inapp_body">
+✅ {assignment_title} ({course_name}) graded: {marks_obtained} / {max_marks}. Check feedback in the portal.
+      </field>
+      <field name="is_system_template" eval="True"/>
+      <field name="is_active_trigger" eval="True"/>
+      <field name="language_code">en</field>
+      <field name="active" eval="True"/>
+    </record>
+
+  </data>
+</odoo>

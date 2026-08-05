@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_unicore_student_leave_request_admin,unicore.student.leave.request.admin,model_unicore_student_leave_request,unicore_base.group_unicore_admin,1,1,1,1
+access_unicore_student_leave_request_registrar,unicore.student.leave.request.registrar,model_unicore_student_leave_request,unicore_base.group_unicore_registrar,1,1,1,0
+access_unicore_student_leave_request_manager,unicore.student.leave.request.manager,model_unicore_student_leave_request,unicore_base.group_unicore_manager,1,1,1,0
+access_unicore_student_leave_request_faculty,unicore.student.leave.request.faculty,model_unicore_student_leave_request,unicore_base.group_unicore_faculty,1,1,0,0
+access_unicore_student_leave_request_staff,unicore.student.leave.request.staff,model_unicore_student_leave_request,unicore_base.group_unicore_staff,1,0,0,0
+access_unicore_student_leave_request_student,unicore.student.leave.request.student,model_unicore_student_leave_request,unicore_base.group_unicore_student,1,0,1,0

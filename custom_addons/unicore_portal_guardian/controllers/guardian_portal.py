@@ -1,7 +1,9 @@
+from datetime import date
+
 from odoo import http, _
 from odoo.http import request
 from odoo.addons.portal.controllers.portal import (
-    CustomerPortal
+    CustomerPortal, pager as portal_pager
 )
 from werkzeug.exceptions import NotFound
 
@@ -403,5 +405,68 @@ class UniCoreGuardianPortal(CustomerPortal):
         return request.render(
             'unicore_portal_guardian'
             '.portal_guardian_exams',
+            values,
+        )
+
+    # ===================================================
+    # ROUTE: MY NOTICES
+    # ===================================================
+
+    @http.route(
+        '/my/unicore/guardian/notices',
+        type='http',
+        auth='user',
+        website=True,
+    )
+    def guardian_notices(self, page=1, date_begin=None, date_end=None, **kwargs):
+        guardian = self._guardian_required()
+        if not isinstance(
+            guardian,
+            request.env['unicore.guardian'].__class__
+        ):
+            return guardian
+
+        Notice = request.env['unicore.notice'].sudo()
+        notices = Notice.search([
+            ('publisher_id', '!=', False),
+        ], order='pinned desc, publish_date desc')
+
+        today = date.today()
+        notices = notices.filtered(
+            lambda n: not n.expiry_date or n.expiry_date >= today
+        )
+
+        campus_ids = set()
+        for rel in self._get_student_wards(guardian):
+            if rel.student_id.campus_id:
+                campus_ids.add(rel.student_id.campus_id.id)
+        campus_ids = list(campus_ids)
+
+        notices = notices.filtered(
+            lambda n: n.audience == 'all'
+            or (n.audience == 'guardians')
+            or (n.audience == 'specific'
+                and any(c.id in campus_ids for c in n.campus_ids))
+        )
+
+        notice_count = len(notices)
+        pager = portal_pager(
+            url='/my/unicore/guardian/notices',
+            total=notice_count,
+            page=page,
+            step=20,
+        )
+        notices = notices[(pager['offset']):(pager['offset'] + pager['step'])]
+
+        values = {
+            'guardian': guardian,
+            'notices': notices,
+            'page_name': 'guardian_notices',
+            'pager': pager,
+            'date_begin': date_begin,
+            'date_end': date_end,
+        }
+        return request.render(
+            'unicore_notice_board.portal_guardian_notices',
             values,
         )

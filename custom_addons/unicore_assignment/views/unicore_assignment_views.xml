@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ============================================================ -->
+        <!-- ASSIGNMENT FORM VIEW                                          -->
+        <!-- ============================================================ -->
+
+        <record id="view_unicore_assignment_form" model="ir.ui.view">
+            <field name="name">unicore.assignment.form</field>
+            <field name="model">unicore.assignment</field>
+            <field name="arch" type="xml">
+                <form string="Assignment">
+                    <header>
+                        <field name="assignment_state" widget="statusbar"
+                               clickable="False"/>
+                        <button name="action_publish" type="object"
+                                string="Publish"
+                                class="btn-primary"
+                                invisible="assignment_state != 'draft'"/>
+                        <button name="action_close" type="object"
+                                string="Close Submissions"
+                                invisible="assignment_state != 'published'"/>
+                        <button name="action_set_draft" type="object"
+                                string="Set to Draft"
+                                invisible="assignment_state != 'closed'"/>
+                        <button name="action_view_submissions" type="object"
+                                string="View Submissions"
+                                invisible="submission_count == 0"
+                                class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="title" placeholder="Assignment title..."/>
+                            </h1>
+                            <group class="oe_subtotal">
+                                <field name="name" readonly="1"/>
+                            </group>
+                        </div>
+                        <group name="assignment_main" string="Assignment">
+                            <group>
+                                <field name="course_offering_id"/>
+                                <field name="course_id" readonly="1"/>
+                                <field name="semester_id" readonly="1"/>
+                                <field name="faculty_member_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="assignment_type"/>
+                                <field name="max_marks"/>
+                                <field name="pass_marks"/>
+                                <field name="due_date"/>
+                                <field name="due_time"/>
+                            </group>
+                        </group>
+                        <group name="rubric_group" string="Rubric &amp; Late Policy">
+                            <group>
+                                <field name="rubric_id"/>
+                            </group>
+                            <group>
+                                <field name="is_late_submission_allowed"/>
+                                <field name="late_penalty_percent"
+                                       invisible="not is_late_submission_allowed"/>
+                            </group>
+                        </group>
+                        <group name="description_group" string="Description">
+                            <field name="description" nolabel="1"/>
+                        </group>
+                        <group name="files_group" string="Files"
+                               invisible="file_count == 0">
+                            <field name="attachment_ids"
+                                   widget="many2many_binary"
+                                   string="Assignment Files"/>
+                        </group>
+                        <group name="company_group"
+                               groups="unicore_base.group_unicore_admin">
+                            <field name="company_id" readonly="1"/>
+                            <field name="campus_id" readonly="1"/>
+                        </group>
+                        <separator string="Submissions"/>
+                        <field name="submission_ids" readonly="1">
+                            <list>
+                                <field name="student_id"/>
+                                <field name="state"/>
+                                <field name="submission_date"/>
+                                <field name="is_late"/>
+                                <field name="marks_obtained"/>
+                                <field name="marks_percentage"/>
+                                <field name="grade_letter"/>
+                            </list>
+                        </field>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- ASSIGNMENT LIST VIEW                                          -->
+        <!-- ============================================================ -->
+
+        <record id="view_unicore_assignment_list" model="ir.ui.view">
+            <field name="name">unicore.assignment.list</field>
+            <field name="model">unicore.assignment</field>
+            <field name="arch" type="xml">
+                <list string="Assignments">
+                    <field name="name" readonly="1"/>
+                    <field name="title"/>
+                    <field name="course_id"/>
+                    <field name="faculty_member_id" optional="hide"/>
+                    <field name="assignment_type"/>
+                    <field name="max_marks"/>
+                    <field name="due_date"/>
+                    <field name="assignment_state" widget="badge"/>
+                    <field name="submitted_count" optional="show"/>
+                    <field name="graded_count" optional="show"/>
+                    <field name="pending_count" optional="hide"
+                           string="Pending"/>
+                    <field name="company_id" optional="hide"
+                           groups="unicore_base.group_unicore_admin"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- ASSIGNMENT SEARCH VIEW                                        -->
+        <!-- ============================================================ -->
+
+        <record id="view_unicore_assignment_search" model="ir.ui.view">
+            <field name="name">unicore.assignment.search</field>
+            <field name="model">unicore.assignment</field>
+            <field name="arch" type="xml">
+                <search string="Assignments">
+                    <field name="title"/>
+                    <field name="course_id"/>
+                    <field name="faculty_member_id"/>
+                    <field name="rubric_id"/>
+                    <filter name="filter_draft" string="Draft"
+                            domain="[('assignment_state', '=', 'draft')]"/>
+                    <filter name="filter_published" string="Published"
+                            domain="[('assignment_state', '=', 'published')]"/>
+                    <filter name="filter_closed" string="Closed"
+                            domain="[('assignment_state', '=', 'closed')]"/>
+                    <filter name="filter_overdue" string="Overdue"
+                            domain="[('due_date', '&lt;', context_today().strftime('%Y-%m-%d')), ('assignment_state', '!=', 'closed')]"/>
+                    <separator/>
+                    <filter name="filter_homework" string="Homework"
+                            domain="[('assignment_type', '=', 'homework')]"/>
+                    <filter name="filter_project" string="Project"
+                            domain="[('assignment_type', '=', 'project')]"/>
+                    <filter name="filter_lab" string="Lab"
+                            domain="[('assignment_type', '=', 'lab')]"/>
+                    <filter name="filter_quiz" string="Quiz"
+                            domain="[('assignment_type', '=', 'quiz')]"/>
+                    <separator/>
+                    <filter name="group_course" string="Course"
+                            context="{'group_by': 'course_id'}"/>
+                    <filter name="group_type" string="Type"
+                            context="{'group_by': 'assignment_type'}"/>
+                    <filter name="group_state" string="Status"
+                            context="{'group_by': 'assignment_state'}"/>
+                    <filter name="group_due" string="Due Date"
+                            context="{'group_by': 'due_date'}"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- ASSIGNMENT ACTIONS                                            -->
+        <!-- ============================================================ -->
+
+        <record id="action_unicore_assignment_all" model="ir.actions.act_window">
+            <field name="name">All Assignments</field>
+            <field name="res_model">unicore.assignment</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first assignment
+                </p>
+                <p>
+                    Assignments are created against a course offering and
+                    can be graded with an optional rubric.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_unicore_assignment_my" model="ir.actions.act_window">
+            <field name="name">My Assignments</field>
+            <field name="res_model">unicore.assignment</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('faculty_member_id.partner_id.user_ids', 'in', [uid])]</field>
+        </record>
+
+        <record id="action_unicore_assignment_published" model="ir.actions.act_window">
+            <field name="name">Published Assignments</field>
+            <field name="res_model">unicore.assignment</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('assignment_state', '=', 'published')]</field>
+        </record>
+
+    </data>
+</odoo>

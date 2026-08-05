@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ============================================================ -->
+        <!-- LEVEL 2: Top-Level Menu (sequence 85)                        -->
+        <!-- ============================================================ -->
+
+        <menuitem id="menu_unicore_assignment"
+                  name="Assignments"
+                  parent="unicore_base.menu_unicore_root"
+                  sequence="85"
+                  groups="unicore_base.group_unicore_faculty"/>
+
+        <!-- ============================================================ -->
+        <!-- LEVEL 3: Sub-menus under Assignments                          -->
+        <!-- ============================================================ -->
+
+        <menuitem id="menu_unicore_assignment_dashboard"
+                  name="Assignment Overview"
+                  parent="menu_unicore_assignment"
+                  action="action_unicore_assignment_all"
+                  sequence="10"
+                  groups="unicore_base.group_unicore_faculty"/>
+
+        <menuitem id="menu_unicore_assignment_my"
+                  name="My Assignments"
+                  parent="menu_unicore_assignment"
+                  action="action_unicore_assignment_my"
+                  sequence="20"
+                  groups="unicore_base.group_unicore_faculty"/>
+
+        <menuitem id="menu_unicore_assignment_published"
+                  name="Published Assignments"
+                  parent="menu_unicore_assignment"
+                  action="action_unicore_assignment_published"
+                  sequence="30"
+                  groups="unicore_base.group_unicore_staff"/>
+
+        <menuitem id="menu_unicore_assignment_submissions"
+                  name="Submissions"
+                  parent="menu_unicore_assignment"
+                  action="action_unicore_assignment_submission_all"
+                  sequence="40"
+                  groups="unicore_base.group_unicore_faculty"/>
+
+        <menuitem id="menu_unicore_assignment_pending"
+                  name="Pending Grading"
+                  parent="menu_unicore_assignment"
+                  action="action_unicore_assignment_submission_pending"
+                  sequence="50"
+                  groups="unicore_base.group_unicore_faculty"/>
+
+        <menuitem id="menu_unicore_assignment_rubrics"
+                  name="Rubrics"
+                  parent="menu_unicore_assignment"
+                  action="action_unicore_assignment_rubric"
+                  sequence="60"
+                  groups="unicore_base.group_unicore_faculty"/>
+
+    </data>
+</odoo>

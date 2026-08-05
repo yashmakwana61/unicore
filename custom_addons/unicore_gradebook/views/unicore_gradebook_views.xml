@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ============================================================ -->
+        <!-- GRADE BOOK FORM VIEW                                         -->
+        <!-- ============================================================ -->
+
+        <record id="view_unicore_gradebook_config_form" model="ir.ui.view">
+            <field name="name">unicore.gradebook.config.form</field>
+            <field name="model">unicore.gradebook.config</field>
+            <field name="arch" type="xml">
+                <form string="Grade Book">
+                    <header>
+                        <button name="action_regenerate" type="object"
+                                string="Regenerate Grade Book"
+                                class="btn-primary"
+                                groups="unicore_base.group_unicore_faculty,unicore_base.group_unicore_admin"/>
+                        <button name="action_apply_ca_marks" type="object"
+                                string="Apply CA Marks to Grade Entries"
+                                invisible="student_count == 0"
+                                confirm="This will write the computed assignment component into the Internal / CA Marks field of the editable grade entries (draft / submitted only). Continue?"
+                                groups="unicore_base.group_unicore_faculty,unicore_base.group_unicore_admin"/>
+                        <button name="action_view_grade_entries" type="object"
+                                string="View Grade Entries"
+                                invisible="student_count == 0"/>
+                        <button name="action_view_submissions" type="object"
+                                string="Graded Submissions"
+                                invisible="assignment_count == 0"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group name="gradebook_main">
+                            <group string="Course Offering">
+                                <field name="course_offering_id"/>
+                                <field name="course_id" readonly="1"/>
+                                <field name="semester_id" readonly="1"/>
+                                <field name="faculty_member_id" readonly="1"/>
+                                <field name="campus_id" readonly="1"/>
+                            </group>
+                            <group string="Weighting &amp; Summary">
+                                <field name="assignment_weight_pct"
+                                       help="Percentage of the internal / CA marks that graded assignments contribute."/>
+                                <field name="max_ca_marks" readonly="1"/>
+                                <field name="assignment_count" readonly="1"/>
+                                <field name="graded_assignment_count" readonly="1"/>
+                                <field name="student_count" readonly="1"/>
+                                <field name="class_avg_assignment_pct" readonly="1"/>
+                                <field name="synced_count" readonly="1"
+                                       string="Synced to Grade Entries"/>
+                                <field name="pending_count" readonly="1"
+                                       string="Pending Grade Entry Sync"/>
+                            </group>
+                        </group>
+                        <group name="gradebook_assignments" string="Assignments"
+                               invisible="assignment_count == 0">
+                            <field name="assignment_ids" readonly="1">
+                                <list>
+                                    <field name="title"/>
+                                    <field name="assignment_type"/>
+                                    <field name="max_marks"/>
+                                    <field name="due_date"/>
+                                    <field name="assignment_state" widget="badge"/>
+                                    <field name="graded_count" string="Graded"/>
+                                    <field name="avg_marks" string="Avg"/>
+                                </list>
+                            </field>
+                        </group>
+                        <notebook>
+                            <page string="Grade Book" name="gradebook_students">
+                                <group string="Per-Student Assignment Roll-up">
+                                    <field name="student_line_ids" readonly="1">
+                                        <list decoration-muted="is_synced == False and can_apply_ca_marks == False"
+                                              decoration-success="is_synced == True">
+                                            <field name="student_id"/>
+                                            <field name="graded_assignment_count"
+                                                   string="Graded"/>
+                                            <field name="total_obtained_marks"
+                                                   string="Obtained"/>
+                                            <field name="total_possible_marks"
+                                                   string="Possible"/>
+                                            <field name="assignment_percentage"
+                                                   string="Score %"/>
+                                            <field name="computed_ca_component"
+                                                   string="CA Marks"/>
+                                            <field name="current_ca_marks"
+                                                   string="Current CA"/>
+                                            <field name="grade_entry_state"
+                                                   string="Entry"/>
+                                            <field name="is_synced"
+                                                   string="Synced"
+                                                   widget="boolean_facade"/>
+                                        </list>
+                                        <form string="Student Grade Book">
+                                            <group>
+                                                <group string="Student">
+                                                    <field name="student_id" readonly="1"/>
+                                                    <field name="enrollment_id" readonly="1"/>
+                                                    <field name="course_offering_id" readonly="1"/>
+                                                </group>
+                                                <group string="Roll-up">
+                                                    <field name="graded_assignment_count" readonly="1"/>
+                                                    <field name="total_obtained_marks" readonly="1"/>
+                                                    <field name="total_possible_marks" readonly="1"/>
+                                                    <field name="assignment_percentage" readonly="1"/>
+                                                </group>
+                                                <group string="CA Component">
+                                                    <field name="assignment_weight_pct" readonly="1"/>
+                                                    <field name="max_ca_marks" readonly="1"/>
+                                                    <field name="computed_ca_component" readonly="1"/>
+                                                    <field name="current_ca_marks" readonly="1"/>
+                                                    <field name="grade_entry_id" readonly="1"/>
+                                                    <field name="grade_entry_state" readonly="1"/>
+                                                    <field name="is_synced" readonly="1"
+                                                           string="Synced to Grade Entry"/>
+                                                </group>
+                                            </group>
+                                            <group string="Assignment Scores">
+                                                <field name="assignment_line_ids" readonly="1">
+                                                    <list>
+                                                        <field name="assignment_title"/>
+                                                        <field name="due_date"/>
+                                                        <field name="max_marks"/>
+                                                        <field name="marks_obtained"/>
+                                                        <field name="percentage"/>
+                                                        <field name="is_late"/>
+                                                    </list>
+                                                </field>
+                                            </group>
+                                        </form>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Notes" name="gradebook_notes">
+                                <field name="notes" placeholder="Optional internal notes..."/>
+                            </page>
+                        </notebook>
+                        <group name="gradebook_company"
+                               groups="unicore_base.group_unicore_admin">
+                            <field name="company_id" readonly="1"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- GRADE BOOK LIST VIEW                                         -->
+        <!-- ============================================================ -->
+
+        <record id="view_unicore_gradebook_config_list" model="ir.ui.view">
+            <field name="name">unicore.gradebook.config.list</field>
+            <field name="model">unicore.gradebook.config</field>
+            <field name="arch" type="xml">
+                <list string="Grade Books"
+                      decoration-muted="student_count == 0">
+                    <field name="name"/>
+                    <field name="course_id"/>
+                    <field name="semester_id"/>
+                    <field name="faculty_member_id" optional="hide"/>
+                    <field name="assignment_weight_pct"
+                           string="Weight %"/>
+                    <field name="max_ca_marks" optional="hide"/>
+                    <field name="assignment_count" string="Assignments"/>
+                    <field name="student_count" string="Students"/>
+                    <field name="class_avg_assignment_pct"
+                           string="Class Avg %"/>
+                    <field name="synced_count" string="Synced"/>
+                    <field name="pending_count" string="Pending"/>
+                    <field name="company_id" optional="hide"
+                           groups="unicore_base.group_unicore_admin"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- GRADE BOOK SEARCH VIEW                                       -->
+        <!-- ============================================================ -->
+
+        <record id="view_unicore_gradebook_config_search" model="ir.ui.view">
+            <field name="name">unicore.gradebook.config.search</field>
+            <field name="model">unicore.gradebook.config</field>
+            <field name="arch" type="xml">
+                <search string="Grade Books">
+                    <field name="name"/>
+                    <field name="course_id"/>
+                    <field name="course_offering_id"/>
+                    <field name="semester_id"/>
+                    <field name="faculty_member_id"/>
+                    <filter name="filter_has_students" string="Has Students"
+                            domain="[('student_count', '>', 0)]"/>
+                    <filter name="filter_pending" string="Pending Grade Entry Sync"
+                            domain="[('pending_count', '>', 0)]"/>
+                    <filter name="filter_synced" string="Synced to Grade Entries"
+                            domain="[('synced_count', '>', 0)]"/>
+                    <separator/>
+                    <filter name="group_course" string="Course"
+                            context="{'group_by': 'course_id'}"/>
+                    <filter name="group_semester" string="Semester"
+                            context="{'group_by': 'semester_id'}"/>
+                    <filter name="group_faculty" string="Instructor"
+                            context="{'group_by': 'faculty_member_id'}"/>
+                    <filter name="group_campus" string="Campus"
+                            context="{'group_by': 'campus_id'}"/>
+                </search>
+            </field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- GRADE BOOK ACTIONS                                           -->
+        <!-- ============================================================ -->
+
+        <record id="action_unicore_gradebook_all" model="ir.actions.act_window">
+            <field name="name">All Grade Books</field>
+            <field name="res_model">unicore.gradebook.config</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first grade book
+                </p>
+                <p>
+                    Grade books give a running per-course view of
+                    assignment scores with weighting that rolls up
+                    into the Internal / CA marks of the grade entry.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_unicore_gradebook_my" model="ir.actions.act_window">
+            <field name="name">My Grade Books</field>
+            <field name="res_model">unicore.gradebook.config</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('faculty_member_id.partner_id.user_ids', 'in', [uid])]</field>
+        </record>
+
+        <record id="action_unicore_gradebook_pending" model="ir.actions.act_window">
+            <field name="name">Grade Books Pending Sync</field>
+            <field name="res_model">unicore.gradebook.config</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('pending_count', '>', 0)]</field>
+        </record>
+
+    </data>
+</odoo>

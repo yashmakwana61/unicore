@@ -5,12 +5,14 @@ portal. All routes require portal user login and
 restrict data to the currently logged-in student.
 """
 
+from datetime import date, datetime
+
 from odoo import http, _
 from odoo.http import request
 from odoo.addons.portal.controllers.portal import (
     CustomerPortal, pager as portal_pager
 )
-from odoo.exceptions import AccessError
+from odoo.exceptions import AccessError, UserError
 from werkzeug.exceptions import NotFound
 import logging
 
@@ -41,6 +43,23 @@ class UniCoreStudentPortal(CustomerPortal):
                         ('student_id', '=', student.id),
                         ('enrollment_state', '=',
                          'registered'),
+                    ])
+                )
+            if 'unicore_assignments' in counters:
+                offerings = self.env[
+                    'unicore.enrollment'
+                ].sudo().search([
+                    ('student_id', '=', student.id),
+                    ('enrollment_state', '=', 'registered'),
+                ]).mapped('course_offering_id')
+                values['unicore_assignments'] = (
+                    request.env['unicore.assignment']
+                    .sudo()
+                    .search_count([
+                        ('course_offering_id', 'in',
+                         offerings.ids),
+                        ('assignment_state', '=',
+                         'published'),
                     ])
                 )
             if 'unicore_invoices' in counters:
@@ -457,4 +476,333 @@ class UniCoreStudentPortal(CustomerPortal):
             'unicore_portal_student'
             '.portal_student_scholarships',
             values,
+        )
+
+    # ===================================================
+    # ROUTE: MY NOTICES
+    # ===================================================
+
+    @http.route(
+        '/my/unicore/student/notices',
+        type='http',
+        auth='user',
+        website=True,
+    )
+    def student_notices(self, page=1, date_begin=None, date_end=None, **kwargs):
+        student = self._student_required()
+        if not isinstance(
+            student,
+            request.env['unicore.student'].__class__
+        ):
+            return student
+
+        Notice = request.env['unicore.notice'].sudo()
+        notices = Notice.search([
+            ('publisher_id', '!=', False),
+        ], order='pinned desc, publish_date desc')
+
+        today = date.today()
+        notices = notices.filtered(
+            lambda n: not n.expiry_date or n.expiry_date >= today
+        )
+
+        student_campus_ids = student.campus_id.ids if student else []
+        student_program_ids = (
+            [student.program_id.id]
+            if student and student.program_id else []
+        )
+        notices = notices.filtered(
+            lambda n: n.audience == 'all'
+            or (n.audience == 'students')
+            or (n.audience == 'specific'
+                and (
+                    any(c.id in student_campus_ids for c in n.campus_ids)
+                    or any(p.id in student_program_ids for p in n.program_ids)
+                ))
+        )
+
+        notice_count = len(notices)
+        pager = portal_pager(
+            url='/my/unicore/student/notices',
+            total=notice_count,
+            page=page,
+            step=20,
+        )
+        notices = notices[(pager['offset']):(pager['offset'] + pager['step'])]
+
+        values = {
+            'student': student,
+            'notices': notices,
+            'page_name': 'student_notices',
+            'pager': pager,
+            'date_begin': date_begin,
+            'date_end': date_end,
+        }
+        return request.render(
+            'unicore_notice_board.portal_student_notices',
+            values,
+        )
+
+    # ===================================================
+    # ROUTE: MY ASSIGNMENTS (list)
+    # ===================================================
+
+    def _get_student_offerings(self, student):
+        """
+        Return the course offerings the student is currently
+        registered for (published assignments only matter here,
+        but we list all active offerings).
+        """
+        Enrollment = request.env['unicore.enrollment'].sudo()
+        enrollments = Enrollment.search([
+            ('student_id', '=', student.id),
+            ('enrollment_state', '=', 'registered'),
+        ])
+        return enrollments.mapped('course_offering_id')
+
+    @http.route(
+        '/my/unicore/student/assignments',
+        type='http',
+        auth='user',
+        website=True,
+    )
+    def student_assignments(self, **kwargs):
+        """
+        List all published/closed assignments for the courses
+        the student is enrolled in, with submission status.
+        """
+        student = self._student_required()
+        if not isinstance(
+            student,
+            request.env['unicore.student'].__class__
+        ):
+            return student
+
+        offerings = self._get_student_offerings(student)
+        offering_ids = offerings.ids
+
+        Assignment = request.env['unicore.assignment'].sudo()
+        Submission = request.env[
+            'unicore.assignment.submission'
+        ].sudo()
+
+        assignments = Assignment.search([
+            ('course_offering_id', 'in', offering_ids),
+            ('assignment_state', 'in',
+             ['published', 'closed']),
+        ], order='due_date')
+
+        # Build submission map: assignment_id -> submission
+        submission_map = {}
+        for assignment in assignments:
+            sub = Submission.search([
+                ('assignment_id', '=', assignment.id),
+                ('student_id', '=', student.id),
+            ], limit=1)
+            submission_map[assignment.id] = sub or False
+
+        now = datetime.now()
+        overdue_ids = {
+            a.id for a in assignments
+            if a.due_datetime and now > a.due_datetime
+            and a.assignment_state != 'closed'
+        }
+
+        values = {
+            'student': student,
+            'assignments': assignments,
+            'submission_map': submission_map,
+            'overdue_ids': overdue_ids,
+            'published_assignments': assignments.filtered(
+                lambda a: a.assignment_state == 'published'
+            ),
+            'closed_assignments': assignments.filtered(
+                lambda a: a.assignment_state == 'closed'
+            ),
+            'page_name': 'student_assignments',
+        }
+        return request.render(
+            'unicore_portal_student'
+            '.portal_student_assignments',
+            values,
+        )
+
+    # ===================================================
+    # ROUTE: ASSIGNMENT DETAIL (view + submit)
+    # ===================================================
+
+    @http.route(
+        '/my/unicore/student/assignments/'
+        '<int:assignment_id>',
+        type='http',
+        auth='user',
+        website=True,
+    )
+    def student_assignment_detail(self, assignment_id,
+                                   **kwargs):
+        """
+        Detail page for one assignment. Shows description,
+        rubric and the student's submission (or the submit
+        form if not yet submitted).
+        """
+        student = self._student_required()
+        if not isinstance(
+            student,
+            request.env['unicore.student'].__class__
+        ):
+            return student
+
+        Assignment = request.env['unicore.assignment'].sudo()
+        assignment = Assignment.browse(assignment_id)
+        if not assignment.exists():
+            raise NotFound()
+
+        offerings = self._get_student_offerings(student)
+        if assignment.course_offering_id.id not in offerings.ids:
+            raise AccessError(
+                _('You are not enrolled in this course.')
+            )
+
+        Submission = request.env[
+            'unicore.assignment.submission'
+        ].sudo()
+        submission = Submission.search([
+            ('assignment_id', '=', assignment.id),
+            ('student_id', '=', student.id),
+        ], limit=1)
+
+        now = datetime.now()
+        can_submit = (
+            assignment.assignment_state == 'published'
+            and (not submission or submission.state
+                 in ('draft', 'returned'))
+            and (assignment.due_datetime is None
+                 or now <= assignment.due_datetime
+                 or assignment.is_late_submission_allowed)
+        )
+
+        values = {
+            'student': student,
+            'assignment': assignment,
+            'submission': submission or False,
+            'can_submit': can_submit,
+            'is_overdue': bool(
+                assignment.due_datetime
+                and now > assignment.due_datetime
+            ),
+            'page_name': 'student_assignment_detail',
+        }
+        return request.render(
+            'unicore_portal_student'
+            '.portal_student_assignment_detail',
+            values,
+        )
+
+    # ===================================================
+    # ROUTE: SUBMIT ASSIGNMENT (POST)
+    # ===================================================
+
+    @http.route(
+        '/my/unicore/student/assignments/'
+        '<int:assignment_id>/submit',
+        type='http',
+        auth='user',
+        website=True,
+        methods=['POST'],
+        csrf=True,
+    )
+    def student_assignment_submit(self, assignment_id,
+                                   **kwargs):
+        """
+        Handle the assignment submission form. Creates the
+        submission (or updates a draft) with the uploaded file
+        and submits it.
+        """
+        student = self._student_required()
+        if not isinstance(
+            student,
+            request.env['unicore.student'].__class__
+        ):
+            return student
+
+        Assignment = request.env['unicore.assignment'].sudo()
+        assignment = Assignment.browse(assignment_id)
+        if not assignment.exists():
+            raise NotFound()
+
+        offerings = self._get_student_offerings(student)
+        if assignment.course_offering_id.id not in offerings.ids:
+            raise AccessError(
+                _('You are not enrolled in this course.')
+            )
+        if assignment.assignment_state != 'published':
+            raise AccessError(
+                _('This assignment is not open for submissions.')
+            )
+
+        Submission = request.env[
+            'unicore.assignment.submission'
+        ].sudo()
+        submission = Submission.search([
+            ('assignment_id', '=', assignment.id),
+            ('student_id', '=', student.id),
+        ], limit=1)
+
+        # Handle file upload (multipart) following the
+        # established UniCore portal upload pattern.
+        submission_file = False
+        filename = ''
+        if request.httprequest.files.get('submission_file'):
+            uploaded = request.httprequest.files['submission_file']
+            submission_file = uploaded.read()
+            filename = uploaded.filename or ''
+
+        notes = kwargs.get('submission_text') or ''
+
+        if not submission_file and not notes:
+            raise UserError(_(
+                'Please attach a file or write notes before '
+                'submitting.'
+            ))
+
+        now = datetime.now()
+        due_dt = assignment.due_datetime
+        is_late = bool(due_dt and now > due_dt)
+
+        vals = {
+            'assignment_id': assignment.id,
+            'student_id': student.id,
+            'submission_text': notes,
+            'submission_date': now,
+            'state': 'late' if is_late else 'submitted',
+        }
+        if submission_file:
+            vals['submission_file'] = submission_file
+            vals['submission_filename'] = filename
+
+        if submission:
+            was_submitted = submission.state in ('submitted', 'late')
+            submission.write(vals)
+            if not was_submitted:
+                submission.attempt_count = (
+                    submission.attempt_count + 1
+                )
+            submission.state = 'late' if is_late else 'submitted'
+        else:
+            Submission.create(vals)
+
+        # Notify the faculty member
+        try:
+            assignment._notify_faculty(
+                submission or Submission.search([
+                    ('assignment_id', '=', assignment.id),
+                    ('student_id', '=', student.id),
+                ], limit=1)
+            )
+        except Exception as e:
+            _logger.error('Faculty notify failed: %s', str(e))
+
+        return request.redirect(
+            '/my/unicore/student/assignments/%d'
+            % assignment.id
         )
