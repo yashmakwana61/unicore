@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- ============================================================
+             Institution Feature catalog (optional modules)
+             ============================================================ -->
+        <record id="feature_hostel" model="unicore.institution.feature">
+            <field name="name">Hostel</field>
+            <field name="code">HOSTEL</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="feature_transport" model="unicore.institution.feature">
+            <field name="name">Transport</field>
+            <field name="code">TRANSPORT</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="feature_library" model="unicore.institution.feature">
+            <field name="name">Library</field>
+            <field name="code">LIBRARY</field>
+            <field name="sequence">30</field>
+        </record>
+        <record id="feature_alumni" model="unicore.institution.feature">
+            <field name="name">Alumni</field>
+            <field name="code">ALUMNI</field>
+            <field name="sequence">40</field>
+        </record>
+        <record id="feature_convocation" model="unicore.institution.feature">
+            <field name="name">Convocation</field>
+            <field name="code">CONVOCATION</field>
+            <field name="sequence">50</field>
+        </record>
+        <record id="feature_scholarship" model="unicore.institution.feature">
+            <field name="name">Scholarship</field>
+            <field name="code">SCHOLARSHIP</field>
+            <field name="sequence">60</field>
+        </record>
+        <record id="feature_thesis" model="unicore.institution.feature">
+            <field name="name">Thesis / Dissertation</field>
+            <field name="code">THESIS</field>
+            <field name="sequence">70</field>
+        </record>
+        <record id="feature_crm" model="unicore.institution.feature">
+            <field name="name">Admissions CRM</field>
+            <field name="code">CRM</field>
+            <field name="sequence">80</field>
+        </record>
+        <record id="feature_admission" model="unicore.institution.feature">
+            <field name="name">Admission Process</field>
+            <field name="code">ADMISSION</field>
+            <field name="sequence">90</field>
+        </record>
+        <record id="feature_website" model="unicore.institution.feature">
+            <field name="name">Website / Public Pages</field>
+            <field name="code">WEBSITE</field>
+            <field name="sequence">100</field>
+        </record>
+        <record id="feature_attendance" model="unicore.institution.feature">
+            <field name="name">Attendance</field>
+            <field name="code">ATTENDANCE</field>
+            <field name="sequence">110</field>
+        </record>
+        <record id="feature_exam" model="unicore.institution.feature">
+            <field name="name">Examinations</field>
+            <field name="code">EXAM</field>
+            <field name="sequence">120</field>
+        </record>
+        <record id="feature_fees" model="unicore.institution.feature">
+            <field name="name">Fees &amp; Payments</field>
+            <field name="code">FEES</field>
+            <field name="sequence">130</field>
+        </record>
+
+        <!-- ============================================================
+             Grading Scheme catalog (Phase 2)
+             One record per strategy; replaces the profile.grading_scheme
+             Selection as the forward-looking driver. The legacy UNI_LEGACY
+             profile keeps grading_scheme='credit_gpa' and no scheme record,
+             so its effective scheme resolves to credit_gpa (zero regression).
+             ============================================================ -->
+        <record id="grading_scheme_credit_gpa" model="unicore.grading.scheme">
+            <field name="name">Credit GPA / CGPA</field>
+            <field name="code">CREDIT_GPA</field>
+            <field name="scheme_type">credit_gpa</field>
+            <field name="sequence">10</field>
+            <field name="is_default" eval="True"/>
+            <field name="description">Cumulative Grade Point Average over
+                credit hours. Legacy university default.</field>
+        </record>
+        <record id="grading_scheme_weighted_percentage" model="unicore.grading.scheme">
+            <field name="name">Weighted Percentage</field>
+            <field name="code">WEIGHTED_PCT</field>
+            <field name="scheme_type">weighted_percentage</field>
+            <field name="sequence">20</field>
+            <field name="description">Final marks weighted by assessment
+                components (internal/external).</field>
+        </record>
+        <record id="grading_scheme_simple_percentage" model="unicore.grading.scheme">
+            <field name="name">Simple Percentage</field>
+            <field name="code">SIMPLE_PCT</field>
+            <field name="scheme_type">simple_percentage</field>
+            <field name="sequence">30</field>
+            <field name="description">Average of obtained percentages across
+                published grade entries.</field>
+        </record>
+        <record id="grading_scheme_rubric_standards" model="unicore.grading.scheme">
+            <field name="name">Rubric / Standards Based</field>
+            <field name="code">RUBRIC_STD</field>
+            <field name="scheme_type">rubric_standards</field>
+            <field name="sequence">40</field>
+            <field name="description">Assessment against rubric / proficiency
+                standards.</field>
+        </record>
+        <record id="grading_scheme_pass_fail" model="unicore.grading.scheme">
+            <field name="name">Pass / Fail</field>
+            <field name="code">PASS_FAIL</field>
+            <field name="scheme_type">pass_fail</field>
+            <field name="sequence">50</field>
+            <field name="description">Pass / Fail counts across published
+                grade entries.</field>
+        </record>
+        <record id="grading_scheme_certificate_only" model="unicore.grading.scheme">
+            <field name="name">Certificate / Completion Only</field>
+            <field name="code">CERT_ONLY</field>
+            <field name="scheme_type">certificate_only</field>
+            <field name="sequence">60</field>
+            <field name="description">Completion-only reporting; tracks
+                pass/fail outcome without numeric GPA.</field>
+        </record>
+
+        <!-- ============================================================
+             University (Legacy) Terminology Profile
+             ============================================================ -->
+        <record id="terminology_university_legacy" model="unicore.terminology.profile">
+            <field name="name">University (Legacy)</field>
+            <field name="code">UNI_LEGACY</field>
+            <field name="term_faculty">Faculty</field>
+            <field name="term_department">Department</field>
+            <field name="term_program">Program</field>
+            <field name="term_student">Student</field>
+            <field name="term_faculty_staff">Faculty</field>
+            <field name="term_semester">Semester</field>
+            <field name="term_academic_year">Academic Year</field>
+        </record>
+
+        <!-- ============================================================
+             University (Legacy) Institution Profile
+             Reproduces 100% of current behavior (additive Phase 0 default).
+             ============================================================ -->
+        <record id="profile_university_legacy" model="unicore.institution.profile">
+            <field name="name">University (Legacy)</field>
+            <field name="code">UNI_LEGACY</field>
+            <field name="institution_type">university</field>
+            <field name="is_legacy_university" eval="True"/>
+            <field name="calendar_mode">semester</field>
+            <field name="grading_scheme">credit_gpa</field>
+            <field name="terminology_profile_id" ref="terminology_university_legacy"/>
+            <field name="academic_unit_level_ids" eval="[(6, 0, [ref('unicore_academic_generic.unit_type_faculty'), ref('unicore_academic_generic.unit_type_department'), ref('unicore_academic_generic.unit_type_grade_level'), ref('unicore_academic_generic.unit_type_wing'), ref('unicore_academic_generic.unit_type_stream'), ref('unicore_academic_generic.unit_type_division'), ref('unicore_academic_generic.unit_type_batch_group'), ref('unicore_academic_generic.unit_type_other')])]"/>
+            <field name="feature_toggle_ids" eval="[(6, 0, [ref('feature_hostel'), ref('feature_transport'), ref('feature_library'), ref('feature_alumni'), ref('feature_convocation'), ref('feature_scholarship'), ref('feature_thesis'), ref('feature_crm'), ref('feature_admission'), ref('feature_website'), ref('feature_attendance'), ref('feature_exam'), ref('feature_fees')])]"/>
+            <field name="description">Default profile preserving 100% of the current
+                university behavior. Keep institutions on this profile (or with no
+                profile set) for zero observable change until they opt into a new
+                entity-type profile (Phase 5).</field>
+        </record>
+
+        <!-- ============================================================
+             K-12 School Terminology Profile (Phase 8)
+             Terms the generic vocabulary for a school: Faculty is hidden,
+             Department -> Grade Level, Program -> Class/Section, Semester ->
+             Term, Academic Year -> Session.
+             ============================================================ -->
+        <record id="terminology_school_k12" model="unicore.terminology.profile">
+            <field name="name">K-12 School</field>
+            <field name="code">K12</field>
+            <!-- term_faculty left blank = concept hidden -->
+            <field name="term_department">Grade Level</field>
+            <field name="term_program">Class/Section</field>
+            <field name="term_student">Learner</field>
+            <field name="term_faculty_staff">Teacher</field>
+            <field name="term_semester">Term</field>
+            <field name="term_academic_year">Session</field>
+        </record>
+
+        <!-- ============================================================
+             K-12 School Institution Profile (Phase 8)
+             A ready-to-attach school template: term-based calendar, Grade
+             Level as the only academic unit level, simple-percentage grading.
+             Inert until a company attaches it (noupdate=1 seed).
+             ============================================================ -->
+        <record id="profile_school_k12" model="unicore.institution.profile">
+            <field name="name">K-12 School</field>
+            <field name="code">K12_SCHOOL</field>
+            <field name="institution_type">school</field>
+            <field name="is_legacy_university" eval="False"/>
+            <field name="calendar_mode">term</field>
+            <field name="grading_scheme">simple_percentage</field>
+            <field name="terminology_profile_id" ref="terminology_school_k12"/>
+            <field name="academic_unit_level_ids" eval="[(6, 0, [ref('unicore_academic_generic.unit_type_grade_level')])]"/>
+            <field name="feature_toggle_ids" eval="[(6, 0, [ref('feature_admission'), ref('feature_attendance'), ref('feature_fees'), ref('feature_exam'), ref('feature_transport'), ref('feature_library'), ref('feature_scholarship'), ref('feature_alumni'), ref('feature_website'), ref('feature_crm')])]"/>
+            <field name="description">Ready-to-attach K-12 school template
+                (Phase 8). Term-based calendar with Grade Level units and
+                class/section terminology. Inert until a company selects it.
+                Legacy university behavior is unaffected.</field>
+        </record>
+
+    </data>
+</odoo>

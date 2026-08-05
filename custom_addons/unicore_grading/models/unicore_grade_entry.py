@@ -416,11 +416,29 @@ class UniCoreGradeEntry(models.Model):
 
     def _update_student_cgpa(self):
         """
-        Recompute and update student CGPA from all
-        published/locked grade entries.
-        CGPA = sum(grade_points_earned) /
-               sum(credit_hours) across all published
-               entries for this student.
+        Legacy entry point. Recompute the student's aggregated result from all
+        published/locked grade entries, dispatching to the handler matching the
+        institution's effective grading scheme (Phase 2).
+
+        The default / legacy scheme is 'credit_gpa', which preserves 100% of the
+        previous behavior: CGPA = sum(grade_points_earned) /
+        sum(credit_hours) across all published entries for this student.
+        """
+        self.ensure_one()
+        scheme = self.company_id._get_effective_grading_scheme()
+        if scheme in ('simple_percentage', 'weighted_percentage'):
+            self._update_student_result_percentage()
+        elif scheme in ('pass_fail', 'rubric_standards', 'certificate_only'):
+            self._update_student_result_pass_fail()
+        else:
+            # credit_gpa (and any unknown fallback) -> legacy CGPA path
+            self._update_student_result_credit_gpa()
+
+    def _update_student_result_credit_gpa(self):
+        """
+        Legacy CGPA computation (unchanged Phase 0/1 behavior).
+        CGPA = sum(grade_points_earned) / sum(credit_hours) across all
+        published/locked entries for this student.
         """
         self.ensure_one()
         student = self.student_id
@@ -445,3 +463,55 @@ class UniCoreGradeEntry(models.Model):
                 student.student_id_number,
                 cgpa,
             )
+
+    def _update_student_result_percentage(self):
+        """
+        Percentage-based scheme handler (simple / weighted percentage).
+        Writes the student's average percentage across all published/locked
+        grade entries.
+        """
+        self.ensure_one()
+        student = self.student_id
+        all_entries = self.search([
+            ('student_id', '=', student.id),
+            ('entry_state', 'in', ['published', 'locked']),
+        ])
+        if not all_entries:
+            return
+        average = round(
+            sum(e.percentage for e in all_entries)
+            / len(all_entries), 2
+        )
+        student.sudo().write({'average_percentage': average})
+        _logger.info(
+            'Updated average percentage for student %s: %s',
+            student.student_id_number,
+            average,
+        )
+
+    def _update_student_result_pass_fail(self):
+        """
+        Pass/Fail style scheme handler (pass_fail / rubric / certificate).
+        Writes the student's passed/failed course counts across all
+        published/locked grade entries.
+        """
+        self.ensure_one()
+        student = self.student_id
+        all_entries = self.search([
+            ('student_id', '=', student.id),
+            ('entry_state', 'in', ['published', 'locked']),
+        ])
+        if not all_entries:
+            return
+        passed = sum(1 for e in all_entries if e.is_pass)
+        failed = len(all_entries) - passed
+        student.sudo().write({
+            'courses_passed': passed,
+            'courses_failed': failed,
+        })
+        _logger.info(
+            'Updated pass/fail counts for student %s: %s / %s',
+            student.student_id_number,
+            passed,
+            failed,
+        )

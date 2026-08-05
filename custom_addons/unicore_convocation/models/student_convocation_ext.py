@@ -76,6 +76,25 @@ class StudentConvocationExt(models.Model):
             'views': [(False, 'form')],
         }
 
+    def action_view_convocation_cohort_mates(self):
+        """Open the student's same-cohort graduates of the same convocation."""
+        self.ensure_one()
+        if not self.convocation_event_id:
+            raise UserError(_(
+                'No convocation event linked to this student yet.'))
+        domain = self._cohort_members_domain() or [('id', '=', self.id)]
+        domain = list(domain) + [
+            ('convocation_event_id', '=', self.convocation_event_id.id),
+        ]
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Cohort Mates'),
+            'res_model': 'unicore.student',
+            'view_mode': 'list,form',
+            'domain': domain,
+            'context': {'search_default_group_cohort_kind': 1},
+        }
+
     def action_register_convocation(self):
         for rec in self:
             rec._sync_convocation_event()

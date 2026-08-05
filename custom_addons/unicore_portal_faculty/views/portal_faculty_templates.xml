@@ -450,6 +450,7 @@
             <tr>
               <th>Student ID</th>
               <th>Name</th>
+              <th>Cohort</th>
               <th>Attendance %</th>
               <th>Internal Marks</th>
               <th>Grade</th>
@@ -471,6 +472,9 @@
                       ATT LOW
                     </span>
                   </t>
+                </td>
+                <td>
+                  <t t-esc="sd['student'].cohort_label"/>
                 </td>
                 <td>
                   <t t-esc="'%.1f%%' % sd['attendance_pct']"/>

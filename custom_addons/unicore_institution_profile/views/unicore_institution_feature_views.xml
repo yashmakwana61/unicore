@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Window Action -->
+    <record id="action_unicore_institution_feature" model="ir.actions.act_window">
+        <field name="name">Institution Features</field>
+        <field name="res_model">unicore.institution.feature</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[]</field>
+    </record>
+
+    <!-- List View -->
+    <record id="unicore_institution_feature_list_view" model="ir.ui.view">
+        <field name="name">unicore.institution.feature.list</field>
+        <field name="model">unicore.institution.feature</field>
+        <field name="arch" type="xml">
+            <list string="Institution Features">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="unicore_institution_feature_form_view" model="ir.ui.view">
+        <field name="name">unicore.institution.feature.form</field>
+        <field name="model">unicore.institution.feature</field>
+        <field name="arch" type="xml">
+            <form string="Institution Feature">
+                <sheet>
+                    <group>
+                        <group name="left">
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group name="right">
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

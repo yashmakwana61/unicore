@@ -65,6 +65,11 @@
                                 <field name="campus_id" options="{'no_create_edit': True}"/>
                                 <field name="program_id" options="{'no_create_edit': True}"/>
                                 <field name="specialisation_id" options="{'no_create_edit': True}"/>
+                                <field name="cohort_kind" readonly="1"/>
+                                <field name="grade_level_id"
+                                       options="{'no_create_edit': True}"
+                                       invisible="cohort_kind != 'grade_batch'"
+                                       required="cohort_kind == 'grade_batch'"/>
                             </group>
                         </group>
                     </div>

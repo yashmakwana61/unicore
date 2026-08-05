@@ -61,6 +61,7 @@ class UnicoreAcademicYear(models.Model):
             ('trimester', 'Trimester Based'),
             ('quarter', 'Quarter Based'),
             ('annual', 'Annual'),
+            ('term', 'Term Based'),
         ],
         string='Year Structure',
         default='semester',
@@ -132,6 +133,9 @@ class UnicoreAcademicYear(models.Model):
         'UNIQUE(code, company_id)',
         'Academic year code must be unique per institution.',
     )
+
+    # Semester types allowed inside a Term-based academic year (Phase 8).
+    _TERM_SEMESTER_TYPES = ('term_1', 'term_2', 'term_3', 'term_4')
 
     @api.depends('semester_ids')
     def _compute_semester_count(self):
@@ -216,6 +220,33 @@ class UnicoreAcademicYear(models.Model):
                 if other_active:
                     raise ValidationError(
                         _('Only one academic year can be active per institution at a time.')
+                    )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        records._check_term_structure()
+        return records
+
+    def write(self, vals):
+        result = super().write(vals)
+        if 'year_type' in vals or 'semester_ids' in vals:
+            self._check_term_structure()
+        return result
+
+    def _check_term_structure(self):
+        """A Term-based academic year may only contain Term semesters.
+
+        Legacy-inert: only fires when ``year_type == 'term'`` is set explicitly.
+        """
+        for record in self:
+            if record.year_type == 'term':
+                bad = record.semester_ids.filtered(
+                    lambda s: s.semester_type not in self._TERM_SEMESTER_TYPES)
+                if bad:
+                    raise ValidationError(
+                        _('A Term-based academic year can only contain Term '
+                          'semesters (First/Second/Third/Fourth Term).')
                     )
 
     def action_confirm(self):

@@ -48,6 +48,10 @@
                                     <span class="id-card-label">BATCH:</span>
                                     <span class="id-card-value" t-esc="student.batch_year"/>
                                 </div>
+                                <div class="id-card-field" t-if="student.cohort_kind != 'academic_year'">
+                                    <span class="id-card-label">COHORT:</span>
+                                    <span class="id-card-value" t-esc="student.cohort_label"/>
+                                </div>
                                 <div class="id-card-field">
                                     <span class="id-card-label">CAMPUS:</span>
                                     <span class="id-card-value" t-esc="student.campus_id.name"/>

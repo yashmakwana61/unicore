@@ -33,6 +33,26 @@ class UniCoreStudentEnrollmentReport(models.Model):
         string='Batch Year',
         readonly=True,
     )
+    # --- COHORT (Gap-4 fill) ---
+    cohort_kind = fields.Selection(
+        string='Cohort Kind',
+        readonly=True,
+        selection=[
+            ('academic_year', 'Academic Year / Batch'),
+            ('grade_batch', 'Grade-Level Batch'),
+            ('rolling', 'Rolling Intake'),
+        ],
+        help='How students of the program are grouped into cohorts.',
+    )
+    grade_level_id = fields.Many2one(
+        comodel_name='unicore.academic.unit',
+        string='Grade Level',
+        readonly=True,
+    )
+    cohort_start_date = fields.Date(
+        string='Cohort Start Date',
+        readonly=True,
+    )
     gender = fields.Selection(
         string='Gender',
         readonly=True,
@@ -91,6 +111,9 @@ class UniCoreStudentEnrollmentReport(models.Model):
                     s.company_id,
                     s.program_id,
                     s.batch_year,
+                    s.cohort_kind,
+                    s.grade_level_id,
+                    s.cohort_start_date,
                     s.gender,
                     s.student_state,
                     COUNT(s.id) AS student_count,
@@ -113,6 +136,9 @@ class UniCoreStudentEnrollmentReport(models.Model):
                     s.company_id,
                     s.program_id,
                     s.batch_year,
+                    s.cohort_kind,
+                    s.grade_level_id,
+                    s.cohort_start_date,
                     s.gender,
                     s.student_state
             )

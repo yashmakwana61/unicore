@@ -44,6 +44,25 @@ class UniCoreStudentGradingExt(models.Model):
         string='Enrollments',
         readonly=True,
     )
+    average_percentage = fields.Float(
+        string='Average Percentage',
+        default=0.0,
+        digits=(5, 2),
+        help='Average of obtained percentages across published grade entries '
+             '(simple / weighted percentage grading schemes, Phase 2).',
+    )
+    courses_passed = fields.Integer(
+        string='Courses Passed',
+        default=0,
+        help='Number of passed courses across published grade entries '
+             '(pass/fail style schemes, Phase 2).',
+    )
+    courses_failed = fields.Integer(
+        string='Courses Failed',
+        default=0,
+        help='Number of failed courses across published grade entries '
+             '(pass/fail style schemes, Phase 2).',
+    )
 
     def _compute_grade_entry_count_student(self):
         GradeEntry = self.env['unicore.grade.entry']

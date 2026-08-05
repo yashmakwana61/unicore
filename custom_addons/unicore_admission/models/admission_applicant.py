@@ -47,6 +47,20 @@ class AdmissionApplicant(models.Model):
         comodel_name='unicore.specialisation', string='Specialisation',
         domain="[('program_id', '=', program_id)]",
     )
+    # --- COHORT (Gap-3 fill) ---
+    cohort_kind = fields.Selection(
+        related='program_id.cohort_kind', string='Cohort Kind', readonly=True,
+        help='How students of this program are grouped into cohorts '
+             '(from the program).',
+    )
+    grade_level_id = fields.Many2one(
+        comodel_name='unicore.academic.unit', string='Grade Level',
+        domain="[('unit_type_id.code', '=', 'GRADE'), "
+               "('company_id', '=', company_id)]",
+        tracking=True, ondelete='restrict',
+        help='Grade level for K-12 grade-batch programs (Gap-3 fill); '
+             'propagated to the created student on admission confirmation.',
+    )
 
     aggregate_percentage = fields.Float(
         string='Aggregate %', digits=(5, 2),
@@ -217,6 +231,8 @@ class AdmissionApplicant(models.Model):
                 'company_id': record.company_id.id,
                 'admission_number': record.application_number,
             }
+            if record.grade_level_id:
+                student_vals['grade_level_id'] = record.grade_level_id.id
             student = Student.sudo().create(student_vals)
             record.write({'state': 'confirmed', 'student_id': student.id})
 
@@ -294,6 +310,18 @@ class AdmissionApplicant(models.Model):
     def _onchange_program_id(self):
         if self.program_id:
             self.specialisation_id = False
+            if self.program_id.cohort_kind != 'grade_batch':
+                self.grade_level_id = False
+
+    @api.constrains('program_id', 'grade_level_id')
+    def _check_admission_cohort(self):
+        """A grade-batch (K-12) program requires a grade level."""
+        for record in self:
+            if (record.program_id.cohort_kind == 'grade_batch'
+                    and not record.grade_level_id):
+                raise ValidationError(_(
+                    'Grade level is required for grade-batch (K-12) '
+                    'programs.'))
 
     @api.model
     def _read_group_state(self, states, domain, order):

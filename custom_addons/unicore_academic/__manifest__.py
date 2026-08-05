@@ -13,6 +13,10 @@
         'unicore_base',
         'unicore_campus',
         'unicore_security',
+        'unicore_academic_generic',
+        # Phase 1: is_legacy_institution reads company.institution_profile_id,
+        # which is defined by unicore_institution_profile (standalone, no cycle).
+        'unicore_institution_profile',
     ],
     'data': [
         'security/ir.model.access.csv',

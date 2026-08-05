@@ -80,10 +80,11 @@ class UniCoreCourse(models.Model):
     department_id = fields.Many2one(
         comodel_name='unicore.department',
         string='Owning Department',
-        required=True,
         ondelete='restrict',
         tracking=True,
-        help='Department that owns and maintains this course'
+        help='Department that owns and maintains this course. Required for '
+             'university (legacy) institutions; optional for other '
+             'institution types (Gap-1 shim, mirrors Phase 1 program anchor).'
     )
     academic_faculty_id = fields.Many2one(
         comodel_name='unicore.faculty',
@@ -97,12 +98,28 @@ class UniCoreCourse(models.Model):
 
     credit_hours = fields.Float(
         string='Credit Hours',
-        required=True,
         default=3.0,
         digits=(4, 1),
         tracking=True,
-        help='Total credit hours for this course'
+        help='Total credit hours for this course. Required for university '
+             '(legacy) institutions; optional for other institution types '
+             '(Phase 2: required="is_legacy_institution").'
     )
+    is_legacy_institution = fields.Boolean(
+        string='Legacy University Institution',
+        compute='_compute_is_legacy_institution',
+        help='True when the course belongs to a company without an institution '
+             'profile, or whose profile is in legacy university mode. In legacy '
+             'mode credit hours are mandatory (Phase 2 compatibility shim).',
+    )
+
+    @api.depends('company_id.institution_profile_id.is_legacy_university')
+    def _compute_is_legacy_institution(self):
+        for record in self:
+            profile = record.company_id.institution_profile_id
+            record.is_legacy_institution = (
+                not profile or profile.is_legacy_university
+            )
     theory_hours = fields.Float(
         string='Theory Hours / Week',
         default=3.0,
@@ -299,13 +316,14 @@ class UniCoreCourse(models.Model):
     @api.constrains('credit_hours')
     def _check_credit_hours(self):
         for rec in self:
-            if rec.credit_hours <= 0:
-                raise ValidationError(
-                    _('Credit hours must be greater than 0.')
-                )
             if rec.credit_hours > 20:
                 raise ValidationError(
                     _('Credit hours cannot exceed 20.')
+                )
+            if rec.is_legacy_institution and rec.credit_hours <= 0:
+                raise ValidationError(
+                    _('Credit hours must be greater than 0 for '
+                      'university (legacy) institutions.')
                 )
 
     @api.constrains('passing_marks', 'total_marks')
@@ -330,6 +348,36 @@ class UniCoreCourse(models.Model):
                 raise ValidationError(
                     _('Contact hours cannot be negative.')
                 )
+
+    # ------- COHORT / ANCHOR (Gap-1 shim) -------
+
+    def _check_course_department(self):
+        """Legacy university courses must have an owning department.
+
+        Non-legacy institutions (K-12 schools, training centres) may create
+        courses without a department. Mirrors the Phase 1 program anchor
+        rule. Plain method + explicit create()/write() hooks because
+        @api.constrains would not fire on create() when department_id is
+        absent from vals (both fields optional).
+        """
+        for rec in self:
+            if rec.is_legacy_institution and not rec.department_id:
+                raise ValidationError(
+                    _('Owning Department is required for university (legacy) '
+                      'institutions.')
+                )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        records._check_course_department()
+        return records
+
+    def write(self, vals):
+        res = super().write(vals)
+        if 'department_id' in vals or 'company_id' in vals:
+            self._check_course_department()
+        return res
 
     # ------- STATE METHODS -------
 

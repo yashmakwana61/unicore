@@ -45,7 +45,11 @@
                             <field name="name"/>
                             <field name="code"/>
                             <field name="degree_title"/>
-                            <field name="department_id" options="{'no_create': True}"/>
+                            <field name="is_legacy_institution" invisible="1"/>
+                            <field name="department_id" options="{'no_create': True}"
+                                   required="is_legacy_institution"/>
+                            <field name="academic_unit_id" options="{'no_create': True}"
+                                   invisible="is_legacy_institution"/>
                             <field name="faculty_id"/>
                             <field name="company_id"/>
                             <field name="coordinator_id" options="{'no_create': True}"/>
@@ -58,6 +62,8 @@
                             <field name="semesters_count"/>
                             <field name="total_credits"/>
                             <field name="credit_system"/>
+                            <field name="cohort_kind" readonly="is_legacy_institution"/>
+                            <field name="cohort_grouping_label" readonly="1"/>
                             <field name="campus_ids" widget="many2many_tags"/>
                         </group>
                     </group>
@@ -116,8 +122,10 @@
                 <field name="code"/>
                 <field name="name"/>
                 <field name="department_id"/>
+                <field name="academic_unit_id" optional="hide"/>
                 <field name="faculty_id"/>
                 <field name="program_type"/>
+                <field name="cohort_kind" optional="hide"/>
                 <field name="duration_years"/>
                 <field name="total_credits"/>
                 <field name="program_state"/>
@@ -135,8 +143,10 @@
                 <field name="name"/>
                 <field name="code"/>
                 <field name="department_id"/>
+                <field name="academic_unit_id"/>
                 <field name="faculty_id"/>
                 <field name="program_type"/>
+                <field name="cohort_kind"/>
                 <filter name="filter_active" string="Active Programs"
                         domain="[('program_state', '=', 'active')]"/>
                 <filter name="filter_undergrad" string="Undergraduate"
@@ -150,10 +160,14 @@
                 <group name="groupby">
                     <filter name="groupby_department" string="Department"
                             context="{'group_by': 'department_id'}"/>
+                    <filter name="groupby_academic_unit" string="Academic Unit"
+                            context="{'group_by': 'academic_unit_id'}"/>
                     <filter name="groupby_faculty" string="Faculty"
                             context="{'group_by': 'faculty_id'}"/>
                     <filter name="groupby_type" string="Program Type"
                             context="{'group_by': 'program_type'}"/>
+                    <filter name="groupby_cohort" string="Cohort Kind"
+                            context="{'group_by': 'cohort_kind'}"/>
                     <filter name="groupby_status" string="Status"
                             context="{'group_by': 'program_state'}"/>
                 </group>

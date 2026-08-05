@@ -145,6 +145,12 @@
               <strong>
                 <t t-esc="student.current_year_of_study"/>
               </strong>
+              <t t-if="student.cohort_kind != 'academic_year'">
+                | Cohort:
+                <strong>
+                  <t t-esc="student.cohort_label"/>
+                </strong>
+              </t>
             </p>
           </div>
         </div>

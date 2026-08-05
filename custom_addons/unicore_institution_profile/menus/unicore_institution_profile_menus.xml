@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Institution Profiles under UniCore Configuration -->
+    <menuitem id="menu_unicore_institution_profile_list"
+              name="Institution Profiles"
+              parent="unicore_base.menu_unicore_configuration"
+              action="action_unicore_institution_profile"
+              sequence="105"/>
+
+    <!-- Terminology Profiles under UniCore Configuration -->
+    <menuitem id="menu_unicore_terminology_profile_list"
+              name="Terminology Profiles"
+              parent="unicore_base.menu_unicore_configuration"
+              action="action_unicore_terminology_profile"
+              sequence="106"/>
+
+    <!-- Grading Schemes under UniCore Configuration -->
+    <menuitem id="menu_unicore_grading_scheme_list"
+              name="Grading Schemes"
+              parent="unicore_base.menu_unicore_configuration"
+              action="action_unicore_grading_scheme"
+              sequence="107"/>
+
+</odoo>

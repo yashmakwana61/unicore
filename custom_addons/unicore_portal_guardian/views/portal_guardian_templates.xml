@@ -107,6 +107,11 @@
                     <t t-esc="student.student_id_number"/>
                   </code>
                 </small>
+                <t t-if="student.cohort_kind != 'academic_year'">
+                  <span class="badge bg-secondary ms-2">
+                    <t t-esc="student.cohort_label"/>
+                  </span>
+                </t>
               </h5>
               <span class="badge bg-info">
                 <t t-esc="relation.relationship_type.replace('_',' ').title()"/>

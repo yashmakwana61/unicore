@@ -69,7 +69,7 @@
       <field name="partner_id" ref="uc_demo_partner_faculty_rajesh"/>
       <field name="company_id" ref="base.main_company"/>
       <field name="company_ids" eval="[(6, 0, [ref('base.main_company')])]"/>
-      <field name="groups_id" eval="[(6, 0, [ref('unicore_base.group_unicore_faculty')])]"/>
+      <field name="group_ids" eval="[(6, 0, [ref('unicore_base.group_unicore_faculty')])]"/>
     </record>
 
     <record id="uc_demo_user_student_arav" model="res.users">
@@ -79,7 +79,7 @@
       <field name="partner_id" ref="uc_demo_partner_student_arav"/>
       <field name="company_id" ref="base.main_company"/>
       <field name="company_ids" eval="[(6, 0, [ref('base.main_company')])]"/>
-      <field name="groups_id" eval="[(6, 0, [ref('base.group_portal'), ref('unicore_base.group_unicore_student')])]"/>
+      <field name="group_ids" eval="[(6, 0, [ref('base.group_portal'), ref('unicore_base.group_unicore_student')])]"/>
     </record>
 
     <!-- ================================================================

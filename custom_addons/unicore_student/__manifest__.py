@@ -17,6 +17,7 @@ academic history and status transitions.
         'unicore_security',
         'unicore_campus',
         'unicore_academic',
+        'unicore_academic_generic',
         'unicore_calendar',
     ],
     'data': [

@@ -10,6 +10,21 @@
             <xpath expr="//sheet/group[1]" position="inside">
                 <field name="unicore_convocation_event" invisible="1"/>
             </xpath>
+            <xpath expr="//div[hasclass('oe_button_box')]"
+                   position="inside">
+                <button name="action_view_convocation_graduates"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-graduation-cap"
+                        invisible="not unicore_convocation_event"
+                        help="Graduates of this convocation, grouped by cohort">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">
+                            Graduates by Cohort
+                        </span>
+                    </div>
+                </button>
+            </xpath>
         </field>
     </record>
 

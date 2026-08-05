@@ -121,6 +121,34 @@ class UnicoreStudent(models.Model):
         default=lambda self: fields.Date.today().year,
         help='Year of admission e.g. 2024',
     )
+    # --- COHORT (Phase 4) ---
+    cohort_kind = fields.Selection(
+        related='program_id.cohort_kind', string='Cohort Kind', readonly=True,
+        store=True,
+        help='How students of this program are grouped into cohorts (from the '
+             'program; Phase 3).',
+    )
+    grade_level_id = fields.Many2one(
+        comodel_name='unicore.academic.unit', string='Grade Level',
+        domain="[('unit_type_id.code', '=', 'GRADE'), "
+               "('company_id', '=', company_id)]",
+        tracking=True, ondelete='restrict',
+        help='Grade level for K-12 grade-batch programs (Phase 4).',
+    )
+    cohort_start_date = fields.Date(
+        string='Cohort Start Date', tracking=True,
+        help='Intake / cohort start date for rolling-intake (training / '
+             'coaching) programs (Phase 4).',
+    )
+    cohort_label = fields.Char(
+        string='Cohort', compute='_compute_cohort_label',
+        help='Human-readable cohort for this student (Phase 4).',
+    )
+    cohort_members_count = fields.Integer(
+        string='Cohort Members', compute='_compute_cohort_members_count',
+        help='Number of students in the same cohort (same program + cohort '
+             'key; Phase 6).',
+    )
     current_semester_id = fields.Many2one(
         comodel_name='unicore.semester', string='Current Semester', tracking=True,
     )
@@ -231,6 +259,65 @@ class UnicoreStudent(models.Model):
             else:
                 record.completion_percentage = 0.0
 
+    @api.depends('program_id.cohort_kind', 'batch_year',
+                 'grade_level_id.display_name', 'cohort_start_date')
+    def _compute_cohort_label(self):
+        for record in self:
+            kind = record.program_id.cohort_kind
+            if kind == 'grade_batch':
+                record.cohort_label = (
+                    record.grade_level_id.display_name
+                    or _('Grade level not set')
+                )
+            elif kind == 'rolling':
+                record.cohort_label = (
+                    record.cohort_start_date.strftime('%Y-%m-%d')
+                    if record.cohort_start_date else _('Rolling intake')
+                )
+            else:
+                record.cohort_label = (
+                    _('Batch %s') % record.batch_year if record.batch_year
+                    else _('Batch not set')
+                )
+
+    @api.depends('program_id.cohort_kind', 'grade_level_id',
+                 'cohort_start_date', 'batch_year')
+    def _compute_cohort_members_count(self):
+        for record in self:
+            domain = record._cohort_members_domain()
+            record.cohort_members_count = (
+                self.env['unicore.student'].search_count(domain)
+                if domain else 0
+            )
+
+    def _cohort_members_domain(self):
+        """Domain matching the students that belong to the same cohort.
+
+        Membership is defined per cohort kind (all target fields are stored
+        and searchable): grade_batch -> same grade level; rolling -> same
+        intake / cohort start date; legacy academic_year -> same batch year.
+        """
+        self.ensure_one()
+        if not self.program_id:
+            return False
+        kind = self.program_id.cohort_kind
+        if kind == 'grade_batch' and self.grade_level_id:
+            return [
+                ('program_id', '=', self.program_id.id),
+                ('grade_level_id', '=', self.grade_level_id.id),
+            ]
+        if kind == 'rolling' and self.cohort_start_date:
+            return [
+                ('program_id', '=', self.program_id.id),
+                ('cohort_start_date', '=', self.cohort_start_date),
+            ]
+        if self.batch_year:
+            return [
+                ('program_id', '=', self.program_id.id),
+                ('batch_year', '=', self.batch_year),
+            ]
+        return False
+
     def _compute_document_count(self):
         for record in self:
             record.document_count = len(record.document_ids)
@@ -292,6 +379,29 @@ class UnicoreStudent(models.Model):
             if record.visa_number and record.visa_expiry and record.visa_expiry < date.today():
                 raise ValidationError(_('Visa expiry date must be in the future.'))
 
+    def _check_student_cohort(self):
+        """Phase 4: cohort-driven enrollment requirements.
+
+        A student in a grade-batch program must carry a grade level; a student
+        in a rolling-intake program must carry a cohort start date. Legacy
+        (academic_year) programs impose no new requirement - batch_year is
+        already mandatory - so the legacy path stays byte-for-byte unchanged.
+        Invoked from `create()`/`write()` (a constrains hook would skip
+        anchor-less creates, see Phase 1/3 notes).
+        """
+        for record in self:
+            kind = record.program_id.cohort_kind
+            if kind == 'grade_batch' and not record.grade_level_id:
+                raise ValidationError(
+                    _('A grade level is required for students in a '
+                      'Grade-Level Batch program.')
+                )
+            if kind == 'rolling' and not record.cohort_start_date:
+                raise ValidationError(
+                    _('A cohort start date is required for students in a '
+                      'Rolling Intake program.')
+                )
+
     # -------------------- ONCHANGE --------------------
 
     @api.onchange('program_id')
@@ -305,6 +415,13 @@ class UnicoreStudent(models.Model):
                     days=dur_years * 365
                 )
 
+    @api.onchange('program_id', 'admission_date')
+    def _onchange_cohort_defaults(self):
+        """Phase 5: suggest the cohort start date for rolling intakes."""
+        if (self.program_id and self.program_id.cohort_kind == 'rolling'
+                and not self.cohort_start_date and self.admission_date):
+            self.cohort_start_date = self.admission_date
+
     # -------------------- CREATE OVERRIDE --------------------
 
     @api.model_create_multi
@@ -313,8 +430,18 @@ class UnicoreStudent(models.Model):
             if not vals.get('student_id_number'):
                 seq = self.env['ir.sequence'].next_by_code('unicore.student') or '/'
                 vals['student_id_number'] = seq
+            # Phase 5 intake automation: for rolling-intake programs, default
+            # the cohort start date from the admission date unless given.
+            # Legacy (academic_year) and grade_batch programs are untouched.
+            if not vals.get('cohort_start_date'):
+                program = self.env['unicore.program'].browse(
+                    vals.get('program_id'))
+                if (program.cohort_kind == 'rolling'
+                        and vals.get('admission_date')):
+                    vals['cohort_start_date'] = vals['admission_date']
 
         records = super().create(vals_list)
+        records._check_student_cohort()
 
         for record in records:
             if not record.partner_id:
@@ -334,6 +461,13 @@ class UnicoreStudent(models.Model):
                     pass
 
         return records
+
+    def write(self, vals):
+        res = super().write(vals)
+        if any(k in vals for k in ('program_id', 'grade_level_id',
+                                   'cohort_start_date')):
+            self._check_student_cohort()
+        return res
 
     # -------------------- STATE TRANSITIONS --------------------
 
@@ -355,6 +489,11 @@ class UnicoreStudent(models.Model):
             raise UserError(_('Program must be set before enrollment.'))
         if not self.batch_year:
             raise UserError(_('Batch year must be set before enrollment.'))
+        # Phase 5 intake automation: fill a missing rolling cohort start date
+        # from the admission date at enrollment time (safety net).
+        if (self.cohort_kind == 'rolling' and not self.cohort_start_date
+                and self.admission_date):
+            self.cohort_start_date = self.admission_date
         old = self.student_state
         self.write({
             'student_state': 'enrolled',
@@ -508,4 +647,14 @@ class UnicoreStudent(models.Model):
             'view_mode': 'list,form',
             'domain': [('student_id', '=', self.id)],
             'context': {'default_student_id': self.id},
+        }
+
+    def action_open_cohort_members(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Cohort Members'),
+            'res_model': 'unicore.student',
+            'view_mode': 'list,form',
+            'domain': self._cohort_members_domain() or [('id', '=', self.id)],
         }

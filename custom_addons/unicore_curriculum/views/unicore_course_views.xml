@@ -75,7 +75,7 @@
                                 <field name="name"/>
                                 <field name="code"/>
                                 <field name="company_id" options="{'no_create': True}"/>
-                                <field name="department_id"/>
+                                <field name="department_id" required="is_legacy_institution"/>
                                 <field name="academic_faculty_id" readonly="1"/>
                             </group>
                             <group string="Classification">
@@ -86,7 +86,8 @@
                         </group>
                         <group>
                             <group string="Credit &amp; Contact Hours">
-                                <field name="credit_hours"/>
+                                <field name="credit_hours" required="is_legacy_institution"/>
+                                <field name="is_legacy_institution" invisible="1"/>
                                 <field name="theory_hours"/>
                                 <field name="lab_hours"/>
                                 <field name="tutorial_hours"/>

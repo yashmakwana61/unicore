@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Division: flat sub-unit (e.g. a campus division) -->
+        <record id="unit_type_division" model="unicore.academic.unit.type">
+            <field name="name">Division</field>
+            <field name="code">DIV</field>
+            <field name="sequence">60</field>
+        </record>
+
+        <!-- Batch Group: rolling-batch container for training institutes -->
+        <record id="unit_type_batch_group" model="unicore.academic.unit.type">
+            <field name="name">Batch Group</field>
+            <field name="code">BATCH</field>
+            <field name="sequence">70</field>
+        </record>
+
+        <!-- Grade Level: K-12 top level (Grade 1..12) -->
+        <record id="unit_type_grade_level" model="unicore.academic.unit.type">
+            <field name="name">Grade Level</field>
+            <field name="code">GRADE</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <!-- Stream: e.g. Science / Commerce / Arts, may hold grade levels -->
+        <record id="unit_type_stream" model="unicore.academic.unit.type">
+            <field name="name">Stream</field>
+            <field name="code">STREAM</field>
+            <field name="sequence">50</field>
+            <field name="allowed_child_type_ids" eval="[(6, 0, [ref('unit_type_grade_level')])]"/>
+        </record>
+
+        <!-- Wing: e.g. Primary Wing / Middle Wing / Senior Wing -->
+        <record id="unit_type_wing" model="unicore.academic.unit.type">
+            <field name="name">Wing</field>
+            <field name="code">WING</field>
+            <field name="sequence">40</field>
+            <field name="allowed_child_type_ids" eval="[(6, 0, [ref('unit_type_grade_level')])]"/>
+        </record>
+
+        <!-- Department: may contain divisions, streams or wings -->
+        <record id="unit_type_department" model="unicore.academic.unit.type">
+            <field name="name">Department</field>
+            <field name="code">DEP</field>
+            <field name="sequence">20</field>
+            <field name="allowed_child_type_ids" eval="[(6, 0, [ref('unit_type_division'), ref('unit_type_stream'), ref('unit_type_wing')])]"/>
+        </record>
+
+        <!-- Faculty: university top level, contains departments -->
+        <record id="unit_type_faculty" model="unicore.academic.unit.type">
+            <field name="name">Faculty</field>
+            <field name="code">FAC</field>
+            <field name="sequence">10</field>
+            <field name="allowed_child_type_ids" eval="[(6, 0, [ref('unit_type_department')])]"/>
+        </record>
+
+        <!-- Other / free-form: everything allowed -->
+        <record id="unit_type_other" model="unicore.academic.unit.type">
+            <field name="name">Other</field>
+            <field name="code">OTHER</field>
+            <field name="sequence">99</field>
+            <field name="allowed_child_type_ids" eval="[(6, 0, [ref('unit_type_faculty'), ref('unit_type_department'), ref('unit_type_grade_level'), ref('unit_type_wing'), ref('unit_type_stream'), ref('unit_type_division'), ref('unit_type_batch_group')])]"/>
+        </record>
+
+    </data>
+</odoo>

@@ -11,6 +11,8 @@
       <pivot string="Student Enrollment Analytics"
              disable_linking="False">
         <field name="program_id" type="row"/>
+        <field name="cohort_kind" type="row"/>
+        <field name="grade_level_id" type="row"/>
         <field name="batch_year" type="col"/>
         <field name="student_count" type="measure"/>
         <field name="avg_cgpa" type="measure"/>
@@ -40,6 +42,9 @@
       <list>
         <field name="program_id"/>
         <field name="batch_year"/>
+        <field name="cohort_kind"/>
+        <field name="grade_level_id"/>
+        <field name="cohort_start_date"/>
         <field name="gender"/>
         <field name="student_state"/>
         <field name="student_count"/>
@@ -59,6 +64,8 @@
       <search>
         <field name="program_id"/>
         <field name="batch_year"/>
+        <field name="cohort_kind"/>
+        <field name="grade_level_id"/>
         <filter name="active_students"
           string="Active Students"
           domain="[('student_state','in',['enrolled','active'])]"/>
@@ -69,6 +76,15 @@
           <filter name="group_by_batch"
             string="Batch Year"
             context="{'group_by':'batch_year'}"/>
+          <filter name="group_by_cohort_kind"
+            string="Cohort Kind"
+            context="{'group_by':'cohort_kind'}"/>
+          <filter name="group_by_grade_level"
+            string="Grade Level"
+            context="{'group_by':'grade_level_id'}"/>
+          <filter name="group_by_intake"
+            string="Cohort Start Date"
+            context="{'group_by':'cohort_start_date'}"/>
           <filter name="group_by_gender"
             string="Gender"
             context="{'group_by':'gender'}"/>

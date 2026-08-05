@@ -62,6 +62,10 @@ class UnicoreSemester(models.Model):
             ('quarter_3', 'Third Quarter'),
             ('quarter_4', 'Fourth Quarter'),
             ('annual', 'Annual'),
+            ('term_1', 'First Term'),
+            ('term_2', 'Second Term'),
+            ('term_3', 'Third Term'),
+            ('term_4', 'Fourth Term'),
         ],
         string='Semester Type',
         default='odd',
@@ -256,6 +260,22 @@ class UnicoreSemester(models.Model):
                 if record.date_end > ay.date_end:
                     raise ValidationError(
                         _('Semester end date cannot be after the academic year end date.')
+                    )
+
+    @api.constrains('academic_year_id', 'semester_type')
+    def _check_term_semester_type(self):
+        """A Term-based academic year may only contain Term semesters.
+
+        Complements the year-level check and covers direct semester creation.
+        Legacy-inert: only fires when the parent year is Term-based.
+        """
+        for record in self:
+            if record.academic_year_id and record.academic_year_id.year_type == 'term':
+                if record.semester_type not in (
+                        self.env['unicore.academic.year']._TERM_SEMESTER_TYPES):
+                    raise ValidationError(
+                        _('A Term-based academic year can only contain Term '
+                          'semesters (First/Second/Third/Fourth Term).')
                     )
 
     def action_confirm(self):

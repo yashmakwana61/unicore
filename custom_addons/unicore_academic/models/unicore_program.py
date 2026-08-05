@@ -32,9 +32,23 @@ class UnicoreProgram(models.Model):
     department_id = fields.Many2one(
         comodel_name='unicore.department',
         string='Department',
-        required=True,
+        # Not required at the ORM level anymore (Phase 1 makes the rigid
+        # Faculty -> Department -> Program chain optional for non-university
+        # institutions). `_check_program_anchor` re-enforces the legacy
+        # requirement (Department mandatory) via the is_legacy_university shim,
+        # so the legacy university path stays 100% identical.
         ondelete='restrict',
         tracking=True,
+    )
+    academic_unit_id = fields.Many2one(
+        comodel_name='unicore.academic.unit',
+        string='Academic Unit',
+        ondelete='restrict',
+        tracking=True,
+        domain="[('company_id', '=', company_id)]",
+        help='Generic academic unit (Grade Level, Wing, Batch Group, ...) that '
+             'this program / class / cohort attaches to for non-university '
+             'institutions. Universities keep using Department (legacy).',
     )
     faculty_id = fields.Many2one(
         comodel_name='unicore.faculty',
@@ -45,10 +59,11 @@ class UnicoreProgram(models.Model):
     )
     company_id = fields.Many2one(
         comodel_name='res.company',
-        related='department_id.company_id',
+        compute='_compute_company_id',
         string='Institution',
         store=True,
         readonly=True,
+        help='Derived from the Department (legacy) or the Academic Unit anchor.',
     )
     program_type = fields.Selection(
         selection=[
@@ -179,6 +194,123 @@ class UnicoreProgram(models.Model):
         'UNIQUE(code, company_id)',
         'Program code must be unique per institution.',
     )
+
+    is_legacy_institution = fields.Boolean(
+        string='Legacy University Institution',
+        compute='_compute_is_legacy_institution',
+        help='True when the program belongs to a company without an institution '
+             'profile, or whose profile is in legacy university mode. In legacy '
+             'mode the Department is mandatory (Phase 1 compatibility shim).',
+    )
+    cohort_kind = fields.Selection(
+        selection=[
+            ('academic_year', 'Academic Year / Batch'),
+            ('grade_batch', 'Grade-Level Batch'),
+            ('rolling', 'Rolling Intake'),
+        ],
+        string='Cohort Kind',
+        default='academic_year',
+        tracking=True,
+        help='How students are grouped into cohorts for this program (Phase 3). '
+             'Legacy universities keep Academic Year / Batch (students grouped '
+             'by admission year). K-12 schools use Grade-Level Batch; training '
+             '/ coaching centres use Rolling Intake.',
+    )
+    cohort_grouping_label = fields.Char(
+        string='Cohort Grouping',
+        compute='_compute_cohort_grouping_label',
+        help='Human-readable description of how students are grouped.',
+    )
+
+    @api.depends('cohort_kind')
+    def _compute_cohort_grouping_label(self):
+        labels = {
+            'academic_year': 'Grouped by admission academic year (batch)',
+            'grade_batch': 'Grouped by grade level within the academic year',
+            'rolling': 'Rolling intake cohorts by start date',
+        }
+        for record in self:
+            record.cohort_grouping_label = labels.get(
+                record.cohort_kind, ''
+            )
+
+    @api.depends('department_id.company_id', 'academic_unit_id.company_id')
+    def _compute_company_id(self):
+        for record in self:
+            record.company_id = (
+                record.department_id.company_id
+                or record.academic_unit_id.company_id
+                or False
+            )
+
+    @api.depends('company_id.institution_profile_id.is_legacy_university')
+    def _compute_is_legacy_institution(self):
+        for record in self:
+            profile = record.company_id.institution_profile_id
+            record.is_legacy_institution = not profile or profile.is_legacy_university
+
+    def _check_program_anchor(self):
+        """Phase 1 compatibility shim for the academic hierarchy.
+
+        * Legacy university (or unset profile)  -> Department is mandatory.
+        * Any other institution type            -> at least one anchor
+          (Department and/or Academic Unit) is mandatory.
+
+        NOTE: this is invoked from `create()`/`write()` rather than
+        `@api.constrains`, because a constrain on ('department_id',
+        'academic_unit_id') never fires on create when neither field is
+        supplied in the vals (both are optional at the ORM level now).
+        """
+        for record in self:
+            company = (
+                record.department_id.company_id
+                or record.academic_unit_id.company_id
+                or record.company_id
+            )
+            profile = company.institution_profile_id if company else False
+            legacy = not profile or profile.is_legacy_university
+            if legacy:
+                if not record.department_id:
+                    raise ValidationError(
+                        _('A Department is required for programs of a '
+                          'university (legacy) institution.')
+                    )
+            elif not record.department_id and not record.academic_unit_id:
+                raise ValidationError(
+                    _('A program must be attached to either a Department '
+                      'or an Academic Unit.')
+                )
+
+    def _check_cohort_kind(self):
+        """Phase 3: legacy universities are locked to academic_year cohorts.
+
+        K-12 / training / coaching institutions may use grade_batch or rolling.
+        Invoked from `create()`/`write()` like `_check_program_anchor`, because
+        a constrains hook on ('cohort_kind') would not fire on anchor-less
+        create when the field is absent from vals.
+        """
+        for record in self:
+            if (record.is_legacy_institution
+                    and record.cohort_kind != 'academic_year'):
+                raise ValidationError(
+                    _('University (legacy) institutions can only use '
+                      'Academic Year / Batch cohorts.')
+                )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        records._check_program_anchor()
+        records._check_cohort_kind()
+        return records
+
+    def write(self, vals):
+        res = super().write(vals)
+        if 'department_id' in vals or 'academic_unit_id' in vals:
+            self._check_program_anchor()
+        if 'cohort_kind' in vals:
+            self._check_cohort_kind()
+        return res
 
     @api.depends('specialisation_ids')
     def _compute_specialisation_count(self):

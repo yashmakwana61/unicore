@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_unicore_academic_unit_admin,unicore.academic.unit.admin,model_unicore_academic_unit,unicore_base.group_unicore_admin,1,1,1,1
+access_unicore_academic_unit_manager,unicore.academic.unit.manager,model_unicore_academic_unit,unicore_base.group_unicore_manager,1,1,1,0
+access_unicore_academic_unit_registrar,unicore.academic.unit.registrar,model_unicore_academic_unit,unicore_base.group_unicore_registrar,1,1,0,0
+access_unicore_academic_unit_staff,unicore.academic.unit.staff,model_unicore_academic_unit,unicore_base.group_unicore_staff,1,0,0,0
+access_unicore_academic_unit_faculty,unicore.academic.unit.faculty,model_unicore_academic_unit,unicore_base.group_unicore_faculty,1,0,0,0
+access_unicore_academic_unit_student,unicore.academic.unit.student,model_unicore_academic_unit,unicore_base.group_unicore_student,1,0,0,0
+access_unicore_academic_unit_type_admin,unicore.academic.unit.type.admin,model_unicore_academic_unit_type,unicore_base.group_unicore_admin,1,1,1,1
+access_unicore_academic_unit_type_manager,unicore.academic.unit.type.manager,model_unicore_academic_unit_type,unicore_base.group_unicore_manager,1,1,1,0
+access_unicore_academic_unit_type_registrar,unicore.academic.unit.type.registrar,model_unicore_academic_unit_type,unicore_base.group_unicore_registrar,1,1,0,0
+access_unicore_academic_unit_type_staff,unicore.academic.unit.type.staff,model_unicore_academic_unit_type,unicore_base.group_unicore_staff,1,0,0,0
+access_unicore_academic_unit_type_faculty,unicore.academic.unit.type.faculty,model_unicore_academic_unit_type,unicore_base.group_unicore_faculty,1,0,0,0
+access_unicore_academic_unit_type_student,unicore.academic.unit.type.student,model_unicore_academic_unit_type,unicore_base.group_unicore_student,1,0,0,0

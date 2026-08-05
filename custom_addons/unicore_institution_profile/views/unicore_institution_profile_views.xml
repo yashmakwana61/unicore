@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Window Action -->
+    <record id="action_unicore_institution_profile" model="ir.actions.act_window">
+        <field name="name">Institution Profiles</field>
+        <field name="res_model">unicore.institution.profile</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[]</field>
+    </record>
+
+    <!-- List View -->
+    <record id="unicore_institution_profile_list_view" model="ir.ui.view">
+        <field name="name">unicore.institution.profile.list</field>
+        <field name="model">unicore.institution.profile</field>
+        <field name="arch" type="xml">
+            <list string="Institution Profiles">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="institution_type"/>
+                <field name="calendar_mode" optional="show"/>
+                <field name="grading_scheme" optional="show"/>
+                <field name="is_legacy_university" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="unicore_institution_profile_form_view" model="ir.ui.view">
+        <field name="name">unicore.institution.profile.form</field>
+        <field name="model">unicore.institution.profile</field>
+        <field name="arch" type="xml">
+            <form string="Institution Profile">
+                <sheet>
+                    <group>
+                        <group name="left">
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="institution_type"/>
+                        </group>
+                        <group name="right">
+                            <field name="is_legacy_university"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group string="Operational Configuration">
+                        <group name="calendar">
+                            <field name="calendar_mode"/>
+                        </group>
+                        <group name="grading">
+                            <field name="grading_scheme_id" options="{'no_create': True}"/>
+                            <field name="effective_grading_scheme" readonly="1"/>
+                            <field name="grading_scheme"/>
+                            <field name="terminology_profile_id" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="unit_levels" string="Academic Unit Levels">
+                            <field name="academic_unit_level_ids" widget="many2many_tags"/>
+                            <div class="text-muted mt-2">
+                                Unit types this institution may use in its hierarchy.
+                                University: Faculty + Department. School: Grade Level.
+                                Training: none (flat).
+                            </div>
+                        </page>
+                        <page name="features" string="Relevant Features">
+                            <field name="feature_toggle_ids" widget="many2many_tags"/>
+                            <div class="text-muted mt-2">
+                                Optional UniCore modules relevant for this institution type.
+                                Pre-selected by the type template (Phase 5); adjustable here.
+                            </div>
+                        </page>
+                        <page name="description" string="Description">
+                            <field name="description"/>
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

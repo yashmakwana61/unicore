@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Window Action -->
+    <record id="action_unicore_terminology_profile" model="ir.actions.act_window">
+        <field name="name">Terminology Profiles</field>
+        <field name="res_model">unicore.terminology.profile</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[]</field>
+    </record>
+
+    <!-- List View -->
+    <record id="unicore_terminology_profile_list_view" model="ir.ui.view">
+        <field name="name">unicore.terminology.profile.list</field>
+        <field name="model">unicore.terminology.profile</field>
+        <field name="arch" type="xml">
+            <list string="Terminology Profiles">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="term_program" optional="show"/>
+                <field name="term_student" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="unicore_terminology_profile_form_view" model="ir.ui.view">
+        <field name="name">unicore.terminology.profile.form</field>
+        <field name="model">unicore.terminology.profile</field>
+        <field name="arch" type="xml">
+            <form string="Terminology Profile">
+                <sheet>
+                    <group>
+                        <group name="left">
+                            <field name="name"/>
+                            <field name="code"/>
+                        </group>
+                        <group name="right">
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group string="Terminology Substitutions">
+                        <group name="terms">
+                            <field name="term_faculty"
+                                   placeholder="Faculty, Wing, Division... (blank = hidden)"/>
+                            <field name="term_department"
+                                   placeholder="Department, Grade Level... (blank = hidden)"/>
+                            <field name="term_program"
+                                   placeholder="Program, Class/Section, Batch..."/>
+                            <field name="term_student"
+                                   placeholder="Student, Learner, Trainee..."/>
+                        </group>
+                        <group name="terms_2">
+                            <field name="term_faculty_staff"
+                                   placeholder="Faculty, Teacher, Trainer, Instructor..."/>
+                            <field name="term_semester"
+                                   placeholder="Semester, Term, Cycle..."/>
+                            <field name="term_academic_year"
+                                   placeholder="Academic Year, Session..."/>
+                        </group>
+                    </group>
+                    <group string="Applied Labels (read-only preview)">
+                        <field name="label_summary" readonly="1"/>
+                    </group>
+                    <group string="Description">
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

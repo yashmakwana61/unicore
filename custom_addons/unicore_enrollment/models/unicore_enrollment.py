@@ -78,6 +78,33 @@ class UniCoreEnrollment(models.Model):
         readonly=True,
     )
 
+    # --- COHORT (from the enrolled student; Phase 7 rollup) ---
+    # Stored relateds so enrollments can be searched / grouped by cohort.
+    cohort_kind = fields.Selection(
+        related='student_id.cohort_kind', string='Cohort Kind',
+        readonly=True, store=True,
+        help='Cohort kind of the enrolled student\'s program (Phase 7).',
+    )
+    grade_level_id = fields.Many2one(
+        comodel_name='unicore.academic.unit', string='Grade Level',
+        related='student_id.grade_level_id', readonly=True, store=True,
+        help='Grade level of the enrolled student (K-12; Phase 7).',
+    )
+    cohort_start_date = fields.Date(
+        string='Cohort Start Date', related='student_id.cohort_start_date',
+        readonly=True, store=True,
+        help='Intake / cohort start date of the enrolled student (Phase 7).',
+    )
+    batch_year = fields.Integer(
+        string='Batch Year', related='student_id.batch_year',
+        readonly=True, store=True,
+        help='Batch year of the enrolled student (Phase 7).',
+    )
+    cohort_label = fields.Char(
+        string='Cohort', compute='_compute_cohort_label',
+        help='Human-readable cohort of the enrolled student (Phase 7).',
+    )
+
     display_name = fields.Char(
         string='Display Name',
         compute='_compute_display_name',
@@ -211,6 +238,11 @@ class UniCoreEnrollment(models.Model):
                 rec.course_id.code if rec.course_id else ''
             )
             rec.display_name = '%s - %s' % (student_name, course_code)
+
+    @api.depends('student_id.cohort_label')
+    def _compute_cohort_label(self):
+        for rec in self:
+            rec.cohort_label = rec.student_id.cohort_label or ''
 
     def _check_prerequisites(self, student, course):
         """

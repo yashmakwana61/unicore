@@ -43,6 +43,10 @@
                                 class="oe_stat_button" icon="fa-history">
                             <field string="History" name="academic_history_count" widget="statinfo"/>
                         </button>
+                        <button name="action_open_cohort_members" type="object"
+                                class="oe_stat_button" icon="fa-users">
+                            <field string="Cohort" name="cohort_members_count" widget="statinfo"/>
+                        </button>
                     </div>
                     <div class="oe_title">
                         <label for="name" string="Student Name" class="oe_edit_only"/>
@@ -128,6 +132,16 @@
                                     <field name="batch_year"/>
                                     <field name="current_year_of_study"/>
                                     <field name="current_semester_id" options="{'no_create_edit': True}"/>
+                                </group>
+                                <group>
+                                    <field name="cohort_kind" readonly="1"/>
+                                    <field name="grade_level_id" options="{'no_create_edit': True}"
+                                           invisible="cohort_kind != 'grade_batch'"
+                                           required="cohort_kind == 'grade_batch'"/>
+                                    <field name="cohort_start_date"
+                                           invisible="cohort_kind != 'rolling'"
+                                           required="cohort_kind == 'rolling'"/>
+                                    <field name="cohort_label" readonly="1"/>
                                 </group>
                             </group>
                             <group string="Admission Details">
@@ -225,6 +239,8 @@
                        decoration-danger="student_state in ('withdrawn','expelled','deceased','cancelled')"
                        decoration-info="student_state in ('prospect','on_leave')"/>
                 <field name="batch_year"/>
+                <field name="cohort_kind" optional="hide"/>
+                <field name="cohort_label" optional="hide"/>
                 <field name="email"/>
                 <field name="mobile"/>
                 <field name="cgpa"/>
@@ -243,6 +259,7 @@
                 <field name="email"/>
                 <field name="mobile"/>
                 <field name="nationality_id"/>
+                <field name="cohort_kind"/>
                 <filter name="filter_active" string="Active" domain="[('student_state', '=', 'active')]"/>
                 <filter name="filter_enrolled" string="Enrolled" domain="[('student_state', '=', 'enrolled')]"/>
                 <filter name="filter_graduated" string="Graduated" domain="[('student_state', '=', 'graduated')]"/>
@@ -256,6 +273,9 @@
                 <separator/>
                 <group name="groupby">
                     <filter name="group_batch_year" string="Batch Year" context="{'group_by': 'batch_year'}"/>
+                    <filter name="group_cohort_kind" string="Cohort Kind" context="{'group_by': 'cohort_kind'}"/>
+                    <filter name="group_grade_level" string="Grade Level" context="{'group_by': 'grade_level_id'}"/>
+                    <filter name="group_cohort_start" string="Intake Date" context="{'group_by': 'cohort_start_date'}"/>
                     <filter name="group_gender" string="Gender" context="{'group_by': 'gender'}"/>
                     <filter name="group_company" string="Company" context="{'group_by': 'company_id'}"/>
                 </group>
