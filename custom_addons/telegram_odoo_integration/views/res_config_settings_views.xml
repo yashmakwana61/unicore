@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_telegram" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.telegram</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Telegram" string="Telegram" name="telegram">
+                    <block title="Telegram Bot Configuration">
+                        <setting string="Bot Token"
+                                 help="Token obtained from @BotFather when creating the bot on Telegram.">
+                            <field name="telegram_bot_token"/>
+                        </setting>
+                        <setting string="Allowed Chat ID"
+                                 help="Only this chat id can place orders. Find your chat id by messaging @userinfobot on Telegram.">
+                            <field name="telegram_allowed_chat_id"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

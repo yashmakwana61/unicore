@@ -3,4 +3,8 @@ from . import unicore_terminology_profile
 from . import unicore_institution_profile
 from . import unicore_grading_scheme
 from . import res_company
+from . import ir_actions
 from . import ir_ui_view
+from . import ir_ui_menu
+from . import unicore_academic_unit
+from . import base

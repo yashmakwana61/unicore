@@ -13,6 +13,9 @@
                 <field name="institution_profile_id" options="{'no_create': True}"/>
                 <field name="terminology_profile_id" readonly="1"
                        invisible="institution_profile_id == False"/>
+                <field name="enabled_feature_codes" readonly="1"
+                       invisible="institution_profile_id == False"
+                       help="Feature codes enabled by this profile — controls which module menus are shown."/>
             </field>
         </field>
     </record>

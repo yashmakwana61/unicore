@@ -1,20 +1,24 @@
-"""Terminology-aware view labels.
+"""Terminology-aware view architectures.
 
-Gap-2 fill: wire the institution terminology profiles into the actual view
-labels served to the web client, via a runtime ``get_view`` rewrite. Purely
-cosmetic and strictly gated:
+Field labels reach the web client through two channels:
 
-* Only rewrites when the current company has a terminology profile attached.
-* Only touches a whitelist of UniCore models and a whitelist of m2o field
-  names, and only when the rendered ``string`` EXACTLY equals the generic
-  term (e.g. ``Program`` -> ``Class/Section`` for K-12).
-* Legacy companies (no profile, or UNI_LEGACY with generic terms) get a
-  byte-identical architecture back — resolve_label() returns the generic
-  term, so nothing changes.
+* ``fields_get`` (handled globally in ``models/base.py``) for every field,
+  including bare ``<field name="..."/>`` nodes which inherit their label from
+  the field definition.
+* The view architecture itself, where explicit ``string`` attributes live on
+  ``<filter>``, ``<label>``, ``<button>``, ``<field string=...>`` (statinfo
+  cards) and ``<group>/<page>`` nodes.
 
-Odoo 19 note: the model-level ``get_views`` no longer exists; ``get_view`` /
-``get_views`` live on ``ir.ui.view``. We override ``get_view`` so both
-``get_views`` and direct ``get_view`` calls are covered.
+This module rewrites those explicit architecture strings at runtime in
+``get_view`` (which also feeds ``get_views``). It is mapping-driven from the
+company's terminology rules and strictly gated:
+
+* No profile, or the UNI_LEGACY university profile => empty rules => the
+  architecture is returned byte-identical.
+* A substring fast-path skips parsing entirely when no generic term token is
+  present in the architecture at all.
+* Only ``string`` attributes whose value matches an exact generic label or a
+  leading generic token are rewritten; everything else is untouched.
 """
 
 from odoo import api, models
@@ -24,70 +28,62 @@ from lxml import etree
 class IrUiView(models.Model):
     _inherit = 'ir.ui.view'
 
-    # field name -> terminology concept for label rewriting
-    _TERM_VIEW_FIELDS = {
-        'program_id': 'program',
-        'department_id': 'department',
-        'faculty_id': 'faculty',
-        'student_id': 'student',
-        'semester_id': 'semester',
-        'academic_year_id': 'academic_year',
-    }
-
-    # models whose views get terminology-aware labels
-    _TERM_VIEW_MODELS = {
-        'unicore.student',
-        'unicore.enrollment',
-        'unicore.admission.applicant',
-        'unicore.program',
-        'unicore.course',
-        'unicore.semester',
-        'unicore.department',
-        'unicore.faculty',
-    }
-
     @api.model
     def get_view(self, view_id=None, view_type='form', **options):
         result = super().get_view(
             view_id=view_id, view_type=view_type, **options
         )
-        if view_id:
-            model = self.browse(view_id).model
-        elif result.get('models'):
-            model = next(iter(result['models']), None)
-        else:
-            model = None
-        profile = self.env.company.terminology_profile_id
-        if (not model or not profile
-                or model not in self._TERM_VIEW_MODELS):
-            return result
-
         arch = result.get('arch')
         if not arch:
             return result
+        company = self.env.company
+        if not company:
+            return result
+        if 'institution_profile_id' not in self.env['res.company']._fields:
+            return result
+        try:
+            exact, prefixes = company._terminology_label_rules()
+        except Exception:
+            return result
+        if not exact and not prefixes:
+            return result
 
-        # Cheap fast path: none of the generic labels are present at all.
-        if not any(g in arch for g in (
-                '"Program"', '"Student"', '"Semester"',
-                '"Academic Year"', '"Department"', '"Faculty"')):
+        # Substring fast-path: if no generic token is present in the raw arch,
+        # no ``string`` attribute can match => skip the parse entirely.
+        tokens = set(exact) | {token for token, _applied in prefixes}
+        if not any(token in arch for token in tokens):
             return result
 
         node = etree.fromstring(arch)
         changed = False
-        for fnode in node.iter('field'):
-            concept = self._TERM_VIEW_FIELDS.get(fnode.get('name'))
-            if not concept:
+        for element in node.iter():
+            value = element.get('string')
+            if not value:
                 continue
-            current = fnode.get('string')
-            generic = profile._TERM_CONCEPTS[concept][1]
-            applied = profile.resolve_label(concept)
-            if not current or current != generic:
-                continue
-            if applied and applied != generic:
-                fnode.set('string', applied)
+            applied = company._terminology_apply(value, exact, prefixes)
+            if applied != value:
+                element.set('string', applied)
                 changed = True
 
         if changed:
             result = dict(result)
             result['arch'] = etree.tostring(node, encoding='unicode')
         return result
+
+    def _get_view_cache_key(self, view_id=None, view_type='form', **options):
+        """Make the view cache company-aware.
+
+        The base cache key is (view_id, view_type, mobile, lang, *_view_ref) —
+        it does NOT include the company. Since terminology relabeling (both the
+        cached ``fields`` dict and our per-request arch rewrite) depends on the
+        company's institution profile, two companies must not share cached
+        field labels. Adding the company id gives each company its own view
+        cache entry. ``res.company.write`` already clears the whole registry
+        cache on profile change, so switching profiles still refreshes.
+        """
+        key = super()._get_view_cache_key(
+            view_id=view_id, view_type=view_type, **options)
+        company = self.env.company
+        if company:
+            key = key + (('company', company.id),)
+        return key

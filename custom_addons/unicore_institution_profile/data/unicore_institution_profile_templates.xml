@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- ============================================================
+             Ready-to-attach Institution Profile templates (Phase 5)
+             One profile per supported institution_type. UNI_LEGACY and
+             K12_SCHOOL ship in unicore_institution_profile_data.xml; these
+             complete the catalog: College, Training Institute, Academy /
+             Test-Prep, Coaching Center. Each carries its full related
+             settings (calendar_mode, grading scheme, academic unit levels,
+             terminology, feature toggles). Seeds are noupdate so admins can
+             customize them freely; upgrades only add missing records.
+             ============================================================ -->
+
+        <!-- ============================================================
+             College Terminology Profile (COL)
+             Mostly generic university vocabulary; Program -> Degree Program.
+             ============================================================ -->
+        <record id="terminology_profile_col" model="unicore.terminology.profile">
+            <field name="name">College</field>
+            <field name="code">COL</field>
+            <field name="term_faculty">Faculty</field>
+            <field name="term_department">Department</field>
+            <field name="term_program">Degree Program</field>
+            <field name="term_student">Student</field>
+            <field name="term_faculty_staff">Faculty / Staff</field>
+            <field name="term_semester">Semester</field>
+            <field name="term_academic_year">Academic Year</field>
+        </record>
+
+        <!-- ============================================================
+             Training Institute Terminology Profile (TRN)
+             Faculty hidden; batch/cycle vocabulary for vocational training.
+             ============================================================ -->
+        <record id="terminology_profile_trn" model="unicore.terminology.profile">
+            <field name="name">Training Institute</field>
+            <field name="code">TRN</field>
+            <!-- term_faculty left blank = concept hidden -->
+            <field name="term_department">Module</field>
+            <field name="term_program">Course</field>
+            <field name="term_student">Trainee</field>
+            <field name="term_faculty_staff">Trainer</field>
+            <field name="term_semester">Cycle</field>
+            <field name="term_academic_year">Year</field>
+        </record>
+
+        <!-- ============================================================
+             Academy / Test-Prep Terminology Profile (ACA)
+             Faculty hidden; batch/term vocabulary for test-prep academies.
+             ============================================================ -->
+        <record id="terminology_profile_aca" model="unicore.terminology.profile">
+            <field name="name">Academy / Test-Prep</field>
+            <field name="code">ACA</field>
+            <!-- term_faculty left blank = concept hidden -->
+            <field name="term_department">Subject</field>
+            <field name="term_program">Batch</field>
+            <field name="term_student">Student</field>
+            <field name="term_faculty_staff">Instructor</field>
+            <field name="term_semester">Term</field>
+            <field name="term_academic_year">Session</field>
+        </record>
+
+        <!-- ============================================================
+             Coaching Center Terminology Profile (COA)
+             Faculty hidden; batch/cycle vocabulary for coaching centers.
+             ============================================================ -->
+        <record id="terminology_profile_coa" model="unicore.terminology.profile">
+            <field name="name">Coaching Center</field>
+            <field name="code">COA</field>
+            <!-- term_faculty left blank = concept hidden -->
+            <field name="term_department">Subject</field>
+            <field name="term_program">Batch</field>
+            <field name="term_student">Student</field>
+            <field name="term_faculty_staff">Coach</field>
+            <field name="term_semester">Cycle</field>
+            <field name="term_academic_year">Year</field>
+        </record>
+
+        <!-- ============================================================
+             College Institution Profile (COL)
+             Traditional Faculty -> Department hierarchy, semester calendar,
+             credit-GPA grading — a lighter, non-legacy university cousin.
+             ============================================================ -->
+        <record id="profile_college" model="unicore.institution.profile">
+            <field name="name">College</field>
+            <field name="code">COL</field>
+            <field name="institution_type">college</field>
+            <field name="is_legacy_university" eval="False"/>
+            <field name="calendar_mode">semester</field>
+            <field name="grading_scheme">credit_gpa</field>
+            <field name="grading_scheme_id" ref="grading_scheme_credit_gpa"/>
+            <field name="terminology_profile_id" ref="terminology_profile_col"/>
+            <field name="academic_unit_level_ids" eval="[(6, 0, [ref('unicore_academic_generic.unit_type_faculty'), ref('unicore_academic_generic.unit_type_department'), ref('unicore_academic_generic.unit_type_stream')])]"/>
+            <field name="feature_toggle_ids" eval="[(6, 0, [ref('feature_hostel'), ref('feature_transport'), ref('feature_library'), ref('feature_alumni'), ref('feature_convocation'), ref('feature_scholarship'), ref('feature_thesis'), ref('feature_crm'), ref('feature_admission'), ref('feature_website'), ref('feature_attendance'), ref('feature_exam'), ref('feature_fees')])]"/>
+            <field name="description">Traditional college: Faculty -> Department
+                hierarchy with a semester calendar and credit-GPA grading.
+                Non-legacy so it may use flexible anchors and cohort kinds.
+                Admins may trim the feature set per college.</field>
+        </record>
+
+        <!-- ============================================================
+             Training Institute Profile (TRN)
+             Flat batch hierarchy, rolling-batch calendar, simple-percentage
+             grading, trainee/trainer vocabulary.
+             ============================================================ -->
+        <record id="profile_training_institute" model="unicore.institution.profile">
+            <field name="name">Training Institute</field>
+            <field name="code">TRN</field>
+            <field name="institution_type">training</field>
+            <field name="is_legacy_university" eval="False"/>
+            <field name="calendar_mode">rolling_batch</field>
+            <field name="grading_scheme">simple_percentage</field>
+            <field name="grading_scheme_id" ref="grading_scheme_simple_percentage"/>
+            <field name="terminology_profile_id" ref="terminology_profile_trn"/>
+            <field name="academic_unit_level_ids" eval="[(6, 0, [ref('unicore_academic_generic.unit_type_batch_group'), ref('unicore_academic_generic.unit_type_other')])]"/>
+            <field name="feature_toggle_ids" eval="[(6, 0, [ref('feature_admission'), ref('feature_attendance'), ref('feature_fees'), ref('feature_exam'), ref('feature_crm'), ref('feature_website'), ref('feature_scholarship'), ref('feature_library'), ref('feature_transport')])]"/>
+            <field name="description">Vocational / skills training institute:
+                flat batch hierarchy (no Faculty/Department), rolling-batch
+                calendar and simple-percentage grading. Trainee/Trainer/Cycle
+                terminology.</field>
+        </record>
+
+        <!-- ============================================================
+             Academy / Test-Prep Profile (ACA)
+             Batch + grade hierarchy, term calendar, pass/fail grading,
+             instructor/term/session vocabulary.
+             ============================================================ -->
+        <record id="profile_academy" model="unicore.institution.profile">
+            <field name="name">Academy / Test-Prep</field>
+            <field name="code">ACA</field>
+            <field name="institution_type">academy</field>
+            <field name="is_legacy_university" eval="False"/>
+            <field name="calendar_mode">term</field>
+            <field name="grading_scheme">pass_fail</field>
+            <field name="grading_scheme_id" ref="grading_scheme_pass_fail"/>
+            <field name="terminology_profile_id" ref="terminology_profile_aca"/>
+            <field name="academic_unit_level_ids" eval="[(6, 0, [ref('unicore_academic_generic.unit_type_grade_level'), ref('unicore_academic_generic.unit_type_batch_group'), ref('unicore_academic_generic.unit_type_other')])]"/>
+            <field name="feature_toggle_ids" eval="[(6, 0, [ref('feature_admission'), ref('feature_attendance'), ref('feature_fees'), ref('feature_exam'), ref('feature_crm'), ref('feature_website'), ref('feature_scholarship'), ref('feature_library')])]"/>
+            <field name="description">Test-prep academy: batch and grade-level
+                hierarchy, term-based calendar and pass/fail grading.
+                Instructor/Term/Session vocabulary.</field>
+        </record>
+
+        <!-- ============================================================
+             Coaching Center Profile (COA)
+             Flat batch hierarchy, rolling-batch calendar, completion-based
+             grading, coach/cycle vocabulary.
+             ============================================================ -->
+        <record id="profile_coaching_center" model="unicore.institution.profile">
+            <field name="name">Coaching Center</field>
+            <field name="code">COA</field>
+            <field name="institution_type">coaching</field>
+            <field name="is_legacy_university" eval="False"/>
+            <field name="calendar_mode">rolling_batch</field>
+            <field name="grading_scheme">certificate_only</field>
+            <field name="grading_scheme_id" ref="grading_scheme_certificate_only"/>
+            <field name="terminology_profile_id" ref="terminology_profile_coa"/>
+            <field name="academic_unit_level_ids" eval="[(6, 0, [ref('unicore_academic_generic.unit_type_batch_group'), ref('unicore_academic_generic.unit_type_other')])]"/>
+            <field name="feature_toggle_ids" eval="[(6, 0, [ref('feature_admission'), ref('feature_attendance'), ref('feature_fees'), ref('feature_exam'), ref('feature_crm'), ref('feature_website'), ref('feature_library')])]"/>
+            <field name="description">Coaching center: flat batch hierarchy,
+                rolling-batch calendar and completion/certificate grading.
+                Coach/Cycle vocabulary.</field>
+        </record>
+
+    </data>
+</odoo>

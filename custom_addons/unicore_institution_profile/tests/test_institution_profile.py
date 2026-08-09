@@ -64,21 +64,24 @@ class UniCoreInstitutionProfileTest(TransactionCase):
         self.assertIn('GRADE', codes)
 
     def test_05_company_profile_nullable_and_related(self):
-        """res.company.institution_profile_id is nullable; terminology follows.
+        """Backfill attaches UNI_LEGACY by default; terminology follows; nullable.
 
-        Uses the existing main company (a fresh res.company cannot be created in
-        Odoo 19 CE tests due to an unrelated NOT NULL quirk on the internally
-        created res.partner). All changes roll back with the test transaction.
+        Since 19.0.1.1.0 the post-install backfill attaches the University
+        (Legacy) profile to every company, activating the profile driver with
+        zero behavior change. The field remains nullable so a company can be
+        detached. Uses the existing main company (a fresh res.company cannot be
+        created in Odoo 19 CE tests due to an unrelated NOT NULL quirk on the
+        internally created res.partner). All changes roll back with the test.
         """
         company = self.env.company
-        self.assertFalse(company.institution_profile_id)
-        self.assertFalse(company.terminology_profile_id)
-
-        company.institution_profile_id = self.profile_legacy.id
+        self.assertEqual(company.institution_profile_id, self.profile_legacy)
         self.assertEqual(company.terminology_profile_id, self.terminology_legacy)
 
         company.institution_profile_id = False
         self.assertFalse(company.terminology_profile_id)
+
+        company.institution_profile_id = self.profile_legacy.id
+        self.assertEqual(company.terminology_profile_id, self.terminology_legacy)
 
     def test_06_unique_profile_code(self):
         """Profile codes must be unique."""

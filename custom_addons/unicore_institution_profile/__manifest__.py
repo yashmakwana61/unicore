@@ -1,6 +1,6 @@
 {
     'name': 'UniCore Institution Profile',
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.3.0',
     'category': 'Education',
     'summary': 'Institution type, terminology and feature profiles driving multi-entity behavior',
     'description': """
@@ -29,6 +29,7 @@
     'data': [
         'security/ir.model.access.csv',
         'data/unicore_institution_profile_data.xml',
+        'data/unicore_institution_profile_templates.xml',
         'views/unicore_institution_feature_views.xml',
         'views/unicore_terminology_profile_views.xml',
         'views/unicore_grading_scheme_views.xml',
@@ -36,6 +37,7 @@
         'views/res_company_views.xml',
         'menus/unicore_institution_profile_menus.xml',
     ],
+    'post_init_hook': 'post_init_hook',
     'installable': True,
     'application': False,
     'auto_install': False,

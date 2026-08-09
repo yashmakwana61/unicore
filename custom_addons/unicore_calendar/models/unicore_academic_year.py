@@ -224,15 +224,43 @@ class UnicoreAcademicYear(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        # A term-mode institution gets a sensible default year structure.
+        for vals in vals_list:
+            if 'year_type' not in vals:
+                company = self.env['res.company'].browse(
+                    vals.get('company_id') or self.env.company.id)
+                profile = company.institution_profile_id
+                if profile and profile.calendar_mode == 'term':
+                    vals['year_type'] = 'term'
         records = super().create(vals_list)
         records._check_term_structure()
+        records._check_calendar_mode()
         return records
 
     def write(self, vals):
         result = super().write(vals)
         if 'year_type' in vals or 'semester_ids' in vals:
             self._check_term_structure()
+        if 'year_type' in vals or 'company_id' in vals:
+            self._check_calendar_mode()
         return result
+
+    def _check_calendar_mode(self):
+        """A term-mode institution may only create Term-based academic years.
+
+        One-directional: a company whose profile is term-based must use
+        ``year_type == 'term'``; semester/other profiles stay fully flexible
+        (legacy behavior preserved).
+        """
+        for record in self:
+            profile = record.company_id.institution_profile_id
+            if profile and profile.calendar_mode == 'term' \
+                    and record.year_type != 'term':
+                raise ValidationError(
+                    _('Institution profile "%(profile)s" uses a Term-based '
+                      'calendar; academic years must be "Term Based".',
+                      profile=profile.name)
+                )
 
     def _check_term_structure(self):
         """A Term-based academic year may only contain Term semesters.

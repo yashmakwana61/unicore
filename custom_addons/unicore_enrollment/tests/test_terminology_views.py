@@ -76,7 +76,7 @@ class TestTerminologyViews(TransactionCase):
         self.assertNotIn('string="Semester"', arch)
 
     def test_03_k12_profile_program_label(self):
-        """K-12 rewrites Program -> Class/Section on whitelisted models."""
+        """K-12 rewrites Program -> Class/Section on core models."""
         self._make_school_profile()
         arch = self._render(
             'unicore.student',
@@ -84,11 +84,23 @@ class TestTerminologyViews(TransactionCase):
         self.assertIn('string="Class/Section"', arch)
         self.assertNotIn('string="Program"', arch)
 
-    def test_04_non_whitelisted_model_untouched(self):
-        """Models outside the whitelist are never rewritten."""
+    def test_04_token_driven_relabels_any_model(self):
+        """K-12 rewrites term-token strings on ANY model (not model-scoped).
+
+        Relabeling is token-driven from the company's terminology profile, so
+        even models outside the original Gap-2 concept whitelist (e.g.
+        ``unicore.course.offering``) get their ``Program`` -> ``Class/Section``
+        string rewritten — the terminology must apply everywhere. Non-term
+        strings are never touched.
+        """
         self._make_school_profile()
         arch = self._render(
             'unicore.course.offering',
-            '<form><field name="program_id" string="Program"/></form>')
-        self.assertIn('string="Program"', arch)
-        self.assertNotIn('string="Class/Section"', arch)
+            '<form>'
+            '<field name="program_id" string="Program"/>'
+            '<field name="name" string="Offering Name"/>'
+            '</form>')
+        self.assertIn('string="Class/Section"', arch)
+        self.assertNotIn('string="Program"', arch)
+        # Non-term strings survive untouched (no spurious rewriting).
+        self.assertIn('string="Offering Name"', arch)
