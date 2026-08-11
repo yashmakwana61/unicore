@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ============================================================ -->
+        <!-- LEVEL 2: Enrollments sub-menu under Admission root            -->
+        <!-- ============================================================ -->
+
+        <menuitem id="menu_unicore_enrollment"
+                  name="Enrollments"
+                  parent="menu_unicore_admission_root"
+                  sequence="50"
+                  groups="unicore_base.group_unicore_admin,unicore_base.group_unicore_manager,unicore_base.group_unicore_registrar,unicore_base.group_unicore_staff"/>
+
+        <!-- ============================================================ -->
+        <!-- LEVEL 3: Sub-menus under Enrollments                          -->
+        <!-- ============================================================ -->
+
+        <menuitem id="menu_unicore_enrollment_my"
+                  name="My Registrations"
+                  parent="menu_unicore_enrollment"
+                  action="action_unicore_enrollment_my"
+                  sequence="10"
+                  groups="unicore_base.group_unicore_student"/>
+
+        <menuitem id="menu_unicore_enrollment_active"
+                  name="Active Enrollments"
+                  parent="menu_unicore_enrollment"
+                  action="action_unicore_enrollment_active"
+                  sequence="20"
+                  groups="unicore_base.group_unicore_staff"/>
+
+        <menuitem id="menu_unicore_enrollment_all"
+                  name="All Enrollments"
+                  parent="menu_unicore_enrollment"
+                  action="action_unicore_enrollment_all"
+                  sequence="30"
+                  groups="unicore_base.group_unicore_registrar"/>
+
+        <menuitem id="menu_unicore_enrollment_waitlist"
+                  name="Waitlist Management"
+                  parent="menu_unicore_enrollment"
+                  action="action_unicore_enrollment_waitlist"
+                  sequence="40"
+                  groups="unicore_base.group_unicore_registrar"/>
+
+        <menuitem id="menu_unicore_enrollment_log"
+                  name="Enrollment Audit Log"
+                  parent="menu_unicore_enrollment"
+                  action="action_unicore_enrollment_log"
+                  sequence="50"
+                  groups="unicore_base.group_unicore_manager"/>
+
+    </data>
+</odoo>

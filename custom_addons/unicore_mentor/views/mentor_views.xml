@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_unicore_mentor_allocation_tree" model="ir.ui.view">
+            <field name="name">unicore.mentor.allocation.tree</field>
+            <field name="model">unicore.mentor.allocation</field>
+            <field name="arch" type="xml">
+                <list string="Mentor Allocations">
+                    <field name="mentor_id" widget="many2one_avatar"/>
+                    <field name="academic_year_id"/>
+                    <field name="state" widget="badge" 
+                           decoration-info="state == 'draft'" 
+                           decoration-success="state == 'active'" 
+                           decoration-muted="state == 'done'"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_unicore_mentor_allocation_form" model="ir.ui.view">
+            <field name="name">unicore.mentor.allocation.form</field>
+            <field name="model">unicore.mentor.allocation</field>
+            <field name="arch" type="xml">
+                <form string="Mentor Allocation">
+                    <header>
+                        <button name="action_activate" string="Activate" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                        <button name="action_done" string="Mark as Done" type="object" invisible="state != 'active'"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,active,done"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="mentor_id" widget="many2one_avatar"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="academic_year_id"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Students" name="students">
+                                <field name="student_ids">
+                                    <list>
+                                        <field name="display_name"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_unicore_mentor_meeting_log_tree" model="ir.ui.view">
+            <field name="name">unicore.mentor.meeting.log.tree</field>
+            <field name="model">unicore.mentor.meeting.log</field>
+            <field name="arch" type="xml">
+                <list string="Meeting Logs">
+                    <field name="allocation_id"/>
+                    <field name="student_id" widget="many2one_avatar"/>
+                    <field name="meeting_date"/>
+                    <field name="follow_up_required" widget="boolean_toggle"/>
+                    <field name="state" widget="badge" 
+                           decoration-info="state == 'draft'" 
+                           decoration-success="state == 'completed'"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_unicore_mentor_meeting_log_form" model="ir.ui.view">
+            <field name="name">unicore.mentor.meeting.log.form</field>
+            <field name="model">unicore.mentor.meeting.log</field>
+            <field name="arch" type="xml">
+                <form string="Meeting Log">
+                    <header>
+                        <button name="action_complete" string="Complete" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,completed"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="allocation_id"/>
+                                <field name="student_ids" invisible="1"/>
+                                <field name="student_id" widget="many2one_avatar"/>
+                                <field name="company_id" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="meeting_date"/>
+                                <field name="follow_up_required"/>
+                            </group>
+                        </group>
+                        <group string="Notes">
+                            <field name="notes" nolabel="1" placeholder="Enter meeting notes..."/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_unicore_mentor_allocation" model="ir.actions.act_window">
+            <field name="name">Mentor Allocations</field>
+            <field name="res_model">unicore.mentor.allocation</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record id="action_unicore_mentor_meeting_log" model="ir.actions.act_window">
+            <field name="name">Meeting Logs</field>
+            <field name="res_model">unicore.mentor.meeting.log</field>
+            <field name="view_mode">list,form</field>
+        </record>
+    </data>
+</odoo>

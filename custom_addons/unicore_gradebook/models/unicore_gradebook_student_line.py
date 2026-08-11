@@ -28,6 +28,7 @@ action, which restricts writes to grade entries in the editable
 """
 
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -157,6 +158,7 @@ class UniCoreGradeBookStudentLine(models.Model):
         comodel_name='unicore.grade.entry',
         string='Grade Entry',
         compute='_compute_grade_entry',
+        store=True,
         help='Linked CA / grade record for this enrollment. Read-only '
              'reference to the existing unicore.grading model.',
     )
@@ -188,13 +190,10 @@ class UniCoreGradeBookStudentLine(models.Model):
 
     # ------- CONSTRAINTS -------
 
-    _sql_constraints = [
-        (
-            'unique_config_enrollment',
-            'UNIQUE(config_id, enrollment_id)',
-            'This student already has a line in this grade book.',
-        ),
-    ]
+    _check_unique_config_enrollment = models.Constraint(
+        'UNIQUE(config_id, enrollment_id)',
+        'This student already has a line in this grade book.',
+    )
 
     # ------- COMPUTES -------
 
@@ -227,11 +226,15 @@ class UniCoreGradeBookStudentLine(models.Model):
                 if rec.max_ca_marks else 0.0
             )
 
-    @api.depends('enrollment_id')
+    @api.depends('enrollment_id',
+                 'enrollment_id.grade_entry_id')
     def _compute_grade_entry(self):
         """Locate the existing grade entry for each enrollment.
 
         Batch search so list views do not trigger N+1 queries.
+        Depends on the enrollment's reverse grade_entry_ids O2m so a
+        grade entry created AFTER this line is picked up without a
+        manual regenerate.
         """
         if not self:
             return
@@ -256,6 +259,49 @@ class UniCoreGradeBookStudentLine(models.Model):
                 entry and entry.entry_state in ('draft', 'submitted')
             )
             rec.is_synced = bool(
-                entry and entry.internal_marks
-                == rec.computed_ca_component
+                entry and round(entry.internal_marks or 0.0, 2)
+                == round(rec.computed_ca_component or 0.0, 2)
             )
+
+    # ------- GRADE ENTRY ACTIONS -------
+
+    def action_apply_line(self):
+        """Push this line's computed CA component into its linked
+        grade entry when the entry is still editable.
+
+        Mirrors the config-level ``action_apply_ca_marks`` business
+        rules: only ``draft`` / ``submitted`` entries are written and
+        ``entry_state`` is never touched.
+        """
+        for rec in self:
+            entry = rec.grade_entry_id
+            if not entry:
+                raise UserError(_(
+                    'No grade entry linked to %s yet.'
+                ) % rec.student_id.display_name)
+            if entry.entry_state not in ('draft', 'submitted'):
+                raise UserError(_(
+                    'The grade entry for %s is %s and can no longer '
+                    'be updated from the grade book (only draft / '
+                    'submitted entries are editable).'
+                ) % (rec.student_id.display_name, entry.entry_state))
+        for rec in self:
+            rec.grade_entry_id.write({
+                'internal_marks': rec.computed_ca_component,
+            })
+        return True
+
+    def action_view_grade_entry(self):
+        """Open the linked grade entry, if one exists."""
+        self.ensure_one()
+        if not self.grade_entry_id:
+            raise UserError(_(
+                'No grade entry linked to this student yet.'
+            ))
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Grade Entry'),
+            'res_model': 'unicore.grade.entry',
+            'view_mode': 'form',
+            'res_id': self.grade_entry_id.id,
+        }

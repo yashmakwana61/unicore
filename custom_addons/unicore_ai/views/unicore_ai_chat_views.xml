@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Chat Session Tree View -->
+    <record id="unicore_ai_chat_session_tree" model="ir.ui.view">
+        <field name="name">unicore.ai.chat.session.tree</field>
+        <field name="model">unicore.ai.chat.session</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="title"/>
+                <field name="user_id"/>
+                <field name="write_date" string="Last Activity"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Chat Session Form View -->
+    <record id="unicore_ai_chat_session_form" model="ir.ui.view">
+        <field name="name">unicore.ai.chat.session.form</field>
+        <field name="model">unicore.ai.chat.session</field>
+        <field name="arch" type="xml">
+            <form string="AI Chat Session">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="title"/>
+                            <field name="user_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="create_date" readonly="1"/>
+                            <field name="write_date" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Conversation" name="messages">
+                            <field name="message_ids" nolabel="1">
+                                <list>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="role"/>
+                                    <field name="content"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Chat Session Action -->
+    <record id="action_unicore_ai_chat_sessions" model="ir.actions.act_window">
+        <field name="name">AI Chat History</field>
+        <field name="res_model">unicore.ai.chat.session</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('user_id', '=', uid)]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No AI chat sessions yet.
+            </p>
+            <p>
+                Use the AI Chatbot from the top bar to start a conversation!
+            </p>
+        </field>
+    </record>
+
+</odoo>

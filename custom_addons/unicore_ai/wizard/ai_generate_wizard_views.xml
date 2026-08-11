@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- AI Generate Wizard Form -->
+    <record id="view_unicore_ai_generate_wizard_form" model="ir.ui.view">
+        <field name="name">unicore.ai.generate.wizard.form</field>
+        <field name="model">unicore.ai.generate.wizard</field>
+        <field name="arch" type="xml">
+            <form string="AI Text Generator">
+                <group>
+                    <group>
+                        <field name="action" widget="radio"/>
+                    </group>
+                    <group>
+                        <field name="target_language"
+                               invisible="action != 'translate'"/>
+                    </group>
+                </group>
+                <group>
+                    <field name="prompt"
+                           placeholder="e.g. Write a professional notice about the upcoming semester exam schedule…"
+                           invisible="action in ('summarize',)"/>
+                    <field name="source_text"
+                           placeholder="Paste the text you want the AI to work with…"
+                           invisible="action == 'generate'"/>
+                </group>
+                <separator string="Generated Result"/>
+                <group>
+                    <field name="result_text" nolabel="1" readonly="1"
+                           placeholder="Click 'Generate' to see the AI output here…"/>
+                </group>
+                <footer>
+                    <button name="action_generate"
+                            string="✨ Generate"
+                            type="object"
+                            class="btn-primary"/>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action to open the wizard (can be triggered from menus or buttons) -->
+    <record id="action_unicore_ai_generate_wizard" model="ir.actions.act_window">
+        <field name="name">AI Text Generator</field>
+        <field name="res_model">unicore.ai.generate.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

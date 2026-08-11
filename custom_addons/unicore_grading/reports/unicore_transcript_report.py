@@ -58,6 +58,10 @@ class UniCoreTranscriptReport(models.AbstractModel):
                 'cgpa': student.cgpa,
                 'total_credits_earned': student.total_credits_earned,
                 'total_credits_required': student.program_id.total_credits or 0,
+                'company_name': (
+                    student.company_id.name
+                    or self.env.company.name
+                ),
             })
 
         return {

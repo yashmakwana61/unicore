@@ -101,7 +101,7 @@
                 <filter string="Under Maintenance" name="maintenance"
                         domain="[('asset_state', '=', 'maintenance')]"/>
                 <separator/>
-                <group expand="0" string="Group By">
+                <group>
                     <filter string="Asset Type" name="group_type"
                             context="{'group_by': 'asset_type'}"/>
                     <filter string="Campus" name="group_campus"

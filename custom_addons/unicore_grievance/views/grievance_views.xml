@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_unicore_grievance_category_list" model="ir.ui.view">
+            <field name="name">unicore.grievance.category.list</field>
+            <field name="model">unicore.grievance.category</field>
+            <field name="arch" type="xml">
+                <list string="Grievance Categories">
+                    <field name="name"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_unicore_grievance_category_form" model="ir.ui.view">
+            <field name="name">unicore.grievance.category.form</field>
+            <field name="model">unicore.grievance.category</field>
+            <field name="arch" type="xml">
+                <form string="Grievance Category">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_unicore_grievance_request_list" model="ir.ui.view">
+            <field name="name">unicore.grievance.request.list</field>
+            <field name="model">unicore.grievance.request</field>
+            <field name="arch" type="xml">
+                <list string="Grievance Requests">
+                    <field name="raised_by_id" widget="many2one_avatar"/>
+                    <field name="category_id"/>
+                    <field name="assigned_team_id"/>
+                    <field name="state" widget="badge"
+                           decoration-info="state == 'new'"
+                           decoration-primary="state == 'in_progress'"
+                           decoration-success="state == 'resolved'"
+                           decoration-warning="state == 'escalated'"
+                           decoration-muted="state == 'cancelled'"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_unicore_grievance_request_form" model="ir.ui.view">
+            <field name="name">unicore.grievance.request.form</field>
+            <field name="model">unicore.grievance.request</field>
+            <field name="arch" type="xml">
+                <form string="Grievance Request">
+                    <header>
+                        <button name="action_in_progress" string="In Progress" type="object" class="oe_highlight" invisible="state != 'new'"/>
+                        <button name="action_resolve" string="Resolve" type="object" class="oe_highlight" invisible="state != 'in_progress'"/>
+                        <button name="action_escalate" string="Escalate" type="object" invisible="state not in ('new', 'in_progress')"/>
+                        <button name="action_cancel" string="Cancel" type="object" invisible="state in ('resolved', 'cancelled')"/>
+                        <field name="state" widget="statusbar" statusbar_visible="new,in_progress,resolved"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="raised_by_id" widget="many2one_avatar"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="category_id"/>
+                            </group>
+                            <group>
+                                <field name="assigned_team_id"/>
+                                <field name="resolution_date" invisible="state != 'resolved'"/>
+                            </group>
+                        </group>
+                        <group string="Description">
+                            <field name="description" nolabel="1" placeholder="Describe your grievance..."/>
+                        </group>
+                        <group string="Resolution Notes" invisible="state not in ('in_progress', 'resolved', 'escalated')">
+                            <field name="resolution_notes" nolabel="1" placeholder="Resolution details..."/>
+                        </group>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_unicore_grievance_category" model="ir.actions.act_window">
+            <field name="name">Grievance Categories</field>
+            <field name="res_model">unicore.grievance.category</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record id="action_unicore_grievance_request" model="ir.actions.act_window">
+            <field name="name">Grievance Requests</field>
+            <field name="res_model">unicore.grievance.request</field>
+            <field name="view_mode">list,form</field>
+        </record>
+    </data>
+</odoo>

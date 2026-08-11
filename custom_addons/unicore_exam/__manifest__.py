@@ -16,7 +16,7 @@
         'unicore_calendar',
         'unicore_campus',
         'unicore_curriculum',
-        'unicore_enrollment',
+        'unicore_admission',
         'unicore_faculty_profile',
         'unicore_guardian',
         'unicore_security',

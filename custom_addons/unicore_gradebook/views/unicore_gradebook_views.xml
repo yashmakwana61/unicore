@@ -21,18 +21,24 @@
                                 invisible="student_count == 0"
                                 confirm="This will write the computed assignment component into the Internal / CA Marks field of the editable grade entries (draft / submitted only). Continue?"
                                 groups="unicore_base.group_unicore_faculty,unicore_base.group_unicore_admin"/>
-                        <button name="action_view_grade_entries" type="object"
-                                string="View Grade Entries"
-                                invisible="student_count == 0"/>
-                        <button name="action_view_submissions" type="object"
-                                string="Graded Submissions"
-                                invisible="assignment_count == 0"/>
                     </header>
                     <sheet>
                         <div class="oe_title">
                             <h1>
                                 <field name="name" readonly="1"/>
                             </h1>
+                        </div>
+                        <div class="oe_button_box" name="gradebook_button_box">
+                            <button name="action_view_grade_entries" type="object"
+                                    class="oe_stat_button" icon="fa-graduation-cap"
+                                    invisible="student_count == 0">
+                                <field name="student_count" widget="statinfo" string="Students"/>
+                            </button>
+                            <button name="action_view_submissions" type="object"
+                                    class="oe_stat_button" icon="fa-check-square-o"
+                                    invisible="assignment_count == 0">
+                                <field name="graded_assignment_count" widget="statinfo" string="Graded Assignments"/>
+                            </button>
                         </div>
                         <group name="gradebook_main">
                             <group string="Course Offering">
@@ -54,6 +60,8 @@
                                        string="Synced to Grade Entries"/>
                                 <field name="pending_count" readonly="1"
                                        string="Pending Grade Entry Sync"/>
+                                <field name="sync_progress_pct" widget="progressbar"
+                                       string="Grade Entry Sync" readonly="1"/>
                             </group>
                         </group>
                         <group name="gradebook_assignments" string="Assignments"
@@ -94,6 +102,17 @@
                                             <field name="is_synced"
                                                    string="Synced"
                                                    widget="boolean_facade"/>
+                                            <button name="action_apply_line" type="object"
+                                                    string="Apply CA"
+                                                    icon="fa-arrow-right"
+                                                    invisible="not can_apply_ca_marks or is_synced"
+                                                    help="Push this student's computed CA marks to the linked grade entry (draft / submitted only)."
+                                                    groups="unicore_base.group_unicore_faculty,unicore_base.group_unicore_admin"/>
+                                            <button name="action_view_grade_entry" type="object"
+                                                    string="Entry"
+                                                    icon="fa-external-link"
+                                                    invisible="not grade_entry_state"
+                                                    help="Open the linked grade entry."/>
                                         </list>
                                         <form string="Student Grade Book">
                                             <group>
@@ -117,6 +136,14 @@
                                                     <field name="grade_entry_state" readonly="1"/>
                                                     <field name="is_synced" readonly="1"
                                                            string="Synced to Grade Entry"/>
+                                                    <button name="action_apply_line" type="object"
+                                                            string="Apply CA Marks"
+                                                            class="btn-primary"
+                                                            invisible="not can_apply_ca_marks or is_synced"
+                                                            groups="unicore_base.group_unicore_faculty,unicore_base.group_unicore_admin"/>
+                                                    <button name="action_view_grade_entry" type="object"
+                                                            string="Open Grade Entry"
+                                                            invisible="not grade_entry_id"/>
                                                 </group>
                                             </group>
                                             <group string="Assignment Scores">

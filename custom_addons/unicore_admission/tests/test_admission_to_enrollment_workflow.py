@@ -128,25 +128,27 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
         })
 
         # ----------------------------------------------------------
-        # FEE STRUCTURE
+        # FEE STRUCTURE (only present when unicore_fees is installed)
         # ----------------------------------------------------------
 
-        cls.fee_structure = cls.env['unicore.fee.structure'].create({
-            'name': 'B.Tech CS Semester Fees 2025-26',
-            'company_id': cls.company.id,
-            'academic_year_id': cls.academic_year.id,
-            'semester_id': cls.semester.id,
-            'program_id': cls.program.id,
-            'campus_id': cls.campus.id,
-            'structure_state': 'active',
-        })
+        cls.fee_structure = None
+        if 'unicore.fee.structure' in cls.env:
+            cls.fee_structure = cls.env['unicore.fee.structure'].create({
+                'name': 'B.Tech CS Semester Fees 2025-26',
+                'company_id': cls.company.id,
+                'academic_year_id': cls.academic_year.id,
+                'semester_id': cls.semester.id,
+                'program_id': cls.program.id,
+                'campus_id': cls.campus.id,
+                'structure_state': 'active',
+            })
 
-        cls.env['unicore.fee.structure.line'].create({
-            'structure_id': cls.fee_structure.id,
-            'fee_type': 'tuition',
-            'name': 'Tuition Fee',
-            'amount': 30000,
-        })
+            cls.env['unicore.fee.structure.line'].create({
+                'structure_id': cls.fee_structure.id,
+                'fee_type': 'tuition',
+                'name': 'Tuition Fee',
+                'amount': 30000,
+            })
 
         # ----------------------------------------------------------
         # GRADE SCALE
@@ -487,6 +489,8 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
         student = self.__class__.created_student
         if not student:
             self.skipTest('test_07 did not run first')
+        if 'unicore.fee.invoice' not in self.env:
+            self.skipTest('unicore_fees not installed')
 
         invoice = self.env['unicore.fee.invoice'].create({
             'student_id': student.id,
@@ -525,6 +529,8 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
         invoice = self.__class__.test_invoice
         if not invoice:
             self.skipTest('test_13 did not run first')
+        if 'unicore.fee.payment' not in self.env:
+            self.skipTest('unicore_fees not installed')
 
         payment = self.env['unicore.fee.payment'].create({
             'invoice_id': invoice.id,
@@ -576,13 +582,14 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
             'Student must have at least 1 grade entry',
         )
 
-        invoice_count = self.env['unicore.fee.invoice'].search_count([
-            ('student_id', '=', student.id),
-        ])
-        self.assertGreaterEqual(
-            invoice_count, 1,
-            'Student must have at least 1 fee invoice',
-        )
+        if 'unicore.fee.invoice' in self.env:
+            invoice_count = self.env['unicore.fee.invoice'].search_count([
+                ('student_id', '=', student.id),
+            ])
+            self.assertGreaterEqual(
+                invoice_count, 1,
+                'Student must have at least 1 fee invoice',
+            )
 
         self.assertGreaterEqual(
             student.cgpa, 0.0,

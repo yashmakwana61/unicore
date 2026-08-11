@@ -75,7 +75,7 @@
     <record id="action_telegram_messages" model="ir.actions.act_window">
         <field name="name">Telegram Messages</field>
         <field name="res_model">telegram.message</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="context">{'search_default_state_order_created': 1}</field>
     </record>
 

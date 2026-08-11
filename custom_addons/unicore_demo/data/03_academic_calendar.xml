@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <data noupdate="0">
+  <!-- Seed data: noupdate="1" so reloads on live DBs skip re-writing/validating
+       existing academic years & semesters (avoids clobbering live calendar data
+       and profile/calendar-mode constraint trips). Fresh installs still seed all. -->
+  <data noupdate="1">
     <record id="uc_demo_ay_2526" model="unicore.academic.year">
       <field name="name">Academic Year 2026-27</field>
       <field name="code">AY2526</field>

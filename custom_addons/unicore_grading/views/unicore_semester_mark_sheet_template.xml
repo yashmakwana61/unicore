@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="unicore_semester_mark_sheet_template">
+        <t t-call="web.html_container">
+            <t t-foreach="report_data" t-as="ms">
+                <t t-call="unicore_grading.unicore_semester_mark_sheet_styles"/>
+
+                <div class="ms-container">
+                    <!-- HEADER -->
+                    <div class="ms-header">
+                        <div class="ms-institution" t-esc="ms['company_name']"/>
+                        <div class="ms-title">SEMESTER MARK SHEET</div>
+                        <div class="ms-subhead" t-esc="ms['semester'].name"/>
+                    </div>
+
+                    <!-- COURSE OFFERING SECTIONS -->
+                    <t t-foreach="ms['offerings']" t-as="off">
+                        <div class="ms-offering-header">
+                            <span class="ms-course-code" t-esc="off['course'].code"/>
+                            <span class="ms-course-name" t-esc="off['course'].name"/>
+                            <span class="ms-faculty">
+                                Instructor: <t t-esc="off['faculty'].name or ''"/>
+                            </span>
+                        </div>
+
+                        <table class="ms-course-table">
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th style="width:13mm;">Internal</th>
+                                    <th style="width:13mm;">External</th>
+                                    <th style="width:13mm;">Total</th>
+                                    <th style="width:13mm;">%</th>
+                                    <th style="width:11mm;">Grade</th>
+                                    <th style="width:11mm;">GP</th>
+                                    <th style="width:14mm;">Result</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="off['rows']" t-as="r">
+                                    <tr>
+                                        <td t-esc="r['student'].display_name"/>
+                                        <td style="text-align:center;" t-esc="r['internal']"/>
+                                        <td style="text-align:center;" t-esc="r['external']"/>
+                                        <td style="text-align:center;">
+                                            <t t-esc="r['total']"/>
+                                            <span class="ms-max">/<t t-esc="r['total_max']"/></span>
+                                        </td>
+                                        <td style="text-align:center;" t-esc="r['percentage']"/>
+                                        <td style="text-align:center;">
+                                            <span t-att-class="'ms-pass' if r['is_pass'] else 'ms-fail'"
+                                                  t-esc="r['letter_grade']"/>
+                                        </td>
+                                        <td style="text-align:center;" t-esc="r['grade_point']"/>
+                                        <td style="text-align:center;"
+                                            t-esc="'Pass' if r['is_pass'] else 'Fail'"/>
+                                    </tr>
+                                </t>
+                                <t t-if="not off['rows']">
+                                    <tr>
+                                        <td colspan="8" class="ms-empty">
+                                            No published grade entries for this offering.
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+
+                    <t t-if="not ms['offerings']">
+                        <div class="ms-no-data">
+                            No published grade entries for this semester.
+                        </div>
+                    </t>
+
+                    <!-- FOOTER -->
+                    <div class="ms-footer">
+                        <table class="ms-signature-table">
+                            <tr>
+                                <td style="width:33%;text-align:center;">
+                                    <div class="ms-signature-line"></div>
+                                    <div class="ms-signature-label">Registrar</div>
+                                </td>
+                                <td style="width:33%;text-align:center;">
+                                    <div class="ms-signature-line"></div>
+                                    <div class="ms-signature-label">Controller of Examinations</div>
+                                </td>
+                                <td style="width:33%;text-align:center;">
+                                    <div class="ms-signature-line"></div>
+                                    <div class="ms-signature-label">Principal / Dean</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="unicore_semester_mark_sheet_styles">
+        <style>
+            .ms-container {
+                font-family: Arial, 'Helvetica Neue', sans-serif;
+                font-size: 9pt; color: #222; line-height: 1.5;
+                padding: 8mm 10mm;
+            }
+            .ms-header {
+                text-align: center; margin-bottom: 6mm;
+                padding-bottom: 4mm; border-bottom: 2pt solid #1e3a5f;
+            }
+            .ms-institution {
+                font-size: 16pt; font-weight: bold; color: #1e3a5f;
+                letter-spacing: 1pt;
+            }
+            .ms-title {
+                font-size: 13pt; font-weight: bold; color: #2563eb;
+                letter-spacing: 2pt; text-transform: uppercase;
+                margin: 2mm 0 1mm 0;
+            }
+            .ms-subhead { font-size: 9pt; color: #555; font-style: italic; }
+            .ms-offering-header {
+                font-size: 10pt; font-weight: bold; color: #1e3a5f;
+                margin: 4mm 0 1.5mm 0; padding-bottom: 1mm;
+                border-bottom: 1pt solid #1e3a5f;
+            }
+            .ms-course-code { color: #2563eb; margin-right: 2mm; }
+            .ms-course-name { margin-right: 4mm; }
+            .ms-faculty { font-weight: normal; color: #666; font-size: 8pt; }
+            .ms-course-table { width: 100%; border-collapse: collapse; margin-bottom: 5mm; }
+            .ms-course-table th, .ms-course-table td {
+                border: 0.5pt solid #999; padding: 1.2mm 1.5mm;
+            }
+            .ms-course-table th { background: #eef2f7; font-size: 8pt; color: #333; }
+            .ms-pass { font-weight: bold; color: #166534; }
+            .ms-fail { font-weight: bold; color: #b91c1c; }
+            .ms-max { color: #888; font-size: 7.5pt; }
+            .ms-empty { text-align: center; color: #999; padding: 4mm 0; }
+            .ms-no-data {
+                text-align: center; color: #999; padding: 8mm 0;
+                font-style: italic;
+            }
+            .ms-footer { margin-top: 10mm; }
+            .ms-signature-table { width: 100%; border-collapse: collapse; }
+            .ms-signature-line { border-bottom: 1pt solid #333; margin-bottom: 1mm; }
+            .ms-signature-label { font-size: 8pt; color: #555; }
+        </style>
+    </template>
+</odoo>

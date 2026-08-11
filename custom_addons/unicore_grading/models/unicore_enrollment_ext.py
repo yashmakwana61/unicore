@@ -66,11 +66,20 @@ class UniCoreStudentGradingExt(models.Model):
 
     def _compute_grade_entry_count_student(self):
         GradeEntry = self.env['unicore.grade.entry']
+        if not self:
+            return
+        # Batch: one search for all students instead of a per-record
+        # search_count (avoids N+1 on student list views).
+        entries = GradeEntry.search([
+            ('student_id', 'in', self.ids),
+        ])
+        count_by_student = {}
+        for entry in entries:
+            sid = entry.student_id.id
+            count_by_student[sid] = count_by_student.get(sid, 0) + 1
         for rec in self:
-            rec.grade_entry_count_student = (
-                GradeEntry.search_count([
-                    ('student_id', '=', rec.id)
-                ])
+            rec.grade_entry_count_student = count_by_student.get(
+                rec.id, 0
             )
 
     def action_view_grade_entries(self):

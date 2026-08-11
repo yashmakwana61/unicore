@@ -9,7 +9,7 @@
                 <div class="tr-container">
                     <!-- HEADER -->
                     <div class="tr-header">
-                        <div class="tr-institution">Precisefect University</div>
+                        <div class="tr-institution" t-esc="td['company_name']"/>
                         <div class="tr-dept">ACADEMIC TRANSCRIPT</div>
                         <div class="tr-subhead">Official Statement of Academic Record</div>
                     </div>
@@ -153,7 +153,7 @@
                             </tr>
                         </table>
                         <div class="tr-disclaimer">
-                            This is a computer-generated transcript issued by Precisefect University.
+                            This is a computer-generated transcript issued by <t t-esc="td['company_name']"/>.
                             Any unauthorised alteration or forgery is a punishable offence.
                         </div>
                     </div>

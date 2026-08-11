@@ -43,7 +43,7 @@
         <!-- ============================================================== -->
         <record id="rule_unicore_enrollment_self_view" model="ir.rule">
             <field name="name">Enrollment: Self-View (Own Enrollments Only)</field>
-            <field name="model_id" ref="unicore_enrollment.model_unicore_enrollment"/>
+            <field name="model_id" ref="unicore_admission.model_unicore_enrollment"/>
             <field name="global" eval="False"/>
             <field name="domain_force">[('student_id.partner_id', '=', user.partner_id.id)]</field>
             <field name="groups" eval="[(4, ref('unicore_base.group_unicore_student'))]"/>

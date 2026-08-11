@@ -307,22 +307,22 @@
     gap: 8px;
     padding: 14px 6px 10px;
     border-radius: 14px;
-    background: rgba(255, 255, 255, 0.85);
-    border: 1px solid #eef0f5;
+    background: transparent;
+    border: 1px solid transparent;
     cursor: pointer;
     transition: all 0.18s ease;
     user-select: none;
 
     &:hover {
-        background: #fff;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
+        background: transparent;
+        box-shadow: none;
         transform: translateY(-2px);
-        border-color: #dde0ea;
+        border-color: transparent;
     }
 
     &:active {
         transform: translateY(0);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        box-shadow: none;
     }
 }
 
@@ -333,7 +333,7 @@
     width: 52px;
     height: 52px;
     border-radius: 14px;
-    background: #f6f7fb;
+    background: transparent;
     overflow: hidden;
 
     img {

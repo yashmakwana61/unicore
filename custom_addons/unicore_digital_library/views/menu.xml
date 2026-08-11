@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="menu_unicore_digital_library_root"
+                  name="Digital Library"
+                  
+                  sequence="110"/>
+
+        <menuitem id="menu_unicore_digital_materials"
+                  name="Digital Materials"
+                  parent="menu_unicore_digital_library_root"
+                  action="action_unicore_digital_material"
+                  sequence="10"/>
+    </data>
+</odoo>

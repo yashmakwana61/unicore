@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_unicore_ai" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.unicore.ai</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app name="unicore_ai" data-string="Unicore AI" string="Unicore AI" data-key="unicore_ai" groups="unicore_ai.group_unicore_ai_manager">
+                    <block title="AI Provider Configuration" name="unicore_ai_provider">
+                        <setting string="OpenCode Zen API Key" help="Enter your OpenCode Zen (or OpenAI-compatible) API key to enable AI features.">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="unicore_ai_api_key" class="col-lg-3 o_light_label"/>
+                                    <field name="unicore_ai_api_key" password="True" class="col-lg-6"/>
+                                </div>
+                            </div>
+                        </setting>
+                        <setting string="API Endpoint URL" help="The chat completions endpoint. Default works with OpenCode Zen.">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="unicore_ai_api_url" class="col-lg-3 o_light_label"/>
+                                    <field name="unicore_ai_api_url" class="col-lg-6"/>
+                                </div>
+                            </div>
+                        </setting>
+                        <setting string="Model" help="The AI model to use for text generation.">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="unicore_ai_model" class="col-lg-3 o_light_label"/>
+                                    <field name="unicore_ai_model" class="col-lg-4"/>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+                    <block title="Advanced Settings" name="unicore_ai_advanced">
+                        <setting string="Temperature" help="Controls randomness. Lower = more focused, Higher = more creative.">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="unicore_ai_temperature" class="col-lg-3 o_light_label"/>
+                                    <field name="unicore_ai_temperature" class="col-lg-2"/>
+                                </div>
+                            </div>
+                        </setting>
+                        <setting string="Max Tokens" help="Maximum response length in tokens.">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="unicore_ai_max_tokens" class="col-lg-3 o_light_label"/>
+                                    <field name="unicore_ai_max_tokens" class="col-lg-2"/>
+                                </div>
+                            </div>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

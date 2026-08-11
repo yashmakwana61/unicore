@@ -22,7 +22,7 @@
     'license': 'OPL-1',
     'depends': [
         'unicore_curriculum',
-        'unicore_enrollment',
+        'unicore_admission',
         'unicore_faculty_profile',
         'unicore_student',
         'unicore_timetable',
@@ -45,6 +45,8 @@
         'views/unicore_assignment_view_mode_ext.xml',
         'views/unicore_assignment_cleanup.xml',
     ],
+    'images': ['static/description/icon.png'],
+    'web_icon': 'unicore_assignment,static/description/icon.png',
     'installable': True,
     'application': True,
     'auto_install': False,

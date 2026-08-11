@@ -9,6 +9,7 @@
                 <field name="program_id" options="{'no_create_edit': True}"/>
                 <field name="total_seats"/>
                 <field name="reserved_seats"/>
+                <field name="committed_count" readonly="1"/>
                 <field name="available_seats" readonly="1"/>
             </list>
         </field>
@@ -27,6 +28,10 @@
                             invisible="state != 'draft'" class="btn-primary"/>
                     <button name="action_close" type="object" string="Close Cycle"
                             invisible="state != 'active'" class="btn-success"/>
+                    <button name="action_generate_merit_list" type="object"
+                            string="Generate Merit List"
+                            invisible="state != 'active'" class="btn-primary"
+                            confirm="Generate the merit list from current composite scores? Top candidates per program will be merit-listed and the rest waitlisted."/>
                     <button name="action_archive" type="object" string="Archive"
                             invisible="state not in ('closed', 'archived')" class="btn-secondary"/>
                 </header>
@@ -48,6 +53,18 @@
                             <field name="applicant_count" readonly="1"/>
                         </group>
                     </group>
+                    <group string="Scoring Weights">
+                        <group>
+                            <field name="weight_aggregate" class="oe_inline"/>
+                            <field name="weight_entrance"/>
+                            <field name="weight_interview"/>
+                        </group>
+                        <group>
+                            <p>Weights control how the composite score is computed
+                            (aggregate % / entrance / interview). They must sum to 100%%.
+                            Default: 40 / 40 / 20.</p>
+                        </group>
+                    </group>
                     <notebook>
                         <page name="seats" string="Seat Allocation">
                             <field name="seat_ids">
@@ -55,12 +72,14 @@
                                     <field name="program_id" options="{'no_create_edit': True}"/>
                                     <field name="total_seats"/>
                                     <field name="reserved_seats"/>
+                                    <field name="committed_count" readonly="1"/>
                                     <field name="available_seats" readonly="1"/>
                                 </list>
                             </field>
                         </page>
                     </notebook>
                 </sheet>
+                <chatter/>
             </form>
         </field>
     </record>

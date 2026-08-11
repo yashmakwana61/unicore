@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_grievance_category_admin,unicore.grievance.category.admin,model_unicore_grievance_category,unicore_base.group_unicore_admin,1,1,1,1
+access_grievance_category_manager,unicore.grievance.category.manager,model_unicore_grievance_category,unicore_base.group_unicore_manager,1,1,1,0
+access_grievance_category_faculty,unicore.grievance.category.faculty,model_unicore_grievance_category,unicore_base.group_unicore_faculty,1,0,0,0
+access_grievance_category_student,unicore.grievance.category.student,model_unicore_grievance_category,unicore_base.group_unicore_student,1,0,0,0
+
+access_grievance_team_admin,unicore.grievance.team.admin,model_unicore_grievance_team,unicore_base.group_unicore_admin,1,1,1,1
+access_grievance_team_manager,unicore.grievance.team.manager,model_unicore_grievance_team,unicore_base.group_unicore_manager,1,1,1,0
+
+access_grievance_request_admin,unicore.grievance.request.admin,model_unicore_grievance_request,unicore_base.group_unicore_admin,1,1,1,1
+access_grievance_request_manager,unicore.grievance.request.manager,model_unicore_grievance_request,unicore_base.group_unicore_manager,1,1,1,0
+access_grievance_request_faculty,unicore.grievance.request.faculty,model_unicore_grievance_request,unicore_base.group_unicore_faculty,1,1,1,0
+access_grievance_request_student,unicore.grievance.request.student,model_unicore_grievance_request,unicore_base.group_unicore_student,1,1,1,0

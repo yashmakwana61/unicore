@@ -1,6 +1,6 @@
 {
     'name': 'Grading & Results',
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.1.0',
     'category': 'Education',
     'summary': 'Marks entry, grade computation, GPA/CGPA and semester results',
     'description': """
@@ -16,7 +16,7 @@
         'unicore_calendar',
         'unicore_campus',
         'unicore_curriculum',
-        'unicore_enrollment',
+        'unicore_admission',
         'unicore_exam',
         'unicore_faculty_profile',
         'unicore_guardian',
@@ -29,6 +29,7 @@
         'security/ir.model.access.csv',
         'data/unicore_grade_scale_data.xml',
         'data/unicore_transcript_report_action.xml',
+        'data/unicore_semester_mark_sheet_report_action.xml',
         'views/unicore_grade_scale_views.xml',
         'views/unicore_grade_entry_views.xml',
         'views/unicore_semester_result_views.xml',
@@ -39,6 +40,7 @@
         'views/unicore_grading_calendar_views.xml',
         'views/unicore_grading_analysis_views.xml',
         'views/unicore_grading_activity_views.xml',
+        'views/unicore_semester_mark_sheet_template.xml',
         'menus/unicore_grading_menus.xml',
         'views/unicore_grading_view_mode_ext.xml',
         'views/unicore_grading_cleanup.xml',

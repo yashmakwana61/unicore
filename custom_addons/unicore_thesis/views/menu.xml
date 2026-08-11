@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="menu_unicore_thesis_root"
+                  name="Thesis Management"
+                  
+                  sequence="140"/>
+
+        <menuitem id="menu_unicore_theses"
+                  name="Theses"
+                  parent="menu_unicore_thesis_root"
+                  action="action_unicore_thesis"
+                  sequence="10"/>
+
+        <menuitem id="menu_unicore_thesis_reviews"
+                  name="Thesis Reviews"
+                  parent="menu_unicore_thesis_root"
+                  action="action_unicore_thesis_review"
+                  sequence="20"/>
+    </data>
+</odoo>

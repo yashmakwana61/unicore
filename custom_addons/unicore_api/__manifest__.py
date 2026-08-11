@@ -36,7 +36,7 @@ All endpoints return consistent JSON structure:
         'unicore_security',
         'unicore_student',
         'unicore_academic',
-        'unicore_enrollment',
+        'unicore_admission',
         'unicore_attendance',
         'unicore_grading',
         'unicore_fees',

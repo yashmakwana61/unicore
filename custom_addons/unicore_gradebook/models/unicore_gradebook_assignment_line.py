@@ -168,11 +168,8 @@ class UniCoreGradeBookAssignmentLine(models.Model):
 
     # ------- CONSTRAINTS -------
 
-    _sql_constraints = [
-        (
-            'unique_student_assignment_line',
-            'UNIQUE(student_line_id, assignment_id)',
-            'A score already exists for this student and '
-            'assignment in the grade book.',
-        ),
-    ]
+    _check_unique_student_assignment_line = models.Constraint(
+        'UNIQUE(student_line_id, assignment_id)',
+        'A score already exists for this student and '
+        'assignment in the grade book.',
+    )

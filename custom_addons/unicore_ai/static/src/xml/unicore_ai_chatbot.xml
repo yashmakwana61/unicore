@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- ============================== -->
+    <!--  Systray icon + inline panel    -->
+    <!-- ============================== -->
+    <t t-name="unicore_ai.ChatbotSystray">
+        <div class="o_unicore_ai_systray">
+            <!-- Systray button -->
+            <button class="btn o_nav_entry o-no-caret position-relative"
+                    title="Unicore AI Chatbot"
+                    t-on-click="togglePanel">
+                <i class="fa fa-magic"/>
+            </button>
+
+            <!-- Slide-out panel (always in DOM, toggled via CSS class) -->
+            <div class="o_unicore_ai_panel" t-att-class="{ 'o_open': state.isOpen }">
+
+                <!-- Header -->
+                <div class="o_unicore_ai_panel_header">
+                    <div class="o_unicore_ai_panel_title">
+                        <i class="fa fa-magic me-2"/>
+                        <span>Unicore AI</span>
+                    </div>
+                    <div class="o_unicore_ai_panel_actions">
+                        <button class="btn btn-sm btn-link text-white" title="New Chat"
+                                t-on-click="newSession">
+                            <i class="fa fa-plus"/>
+                        </button>
+                        <button class="btn btn-sm btn-link text-white" title="Chat History"
+                                t-on-click="toggleHistory">
+                            <i class="fa fa-history"/>
+                        </button>
+                        <button class="btn btn-sm btn-link text-white" title="Close"
+                                t-on-click="togglePanel">
+                            <i class="fa fa-times"/>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Session list (history sidebar) -->
+                <t t-if="state.showHistory">
+                    <div class="o_unicore_ai_history">
+                        <div class="o_unicore_ai_history_header">
+                            <span class="fw-bold">Chat History</span>
+                            <button class="btn btn-sm btn-link" t-on-click="toggleHistory">
+                                <i class="fa fa-arrow-left"/>
+                            </button>
+                        </div>
+                        <div class="o_unicore_ai_history_list">
+                            <t t-foreach="state.sessions" t-as="session" t-key="session.id">
+                                <div class="o_unicore_ai_history_item"
+                                     t-att-class="{ 'active': state.currentSessionId === session.id }"
+                                     t-on-click="() => this.loadSession(session.id)">
+                                    <span class="o_unicore_ai_history_item_title text-truncate"
+                                          t-esc="session.title"/>
+                                    <button class="btn btn-sm btn-link text-danger o_delete_session"
+                                            t-on-click.stop="() => this.deleteSession(session.id)"
+                                            title="Delete">
+                                        <i class="fa fa-trash-o"/>
+                                    </button>
+                                </div>
+                            </t>
+                            <div t-if="!state.sessions.length" class="text-center text-muted p-3">
+                                <i class="fa fa-comments-o fa-2x mb-2 d-block"/>
+                                No chat history yet.
+                            </div>
+                        </div>
+                    </div>
+                </t>
+
+                <!-- Messages area -->
+                <t t-if="!state.showHistory">
+                    <div class="o_unicore_ai_messages" t-ref="messagesContainer">
+                        <!-- Welcome state -->
+                        <t t-if="!state.messages.length">
+                            <div class="o_unicore_ai_welcome">
+                                <div class="o_unicore_ai_welcome_icon">
+                                    <i class="fa fa-magic"/>
+                                </div>
+                                <h4>Hello! I'm Unicore AI</h4>
+                                <p class="text-muted">
+                                    Ask me anything about academics, administration,
+                                    or let me help you draft content.
+                                </p>
+                                <div class="o_unicore_ai_suggestions">
+                                    <button class="o_unicore_ai_suggestion"
+                                            t-on-click="() => this.sendSuggestion('Draft a notice for upcoming exams')">
+                                        📝 Draft exam notice
+                                    </button>
+                                    <button class="o_unicore_ai_suggestion"
+                                            t-on-click="() => this.sendSuggestion('Summarize key academic policies')">
+                                        📋 Summarize policies
+                                    </button>
+                                    <button class="o_unicore_ai_suggestion"
+                                            t-on-click="() => this.sendSuggestion('Generate a course description for Introduction to Computer Science')">
+                                        📚 Generate course description
+                                    </button>
+                                </div>
+                            </div>
+                        </t>
+                        <!-- Message bubbles -->
+                        <t t-foreach="state.messages" t-as="msg" t-key="msg_index">
+                            <div class="o_unicore_ai_msg"
+                                 t-att-class="'o_unicore_ai_msg_' + msg.role">
+                                <div class="o_unicore_ai_msg_avatar">
+                                    <i t-if="msg.role === 'assistant'" class="fa fa-magic"/>
+                                    <i t-else="" class="fa fa-user"/>
+                                </div>
+                                <div class="o_unicore_ai_msg_body">
+                                    <div class="o_unicore_ai_msg_content">
+                                        <t t-out="formatMessage(msg.content)"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                        <!-- Typing indicator -->
+                        <t t-if="state.isLoading">
+                            <div class="o_unicore_ai_msg o_unicore_ai_msg_assistant">
+                                <div class="o_unicore_ai_msg_avatar">
+                                    <i class="fa fa-magic"/>
+                                </div>
+                                <div class="o_unicore_ai_msg_body">
+                                    <div class="o_unicore_ai_typing">
+                                        <span/><span/><span/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+
+                    <!-- Input area -->
+                    <div class="o_unicore_ai_input">
+                        <div class="o_unicore_ai_input_wrapper">
+                            <textarea
+                                t-ref="inputArea"
+                                class="o_unicore_ai_textarea"
+                                placeholder="Ask Unicore AI anything…"
+                                t-on-keydown="onKeydown"
+                                t-att-disabled="state.isLoading"
+                                rows="1"
+                            />
+                            <button class="o_unicore_ai_send_btn"
+                                    t-on-click="sendMessage"
+                                    t-att-disabled="state.isLoading">
+                                <i t-if="!state.isLoading" class="fa fa-paper-plane"/>
+                                <i t-else="" class="fa fa-spinner fa-spin"/>
+                            </button>
+                        </div>
+                    </div>
+                </t>
+
+            </div>
+        </div>
+    </t>
+
+</templates>

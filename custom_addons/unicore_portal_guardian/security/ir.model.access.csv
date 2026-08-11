@@ -2,7 +2,7 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_unicore_guardian_portal,Guardian Portal,unicore_guardian.model_unicore_guardian,base.group_portal,1,0,0,0
 access_unicore_guardian_student_rel_portal,Guardian Student Rel Portal,unicore_guardian.model_unicore_guardian_student_rel,base.group_portal,1,0,0,0
 access_unicore_student_guardian_portal,Student Guardian Portal,unicore_student.model_unicore_student,base.group_portal,1,0,0,0
-access_unicore_enrollment_guardian_portal,Enrollment Guardian Portal,unicore_enrollment.model_unicore_enrollment,base.group_portal,1,0,0,0
+access_unicore_enrollment_guardian_portal,Enrollment Guardian Portal,unicore_admission.model_unicore_enrollment,base.group_portal,1,0,0,0
 access_unicore_grade_entry_guardian_portal,Grade Entry Guardian Portal,unicore_grading.model_unicore_grade_entry,base.group_portal,1,0,0,0
 access_unicore_semester_result_guardian_portal,Semester Result Guardian Portal,unicore_grading.model_unicore_semester_result,base.group_portal,1,0,0,0
 access_unicore_fee_invoice_guardian_portal,Fee Invoice Guardian Portal,unicore_fees.model_unicore_fee_invoice,base.group_portal,1,0,0,0

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- AI User — can use the chatbot and text generator -->
+        <record id="group_unicore_ai_user" model="res.groups">
+            <field name="name">AI User</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <!-- AI Manager — can configure settings and view all sessions -->
+        <record id="group_unicore_ai_manager" model="res.groups">
+            <field name="name">AI Manager</field>
+            <field name="implied_ids" eval="[(4, ref('group_unicore_ai_user'))]"/>
+        </record>
+    </data>
+</odoo>

@@ -34,7 +34,7 @@
         'unicore_calendar', 'unicore_student',
         'unicore_faculty_profile', 'unicore_guardian',
         'unicore_curriculum', 'unicore_timetable',
-        'unicore_enrollment', 'unicore_attendance',
+        'unicore_attendance',
         'unicore_exam', 'unicore_grading',
         'unicore_fees', 'unicore_scholarship',
         'unicore_admission', 'unicore_library',

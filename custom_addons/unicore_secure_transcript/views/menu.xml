@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="menu_unicore_secure_transcript_root"
+                  name="Secure Transcripts"
+                  
+                  sequence="100"/>
+
+        <menuitem id="menu_unicore_secure_transcript_list"
+                  name="Transcripts"
+                  parent="menu_unicore_secure_transcript_root"
+                  action="action_unicore_secure_transcript"
+                  sequence="10"/>
+    </data>
+</odoo>

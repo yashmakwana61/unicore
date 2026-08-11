@@ -6,7 +6,7 @@
               name="Admission"
               sequence="30"
               web_icon="unicore_admission,static/description/icon.png"
-              groups="unicore_base.group_unicore_admin,unicore_base.group_unicore_registrar"/>
+              groups="unicore_base.group_unicore_admin,unicore_base.group_unicore_manager,unicore_base.group_unicore_registrar,unicore_base.group_unicore_staff"/>
 
     <menuitem id="menu_unicore_admission_cycles"
               name="Admission Cycles"
@@ -14,11 +14,24 @@
               action="action_unicore_admission_cycle"
               sequence="10"/>
 
+    <menuitem id="menu_unicore_admission_stages"
+              name="Stages"
+              parent="menu_unicore_admission_root"
+              action="action_unicore_admission_stage"
+              sequence="25"
+              groups="unicore_base.group_unicore_admin,unicore_base.group_unicore_manager,unicore_base.group_unicore_registrar"/>
+
     <menuitem id="menu_unicore_admission_applicants"
               name="Applicants"
               parent="menu_unicore_admission_root"
               action="action_unicore_admission_applicant"
               sequence="20"/>
+
+    <menuitem id="menu_unicore_admission_enrollments"
+              name="Admission Enrollments"
+              parent="menu_unicore_admission_root"
+              action="action_unicore_admission_enrollment"
+              sequence="22"/>
 
     <menuitem id="menu_unicore_admission_entrance_tests"
               name="Entrance Tests"

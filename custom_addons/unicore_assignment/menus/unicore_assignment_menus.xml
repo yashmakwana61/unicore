@@ -3,13 +3,13 @@
     <data>
 
         <!-- ============================================================ -->
-        <!-- LEVEL 2: Top-Level Menu (sequence 85)                        -->
+        <!-- LEVEL 2: Top-Level Standalone App (sequence 95)              -->
         <!-- ============================================================ -->
 
         <menuitem id="menu_unicore_assignment"
                   name="Assignments"
-                  parent="unicore_base.menu_unicore_root"
-                  sequence="85"
+                  sequence="95"
+                  web_icon="unicore_assignment,static/description/icon.png"
                   groups="unicore_base.group_unicore_faculty"/>
 
         <!-- ============================================================ -->

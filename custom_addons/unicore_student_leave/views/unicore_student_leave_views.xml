@@ -12,7 +12,7 @@
         </field>
         <field name="model">unicore.student.leave.request</field>
         <field name="arch" type="xml">
-            <tree string="Leave Requests"
+            <list string="Leave Requests"
                   decoration-danger="state == 'rejected'"
                   decoration-success="state == 'approved'"
                   decoration-info="state == 'submitted'"
@@ -38,7 +38,7 @@
                        decoration-danger="state == 'rejected'"
                        decoration-muted="state == 'cancelled'"
                        decoration-info="state == 'draft'"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -196,7 +196,7 @@
                         string="Rejected"
                         domain="[('state', '=', 'rejected')]"/>
                 <separator/>
-                <group expand="0" string="Group By">
+                <group>
                     <filter name="group_by_student"
                             string="Student"
                             context="{'group_by': 'student_id'}"/>

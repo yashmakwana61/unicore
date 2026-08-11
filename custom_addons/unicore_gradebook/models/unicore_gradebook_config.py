@@ -169,6 +169,13 @@ class UniCoreGradeBookConfig(models.Model):
         compute='_compute_stats',
         store=True,
     )
+    sync_progress_pct = fields.Integer(
+        string='Sync Progress (%)',
+        compute='_compute_stats',
+        store=True,
+        help='Percentage of student lines already synced to their '
+             'grade entries (0-100).',
+    )
 
     @api.depends('assignment_ids.assignment_state',
                  'student_line_ids.assignment_percentage',
@@ -200,16 +207,17 @@ class UniCoreGradeBookConfig(models.Model):
                     and not l.is_synced
                 )
             )
+            rec.sync_progress_pct = round(
+                (rec.synced_count * 100.0 / rec.student_count)
+                if rec.student_count else 0.0, 0
+            )
 
     # ------- CONSTRAINTS -------
 
-    _sql_constraints = [
-        (
-            'unique_course_offering',
-            'UNIQUE(course_offering_id)',
-            'A grade book already exists for this course offering.',
-        ),
-    ]
+    _check_unique_course_offering = models.Constraint(
+        'UNIQUE(course_offering_id)',
+        'A grade book already exists for this course offering.',
+    )
 
     @api.constrains('assignment_weight_pct')
     def _check_weight(self):
@@ -252,6 +260,18 @@ class UniCoreGradeBookConfig(models.Model):
             existing_lines = {
                 l.enrollment_id.id: l for l in rec.student_line_ids
             }
+            # Batch: one search for ALL graded submissions of the
+            # offering, grouped by student (avoids an N+1 search per
+            # enrollment line).
+            graded_all = Submission.search([
+                ('course_offering_id', '=', offering.id),
+                ('state', '=', 'graded'),
+            ])
+            by_student = {}
+            for sub in graded_all:
+                by_student.setdefault(
+                    sub.student_id.id, []
+                ).append(sub)
             for enr in enrollments:
                 line = existing_lines.get(enr.id)
                 if not line:
@@ -262,11 +282,7 @@ class UniCoreGradeBookConfig(models.Model):
                         'enrollment_id': enr.id,
                     })
                     existing_lines[enr.id] = line
-                graded = Submission.search([
-                    ('course_offering_id', '=', offering.id),
-                    ('student_id', '=', enr.student_id.id),
-                    ('state', '=', 'graded'),
-                ])
+                graded = by_student.get(enr.student_id.id, [])
                 valid_sub_ids = {s.id for s in graded}
                 # Drop stale snapshots whose source submission is no
                 # longer a graded submission for this student.

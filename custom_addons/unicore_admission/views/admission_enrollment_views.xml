@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================ -->
+    <!-- unicore.admission.enrollment — FORM                          -->
+    <!-- ============================================================ -->
+
+    <record id="admission_enrollment_form_view" model="ir.ui.view">
+        <field name="name">unicore.admission.enrollment.form</field>
+        <field name="model">unicore.admission.enrollment</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="enrollment_state" widget="statusbar"
+                           statusbar_visible="pending,enrolled,completed"
+                           clickable="False"/>
+                    <button name="action_mark_enrolled" type="object"
+                            string="Mark Enrolled" class="btn-primary"
+                            invisible="enrollment_state != 'pending'"/>
+                    <button name="action_mark_completed" type="object"
+                            string="Mark Completed" class="btn-secondary"
+                            invisible="enrollment_state not in ('pending', 'enrolled')"
+                            groups="unicore_base.group_unicore_registrar"/>
+                    <button name="action_cancel" type="object"
+                            string="Cancel (Admin)" class="btn-danger"
+                            invisible="enrollment_state == 'cancelled'"
+                            groups="unicore_base.group_unicore_admin"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group name="enrollment" string="Program Enrollment">
+                        <group>
+                            <field name="applicant_id" options="{'no_create_edit': True}"/>
+                            <field name="student_id" readonly="1"/>
+                            <field name="cycle_id" options="{'no_create_edit': True}"/>
+                        </group>
+                        <group>
+                            <field name="program_id" options="{'no_create_edit': True}"/>
+                            <field name="campus_id" options="{'no_create_edit': True}"/>
+                            <field name="company_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="academic_year_id" options="{'no_create_edit': True}"/>
+                            <field name="semester_id" options="{'no_create_edit': True}"/>
+                            <field name="enrollment_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="courses" string="Course Enrollments">
+                            <group>
+                                <field name="course_enrollment_ids"
+                                       context="{'list_view_ref': 'unicore_admission.view_unicore_enrollment_list'}"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- unicore.admission.enrollment — LIST                          -->
+    <!-- ============================================================ -->
+
+    <record id="admission_enrollment_list_view" model="ir.ui.view">
+        <field name="name">unicore.admission.enrollment.list</field>
+        <field name="model">unicore.admission.enrollment</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="applicant_id"/>
+                <field name="student_id"/>
+                <field name="program_id"/>
+                <field name="semester_id"/>
+                <field name="enrollment_state" widget="badge"
+                       decoration-success="enrollment_state == 'enrolled'"
+                       decoration-info="enrollment_state == 'pending'"
+                       decoration-danger="enrollment_state in ('withdrawn', 'cancelled')"/>
+                <field name="enrollment_date"/>
+                <field name="course_enrollment_count" readonly="1"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- unicore.admission.enrollment — SEARCH                       -->
+    <!-- ============================================================ -->
+
+    <record id="admission_enrollment_search_view" model="ir.ui.view">
+        <field name="name">unicore.admission.enrollment.search</field>
+        <field name="model">unicore.admission.enrollment</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="applicant_id"/>
+                <field name="student_id"/>
+                <field name="program_id"/>
+                <field name="semester_id"/>
+                <filter name="pending" string="Pending"
+                        domain="[('enrollment_state', '=', 'pending')]"/>
+                <filter name="enrolled" string="Enrolled"
+                        domain="[('enrollment_state', '=', 'enrolled')]"/>
+                <separator/>
+                <filter name="group_by_program" string="Program"
+                        context="{'group_by': 'program_id'}"/>
+                <filter name="group_by_semester" string="Semester"
+                        context="{'group_by': 'semester_id'}"/>
+                <filter name="group_by_state" string="Status"
+                        context="{'group_by': 'enrollment_state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- unicore.admission.enrollment — ACTION                       -->
+    <!-- ============================================================ -->
+
+    <record id="action_unicore_admission_enrollment" model="ir.actions.act_window">
+        <field name="name">Admission Enrollments</field>
+        <field name="res_model">unicore.admission.enrollment</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="admission_enrollment_search_view"/>
+        <field name="help" type="html">
+            <p>Program-level enrollments created from the admission pipeline.
+            Each record ties a confirmed applicant (and their student) to a
+            semester, with the course registrations created in one step.</p>
+        </field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Enroll in Program — WIZARD                                  -->
+    <!-- ============================================================ -->
+
+    <record id="admission_enrollment_wizard_view" model="ir.ui.view">
+        <field name="name">unicore.admission.enrollment.wizard.form</field>
+        <field name="model">unicore.admission.enrollment.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Enroll in Program">
+                <group>
+                    <group>
+                        <field name="applicant_id"/>
+                        <field name="student_id"/>
+                        <field name="program_id"/>
+                    </group>
+                    <group>
+                        <field name="cycle_id"/>
+                        <field name="academic_year_id"/>
+                        <field name="semester_id"/>
+                        <field name="activate_student"/>
+                    </group>
+                </group>
+                <group string="Course Registration Preview">
+                    <field name="line_ids">
+                        <list editable="bottom">
+                            <field name="checked" widget="boolean_favorite"/>
+                            <field name="course_id"/>
+                            <field name="semester_number" optional="hide"/>
+                            <field name="offering_id"/>
+                            <field name="offering_state" widget="badge"/>
+                            <field name="warning" optional="show"/>
+                        </list>
+                    </field>
+                </group>
+                <footer>
+                    <button name="action_preview" type="object"
+                            string="Refresh Lines" class="btn-secondary"/>
+                    <button name="action_confirm" type="object"
+                            string="Enroll in Program" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

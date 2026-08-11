@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_question_bank_admin,unicore.question.bank.admin,model_unicore_question_bank,unicore_base.group_unicore_admin,1,1,1,1
+access_question_bank_manager,unicore.question.bank.manager,model_unicore_question_bank,unicore_base.group_unicore_manager,1,1,1,0
+access_question_bank_faculty,unicore.question.bank.faculty,model_unicore_question_bank,unicore_base.group_unicore_faculty,1,1,1,0
+access_question_bank_student,unicore.question.bank.student,model_unicore_question_bank,unicore_base.group_unicore_student,1,0,0,0
+
+access_quiz_admin,unicore.quiz.admin,model_unicore_quiz,unicore_base.group_unicore_admin,1,1,1,1
+access_quiz_manager,unicore.quiz.manager,model_unicore_quiz,unicore_base.group_unicore_manager,1,1,1,0
+access_quiz_faculty,unicore.quiz.faculty,model_unicore_quiz,unicore_base.group_unicore_faculty,1,1,1,0
+access_quiz_student,unicore.quiz.student,model_unicore_quiz,unicore_base.group_unicore_student,1,0,0,0
+
+access_quiz_attempt_admin,unicore.quiz.attempt.admin,model_unicore_quiz_attempt,unicore_base.group_unicore_admin,1,1,1,1
+access_quiz_attempt_manager,unicore.quiz.attempt.manager,model_unicore_quiz_attempt,unicore_base.group_unicore_manager,1,1,1,0
+access_quiz_attempt_faculty,unicore.quiz.attempt.faculty,model_unicore_quiz_attempt,unicore_base.group_unicore_faculty,1,1,1,0
+access_quiz_attempt_student,unicore.quiz.attempt.student,model_unicore_quiz_attempt,unicore_base.group_unicore_student,1,1,1,0

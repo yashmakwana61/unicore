@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_thesis_admin,unicore.thesis.admin,model_unicore_thesis,unicore_base.group_unicore_admin,1,1,1,1
+access_thesis_manager,unicore.thesis.manager,model_unicore_thesis,unicore_base.group_unicore_manager,1,1,1,0
+access_thesis_faculty,unicore.thesis.faculty,model_unicore_thesis,unicore_base.group_unicore_faculty,1,1,1,0
+access_thesis_student,unicore.thesis.student,model_unicore_thesis,unicore_base.group_unicore_student,1,1,1,0
+
+access_thesis_review_admin,unicore.thesis.review.admin,model_unicore_thesis_review,unicore_base.group_unicore_admin,1,1,1,1
+access_thesis_review_manager,unicore.thesis.review.manager,model_unicore_thesis_review,unicore_base.group_unicore_manager,1,1,1,0
+access_thesis_review_faculty,unicore.thesis.review.faculty,model_unicore_thesis_review,unicore_base.group_unicore_faculty,1,1,1,0
+access_thesis_review_student,unicore.thesis.review.student,model_unicore_thesis_review,unicore_base.group_unicore_student,1,0,0,0

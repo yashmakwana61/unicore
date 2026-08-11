@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="unicore_quiz.TakeQuizClientAction" owl="1">
+        <div class="o_action o_unicore_quiz_action p-4 h-100 bg-view overflow-auto">
+            
+            <t t-if="state.status === 'list'">
+                <div class="container mt-4">
+                    <h2 class="mb-4">Available Quizzes</h2>
+                    <t t-if="state.quizzes.length === 0">
+                        <div class="alert alert-info">No quizzes are currently active.</div>
+                    </t>
+                    <div class="row">
+                        <t t-foreach="state.quizzes" t-as="quiz" t-key="quiz.id">
+                            <div class="col-md-4 mb-4">
+                                <div class="card h-100 shadow-sm border-primary">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-primary"><t t-esc="quiz.title"/></h5>
+                                        <p class="card-text">
+                                            <i class="fa fa-clock-o mr-2"/> Time Limit: <t t-esc="quiz.time_limit"/> minutes
+                                        </p>
+                                    </div>
+                                    <div class="card-footer bg-transparent border-top-0 text-center pb-3">
+                                        <button class="btn btn-primary" t-on-click="() => this.startQuiz(quiz.id)">
+                                            <i class="fa fa-play mr-2"/> Start Quiz
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </t>
+            
+            <t t-elif="state.status === 'taking'">
+                <div class="container mt-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4 bg-light p-3 rounded shadow-sm sticky-top">
+                        <h3 class="m-0"><t t-esc="state.selectedQuiz.title"/></h3>
+                        <div class="d-flex align-items-center">
+                            <div class="badge badge-warning text-dark p-2 mr-3" t-if="state.tabSwitches > 0">
+                                <i class="fa fa-exclamation-triangle mr-1"/> Tab Switches: <t t-esc="state.tabSwitches"/>
+                            </div>
+                            <div class="badge badge-primary p-2" t-att-class="state.timeRemaining &lt; 60 ? 'badge-danger' : 'badge-primary'">
+                                <i class="fa fa-clock-o mr-1"/> Time: <t t-esc="formatTime(state.timeRemaining)"/>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-12">
+                            <t t-foreach="state.questions" t-as="question" t-key="question.id">
+                                <div class="card mb-4 shadow-sm">
+                                    <div class="card-header bg-white">
+                                        <strong>Question <t t-esc="question_index + 1"/>:</strong>
+                                        <p class="mt-2 mb-0" style="white-space: pre-wrap;"><t t-esc="question.question_text"/></p>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="custom-control custom-radio mb-2">
+                                            <input type="radio" t-attf-id="q#{question.id}_a" t-attf-name="q#{question.id}" class="custom-control-input"
+                                                   t-on-change="() => this.setAnswer(question.id, 'a')"
+                                                   t-att-checked="state.answers[question.id] === 'a'"/>
+                                            <label class="custom-control-label" t-attf-for="q#{question.id}_a">A) <t t-esc="question.option_a"/></label>
+                                        </div>
+                                        <div class="custom-control custom-radio mb-2">
+                                            <input type="radio" t-attf-id="q#{question.id}_b" t-attf-name="q#{question.id}" class="custom-control-input"
+                                                   t-on-change="() => this.setAnswer(question.id, 'b')"
+                                                   t-att-checked="state.answers[question.id] === 'b'"/>
+                                            <label class="custom-control-label" t-attf-for="q#{question.id}_b">B) <t t-esc="question.option_b"/></label>
+                                        </div>
+                                        <t t-if="question.option_c">
+                                            <div class="custom-control custom-radio mb-2">
+                                                <input type="radio" t-attf-id="q#{question.id}_c" t-attf-name="q#{question.id}" class="custom-control-input"
+                                                       t-on-change="() => this.setAnswer(question.id, 'c')"
+                                                       t-att-checked="state.answers[question.id] === 'c'"/>
+                                                <label class="custom-control-label" t-attf-for="q#{question.id}_c">C) <t t-esc="question.option_c"/></label>
+                                            </div>
+                                        </t>
+                                        <t t-if="question.option_d">
+                                            <div class="custom-control custom-radio mb-2">
+                                                <input type="radio" t-attf-id="q#{question.id}_d" t-attf-name="q#{question.id}" class="custom-control-input"
+                                                       t-on-change="() => this.setAnswer(question.id, 'd')"
+                                                       t-att-checked="state.answers[question.id] === 'd'"/>
+                                                <label class="custom-control-label" t-attf-for="q#{question.id}_d">D) <t t-esc="question.option_d"/></label>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-4 mb-5">
+                        <button class="btn btn-success btn-lg px-5" t-on-click="submitQuiz">
+                            <i class="fa fa-paper-plane mr-2"/> Submit Quiz
+                        </button>
+                    </div>
+                </div>
+            </t>
+            
+            <t t-elif="state.status === 'submitted'">
+                <div class="container mt-5">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8 text-center">
+                            <div class="card shadow">
+                                <div class="card-body py-5">
+                                    <div class="mb-4">
+                                        <i class="fa fa-check-circle text-success" style="font-size: 5rem;"/>
+                                    </div>
+                                    <h2 class="mb-4">Quiz Submitted Successfully!</h2>
+                                    <p class="lead text-muted mb-4">Your responses have been recorded.</p>
+                                    <button class="btn btn-primary" t-on-click="goBack">
+                                        <i class="fa fa-arrow-left mr-2"/> Back to Quizzes
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+            
+        </div>
+    </t>
+</templates>

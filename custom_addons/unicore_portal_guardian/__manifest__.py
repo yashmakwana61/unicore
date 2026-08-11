@@ -32,7 +32,7 @@
         'unicore_campus', 'unicore_academic',
         'unicore_calendar', 'unicore_student',
         'unicore_guardian', 'unicore_curriculum',
-        'unicore_enrollment', 'unicore_attendance',
+        'unicore_admission', 'unicore_attendance',
         'unicore_exam', 'unicore_grading',
         'unicore_fees', 'unicore_notify',
         'unicore_portal_student', 'portal',

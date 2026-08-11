@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="menu_unicore_progression_root"
+                  name="Progression"
+                  
+                  sequence="50"/>
+
+        <menuitem id="menu_unicore_progression_records"
+                  name="Progression Records"
+                  parent="menu_unicore_progression_root"
+                  action="action_unicore_progression_record"
+                  sequence="10"/>
+    </data>
+</odoo>

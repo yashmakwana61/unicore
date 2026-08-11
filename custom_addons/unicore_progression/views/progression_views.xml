@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_unicore_progression_record_tree" model="ir.ui.view">
+            <field name="name">unicore.progression.record.tree</field>
+            <field name="model">unicore.progression.record</field>
+            <field name="arch" type="xml">
+                <list string="Progression Records">
+                    <field name="student_id" widget="many2one_avatar"/>
+                    <field name="academic_year_id"/>
+                    <field name="semester_id" optional="show"/>
+                    <field name="decision" widget="badge" 
+                           decoration-success="decision == 'promoted'" 
+                           decoration-warning="decision in ('repeat', 'probation')" 
+                           decoration-danger="decision == 'dismissed'" 
+                           decoration-info="decision == 'pending'"/>
+                    <field name="cgpa_snapshot" optional="show"/>
+                    <field name="credits_earned_snapshot" optional="show"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_unicore_progression_record_form" model="ir.ui.view">
+            <field name="name">unicore.progression.record.form</field>
+            <field name="model">unicore.progression.record</field>
+            <field name="arch" type="xml">
+                <form string="Progression Record">
+                    <header>
+                        <button name="action_promote" string="Promote" type="object" class="oe_highlight" invisible="decision != 'pending'"/>
+                        <button name="action_repeat" string="Repeat" type="object" invisible="decision != 'pending'"/>
+                        <button name="action_probation" string="Probation" type="object" invisible="decision != 'pending'"/>
+                        <button name="action_dismiss" string="Dismiss" type="object" class="btn-danger" invisible="decision != 'pending'"/>
+                        <field name="decision" widget="statusbar" statusbar_visible="pending,promoted,repeat,probation,dismissed"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="student_id" widget="many2one_avatar"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="academic_year_id"/>
+                                <field name="semester_id"/>
+                            </group>
+                            <group>
+                                <field name="cgpa_snapshot"/>
+                                <field name="credits_earned_snapshot"/>
+                                <field name="decided_by" invisible="decision == 'pending'"/>
+                                <field name="decision_date" invisible="decision == 'pending'"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Notes" name="notes">
+                                <field name="notes" widget="html" placeholder="Internal notes..."/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_unicore_progression_record_search" model="ir.ui.view">
+            <field name="name">unicore.progression.record.search</field>
+            <field name="model">unicore.progression.record</field>
+            <field name="arch" type="xml">
+                <search string="Search Progression Records">
+                    <field name="student_id" widget="many2one_avatar"/>
+                    <field name="academic_year_id"/>
+                    <filter string="Pending" name="pending" domain="[('decision', '=', 'pending')]"/>
+                    <filter string="Promoted" name="promoted" domain="[('decision', '=', 'promoted')]"/>
+                    <group>
+                        <filter string="Decision" name="group_by_decision" context="{'group_by': 'decision'}"/>
+                        <filter string="Academic Year" name="group_by_academic_year" context="{'group_by': 'academic_year_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_unicore_progression_record" model="ir.actions.act_window">
+            <field name="name">Progression Records</field>
+            <field name="res_model">unicore.progression.record</field>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="view_unicore_progression_record_search"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new progression record
+              </p>
+            </field>
+        </record>
+    </data>
+</odoo>

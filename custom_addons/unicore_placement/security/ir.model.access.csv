@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_placement_company_admin,unicore.placement.company.admin,model_unicore_placement_company,unicore_base.group_unicore_admin,1,1,1,1
+access_placement_company_manager,unicore.placement.company.manager,model_unicore_placement_company,unicore_base.group_unicore_manager,1,1,1,0
+access_placement_company_faculty,unicore.placement.company.faculty,model_unicore_placement_company,unicore_base.group_unicore_faculty,1,0,0,0
+access_placement_company_student,unicore.placement.company.student,model_unicore_placement_company,unicore_base.group_unicore_student,1,0,0,0
+
+access_placement_drive_admin,unicore.placement.drive.admin,model_unicore_placement_drive,unicore_base.group_unicore_admin,1,1,1,1
+access_placement_drive_manager,unicore.placement.drive.manager,model_unicore_placement_drive,unicore_base.group_unicore_manager,1,1,1,0
+access_placement_drive_faculty,unicore.placement.drive.faculty,model_unicore_placement_drive,unicore_base.group_unicore_faculty,1,0,0,0
+access_placement_drive_student,unicore.placement.drive.student,model_unicore_placement_drive,unicore_base.group_unicore_student,1,0,0,0
+
+access_placement_application_admin,unicore.placement.application.admin,model_unicore_placement_application,unicore_base.group_unicore_admin,1,1,1,1
+access_placement_application_manager,unicore.placement.application.manager,model_unicore_placement_application,unicore_base.group_unicore_manager,1,1,1,0
+access_placement_application_faculty,unicore.placement.application.faculty,model_unicore_placement_application,unicore_base.group_unicore_faculty,1,0,0,0
+access_placement_application_student,unicore.placement.application.student,model_unicore_placement_application,unicore_base.group_unicore_student,1,0,1,0

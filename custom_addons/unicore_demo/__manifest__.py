@@ -49,7 +49,6 @@
         'unicore_guardian',
         'unicore_curriculum',
         'unicore_timetable',
-        'unicore_enrollment',
         'unicore_attendance',
         'unicore_exam',
         'unicore_grading',

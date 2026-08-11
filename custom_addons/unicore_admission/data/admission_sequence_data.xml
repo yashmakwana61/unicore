@@ -17,4 +17,12 @@
         <field name="company_id" eval="False"/>
     </record>
 
+    <record id="seq_unicore_admission_enrollment" model="ir.sequence">
+        <field name="name">Admission Enrollment Number</field>
+        <field name="code">unicore.admission.enrollment</field>
+        <field name="prefix">AEN/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
 </odoo>

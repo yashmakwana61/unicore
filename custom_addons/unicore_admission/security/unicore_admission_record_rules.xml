@@ -49,4 +49,20 @@
         <field name="domain_force">[('company_id', 'in', company_ids)]</field>
     </record>
 
+    <!-- ADMISSION STAGE: company isolation -->
+    <record id="rule_admission_stage_company" model="ir.rule">
+        <field name="name">unicore.admission.stage: company isolation</field>
+        <field name="model_id" ref="model_unicore_admission_stage"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- ADMISSION ENROLLMENT: company isolation -->
+    <record id="rule_admission_enrollment_company" model="ir.rule">
+        <field name="name">unicore.admission.enrollment: company isolation</field>
+        <field name="model_id" ref="model_unicore_admission_enrollment"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
 </odoo>

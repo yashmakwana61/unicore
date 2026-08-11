@@ -5,7 +5,7 @@ from odoo.exceptions import UserError
 class OfferLetter(models.Model):
     _name = 'unicore.admission.offer.letter'
     _description = 'Offer Letter'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['unicore.mixin', 'unicore.sequence.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'offer_date desc, id desc'
     _rec_name = 'display_name'
 
@@ -78,7 +78,10 @@ class OfferLetter(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get('letter_number', _('New')) == _('New'):
-                seq = self.env['ir.sequence'].next_by_code('unicore.admission.offer.letter') or '/'
+                company_id = vals.get('company_id') or self.env.company.id
+                seq = self._next_sequence(
+                    'unicore.admission.offer.letter', company_id=company_id
+                ) or '/'
                 vals['letter_number'] = seq
             if not vals.get('valid_until') and vals.get('offer_date'):
                 vals['valid_until'] = fields.Date.add(vals['offer_date'], days=30)
@@ -100,6 +103,21 @@ class OfferLetter(models.Model):
             })
             record.applicant_id.action_mark_fee_pending()
 
+    def _release_seat(self):
+        """Move the applicant back to waitlist when their only open offer is
+        declined or expires, freeing the seat for another candidate."""
+        for record in self:
+            applicant = record.applicant_id
+            if applicant and applicant.state == 'offer_sent':
+                # Only act if there is no other open offer for this applicant.
+                other_open = self.search([
+                    ('applicant_id', '=', applicant.id),
+                    ('state', 'in', ('sent', 'accepted')),
+                    ('id', '!=', record.id),
+                ], limit=1)
+                if not other_open:
+                    applicant.write({'state': 'waitlisted'})
+
     def action_reject(self):
         for record in self:
             if record.state not in ('sent', 'accepted'):
@@ -108,9 +126,11 @@ class OfferLetter(models.Model):
                 'state': 'rejected',
                 'response_date': fields.Date.today(),
             })
+        self._release_seat()
 
     def action_mark_expired(self):
         for record in self:
             if record.state not in ('sent', 'draft'):
                 raise UserError(_('Only sent or draft offers can be marked as expired.'))
             record.write({'state': 'expired'})
+        self._release_seat()

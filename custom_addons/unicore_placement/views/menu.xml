@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="menu_unicore_placement_root"
+                  name="Placements"
+                  
+                  sequence="130"/>
+
+        <menuitem id="menu_unicore_placement_drives"
+                  name="Placement Drives"
+                  parent="menu_unicore_placement_root"
+                  action="action_unicore_placement_drive"
+                  sequence="10"/>
+
+        <menuitem id="menu_unicore_placement_applications"
+                  name="Applications"
+                  parent="menu_unicore_placement_root"
+                  action="action_unicore_placement_application"
+                  sequence="20"/>
+
+        <menuitem id="menu_unicore_placement_companies"
+                  name="Companies"
+                  parent="menu_unicore_placement_root"
+                  action="action_unicore_placement_company"
+                  sequence="30"/>
+    </data>
+</odoo>

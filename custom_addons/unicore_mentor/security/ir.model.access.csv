@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mentor_allocation_admin,unicore.mentor.allocation.admin,model_unicore_mentor_allocation,unicore_base.group_unicore_admin,1,1,1,1
+access_mentor_allocation_manager,unicore.mentor.allocation.manager,model_unicore_mentor_allocation,unicore_base.group_unicore_manager,1,1,1,0
+access_mentor_allocation_registrar,unicore.mentor.allocation.registrar,model_unicore_mentor_allocation,unicore_base.group_unicore_registrar,1,1,1,0
+access_mentor_allocation_faculty,unicore.mentor.allocation.faculty,model_unicore_mentor_allocation,unicore_base.group_unicore_faculty,1,0,0,0
+access_mentor_allocation_student,unicore.mentor.allocation.student,model_unicore_mentor_allocation,unicore_base.group_unicore_student,1,0,0,0
+
+access_mentor_meeting_log_admin,unicore.mentor.meeting.log.admin,model_unicore_mentor_meeting_log,unicore_base.group_unicore_admin,1,1,1,1
+access_mentor_meeting_log_manager,unicore.mentor.meeting.log.manager,model_unicore_mentor_meeting_log,unicore_base.group_unicore_manager,1,1,1,0
+access_mentor_meeting_log_faculty,unicore.mentor.meeting.log.faculty,model_unicore_mentor_meeting_log,unicore_base.group_unicore_faculty,1,1,1,0
+access_mentor_meeting_log_student,unicore.mentor.meeting.log.student,model_unicore_mentor_meeting_log,unicore_base.group_unicore_student,1,0,0,0

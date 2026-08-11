@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_unicore_placement_company_tree" model="ir.ui.view">
+            <field name="name">unicore.placement.company.tree</field>
+            <field name="model">unicore.placement.company</field>
+            <field name="arch" type="xml">
+                <list string="Placement Companies">
+                    <field name="name"/>
+                    <field name="industry"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_unicore_placement_company_form" model="ir.ui.view">
+            <field name="name">unicore.placement.company.form</field>
+            <field name="model">unicore.placement.company</field>
+            <field name="arch" type="xml">
+                <form string="Placement Company">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name" placeholder="Company Name..."/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="industry"/>
+                                <field name="company_id" invisible="1"/>
+                            </group>
+                        </group>
+                        <group string="Description">
+                            <field name="description" nolabel="1" placeholder="Company profile and details..."/>
+                        </group>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_unicore_placement_drive_tree" model="ir.ui.view">
+            <field name="name">unicore.placement.drive.tree</field>
+            <field name="model">unicore.placement.drive</field>
+            <field name="arch" type="xml">
+                <list string="Placement Drives">
+                    <field name="company_id"/>
+                    <field name="date"/>
+                    <field name="state" widget="badge"
+                           decoration-info="state == 'draft'"
+                           decoration-success="state == 'active'"
+                           decoration-warning="state == 'completed'"
+                           decoration-danger="state == 'cancelled'"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_unicore_placement_drive_form" model="ir.ui.view">
+            <field name="name">unicore.placement.drive.form</field>
+            <field name="model">unicore.placement.drive</field>
+            <field name="arch" type="xml">
+                <form string="Placement Drive">
+                    <header>
+                        <button name="action_activate" string="Activate" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                        <button name="action_complete" string="Mark as Completed" type="object" invisible="state != 'active'"/>
+                        <button name="action_cancel" string="Cancel Drive" type="object" invisible="state in ('completed', 'cancelled')"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,active,completed"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="company_id"/>
+                                <field name="institution_id" invisible="1"/>
+                                <field name="date"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Eligible Programs" name="programs">
+                                <field name="eligible_program_ids">
+                                    <list>
+                                        <field name="display_name"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_unicore_placement_application_tree" model="ir.ui.view">
+            <field name="name">unicore.placement.application.tree</field>
+            <field name="model">unicore.placement.application</field>
+            <field name="arch" type="xml">
+                <list string="Placement Applications">
+                    <field name="student_id" widget="many2one_avatar"/>
+                    <field name="drive_id"/>
+                    <field name="create_date"/>
+                    <field name="status" widget="badge"
+                           decoration-info="status == 'applied'"
+                           decoration-primary="status == 'shortlisted'"
+                           decoration-success="status == 'offered'"
+                           decoration-danger="status == 'rejected'"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_unicore_placement_application_form" model="ir.ui.view">
+            <field name="name">unicore.placement.application.form</field>
+            <field name="model">unicore.placement.application</field>
+            <field name="arch" type="xml">
+                <form string="Placement Application">
+                    <header>
+                        <button name="action_shortlist" string="Shortlist" type="object" class="oe_highlight" invisible="status != 'applied'"/>
+                        <button name="action_offer" string="Offer" type="object" class="oe_highlight" invisible="status != 'shortlisted'"/>
+                        <button name="action_reject" string="Reject" type="object" invisible="status in ('offered', 'rejected')"/>
+                        <field name="status" widget="statusbar" statusbar_visible="applied,shortlisted,offered"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="student_id" widget="many2one_avatar"/>
+                                <field name="company_id" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="drive_id"/>
+                                <field name="create_date"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_unicore_placement_company" model="ir.actions.act_window">
+            <field name="name">Companies</field>
+            <field name="res_model">unicore.placement.company</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record id="action_unicore_placement_drive" model="ir.actions.act_window">
+            <field name="name">Placement Drives</field>
+            <field name="res_model">unicore.placement.drive</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record id="action_unicore_placement_application" model="ir.actions.act_window">
+            <field name="name">Applications</field>
+            <field name="res_model">unicore.placement.application</field>
+            <field name="view_mode">list,form</field>
+        </record>
+    </data>
+</odoo>

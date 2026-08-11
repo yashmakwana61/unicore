@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_unicore_lms_unicore_lms,unicore_lms.unicore_lms,model_unicore_lms_unicore_lms,base.group_user,1,1,1,1
