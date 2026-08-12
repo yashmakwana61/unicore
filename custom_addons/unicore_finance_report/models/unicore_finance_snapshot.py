@@ -7,10 +7,10 @@ so historical trends can be viewed without
 computing from transactional data every time.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError
-from datetime import date
 import logging
+from datetime import date
+
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -189,18 +189,18 @@ class UniCoreFinanceSnapshot(models.Model):
             Award = self.env['unicore.scholarship.award']
 
             domain_company = [
-                ('company_id', '=', company.id)
+                ('company_id', '=', company.id),
             ]
             if semester:
                 domain_company.append(
-                    ('semester_id', '=', semester.id)
+                    ('semester_id', '=', semester.id),
                 )
 
             active_invoices = Invoice.search(
                 domain_company + [
                     ('invoice_state', 'not in',
-                     ['draft', 'cancelled'])
-                ]
+                     ['draft', 'cancelled']),
+                ],
             )
             total_invoiced = sum(
                 i.total_amount for i in active_invoices
@@ -210,10 +210,10 @@ class UniCoreFinanceSnapshot(models.Model):
                 for i in active_invoices
             )
             paid_invoices = active_invoices.filtered(
-                lambda i: i.invoice_state == 'paid'
+                lambda i: i.invoice_state == 'paid',
             )
             overdue_invoices = active_invoices.filtered(
-                lambda i: i.invoice_state == 'overdue'
+                lambda i: i.invoice_state == 'overdue',
             )
             total_overdue = sum(
                 i.amount_outstanding
@@ -230,7 +230,7 @@ class UniCoreFinanceSnapshot(models.Model):
             collection_rate = (
                 round(
                     total_collected / total_invoiced * 100,
-                    2
+                    2,
                 )
                 if total_invoiced > 0 else 0.0
             )
@@ -243,7 +243,7 @@ class UniCoreFinanceSnapshot(models.Model):
                 a.award_amount for a in awards
             )
             beneficiaries = len(
-                set(awards.mapped('student_id').ids)
+                set(awards.mapped('student_id').ids),
             )
 
             vals = {
@@ -265,11 +265,11 @@ class UniCoreFinanceSnapshot(models.Model):
                 'total_overdue': total_overdue,
                 'collection_rate': collection_rate,
                 'invoice_count_total': len(
-                    active_invoices
+                    active_invoices,
                 ),
                 'invoice_count_paid': len(paid_invoices),
                 'invoice_count_overdue': len(
-                    overdue_invoices
+                    overdue_invoices,
                 ),
                 'total_scholarship_awarded': (
                     total_scholarship

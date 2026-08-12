@@ -1,14 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-
   <!-- Pivot View for Fee Invoices -->
-  <record id="view_unicore_fee_invoice_pivot"
-          model="ir.ui.view">
+  <record id="view_unicore_fee_invoice_pivot" model="ir.ui.view">
     <field name="name">unicore.fee.invoice.pivot</field>
     <field name="model">unicore.fee.invoice</field>
     <field name="arch" type="xml">
-      <pivot string="Fee Collection Analysis"
-             disable_linking="False">
+      <pivot string="Fee Collection Analysis" disable_linking="False">
         <field name="semester_id" type="row"/>
         <field name="invoice_state" type="col"/>
         <field name="total_amount" type="measure"/>
@@ -17,52 +14,35 @@
       </pivot>
     </field>
   </record>
-
   <!-- Graph View for Fee Invoices -->
-  <record id="view_unicore_fee_invoice_graph"
-          model="ir.ui.view">
+  <record id="view_unicore_fee_invoice_graph" model="ir.ui.view">
     <field name="name">unicore.fee.invoice.graph</field>
     <field name="model">unicore.fee.invoice</field>
     <field name="arch" type="xml">
-      <graph string="Fee Collection"
-             type="bar"
-             stacked="1">
+      <graph string="Fee Collection" type="bar" stacked="1">
         <field name="semester_id"/>
         <field name="amount_paid" type="measure"/>
         <field name="amount_outstanding" type="measure"/>
       </graph>
     </field>
   </record>
-
   <!-- Window Action for Invoice Analysis -->
-  <record id="action_unicore_fee_invoice_analysis"
-          model="ir.actions.act_window">
+  <record id="action_unicore_fee_invoice_analysis" model="ir.actions.act_window">
     <field name="name">Fee Collection Analysis</field>
     <field name="res_model">unicore.fee.invoice</field>
     <field name="view_mode">pivot,graph,list</field>
-    <field name="domain">
-      [('invoice_state','not in',
-        ['draft','cancelled'])]
-    </field>
-    <field name="context">
-      {'search_default_group_by_semester': 1}
-    </field>
+    <field name="domain">[('invoice_state','not in',
+        ['draft','cancelled'])]</field>
+    <field name="context">{'search_default_group_by_semester': 1}</field>
   </record>
-
   <!-- Outstanding Fees Action -->
-  <record id="action_unicore_fee_outstanding_report"
-          model="ir.actions.act_window">
+  <record id="action_unicore_fee_outstanding_report" model="ir.actions.act_window">
     <field name="name">Outstanding Fees Report</field>
     <field name="res_model">unicore.fee.invoice</field>
     <field name="view_mode">list,pivot,graph</field>
-    <field name="domain">
-      [('amount_outstanding','>',0),
+    <field name="domain">[('amount_outstanding','&gt;',0),
        ('invoice_state','not in',
-        ['draft','cancelled','paid'])]
-    </field>
-    <field name="context">
-      {'search_default_group_by_semester': 1}
-    </field>
+        ['draft','cancelled','paid'])]</field>
+    <field name="context">{'search_default_group_by_semester': 1}</field>
   </record>
-
 </odoo>

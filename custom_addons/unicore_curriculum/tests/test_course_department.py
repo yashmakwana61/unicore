@@ -45,7 +45,7 @@ class UniCoreCourseDepartmentTest(TransactionCase):
         self.company.institution_profile_id = False
         with self.assertRaises(ValidationError):
             self.env['unicore.course'].create(
-                self._course_vals(code='TCRS01')
+                self._course_vals(code='TCRS01'),
             )
 
     def test_02_legacy_course_with_department_ok(self):
@@ -54,7 +54,7 @@ class UniCoreCourseDepartmentTest(TransactionCase):
             self._course_vals(
                 code='TCRS02',
                 department_id=self.department.id,
-            )
+            ),
         )
         self.assertTrue(course.is_legacy_institution)
         self.assertEqual(course.department_id, self.department)
@@ -70,7 +70,7 @@ class UniCoreCourseDepartmentTest(TransactionCase):
         })
         self.company.institution_profile_id = profile.id
         course = self.env['unicore.course'].create(
-            self._course_vals(code='TCRS03')
+            self._course_vals(code='TCRS03'),
         )
         self.assertFalse(course.is_legacy_institution)
         self.assertFalse(course.department_id)
@@ -82,7 +82,7 @@ class UniCoreCourseDepartmentTest(TransactionCase):
             self._course_vals(
                 code='TCRS04',
                 department_id=self.department.id,
-            )
+            ),
         )
         with self.assertRaises(ValidationError):
             course.write({'department_id': False})

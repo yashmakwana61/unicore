@@ -6,10 +6,11 @@ date, due date, return date and calculates fines
 for overdue returns.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
-from datetime import date, timedelta
 import logging
+from datetime import date, timedelta
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -39,7 +40,7 @@ class UniCoreLibraryIssue(models.Model):
             )
             if context:
                 rec.display_name = '%s - %s' % (
-                    rec.issue_number, context
+                    rec.issue_number, context,
                 )
             else:
                 rec.display_name = rec.issue_number or ''
@@ -196,7 +197,7 @@ class UniCoreLibraryIssue(models.Model):
             else:
                 rec.fine_amount = max(
                     0.0,
-                    rec.days_overdue * rec.fine_per_day
+                    rec.days_overdue * rec.fine_per_day,
                 )
 
     # --- RENEWAL ---
@@ -282,7 +283,7 @@ class UniCoreLibraryIssue(models.Model):
                     _('Member %s has reached the '
                       'maximum book limit (%d).')
                     % (member.display_name,
-                       member.max_books_allowed)
+                       member.max_books_allowed),
                 )
 
     @api.model_create_multi
@@ -291,7 +292,7 @@ class UniCoreLibraryIssue(models.Model):
             if not vals.get('issue_number'):
                 vals['issue_number'] = (
                     self.env['ir.sequence'].next_by_code(
-                        'unicore.library.issue'
+                        'unicore.library.issue',
                     ) or '/'
                 )
             # Set due date from member's loan period
@@ -303,12 +304,12 @@ class UniCoreLibraryIssue(models.Model):
                 if member.exists():
                     issue_date = fields.Date.from_string(
                         vals.get('issue_date')
-                        or str(date.today())
+                        or str(date.today()),
                     )
                     vals['due_date'] = str(
                         issue_date + timedelta(
-                            days=member.loan_period_days
-                        )
+                            days=member.loan_period_days,
+                        ),
                     )
         records = super().create(vals_list)
         # Mark copy as issued
@@ -322,7 +323,7 @@ class UniCoreLibraryIssue(models.Model):
                        'Due: %s')
                      % (rec.book_id.title,
                         rec.member_id.display_name,
-                        rec.due_date)
+                        rec.due_date),
             )
         return records
 
@@ -334,7 +335,7 @@ class UniCoreLibraryIssue(models.Model):
         self.ensure_one()
         if self.issue_state != 'issued':
             raise UserError(
-                _('Only issued books can be returned.')
+                _('Only issued books can be returned.'),
             )
         return_date = date.today()
         condition = self.condition_on_return or 'good'
@@ -354,7 +355,7 @@ class UniCoreLibraryIssue(models.Model):
                    'Fine: %s. Overdue days: %d.')
                  % (self.book_id.title,
                     self.fine_amount,
-                    self.days_overdue)
+                    self.days_overdue),
         )
         # Check and fulfill pending reservation
         self._fulfill_next_reservation()
@@ -379,7 +380,7 @@ class UniCoreLibraryIssue(models.Model):
                 body=_('Book "%s" is now available '
                        'for you. Please collect '
                        'within 3 days.')
-                     % self.book_id.title
+                     % self.book_id.title,
             )
 
     def action_renew(self):
@@ -387,17 +388,17 @@ class UniCoreLibraryIssue(models.Model):
         self.ensure_one()
         if self.issue_state != 'issued':
             raise UserError(
-                _('Only issued books can be renewed.')
+                _('Only issued books can be renewed.'),
             )
         if self.renewal_count >= self.max_renewals:
             raise UserError(
                 _('Maximum renewals (%d) reached.')
-                % self.max_renewals
+                % self.max_renewals,
             )
         if self.is_overdue:
             raise UserError(
                 _('Overdue books cannot be renewed. '
-                  'Please return and pay fine first.')
+                  'Please return and pay fine first.'),
             )
         # Check no active reservation
         reservation = self.env[
@@ -409,12 +410,12 @@ class UniCoreLibraryIssue(models.Model):
         if reservation:
             raise UserError(
                 _('Cannot renew: another member has '
-                  'reserved this book.')
+                  'reserved this book.'),
             )
 
         member = self.member_id
         new_due = date.today() + timedelta(
-            days=member.loan_period_days
+            days=member.loan_period_days,
         )
         self.write({
             'due_date': new_due,
@@ -425,7 +426,7 @@ class UniCoreLibraryIssue(models.Model):
             body=_('Book renewed. New due date: %s. '
                    'Renewals used: %d/%d.')
                  % (new_due, self.renewal_count,
-                    self.max_renewals)
+                    self.max_renewals),
         )
 
     def action_mark_lost(self):
@@ -437,7 +438,7 @@ class UniCoreLibraryIssue(models.Model):
         })
         self.message_post(
             body=_('Book marked as lost: %s')
-                 % self.book_id.title
+                 % self.book_id.title,
         )
 
     def action_mark_fine_paid(self):
@@ -448,7 +449,7 @@ class UniCoreLibraryIssue(models.Model):
         })
         self.message_post(
             body=_('Fine of %s paid.')
-                 % self.fine_amount
+                 % self.fine_amount,
         )
 
     def action_waive_fine(self):
@@ -456,7 +457,7 @@ class UniCoreLibraryIssue(models.Model):
         self.write({'fine_waived': True})
         self.message_post(
             body=_('Fine waived by %s.')
-                 % self.env.user.name
+                 % self.env.user.name,
         )
 
     @api.model
@@ -472,6 +473,6 @@ class UniCoreLibraryIssue(models.Model):
         ])
         _logger.info(
             'Found %d overdue issues.',
-            len(overdue_issues)
+            len(overdue_issues),
         )
         return len(overdue_issues)

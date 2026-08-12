@@ -27,9 +27,10 @@ action, which restricts writes to grade entries in the editable
 ``draft`` / ``submitted`` states and never touches ``entry_state``.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -204,22 +205,22 @@ class UniCoreGradeBookStudentLine(models.Model):
             lines = rec.assignment_line_ids
             rec.graded_assignment_count = len(lines)
             rec.total_possible_marks = sum(
-                lines.mapped('max_marks')
+                lines.mapped('max_marks'),
             )
             rec.total_obtained_marks = sum(
-                lines.mapped('marks_obtained')
+                lines.mapped('marks_obtained'),
             )
             if rec.total_possible_marks:
                 rec.assignment_percentage = round(
                     rec.total_obtained_marks * 100.0
-                    / rec.total_possible_marks, 2
+                    / rec.total_possible_marks, 2,
                 )
             else:
                 rec.assignment_percentage = 0.0
             weight = rec.assignment_weight_pct or 0.0
             component = round(
                 rec.max_ca_marks * (weight / 100.0)
-                * (rec.assignment_percentage / 100.0), 2
+                * (rec.assignment_percentage / 100.0), 2,
             )
             rec.computed_ca_component = (
                 min(component, rec.max_ca_marks)
@@ -246,7 +247,7 @@ class UniCoreGradeBookStudentLine(models.Model):
         by_enroll = {e.enrollment_id.id: e for e in entries}
         for rec in self:
             rec.grade_entry_id = by_enroll.get(
-                rec.enrollment_id.id, False
+                rec.enrollment_id.id, False,
             )
 
     @api.depends('grade_entry_id.entry_state',
@@ -256,11 +257,11 @@ class UniCoreGradeBookStudentLine(models.Model):
         for rec in self:
             entry = rec.grade_entry_id
             rec.can_apply_ca_marks = bool(
-                entry and entry.entry_state in ('draft', 'submitted')
+                entry and entry.entry_state in ('draft', 'submitted'),
             )
             rec.is_synced = bool(
                 entry and round(entry.internal_marks or 0.0, 2)
-                == round(rec.computed_ca_component or 0.0, 2)
+                == round(rec.computed_ca_component or 0.0, 2),
             )
 
     # ------- GRADE ENTRY ACTIONS -------
@@ -277,13 +278,13 @@ class UniCoreGradeBookStudentLine(models.Model):
             entry = rec.grade_entry_id
             if not entry:
                 raise UserError(_(
-                    'No grade entry linked to %s yet.'
+                    'No grade entry linked to %s yet.',
                 ) % rec.student_id.display_name)
             if entry.entry_state not in ('draft', 'submitted'):
                 raise UserError(_(
                     'The grade entry for %s is %s and can no longer '
                     'be updated from the grade book (only draft / '
-                    'submitted entries are editable).'
+                    'submitted entries are editable).',
                 ) % (rec.student_id.display_name, entry.entry_state))
         for rec in self:
             rec.grade_entry_id.write({
@@ -296,7 +297,7 @@ class UniCoreGradeBookStudentLine(models.Model):
         self.ensure_one()
         if not self.grade_entry_id:
             raise UserError(_(
-                'No grade entry linked to this student yet.'
+                'No grade entry linked to this student yet.',
             ))
         return {
             'type': 'ir.actions.act_window',

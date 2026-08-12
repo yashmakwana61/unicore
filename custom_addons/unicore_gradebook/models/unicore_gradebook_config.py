@@ -20,9 +20,10 @@ Design constraints honoured (from the grading security audit):
   keeps applying.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -186,30 +187,30 @@ class UniCoreGradeBookConfig(models.Model):
             rec.assignment_count = len(rec.assignment_ids)
             rec.graded_assignment_count = len(
                 rec.assignment_ids.filtered(
-                    lambda a: a.graded_count > 0
-                )
+                    lambda a: a.graded_count > 0,
+                ),
             )
             lines = rec.student_line_ids
             rec.student_count = len(lines)
             if lines:
                 rec.class_avg_assignment_pct = round(
                     sum(lines.mapped('assignment_percentage'))
-                    / len(lines), 2
+                    / len(lines), 2,
                 )
             else:
                 rec.class_avg_assignment_pct = 0.0
             rec.synced_count = len(
-                lines.filtered(lambda l: l.is_synced)
+                lines.filtered(lambda l: l.is_synced),
             )
             rec.pending_count = len(
                 lines.filtered(
                     lambda l: l.can_apply_ca_marks
-                    and not l.is_synced
-                )
+                    and not l.is_synced,
+                ),
             )
             rec.sync_progress_pct = round(
                 (rec.synced_count * 100.0 / rec.student_count)
-                if rec.student_count else 0.0, 0
+                if rec.student_count else 0.0, 0,
             )
 
     # ------- CONSTRAINTS -------
@@ -225,7 +226,7 @@ class UniCoreGradeBookConfig(models.Model):
             if (rec.assignment_weight_pct < 0
                     or rec.assignment_weight_pct > 100):
                 raise ValidationError(_(
-                    'Assignment weight must be between 0 and 100.'
+                    'Assignment weight must be between 0 and 100.',
                 ))
 
     # ------- CREATE -------
@@ -255,7 +256,7 @@ class UniCoreGradeBookConfig(models.Model):
                 continue
             enrollments = offering.enrollment_ids.filtered(
                 lambda e: e.enrollment_state in
-                ('registered', 'completed')
+                ('registered', 'completed'),
             )
             existing_lines = {
                 l.enrollment_id.id: l for l in rec.student_line_ids
@@ -270,7 +271,7 @@ class UniCoreGradeBookConfig(models.Model):
             by_student = {}
             for sub in graded_all:
                 by_student.setdefault(
-                    sub.student_id.id, []
+                    sub.student_id.id, [],
                 ).append(sub)
             for enr in enrollments:
                 line = existing_lines.get(enr.id)
@@ -321,7 +322,7 @@ class UniCoreGradeBookConfig(models.Model):
             rec._compute_roll_up()
             rec.student_line_ids._compute_grade_entry()
             rec.message_post(
-                body=_('Grade book roll-up refreshed.')
+                body=_('Grade book roll-up refreshed.'),
             )
         return True
 
@@ -362,16 +363,16 @@ class UniCoreGradeBookConfig(models.Model):
             summary.append(_('%s updated') % applied)
         if skipped_locked:
             summary.append(
-                _('%s skipped (entry not editable)') % skipped_locked
+                _('%s skipped (entry not editable)') % skipped_locked,
             )
         if skipped_missing:
             summary.append(
-                _('%s skipped (no grade entry)') % skipped_missing
+                _('%s skipped (no grade entry)') % skipped_missing,
             )
         for rec in self:
             rec.message_post(
                 body=_('CA marks sync from grade book: %s.')
-                % (', '.join(summary) or _('nothing to do'))
+                % (', '.join(summary) or _('nothing to do')),
             )
         return True
 
@@ -381,7 +382,7 @@ class UniCoreGradeBookConfig(models.Model):
         """Open the grade entries for the grade book's enrollments."""
         self.ensure_one()
         enroll_ids = self.student_line_ids.mapped(
-            'enrollment_id'
+            'enrollment_id',
         ).ids
         return {
             'type': 'ir.actions.act_window',

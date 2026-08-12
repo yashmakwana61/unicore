@@ -1,48 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <data noupdate="1">
-
     <!-- ========== FEE DUE REMINDER ========== -->
-
-    <record id="template_fee_due_email"
-            model="unicore.notification.template">
+    <record id="template_fee_due_email" model="unicore.notification.template">
       <field name="name">Fee Due Reminder — Email</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">fee_due</field>
       <field name="channel">email</field>
       <field name="recipient_type">both</field>
-      <field name="email_subject">
-        Fee Reminder: Payment Due on {due_date}
-      </field>
-      <field name="email_body_html"><![CDATA[
-<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-  <h2 style="color: #2c3e50;">Fee Payment Reminder</h2>
-  <p>Dear {student_name},</p>
-  <p>This is a reminder that your fee payment of
-     <strong>₹{amount}</strong> is due on
-     <strong>{due_date}</strong>.</p>
-  <p>Invoice Number: <strong>{invoice_number}</strong></p>
-  <p>Please ensure timely payment to avoid late fees.
+      <field name="email_subject">Fee Reminder: Payment Due on {due_date}</field>
+      <field name="email_body_html">&lt;div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;"&gt;
+  &lt;h2 style="color: #2c3e50;"&gt;Fee Payment Reminder&lt;/h2&gt;
+  &lt;p&gt;Dear {student_name},&lt;/p&gt;
+  &lt;p&gt;This is a reminder that your fee payment of
+     &lt;strong&gt;₹{amount}&lt;/strong&gt; is due on
+     &lt;strong&gt;{due_date}&lt;/strong&gt;.&lt;/p&gt;
+  &lt;p&gt;Invoice Number: &lt;strong&gt;{invoice_number}&lt;/strong&gt;&lt;/p&gt;
+  &lt;p&gt;Please ensure timely payment to avoid late fees.
      You can pay online via the student portal or
-     visit the finance office.</p>
-  <p>Regards,<br/>{institution_name}</p>
-</div>
-      ]]></field>
+     visit the finance office.&lt;/p&gt;
+  &lt;p&gt;Regards,&lt;br/&gt;{institution_name}&lt;/p&gt;
+&lt;/div&gt;</field>
       <field name="is_system_template" eval="True"/>
       <field name="is_active_trigger" eval="True"/>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-
-    <record id="template_fee_due_whatsapp"
-            model="unicore.notification.template">
+    <record id="template_fee_due_whatsapp" model="unicore.notification.template">
       <field name="name">Fee Due Reminder — WhatsApp</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">fee_due</field>
       <field name="channel">whatsapp</field>
       <field name="recipient_type">both</field>
-      <field name="whatsapp_body">
-📋 Fee Reminder — {institution_name}
+      <field name="whatsapp_body">📋 Fee Reminder — {institution_name}
 
 Dear {student_name},
 
@@ -50,366 +40,270 @@ Your fee payment of ₹{amount} is due on {due_date}.
 Invoice: {invoice_number}
 
 Please pay on time to avoid late fees.
-Visit the student portal or finance office.
-      </field>
+Visit the student portal or finance office.</field>
       <field name="is_system_template" eval="True"/>
       <field name="is_active_trigger" eval="True"/>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-
-    <record id="template_fee_due_inapp"
-            model="unicore.notification.template">
+    <record id="template_fee_due_inapp" model="unicore.notification.template">
       <field name="name">Fee Due Reminder — In-App</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">fee_due</field>
       <field name="channel">inapp</field>
       <field name="recipient_type">student</field>
-      <field name="inapp_body">
-📋 Fee Reminder: Your payment of ₹{amount} is due on {due_date}. Invoice: {invoice_number}. Please pay on time.
-      </field>
+      <field name="inapp_body">📋 Fee Reminder: Your payment of ₹{amount} is due on {due_date}. Invoice: {invoice_number}. Please pay on time.</field>
       <field name="is_system_template" eval="True"/>
       <field name="is_active_trigger" eval="True"/>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-
     <!-- ========== FEE OVERDUE ALERT ========== -->
-
-    <record id="template_fee_overdue_email"
-            model="unicore.notification.template">
+    <record id="template_fee_overdue_email" model="unicore.notification.template">
       <field name="name">Fee Overdue Alert — Email</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">fee_overdue</field>
       <field name="channel">email</field>
       <field name="recipient_type">both</field>
-      <field name="email_subject">
-        URGENT: Fee Overdue — ₹{amount}
-      </field>
-      <field name="email_body_html"><![CDATA[
-<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-  <h2 style="color: #e74c3c;">⚠ Fee Overdue Notice</h2>
-  <p>Dear {student_name},</p>
-  <p>Your fee payment of <strong>₹{amount}</strong>
-     was due on <strong>{due_date}</strong> and
-     remains unpaid.</p>
-  <p>Invoice Number: <strong>{invoice_number}</strong></p>
-  <p>Please settle this amount immediately to avoid
-     academic holds and additional late fees.</p>
-  <p>Regards,<br/>{institution_name}</p>
-</div>
-      ]]></field>
+      <field name="email_subject">URGENT: Fee Overdue — ₹{amount}</field>
+      <field name="email_body_html">&lt;div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;"&gt;
+  &lt;h2 style="color: #e74c3c;"&gt;⚠ Fee Overdue Notice&lt;/h2&gt;
+  &lt;p&gt;Dear {student_name},&lt;/p&gt;
+  &lt;p&gt;Your fee payment of &lt;strong&gt;₹{amount}&lt;/strong&gt;
+     was due on &lt;strong&gt;{due_date}&lt;/strong&gt; and
+     remains unpaid.&lt;/p&gt;
+  &lt;p&gt;Invoice Number: &lt;strong&gt;{invoice_number}&lt;/strong&gt;&lt;/p&gt;
+  &lt;p&gt;Please settle this amount immediately to avoid
+     academic holds and additional late fees.&lt;/p&gt;
+  &lt;p&gt;Regards,&lt;br/&gt;{institution_name}&lt;/p&gt;
+&lt;/div&gt;</field>
       <field name="is_system_template" eval="True"/>
       <field name="is_active_trigger" eval="True"/>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-
     <!-- ========== FEE PAID CONFIRMATION ========== -->
-
-    <record id="template_fee_paid_email"
-            model="unicore.notification.template">
-      <field name="name">
-        Fee Payment Confirmation — Email
-      </field>
+    <record id="template_fee_paid_email" model="unicore.notification.template">
+      <field name="name">Fee Payment Confirmation — Email</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">fee_paid</field>
       <field name="channel">email</field>
       <field name="recipient_type">student</field>
-      <field name="email_subject">
-        Payment Received — ₹{amount}
-      </field>
-      <field name="email_body_html"><![CDATA[
-<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-  <h2 style="color: #27ae60;">✅ Payment Received</h2>
-  <p>Dear {student_name},</p>
-  <p>We have received your payment of
-     <strong>₹{amount}</strong> for invoice
-     <strong>{invoice_number}</strong>.</p>
-  <p>Thank you for your timely payment.</p>
-  <p>Regards,<br/>{institution_name}</p>
-</div>
-      ]]></field>
+      <field name="email_subject">Payment Received — ₹{amount}</field>
+      <field name="email_body_html">&lt;div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;"&gt;
+  &lt;h2 style="color: #27ae60;"&gt;✅ Payment Received&lt;/h2&gt;
+  &lt;p&gt;Dear {student_name},&lt;/p&gt;
+  &lt;p&gt;We have received your payment of
+     &lt;strong&gt;₹{amount}&lt;/strong&gt; for invoice
+     &lt;strong&gt;{invoice_number}&lt;/strong&gt;.&lt;/p&gt;
+  &lt;p&gt;Thank you for your timely payment.&lt;/p&gt;
+  &lt;p&gt;Regards,&lt;br/&gt;{institution_name}&lt;/p&gt;
+&lt;/div&gt;</field>
       <field name="is_system_template" eval="True"/>
       <field name="is_active_trigger" eval="True"/>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-
     <!-- ========== ATTENDANCE SHORTAGE ========== -->
-
-    <record id="template_attendance_shortage_email"
-            model="unicore.notification.template">
-      <field name="name">
-        Attendance Shortage Alert — Email
-      </field>
+    <record id="template_attendance_shortage_email" model="unicore.notification.template">
+      <field name="name">Attendance Shortage Alert — Email</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">attendance_shortage</field>
       <field name="channel">email</field>
       <field name="recipient_type">both</field>
-      <field name="email_subject">
-        Attendance Alert: {attendance}% — Below Minimum
-      </field>
-      <field name="email_body_html"><![CDATA[
-<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-  <h2 style="color: #e67e22;">⚠ Attendance Shortage Alert</h2>
-  <p>Dear {student_name},</p>
-  <p>Your attendance in <strong>{course_name}</strong>
-     has dropped to <strong>{attendance}%</strong>,
+      <field name="email_subject">Attendance Alert: {attendance}% — Below Minimum</field>
+      <field name="email_body_html">&lt;div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;"&gt;
+  &lt;h2 style="color: #e67e22;"&gt;⚠ Attendance Shortage Alert&lt;/h2&gt;
+  &lt;p&gt;Dear {student_name},&lt;/p&gt;
+  &lt;p&gt;Your attendance in &lt;strong&gt;{course_name}&lt;/strong&gt;
+     has dropped to &lt;strong&gt;{attendance}%&lt;/strong&gt;,
      which is below the minimum required
-     <strong>{minimum_required}%</strong>.</p>
-  <p>Please attend classes regularly to avoid
-     being debarred from examinations.</p>
-  <p>Regards,<br/>{institution_name}</p>
-</div>
-      ]]></field>
+     &lt;strong&gt;{minimum_required}%&lt;/strong&gt;.&lt;/p&gt;
+  &lt;p&gt;Please attend classes regularly to avoid
+     being debarred from examinations.&lt;/p&gt;
+  &lt;p&gt;Regards,&lt;br/&gt;{institution_name}&lt;/p&gt;
+&lt;/div&gt;</field>
       <field name="is_system_template" eval="True"/>
       <field name="is_active_trigger" eval="True"/>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-
-    <record id="template_attendance_shortage_whatsapp"
-            model="unicore.notification.template">
-      <field name="name">
-        Attendance Shortage Alert — WhatsApp
-      </field>
+    <record id="template_attendance_shortage_whatsapp" model="unicore.notification.template">
+      <field name="name">Attendance Shortage Alert — WhatsApp</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">attendance_shortage</field>
       <field name="channel">whatsapp</field>
       <field name="recipient_type">both</field>
-      <field name="whatsapp_body">
-⚠ Attendance Alert — {institution_name}
+      <field name="whatsapp_body">⚠ Attendance Alert — {institution_name}
 
 Dear {student_name},
 
 Your attendance in {course_name} is {attendance}% (minimum: {minimum_required}%).
 
-Please attend classes regularly to avoid being debarred from exams.
-      </field>
+Please attend classes regularly to avoid being debarred from exams.</field>
       <field name="is_system_template" eval="True"/>
       <field name="is_active_trigger" eval="True"/>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-
-    <record id="template_attendance_shortage_inapp"
-            model="unicore.notification.template">
-      <field name="name">
-        Attendance Shortage Alert — In-App
-      </field>
+    <record id="template_attendance_shortage_inapp" model="unicore.notification.template">
+      <field name="name">Attendance Shortage Alert — In-App</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">attendance_shortage</field>
       <field name="channel">inapp</field>
       <field name="recipient_type">student</field>
-      <field name="inapp_body">
-⚠ Attendance Alert: Your attendance in {course_name} is {attendance}% (minimum: {minimum_required}%). Please attend classes regularly.
-      </field>
+      <field name="inapp_body">⚠ Attendance Alert: Your attendance in {course_name} is {attendance}% (minimum: {minimum_required}%). Please attend classes regularly.</field>
       <field name="is_system_template" eval="True"/>
       <field name="is_active_trigger" eval="True"/>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-
     <!-- ========== EXAM REMINDER ========== -->
-
-    <record id="template_exam_reminder_email"
-            model="unicore.notification.template">
+    <record id="template_exam_reminder_email" model="unicore.notification.template">
       <field name="name">Exam Reminder — Email</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">exam_reminder</field>
       <field name="channel">email</field>
       <field name="recipient_type">student</field>
-      <field name="email_subject">
-        Exam Reminder: {exam_name} on {exam_date}
-      </field>
-      <field name="email_body_html"><![CDATA[
-<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-  <h2 style="color: #2980b9;">📝 Exam Reminder</h2>
-  <p>Dear {student_name},</p>
-  <p>This is a reminder that your exam
-     <strong>{exam_name}</strong> for
-     <strong>{course_name}</strong> is scheduled
-     on <strong>{exam_date}</strong>.</p>
-  <p>Please ensure you are prepared and carry your
-     hall ticket and ID card.</p>
-  <p>Best of luck!</p>
-  <p>Regards,<br/>{institution_name}</p>
-</div>
-      ]]></field>
+      <field name="email_subject">Exam Reminder: {exam_name} on {exam_date}</field>
+      <field name="email_body_html">&lt;div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;"&gt;
+  &lt;h2 style="color: #2980b9;"&gt;📝 Exam Reminder&lt;/h2&gt;
+  &lt;p&gt;Dear {student_name},&lt;/p&gt;
+  &lt;p&gt;This is a reminder that your exam
+     &lt;strong&gt;{exam_name}&lt;/strong&gt; for
+     &lt;strong&gt;{course_name}&lt;/strong&gt; is scheduled
+     on &lt;strong&gt;{exam_date}&lt;/strong&gt;.&lt;/p&gt;
+  &lt;p&gt;Please ensure you are prepared and carry your
+     hall ticket and ID card.&lt;/p&gt;
+  &lt;p&gt;Best of luck!&lt;/p&gt;
+  &lt;p&gt;Regards,&lt;br/&gt;{institution_name}&lt;/p&gt;
+&lt;/div&gt;</field>
       <field name="is_system_template" eval="True"/>
       <field name="is_active_trigger" eval="True"/>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-
-    <record id="template_exam_reminder_whatsapp"
-            model="unicore.notification.template">
-      <field name="name">
-        Exam Reminder — WhatsApp
-      </field>
+    <record id="template_exam_reminder_whatsapp" model="unicore.notification.template">
+      <field name="name">Exam Reminder — WhatsApp</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">exam_reminder</field>
       <field name="channel">whatsapp</field>
       <field name="recipient_type">student</field>
-      <field name="whatsapp_body">
-📝 Exam Reminder — {institution_name}
+      <field name="whatsapp_body">📝 Exam Reminder — {institution_name}
 
 Dear {student_name},
 
 Your exam "{exam_name}" for {course_name} is on {exam_date}.
 
-Carry your hall ticket and ID card. Best of luck!
-      </field>
+Carry your hall ticket and ID card. Best of luck!</field>
       <field name="is_system_template" eval="True"/>
       <field name="is_active_trigger" eval="True"/>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-
     <!-- ========== RESULT PUBLISHED ========== -->
-
-    <record id="template_result_published_email"
-            model="unicore.notification.template">
-      <field name="name">
-        Result Published — Email
-      </field>
+    <record id="template_result_published_email" model="unicore.notification.template">
+      <field name="name">Result Published — Email</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">result_published</field>
       <field name="channel">email</field>
       <field name="recipient_type">both</field>
-      <field name="email_subject">
-        Results Published: {course_name}
-      </field>
-      <field name="email_body_html"><![CDATA[
-<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-  <h2 style="color: #8e44ad;">🎓 Results Published</h2>
-  <p>Dear {student_name},</p>
-  <p>Results for <strong>{course_name}</strong> have
-     been published.</p>
-  <p>Grade: <strong>{grade}</strong></p>
-  <p>Please log in to the student portal to view
-     your detailed grade report.</p>
-  <p>Regards,<br/>{institution_name}</p>
-</div>
-      ]]></field>
+      <field name="email_subject">Results Published: {course_name}</field>
+      <field name="email_body_html">&lt;div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;"&gt;
+  &lt;h2 style="color: #8e44ad;"&gt;🎓 Results Published&lt;/h2&gt;
+  &lt;p&gt;Dear {student_name},&lt;/p&gt;
+  &lt;p&gt;Results for &lt;strong&gt;{course_name}&lt;/strong&gt; have
+     been published.&lt;/p&gt;
+  &lt;p&gt;Grade: &lt;strong&gt;{grade}&lt;/strong&gt;&lt;/p&gt;
+  &lt;p&gt;Please log in to the student portal to view
+     your detailed grade report.&lt;/p&gt;
+  &lt;p&gt;Regards,&lt;br/&gt;{institution_name}&lt;/p&gt;
+&lt;/div&gt;</field>
       <field name="is_system_template" eval="True"/>
       <field name="is_active_trigger" eval="True"/>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-
-    <record id="template_result_published_inapp"
-            model="unicore.notification.template">
-      <field name="name">
-        Result Published — In-App
-      </field>
+    <record id="template_result_published_inapp" model="unicore.notification.template">
+      <field name="name">Result Published — In-App</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">result_published</field>
       <field name="channel">inapp</field>
       <field name="recipient_type">student</field>
-      <field name="inapp_body">
-🎓 Results for {course_name} are published. Your grade: {grade}. Check the portal for details.
-      </field>
+      <field name="inapp_body">🎓 Results for {course_name} are published. Your grade: {grade}. Check the portal for details.</field>
       <field name="is_system_template" eval="True"/>
       <field name="is_active_trigger" eval="True"/>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-
     <!-- ========== ENROLLMENT CONFIRMED ========== -->
-
-    <record id="template_enrollment_confirmed_email"
-            model="unicore.notification.template">
-      <field name="name">
-        Enrollment Confirmed — Email
-      </field>
+    <record id="template_enrollment_confirmed_email" model="unicore.notification.template">
+      <field name="name">Enrollment Confirmed — Email</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">enrollment_confirmed</field>
       <field name="channel">email</field>
       <field name="recipient_type">both</field>
-      <field name="email_subject">
-        Enrollment Confirmed — {course_name}
-      </field>
-      <field name="email_body_html"><![CDATA[
-<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-  <h2 style="color: #27ae60;">✅ Enrollment Confirmed</h2>
-  <p>Dear {student_name},</p>
-  <p>Your enrollment in <strong>{course_name}</strong>
-     has been confirmed for the current semester.</p>
-  <p>Please check the timetable for class schedules.</p>
-  <p>Regards,<br/>{institution_name}</p>
-</div>
-      ]]></field>
+      <field name="email_subject">Enrollment Confirmed — {course_name}</field>
+      <field name="email_body_html">&lt;div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;"&gt;
+  &lt;h2 style="color: #27ae60;"&gt;✅ Enrollment Confirmed&lt;/h2&gt;
+  &lt;p&gt;Dear {student_name},&lt;/p&gt;
+  &lt;p&gt;Your enrollment in &lt;strong&gt;{course_name}&lt;/strong&gt;
+     has been confirmed for the current semester.&lt;/p&gt;
+  &lt;p&gt;Please check the timetable for class schedules.&lt;/p&gt;
+  &lt;p&gt;Regards,&lt;br/&gt;{institution_name}&lt;/p&gt;
+&lt;/div&gt;</field>
       <field name="is_system_template" eval="True"/>
       <field name="is_active_trigger" eval="True"/>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-
     <!-- ========== SCHOLARSHIP APPROVED ========== -->
-
-    <record id="template_scholarship_approved_email"
-            model="unicore.notification.template">
-      <field name="name">
-        Scholarship Approved — Email
-      </field>
+    <record id="template_scholarship_approved_email" model="unicore.notification.template">
+      <field name="name">Scholarship Approved — Email</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">scholarship_approved</field>
       <field name="channel">email</field>
       <field name="recipient_type">both</field>
-      <field name="email_subject">
-        Scholarship Approved — Congratulations!
-      </field>
-      <field name="email_body_html"><![CDATA[
-<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-  <h2 style="color: #f39c12;">🏆 Scholarship Approved</h2>
-  <p>Dear {student_name},</p>
-  <p>Congratulations! Your scholarship application
-     for <strong>{scholarship_name}</strong> has been
-     approved.</p>
-  <p>Award Amount: <strong>₹{amount}</strong></p>
-  <p>Please check the student portal for details
-     on disbursement.</p>
-  <p>Regards,<br/>{institution_name}</p>
-</div>
-      ]]></field>
+      <field name="email_subject">Scholarship Approved — Congratulations!</field>
+      <field name="email_body_html">&lt;div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;"&gt;
+  &lt;h2 style="color: #f39c12;"&gt;🏆 Scholarship Approved&lt;/h2&gt;
+  &lt;p&gt;Dear {student_name},&lt;/p&gt;
+  &lt;p&gt;Congratulations! Your scholarship application
+     for &lt;strong&gt;{scholarship_name}&lt;/strong&gt; has been
+     approved.&lt;/p&gt;
+  &lt;p&gt;Award Amount: &lt;strong&gt;₹{amount}&lt;/strong&gt;&lt;/p&gt;
+  &lt;p&gt;Please check the student portal for details
+     on disbursement.&lt;/p&gt;
+  &lt;p&gt;Regards,&lt;br/&gt;{institution_name}&lt;/p&gt;
+&lt;/div&gt;</field>
       <field name="is_system_template" eval="True"/>
       <field name="is_active_trigger" eval="True"/>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-
     <!-- ========== WELCOME / ADMISSION ========== -->
-
-    <record id="template_welcome_email"
-            model="unicore.notification.template">
+    <record id="template_welcome_email" model="unicore.notification.template">
       <field name="name">Welcome — Email</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">welcome</field>
       <field name="channel">email</field>
       <field name="recipient_type">student</field>
-      <field name="email_subject">
-        Welcome to {institution_name}!
-      </field>
-      <field name="email_body_html"><![CDATA[
-<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-  <h2 style="color: #2c3e50;">🎉 Welcome!</h2>
-  <p>Dear {student_name},</p>
-  <p>Welcome to <strong>{institution_name}</strong>!
-     We are delighted to have you join us.</p>
-  <p>Your Student ID: <strong>{student_id}</strong></p>
-  <p>Please log in to the student portal to complete
-     your profile and view your course schedule.</p>
-  <p>We wish you a wonderful academic journey!</p>
-  <p>Regards,<br/>{institution_name}</p>
-</div>
-      ]]></field>
+      <field name="email_subject">Welcome to {institution_name}!</field>
+      <field name="email_body_html">&lt;div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;"&gt;
+  &lt;h2 style="color: #2c3e50;"&gt;🎉 Welcome!&lt;/h2&gt;
+  &lt;p&gt;Dear {student_name},&lt;/p&gt;
+  &lt;p&gt;Welcome to &lt;strong&gt;{institution_name}&lt;/strong&gt;!
+     We are delighted to have you join us.&lt;/p&gt;
+  &lt;p&gt;Your Student ID: &lt;strong&gt;{student_id}&lt;/strong&gt;&lt;/p&gt;
+  &lt;p&gt;Please log in to the student portal to complete
+     your profile and view your course schedule.&lt;/p&gt;
+  &lt;p&gt;We wish you a wonderful academic journey!&lt;/p&gt;
+  &lt;p&gt;Regards,&lt;br/&gt;{institution_name}&lt;/p&gt;
+&lt;/div&gt;</field>
       <field name="is_system_template" eval="True"/>
       <field name="is_active_trigger" eval="True"/>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-
   </data>
 </odoo>

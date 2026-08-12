@@ -1,6 +1,5 @@
 import logging
-
-from datetime import date, timedelta
+from datetime import timedelta
 
 from odoo import fields, tests
 

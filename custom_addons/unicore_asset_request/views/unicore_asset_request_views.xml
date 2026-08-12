@@ -201,16 +201,6 @@
         </field>
     </record>
 
-    <!-- ======================== FORM (Approver View) ======================== -->
-    <record id="view_unicore_asset_request_form_approver" model="ir.ui.view">
-        <field name="name">unicore.asset.request.form.approver</field>
-        <field name="model">unicore.asset.request</field>
-        <field name="inherit_id" ref="view_unicore_asset_request_form"/>
-        <field name="mode">primary</field>
-        <field name="arch" type="xml">
-        </field>
-    </record>
-
     <!-- ======================== ACTION ======================== -->
     <record id="action_unicore_asset_request" model="ir.actions.act_window">
         <field name="name">Asset Requests</field>

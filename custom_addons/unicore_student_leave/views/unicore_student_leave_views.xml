@@ -1,312 +1,195 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-
-    <!-- ================================================== -->
-    <!-- LEAVE REQUEST — TREE (LIST) VIEW                    -->
-    <!-- ================================================== -->
-
-    <record id="unicore_student_leave_request_tree_view"
-            model="ir.ui.view">
-        <field name="name">
-            unicore.student.leave.request.tree
-        </field>
-        <field name="model">unicore.student.leave.request</field>
-        <field name="arch" type="xml">
-            <list string="Leave Requests"
-                  decoration-danger="state == 'rejected'"
-                  decoration-success="state == 'approved'"
-                  decoration-info="state == 'submitted'"
-                  decoration-muted="state == 'cancelled'">
-                <field name="name"/>
-                <field name="student_id"
-                       string="Student"/>
-                <field name="student_number"
-                       string="Student ID"/>
-                <field name="submitted_by"
-                       string="Submitted By"/>
-                <field name="guardian_name"
-                       string="Guardian"/>
-                <field name="date_from"
-                       string="From"/>
-                <field name="date_to"
-                       string="To"/>
-                <field name="leave_duration"
-                       string="Days"/>
-                <field name="state"
-                       widget="badge"
-                       decoration-success="state in ('approved', 'submitted')"
-                       decoration-danger="state == 'rejected'"
-                       decoration-muted="state == 'cancelled'"
-                       decoration-info="state == 'draft'"/>
-            </list>
-        </field>
-    </record>
-
-    <!-- ================================================== -->
-    <!-- LEAVE REQUEST — FORM VIEW                           -->
-    <!-- ================================================== -->
-
-    <record id="unicore_student_leave_request_form_view"
-            model="ir.ui.view">
-        <field name="name">
-            unicore.student.leave.request.form
-        </field>
-        <field name="model">unicore.student.leave.request</field>
-        <field name="arch" type="xml">
-            <form string="Leave Request">
-                <header>
-                    <button name="action_submit"
-                            type="object"
-                            string="Submit Request"
-                            class="oe_highlight"
-                            invisible="state != 'draft'"
-                            groups="unicore_base.group_unicore_student,unicore_base.group_unicore_staff"/>
-                    <button name="action_approve"
-                            type="object"
-                            string="Approve"
-                            class="oe_highlight"
-                            invisible="state != 'submitted'"
-                            groups="unicore_base.group_unicore_registrar,unicore_base.group_unicore_manager,unicore_base.group_unicore_admin"/>
-                    <button name="action_reject"
-                            type="object"
-                            string="Reject"
-                            class="btn-danger"
-                            invisible="state != 'submitted'"
-                            groups="unicore_base.group_unicore_registrar,unicore_base.group_unicore_manager,unicore_base.group_unicore_admin"/>
-                    <button name="action_resubmit"
-                            type="object"
-                            string="Resubmit"
-                            class="oe_highlight"
-                            invisible="state != 'rejected'"
-                            groups="unicore_base.group_unicore_student,unicore_base.group_unicore_staff"/>
-                    <button name="action_cancel"
-                            type="object"
-                            string="Cancel"
-                            invisible="state not in ('draft', 'submitted')"
-                            groups="unicore_base.group_unicore_student,unicore_base.group_unicore_staff,unicore_base.group_unicore_registrar"/>
-                    <field name="state" widget="statusbar"
-                           statusbar_visible="draft,submitted,approved"/>
-                </header>
-                <sheet>
-                    <div class="oe_button_box" name="button_box">
-                        <button name="action_view_student"
-                                type="object"
-                                class="oe_stat_button"
-                                icon="fa-user">
-                            <field name="student_name"
-                                   string="Student"
-                                   widget="statinfo"/>
-                        </button>
-                        <button name="action_view_guardian"
-                                type="object"
-                                class="oe_stat_button"
-                                icon="fa-users"
-                                invisible="not guardian_id">
-                            <field name="guardian_name"
-                                   string="Guardian"
-                                   widget="statinfo"/>
-                        </button>
-                    </div>
-                    <div class="oe_title">
-                        <h1>
-                            <field name="name" readonly="1"/>
-                        </h1>
-                    </div>
-                    <group>
-                        <group string="Student Information">
-                            <field name="student_id"/>
-                            <field name="student_number"/>
-                            <field name="submitted_by"/>
-                            <field name="guardian_id"
-                                   invisible="not guardian_id"/>
-                        </group>
-                        <group string="Leave Details">
-                            <field name="date_from"/>
-                            <field name="date_to"/>
-                            <field name="leave_duration"
-                                   readonly="1"/>
-                            <field name="reason"
-                                   placeholder="Reason for leave..."/>
-                        </group>
-                    </group>
-                    <group string="Supporting Document"
-                           invisible="not supporting_document">
-                        <field name="supporting_document"
-                               readonly="1"/>
-                        <field name="supporting_document_name"
-                               readonly="1"/>
-                    </group>
-                    <group string="Approval"
-                           invisible="state not in ('approved', 'rejected')">
-                        <group>
-                            <field name="approver_id"
-                                   readonly="1"/>
-                            <field name="approval_date"
-                                   readonly="1"/>
-                        </group>
-                        <group>
-                            <field name="approval_notes"
-                                   readonly="state != 'submitted'"
-                                   placeholder="Approval/rejection notes..."/>
-                        </group>
-                    </group>
-                    <separator string="Activity History"/>
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids"/>
-                        <field name="activity_ids"/>
-                        <field name="message_ids"
-                               options="{'post_refresh': 'recipients'}"/>
-                    </div>
-                </sheet>
-            </form>
-        </field>
-    </record>
-
-    <!-- ================================================== -->
-    <!-- LEAVE REQUEST — SEARCH VIEW                         -->
-    <!-- ================================================== -->
-
-    <record id="unicore_student_leave_request_search_view"
-            model="ir.ui.view">
-        <field name="name">
-            unicore.student.leave.request.search
-        </field>
-        <field name="model">unicore.student.leave.request</field>
-        <field name="arch" type="xml">
-            <search string="Search Leave Requests">
-                <field name="name"/>
-                <field name="student_id"/>
-                <field name="student_number"/>
-                <field name="guardian_name"/>
-                <separator/>
-                <filter name="my_requests"
-                        string="My Requests"
-                        domain="[('user_id', '=', uid)]"/>
-                <separator/>
-                <filter name="state_draft"
-                        string="Draft"
-                        domain="[('state', '=', 'draft')]"/>
-                <filter name="state_submitted"
-                        string="Submitted"
-                        domain="[('state', '=', 'submitted')]"/>
-                <filter name="state_approved"
-                        string="Approved"
-                        domain="[('state', '=', 'approved')]"/>
-                <filter name="state_rejected"
-                        string="Rejected"
-                        domain="[('state', '=', 'rejected')]"/>
-                <separator/>
-                <group>
-                    <filter name="group_by_student"
-                            string="Student"
-                            context="{'group_by': 'student_id'}"/>
-                    <filter name="group_by_state"
-                            string="Status"
-                            context="{'group_by': 'state'}"/>
-                    <filter name="group_by_date_from"
-                            string="Leave Start"
-                            context="{'group_by': 'date_from:month'}"/>
-                </group>
-            </search>
-        </field>
-    </record>
-
-    <!-- ================================================== -->
-    <!-- LEAVE REQUEST — KANBAN VIEW                         -->
-    <!-- ================================================== -->
-
-    <record id="unicore_student_leave_request_kanban_view"
-            model="ir.ui.view">
-        <field name="name">
-            unicore.student.leave.request.kanban
-        </field>
-        <field name="model">unicore.student.leave.request</field>
-        <field name="arch" type="xml">
-            <kanban string="Leave Requests"
-                    class="o_kanban_small_column"
-                    default_group_by="state">
-                <field name="id"/>
-                <field name="name"/>
-                <field name="student_name"/>
-                <field name="student_number"/>
-                <field name="date_from"/>
-                <field name="date_to"/>
-                <field name="state"/>
-                <field name="leave_duration"/>
-                <field name="submitted_by"/>
-                <templates>
-                    <t t-name="kanban-box">
-                        <div class="oe_kanban_card oe_kanban_global_click">
-                            <div class="o_kanban_record_top mb8">
-                                <div class="o_kanban_record_headings">
-                                    <strong class="o_kanban_record_headline">
-                                        <field name="name"/>
-                                    </strong>
-                                </div>
-                                <strong class="o_kanban_record_headline"
-                                        t-attf-class="badge rounded-pill
-                                        text-bg-success me-1"
-                                        t-if="record.state.raw_value == 'approved'">
+  <!-- ================================================== -->
+  <!-- LEAVE REQUEST — TREE (LIST) VIEW                    -->
+  <!-- ================================================== -->
+  <record id="unicore_student_leave_request_tree_view" model="ir.ui.view">
+    <field name="name">unicore.student.leave.request.tree</field>
+    <field name="model">unicore.student.leave.request</field>
+    <field name="arch" type="xml">
+      <list string="Leave Requests" decoration-danger="state == 'rejected'" decoration-success="state == 'approved'" decoration-info="state == 'submitted'" decoration-muted="state == 'cancelled'">
+        <field name="name"/>
+        <field name="student_id" string="Student"/>
+        <field name="student_number" string="Student ID"/>
+        <field name="submitted_by" string="Submitted By"/>
+        <field name="guardian_name" string="Guardian"/>
+        <field name="date_from" string="From"/>
+        <field name="date_to" string="To"/>
+        <field name="leave_duration" string="Days"/>
+        <field name="state" widget="badge" decoration-success="state in ('approved', 'submitted')" decoration-danger="state == 'rejected'" decoration-muted="state == 'cancelled'" decoration-info="state == 'draft'"/>
+      </list>
+    </field>
+  </record>
+  <!-- ================================================== -->
+  <!-- LEAVE REQUEST — FORM VIEW                           -->
+  <!-- ================================================== -->
+  <record id="unicore_student_leave_request_form_view" model="ir.ui.view">
+    <field name="name">unicore.student.leave.request.form</field>
+    <field name="model">unicore.student.leave.request</field>
+    <field name="arch" type="xml">
+      <form string="Leave Request">
+        <header>
+          <button name="action_submit" type="object" string="Submit Request" class="oe_highlight" invisible="state != 'draft'" groups="unicore_base.group_unicore_student,unicore_base.group_unicore_staff"/>
+          <button name="action_approve" type="object" string="Approve" class="oe_highlight" invisible="state != 'submitted'" groups="unicore_base.group_unicore_registrar,unicore_base.group_unicore_manager,unicore_base.group_unicore_admin"/>
+          <button name="action_reject" type="object" string="Reject" class="btn-danger" invisible="state != 'submitted'" groups="unicore_base.group_unicore_registrar,unicore_base.group_unicore_manager,unicore_base.group_unicore_admin"/>
+          <button name="action_resubmit" type="object" string="Resubmit" class="oe_highlight" invisible="state != 'rejected'" groups="unicore_base.group_unicore_student,unicore_base.group_unicore_staff"/>
+          <button name="action_cancel" type="object" string="Cancel" invisible="state not in ('draft', 'submitted')" groups="unicore_base.group_unicore_student,unicore_base.group_unicore_staff,unicore_base.group_unicore_registrar"/>
+          <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved"/>
+        </header>
+        <sheet>
+          <div class="oe_button_box" name="button_box">
+            <button name="action_view_student" type="object" class="oe_stat_button" icon="fa-user">
+              <field name="student_name" string="Student" widget="statinfo"/>
+            </button>
+            <button name="action_view_guardian" type="object" class="oe_stat_button" icon="fa-users" invisible="not guardian_id">
+              <field name="guardian_name" string="Guardian" widget="statinfo"/>
+            </button>
+          </div>
+          <div class="oe_title">
+            <h1>
+              <field name="name" readonly="1"/>
+            </h1>
+          </div>
+          <group>
+            <group string="Student Information">
+              <field name="student_id"/>
+              <field name="student_number"/>
+              <field name="submitted_by"/>
+              <field name="guardian_id" invisible="not guardian_id"/>
+            </group>
+            <group string="Leave Details">
+              <field name="date_from"/>
+              <field name="date_to"/>
+              <field name="leave_duration" readonly="1"/>
+              <field name="reason" placeholder="Reason for leave..."/>
+            </group>
+          </group>
+          <group string="Supporting Document" invisible="not supporting_document">
+            <field name="supporting_document" readonly="1"/>
+            <field name="supporting_document_name" readonly="1"/>
+          </group>
+          <group string="Approval" invisible="state not in ('approved', 'rejected')">
+            <group>
+              <field name="approver_id" readonly="1"/>
+              <field name="approval_date" readonly="1"/>
+            </group>
+            <group>
+              <field name="approval_notes" readonly="state != 'submitted'" placeholder="Approval/rejection notes..."/>
+            </group>
+          </group>
+          <separator string="Activity History"/>
+          <div class="oe_chatter">
+            <field name="message_follower_ids"/>
+            <field name="activity_ids"/>
+            <field name="message_ids" options="{'post_refresh': 'recipients'}"/>
+          </div>
+        </sheet>
+      </form>
+    </field>
+  </record>
+  <!-- ================================================== -->
+  <!-- LEAVE REQUEST — SEARCH VIEW                         -->
+  <!-- ================================================== -->
+  <record id="unicore_student_leave_request_search_view" model="ir.ui.view">
+    <field name="name">unicore.student.leave.request.search</field>
+    <field name="model">unicore.student.leave.request</field>
+    <field name="arch" type="xml">
+      <search string="Search Leave Requests">
+        <field name="name"/>
+        <field name="student_id"/>
+        <field name="student_number"/>
+        <field name="guardian_name"/>
+        <separator/>
+        <filter name="my_requests" string="My Requests" domain="[('user_id', '=', uid)]"/>
+        <separator/>
+        <filter name="state_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+        <filter name="state_submitted" string="Submitted" domain="[('state', '=', 'submitted')]"/>
+        <filter name="state_approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+        <filter name="state_rejected" string="Rejected" domain="[('state', '=', 'rejected')]"/>
+        <separator/>
+        <group>
+          <filter name="group_by_student" string="Student" context="{'group_by': 'student_id'}"/>
+          <filter name="group_by_state" string="Status" context="{'group_by': 'state'}"/>
+          <filter name="group_by_date_from" string="Leave Start" context="{'group_by': 'date_from:month'}"/>
+        </group>
+      </search>
+    </field>
+  </record>
+  <!-- ================================================== -->
+  <!-- LEAVE REQUEST — KANBAN VIEW                         -->
+  <!-- ================================================== -->
+  <record id="unicore_student_leave_request_kanban_view" model="ir.ui.view">
+    <field name="name">unicore.student.leave.request.kanban</field>
+    <field name="model">unicore.student.leave.request</field>
+    <field name="arch" type="xml">
+      <kanban string="Leave Requests" class="o_kanban_small_column" default_group_by="state">
+        <field name="id"/>
+        <field name="name"/>
+        <field name="student_name"/>
+        <field name="student_number"/>
+        <field name="date_from"/>
+        <field name="date_to"/>
+        <field name="state"/>
+        <field name="leave_duration"/>
+        <field name="submitted_by"/>
+        <templates>
+          <t t-name="kanban-box">
+            <div class="oe_kanban_card oe_kanban_global_click">
+              <div class="o_kanban_record_top mb8">
+                <div class="o_kanban_record_headings">
+                  <strong class="o_kanban_record_headline">
+                    <field name="name"/>
+                  </strong>
+                </div>
+                <strong class="o_kanban_record_headline" t-attf-class="badge rounded-pill                                         text-bg-success me-1" t-if="record.state.raw_value == 'approved'">
                                     Approved
                                 </strong>
-                                <strong class="o_kanban_record_headline"
-                                        t-attf-class="badge rounded-pill
-                                        text-bg-danger me-1"
-                                        t-if="record.state.raw_value == 'rejected'">
+                <strong class="o_kanban_record_headline" t-attf-class="badge rounded-pill                                         text-bg-danger me-1" t-if="record.state.raw_value == 'rejected'">
                                     Rejected
                                 </strong>
-                            </div>
-                            <div class="o_kanban_record_body">
-                                <div>
-                                    <i class="fa fa-user"/> <field name="student_name"/>
-                                </div>
-                                <div>
-                                    <i class="fa fa-calendar"/> <field name="date_from"/>
+              </div>
+              <div class="o_kanban_record_body">
+                <div>
+                  <i class="fa fa-user"/>
+                  <field name="student_name"/>
+                </div>
+                <div>
+                  <i class="fa fa-calendar"/>
+                  <field name="date_from"/>
                                     to <field name="date_to"/>
-                                </div>
-                                <div>
-                                    <i class="fa fa-clock-o"/>
-                                    <field name="leave_duration"/>
+                </div>
+                <div>
+                  <i class="fa fa-clock-o"/>
+                  <field name="leave_duration"/>
                                     days
                                 </div>
-                                <div t-if="record.submitted_by.raw_value == 'guardian'">
-                                    <i class="fa fa-users"/> Submitted by guardian
+                <div t-if="record.submitted_by.raw_value == 'guardian'">
+                  <i class="fa fa-users"/> Submitted by guardian
                                 </div>
-                            </div>
-                        </div>
-                    </t>
-                </templates>
-            </kanban>
-        </field>
-    </record>
-
-    <!-- ================================================== -->
-    <!-- LEAVE REQUEST — ACTION                              -->
-    <!-- ================================================== -->
-
-    <record id="action_student_leave_request"
-            model="ir.actions.act_window">
-        <field name="name">Leave Requests</field>
-        <field name="res_model">
-            unicore.student.leave.request
-        </field>
-        <field name="view_mode">
-            tree,kanban,form
-        </field>
-        <field name="search_view_id"
-               ref="unicore_student_leave_request_search_view"/>
-        <field name="context">
-            {'search_default_state_submitted': 1}
-        </field>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
+              </div>
+            </div>
+          </t>
+        </templates>
+      </kanban>
+    </field>
+  </record>
+  <!-- ================================================== -->
+  <!-- LEAVE REQUEST — ACTION                              -->
+  <!-- ================================================== -->
+  <record id="action_student_leave_request" model="ir.actions.act_window">
+    <field name="name">Leave Requests</field>
+    <field name="res_model">unicore.student.leave.request</field>
+    <field name="view_mode">list,kanban,form</field>
+    <field name="search_view_id" ref="unicore_student_leave_request_search_view"/>
+    <field name="context">{'search_default_state_submitted': 1}</field>
+    <field name="help" type="html">
+      <p class="o_view_nocontent_smiling_face">
                 No leave requests yet.
             </p>
-            <p>
+      <p>
                 Leave requests submitted by students or
                 guardians will appear here.
             </p>
-        </field>
-    </record>
-
+    </field>
+  </record>
 </odoo>

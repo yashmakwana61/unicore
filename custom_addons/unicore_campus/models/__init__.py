@@ -1,5 +1,7 @@
-from . import unicore_campus_ext
-from . import unicore_building
-from . import unicore_floor
-from . import unicore_room
-from . import unicore_facility
+from . import (
+    unicore_building,
+    unicore_campus_ext,
+    unicore_facility,
+    unicore_floor,
+    unicore_room,
+)

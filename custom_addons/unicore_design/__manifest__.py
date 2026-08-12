@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 {
     'name': 'UniCore Design',
     'version': '19.0.1.0.0',
@@ -26,5 +25,5 @@ Allows company-wide default styling and per-user overrides for:
     'installable': True,
     'application': False,
     'auto_install': False,
-    'license': 'LGPL-3',
+    'license': 'OPL-1',
 }

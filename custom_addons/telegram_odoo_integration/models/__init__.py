@@ -1,6 +1,8 @@
-from . import telegram_parser
-from . import telegram_message
-from . import telegram_bot_service
-from . import res_partner
-from . import res_config_settings
-from . import sale_order
+from . import (
+    res_config_settings,
+    res_partner,
+    sale_order,
+    telegram_bot_service,
+    telegram_message,
+    telegram_parser,
+)

@@ -21,6 +21,6 @@ class IrHttp(models.AbstractModel):
             .get_param(
                 'muk_web_refresh.pager_autoload_interval',
                 default=30000,
-            )
+            ),
         )
         return result

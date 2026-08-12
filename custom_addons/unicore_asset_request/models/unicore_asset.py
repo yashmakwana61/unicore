@@ -1,13 +1,13 @@
-# -*- coding: utf-8 -*-
 """
 UniCore Asset Model
 Catalog of physical equipment and assets that can be requested
 by faculty and staff — e.g. projectors, lab equipment, computers,
 furniture, audio/video gear, vehicles.
 """
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -15,7 +15,7 @@ _logger = logging.getLogger(__name__)
 class UniCoreAsset(models.Model):
     _name = 'unicore.asset'
     _description = 'Asset'
-    _inherit = ['unicore.mixin', 'mail.thread']
+    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'asset_type, name'
     _check_company_auto = True
 

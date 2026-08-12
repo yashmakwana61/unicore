@@ -5,16 +5,17 @@ portal. All routes require portal user login and
 restrict data to the currently logged-in student.
 """
 
+import logging
 from datetime import date, datetime
 
-from odoo import http, _
-from odoo.http import request
-from odoo.addons.portal.controllers.portal import (
-    CustomerPortal, pager as portal_pager
-)
-from odoo.exceptions import AccessError, UserError
 from werkzeug.exceptions import NotFound
-import logging
+
+from odoo import _, http
+from odoo.exceptions import AccessError, UserError
+from odoo.http import request
+
+from odoo.addons.portal.controllers.portal import CustomerPortal
+from odoo.addons.portal.controllers.portal import pager as portal_pager
 
 _logger = logging.getLogger(__name__)
 
@@ -31,7 +32,7 @@ class UniCoreStudentPortal(CustomerPortal):
         home page (My Home). Extends the parent method.
         """
         values = super()._prepare_home_portal_values(
-            counters
+            counters,
         )
         student = self._get_current_student()
         if student:
@@ -100,7 +101,7 @@ class UniCoreStudentPortal(CustomerPortal):
         if not student:
             raise NotFound(
                 _('No student record found for '
-                  'your account.')
+                  'your account.'),
             )
         return student
 
@@ -166,7 +167,7 @@ class UniCoreStudentPortal(CustomerPortal):
                 for i in outstanding_invoices
             ),
             'outstanding_invoice_count': len(
-                outstanding_invoices
+                outstanding_invoices,
             ),
             'page_name': 'student_dashboard',
         }
@@ -321,11 +322,11 @@ class UniCoreStudentPortal(CustomerPortal):
 
         upcoming = tickets.filtered(
             lambda t: t.ticket_state in
-            ('draft', 'approved')
+            ('draft', 'approved'),
         )
         past = tickets.filtered(
             lambda t: t.ticket_state in
-            ('used',)
+            ('used',),
         )
 
         values = {
@@ -468,7 +469,7 @@ class UniCoreStudentPortal(CustomerPortal):
             'student': student,
             'applications': applications,
             'approved_apps': applications.filtered(
-                lambda a: a.application_state == 'approved'
+                lambda a: a.application_state == 'approved',
             ),
             'page_name': 'student_scholarships',
         }
@@ -492,7 +493,7 @@ class UniCoreStudentPortal(CustomerPortal):
         student = self._student_required()
         if not isinstance(
             student,
-            request.env['unicore.student'].__class__
+            request.env['unicore.student'].__class__,
         ):
             return student
 
@@ -503,7 +504,7 @@ class UniCoreStudentPortal(CustomerPortal):
 
         today = date.today()
         notices = notices.filtered(
-            lambda n: not n.expiry_date or n.expiry_date >= today
+            lambda n: not n.expiry_date or n.expiry_date >= today,
         )
 
         student_campus_ids = student.campus_id.ids if student else []
@@ -518,7 +519,7 @@ class UniCoreStudentPortal(CustomerPortal):
                 and (
                     any(c.id in student_campus_ids for c in n.campus_ids)
                     or any(p.id in student_program_ids for p in n.program_ids)
-                ))
+                )),
         )
 
         notice_count = len(notices)
@@ -574,7 +575,7 @@ class UniCoreStudentPortal(CustomerPortal):
         student = self._student_required()
         if not isinstance(
             student,
-            request.env['unicore.student'].__class__
+            request.env['unicore.student'].__class__,
         ):
             return student
 
@@ -614,10 +615,10 @@ class UniCoreStudentPortal(CustomerPortal):
             'submission_map': submission_map,
             'overdue_ids': overdue_ids,
             'published_assignments': assignments.filtered(
-                lambda a: a.assignment_state == 'published'
+                lambda a: a.assignment_state == 'published',
             ),
             'closed_assignments': assignments.filtered(
-                lambda a: a.assignment_state == 'closed'
+                lambda a: a.assignment_state == 'closed',
             ),
             'page_name': 'student_assignments',
         }
@@ -648,7 +649,7 @@ class UniCoreStudentPortal(CustomerPortal):
         student = self._student_required()
         if not isinstance(
             student,
-            request.env['unicore.student'].__class__
+            request.env['unicore.student'].__class__,
         ):
             return student
 
@@ -660,7 +661,7 @@ class UniCoreStudentPortal(CustomerPortal):
         offerings = self._get_student_offerings(student)
         if assignment.course_offering_id.id not in offerings.ids:
             raise AccessError(
-                _('You are not enrolled in this course.')
+                _('You are not enrolled in this course.'),
             )
 
         Submission = request.env[
@@ -688,7 +689,7 @@ class UniCoreStudentPortal(CustomerPortal):
             'can_submit': can_submit,
             'is_overdue': bool(
                 assignment.due_datetime
-                and now > assignment.due_datetime
+                and now > assignment.due_datetime,
             ),
             'page_name': 'student_assignment_detail',
         }
@@ -721,7 +722,7 @@ class UniCoreStudentPortal(CustomerPortal):
         student = self._student_required()
         if not isinstance(
             student,
-            request.env['unicore.student'].__class__
+            request.env['unicore.student'].__class__,
         ):
             return student
 
@@ -733,11 +734,11 @@ class UniCoreStudentPortal(CustomerPortal):
         offerings = self._get_student_offerings(student)
         if assignment.course_offering_id.id not in offerings.ids:
             raise AccessError(
-                _('You are not enrolled in this course.')
+                _('You are not enrolled in this course.'),
             )
         if assignment.assignment_state != 'published':
             raise AccessError(
-                _('This assignment is not open for submissions.')
+                _('This assignment is not open for submissions.'),
             )
 
         Submission = request.env[
@@ -762,7 +763,7 @@ class UniCoreStudentPortal(CustomerPortal):
         if not submission_file and not notes:
             raise UserError(_(
                 'Please attach a file or write notes before '
-                'submitting.'
+                'submitting.',
             ))
 
         now = datetime.now()
@@ -797,12 +798,12 @@ class UniCoreStudentPortal(CustomerPortal):
                 submission or Submission.search([
                     ('assignment_id', '=', assignment.id),
                     ('student_id', '=', student.id),
-                ], limit=1)
+                ], limit=1),
             )
         except Exception as e:
             _logger.error('Faculty notify failed: %s', str(e))
 
         return request.redirect(
             '/my/unicore/student/assignments/%d'
-            % assignment.id
+            % assignment.id,
         )

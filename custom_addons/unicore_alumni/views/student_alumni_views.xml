@@ -13,22 +13,14 @@
                         class="oe_stat_button"
                         icon="fa-envelope"
                         invisible="not alumni_mailing_list_ids">
-                    <div class="o_stat_info">
-                        <span class="o_stat_text">Mailing Lists</span>
-                        <span class="o_stat_value"
-                              t-field="alumni_mailing_list_ids"/>
-                    </div>
+                    <field name="alumni_mailing_list_ids" string="Mailing Lists" widget="statinfo"/>
                 </button>
                 <button name="action_view_alumni_events"
                         type="object"
                         class="oe_stat_button"
                         icon="fa-calendar"
                         invisible="not alumni_event_ids">
-                    <div class="o_stat_info">
-                        <span class="o_stat_text">Events</span>
-                        <span class="o_stat_value"
-                              t-field="alumni_registration_count"/>
-                    </div>
+                    <field name="alumni_registration_count" string="Events" widget="statinfo"/>
                 </button>
             </xpath>
         </field>

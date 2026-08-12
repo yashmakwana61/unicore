@@ -13,8 +13,9 @@ The model is purely additive to the UniCore suite: it adds no
 columns to the grading or assignment modules.
 """
 
-from odoo import api, fields, models, _
 import logging
+
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 

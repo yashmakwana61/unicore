@@ -6,17 +6,17 @@ the currently logged-in faculty member.
 Faculty can write attendance and submit grades.
 """
 
-from datetime import date, datetime
-
-from odoo import http, _
-from odoo.http import request
-from odoo.addons.portal.controllers.portal import (
-    CustomerPortal
-)
-from odoo.exceptions import AccessError, UserError
-from werkzeug.exceptions import NotFound
 import json
 import logging
+from datetime import date, datetime
+
+from werkzeug.exceptions import NotFound
+
+from odoo import _, http
+from odoo.exceptions import AccessError, UserError
+from odoo.http import request
+
+from odoo.addons.portal.controllers.portal import CustomerPortal
 
 _logger = logging.getLogger(__name__)
 
@@ -29,7 +29,7 @@ class UniCoreFacultyPortal(CustomerPortal):
 
     def _prepare_home_portal_values(self, counters):
         values = super()._prepare_home_portal_values(
-            counters
+            counters,
         )
         faculty = self._get_current_faculty()
         if faculty:
@@ -82,7 +82,7 @@ class UniCoreFacultyPortal(CustomerPortal):
         if not faculty:
             raise NotFound(
                 _('No faculty record found for '
-                  'your account.')
+                  'your account.'),
             )
         return faculty
 
@@ -272,7 +272,7 @@ class UniCoreFacultyPortal(CustomerPortal):
                 ('course_offering_id', '=', offering.id),
             ])
             submitted = grades.filtered(
-                lambda g: g.entry_state == 'submitted'
+                lambda g: g.entry_state == 'submitted',
             )
             shortage_count = len(enrollments.filtered(
                 lambda e: any(
@@ -283,7 +283,7 @@ class UniCoreFacultyPortal(CustomerPortal):
                         ('student_id', '=', e.student_id.id),
                         ('course_offering_id', '=', offering.id),
                     ])
-                )
+                ),
             ))
             course_data.append({
                 'offering': offering,
@@ -333,7 +333,7 @@ class UniCoreFacultyPortal(CustomerPortal):
             raise NotFound()
         if offering.faculty_member_id.id != faculty.id:
             raise AccessError(
-                _('You do not teach this course.')
+                _('You do not teach this course.'),
             )
 
         Enrollment = request.env[
@@ -455,7 +455,7 @@ class UniCoreFacultyPortal(CustomerPortal):
         if offering.faculty_member_id.id != faculty.id:
             raise AccessError(
                 _('You are not the instructor for '
-                  'this session.')
+                  'this session.'),
             )
 
         AttRecord = request.env[
@@ -522,7 +522,7 @@ class UniCoreFacultyPortal(CustomerPortal):
             raise NotFound()
         if session.session_state != 'open':
             return request.redirect(
-                '/my/unicore/faculty'
+                '/my/unicore/faculty',
             )
 
         offering = (
@@ -532,7 +532,7 @@ class UniCoreFacultyPortal(CustomerPortal):
         if offering.faculty_member_id.id != faculty.id:
             raise AccessError(
                 _('You are not the instructor for '
-                  'this session.')
+                  'this session.'),
             )
 
         AttRecord = request.env[
@@ -553,7 +553,7 @@ class UniCoreFacultyPortal(CustomerPortal):
             late_key = 'late_%d' % student_id
             status = kwargs.get(status_key, 'absent')
             late_minutes = int(
-                kwargs.get(late_key, 0) or 0
+                kwargs.get(late_key, 0) or 0,
             )
 
             existing = AttRecord.search([
@@ -583,7 +583,7 @@ class UniCoreFacultyPortal(CustomerPortal):
 
         return request.redirect(
             '/my/unicore/faculty/courses/%d'
-            % offering.id
+            % offering.id,
         )
 
     # ===================================================
@@ -614,7 +614,7 @@ class UniCoreFacultyPortal(CustomerPortal):
             raise NotFound()
         if offering.faculty_member_id.id != faculty.id:
             raise AccessError(
-                _('You do not teach this course.')
+                _('You do not teach this course.'),
             )
 
         Enrollment = request.env[
@@ -680,7 +680,7 @@ class UniCoreFacultyPortal(CustomerPortal):
             raise NotFound()
         if offering.faculty_member_id.id != faculty.id:
             raise AccessError(
-                _('You do not teach this course.')
+                _('You do not teach this course.'),
             )
 
         Enrollment = request.env[
@@ -705,10 +705,10 @@ class UniCoreFacultyPortal(CustomerPortal):
 
             try:
                 internal = float(
-                    kwargs.get(internal_key, 0) or 0
+                    kwargs.get(internal_key, 0) or 0,
                 )
                 external = float(
-                    kwargs.get(external_key, 0) or 0
+                    kwargs.get(external_key, 0) or 0,
                 )
             except (ValueError, TypeError):
                 internal = 0.0
@@ -727,7 +727,7 @@ class UniCoreFacultyPortal(CustomerPortal):
 
             if existing:
                 if existing.entry_state in (
-                    'draft', 'submitted'
+                    'draft', 'submitted',
                 ):
                     existing.write({
                         'internal_marks': internal,
@@ -746,7 +746,7 @@ class UniCoreFacultyPortal(CustomerPortal):
 
         return request.redirect(
             '/my/unicore/faculty/courses/%d'
-            % offering_id
+            % offering_id,
         )
 
     # ===================================================
@@ -809,13 +809,13 @@ class UniCoreFacultyPortal(CustomerPortal):
             'qualifications': (
                 faculty.qualification_ids.sorted(
                     key=lambda q: q.year_of_completion
-                    or 0, reverse=True
+                    or 0, reverse=True,
                 )
             ),
             'publications': (
                 faculty.publication_ids.sorted(
                     key=lambda p: p.publication_year
-                    or 0, reverse=True
+                    or 0, reverse=True,
                 )
                 if hasattr(faculty, 'publication_ids')
                 else []
@@ -842,7 +842,7 @@ class UniCoreFacultyPortal(CustomerPortal):
         faculty = self._faculty_required()
         if not isinstance(
             faculty,
-            request.env['unicore.faculty.member'].__class__
+            request.env['unicore.faculty.member'].__class__,
         ):
             return faculty
 
@@ -853,7 +853,7 @@ class UniCoreFacultyPortal(CustomerPortal):
 
         today = date.today()
         notices = notices.filtered(
-            lambda n: not n.expiry_date or n.expiry_date >= today
+            lambda n: not n.expiry_date or n.expiry_date >= today,
         )
 
         faculty_campus_ids = faculty.campus_ids.ids if faculty else []
@@ -861,7 +861,7 @@ class UniCoreFacultyPortal(CustomerPortal):
             lambda n: n.audience == 'all'
             or (n.audience == 'faculty')
             or (n.audience == 'specific'
-                and any(c.id in faculty_campus_ids for c in n.campus_ids))
+                and any(c.id in faculty_campus_ids for c in n.campus_ids)),
         )
 
         notice_count = len(notices)
@@ -904,7 +904,7 @@ class UniCoreFacultyPortal(CustomerPortal):
         faculty = self._faculty_required()
         if not isinstance(
             faculty,
-            request.env['unicore.faculty.member'].__class__
+            request.env['unicore.faculty.member'].__class__,
         ):
             return faculty
 
@@ -920,7 +920,7 @@ class UniCoreFacultyPortal(CustomerPortal):
         offering_data = []
         for offering in offerings:
             off_assignments = assignments.filtered(
-                lambda a: a.course_offering_id.id == offering.id
+                lambda a: a.course_offering_id.id == offering.id,
             )
             offering_data.append({
                 'offering': offering,
@@ -935,9 +935,9 @@ class UniCoreFacultyPortal(CustomerPortal):
             'assignments': assignments,
             'total_assignments': len(assignments),
             'pending_grading': assignments.mapped(
-                'submission_ids'
+                'submission_ids',
             ).filtered(
-                lambda s: s.state in ('submitted', 'late')
+                lambda s: s.state in ('submitted', 'late'),
             ),
             'page_name': 'faculty_assignments',
         }
@@ -966,7 +966,7 @@ class UniCoreFacultyPortal(CustomerPortal):
         faculty = self._faculty_required()
         if not isinstance(
             faculty,
-            request.env['unicore.faculty.member'].__class__
+            request.env['unicore.faculty.member'].__class__,
         ):
             return faculty
 
@@ -978,7 +978,7 @@ class UniCoreFacultyPortal(CustomerPortal):
             raise NotFound()
         if offering.faculty_member_id.id != faculty.id:
             raise AccessError(
-                _('You do not teach this course.')
+                _('You do not teach this course.'),
             )
 
         Rubric = request.env['unicore.assignment.rubric'].sudo()
@@ -1026,7 +1026,7 @@ class UniCoreFacultyPortal(CustomerPortal):
         faculty = self._faculty_required()
         if not isinstance(
             faculty,
-            request.env['unicore.faculty.member'].__class__
+            request.env['unicore.faculty.member'].__class__,
         ):
             return faculty
 
@@ -1038,7 +1038,7 @@ class UniCoreFacultyPortal(CustomerPortal):
             raise NotFound()
         if offering.faculty_member_id.id != faculty.id:
             raise AccessError(
-                _('You do not teach this course.')
+                _('You do not teach this course.'),
             )
 
         title = (kwargs.get('title') or '').strip()
@@ -1059,7 +1059,7 @@ class UniCoreFacultyPortal(CustomerPortal):
         if due_date_str:
             try:
                 due_date = datetime.strptime(
-                    due_date_str, '%Y-%m-%d'
+                    due_date_str, '%Y-%m-%d',
                 ).date()
             except ValueError:
                 due_date = False
@@ -1081,10 +1081,10 @@ class UniCoreFacultyPortal(CustomerPortal):
             'due_time': due_time,
             'course_offering_id': offering.id,
             'is_late_submission_allowed': bool(
-                kwargs.get('is_late_submission_allowed')
+                kwargs.get('is_late_submission_allowed'),
             ),
             'late_penalty_percent': float(
-                kwargs.get('late_penalty_percent') or 0
+                kwargs.get('late_penalty_percent') or 0,
             ),
         }
         if rubric_id:
@@ -1102,12 +1102,12 @@ class UniCoreFacultyPortal(CustomerPortal):
                 assignment._notify_students()
             except Exception as e:
                 _logger.error(
-                    'Assignment notify failed: %s', str(e)
+                    'Assignment notify failed: %s', str(e),
                 )
 
         return request.redirect(
             '/my/unicore/faculty/assignments/%d'
-            % assignment.id
+            % assignment.id,
         )
 
     # ===================================================
@@ -1130,7 +1130,7 @@ class UniCoreFacultyPortal(CustomerPortal):
         faculty = self._faculty_required()
         if not isinstance(
             faculty,
-            request.env['unicore.faculty.member'].__class__
+            request.env['unicore.faculty.member'].__class__,
         ):
             return faculty
 
@@ -1140,7 +1140,7 @@ class UniCoreFacultyPortal(CustomerPortal):
             raise NotFound()
         if assignment.faculty_member_id.id != faculty.id:
             raise AccessError(
-                _('You do not teach this course.')
+                _('You do not teach this course.'),
             )
 
         Enrollment = request.env['unicore.enrollment'].sudo()
@@ -1194,7 +1194,7 @@ class UniCoreFacultyPortal(CustomerPortal):
         faculty = self._faculty_required()
         if not isinstance(
             faculty,
-            request.env['unicore.faculty.member'].__class__
+            request.env['unicore.faculty.member'].__class__,
         ):
             return faculty
 
@@ -1204,7 +1204,7 @@ class UniCoreFacultyPortal(CustomerPortal):
             raise NotFound()
         if assignment.faculty_member_id.id != faculty.id:
             raise AccessError(
-                _('You do not teach this course.')
+                _('You do not teach this course.'),
             )
 
         Submission = request.env[
@@ -1267,7 +1267,7 @@ class UniCoreFacultyPortal(CustomerPortal):
         faculty = self._faculty_required()
         if not isinstance(
             faculty,
-            request.env['unicore.faculty.member'].__class__
+            request.env['unicore.faculty.member'].__class__,
         ):
             return faculty
 
@@ -1277,7 +1277,7 @@ class UniCoreFacultyPortal(CustomerPortal):
             raise NotFound()
         if assignment.faculty_member_id.id != faculty.id:
             raise AccessError(
-                _('You do not teach this course.')
+                _('You do not teach this course.'),
             )
 
         Submission = request.env[
@@ -1342,7 +1342,7 @@ class UniCoreFacultyPortal(CustomerPortal):
             'marks_obtained': marks,
             'feedback': feedback,
             'annotations': json.dumps(
-                annotation_list, ensure_ascii=False
+                annotation_list, ensure_ascii=False,
             ) if annotation_list else False,
         })
 
@@ -1355,5 +1355,5 @@ class UniCoreFacultyPortal(CustomerPortal):
 
         return request.redirect(
             '/my/unicore/faculty/assignments/%d'
-            % assignment.id
+            % assignment.id,
         )

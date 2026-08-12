@@ -10,10 +10,10 @@ students, then close it. Once closed a session's
 attendance records are locked.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
-from datetime import date, timedelta
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -283,7 +283,7 @@ class UniCoreAttendanceSession(models.Model):
                 if not (entry.effective_date_start <= rec.session_date <= entry.effective_date_end):
                     raise ValidationError(
                         _('Session date %s is outside the timetable entry\'s active range (%s to %s).')
-                        % (rec.session_date, entry.effective_date_start, entry.effective_date_end)
+                        % (rec.session_date, entry.effective_date_start, entry.effective_date_end),
                     )
 
     def action_open_for_marking(self):
@@ -297,11 +297,11 @@ class UniCoreAttendanceSession(models.Model):
         self.ensure_one()
         if self.session_state != 'scheduled':
             raise UserError(
-                _('Only scheduled sessions can be opened for marking.')
+                _('Only scheduled sessions can be opened for marking.'),
             )
         if self.is_cancelled or self.is_holiday:
             raise UserError(
-                _('Cannot open a cancelled or holiday session for attendance marking.')
+                _('Cannot open a cancelled or holiday session for attendance marking.'),
             )
 
         Enrollment = self.env['unicore.enrollment']
@@ -330,7 +330,7 @@ class UniCoreAttendanceSession(models.Model):
         self.session_state = 'open'
         self.message_post(
             body=_('Session opened for attendance marking. %d student records created.')
-            % len(records_to_create)
+            % len(records_to_create),
         )
 
     def action_close_session(self):
@@ -344,7 +344,7 @@ class UniCoreAttendanceSession(models.Model):
         self.ensure_one()
         if self.session_state != 'open':
             raise UserError(
-                _('Only open sessions can be closed.')
+                _('Only open sessions can be closed.'),
             )
         self.write({
             'session_state': 'closed',
@@ -353,7 +353,7 @@ class UniCoreAttendanceSession(models.Model):
         })
         self.message_post(
             body=_('Session closed. Present: %d, Absent: %d, Late: %d, Excused: %d.')
-            % (self.present_count, self.absent_count, self.late_count, self.excused_count)
+            % (self.present_count, self.absent_count, self.late_count, self.excused_count),
         )
         self.attendance_record_ids._recompute_student_stats()
 
@@ -362,7 +362,7 @@ class UniCoreAttendanceSession(models.Model):
         self.ensure_one()
         self.session_state = 'open'
         self.message_post(
-            body=_('Session reopened for correction by %s.') % self.env.user.name
+            body=_('Session reopened for correction by %s.') % self.env.user.name,
         )
 
     def action_cancel_session(self):
@@ -370,12 +370,12 @@ class UniCoreAttendanceSession(models.Model):
         self.ensure_one()
         if not self.cancellation_reason:
             raise UserError(
-                _('Please provide a cancellation reason.')
+                _('Please provide a cancellation reason.'),
             )
         self.write({
             'session_state': 'cancelled',
             'is_cancelled': True,
         })
         self.message_post(
-            body=_('Session cancelled. Reason: %s') % self.cancellation_reason
+            body=_('Session cancelled. Reason: %s') % self.cancellation_reason,
         )

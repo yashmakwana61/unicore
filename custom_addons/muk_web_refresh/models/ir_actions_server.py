@@ -50,5 +50,5 @@ class IrActionsServer(models.Model):
             'rec_ids': records.ids if records else [],
         }
         self.env['bus.bus']._sendone(
-            self.env.ref('base.group_user'), 'muk_web_refresh.reload', message
+            self.env.ref('base.group_user'), 'muk_web_refresh.reload', message,
         )

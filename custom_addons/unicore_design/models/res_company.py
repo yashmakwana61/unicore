@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 from odoo import fields, models
+
 
 class ResCompany(models.Model):
     _inherit = 'res.company'
@@ -8,25 +8,25 @@ class ResCompany(models.Model):
         ('system', 'System Default'),
         ('inter', 'Inter'),
         ('roboto', 'Roboto'),
-        ('outfit', 'Outfit')
+        ('outfit', 'Outfit'),
     ], string='Theme Font Family', default='system', required=True)
 
     theme_list_density = fields.Selection([
         ('default', 'Default'),
         ('comfortable', 'Comfortable'),
-        ('compact', 'Compact')
+        ('compact', 'Compact'),
     ], string='Theme List Density', default='default', required=True)
 
     theme_border_radius = fields.Selection([
         ('none', 'None'),
         ('small', 'Small'),
         ('medium', 'Medium'),
-        ('large', 'Large')
+        ('large', 'Large'),
     ], string='Theme Border Radius', default='medium', required=True)
 
     theme_chatter_position = fields.Selection([
         ('bottom', 'Bottom'),
-        ('side', 'Side')
+        ('side', 'Side'),
     ], string='Theme Chatter Position', default='bottom', required=True)
 
     theme_start_menu_bg = fields.Selection([
@@ -34,5 +34,5 @@ class ResCompany(models.Model):
         ('aurora', 'Aurora'),
         ('ocean', 'Deep Ocean'),
         ('sunset', 'Sunset'),
-        ('midnight', 'Midnight')
+        ('midnight', 'Midnight'),
     ], string='Start Menu Background', default='aurora', required=True)

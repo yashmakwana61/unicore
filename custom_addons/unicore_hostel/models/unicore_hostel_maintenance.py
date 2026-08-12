@@ -5,10 +5,11 @@ for hostel rooms. Tracks priority, assignment
 and resolution.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError
-from datetime import date
 import logging
+from datetime import date
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -37,7 +38,7 @@ class UniCoreHostelMaintenance(models.Model):
             )
             if room_name:
                 rec.display_name = '%s - %s' % (
-                    rec.request_number, room_name
+                    rec.request_number, room_name,
                 )
             else:
                 rec.display_name = rec.request_number or ''
@@ -175,7 +176,7 @@ class UniCoreHostelMaintenance(models.Model):
             if not vals.get('request_number'):
                 vals['request_number'] = (
                     self.env['ir.sequence'].next_by_code(
-                        'unicore.hostel.maintenance'
+                        'unicore.hostel.maintenance',
                     ) or '/'
                 )
         return super().create(vals_list)
@@ -185,7 +186,7 @@ class UniCoreHostelMaintenance(models.Model):
         self.maintenance_state = 'in_progress'
         self.message_post(
             body=_('Maintenance started by %s.')
-                 % self.env.user.name
+                 % self.env.user.name,
         )
 
     def action_resolve(self):
@@ -193,7 +194,7 @@ class UniCoreHostelMaintenance(models.Model):
         if not self.resolution_notes:
             raise UserError(
                 _('Please add resolution notes '
-                  'before marking as resolved.')
+                  'before marking as resolved.'),
             )
         self.write({
             'maintenance_state': 'resolved',
@@ -201,14 +202,14 @@ class UniCoreHostelMaintenance(models.Model):
         })
         self.message_post(
             body=_('Issue resolved. %s')
-                 % self.resolution_notes
+                 % self.resolution_notes,
         )
 
     def action_cancel(self):
         self.ensure_one()
         self.maintenance_state = 'cancelled'
         self.message_post(
-            body=_('Request cancelled.')
+            body=_('Request cancelled.'),
         )
 
     def action_reopen(self):
@@ -216,5 +217,5 @@ class UniCoreHostelMaintenance(models.Model):
         self.maintenance_state = 'open'
         self.resolved_date = False
         self.message_post(
-            body=_('Issue reopened.')
+            body=_('Issue reopened.'),
         )

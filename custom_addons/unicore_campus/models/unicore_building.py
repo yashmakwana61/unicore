@@ -1,5 +1,4 @@
 import logging
-
 from datetime import date
 
 from odoo import _, api, fields, models
@@ -106,11 +105,11 @@ class UnicoreBuilding(models.Model):
                 allowed = all(c.isalnum() or c in ('-', '_') for c in record.code)
                 if not allowed:
                     raise ValidationError(
-                        _('Building code must be uppercase alphanumeric with hyphens allowed.')
+                        _('Building code must be uppercase alphanumeric with hyphens allowed.'),
                     )
                 if record.code != record.code.upper():
                     raise ValidationError(
-                        _('Building code must be uppercase only.')
+                        _('Building code must be uppercase only.'),
                     )
 
     @api.constrains('construction_year')
@@ -121,7 +120,7 @@ class UnicoreBuilding(models.Model):
                 record.construction_year < 1800 or record.construction_year > max_year
             ):
                 raise ValidationError(
-                    _('Construction year must be between 1800 and %(max_year)s.', max_year=max_year)
+                    _('Construction year must be between 1800 and %(max_year)s.', max_year=max_year),
                 )
 
     def action_open_floors(self):

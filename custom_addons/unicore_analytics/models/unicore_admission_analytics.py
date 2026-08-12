@@ -4,9 +4,10 @@ PostgreSQL VIEW-based models for admission funnel,
 conversion rates and applicant analytics.
 """
 
+import logging
+
 from odoo import fields, models, tools
 from odoo.orm.fields_misc import Id
-import logging
 
 _logger = logging.getLogger(__name__)
 
@@ -92,7 +93,7 @@ class UniCoreAdmissionFunnelReport(models.Model):
     def init(self):
         tools.drop_view_if_exists(
             self.env.cr,
-            'unicore_admission_funnel_report'
+            'unicore_admission_funnel_report',
         )
         self.env.cr.execute("""
             CREATE OR REPLACE VIEW
@@ -230,7 +231,7 @@ class UniCoreApplicantCategoryReport(models.Model):
     def init(self):
         tools.drop_view_if_exists(
             self.env.cr,
-            'unicore_applicant_category_report'
+            'unicore_applicant_category_report',
         )
         self.env.cr.execute("""
             CREATE OR REPLACE VIEW

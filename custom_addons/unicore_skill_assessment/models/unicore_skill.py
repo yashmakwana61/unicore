@@ -1,4 +1,4 @@
-from odoo import api, fields, models, _
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -14,7 +14,7 @@ class Skill(models.Model):
         ('technical', 'Technical'),
         ('soft', 'Soft Skill'),
         ('language', 'Language'),
-        ('other', 'Other')
+        ('other', 'Other'),
     ], string='Category', required=True, default='technical')
     description = fields.Text(string='Description')
     company_id = fields.Many2one('res.company', string='Institution', default=lambda self: self.env.company)
@@ -57,7 +57,7 @@ class StudentSkillAssessment(models.Model):
         ('beginner', 'Beginner'),
         ('intermediate', 'Intermediate'),
         ('advanced', 'Advanced'),
-        ('expert', 'Expert')
+        ('expert', 'Expert'),
     ], string='Proficiency Level', required=True, tracking=True)
     date_assessed = fields.Date(
         string='Date Assessed',

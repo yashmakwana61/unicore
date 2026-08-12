@@ -26,7 +26,7 @@ class OfferLetter(models.Model):
             )
             if applicant_name:
                 rec.display_name = '%s - %s' % (
-                    rec.letter_number, applicant_name
+                    rec.letter_number, applicant_name,
                 )
             else:
                 rec.display_name = rec.letter_number or ''
@@ -80,7 +80,7 @@ class OfferLetter(models.Model):
             if vals.get('letter_number', _('New')) == _('New'):
                 company_id = vals.get('company_id') or self.env.company.id
                 seq = self._next_sequence(
-                    'unicore.admission.offer.letter', company_id=company_id
+                    'unicore.admission.offer.letter', company_id=company_id,
                 ) or '/'
                 vals['letter_number'] = seq
             if not vals.get('valid_until') and vals.get('offer_date'):

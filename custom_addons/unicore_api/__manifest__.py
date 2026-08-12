@@ -30,7 +30,7 @@ All endpoints return consistent JSON structure:
     """,
     'author': 'Precisefect Solutions Pvt. Ltd.',
     'website': 'https://precisefect.com',
-    'license': 'LGPL-3',
+    'license': 'OPL-1',
     'depends': [
         'unicore_base',
         'unicore_security',

@@ -1,7 +1,7 @@
+import logging
+
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
-
-import logging
 
 _logger = logging.getLogger(__name__)
 
@@ -157,7 +157,7 @@ class UnicoreAcademicUnit(models.Model):
                       child=record.unit_type_id.name,
                       parent=record.parent_id.unit_type_id.name,
                       allowed=', '.join(allowed.mapped('name')) or _('any'),
-                    )
+                    ),
                 )
 
     @api.constrains('parent_id', 'id')
@@ -171,7 +171,7 @@ class UnicoreAcademicUnit(models.Model):
                     raise ValidationError(
                         _('Cannot set "%(name)s" as parent — this would create '
                           'a circular hierarchy.',
-                          name=record.parent_id.name or '')
+                          name=record.parent_id.name or ''),
                     )
                 seen.add(node.id)
                 node = node.parent_id

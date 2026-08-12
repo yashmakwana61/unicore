@@ -20,6 +20,6 @@ class IrHttp(models.AbstractModel):
                 result['user_companies']['allowed_companies'][company.id].update(
                     {
                         'has_appsbar_image': bool(company.appbar_image),
-                    }
+                    },
                 )
         return result

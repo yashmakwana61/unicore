@@ -1,151 +1,104 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-
-    <!-- ==================== FORM VIEW ==================== -->
-
-    <record id="view_unicore_notification_template_form"
-            model="ir.ui.view">
-      <field name="name">unicore.notification.template.form</field>
-      <field name="model">unicore.notification.template</field>
-      <field name="arch" type="xml">
-        <form>
-          <sheet>
-            <widget name="web_ribbon"
-                    title="SYSTEM"
-                    invisible="not is_system_template"
-                    bg_color="text-bg-info"/>
-            <div class="oe_title">
-              <h1>
-                <field name="name"
-                       placeholder="Template Name"/>
-              </h1>
-            </div>
-            <group>
-              <group string="Template Settings">
-                <field name="company_id"/>
-                <field name="trigger_event"/>
-                <field name="channel"/>
-                <field name="recipient_type"/>
-                <field name="language_code"/>
-              </group>
-              <group string="Flags">
-                <field name="is_system_template"/>
-                <field name="is_active_trigger"/>
-                <field name="active"/>
-              </group>
+  <!-- ==================== FORM VIEW ==================== -->
+  <record id="view_unicore_notification_template_form" model="ir.ui.view">
+    <field name="name">unicore.notification.template.form</field>
+    <field name="model">unicore.notification.template</field>
+    <field name="arch" type="xml">
+      <form>
+        <sheet>
+          <widget name="web_ribbon" title="SYSTEM" invisible="not is_system_template" bg_color="text-bg-info"/>
+          <div class="oe_title">
+            <h1>
+              <field name="name" placeholder="Template Name"/>
+            </h1>
+          </div>
+          <group>
+            <group string="Template Settings">
+              <field name="company_id"/>
+              <field name="trigger_event"/>
+              <field name="channel"/>
+              <field name="recipient_type"/>
+              <field name="language_code"/>
             </group>
-            <notebook>
-              <page string="Email Content"
-                    name="email_content"
-                    invisible="channel not in ('email', 'all')">
-                <group>
-                  <field name="email_subject"
-                         placeholder="Subject with {variable} placeholders"/>
-                </group>
-                <field name="email_body_html"
-                       placeholder="HTML email body with {variable} placeholders"/>
-              </page>
-              <page string="WhatsApp Content"
-                    name="whatsapp_content"
-                    invisible="channel not in ('whatsapp', 'all')">
-                <group>
-                  <field name="whatsapp_template_name"/>
-                </group>
-                <field name="whatsapp_body"
-                       placeholder="WhatsApp message (max 4096 chars). Use {variable} placeholders."/>
-              </page>
-              <page string="In-App Content"
-                    name="inapp_content"
-                    invisible="channel not in ('inapp', 'all')">
-                <field name="inapp_body"
-                       placeholder="Chatter message body with {variable} placeholders"/>
-              </page>
-              <page string="Notes" name="notes">
-                <field name="notes"
-                       placeholder="Internal notes about this template..."/>
-              </page>
-            </notebook>
-          </sheet>
-        </form>
-      </field>
-    </record>
-
-    <!-- ==================== LIST VIEW ==================== -->
-
-    <record id="view_unicore_notification_template_list"
-            model="ir.ui.view">
-      <field name="name">unicore.notification.template.list</field>
-      <field name="model">unicore.notification.template</field>
-      <field name="arch" type="xml">
-        <list decoration-info="is_system_template"
-              decoration-muted="not is_active_trigger">
-          <field name="name"/>
-          <field name="trigger_event"/>
-          <field name="channel"/>
-          <field name="recipient_type"/>
-          <field name="company_id"/>
-          <field name="is_system_template"/>
-          <field name="is_active_trigger"/>
-          <field name="language_code"/>
-          <field name="active" column_invisible="True"/>
-        </list>
-      </field>
-    </record>
-
-    <!-- ==================== SEARCH VIEW ==================== -->
-
-    <record id="view_unicore_notification_template_search"
-            model="ir.ui.view">
-      <field name="name">unicore.notification.template.search</field>
-      <field name="model">unicore.notification.template</field>
-      <field name="arch" type="xml">
-        <search>
-          <field name="name"/>
-          <field name="trigger_event"/>
-          <field name="channel"/>
-          <field name="recipient_type"/>
-          <field name="company_id"/>
-          <separator/>
-          <filter name="active_triggers"
-                  string="Active Triggers"
-                  domain="[('is_active_trigger','=',True)]"/>
-          <filter name="system_templates"
-                  string="System Templates"
-                  domain="[('is_system_template','=',True)]"/>
-          <separator/>
-          <filter name="channel_email"
-                  string="Email"
-                  domain="[('channel','=','email')]"/>
-          <filter name="channel_whatsapp"
-                  string="WhatsApp"
-                  domain="[('channel','=','whatsapp')]"/>
-          <filter name="channel_inapp"
-                  string="In-App"
-                  domain="[('channel','=','inapp')]"/>
-          <separator/>
-          <filter name="group_by_event"
-                  string="Trigger Event"
-                  context="{'group_by':'trigger_event'}"/>
-          <filter name="group_by_channel"
-                  string="Channel"
-                  context="{'group_by':'channel'}"/>
-          <filter name="group_by_company"
-                  string="Institution"
-                  context="{'group_by':'company_id'}"/>
-        </search>
-      </field>
-    </record>
-
-    <!-- ==================== ACTION ==================== -->
-
-    <record id="action_unicore_notification_template"
-            model="ir.actions.act_window">
-      <field name="name">Notification Templates</field>
-      <field name="res_model">unicore.notification.template</field>
-      <field name="view_mode">list,form</field>
-      <field name="context">
-        {'search_default_active_triggers': 1}
-      </field>
-    </record>
-
+            <group string="Flags">
+              <field name="is_system_template"/>
+              <field name="is_active_trigger"/>
+              <field name="active"/>
+            </group>
+          </group>
+          <notebook>
+            <page string="Email Content" name="email_content" invisible="channel not in ('email', 'all')">
+              <group>
+                <field name="email_subject" placeholder="Subject with {variable} placeholders"/>
+              </group>
+              <field name="email_body_html" placeholder="HTML email body with {variable} placeholders"/>
+            </page>
+            <page string="WhatsApp Content" name="whatsapp_content" invisible="channel not in ('whatsapp', 'all')">
+              <group>
+                <field name="whatsapp_template_name"/>
+              </group>
+              <field name="whatsapp_body" placeholder="WhatsApp message (max 4096 chars). Use {variable} placeholders."/>
+            </page>
+            <page string="In-App Content" name="inapp_content" invisible="channel not in ('inapp', 'all')">
+              <field name="inapp_body" placeholder="Chatter message body with {variable} placeholders"/>
+            </page>
+            <page string="Notes" name="notes">
+              <field name="notes" placeholder="Internal notes about this template..."/>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+  <!-- ==================== LIST VIEW ==================== -->
+  <record id="view_unicore_notification_template_list" model="ir.ui.view">
+    <field name="name">unicore.notification.template.list</field>
+    <field name="model">unicore.notification.template</field>
+    <field name="arch" type="xml">
+      <list decoration-info="is_system_template" decoration-muted="not is_active_trigger">
+        <field name="name"/>
+        <field name="trigger_event"/>
+        <field name="channel"/>
+        <field name="recipient_type"/>
+        <field name="company_id"/>
+        <field name="is_system_template"/>
+        <field name="is_active_trigger"/>
+        <field name="language_code"/>
+        <field name="active" column_invisible="True"/>
+      </list>
+    </field>
+  </record>
+  <!-- ==================== SEARCH VIEW ==================== -->
+  <record id="view_unicore_notification_template_search" model="ir.ui.view">
+    <field name="name">unicore.notification.template.search</field>
+    <field name="model">unicore.notification.template</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="name"/>
+        <field name="trigger_event"/>
+        <field name="channel"/>
+        <field name="recipient_type"/>
+        <field name="company_id"/>
+        <separator/>
+        <filter name="active_triggers" string="Active Triggers" domain="[('is_active_trigger','=',True)]"/>
+        <filter name="system_templates" string="System Templates" domain="[('is_system_template','=',True)]"/>
+        <separator/>
+        <filter name="channel_email" string="Email" domain="[('channel','=','email')]"/>
+        <filter name="channel_whatsapp" string="WhatsApp" domain="[('channel','=','whatsapp')]"/>
+        <filter name="channel_inapp" string="In-App" domain="[('channel','=','inapp')]"/>
+        <separator/>
+        <filter name="group_by_event" string="Trigger Event" context="{'group_by':'trigger_event'}"/>
+        <filter name="group_by_channel" string="Channel" context="{'group_by':'channel'}"/>
+        <filter name="group_by_company" string="Institution" context="{'group_by':'company_id'}"/>
+      </search>
+    </field>
+  </record>
+  <!-- ==================== ACTION ==================== -->
+  <record id="action_unicore_notification_template" model="ir.actions.act_window">
+    <field name="name">Notification Templates</field>
+    <field name="res_model">unicore.notification.template</field>
+    <field name="view_mode">list,form</field>
+    <field name="context">{'search_default_active_triggers': 1}</field>
+  </record>
 </odoo>

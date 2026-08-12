@@ -1,2 +1,1 @@
-from . import ir_actions_server
-from . import ir_http
+from . import ir_actions_server, ir_http

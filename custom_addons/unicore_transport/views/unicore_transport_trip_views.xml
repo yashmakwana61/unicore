@@ -1,78 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-
-  <record id="view_unicore_transport_trip_form"
-          model="ir.ui.view">
+  <record id="view_unicore_transport_trip_form" model="ir.ui.view">
     <field name="name">unicore.transport.trip.form</field>
     <field name="model">unicore.transport.trip</field>
     <field name="arch" type="xml">
       <form>
         <header>
-          <button name="action_start"
-            string="Start Trip"
-            type="object"
-            invisible="trip_state != 'scheduled'"
-            class="btn-primary"
-            groups="unicore_base.group_unicore_staff"/>
-          <button name="action_complete"
-            string="Complete Trip"
-            type="object"
-            invisible="trip_state != 'in_progress'"
-            class="btn-success"
-            groups="unicore_base.group_unicore_staff"/>
-          <button name="action_cancel"
-            string="Cancel Trip"
-            type="object"
-            invisible="trip_state in
-              ('completed','cancelled')"
-            groups="unicore_base.group_unicore_admin"/>
-          <field name="trip_state"
-            widget="statusbar"
-            statusbar_visible="scheduled,
-              in_progress,completed"/>
+          <button name="action_start" string="Start Trip" type="object" invisible="trip_state != 'scheduled'" class="btn-primary" groups="unicore_base.group_unicore_staff"/>
+          <button name="action_complete" string="Complete Trip" type="object" invisible="trip_state != 'in_progress'" class="btn-success" groups="unicore_base.group_unicore_staff"/>
+          <button name="action_cancel" string="Cancel Trip" type="object" invisible="trip_state in               ('completed','cancelled')" groups="unicore_base.group_unicore_admin"/>
+          <field name="trip_state" widget="statusbar" statusbar_visible="scheduled,               in_progress,completed"/>
         </header>
         <sheet>
-          <widget name="web_ribbon"
-            title="INCIDENT"
-            invisible="not had_incident"
-            bg_color="text-bg-danger"/>
-          <widget name="web_ribbon"
-            title="COMPLETED"
-            invisible="trip_state != 'completed'"
-            bg_color="text-bg-success"/>
+          <widget name="web_ribbon" title="INCIDENT" invisible="not had_incident" bg_color="text-bg-danger"/>
+          <widget name="web_ribbon" title="COMPLETED" invisible="trip_state != 'completed'" bg_color="text-bg-success"/>
           <group>
             <group string="Trip Details">
-              <field name="trip_number"
-                     readonly="1"/>
+              <field name="trip_number" readonly="1"/>
               <field name="route_id"/>
-              <field name="vehicle_id"
-                     readonly="1"/>
+              <field name="vehicle_id" readonly="1"/>
               <field name="trip_date"/>
               <field name="trip_type"/>
             </group>
             <group string="Timing and Passengers">
-              <field name="scheduled_departure"
-                     readonly="1"
-                     widget="float_time"/>
-              <field name="actual_departure"
-                     widget="float_time"/>
-              <field name="actual_arrival"
-                     widget="float_time"/>
-              <field name="delay_minutes"
-                     readonly="1"/>
-              <field name="expected_passengers"
-                     readonly="1"/>
+              <field name="scheduled_departure" readonly="1" widget="float_time"/>
+              <field name="actual_departure" widget="float_time"/>
+              <field name="actual_arrival" widget="float_time"/>
+              <field name="delay_minutes" readonly="1"/>
+              <field name="expected_passengers" readonly="1"/>
               <field name="actual_passengers"/>
             </group>
           </group>
-          <group string="Incident Details"
-            invisible="not had_incident">
+          <group string="Incident Details" invisible="not had_incident">
             <field name="had_incident"/>
-            <field name="incident_type"
-              invisible="not had_incident"/>
-            <field name="incident_description"
-              invisible="not had_incident"
-              nolabel="1"/>
+            <field name="incident_type" invisible="not had_incident"/>
+            <field name="incident_description" invisible="not had_incident" nolabel="1"/>
           </group>
           <group string="Incident">
             <field name="had_incident"/>
@@ -85,28 +47,17 @@
       </form>
     </field>
   </record>
-
-  <record id="view_unicore_transport_trip_list"
-          model="ir.ui.view">
+  <record id="view_unicore_transport_trip_list" model="ir.ui.view">
     <field name="name">unicore.transport.trip.list</field>
     <field name="model">unicore.transport.trip</field>
     <field name="arch" type="xml">
-      <list decoration-danger=
-              "had_incident"
-            decoration-success=
-              "trip_state == 'completed'
-               and not had_incident"
-            decoration-warning=
-              "delay_minutes > 15"
-            decoration-muted=
-              "trip_state == 'cancelled'">
+      <list decoration-danger="had_incident" decoration-success="trip_state == 'completed'                and not had_incident" decoration-warning="delay_minutes &gt; 15" decoration-muted="trip_state == 'cancelled'">
         <field name="trip_number"/>
         <field name="trip_date"/>
         <field name="route_id"/>
         <field name="vehicle_id"/>
         <field name="trip_type"/>
-        <field name="actual_departure"
-               widget="float_time"/>
+        <field name="actual_departure" widget="float_time"/>
         <field name="delay_minutes"/>
         <field name="actual_passengers"/>
         <field name="had_incident"/>
@@ -114,9 +65,7 @@
       </list>
     </field>
   </record>
-
-  <record id="view_unicore_transport_trip_search"
-          model="ir.ui.view">
+  <record id="view_unicore_transport_trip_search" model="ir.ui.view">
     <field name="name">unicore.transport.trip.search</field>
     <field name="model">unicore.transport.trip</field>
     <field name="arch" type="xml">
@@ -125,45 +74,27 @@
         <field name="route_id"/>
         <field name="vehicle_id"/>
         <field name="trip_date"/>
-        <filter name="today" string="Today"
-          domain="[('trip_date','=',context_today().strftime('%Y-%m-%d'))]"/>
-        <filter name="incidents"
-          string="With Incidents"
-          domain="[('had_incident','=',True)]"/>
-        <filter name="completed" string="Completed"
-          domain="[('trip_state','=','completed')]"/>
-        <filter name="scheduled" string="Scheduled"
-          domain="[('trip_state','=','scheduled')]"/>
+        <filter name="today" string="Today" domain="[('trip_date','=',context_today().strftime('%Y-%m-%d'))]"/>
+        <filter name="incidents" string="With Incidents" domain="[('had_incident','=',True)]"/>
+        <filter name="completed" string="Completed" domain="[('trip_state','=','completed')]"/>
+        <filter name="scheduled" string="Scheduled" domain="[('trip_state','=','scheduled')]"/>
         <group name="group_by">
-          <filter name="group_by_route"
-            string="Route"
-            context="{'group_by':'route_id'}"/>
-          <filter name="group_by_date"
-            string="Date"
-            context="{'group_by':'trip_date'}"/>
+          <filter name="group_by_route" string="Route" context="{'group_by':'route_id'}"/>
+          <filter name="group_by_date" string="Date" context="{'group_by':'trip_date'}"/>
         </group>
       </search>
     </field>
   </record>
-
-  <record id="action_unicore_transport_trip"
-          model="ir.actions.act_window">
+  <record id="action_unicore_transport_trip" model="ir.actions.act_window">
     <field name="name">Trip Logs</field>
     <field name="res_model">unicore.transport.trip</field>
     <field name="view_mode">list,form</field>
-    <field name="context">
-      {'search_default_today': 1}
-    </field>
+    <field name="context">{'search_default_today': 1}</field>
   </record>
-
-  <record id="action_unicore_transport_trip_incidents"
-          model="ir.actions.act_window">
+  <record id="action_unicore_transport_trip_incidents" model="ir.actions.act_window">
     <field name="name">Incident Reports</field>
     <field name="res_model">unicore.transport.trip</field>
     <field name="view_mode">list,form</field>
-    <field name="domain">
-      [('had_incident','=',True)]
-    </field>
+    <field name="domain">[('had_incident','=',True)]</field>
   </record>
-
 </odoo>

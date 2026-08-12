@@ -1,6 +1,7 @@
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError
 import logging
+
+from odoo import _, fields, models
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -132,7 +133,7 @@ class UniCoreDocumentTemplate(models.Model):
             'description': _('Generated from template: %s') % self.name,
         })
         self.message_post(
-            body=_('Document generated for %s: %s') % (student.display_name, doc_name)
+            body=_('Document generated for %s: %s') % (student.display_name, doc_name),
         )
         return {
             'type': 'ir.actions.act_window',

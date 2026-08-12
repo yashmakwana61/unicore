@@ -1,5 +1,7 @@
 """UniCore Grading — Models Package"""
-from . import unicore_grade_scale
-from . import unicore_grade_entry
-from . import unicore_semester_result
-from . import unicore_enrollment_ext
+from . import (
+    unicore_enrollment_ext,
+    unicore_grade_entry,
+    unicore_grade_scale,
+    unicore_semester_result,
+)

@@ -1,8 +1,9 @@
 """
 UniCore Student Extension for Portal
 """
-from odoo import models, fields, api, _
+from odoo import _, fields, models
 from odoo.exceptions import UserError
+
 
 class UnicoreStudent(models.Model):
     _inherit = 'unicore.student'
@@ -10,7 +11,7 @@ class UnicoreStudent(models.Model):
     has_portal_user = fields.Boolean(
         compute='_compute_has_portal_user',
         string="Has Portal User",
-        help="Technical field to determine if a portal user exists for this student."
+        help="Technical field to determine if a portal user exists for this student.",
     )
 
     def _compute_has_portal_user(self):
@@ -31,7 +32,7 @@ class UnicoreStudent(models.Model):
             if not self.email:
                 raise UserError(
                     _("Please set an email address on this "
-                      "student record before granting portal access.")
+                      "student record before granting portal access."),
                 )
             partner_vals = {
                 'name': self.display_name or self.name,

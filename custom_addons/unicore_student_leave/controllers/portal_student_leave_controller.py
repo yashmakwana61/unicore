@@ -6,15 +6,15 @@ the self-service portal.
 """
 import logging
 
-from odoo import http, _
-from odoo.http import request
-from odoo.addons.portal.controllers.portal import (
-    CustomerPortal, pager as portal_pager
-)
-from odoo.exceptions import AccessError, ValidationError
 from werkzeug.exceptions import NotFound
 
-_logger = logging(__name__)
+from odoo import _, http
+from odoo.exceptions import AccessError, ValidationError
+from odoo.http import request
+
+from odoo.addons.portal.controllers.portal import CustomerPortal
+
+_logger = logging.getLogger(__name__)
 
 
 class UniCoreStudentLeavePortal(CustomerPortal):
@@ -26,7 +26,7 @@ class UniCoreStudentLeavePortal(CustomerPortal):
 
     def _prepare_home_portal_values(self, counters):
         values = super()._prepare_home_portal_values(
-            counters
+            counters,
         )
         student = self._get_current_student()
         guardian = self._get_current_guardian()
@@ -41,10 +41,10 @@ class UniCoreStudentLeavePortal(CustomerPortal):
                 )
         if guardian:
             ward_relations = self._get_ward_relations(
-                guardian
+                guardian,
             )
             ward_ids = ward_relations.mapped(
-                'student_id'
+                'student_id',
             ).ids
             if 'unicore_leave_requests' in counters:
                 values['unicore_leave_requests'] = (
@@ -89,7 +89,7 @@ class UniCoreStudentLeavePortal(CustomerPortal):
         if not student:
             raise NotFound(
                 _('No student record found for '
-                  'your account.')
+                  'your account.'),
             )
         return student
 
@@ -100,7 +100,7 @@ class UniCoreStudentLeavePortal(CustomerPortal):
         if not guardian:
             raise NotFound(
                 _('No guardian record found for '
-                  'your account.')
+                  'your account.'),
             )
         return guardian
 
@@ -128,10 +128,10 @@ class UniCoreStudentLeavePortal(CustomerPortal):
             ], order='create_date desc')
         if guardian:
             ward_relations = self._get_ward_relations(
-                guardian
+                guardian,
             )
             ward_ids = ward_relations.mapped(
-                'student_id'
+                'student_id',
             ).ids
             return LeaveRequest.search([
                 ('student_id', 'in', ward_ids),
@@ -156,7 +156,7 @@ class UniCoreStudentLeavePortal(CustomerPortal):
         if not student and not guardian:
             raise NotFound(
                 _('No student or guardian record '
-                  'found.')
+                  'found.'),
             )
 
         leave_requests = self._get_viewable_leave_requests()
@@ -191,7 +191,7 @@ class UniCoreStudentLeavePortal(CustomerPortal):
         if not student and not guardian:
             raise NotFound(
                 _('No student or guardian record '
-                  'found.')
+                  'found.'),
             )
 
         # Determine available students
@@ -199,10 +199,10 @@ class UniCoreStudentLeavePortal(CustomerPortal):
             available_students = student
         elif guardian:
             ward_relations = self._get_ward_relations(
-                guardian
+                guardian,
             )
             available_students = ward_relations.mapped(
-                'student_id'
+                'student_id',
             )
         else:
             available_students = request.env[
@@ -242,7 +242,7 @@ class UniCoreStudentLeavePortal(CustomerPortal):
         if not student and not guardian:
             raise NotFound(
                 _('No student or guardian record '
-                  'found.')
+                  'found.'),
             )
 
         # Extract form data
@@ -251,14 +251,14 @@ class UniCoreStudentLeavePortal(CustomerPortal):
         date_to = kwargs.get('date_to')
         reason = kwargs.get('reason')
         doc_name = kwargs.get(
-            'supporting_document_name', ''
+            'supporting_document_name', '',
         )
 
         if not all([student_id, date_from, date_to,
                     reason]):
             return request.redirect(
                 '/my/unicore/student/leave/new'
-                '?error=Please+fill+all+required+fields'
+                '?error=Please+fill+all+required+fields',
             )
 
         # Find the student record
@@ -270,14 +270,14 @@ class UniCoreStudentLeavePortal(CustomerPortal):
         if not target_student.exists():
             return request.redirect(
                 '/my/unicore/student/leave/new'
-                '?error=Invalid+student+selected'
+                '?error=Invalid+student+selected',
             )
 
         # Check student is not already on leave
         if target_student.student_state == 'on_leave':
             return request.redirect(
                 '/my/unicore/student/leave/new'
-                '?error=Student+is+already+on+leave'
+                '?error=Student+is+already+on+leave',
             )
 
         # Create the leave request
@@ -308,7 +308,7 @@ class UniCoreStudentLeavePortal(CustomerPortal):
 
             # Handle file upload if present
             if request.httprequest.files.get(
-                'supporting_document'
+                'supporting_document',
             ):
                 uploaded = request.httprequest.files[
                     'supporting_document'
@@ -325,13 +325,13 @@ class UniCoreStudentLeavePortal(CustomerPortal):
 
             return request.redirect(
                 '/my/unicore/student/leave/%d'
-                % leave_request.id
+                % leave_request.id,
             )
 
         except (ValidationError, AccessError) as e:
             return request.redirect(
                 '/my/unicore/student/leave/new'
-                '?error=%s' % str(e)
+                '?error=%s' % str(e),
             )
         except Exception as e:
             _logger.error(
@@ -341,7 +341,7 @@ class UniCoreStudentLeavePortal(CustomerPortal):
             return request.redirect(
                 '/my/unicore/student/leave/new'
                 '?error=An+error+occurred+while+'
-                'submitting+your+request'
+                'submitting+your+request',
             )
 
     # ===================================================
@@ -365,7 +365,7 @@ class UniCoreStudentLeavePortal(CustomerPortal):
         )
         if not leave_request.exists():
             raise NotFound(
-                _('Leave request not found.')
+                _('Leave request not found.'),
             )
 
         values = {

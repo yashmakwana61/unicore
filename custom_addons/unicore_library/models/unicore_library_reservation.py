@@ -4,10 +4,11 @@ Queue-based reservation system for books that are
 currently issued to another member.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
-from datetime import date, timedelta
 import logging
+from datetime import date, timedelta
+
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -33,7 +34,7 @@ class UniCoreLibraryReservation(models.Model):
             )
             if book_name:
                 rec.display_name = '%s - %s' % (
-                    rec.reservation_number, book_name
+                    rec.reservation_number, book_name,
                 )
             else:
                 rec.display_name = rec.reservation_number or ''
@@ -140,7 +141,7 @@ class UniCoreLibraryReservation(models.Model):
                       'copies. Please issue directly '
                       'instead of reserving.')
                     % (book.title,
-                       book.available_copies)
+                       book.available_copies),
                 )
 
     @api.model_create_multi
@@ -149,13 +150,13 @@ class UniCoreLibraryReservation(models.Model):
             if not vals.get('reservation_number'):
                 vals['reservation_number'] = (
                     self.env['ir.sequence'].next_by_code(
-                        'unicore.library.reservation'
+                        'unicore.library.reservation',
                     ) or '/'
                 )
             # Auto-set expiry (30 days from today)
             if not vals.get('expiry_date'):
                 vals['expiry_date'] = str(
-                    date.today() + timedelta(days=30)
+                    date.today() + timedelta(days=30),
                 )
             # Auto-set queue number
             if 'book_id' in vals:
@@ -173,7 +174,7 @@ class UniCoreLibraryReservation(models.Model):
         self.ensure_one()
         self.reservation_state = 'cancelled'
         self.message_post(
-            body=_('Reservation cancelled.')
+            body=_('Reservation cancelled.'),
         )
 
     def action_fulfill(self):
@@ -183,5 +184,5 @@ class UniCoreLibraryReservation(models.Model):
         self.reservation_state = 'fulfilled'
         self.message_post(
             body=_('Reservation fulfilled. '
-                   'Book issued to member.')
+                   'Book issued to member.'),
         )

@@ -1,5 +1,4 @@
 import logging
-
 from datetime import date
 
 from odoo import _, api, fields, models
@@ -88,7 +87,7 @@ class UnicoreAcademicWeek(models.Model):
             record.is_current = bool(
                 record.date_start
                 and record.date_end
-                and record.date_start <= today <= record.date_end
+                and record.date_start <= today <= record.date_end,
             )
 
     @api.constrains('date_start', 'date_end')
@@ -97,7 +96,7 @@ class UnicoreAcademicWeek(models.Model):
             if record.date_start and record.date_end:
                 if record.date_end < record.date_start:
                     raise ValidationError(
-                        _('Week end date must be on or after start date.')
+                        _('Week end date must be on or after start date.'),
                     )
 
     @api.constrains('date_start', 'date_end', 'semester_id')
@@ -107,11 +106,11 @@ class UnicoreAcademicWeek(models.Model):
                 sem = record.semester_id
                 if record.date_start < sem.date_start:
                     raise ValidationError(
-                        _('Week start date cannot be before the semester start date.')
+                        _('Week start date cannot be before the semester start date.'),
                     )
                 if record.date_end > sem.date_end:
                     raise ValidationError(
-                        _('Week end date cannot be after the semester end date.')
+                        _('Week end date cannot be after the semester end date.'),
                     )
 
     @api.constrains('date_start', 'date_end', 'semester_id')
@@ -126,5 +125,5 @@ class UnicoreAcademicWeek(models.Model):
                 ])
                 if overlapping:
                     raise ValidationError(
-                        _('Week date ranges must not overlap within the same semester.')
+                        _('Week date ranges must not overlap within the same semester.'),
                     )

@@ -8,9 +8,10 @@ created or edited manually by registrar for
 special accommodation requests.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -41,7 +42,7 @@ class UniCoreExamSeating(models.Model):
                 rec.student_id.display_name if rec.student_id else ''
             )
             rec.display_name = '%s - %s - Seat %s' % (
-                schedule_name, student_name, rec.seat_label or ''
+                schedule_name, student_name, rec.seat_label or '',
             )
     _order = 'exam_schedule_id, room_id, seat_number'
     _check_company_auto = True
@@ -150,7 +151,7 @@ class UniCoreExamSeating(models.Model):
             if rec.seat_number > room_capacity:
                 raise ValidationError(
                     _('Seat number %d exceeds room "%s" exam capacity of %d.')
-                    % (rec.seat_number, rec.room_id.display_name, room_capacity)
+                    % (rec.seat_number, rec.room_id.display_name, room_capacity),
                 )
 
     def write(self, vals):

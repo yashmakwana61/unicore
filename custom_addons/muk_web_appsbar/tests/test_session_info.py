@@ -37,7 +37,7 @@ class TestSessionInfo(HttpCase):
         """Return the allowed companies of a fresh session, keyed by company id."""
         self.authenticate('appsbar_session', 'appsbar_session')
         info = self.make_jsonrpc_request(
-            '/web/session/get_session_info', {}, timeout=120
+            '/web/session/get_session_info', {}, timeout=120,
         )
         allowed = info['user_companies']['allowed_companies']
         return {int(key): value for key, value in allowed.items()}

@@ -1,122 +1,102 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-
-    <!-- Window Action -->
-    <record id="action_unicore_department" model="ir.actions.act_window">
-        <field name="name">Departments</field>
-        <field name="res_model">unicore.department</field>
-        <field name="view_mode">list,form</field>
-        <field name="domain">[]</field>
-        <field name="context">{}</field>
-    </record>
-
-    <!-- Form View -->
-    <record id="unicore_department_form_view" model="ir.ui.view">
-        <field name="name">unicore.department.form</field>
-        <field name="model">unicore.department</field>
-        <field name="arch" type="xml">
-            <form>
-                <header>
-                    <field name="dept_state" widget="statusbar"
-                           statusbar_visible="draft,active,suspended,closed"/>
-                    <button name="action_set_operational" type="object"
-                            string="Set Operational" class="btn-primary"
-                            invisible="dept_state != 'draft'"/>
-                    <button name="action_suspend" type="object"
-                            string="Suspend"
-                            invisible="dept_state != 'active'"/>
-                    <button name="action_close" type="object"
-                            string="Close"
-                            invisible="dept_state not in ('active', 'suspended')"/>
-                    <button name="action_reset_draft" type="object"
-                            string="Reset to Draft"
-                            groups="unicore_base.group_unicore_admin"
-                            invisible="dept_state not in ('suspended', 'closed')"/>
-                </header>
-                <sheet>
-                    <div class="oe_button_box" name="button_box">
-                        <button name="action_open_programs" type="object"
-                                class="oe_stat_button" icon="fa-graduation-cap">
-                            <field string="Programs" name="program_count" widget="statinfo"/>
-                        </button>
-                    </div>
-                    <group>
-                        <group name="left">
-                            <field name="name"/>
-                            <field name="code"/>
-                            <field name="faculty_id" options="{'no_create': True}"/>
-                            <field name="company_id"/>
-                            <field name="hod_id" options="{'no_create': True}"/>
-                            <field name="sequence"/>
-                        </group>
-                        <group name="right">
-                            <field name="dept_state"/>
-                            <field name="established_year"/>
-                            <field name="email"/>
-                            <field name="phone"/>
-                            <field name="campus_ids" widget="many2many_tags"/>
-                        </group>
-                    </group>
-                    <notebook>
-                        <page name="programs" string="Programs">
-                            <field name="program_ids">
-                                <list editable="bottom">
-                                    <field name="code"/>
-                                    <field name="name"/>
-                                    <field name="program_type"/>
-                                    <field name="duration_years"/>
-                                    <field name="total_credits"/>
-                                    <field name="program_state"/>
-                                </list>
-                            </field>
-                        </page>
-                        <page name="about" string="About">
-                            <field name="description" widget="html"/>
-                        </page>
-                    </notebook>
-                </sheet>
-                <chatter/>
-            </form>
-        </field>
-    </record>
-
-    <!-- List View -->
-    <record id="unicore_department_list_view" model="ir.ui.view">
-        <field name="name">unicore.department.list</field>
-        <field name="model">unicore.department</field>
-        <field name="arch" type="xml">
-            <list>
-                <field name="code"/>
-                <field name="name"/>
-                <field name="faculty_id"/>
-                <field name="hod_id"/>
-                <field name="program_count"/>
-                <field name="dept_state"/>
-            </list>
-        </field>
-    </record>
-
-    <!-- Search View -->
-    <record id="unicore_department_search_view" model="ir.ui.view">
-        <field name="name">unicore.department.search</field>
-        <field name="model">unicore.department</field>
-        <field name="arch" type="xml">
-            <search>
-                <field name="name"/>
-                <field name="code"/>
-                <field name="faculty_id"/>
-                <filter name="filter_operational" string="Operational"
-                        domain="[('dept_state', '=', 'active')]"/>
-                <filter name="filter_draft" string="Draft"
-                        domain="[('dept_state', '=', 'draft')]"/>
-                <group name="groupby">
-                    <filter name="groupby_faculty" string="Faculty"
-                            context="{'group_by': 'faculty_id'}"/>
-                    <filter name="groupby_status" string="Status"
-                            context="{'group_by': 'dept_state'}"/>
-                </group>
-            </search>
-        </field>
-    </record>
-
+  <!-- Window Action -->
+  <record id="action_unicore_department" model="ir.actions.act_window">
+    <field name="name">Departments</field>
+    <field name="res_model">unicore.department</field>
+    <field name="view_mode">list,form</field>
+    <field name="domain">[]</field>
+    <field name="context">{}</field>
+  </record>
+  <!-- Form View -->
+  <record id="unicore_department_form_view" model="ir.ui.view">
+    <field name="name">unicore.department.form</field>
+    <field name="model">unicore.department</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+          <field name="dept_state" widget="statusbar" statusbar_visible="draft,active,suspended,closed"/>
+          <button name="action_set_operational" type="object" string="Set Operational" class="btn-primary" invisible="dept_state != 'draft'"/>
+          <button name="action_suspend" type="object" string="Suspend" invisible="dept_state != 'active'"/>
+          <button name="action_close" type="object" string="Close" invisible="dept_state not in ('active', 'suspended')"/>
+          <button name="action_reset_draft" type="object" string="Reset to Draft" groups="unicore_base.group_unicore_admin" invisible="dept_state not in ('suspended', 'closed')"/>
+        </header>
+        <sheet>
+          <div class="oe_button_box" name="button_box">
+            <button name="action_open_programs" type="object" class="oe_stat_button" icon="fa-graduation-cap">
+              <field string="Programs" name="program_count" widget="statinfo"/>
+            </button>
+          </div>
+          <group>
+            <group name="left">
+              <field name="name"/>
+              <field name="code"/>
+              <field name="faculty_id" options="{'no_create': True}"/>
+              <field name="company_id"/>
+              <field name="hod_id" options="{'no_create': True}"/>
+              <field name="sequence"/>
+            </group>
+            <group name="right">
+              <field name="dept_state"/>
+              <field name="established_year"/>
+              <field name="email"/>
+              <field name="phone"/>
+              <field name="campus_ids" widget="many2many_tags"/>
+            </group>
+          </group>
+          <notebook>
+            <page name="programs" string="Programs">
+              <field name="program_ids">
+                <list editable="bottom">
+                  <field name="code"/>
+                  <field name="name"/>
+                  <field name="program_type"/>
+                  <field name="duration_years"/>
+                  <field name="total_credits"/>
+                  <field name="program_state"/>
+                </list>
+              </field>
+            </page>
+            <page name="about" string="About">
+              <field name="description" widget="html"/>
+            </page>
+          </notebook>
+        </sheet>
+        <chatter/>
+      </form>
+    </field>
+  </record>
+  <!-- List View -->
+  <record id="unicore_department_list_view" model="ir.ui.view">
+    <field name="name">unicore.department.list</field>
+    <field name="model">unicore.department</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="code"/>
+        <field name="name"/>
+        <field name="faculty_id"/>
+        <field name="hod_id"/>
+        <field name="program_count"/>
+        <field name="dept_state"/>
+      </list>
+    </field>
+  </record>
+  <!-- Search View -->
+  <record id="unicore_department_search_view" model="ir.ui.view">
+    <field name="name">unicore.department.search</field>
+    <field name="model">unicore.department</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="name"/>
+        <field name="code"/>
+        <field name="faculty_id"/>
+        <filter name="filter_operational" string="Operational" domain="[('dept_state', '=', 'active')]"/>
+        <filter name="filter_draft" string="Draft" domain="[('dept_state', '=', 'draft')]"/>
+        <group name="groupby">
+          <filter name="groupby_faculty" string="Faculty" context="{'group_by': 'faculty_id'}"/>
+          <filter name="groupby_status" string="Status" context="{'group_by': 'dept_state'}"/>
+        </group>
+      </search>
+    </field>
+  </record>
 </odoo>

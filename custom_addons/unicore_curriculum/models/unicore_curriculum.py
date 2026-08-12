@@ -8,10 +8,11 @@ The curriculum defines WHAT is taught and WHEN
 or in which real calendar semester.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
-from datetime import date
 import logging
+from datetime import date
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -27,14 +28,14 @@ class UniCoreCurriculum(models.Model):
         string='Curriculum Name',
         required=True,
         tracking=True,
-        help='e.g. BSCS Curriculum 2024, MBA Plan v2'
+        help='e.g. BSCS Curriculum 2024, MBA Plan v2',
     )
     program_id = fields.Many2one(
         comodel_name='unicore.program',
         string='Program',
         required=True,
         ondelete='restrict',
-        tracking=True
+        tracking=True,
     )
     specialisation_id = fields.Many2one(
         comodel_name='unicore.specialisation',
@@ -42,62 +43,62 @@ class UniCoreCurriculum(models.Model):
         ondelete='restrict',
         tracking=True,
         domain="[('program_id', '=', program_id)]",
-        help='Optional: curriculum specific to a specialisation'
+        help='Optional: curriculum specific to a specialisation',
     )
     company_id = fields.Many2one(
         comodel_name='res.company',
         string='Institution',
         related='program_id.company_id',
         store=True,
-        readonly=True
+        readonly=True,
     )
     department_id = fields.Many2one(
         comodel_name='unicore.department',
         string='Department',
         related='program_id.department_id',
         store=True,
-        readonly=True
+        readonly=True,
     )
     version = fields.Char(
         string='Curriculum Version',
         required=True,
         default='1.0',
-        help='e.g. 1.0, 2024, v2'
+        help='e.g. 1.0, 2024, v2',
     )
     effective_from_year = fields.Integer(
         string='Effective From Year',
-        help='Batch year from which this curriculum applies'
+        help='Batch year from which this curriculum applies',
     )
     effective_to_year = fields.Integer(
         string='Effective To Year',
-        help='Last batch year for which this curriculum applies'
+        help='Last batch year for which this curriculum applies',
     )
     is_current = fields.Boolean(
         string='Current Curriculum',
         default=True,
         tracking=True,
-        help='Mark as the currently active curriculum version'
+        help='Mark as the currently active curriculum version',
     )
     curriculum_line_ids = fields.One2many(
         comodel_name='unicore.curriculum.line',
         inverse_name='curriculum_id',
-        string='Curriculum Lines'
+        string='Curriculum Lines',
     )
     total_courses = fields.Integer(
         string='Total Courses',
         compute='_compute_curriculum_stats',
-        store=True
+        store=True,
     )
     total_credits = fields.Float(
         string='Total Credits',
         compute='_compute_curriculum_stats',
         store=True,
-        digits=(6, 1)
+        digits=(6, 1),
     )
     total_semesters = fields.Integer(
         string='Total Semesters',
         compute='_compute_curriculum_stats',
-        store=True
+        store=True,
     )
 
     @api.depends('curriculum_line_ids', 'curriculum_line_ids.credit_hours', 'curriculum_line_ids.semester_number')
@@ -122,19 +123,19 @@ class UniCoreCurriculum(models.Model):
         string='Status',
         required=True,
         default='draft',
-        tracking=True
+        tracking=True,
     )
     approved_by_id = fields.Many2one(
         comodel_name='res.users',
         string='Approved By',
-        readonly=True
+        readonly=True,
     )
     approved_on = fields.Date(
         string='Approved On',
-        readonly=True
+        readonly=True,
     )
     description = fields.Html(
-        string='Curriculum Notes'
+        string='Curriculum Notes',
     )
 
     # ------- SQL CONSTRAINTS -------
@@ -157,7 +158,7 @@ class UniCoreCurriculum(models.Model):
                 if (rec.effective_to_year
                         < rec.effective_from_year):
                     raise ValidationError(
-                        _('Effective To Year must be after Effective From Year.')
+                        _('Effective To Year must be after Effective From Year.'),
                     )
 
     @api.constrains('program_id', 'is_current')
@@ -175,7 +176,7 @@ class UniCoreCurriculum(models.Model):
                         _('Program "%s" already has a current '
                           'curriculum. Please retire the '
                           'existing one before creating a new.')
-                        % rec.program_id.name
+                        % rec.program_id.name,
                     )
 
     # ------- STATE METHODS -------
@@ -185,11 +186,11 @@ class UniCoreCurriculum(models.Model):
         if not self.curriculum_line_ids:
             raise UserError(
                 _('Cannot submit an empty curriculum '
-                  'for review. Please add courses first.')
+                  'for review. Please add courses first.'),
             )
         self.curriculum_state = 'review'
         self.message_post(
-            body=_('Curriculum submitted for review by %s.') % self.env.user.name
+            body=_('Curriculum submitted for review by %s.') % self.env.user.name,
         )
 
     def action_approve(self):
@@ -200,18 +201,18 @@ class UniCoreCurriculum(models.Model):
             'approved_on': date.today(),
         })
         self.message_post(
-            body=_('Curriculum approved by %s.') % self.env.user.name
+            body=_('Curriculum approved by %s.') % self.env.user.name,
         )
 
     def action_activate(self):
         self.ensure_one()
         if self.curriculum_state != 'approved':
             raise UserError(
-                _('Only approved curricula can be activated.')
+                _('Only approved curricula can be activated.'),
             )
         self.curriculum_state = 'active'
         self.message_post(
-            body=_('Curriculum activated.')
+            body=_('Curriculum activated.'),
         )
 
     def action_retire(self):
@@ -221,7 +222,7 @@ class UniCoreCurriculum(models.Model):
             'is_current': False,
         })
         self.message_post(
-            body=_('Curriculum retired by %s.') % self.env.user.name
+            body=_('Curriculum retired by %s.') % self.env.user.name,
         )
 
     def action_reset_draft(self):
@@ -232,5 +233,5 @@ class UniCoreCurriculum(models.Model):
             'approved_on': False,
         })
         self.message_post(
-            body=_('Curriculum reset to Draft.')
+            body=_('Curriculum reset to Draft.'),
         )

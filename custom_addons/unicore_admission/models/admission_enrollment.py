@@ -99,7 +99,7 @@ class AdmissionEnrollment(models.Model):
             if vals.get('name', _('New')) == _('New'):
                 company_id = vals.get('company_id') or self.env.company.id
                 seq = self._next_sequence(
-                    'unicore.admission.enrollment', company_id=company_id
+                    'unicore.admission.enrollment', company_id=company_id,
                 ) or '/'
                 vals['name'] = seq
         return super().create(vals_list)

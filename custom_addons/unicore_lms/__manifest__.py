@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 {
     'name': "Unicore LMS",
 
@@ -15,14 +14,14 @@ Supports both public B2C courses (free/paid) and internal university academic co
     'version': '1.0',
 
     'depends': [
-        'base', 
-        'website_slides', 
-        'website_sale_slides', 
-        'unicore_academic', 
+        'base',
+        'website_slides',
+        'website_sale_slides',
+        'unicore_academic',
         'unicore_student',
         'unicore_assignment',
         'unicore_quiz',
-        'unicore_gradebook'
+        'unicore_gradebook',
     ],
 
     'data': [
@@ -35,5 +34,7 @@ Supports both public B2C courses (free/paid) and internal university academic co
     ],
     'installable': True,
     'application': True,
-    'license': 'LGPL-3',
+    'license': 'OPL-1',
+
+    'auto_install': False,
 }

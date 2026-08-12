@@ -1,5 +1,5 @@
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class UniCoreProgressionRecord(models.Model):
@@ -39,7 +39,7 @@ class UniCoreProgressionRecord(models.Model):
         help='Optional: specific semester if progression is run mid-year.',
         tracking=True,
     )
-    
+
     cgpa_snapshot = fields.Float(
         string='CGPA Snapshot',
         digits=(4, 2),

@@ -4,9 +4,10 @@ PostgreSQL VIEW-based models for grade distribution,
 course performance and semester result analytics.
 """
 
+import logging
+
 from odoo import fields, models, tools
 from odoo.orm.fields_misc import Id
-import logging
 
 _logger = logging.getLogger(__name__)
 
@@ -69,7 +70,7 @@ class UniCoreGradeDistributionReport(models.Model):
     def init(self):
         tools.drop_view_if_exists(
             self.env.cr,
-            'unicore_grade_distribution_report'
+            'unicore_grade_distribution_report',
         )
         self.env.cr.execute("""
             CREATE OR REPLACE VIEW
@@ -161,7 +162,7 @@ class UniCoreSemesterResultReport(models.Model):
     def init(self):
         tools.drop_view_if_exists(
             self.env.cr,
-            'unicore_semester_result_report'
+            'unicore_semester_result_report',
         )
         self.env.cr.execute("""
             CREATE OR REPLACE VIEW

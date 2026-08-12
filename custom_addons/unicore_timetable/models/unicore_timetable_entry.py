@@ -10,10 +10,10 @@ Implements three-dimensional conflict detection:
 room conflicts, instructor conflicts, and
 offering/section conflicts.
 """
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
-from datetime import date, datetime, time, timedelta
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -208,7 +208,7 @@ class UniCoreTimetableEntry(models.Model):
             )
             room_code = rec.room_id.code if rec.room_id else ''
             rec.display_name = '%s - %s - %s - %s' % (
-                course_code, day_label, slot_name, room_code
+                course_code, day_label, slot_name, room_code,
             )
 
     _sql_constraints = [
@@ -257,7 +257,7 @@ class UniCoreTimetableEntry(models.Model):
                           '"%s" at this day and time slot (%s).')
                         % (rec.room_id.display_name,
                            other.display_name,
-                           rec.time_slot_id.name)
+                           rec.time_slot_id.name),
                     )
 
             # CHECK 2: INSTRUCTOR CONFLICT
@@ -276,7 +276,7 @@ class UniCoreTimetableEntry(models.Model):
                           'to teach "%s" at this day and time slot (%s).')
                         % (rec.instructor_id.display_name,
                            other.display_name,
-                           rec.time_slot_id.name)
+                           rec.time_slot_id.name),
                     )
 
             # CHECK 3: SECTION/OFFERING CONFLICT
@@ -294,7 +294,7 @@ class UniCoreTimetableEntry(models.Model):
                         _('Section Conflict: Course offering "%s" already '
                           'has another class scheduled at this day and '
                           'time slot.')
-                        % rec.course_offering_id.display_name
+                        % rec.course_offering_id.display_name,
                     )
 
     @api.constrains('day_of_week', 'time_slot_id', 'room_id',
@@ -324,7 +324,7 @@ class UniCoreTimetableEntry(models.Model):
                           'with this recurring timetable entry.')
                         % (rec.room_id.display_name,
                            booking.name,
-                           booking.booking_date)
+                           booking.booking_date),
                     )
 
     def action_confirm(self):
@@ -332,11 +332,11 @@ class UniCoreTimetableEntry(models.Model):
         if not all([self.room_id, self.instructor_id, self.time_slot_id]):
             raise UserError(
                 _('Room, Instructor and Time Slot must all be set '
-                  'before confirming.')
+                  'before confirming.'),
             )
         self.entry_state = 'confirmed'
         self.message_post(
-            body=_('Timetable entry confirmed.')
+            body=_('Timetable entry confirmed.'),
         )
 
     def action_cancel(self):
@@ -344,12 +344,12 @@ class UniCoreTimetableEntry(models.Model):
         self.entry_state = 'cancelled'
         self.message_post(
             body=_('Timetable entry cancelled by %s.')
-            % self.env.user.name
+            % self.env.user.name,
         )
 
     def action_reset_draft(self):
         self.ensure_one()
         self.entry_state = 'draft'
         self.message_post(
-            body=_('Timetable entry reset to Draft.')
+            body=_('Timetable entry reset to Draft.'),
         )

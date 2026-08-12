@@ -144,7 +144,7 @@ class UniCoreGradingSchemeDispatchTest(TransactionCase):
 
     def test_02_simple_percentage_dispatch(self):
         scheme = self.env.ref(
-            'unicore_institution_profile.grading_scheme_simple_percentage'
+            'unicore_institution_profile.grading_scheme_simple_percentage',
         )
         profile = self.env['unicore.institution.profile'].create({
             'name': 'Test School',
@@ -156,13 +156,13 @@ class UniCoreGradingSchemeDispatchTest(TransactionCase):
         self.company.institution_profile_id = profile.id
         grade = self._publish(self.enrollment, 38.0, 52.0)
         self.assertAlmostEqual(
-            self.student.average_percentage, grade.percentage, places=2
+            self.student.average_percentage, grade.percentage, places=2,
         )
         self.assertEqual(self.student.cgpa, 0.0)
 
     def test_03_pass_fail_dispatch(self):
         scheme = self.env.ref(
-            'unicore_institution_profile.grading_scheme_pass_fail'
+            'unicore_institution_profile.grading_scheme_pass_fail',
         )
         profile = self.env['unicore.institution.profile'].create({
             'name': 'Test Training',

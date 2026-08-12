@@ -7,8 +7,9 @@ offering form so faculty can jump straight into the grade book of
 an offering. Additive view/model extension only.
 """
 
-from odoo import api, fields, models, _
 import logging
+
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -30,7 +31,7 @@ class UniCoreCourseOfferingGradeBookExt(models.Model):
     def _compute_gradebook_config_count(self):
         for rec in self:
             rec.gradebook_config_count = len(
-                rec.gradebook_config_ids
+                rec.gradebook_config_ids,
             )
 
     def action_open_gradebook(self):

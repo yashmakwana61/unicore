@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """Verify the UniCore Start Menu (two-list layout + pin persistence).
 
 Checks, on a real headless Chromium:
@@ -115,7 +114,7 @@ def main():
                 const s = getComputedStyle(document.documentElement);
                 return { bg: s.getPropertyValue('--unicore-startmenu-bg').trim(),
                          blur: s.getPropertyValue('--unicore-startmenu-blur').trim() };
-            }"""
+            }""",
         )
         check("start menu css vars", bool(vars_ok["bg"]) and bool(vars_ok["blur"]),
               json.dumps(vars_ok))

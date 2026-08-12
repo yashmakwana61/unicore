@@ -3,8 +3,9 @@ UniCore Student Extension — Fees Module
 Adds fee summary fields to unicore.student record.
 """
 
-from odoo import api, fields, models, _
 import logging
+
+from odoo import _, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -44,7 +45,7 @@ class UniCoreStudentFeeExt(models.Model):
     def _compute_fee_summary(self):
         for rec in self:
             invoices = rec.fee_invoice_ids.filtered(
-                lambda i: i.invoice_state not in ('cancelled', 'paid')
+                lambda i: i.invoice_state not in ('cancelled', 'paid'),
             )
             rec.fee_invoice_count = len(rec.fee_invoice_ids)
             rec.total_fees_due = sum(i.amount_outstanding for i in invoices)

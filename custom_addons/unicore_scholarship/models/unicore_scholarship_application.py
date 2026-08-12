@@ -5,10 +5,11 @@ Auto-checks eligibility on submission.
 Goes through review workflow before approval.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
-from datetime import date
 import logging
+from datetime import date
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -37,7 +38,7 @@ class UniCoreScholarshipApplication(models.Model):
             )
             if student_name:
                 rec.display_name = '%s - %s' % (
-                    rec.application_number, student_name
+                    rec.application_number, student_name,
                 )
             else:
                 rec.display_name = rec.application_number or ''
@@ -221,7 +222,7 @@ class UniCoreScholarshipApplication(models.Model):
             if not vals.get('application_number'):
                 vals['application_number'] = (
                     self.env['ir.sequence'].next_by_code(
-                        'unicore.scholarship.application'
+                        'unicore.scholarship.application',
                     ) or '/'
                 )
         return super().create(vals_list)
@@ -244,13 +245,13 @@ class UniCoreScholarshipApplication(models.Model):
                 notes.append(
                     _('CGPA %s is below required %s.')
                     % (round(student.cgpa, 2),
-                       program.min_cgpa)
+                       program.min_cgpa),
                 )
             else:
                 notes.append(
                     _('✓ CGPA %s meets minimum %s.')
                     % (round(student.cgpa, 2),
-                       program.min_cgpa)
+                       program.min_cgpa),
                 )
 
         # Program eligibility check
@@ -261,12 +262,12 @@ class UniCoreScholarshipApplication(models.Model):
                 notes.append(
                     _('Program "%s" is not eligible '
                       'for this scholarship.')
-                    % student.program_id.name
+                    % student.program_id.name,
                 )
             else:
                 notes.append(
                     _('✓ Program "%s" is eligible.')
-                    % student.program_id.name
+                    % student.program_id.name,
                 )
 
         # Year of study check
@@ -278,14 +279,14 @@ class UniCoreScholarshipApplication(models.Model):
             notes.append(
                 _('Year of study %d is below '
                   'required minimum %d.')
-                % (yr, min_yr)
+                % (yr, min_yr),
             )
         if max_yr > 0 and yr > max_yr:
             is_eligible = False
             notes.append(
                 _('Year of study %d exceeds '
                   'maximum %d.')
-                % (yr, max_yr)
+                % (yr, max_yr),
             )
 
         # Income check
@@ -297,11 +298,11 @@ class UniCoreScholarshipApplication(models.Model):
                     _('Family income %s exceeds '
                       'maximum allowed %s.')
                     % (self.annual_family_income,
-                       program.max_annual_income)
+                       program.max_annual_income),
                 )
             else:
                 notes.append(
-                    _('✓ Family income is within limit.')
+                    _('✓ Family income is within limit.'),
                 )
 
         # Attendance check
@@ -313,12 +314,12 @@ class UniCoreScholarshipApplication(models.Model):
                     _('Attendance %s%% is below '
                       'required %s%%.')
                     % (round(avg_att, 1),
-                       program.min_attendance_percentage)
+                       program.min_attendance_percentage),
                 )
             else:
                 notes.append(
                     _('✓ Attendance %s%% meets minimum.')
-                    % round(avg_att, 1)
+                    % round(avg_att, 1),
                 )
 
         # Deadline check
@@ -328,7 +329,7 @@ class UniCoreScholarshipApplication(models.Model):
             is_eligible = False
             notes.append(
                 _('Application deadline %s has passed.')
-                % program.application_deadline
+                % program.application_deadline,
             )
 
         return is_eligible, '\n'.join(notes)
@@ -341,7 +342,7 @@ class UniCoreScholarshipApplication(models.Model):
         if program.program_state != 'open':
             raise UserError(
                 _('This scholarship program is not '
-                  'open for applications.')
+                  'open for applications.'),
             )
 
         # Snapshot student data at submission
@@ -354,7 +355,7 @@ class UniCoreScholarshipApplication(models.Model):
         if att_records:
             total = len(att_records)
             present = len(att_records.filtered(
-                lambda r: r.status in ('present', 'late')
+                lambda r: r.status in ('present', 'late'),
             ))
             avg_att = (
                 present / total * 100 if total else 0.0
@@ -380,7 +381,7 @@ class UniCoreScholarshipApplication(models.Model):
             body=_('Application submitted. '
                    'Eligible: %s')
                  % (_('Yes') if is_eligible
-                    else _('No'))
+                    else _('No')),
         )
 
     def action_start_review(self):
@@ -392,7 +393,7 @@ class UniCoreScholarshipApplication(models.Model):
         })
         self.message_post(
             body=_('Application taken under review '
-                   'by %s.') % self.env.user.name
+                   'by %s.') % self.env.user.name,
         )
 
     def action_shortlist(self):
@@ -401,11 +402,11 @@ class UniCoreScholarshipApplication(models.Model):
             raise UserError(
                 _('Cannot shortlist an ineligible '
                   'application. Use Override if '
-                  'special circumstances apply.')
+                  'special circumstances apply.'),
             )
         self.application_state = 'shortlisted'
         self.message_post(
-            body=_('Application shortlisted.')
+            body=_('Application shortlisted.'),
         )
 
     def action_approve(self):
@@ -416,12 +417,12 @@ class UniCoreScholarshipApplication(models.Model):
                 _('Scholarship quota of %d has been '
                   'reached. Cannot approve more '
                   'applications.')
-                % program.total_quota
+                % program.total_quota,
             )
         self.application_state = 'approved'
         self.message_post(
             body=_('Scholarship application approved '
-                   'by %s.') % self.env.user.name
+                   'by %s.') % self.env.user.name,
         )
 
     def action_reject(self):
@@ -429,17 +430,17 @@ class UniCoreScholarshipApplication(models.Model):
         if not self.rejection_reason:
             raise UserError(
                 _('Please provide a rejection reason '
-                  'before rejecting.')
+                  'before rejecting.'),
             )
         self.application_state = 'rejected'
         self.message_post(
             body=_('Application rejected. Reason: %s')
-                 % self.rejection_reason
+                 % self.rejection_reason,
         )
 
     def action_withdraw(self):
         self.ensure_one()
         self.application_state = 'withdrawn'
         self.message_post(
-            body=_('Application withdrawn by student.')
+            body=_('Application withdrawn by student.'),
         )

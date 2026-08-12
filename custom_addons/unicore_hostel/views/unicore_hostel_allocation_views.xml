@@ -1,104 +1,53 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-
-  <record id="view_unicore_hostel_allocation_form"
-          model="ir.ui.view">
+  <record id="view_unicore_hostel_allocation_form" model="ir.ui.view">
     <field name="name">unicore.hostel.allocation.form</field>
     <field name="model">unicore.hostel.allocation</field>
     <field name="arch" type="xml">
       <form>
         <header>
-          <button name="action_checkin"
-            string="Check In"
-            type="object"
-            invisible="allocation_state !=
-              'allocated'"
-            class="btn-primary"/>
-          <button name="action_checkout"
-            string="Check Out"
-            type="object"
-            invisible="allocation_state !=
-              'checked_in'"
-            class="btn-warning"/>
-          <button name="action_cancel"
-            string="Cancel"
-            type="object"
-            invisible="allocation_state in
-              ('checked_in','checked_out',
-               'cancelled')"
-            groups="unicore_base.group_unicore_admin"/>
-          <field name="allocation_state"
-            widget="statusbar"
-            statusbar_visible="allocated,
-              checked_in,checked_out"/>
+          <button name="action_checkin" string="Check In" type="object" invisible="allocation_state !=               'allocated'" class="btn-primary"/>
+          <button name="action_checkout" string="Check Out" type="object" invisible="allocation_state !=               'checked_in'" class="btn-warning"/>
+          <button name="action_cancel" string="Cancel" type="object" invisible="allocation_state in               ('checked_in','checked_out',                'cancelled')" groups="unicore_base.group_unicore_admin"/>
+          <field name="allocation_state" widget="statusbar" statusbar_visible="allocated,               checked_in,checked_out"/>
         </header>
         <sheet>
-          <widget name="web_ribbon"
-            title="CHECKED IN"
-            invisible="allocation_state !=
-              'checked_in'"
-            bg_color="text-bg-success"/>
-          <widget name="web_ribbon"
-            title="CHECKED OUT"
-            invisible="allocation_state !=
-              'checked_out'"
-            bg_color="text-bg-secondary"/>
-          <widget name="web_ribbon"
-            title="CANCELLED"
-            invisible="allocation_state !=
-              'cancelled'"
-            bg_color="text-bg-danger"/>
+          <widget name="web_ribbon" title="CHECKED IN" invisible="allocation_state !=               'checked_in'" bg_color="text-bg-success"/>
+          <widget name="web_ribbon" title="CHECKED OUT" invisible="allocation_state !=               'checked_out'" bg_color="text-bg-secondary"/>
+          <widget name="web_ribbon" title="CANCELLED" invisible="allocation_state !=               'cancelled'" bg_color="text-bg-danger"/>
           <group>
             <group string="Allocation Details">
-              <field name="allocation_number"
-                     readonly="1"/>
+              <field name="allocation_number" readonly="1"/>
               <field name="student_id"/>
               <field name="room_id"/>
               <field name="block_id" readonly="1"/>
               <field name="academic_year_id"/>
-              <field name="allocation_date"
-                     readonly="1"/>
+              <field name="allocation_date" readonly="1"/>
             </group>
             <group string="Dates">
               <field name="expected_checkin"/>
-              <field name="actual_checkin"
-                     readonly="1"/>
+              <field name="actual_checkin" readonly="1"/>
               <field name="expected_checkout"/>
-              <field name="actual_checkout"
-                     readonly="1"/>
+              <field name="actual_checkout" readonly="1"/>
             </group>
           </group>
           <group>
             <group string="Fees">
-              <field name="monthly_rent"
-                     readonly="1"/>
-              <field name="security_deposit"
-                     readonly="1"/>
+              <field name="monthly_rent" readonly="1"/>
+              <field name="security_deposit" readonly="1"/>
               <field name="security_deposit_paid"/>
-              <field name="total_hostel_fee"
-                     readonly="1"/>
+              <field name="total_hostel_fee" readonly="1"/>
             </group>
             <group string="Condition">
               <field name="condition_on_checkin"/>
-              <field name="condition_on_checkout"
-                invisible="allocation_state !=
-                  'checked_out'"/>
-              <field name="damage_charges"
-                invisible="allocation_state !=
-                  'checked_out'"/>
-              <field name="security_deposit_refund"
-                invisible="allocation_state !=
-                  'checked_out'"
-                readonly="1"/>
+              <field name="condition_on_checkout" invisible="allocation_state !=                   'checked_out'"/>
+              <field name="damage_charges" invisible="allocation_state !=                   'checked_out'"/>
+              <field name="security_deposit_refund" invisible="allocation_state !=                   'checked_out'" readonly="1"/>
             </group>
           </group>
           <group string="Notes">
-            <field name="checkin_notes"
-              invisible="allocation_state ==
-                'allocated'"/>
-            <field name="checkout_notes"
-              invisible="allocation_state not in
-                ('checked_out',)"/>
+            <field name="checkin_notes" invisible="allocation_state ==                 'allocated'"/>
+            <field name="checkout_notes" invisible="allocation_state not in                 ('checked_out',)"/>
             <field name="special_requirements"/>
           </group>
         </sheet>
@@ -106,19 +55,11 @@
       </form>
     </field>
   </record>
-
-  <record id="view_unicore_hostel_allocation_list"
-          model="ir.ui.view">
+  <record id="view_unicore_hostel_allocation_list" model="ir.ui.view">
     <field name="name">unicore.hostel.allocation.list</field>
     <field name="model">unicore.hostel.allocation</field>
     <field name="arch" type="xml">
-      <list decoration-success=
-              "allocation_state == 'checked_in'"
-            decoration-info=
-              "allocation_state == 'allocated'"
-            decoration-muted=
-              "allocation_state in
-              ('checked_out','cancelled')">
+      <list decoration-success="allocation_state == 'checked_in'" decoration-info="allocation_state == 'allocated'" decoration-muted="allocation_state in               ('checked_out','cancelled')">
         <field name="allocation_number"/>
         <field name="student_id"/>
         <field name="room_id"/>
@@ -132,9 +73,7 @@
       </list>
     </field>
   </record>
-
-  <record id="view_unicore_hostel_allocation_search"
-          model="ir.ui.view">
+  <record id="view_unicore_hostel_allocation_search" model="ir.ui.view">
     <field name="name">unicore.hostel.allocation.search</field>
     <field name="model">unicore.hostel.allocation</field>
     <field name="arch" type="xml">
@@ -143,47 +82,26 @@
         <field name="student_id"/>
         <field name="room_id"/>
         <field name="block_id"/>
-        <filter name="checked_in"
-          string="Currently Checked In"
-          domain="[('allocation_state','=','checked_in')]"/>
-        <filter name="allocated"
-          string="Allocated (Pending Check-In)"
-          domain="[('allocation_state','=','allocated')]"/>
-        <filter name="no_deposit"
-          string="Deposit Pending"
-          domain="[('security_deposit_paid','=',False),('allocation_state','in',
-                   ['allocated','checked_in'])]"/>
+        <filter name="checked_in" string="Currently Checked In" domain="[('allocation_state','=','checked_in')]"/>
+        <filter name="allocated" string="Allocated (Pending Check-In)" domain="[('allocation_state','=','allocated')]"/>
+        <filter name="no_deposit" string="Deposit Pending" domain="[('security_deposit_paid','=',False),('allocation_state','in',                    ['allocated','checked_in'])]"/>
         <group name="group_by">
-          <filter name="group_by_block"
-            string="Block"
-            context="{'group_by':'block_id'}"/>
-          <filter name="group_by_year"
-            string="Academic Year"
-            context="{'group_by':'academic_year_id'}"/>
-          <filter name="group_by_state"
-            string="Status"
-            context="{'group_by':
-              'allocation_state'}"/>
+          <filter name="group_by_block" string="Block" context="{'group_by':'block_id'}"/>
+          <filter name="group_by_year" string="Academic Year" context="{'group_by':'academic_year_id'}"/>
+          <filter name="group_by_state" string="Status" context="{'group_by':               'allocation_state'}"/>
         </group>
       </search>
     </field>
   </record>
-
-  <record id="action_unicore_hostel_allocation"
-          model="ir.actions.act_window">
+  <record id="action_unicore_hostel_allocation" model="ir.actions.act_window">
     <field name="name">Room Allocations</field>
     <field name="res_model">unicore.hostel.allocation</field>
     <field name="view_mode">list,form</field>
-    <field name="context">
-      {'search_default_checked_in': 1}
-    </field>
+    <field name="context">{'search_default_checked_in': 1}</field>
   </record>
-
-  <record id="action_unicore_hostel_allocation_all"
-          model="ir.actions.act_window">
+  <record id="action_unicore_hostel_allocation_all" model="ir.actions.act_window">
     <field name="name">All Allocations</field>
     <field name="res_model">unicore.hostel.allocation</field>
     <field name="view_mode">list,form</field>
   </record>
-
 </odoo>

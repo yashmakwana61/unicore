@@ -1,4 +1,4 @@
-from odoo import api, fields, models, _
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -40,9 +40,9 @@ class MentorAllocation(models.Model):
     state = fields.Selection([
         ('draft', 'Draft'),
         ('active', 'Active'),
-        ('done', 'Done')
+        ('done', 'Done'),
     ], string='Status', default='draft', required=True, tracking=True)
-    
+
     name = fields.Char(
         string='Display Name',
         compute='_compute_name',
@@ -87,11 +87,11 @@ class MentorMeetingLog(models.Model):
         'unicore.student',
         string='Student',
         required=True,
-        domain="[('id', 'in', student_ids)]"
+        domain="[('id', 'in', student_ids)]",
     )
     student_ids = fields.Many2many(
         related='allocation_id.student_ids',
-        string='Available Students'
+        string='Available Students',
     )
     meeting_date = fields.Date(
         string='Meeting Date',
@@ -102,7 +102,7 @@ class MentorMeetingLog(models.Model):
     follow_up_required = fields.Boolean(string='Follow Up Required', default=False)
     state = fields.Selection([
         ('draft', 'Draft'),
-        ('completed', 'Completed')
+        ('completed', 'Completed'),
     ], string='Status', default='draft', required=True)
 
     @api.constrains('meeting_date')

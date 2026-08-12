@@ -1,9 +1,8 @@
 import logging
-
 from datetime import date
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -177,7 +176,7 @@ class UnicoreSemester(models.Model):
     def _compute_teaching_weeks(self):
         for record in self:
             record.teaching_weeks = len(
-                record.week_ids.filtered(lambda w: w.week_type == 'teaching')
+                record.week_ids.filtered(lambda w: w.week_type == 'teaching'),
             )
 
     @api.depends('semester_state', 'date_start', 'date_end')
@@ -188,7 +187,7 @@ class UnicoreSemester(models.Model):
                 record.semester_state in ('registration', 'ongoing', 'exam')
                 and record.date_start
                 and record.date_end
-                and record.date_start <= today <= record.date_end
+                and record.date_start <= today <= record.date_end,
             )
 
     @api.constrains('date_start', 'date_end')
@@ -197,7 +196,7 @@ class UnicoreSemester(models.Model):
             if record.date_start and record.date_end:
                 if record.date_end <= record.date_start:
                     raise ValidationError(
-                        _('Semester end date must be after start date.')
+                        _('Semester end date must be after start date.'),
                     )
 
     @api.constrains('registration_start', 'registration_end')
@@ -206,7 +205,7 @@ class UnicoreSemester(models.Model):
             if record.registration_start and record.registration_end:
                 if record.registration_end <= record.registration_start:
                     raise ValidationError(
-                        _('Registration end date must be after start date.')
+                        _('Registration end date must be after start date.'),
                     )
 
     @api.constrains('add_drop_end', 'date_start', 'date_end')
@@ -215,11 +214,11 @@ class UnicoreSemester(models.Model):
             if record.add_drop_end:
                 if record.date_start and record.add_drop_end < record.date_start:
                     raise ValidationError(
-                        _('Add/Drop deadline must be within the semester dates.')
+                        _('Add/Drop deadline must be within the semester dates.'),
                     )
                 if record.date_end and record.add_drop_end > record.date_end:
                     raise ValidationError(
-                        _('Add/Drop deadline must be within the semester dates.')
+                        _('Add/Drop deadline must be within the semester dates.'),
                     )
 
     @api.constrains('exam_start', 'exam_end')
@@ -228,15 +227,15 @@ class UnicoreSemester(models.Model):
             if record.exam_start and record.exam_end:
                 if record.exam_end <= record.exam_start:
                     raise ValidationError(
-                        _('Exam end date must be after start date.')
+                        _('Exam end date must be after start date.'),
                     )
                 if record.date_start and record.exam_start < record.date_start:
                     raise ValidationError(
-                        _('Exam period must be within semester dates.')
+                        _('Exam period must be within semester dates.'),
                     )
                 if record.date_end and record.exam_end > record.date_end:
                     raise ValidationError(
-                        _('Exam period must be within semester dates.')
+                        _('Exam period must be within semester dates.'),
                     )
 
     @api.constrains('result_declaration_date', 'exam_end')
@@ -245,7 +244,7 @@ class UnicoreSemester(models.Model):
             if record.result_declaration_date and record.exam_end:
                 if record.result_declaration_date < record.exam_end:
                     raise ValidationError(
-                        _('Result declaration date must be after exam end date.')
+                        _('Result declaration date must be after exam end date.'),
                     )
 
     @api.constrains('date_start', 'date_end', 'academic_year_id')
@@ -255,11 +254,11 @@ class UnicoreSemester(models.Model):
                 ay = record.academic_year_id
                 if record.date_start < ay.date_start:
                     raise ValidationError(
-                        _('Semester start date cannot be before the academic year start date.')
+                        _('Semester start date cannot be before the academic year start date.'),
                     )
                 if record.date_end > ay.date_end:
                     raise ValidationError(
-                        _('Semester end date cannot be after the academic year end date.')
+                        _('Semester end date cannot be after the academic year end date.'),
                     )
 
     @api.constrains('academic_year_id', 'semester_type')
@@ -275,7 +274,7 @@ class UnicoreSemester(models.Model):
                         self.env['unicore.academic.year']._TERM_SEMESTER_TYPES):
                     raise ValidationError(
                         _('A Term-based academic year can only contain Term '
-                          'semesters (First/Second/Third/Fourth Term).')
+                          'semesters (First/Second/Third/Fourth Term).'),
                     )
 
     def action_confirm(self):

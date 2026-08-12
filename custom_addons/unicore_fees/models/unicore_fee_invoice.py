@@ -6,10 +6,11 @@ payment or installments. Tracks payment status
 and outstanding balance.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
-from datetime import date, timedelta
 import logging
+from datetime import date, timedelta
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -37,7 +38,7 @@ class UniCoreFeeInvoice(models.Model):
             )
             if student_name:
                 rec.display_name = '%s - %s' % (
-                    rec.invoice_number, student_name
+                    rec.invoice_number, student_name,
                 )
             else:
                 rec.display_name = rec.invoice_number or ''
@@ -163,7 +164,7 @@ class UniCoreFeeInvoice(models.Model):
             if rec.account_move_id:
                 # Find AR line and check reconciliation status
                 ar_lines = rec.account_move_id.line_ids.filtered(
-                    lambda l: l.account_id.account_type == 'asset_receivable'
+                    lambda l: l.account_id.account_type == 'asset_receivable',
                 )
                 if ar_lines:
                     # Calculate paid amount from reconciled lines
@@ -268,7 +269,6 @@ class UniCoreFeeInvoice(models.Model):
         self.ensure_one()
         self.invoice_state = 'draft'
 
-
     def _update_payment_state(self):
         self.ensure_one()
         if self.amount_outstanding <= 0:
@@ -297,7 +297,7 @@ class UniCoreFeeInvoice(models.Model):
             if existing:
                 continue
             structure = FeeStructure.search([], limit=1).get_applicable_structure(
-                enr.student_id, semester
+                enr.student_id, semester,
             )
             vals = {
                 'student_id': enr.student_id.id,

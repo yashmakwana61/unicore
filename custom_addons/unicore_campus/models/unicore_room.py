@@ -118,7 +118,7 @@ class UnicoreRoom(models.Model):
         for record in self:
             if record.capacity <= 0:
                 raise ValidationError(
-                    _('Seating capacity must be greater than zero.')
+                    _('Seating capacity must be greater than zero.'),
                 )
 
     @api.constrains('exam_capacity')
@@ -126,9 +126,9 @@ class UnicoreRoom(models.Model):
         for record in self:
             if record.exam_capacity < 0:
                 raise ValidationError(
-                    _('Exam capacity must be a non-negative number.')
+                    _('Exam capacity must be a non-negative number.'),
                 )
             if record.exam_capacity > record.capacity:
                 raise ValidationError(
-                    _('Exam capacity cannot exceed seating capacity.')
+                    _('Exam capacity cannot exceed seating capacity.'),
                 )

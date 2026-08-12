@@ -4,8 +4,9 @@ Adds grade_entry_id reverse link to unicore.enrollment
 and grade-related fields/actions to unicore.student.
 """
 
-from odoo import fields, models, _
 import logging
+
+from odoo import _, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -79,7 +80,7 @@ class UniCoreStudentGradingExt(models.Model):
             count_by_student[sid] = count_by_student.get(sid, 0) + 1
         for rec in self:
             rec.grade_entry_count_student = count_by_student.get(
-                rec.id, 0
+                rec.id, 0,
             )
 
     def action_view_grade_entries(self):

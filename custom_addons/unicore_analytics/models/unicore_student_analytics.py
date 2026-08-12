@@ -4,9 +4,10 @@ PostgreSQL VIEW-based read-only models for
 student enrollment and demographic analytics.
 """
 
+import logging
+
 from odoo import fields, models, tools
 from odoo.orm.fields_misc import Id
-import logging
 
 _logger = logging.getLogger(__name__)
 
@@ -101,7 +102,7 @@ class UniCoreStudentEnrollmentReport(models.Model):
     def init(self):
         tools.drop_view_if_exists(
             self.env.cr,
-            'unicore_student_enrollment_report'
+            'unicore_student_enrollment_report',
         )
         self.env.cr.execute("""
             CREATE OR REPLACE VIEW
@@ -200,7 +201,7 @@ class UniCoreAttendanceReport(models.Model):
     def init(self):
         tools.drop_view_if_exists(
             self.env.cr,
-            'unicore_attendance_report'
+            'unicore_attendance_report',
         )
         self.env.cr.execute("""
             CREATE OR REPLACE VIEW

@@ -1,13 +1,15 @@
-from . import unicore_admission_sequence
-from . import admission_cycle
-from . import admission_stage
-from . import res_company
-from . import admission_applicant
-from . import admission_enrollment
-from . import entrance_test
-from . import offer_letter
-from . import unicore_course_offering_ext
-from . import unicore_enrollment
-from . import unicore_enrollment_waitlist
-from . import unicore_enrollment_log
-from . import unicore_student_ext_enrollment
+from . import (
+    admission_applicant,
+    admission_cycle,
+    admission_enrollment,
+    admission_stage,
+    entrance_test,
+    offer_letter,
+    res_company,
+    unicore_admission_sequence,
+    unicore_course_offering_ext,
+    unicore_enrollment,
+    unicore_enrollment_log,
+    unicore_enrollment_waitlist,
+    unicore_student_ext_enrollment,
+)

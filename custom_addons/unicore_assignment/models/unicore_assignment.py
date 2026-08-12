@@ -7,10 +7,11 @@ assignments become visible to enrolled students in the student
 portal; submissions are collected in the submission model.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
-from datetime import date, datetime, time
 import logging
+from datetime import datetime, time
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -236,11 +237,11 @@ class UniCoreAssignment(models.Model):
                 try:
                     hh, mm = (rec.due_time or '23:59').split(':')
                     due_dt = datetime.combine(
-                        rec.due_date, time(int(hh), int(mm))
+                        rec.due_date, time(int(hh), int(mm)),
                     )
                 except (ValueError, TypeError):
                     due_dt = datetime.combine(
-                        rec.due_date, time(23, 59)
+                        rec.due_date, time(23, 59),
                     )
                 rec.due_datetime = due_dt
             else:
@@ -257,7 +258,7 @@ class UniCoreAssignment(models.Model):
             subs = rec.submission_ids
             submitted = subs.filtered(
                 lambda s: s.state in
-                ('submitted', 'late', 'graded', 'returned')
+                ('submitted', 'late', 'graded', 'returned'),
             )
             graded = subs.filtered(lambda s: s.state == 'graded')
             rec.submission_count = len(subs)
@@ -266,14 +267,14 @@ class UniCoreAssignment(models.Model):
             rec.pending_count = len(submitted) - len(graded)
             if graded:
                 rec.avg_marks = sum(
-                    graded.mapped('marks_obtained')
+                    graded.mapped('marks_obtained'),
                 ) / len(graded)
             else:
                 rec.avg_marks = 0.0
             if rec.enrolled_count:
                 rec.submission_rate = round(
                     rec.submitted_count * 100.0
-                    / rec.enrolled_count, 2
+                    / rec.enrolled_count, 2,
                 )
             else:
                 rec.submission_rate = 0.0
@@ -298,11 +299,11 @@ class UniCoreAssignment(models.Model):
         for rec in self:
             if rec.max_marks <= 0:
                 raise ValidationError(_(
-                    'Maximum marks must be greater than zero.'
+                    'Maximum marks must be greater than zero.',
                 ))
             if rec.pass_marks and rec.pass_marks > rec.max_marks:
                 raise ValidationError(_(
-                    'Pass marks cannot exceed maximum marks.'
+                    'Pass marks cannot exceed maximum marks.',
                 ))
 
     @api.constrains('late_penalty_percent')
@@ -310,7 +311,7 @@ class UniCoreAssignment(models.Model):
         for rec in self:
             if rec.late_penalty_percent < 0:
                 raise ValidationError(_(
-                    'Late penalty percentage cannot be negative.'
+                    'Late penalty percentage cannot be negative.',
                 ))
 
     # ------- SEQUENCE -------
@@ -331,7 +332,7 @@ class UniCoreAssignment(models.Model):
         for rec in self:
             if rec.assignment_state != 'draft':
                 raise UserError(_(
-                    'Only draft assignments can be published.'
+                    'Only draft assignments can be published.',
                 ))
             rec.assignment_state = 'published'
             rec._notify_students()
@@ -369,7 +370,7 @@ class UniCoreAssignment(models.Model):
                         'assignment_title': self.title,
                         'assignment_type': dict(
                             self._fields['assignment_type']
-                            .selection
+                            .selection,
                         ).get(self.assignment_type, ''),
                         'due_date': str(self.due_date),
                         'max_marks': str(self.max_marks),
@@ -408,7 +409,7 @@ class UniCoreAssignment(models.Model):
                         student.display_name if student else ''
                     ),
                     'submission_date': str(
-                        submission.submission_date or ''
+                        submission.submission_date or '',
                     ),
                 },
             )

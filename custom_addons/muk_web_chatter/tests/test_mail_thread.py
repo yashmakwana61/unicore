@@ -33,7 +33,7 @@ class TestMailThread(TransactionCase):
         )
         cls.record.message_subscribe(partner_ids=cls.followers.ids)
         cls.internal_record = cls.record.with_context(
-            mail_notify_internal_followers=True
+            mail_notify_internal_followers=True,
         )
 
     # ----------------------------------------------------------
@@ -48,13 +48,13 @@ class TestMailThread(TransactionCase):
 
     def test_note_notifies_the_internal_followers(self):
         message = self.internal_record.message_post(
-            body='Internal update', subtype_xmlid='mail.mt_note'
+            body='Internal update', subtype_xmlid='mail.mt_note',
         )
         self.assertEqual(message.partner_ids, self.internal_user.partner_id)
 
     def test_note_without_the_context_keeps_no_recipient(self):
         message = self.record.message_post(
-            body='Plain note', subtype_xmlid='mail.mt_note'
+            body='Plain note', subtype_xmlid='mail.mt_note',
         )
         self.assertFalse(message.partner_ids)
 
@@ -65,13 +65,13 @@ class TestMailThread(TransactionCase):
             partner_ids=self.contact.ids,
         )
         self.assertEqual(
-            message.partner_ids, self.internal_user.partner_id | self.contact
+            message.partner_ids, self.internal_user.partner_id | self.contact,
         )
 
     def test_note_from_a_portal_user_adds_no_recipient(self):
         record = self.record.with_user(self.portal_user).sudo()
         message = record.with_context(mail_notify_internal_followers=True).message_post(
-            body='Portal note', subtype_xmlid='mail.mt_note'
+            body='Portal note', subtype_xmlid='mail.mt_note',
         )
         self.assertFalse(message.partner_ids)
 
@@ -85,20 +85,20 @@ class TestMailThread(TransactionCase):
                 return
             posted = True
             nested = record.message_post(
-                body='Nested note', subtype_xmlid='mail.mt_note'
+                body='Nested note', subtype_xmlid='mail.mt_note',
             )
 
         with patch.object(
-            type(self.record), '_message_post_after_hook', post_after_hook
+            type(self.record), '_message_post_after_hook', post_after_hook,
         ):
             self.internal_record.message_post(
-                body='Internal update', subtype_xmlid='mail.mt_note'
+                body='Internal update', subtype_xmlid='mail.mt_note',
             )
         self.assertTrue(nested)
         self.assertFalse(nested.partner_ids)
 
     def test_note_skips_the_author(self):
         message = self.internal_record.with_user(self.internal_user).message_post(
-            body='Internal update', subtype_xmlid='mail.mt_note'
+            body='Internal update', subtype_xmlid='mail.mt_note',
         )
         self.assertFalse(message.partner_ids)

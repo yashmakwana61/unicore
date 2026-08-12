@@ -4,9 +4,10 @@ Students and faculty registered as library members
 with borrowing limits and privilege levels.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -170,7 +171,7 @@ class UniCoreLibraryMember(models.Model):
             ])
             overdue = all_issues.filtered(
                 lambda i: i.fine_amount > 0
-                and not i.fine_paid
+                and not i.fine_paid,
             )
             rec.current_issue_count = len(active)
             rec.total_issued_ever = len(all_issues)
@@ -181,12 +182,12 @@ class UniCoreLibraryMember(models.Model):
     def _search_current_issue_count(self, operator, value):
         if operator == '>' and value == 0:
             issues = self.env['unicore.library.issue'].search(
-                [('issue_state', '=', 'issued')]
+                [('issue_state', '=', 'issued')],
             )
             return [('id', 'in', issues.mapped('member_id').ids)]
-        elif operator == '=' and value == 0:
+        if operator == '=' and value == 0:
             issues = self.env['unicore.library.issue'].search(
-                [('issue_state', '=', 'issued')]
+                [('issue_state', '=', 'issued')],
             )
             return [('id', 'not in', issues.mapped('member_id').ids)]
         return []
@@ -198,7 +199,7 @@ class UniCoreLibraryMember(models.Model):
                 ('fine_paid', '=', False),
             ])
             return [('id', 'in', issues.mapped('member_id').ids)]
-        elif operator == '=' and value == 0:
+        if operator == '=' and value == 0:
             issues = self.env['unicore.library.issue'].search([
                 ('fine_amount', '>', 0),
                 ('fine_paid', '=', False),
@@ -241,13 +242,13 @@ class UniCoreLibraryMember(models.Model):
                     and not rec.student_id):
                 raise ValidationError(
                     _('Please link a student record '
-                      'for student members.')
+                      'for student members.'),
                 )
             if (rec.member_type == 'faculty'
                     and not rec.faculty_member_id):
                 raise ValidationError(
                     _('Please link a faculty record '
-                      'for faculty members.')
+                      'for faculty members.'),
                 )
 
     @api.model_create_multi
@@ -256,7 +257,7 @@ class UniCoreLibraryMember(models.Model):
             if not vals.get('member_id'):
                 vals['member_id'] = (
                     self.env['ir.sequence'].next_by_code(
-                        'unicore.library.member'
+                        'unicore.library.member',
                     ) or '/'
                 )
         return super().create(vals_list)
@@ -265,7 +266,7 @@ class UniCoreLibraryMember(models.Model):
         self.ensure_one()
         self.member_state = 'suspended'
         self.message_post(
-            body=_('Member suspended.')
+            body=_('Member suspended.'),
         )
 
     def action_reactivate(self):
@@ -273,7 +274,7 @@ class UniCoreLibraryMember(models.Model):
         self.member_state = 'active'
         self.suspension_reason = False
         self.message_post(
-            body=_('Member reactivated.')
+            body=_('Member reactivated.'),
         )
 
     def action_issue_book(self):
@@ -298,6 +299,6 @@ class UniCoreLibraryMember(models.Model):
             'res_model': 'unicore.library.issue',
             'view_mode': 'list,form',
             'domain': [
-                ('member_id', '=', self.id)
+                ('member_id', '=', self.id),
             ],
         }

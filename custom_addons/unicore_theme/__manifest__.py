@@ -25,7 +25,7 @@ Features:
             (
                 'before',
                 'web/static/src/scss/primary_variables.scss',
-                'unicore_theme/static/src/scss/primary_variables.scss'
+                'unicore_theme/static/src/scss/primary_variables.scss',
             ),
         ],
         'web._assets_backend_helpers': [

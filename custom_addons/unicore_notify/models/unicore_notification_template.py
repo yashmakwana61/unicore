@@ -17,9 +17,10 @@ Examples:
   {attendance}   → attendance percentage
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError
 import logging
+
+from odoo import _, fields, models
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -64,6 +65,10 @@ class UniCoreNotificationTemplate(models.Model):
              'Scholarship Approved'),
             ('scholarship_awarded',
              'Scholarship Award Disbursed'),
+            ('leave_request_approved',
+             'Leave Request Approved'),
+            ('leave_request_rejected',
+             'Leave Request Rejected'),
             ('welcome', 'Welcome / Admission'),
             ('custom', 'Custom / Manual'),
         ],
@@ -204,6 +209,6 @@ class UniCoreNotificationTemplate(models.Model):
             if rec.is_system_template:
                 raise ValidationError(
                     _('System templates cannot '
-                      'be deleted.')
+                      'be deleted.'),
                 )
         return super().unlink()

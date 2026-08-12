@@ -67,7 +67,7 @@ class TestColorAssetsEditor(TransactionCase):
             self.variables,
         )
         attachment = self.env['ir.attachment'].search(
-            [('url', '=', self.light_custom_url)]
+            [('url', '=', self.light_custom_url)],
         )
         self.assertEqual(len(attachment), 1)
         asset = self.env['ir.asset'].search([('path', '=', self.light_custom_url)])
@@ -91,7 +91,7 @@ class TestColorAssetsEditor(TransactionCase):
             [{'name': 'color_brand', 'value': '#AABBCC'}],
         )
         attachment = self.env['ir.attachment'].search(
-            [('url', '=', self.light_custom_url)]
+            [('url', '=', self.light_custom_url)],
         )
         asset = self.env['ir.asset'].search([('path', '=', self.light_custom_url)])
         self.assertEqual(len(attachment), 1)
@@ -159,10 +159,10 @@ class TestColorAssetsEditor(TransactionCase):
             [{'name': 'color_brand', 'value': '#101010'}],
         )
         self.assertTrue(
-            self.env['ir.attachment'].search([('url', '=', self.light_custom_url)])
+            self.env['ir.attachment'].search([('url', '=', self.light_custom_url)]),
         )
         self.assertFalse(
-            self.env['ir.attachment'].search([('url', '=', self.dark_custom_url)])
+            self.env['ir.attachment'].search([('url', '=', self.dark_custom_url)]),
         )
         dark = self.editor.get_color_variables_values(
             self.dark_url,
@@ -180,10 +180,10 @@ class TestColorAssetsEditor(TransactionCase):
         )
         self.editor.reset_color_asset(self.light_url, self.light_bundle)
         self.assertFalse(
-            self.env['ir.attachment'].search([('url', '=', self.light_custom_url)])
+            self.env['ir.attachment'].search([('url', '=', self.light_custom_url)]),
         )
         self.assertFalse(
-            self.env['ir.asset'].search([('path', '=', self.light_custom_url)])
+            self.env['ir.asset'].search([('path', '=', self.light_custom_url)]),
         )
 
     def test_reset_without_customization_is_a_noop(self):

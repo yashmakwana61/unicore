@@ -238,7 +238,7 @@ class AdmissionApplicant(models.Model):
                             a.composite_score == record.composite_score
                             and a.id < record.id
                         )
-                    )
+                    ),
                 )
                 record.rank = len(better) + 1
 
@@ -255,7 +255,7 @@ class AdmissionApplicant(models.Model):
             Stage._ensure_default_stages(self.env['res.company'].browse(company_id))
             if vals.get('application_number', _('New')) == _('New'):
                 seq = self._next_sequence(
-                    'unicore.admission.applicant', company_id=company_id
+                    'unicore.admission.applicant', company_id=company_id,
                 ) or '/'
                 vals['application_number'] = seq
             if 'stage_id' not in vals:
@@ -309,7 +309,7 @@ class AdmissionApplicant(models.Model):
             next_stage = record.stage_id._get_next_stage()
             if not next_stage:
                 raise UserError(_(
-                    'This applicant is already at the last stage ("%s").'
+                    'This applicant is already at the last stage ("%s").',
                 ) % record.stage_id.name)
             record.stage_id = next_stage
 
@@ -349,7 +349,7 @@ class AdmissionApplicant(models.Model):
         for record in self:
             if record.state not in ('entrance_scheduled', 'shortlisted'):
                 raise UserError(_(
-                    'Only shortlisted or entrance-scheduled applicants can be added to merit list.'
+                    'Only shortlisted or entrance-scheduled applicants can be added to merit list.',
                 ))
             record.write({'state': 'merit_listed'})
 
@@ -366,7 +366,7 @@ class AdmissionApplicant(models.Model):
                 raise UserError(_(
                     'No seats available for %s in cycle %s. '
                     'Reserve more seats or wait for an existing offer to be '
-                    'declined.' % (seat.program_id.name, record.cycle_id.name)
+                    'declined.' % (seat.program_id.name, record.cycle_id.name),
                 ))
             offer = OfferLetter.create({
                 'applicant_id': record.id,

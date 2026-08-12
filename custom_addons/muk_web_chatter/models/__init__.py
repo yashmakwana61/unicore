@@ -1,3 +1,1 @@
-from . import ir_http
-from . import mail_thread
-from . import res_users
+from . import ir_http, mail_thread, res_users

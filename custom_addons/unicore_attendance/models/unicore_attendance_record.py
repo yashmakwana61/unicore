@@ -9,9 +9,10 @@ computed across all sessions in the semester for
 the same course offering.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -38,7 +39,7 @@ class UniCoreAttendanceRecord(models.Model):
                 rec.session_id.display_name if rec.session_id else ''
             )
             rec.display_name = 'Attendance - %s - %s' % (
-                student_name, session_name
+                student_name, session_name,
             )
     _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'session_id desc, student_id'
@@ -259,7 +260,7 @@ class UniCoreAttendanceRecord(models.Model):
                 and not self.env.context.get('install_mode')
             ):
                 raise UserError(
-                    _('Cannot modify attendance records for a closed session. Reopen the session first (admin only).')
+                    _('Cannot modify attendance records for a closed session. Reopen the session first (admin only).'),
                 )
         return super().write(vals)
 
@@ -268,7 +269,7 @@ class UniCoreAttendanceRecord(models.Model):
         for rec in self:
             if rec.status == 'late' and rec.late_minutes < 0:
                 raise ValidationError(
-                    _('Late minutes cannot be negative.')
+                    _('Late minutes cannot be negative.'),
                 )
             if rec.status != 'late' and rec.late_minutes > 0:
                 rec.late_minutes = 0

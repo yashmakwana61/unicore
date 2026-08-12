@@ -1,4 +1,4 @@
-from odoo import api, fields, models, _
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -25,7 +25,7 @@ class GrievanceTeam(models.Model):
         'res.users',
         'unicore_grievance_team_user_rel',
         'team_id', 'user_id',
-        string='Team Members'
+        string='Team Members',
     )
     company_id = fields.Many2one('res.company', string='Institution', default=lambda self: self.env.company)
 
@@ -43,7 +43,7 @@ class GrievanceRequest(models.Model):
         string='Raised By',
         required=True,
         tracking=True,
-        default=lambda self: self.env.user.partner_id
+        default=lambda self: self.env.user.partner_id,
     )
     company_id = fields.Many2one(
         'res.company',
@@ -70,7 +70,7 @@ class GrievanceRequest(models.Model):
         ('in_progress', 'In Progress'),
         ('resolved', 'Resolved'),
         ('escalated', 'Escalated'),
-        ('cancelled', 'Cancelled')
+        ('cancelled', 'Cancelled'),
     ], string='Status', default='new', required=True, tracking=True)
     resolution_notes = fields.Text(string='Resolution Notes')
     resolution_date = fields.Date(string='Resolution Date', tracking=True)
@@ -89,7 +89,7 @@ class GrievanceRequest(models.Model):
             raise ValidationError(_('Resolution notes must be provided before marking as resolved.'))
         self.write({
             'state': 'resolved',
-            'resolution_date': fields.Date.today()
+            'resolution_date': fields.Date.today(),
         })
         self._send_notification(_('Your grievance has been resolved.'))
 
@@ -108,5 +108,5 @@ class GrievanceRequest(models.Model):
                 'body': message,
                 'message_type': 'notification',
                 'subtype_id': self.env.ref('mail.mt_note').id,
-                'partner_ids': [(4, self.raised_by_id.id)]
+                'partner_ids': [(4, self.raised_by_id.id)],
             })

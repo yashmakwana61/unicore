@@ -7,9 +7,10 @@ library, sports, etc.). Used to auto-generate
 fee invoices for enrolled students.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 

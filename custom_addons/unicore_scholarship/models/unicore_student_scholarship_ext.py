@@ -3,8 +3,9 @@ UniCore Student Extension — Scholarship Module
 Adds scholarship summary to student record.
 """
 
-from odoo import api, fields, models, _
 import logging
+
+from odoo import _, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -47,7 +48,7 @@ class UniCoreStudentScholarshipExt(models.Model):
             rec.scholarship_count = len(apps)
             approved = apps.filtered(
                 lambda a: a.application_state
-                == 'approved'
+                == 'approved',
             )
             rec.active_scholarship_count = len(approved)
             awards = Award.search([

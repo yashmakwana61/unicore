@@ -20,8 +20,9 @@ values into ``unicore.grade.entry`` on its own — that remains a
 deliberate, manual "Apply CA Marks" action in the grade book config.
 """
 
-from odoo import api, models, _
 import logging
+
+from odoo import api, models
 
 _logger = logging.getLogger(__name__)
 
@@ -44,7 +45,7 @@ class UniCoreAssignmentSubmissionExt(models.Model):
         # Refresh when a submission became graded, or was graded and
         # its state / marks changed.
         touched = self.filtered(
-            lambda r: was_graded.get(r.id) or r.state == 'graded'
+            lambda r: was_graded.get(r.id) or r.state == 'graded',
         )
         if touched:
             touched._refresh_gradebook_for_submissions()

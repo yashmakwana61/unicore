@@ -6,9 +6,9 @@ are finalised. Stores semester GPA and overall
 academic standing.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
 import logging
+
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -37,7 +37,7 @@ class UniCoreSemesterResult(models.Model):
             )
             if semester_name:
                 rec.display_name = '%s - %s' % (
-                    student_name, semester_name
+                    student_name, semester_name,
                 )
             else:
                 rec.display_name = student_name
@@ -158,7 +158,7 @@ class UniCoreSemesterResult(models.Model):
         processed = 0
         for student_id in list(set(student_ids)):
             student_entries = entries.filtered(
-                lambda e: e.student_id.id == student_id
+                lambda e: e.student_id.id == student_id,
             )
             credits_attempted = sum(
                 e.credit_hours for e in student_entries
@@ -176,10 +176,10 @@ class UniCoreSemesterResult(models.Model):
                 if credits_attempted > 0 else 0.0
             )
             courses_passed = len(student_entries.filtered(
-                lambda e: e.is_pass
+                lambda e: e.is_pass,
             ))
             courses_failed = len(student_entries.filtered(
-                lambda e: not e.is_pass
+                lambda e: not e.is_pass,
             ))
             result_status = (
                 'pass' if courses_failed == 0 else
@@ -221,12 +221,12 @@ class UniCoreSemesterResult(models.Model):
             body=_('Semester result published. '
                    'GPA: %s, Result: %s')
                  % (self.semester_gpa,
-                    self.result_status)
+                    self.result_status),
         )
 
     def action_withhold(self):
         self.ensure_one()
         self.result_status = 'withheld'
         self.message_post(
-            body=_('Result withheld.')
+            body=_('Result withheld.'),
         )

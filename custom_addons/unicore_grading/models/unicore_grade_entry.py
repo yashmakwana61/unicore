@@ -7,9 +7,10 @@ from the institutional grade scale, and on finalisation
 updates the linked enrollment and student records.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -228,19 +229,19 @@ class UniCoreGradeEntry(models.Model):
                 or GradeScale.get_default_scale(
                     rec.company_id.id
                     if rec.company_id else
-                    self.env.company.id
+                    self.env.company.id,
                 )
             )
             if scale and rec.percentage > 0:
                 letter, point = (
                     scale.get_grade_for_percentage(
-                        rec.percentage
+                        rec.percentage,
                     )
                 )
                 rec.letter_grade = letter
                 rec.grade_point = point
                 passing_line = scale.line_ids.filtered(
-                    lambda l: l.letter_grade == letter
+                    lambda l: l.letter_grade == letter,
                 )
                 rec.is_pass = (
                     passing_line[:1].is_passing
@@ -304,14 +305,14 @@ class UniCoreGradeEntry(models.Model):
         for rec in self:
             if rec.internal_marks < 0:
                 raise ValidationError(
-                    _('Internal marks cannot be negative.')
+                    _('Internal marks cannot be negative.'),
                 )
             if (rec.internal_max > 0
                     and rec.internal_marks > rec.internal_max):
                 raise ValidationError(
                     _('Internal marks (%s) cannot exceed '
                       'maximum (%s).')
-                    % (rec.internal_marks, rec.internal_max)
+                    % (rec.internal_marks, rec.internal_max),
                 )
 
     @api.constrains('external_marks', 'external_max')
@@ -319,14 +320,14 @@ class UniCoreGradeEntry(models.Model):
         for rec in self:
             if rec.external_marks < 0:
                 raise ValidationError(
-                    _('External marks cannot be negative.')
+                    _('External marks cannot be negative.'),
                 )
             if (rec.external_max > 0
                     and rec.external_marks > rec.external_max):
                 raise ValidationError(
                     _('External marks (%s) cannot exceed '
                       'maximum (%s).')
-                    % (rec.external_marks, rec.external_max)
+                    % (rec.external_marks, rec.external_max),
                 )
 
     # --- STATE METHODS ---
@@ -335,18 +336,18 @@ class UniCoreGradeEntry(models.Model):
         self.ensure_one()
         if not self.letter_grade:
             raise UserError(
-                _('Please enter marks before submitting.')
+                _('Please enter marks before submitting.'),
             )
         self.entry_state = 'submitted'
         self.message_post(
-            body=_('Grade submitted by faculty.')
+            body=_('Grade submitted by faculty.'),
         )
 
     def action_verify(self):
         self.ensure_one()
         self.entry_state = 'verified'
         self.message_post(
-            body=_('Grade verified by registrar.')
+            body=_('Grade verified by registrar.'),
         )
 
     def action_publish(self):
@@ -359,7 +360,7 @@ class UniCoreGradeEntry(models.Model):
         self.ensure_one()
         if self.entry_state != 'verified':
             raise UserError(
-                _('Only verified grades can be published.')
+                _('Only verified grades can be published.'),
             )
         self.entry_state = 'published'
         self._update_enrollment()
@@ -368,14 +369,14 @@ class UniCoreGradeEntry(models.Model):
                    'Grade Point: %s, Pass: %s')
                  % (self.letter_grade,
                     self.grade_point,
-                    _('Yes') if self.is_pass else _('No'))
+                    _('Yes') if self.is_pass else _('No')),
         )
 
     def action_lock(self):
         self.ensure_one()
         self.entry_state = 'locked'
         self.message_post(
-            body=_('Grade locked \u2014 no further changes allowed.')
+            body=_('Grade locked \u2014 no further changes allowed.'),
         )
 
     def action_reset_draft(self):
@@ -383,11 +384,11 @@ class UniCoreGradeEntry(models.Model):
         if self.entry_state == 'locked':
             raise UserError(
                 _('Locked grades cannot be reset. '
-                  'Contact administrator.')
+                  'Contact administrator.'),
             )
         self.entry_state = 'draft'
         self.message_post(
-            body=_('Grade reset to Draft.')
+            body=_('Grade reset to Draft.'),
         )
 
     def _update_enrollment(self):
@@ -410,7 +411,7 @@ class UniCoreGradeEntry(models.Model):
                 + int(self.credit_hours)
             )
             student.sudo().write({
-                'total_credits_earned': new_credits
+                'total_credits_earned': new_credits,
             })
         self._update_student_cgpa()
 
@@ -480,7 +481,7 @@ class UniCoreGradeEntry(models.Model):
             return
         average = round(
             sum(e.percentage for e in all_entries)
-            / len(all_entries), 2
+            / len(all_entries), 2,
         )
         student.sudo().write({'average_percentage': average})
         _logger.info(

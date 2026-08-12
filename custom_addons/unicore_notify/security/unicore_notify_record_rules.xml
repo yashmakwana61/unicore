@@ -1,81 +1,48 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <data noupdate="1">
-
-    <record id="rule_unicore_notify_config_company"
-            model="ir.rule">
-      <field name="name">
-        Notify Config: Company Isolation
-      </field>
-      <field name="model_id"
-        ref="unicore_notify.model_unicore_notification_config"/>
-      <field name="domain_force">
-        ['|',('company_id','=',False),
-             ('company_id','in',company_ids)]
-      </field>
-      <field name="groups"
-        eval="[(4,ref('base.group_user'))]"/>
+    <record id="rule_unicore_notify_config_company" model="ir.rule">
+      <field name="name">Notify Config: Company Isolation</field>
+      <field name="model_id" ref="unicore_notify.model_unicore_notification_config"/>
+      <field name="domain_force">['|',('company_id','=',False),
+             ('company_id','in',company_ids)]</field>
+      <field name="groups" eval="[(4,ref('base.group_user'))]"/>
       <field name="perm_read" eval="True"/>
       <field name="perm_write" eval="True"/>
       <field name="perm_create" eval="True"/>
       <field name="perm_unlink" eval="True"/>
     </record>
-
-    <record id="rule_unicore_notify_template_company"
-            model="ir.rule">
-      <field name="name">
-        Notify Template: Company Isolation
-      </field>
-      <field name="model_id"
-        ref="unicore_notify.model_unicore_notification_template"/>
-      <field name="domain_force">
-        ['|',('company_id','=',False),
-             ('company_id','in',company_ids)]
-      </field>
-      <field name="groups"
-        eval="[(4,ref('base.group_user'))]"/>
+    <record id="rule_unicore_notify_template_company" model="ir.rule">
+      <field name="name">Notify Template: Company Isolation</field>
+      <field name="model_id" ref="unicore_notify.model_unicore_notification_template"/>
+      <field name="domain_force">['|',('company_id','=',False),
+             ('company_id','in',company_ids)]</field>
+      <field name="groups" eval="[(4,ref('base.group_user'))]"/>
       <field name="perm_read" eval="True"/>
       <field name="perm_write" eval="True"/>
       <field name="perm_create" eval="True"/>
       <field name="perm_unlink" eval="True"/>
     </record>
-
-    <record id="rule_unicore_notify_log_company"
-            model="ir.rule">
-      <field name="name">
-        Notify Log: Company Isolation
-      </field>
-      <field name="model_id"
-        ref="unicore_notify.model_unicore_notification_log"/>
-      <field name="domain_force">
-        ['|',('company_id','=',False),
-             ('company_id','in',company_ids)]
-      </field>
-      <field name="groups"
-        eval="[(4,ref('base.group_user'))]"/>
+    <record id="rule_unicore_notify_log_company" model="ir.rule">
+      <field name="name">Notify Log: Company Isolation</field>
+      <field name="model_id" ref="unicore_notify.model_unicore_notification_log"/>
+      <field name="domain_force">['|',('company_id','=',False),
+             ('company_id','in',company_ids)]</field>
+      <field name="groups" eval="[(4,ref('base.group_user'))]"/>
       <field name="perm_read" eval="True"/>
       <field name="perm_write" eval="True"/>
       <field name="perm_create" eval="True"/>
       <field name="perm_unlink" eval="True"/>
     </record>
-
-    <record id="rule_unicore_notify_log_admin"
-            model="ir.rule">
-      <field name="name">
-        Notify Log: Admin Bypass
-      </field>
-      <field name="model_id"
-        ref="unicore_notify.model_unicore_notification_log"/>
+    <record id="rule_unicore_notify_log_admin" model="ir.rule">
+      <field name="name">Notify Log: Admin Bypass</field>
+      <field name="model_id" ref="unicore_notify.model_unicore_notification_log"/>
       <field name="domain_force">[(1,'=',1)]</field>
-      <field name="groups"
-        eval="[(4,ref('unicore_base.group_unicore_admin'))]"/>
+      <field name="groups" eval="[(4,ref('unicore_base.group_unicore_admin'))]"/>
       <field name="perm_read" eval="True"/>
       <field name="perm_write" eval="True"/>
       <field name="perm_create" eval="True"/>
       <field name="perm_unlink" eval="True"/>
     </record>
-
-
-
   </data>
 </odoo>

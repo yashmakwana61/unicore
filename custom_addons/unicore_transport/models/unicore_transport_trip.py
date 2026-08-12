@@ -5,10 +5,9 @@ attendance and incidents. One record per route
 per trip per day.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError
-from datetime import date
 import logging
+
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -35,7 +34,7 @@ class UniCoreTransportTrip(models.Model):
                 rec.route_id.display_name if rec.route_id else ''
             )
             parts = [part for part in (
-                rec.trip_number, route_name
+                rec.trip_number, route_name,
             ) if part]
             if rec.trip_date:
                 parts.append(rec.trip_date.strftime('%d %b %Y'))
@@ -127,7 +126,7 @@ class UniCoreTransportTrip(models.Model):
                 )
                 rec.delay_minutes = max(
                     0,
-                    int(delay_hours * 60)
+                    int(delay_hours * 60),
                 )
             else:
                 rec.delay_minutes = 0
@@ -216,7 +215,7 @@ class UniCoreTransportTrip(models.Model):
             if not vals.get('trip_number'):
                 vals['trip_number'] = (
                     self.env['ir.sequence'].next_by_code(
-                        'unicore.transport.trip'
+                        'unicore.transport.trip',
                     ) or '/'
                 )
         return super().create(vals_list)
@@ -225,7 +224,7 @@ class UniCoreTransportTrip(models.Model):
         self.ensure_one()
         self.trip_state = 'in_progress'
         self.message_post(
-            body=_('Trip started.')
+            body=_('Trip started.'),
         )
 
     def action_complete(self):
@@ -235,7 +234,7 @@ class UniCoreTransportTrip(models.Model):
             body=_('Trip completed. Passengers: %d. '
                    'Delay: %d min.')
                  % (self.actual_passengers,
-                    self.delay_minutes)
+                    self.delay_minutes),
         )
 
     def action_cancel(self):
@@ -243,5 +242,5 @@ class UniCoreTransportTrip(models.Model):
         self.trip_state = 'cancelled'
         self.message_post(
             body=_('Trip cancelled. Reason: %s')
-                 % (self.cancellation_reason or '-')
+                 % (self.cancellation_reason or '-'),
         )

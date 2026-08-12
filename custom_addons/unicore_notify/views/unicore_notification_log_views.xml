@@ -1,196 +1,121 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-
-    <!-- ==================== FORM VIEW ==================== -->
-
-    <record id="view_unicore_notification_log_form"
-            model="ir.ui.view">
-      <field name="name">unicore.notification.log.form</field>
-      <field name="model">unicore.notification.log</field>
-      <field name="arch" type="xml">
-        <form create="false" edit="false" delete="false">
-          <sheet>
-            <widget name="web_ribbon"
-                    title="SENT"
-                    invisible="delivery_status != 'sent'"
-                    bg_color="text-bg-success"/>
-            <widget name="web_ribbon"
-                    title="FAILED"
-                    invisible="delivery_status != 'failed'"
-                    bg_color="text-bg-danger"/>
-            <widget name="web_ribbon"
-                    title="PENDING"
-                    invisible="delivery_status != 'pending'"
-                    bg_color="text-bg-warning"/>
-            <widget name="web_ribbon"
-                    title="SKIPPED"
-                    invisible="delivery_status != 'skipped'"
-                    bg_color="text-bg-secondary"/>
-            <group>
-              <group string="Notification Details">
-                <field name="sent_at"/>
-                <field name="channel"/>
-                <field name="trigger_event"/>
-                <field name="delivery_status"/>
-                <field name="template_id"/>
-                <field name="company_id"/>
-              </group>
-              <group string="Recipient">
-                <field name="recipient_type"/>
-                <field name="student_id"/>
-                <field name="guardian_id"/>
-                <field name="faculty_member_id"/>
-                <field name="recipient_email"/>
-                <field name="recipient_mobile"/>
-              </group>
+  <!-- ==================== FORM VIEW ==================== -->
+  <record id="view_unicore_notification_log_form" model="ir.ui.view">
+    <field name="name">unicore.notification.log.form</field>
+    <field name="model">unicore.notification.log</field>
+    <field name="arch" type="xml">
+      <form create="false" edit="false" delete="false">
+        <sheet>
+          <widget name="web_ribbon" title="SENT" invisible="delivery_status != 'sent'" bg_color="text-bg-success"/>
+          <widget name="web_ribbon" title="FAILED" invisible="delivery_status != 'failed'" bg_color="text-bg-danger"/>
+          <widget name="web_ribbon" title="PENDING" invisible="delivery_status != 'pending'" bg_color="text-bg-warning"/>
+          <widget name="web_ribbon" title="SKIPPED" invisible="delivery_status != 'skipped'" bg_color="text-bg-secondary"/>
+          <group>
+            <group string="Notification Details">
+              <field name="sent_at"/>
+              <field name="channel"/>
+              <field name="trigger_event"/>
+              <field name="delivery_status"/>
+              <field name="template_id"/>
+              <field name="company_id"/>
             </group>
-            <notebook>
-              <page string="Message Content"
-                    name="message_content">
-                <group>
-                  <field name="message_subject"/>
-                </group>
-                <field name="message_body"/>
-              </page>
-              <page string="Technical Details"
-                    name="technical_details">
-                <group>
-                  <field name="whatsapp_message_id"/>
-                  <field name="error_message"/>
-                </group>
-              </page>
-            </notebook>
-          </sheet>
-        </form>
-      </field>
-    </record>
-
-    <!-- ==================== LIST VIEW ==================== -->
-
-    <record id="view_unicore_notification_log_list"
-            model="ir.ui.view">
-      <field name="name">unicore.notification.log.list</field>
-      <field name="model">unicore.notification.log</field>
-      <field name="arch" type="xml">
-        <list create="false" edit="false" delete="false"
-              decoration-success="delivery_status == 'sent'"
-              decoration-danger="delivery_status == 'failed'"
-              decoration-warning="delivery_status == 'pending'"
-              decoration-muted="delivery_status == 'skipped'">
-          <field name="sent_at"/>
-          <field name="channel"/>
-          <field name="trigger_event"/>
-          <field name="recipient_type"/>
-          <field name="student_id" optional="show"/>
-          <field name="guardian_id" optional="hide"/>
-          <field name="faculty_member_id"
-                 optional="hide"/>
-          <field name="recipient_email" optional="show"/>
-          <field name="recipient_mobile"
-                 optional="hide"/>
-          <field name="message_subject" optional="show"/>
-          <field name="delivery_status"/>
-          <field name="company_id"
-                 optional="hide"/>
-        </list>
-      </field>
-    </record>
-
-    <!-- ==================== SEARCH VIEW ==================== -->
-
-    <record id="view_unicore_notification_log_search"
-            model="ir.ui.view">
-      <field name="name">unicore.notification.log.search</field>
-      <field name="model">unicore.notification.log</field>
-      <field name="arch" type="xml">
-        <search>
-          <field name="trigger_event"/>
-          <field name="student_id"/>
-          <field name="guardian_id"/>
-          <field name="recipient_email"/>
-          <field name="message_subject"/>
-          <separator/>
-          <filter name="sent"
-                  string="Sent"
-                  domain="[('delivery_status','=','sent')]"/>
-          <filter name="failed"
-                  string="Failed"
-                  domain="[('delivery_status','=','failed')]"/>
-          <filter name="pending"
-                  string="Pending"
-                  domain="[('delivery_status','=','pending')]"/>
-          <separator/>
-          <filter name="channel_email"
-                  string="Email"
-                  domain="[('channel','=','email')]"/>
-          <filter name="channel_whatsapp"
-                  string="WhatsApp"
-                  domain="[('channel','=','whatsapp')]"/>
-          <filter name="channel_inapp"
-                  string="In-App"
-                  domain="[('channel','=','inapp')]"/>
-          <separator/>
-          <filter name="today"
-                  string="Today"
-                  domain="[('sent_at','&gt;=',
-                    (context_today()).strftime(
-                      '%Y-%m-%d 00:00:00'))]"/>
-          <filter name="this_week"
-                  string="This Week"
-                  domain="[('sent_at','&gt;=',
-                    (context_today() - datetime.timedelta(
-                      days=7)).strftime(
-                      '%Y-%m-%d 00:00:00'))]"/>
-          <separator/>
-          <filter name="group_by_channel"
-                  string="Channel"
-                  context="{'group_by':'channel'}"/>
-          <filter name="group_by_status"
-                  string="Status"
-                  context="{'group_by':'delivery_status'}"/>
-          <filter name="group_by_event"
-                  string="Trigger Event"
-                  context="{'group_by':'trigger_event'}"/>
-          <filter name="group_by_date"
-                  string="Date"
-                  context="{'group_by':'sent_at:day'}"/>
-          <filter name="group_by_student"
-                  string="Student"
-                  context="{'group_by':'student_id'}"/>
-          <filter name="group_by_company"
-                  string="Institution"
-                  context="{'group_by':'company_id'}"/>
-        </search>
-      </field>
-    </record>
-
-    <!-- ==================== ACTIONS ==================== -->
-
-    <record id="action_unicore_notification_log"
-            model="ir.actions.act_window">
-      <field name="name">Notification Log</field>
-      <field name="res_model">unicore.notification.log</field>
-      <field name="view_mode">list,form</field>
-    </record>
-
-    <record id="action_unicore_notification_log_failed"
-            model="ir.actions.act_window">
-      <field name="name">Failed Notifications</field>
-      <field name="res_model">unicore.notification.log</field>
-      <field name="view_mode">list,form</field>
-      <field name="domain">
-        [('delivery_status','=','failed')]
-      </field>
-    </record>
-
-    <record id="action_unicore_notification_log_today"
-            model="ir.actions.act_window">
-      <field name="name">Today's Notifications</field>
-      <field name="res_model">unicore.notification.log</field>
-      <field name="view_mode">list,form</field>
-      <field name="context">
-        {'search_default_today': 1}
-      </field>
-    </record>
-
+            <group string="Recipient">
+              <field name="recipient_type"/>
+              <field name="student_id"/>
+              <field name="guardian_id"/>
+              <field name="faculty_member_id"/>
+              <field name="recipient_email"/>
+              <field name="recipient_mobile"/>
+            </group>
+          </group>
+          <notebook>
+            <page string="Message Content" name="message_content">
+              <group>
+                <field name="message_subject"/>
+              </group>
+              <field name="message_body"/>
+            </page>
+            <page string="Technical Details" name="technical_details">
+              <group>
+                <field name="whatsapp_message_id"/>
+                <field name="error_message"/>
+              </group>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+  <!-- ==================== LIST VIEW ==================== -->
+  <record id="view_unicore_notification_log_list" model="ir.ui.view">
+    <field name="name">unicore.notification.log.list</field>
+    <field name="model">unicore.notification.log</field>
+    <field name="arch" type="xml">
+      <list create="false" edit="false" delete="false" decoration-success="delivery_status == 'sent'" decoration-danger="delivery_status == 'failed'" decoration-warning="delivery_status == 'pending'" decoration-muted="delivery_status == 'skipped'">
+        <field name="sent_at"/>
+        <field name="channel"/>
+        <field name="trigger_event"/>
+        <field name="recipient_type"/>
+        <field name="student_id" optional="show"/>
+        <field name="guardian_id" optional="hide"/>
+        <field name="faculty_member_id" optional="hide"/>
+        <field name="recipient_email" optional="show"/>
+        <field name="recipient_mobile" optional="hide"/>
+        <field name="message_subject" optional="show"/>
+        <field name="delivery_status"/>
+        <field name="company_id" optional="hide"/>
+      </list>
+    </field>
+  </record>
+  <!-- ==================== SEARCH VIEW ==================== -->
+  <record id="view_unicore_notification_log_search" model="ir.ui.view">
+    <field name="name">unicore.notification.log.search</field>
+    <field name="model">unicore.notification.log</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="trigger_event"/>
+        <field name="student_id"/>
+        <field name="guardian_id"/>
+        <field name="recipient_email"/>
+        <field name="message_subject"/>
+        <separator/>
+        <filter name="sent" string="Sent" domain="[('delivery_status','=','sent')]"/>
+        <filter name="failed" string="Failed" domain="[('delivery_status','=','failed')]"/>
+        <filter name="pending" string="Pending" domain="[('delivery_status','=','pending')]"/>
+        <separator/>
+        <filter name="channel_email" string="Email" domain="[('channel','=','email')]"/>
+        <filter name="channel_whatsapp" string="WhatsApp" domain="[('channel','=','whatsapp')]"/>
+        <filter name="channel_inapp" string="In-App" domain="[('channel','=','inapp')]"/>
+        <separator/>
+        <filter name="today" string="Today" domain="[('sent_at','&gt;=',                     (context_today()).strftime(                       '%Y-%m-%d 00:00:00'))]"/>
+        <filter name="this_week" string="This Week" domain="[('sent_at','&gt;=',                     (context_today() - datetime.timedelta(                       days=7)).strftime(                       '%Y-%m-%d 00:00:00'))]"/>
+        <separator/>
+        <filter name="group_by_channel" string="Channel" context="{'group_by':'channel'}"/>
+        <filter name="group_by_status" string="Status" context="{'group_by':'delivery_status'}"/>
+        <filter name="group_by_event" string="Trigger Event" context="{'group_by':'trigger_event'}"/>
+        <filter name="group_by_date" string="Date" context="{'group_by':'sent_at:day'}"/>
+        <filter name="group_by_student" string="Student" context="{'group_by':'student_id'}"/>
+        <filter name="group_by_company" string="Institution" context="{'group_by':'company_id'}"/>
+      </search>
+    </field>
+  </record>
+  <!-- ==================== ACTIONS ==================== -->
+  <record id="action_unicore_notification_log" model="ir.actions.act_window">
+    <field name="name">Notification Log</field>
+    <field name="res_model">unicore.notification.log</field>
+    <field name="view_mode">list,form</field>
+  </record>
+  <record id="action_unicore_notification_log_failed" model="ir.actions.act_window">
+    <field name="name">Failed Notifications</field>
+    <field name="res_model">unicore.notification.log</field>
+    <field name="view_mode">list,form</field>
+    <field name="domain">[('delivery_status','=','failed')]</field>
+  </record>
+  <record id="action_unicore_notification_log_today" model="ir.actions.act_window">
+    <field name="name">Today's Notifications</field>
+    <field name="res_model">unicore.notification.log</field>
+    <field name="view_mode">list,form</field>
+    <field name="context">{'search_default_today': 1}</field>
+  </record>
 </odoo>

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from odoo import http
 from odoo.http import request
 
@@ -148,7 +147,7 @@ class UnicoreDesignController(http.Controller):
             'system': 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
             'inter': '"Inter", sans-serif',
             'roboto': '"Roboto", sans-serif',
-            'outfit': '"Outfit", sans-serif'
+            'outfit': '"Outfit", sans-serif',
         }
         font_family = font_map.get(config.get('theme_font_family'), font_map['system'])
 
@@ -157,7 +156,7 @@ class UnicoreDesignController(http.Controller):
             'none': '0px',
             'small': '4px',
             'medium': '8px',
-            'large': '16px'
+            'large': '16px',
         }
         border_radius = radius_map.get(config.get('theme_border_radius'), radius_map['medium'])
 
@@ -170,7 +169,7 @@ class UnicoreDesignController(http.Controller):
             'midnight': 'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)',
         }
         startmenu_bg = startmenu_bg_map.get(
-            config.get('theme_start_menu_bg'), startmenu_bg_map['aurora']
+            config.get('theme_start_menu_bg'), startmenu_bg_map['aurora'],
         )
 
         # Map List Density Padding
@@ -217,5 +216,5 @@ body, .o_web_client, input, button, select, textarea, .btn, .o_input {{
             headers=[
                 ('Content-Type', 'text/css'),
                 ('Cache-Control', 'no-cache, no-store, must-revalidate'),
-            ]
+            ],
         )

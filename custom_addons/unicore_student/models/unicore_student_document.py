@@ -75,7 +75,7 @@ class UnicoreStudentDocument(models.Model):
         for record in self:
             if record.expiry_date and record.issue_date and record.expiry_date <= record.issue_date:
                 raise ValidationError(
-                    _('Expiry date must be after the issue date for document: %s') % record.name
+                    _('Expiry date must be after the issue date for document: %s') % record.name,
                 )
 
     def action_verify(self):

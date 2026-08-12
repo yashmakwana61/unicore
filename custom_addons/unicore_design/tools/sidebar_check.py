@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """Verify the UniCore dual-tier sidebar in headless Chromium (desktop + mobile).
 
 Checks, on a real headless Chromium:
@@ -67,7 +66,7 @@ def desktop_checks(page):
         """() => { const e = document.querySelector('.o_unicore_sidebar');
                    const r = e.getBoundingClientRect();
                    return { x: Math.round(r.x), w: Math.round(r.width),
-                            h: Math.round(r.height) }; }"""
+                            h: Math.round(r.height) }; }""",
     )
     check("sidebar fixed left", rect["x"] == 0 and rect["w"] == 280,
           f"rect={rect}")

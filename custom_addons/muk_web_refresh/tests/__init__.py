@@ -1,3 +1,1 @@
-from . import test_ir_actions_server
-from . import test_ir_http
-from . import test_js
+from . import test_ir_actions_server, test_ir_http, test_js

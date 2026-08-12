@@ -116,7 +116,7 @@ class ColorAssetsEditor(models.AbstractModel):
                     custom_url.split('/')[-1],
                 )
                 asset_values['bundle'] = self.env['ir.asset']._get_related_bundle(
-                    url, bundle
+                    url, bundle,
                 )
             self.env['ir.attachment'].create(attachment_values)
             self.env['ir.asset'].create(asset_values)
@@ -126,14 +126,14 @@ class ColorAssetsEditor(models.AbstractModel):
     # ----------------------------------------------------------
 
     def get_color_variables_values(
-        self, url: str, bundle: str, variables: list[str]
+        self, url: str, bundle: str, variables: list[str],
     ) -> dict:
         """Return the current values of the given color variables for a bundle."""
         content = self._get_colors_from_url(url, bundle)
         return self._get_color_variables(content.decode('utf-8'), variables)
 
     def replace_color_variables_values(
-        self, url: str, bundle: str, variables: list[dict]
+        self, url: str, bundle: str, variables: list[dict],
     ) -> None:
         """Apply new color variable values and save the customized asset."""
         original = self._get_colors_from_url(url, bundle).decode('utf-8')

@@ -1,5 +1,4 @@
 import logging
-
 from datetime import date
 
 from odoo import _, api, fields, models
@@ -112,11 +111,11 @@ class UnicoreDepartment(models.Model):
             if record.code:
                 if not record.code.isalnum():
                     raise ValidationError(
-                        _('Department code must be uppercase alphanumeric only.')
+                        _('Department code must be uppercase alphanumeric only.'),
                     )
                 if record.code != record.code.upper():
                     raise ValidationError(
-                        _('Department code must be uppercase only.')
+                        _('Department code must be uppercase only.'),
                     )
 
     @api.constrains('established_year')
@@ -127,14 +126,14 @@ class UnicoreDepartment(models.Model):
                 record.established_year < 1800 or record.established_year > current_year
             ):
                 raise ValidationError(
-                    _('Established year must be between 1800 and %(year)s.', year=current_year)
+                    _('Established year must be between 1800 and %(year)s.', year=current_year),
                 )
 
     def action_set_operational(self):
         self.ensure_one()
         if not self.program_ids:
             raise UserError(
-                _('You must add at least one program before setting the department to Operational.')
+                _('You must add at least one program before setting the department to Operational.'),
             )
         self.dept_state = 'active'
 

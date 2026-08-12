@@ -80,5 +80,5 @@ class UnicoreCampus(models.Model):
         for campus in self:
             if campus.student_capacity and campus.student_capacity < 0:
                 raise ValidationError(
-                    _('Student capacity must be a non-negative number.')
+                    _('Student capacity must be a non-negative number.'),
                 )

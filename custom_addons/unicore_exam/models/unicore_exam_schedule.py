@@ -8,10 +8,10 @@ for the same offering. Hall tickets and seating
 plans are generated from the exam schedule.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
-from datetime import date, datetime, timedelta
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -261,10 +261,10 @@ class UniCoreExamSchedule(models.Model):
         for rec in self:
             tickets = rec.hall_ticket_ids
             rec.eligible_count = len(tickets.filtered(
-                lambda t: t.eligibility_status == 'eligible'
+                lambda t: t.eligibility_status == 'eligible',
             ))
             rec.ineligible_count = len(tickets.filtered(
-                lambda t: t.eligibility_status == 'ineligible'
+                lambda t: t.eligibility_status == 'ineligible',
             ))
 
     @api.depends('seating_ids')
@@ -297,7 +297,7 @@ class UniCoreExamSchedule(models.Model):
             if rec.total_marks and rec.exam_max_marks > rec.total_marks:
                 raise ValidationError(
                     _('Exam max marks (%s) cannot exceed course total marks (%s).')
-                    % (rec.exam_max_marks, rec.total_marks)
+                    % (rec.exam_max_marks, rec.total_marks),
                 )
 
     def action_publish(self):
@@ -364,7 +364,7 @@ class UniCoreExamSchedule(models.Model):
         self.exam_state = 'hall_tickets_generated'
         self.message_post(
             body=_('%d hall tickets generated. Eligible: %d, Ineligible: %d.')
-            % (created_count, self.eligible_count, self.ineligible_count)
+            % (created_count, self.eligible_count, self.ineligible_count),
         )
 
     def action_generate_seating(self):
@@ -378,11 +378,11 @@ class UniCoreExamSchedule(models.Model):
         Seating.search([('exam_schedule_id', '=', self.id)]).unlink()
 
         approved_tickets = self.hall_ticket_ids.filtered(
-            lambda t: t.ticket_state == 'approved' and t.eligibility_status == 'eligible'
+            lambda t: t.ticket_state == 'approved' and t.eligibility_status == 'eligible',
         )
         if not approved_tickets:
             raise UserError(
-                _('No approved, eligible hall tickets found. Approve eligible hall tickets before generating seating.')
+                _('No approved, eligible hall tickets found. Approve eligible hall tickets before generating seating.'),
             )
 
         student_list = list(approved_tickets)
@@ -416,7 +416,7 @@ class UniCoreExamSchedule(models.Model):
         self.exam_state = 'seating_generated'
         self.message_post(
             body=_('Seating plan generated for %d students across %d venue(s).')
-            % (len(seating_records), len(self.venue_ids))
+            % (len(seating_records), len(self.venue_ids)),
         )
 
     def action_mark_ongoing(self):
@@ -443,10 +443,10 @@ class UniCoreExamSchedule(models.Model):
         self.ensure_one()
         eligible_draft = self.hall_ticket_ids.filtered(
             lambda t: (t.ticket_state == 'draft'
-                       and t.eligibility_status == 'eligible')
+                       and t.eligibility_status == 'eligible'),
         )
         for ticket in eligible_draft:
             ticket.ticket_state = 'approved'
         self.message_post(
-            body=_('%d eligible tickets approved.') % len(eligible_draft)
+            body=_('%d eligible tickets approved.') % len(eligible_draft),
         )

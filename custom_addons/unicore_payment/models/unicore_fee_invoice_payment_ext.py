@@ -69,7 +69,7 @@ class UniCoreFeeInvoicePaymentExt(models.Model):
             return _(
                 'The GL invoice is not available for online payment. '
                 'Make sure the fee invoice has been sent (GL invoice created '
-                'and posted).'
+                'and posted).',
             )
         return move._get_online_payment_error()
 
@@ -100,11 +100,11 @@ class UniCoreFeeInvoicePaymentExt(models.Model):
         if not move:
             raise UserError(_(
                 'No posted GL invoice is linked to this fee invoice. '
-                'Send the fee invoice first.'
+                'Send the fee invoice first.',
             ))
         if not move._has_to_be_paid():
             raise UserError(_(
-                'This invoice cannot be paid online. %s'
+                'This invoice cannot be paid online. %s',
             ) % move._get_online_payment_error())
 
         return {

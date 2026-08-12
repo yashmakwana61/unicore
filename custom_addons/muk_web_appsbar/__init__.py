@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from . import models
-
 import base64
 
 from odoo.api import Environment
 from odoo.tools import file_open
+
+from . import models
 
 
 def _setup_module(env: Environment) -> None:
@@ -15,5 +15,5 @@ def _setup_module(env: Environment) -> None:
             env.ref('base.main_company').write(
                 {
                     'appbar_image': base64.b64encode(file.read()),
-                }
+                },
             )

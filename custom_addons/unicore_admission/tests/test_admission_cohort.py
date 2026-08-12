@@ -5,9 +5,8 @@ grade-batch (K-12) programs require one, and that admission confirmation
 propagates it to the created student.
 """
 
-from datetime import date, timedelta
+from datetime import date
 
-from odoo import fields
 from odoo.exceptions import ValidationError
 from odoo.tests import TransactionCase, tagged
 

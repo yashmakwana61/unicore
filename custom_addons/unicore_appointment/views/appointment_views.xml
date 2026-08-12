@@ -1,127 +1,117 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-    <data>
-        <record id="view_unicore_appointment_slot_tree" model="ir.ui.view">
-            <field name="name">unicore.appointment.slot.tree</field>
-            <field name="model">unicore.appointment.slot</field>
-            <field name="arch" type="xml">
-                <list string="Appointment Slots">
-                    <field name="faculty_id" widget="many2one_avatar"/>
-                    <field name="date"/>
-                    <field name="start_time" widget="float_time"/>
-                    <field name="end_time" widget="float_time"/>
-                    <field name="max_bookings"/>
-                    <field name="booking_count"/>
-                    <field name="is_available" widget="boolean"/>
-                </list>
-            </field>
-        </record>
-
-        <record id="view_unicore_appointment_slot_form" model="ir.ui.view">
-            <field name="name">unicore.appointment.slot.form</field>
-            <field name="model">unicore.appointment.slot</field>
-            <field name="arch" type="xml">
-                <form string="Appointment Slot">
-                    <sheet>
-                        <div class="oe_title">
-                            <h1><field name="name"/></h1>
-                        </div>
-                        <group>
-                            <group>
-                                <field name="faculty_id" widget="many2one_avatar"/>
-                                <field name="company_id" invisible="1"/>
-                                <field name="date"/>
-                            </group>
-                            <group>
-                                <field name="start_time" widget="float_time"/>
-                                <field name="end_time" widget="float_time"/>
-                                <field name="max_bookings"/>
-                                <field name="booking_count"/>
-                                <field name="is_available"/>
-                            </group>
-                        </group>
-                        <notebook>
-                            <page string="Bookings" name="bookings">
-                                <field name="booking_ids">
-                                    <list string="Bookings" editable="bottom">
-                                        <field name="student_id" widget="many2one_avatar"/>
-                                        <field name="purpose"/>
-                                        <field name="state" widget="badge"
-                                               decoration-info="state == 'draft'"
-                                               decoration-success="state == 'confirmed'"
-                                               decoration-muted="state in ('cancelled', 'no_show')"
-                                               decoration-warning="state == 'completed'"/>
-                                    </list>
-                                </field>
-                            </page>
-                        </notebook>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-        <record id="view_unicore_appointment_booking_tree" model="ir.ui.view">
-            <field name="name">unicore.appointment.booking.tree</field>
-            <field name="model">unicore.appointment.booking</field>
-            <field name="arch" type="xml">
-                <list string="Appointment Bookings">
+  <data>
+    <record id="view_unicore_appointment_slot_tree" model="ir.ui.view">
+      <field name="name">unicore.appointment.slot.tree</field>
+      <field name="model">unicore.appointment.slot</field>
+      <field name="arch" type="xml">
+        <list string="Appointment Slots">
+          <field name="faculty_id" widget="many2one_avatar"/>
+          <field name="date"/>
+          <field name="start_time" widget="float_time"/>
+          <field name="end_time" widget="float_time"/>
+          <field name="max_bookings"/>
+          <field name="booking_count"/>
+          <field name="is_available" widget="boolean"/>
+        </list>
+      </field>
+    </record>
+    <record id="view_unicore_appointment_slot_form" model="ir.ui.view">
+      <field name="name">unicore.appointment.slot.form</field>
+      <field name="model">unicore.appointment.slot</field>
+      <field name="arch" type="xml">
+        <form string="Appointment Slot">
+          <sheet>
+            <div class="oe_title">
+              <h1>
+                <field name="name"/>
+              </h1>
+            </div>
+            <group>
+              <group>
+                <field name="faculty_id" widget="many2one_avatar"/>
+                <field name="company_id" invisible="1"/>
+                <field name="date"/>
+              </group>
+              <group>
+                <field name="start_time" widget="float_time"/>
+                <field name="end_time" widget="float_time"/>
+                <field name="max_bookings"/>
+                <field name="booking_count"/>
+                <field name="is_available"/>
+              </group>
+            </group>
+            <notebook>
+              <page string="Bookings" name="bookings">
+                <field name="booking_ids">
+                  <list string="Bookings" editable="bottom">
                     <field name="student_id" widget="many2one_avatar"/>
-                    <field name="slot_id"/>
                     <field name="purpose"/>
-                    <field name="state" widget="badge"
-                           decoration-info="state == 'draft'"
-                           decoration-success="state == 'confirmed'"
-                           decoration-warning="state == 'completed'"
-                           decoration-danger="state == 'no_show'"
-                           decoration-muted="state == 'cancelled'"/>
-                </list>
-            </field>
-        </record>
-
-        <record id="view_unicore_appointment_booking_form" model="ir.ui.view">
-            <field name="name">unicore.appointment.booking.form</field>
-            <field name="model">unicore.appointment.booking</field>
-            <field name="arch" type="xml">
-                <form string="Appointment Booking">
-                    <header>
-                        <button name="action_confirm" string="Confirm" type="object" class="oe_highlight" invisible="state != 'draft'"/>
-                        <button name="action_complete" string="Complete" type="object" invisible="state != 'confirmed'"/>
-                        <button name="action_no_show" string="No Show" type="object" invisible="state != 'confirmed'"/>
-                        <button name="action_cancel" string="Cancel" type="object" invisible="state in ('completed', 'cancelled', 'no_show')"/>
-                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,completed"/>
-                    </header>
-                    <sheet>
-                        <div class="oe_title">
-                            <h1><field name="name"/></h1>
-                        </div>
-                        <group>
-                            <group>
-                                <field name="student_id" widget="many2one_avatar"/>
-                                <field name="company_id" invisible="1"/>
-                            </group>
-                            <group>
-                                <field name="slot_id"/>
-                            </group>
-                        </group>
-                        <group string="Purpose">
-                            <field name="purpose" nolabel="1" placeholder="State the purpose of the appointment..."/>
-                        </group>
-                    </sheet>
-                    <chatter/>
-                </form>
-            </field>
-        </record>
-
-        <record id="action_unicore_appointment_slot" model="ir.actions.act_window">
-            <field name="name">Appointment Slots</field>
-            <field name="res_model">unicore.appointment.slot</field>
-            <field name="view_mode">list,form</field>
-        </record>
-
-        <record id="action_unicore_appointment_booking" model="ir.actions.act_window">
-            <field name="name">Appointment Bookings</field>
-            <field name="res_model">unicore.appointment.booking</field>
-            <field name="view_mode">list,form</field>
-        </record>
-    </data>
+                    <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'confirmed'" decoration-muted="state in ('cancelled', 'no_show')" decoration-warning="state == 'completed'"/>
+                  </list>
+                </field>
+              </page>
+            </notebook>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    <record id="view_unicore_appointment_booking_tree" model="ir.ui.view">
+      <field name="name">unicore.appointment.booking.tree</field>
+      <field name="model">unicore.appointment.booking</field>
+      <field name="arch" type="xml">
+        <list string="Appointment Bookings">
+          <field name="student_id" widget="many2one_avatar"/>
+          <field name="slot_id"/>
+          <field name="purpose"/>
+          <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'confirmed'" decoration-warning="state == 'completed'" decoration-danger="state == 'no_show'" decoration-muted="state == 'cancelled'"/>
+        </list>
+      </field>
+    </record>
+    <record id="view_unicore_appointment_booking_form" model="ir.ui.view">
+      <field name="name">unicore.appointment.booking.form</field>
+      <field name="model">unicore.appointment.booking</field>
+      <field name="arch" type="xml">
+        <form string="Appointment Booking">
+          <header>
+            <button name="action_confirm" string="Confirm" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+            <button name="action_complete" string="Complete" type="object" invisible="state != 'confirmed'"/>
+            <button name="action_no_show" string="No Show" type="object" invisible="state != 'confirmed'"/>
+            <button name="action_cancel" string="Cancel" type="object" invisible="state in ('completed', 'cancelled', 'no_show')"/>
+            <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,completed"/>
+          </header>
+          <sheet>
+            <div class="oe_title">
+              <h1>
+                <field name="name"/>
+              </h1>
+            </div>
+            <group>
+              <group>
+                <field name="student_id" widget="many2one_avatar"/>
+                <field name="company_id" invisible="1"/>
+              </group>
+              <group>
+                <field name="slot_id"/>
+              </group>
+            </group>
+            <group string="Purpose">
+              <field name="purpose" nolabel="1" placeholder="State the purpose of the appointment..."/>
+            </group>
+          </sheet>
+          <chatter/>
+        </form>
+      </field>
+    </record>
+    <record id="action_unicore_appointment_slot" model="ir.actions.act_window">
+      <field name="name">Appointment Slots</field>
+      <field name="res_model">unicore.appointment.slot</field>
+      <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_unicore_appointment_booking" model="ir.actions.act_window">
+      <field name="name">Appointment Bookings</field>
+      <field name="res_model">unicore.appointment.booking</field>
+      <field name="view_mode">list,form</field>
+    </record>
+  </data>
 </odoo>

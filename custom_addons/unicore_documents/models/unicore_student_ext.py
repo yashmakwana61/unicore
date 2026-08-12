@@ -1,4 +1,4 @@
-from odoo import api, fields, models, _
+from odoo import _, fields, models
 
 
 class UniCoreStudentDocumentExt(models.Model):

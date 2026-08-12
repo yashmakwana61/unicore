@@ -189,7 +189,7 @@ class UniCoreApiEndpointTest(HttpCase):
     def test_04_invalid_key_returns_401(self):
         headers = {'X-UniCore-Key': 'fake_key_xyz'}
         response = self.url_open(
-            '/api/unicore/v1/students', headers=headers
+            '/api/unicore/v1/students', headers=headers,
         )
         self.assertEqual(response.status_code, 401)
         data = self._json(response)

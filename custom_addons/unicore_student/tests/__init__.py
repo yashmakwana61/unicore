@@ -1,3 +1,1 @@
-from . import test_student_model
-from . import test_student_cohort
-from . import test_student_cohort_roster
+from . import test_student_cohort, test_student_cohort_roster, test_student_model

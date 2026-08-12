@@ -5,9 +5,10 @@ Stores eligibility criteria, funding details,
 award amounts and application quota.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -208,7 +209,7 @@ class UniCoreScholarshipProgram(models.Model):
             rec.application_count = len(apps)
             approved = apps.filtered(
                 lambda a: a.application_state
-                == 'approved'
+                == 'approved',
             )
             rec.approved_count = len(approved)
             awards = Award.search([
@@ -245,7 +246,7 @@ class UniCoreScholarshipProgram(models.Model):
             if not (0.0 <= rec.min_cgpa <= 10.0):
                 raise ValidationError(
                     _('Minimum CGPA must be between '
-                      '0 and 10.')
+                      '0 and 10.'),
                 )
 
     @api.constrains('total_quota')
@@ -253,7 +254,7 @@ class UniCoreScholarshipProgram(models.Model):
         for rec in self:
             if rec.total_quota < 1:
                 raise ValidationError(
-                    _('Quota must be at least 1.')
+                    _('Quota must be at least 1.'),
                 )
 
     @api.constrains('award_amount')
@@ -261,7 +262,7 @@ class UniCoreScholarshipProgram(models.Model):
         for rec in self:
             if rec.award_amount < 0:
                 raise ValidationError(
-                    _('Award amount cannot be negative.')
+                    _('Award amount cannot be negative.'),
                 )
 
     def action_open(self):
@@ -270,26 +271,26 @@ class UniCoreScholarshipProgram(models.Model):
             raise UserError(
                 _('Please set an award amount or '
                   'percentage before opening '
-                  'for applications.')
+                  'for applications.'),
             )
         self.program_state = 'open'
         self.message_post(
             body=_('Scholarship program opened '
-                   'for applications.')
+                   'for applications.'),
         )
 
     def action_close(self):
         self.ensure_one()
         self.program_state = 'closed'
         self.message_post(
-            body=_('Application window closed.')
+            body=_('Application window closed.'),
         )
 
     def action_complete(self):
         self.ensure_one()
         self.program_state = 'completed'
         self.message_post(
-            body=_('Scholarship program completed.')
+            body=_('Scholarship program completed.'),
         )
 
     def action_reset_draft(self):

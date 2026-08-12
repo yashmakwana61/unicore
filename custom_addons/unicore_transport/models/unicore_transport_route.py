@@ -5,9 +5,9 @@ with ordered stops, distance and timing information.
 A route has one primary vehicle assigned.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
 import logging
+
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -130,8 +130,8 @@ class UniCoreTransportRoute(models.Model):
             rec.stop_count = len(rec.stop_ids)
             rec.active_pass_count = len(
                 rec.pass_ids.filtered(
-                    lambda p: p.pass_state == 'active'
-                )
+                    lambda p: p.pass_state == 'active',
+                ),
             )
 
     pass_ids = fields.One2many(

@@ -1,5 +1,4 @@
 import logging
-
 from datetime import date, timedelta
 
 from odoo import _, api, fields, models
@@ -23,7 +22,7 @@ class UnicoreStudent(models.Model):
     middle_name = fields.Char(string='Middle Name')
     last_name = fields.Char(string='Last Name / Surname')
     display_name = fields.Char(
-        string='Display Name', compute='_compute_display_name', store=True
+        string='Display Name', compute='_compute_display_name', store=True,
     )
     student_id_number = fields.Char(
         string='Student ID', readonly=True, copy=False,
@@ -332,8 +331,8 @@ class UnicoreStudent(models.Model):
             if record.partner_id and portal_group:
                 record.has_portal_access = bool(
                     record.partner_id.user_ids.filtered(
-                        lambda u: portal_group in u.group_ids
-                    )
+                        lambda u: portal_group in u.group_ids,
+                    ),
                 )
             else:
                 record.has_portal_access = False
@@ -394,12 +393,12 @@ class UnicoreStudent(models.Model):
             if kind == 'grade_batch' and not record.grade_level_id:
                 raise ValidationError(
                     _('A grade level is required for students in a '
-                      'Grade-Level Batch program.')
+                      'Grade-Level Batch program.'),
                 )
             if kind == 'rolling' and not record.cohort_start_date:
                 raise ValidationError(
                     _('A cohort start date is required for students in a '
-                      'Rolling Intake program.')
+                      'Rolling Intake program.'),
                 )
 
     # -------------------- ONCHANGE --------------------
@@ -412,7 +411,7 @@ class UnicoreStudent(models.Model):
             if self.admission_date and self.program_id.duration_years:
                 dur_years = int(self.program_id.duration_years)
                 self.expected_graduation_date = self.admission_date + timedelta(
-                    days=dur_years * 365
+                    days=dur_years * 365,
                 )
 
     @api.onchange('program_id', 'admission_date')

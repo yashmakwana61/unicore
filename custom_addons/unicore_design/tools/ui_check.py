@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 Reusable Playwright UI checker for the unicore_design module.
 
@@ -27,7 +26,6 @@ import json
 import os
 import subprocess
 import sys
-import time
 
 from playwright.sync_api import sync_playwright
 

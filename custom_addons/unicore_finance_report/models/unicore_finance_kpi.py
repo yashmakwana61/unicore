@@ -6,9 +6,10 @@ the dashboard view. KPIs are computed on-demand
 via a wizard or refreshed by the cron job.
 """
 
-from odoo import api, fields, models, _
-from datetime import date
 import logging
+from datetime import date
+
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -155,7 +156,7 @@ class UniCoreFinanceKPI(models.Model):
         ]
         if semester_id:
             inv_domain.append(
-                ('semester_id', '=', semester_id)
+                ('semester_id', '=', semester_id),
             )
 
         invoices = Invoice.search(inv_domain)
@@ -175,16 +176,16 @@ class UniCoreFinanceKPI(models.Model):
         )
         collection_efficiency = (
             round(
-                total_collected / total_billed * 100, 2
+                total_collected / total_billed * 100, 2,
             )
             if total_billed > 0 else 0.0
         )
 
         paid_students = invoices.filtered(
-            lambda i: i.invoice_state == 'paid'
+            lambda i: i.invoice_state == 'paid',
         ).mapped('student_id')
         overdue_students = invoices.filtered(
-            lambda i: i.invoice_state == 'overdue'
+            lambda i: i.invoice_state == 'overdue',
         ).mapped('student_id')
 
         awards = Award.search([
@@ -192,7 +193,7 @@ class UniCoreFinanceKPI(models.Model):
             ('award_state', '=', 'disbursed'),
         ])
         scholarship_students = set(
-            awards.mapped('student_id').ids
+            awards.mapped('student_id').ids,
         )
 
         cash = sum(
@@ -211,7 +212,7 @@ class UniCoreFinanceKPI(models.Model):
         other = total_collected - cash - online - bank
 
         company = self.env['res.company'].browse(
-            company_id
+            company_id,
         )
 
         vals = {
@@ -226,10 +227,10 @@ class UniCoreFinanceKPI(models.Model):
             'total_students_billed': len(invoices),
             'total_students_paid': len(paid_students),
             'total_students_overdue': len(
-                overdue_students
+                overdue_students,
             ),
             'total_students_scholarship': len(
-                scholarship_students
+                scholarship_students,
             ),
             'cash_collected': cash,
             'online_collected': online,
@@ -246,5 +247,4 @@ class UniCoreFinanceKPI(models.Model):
         if existing:
             existing.write(vals)
             return existing
-        else:
-            return self.create(vals)
+        return self.create(vals)

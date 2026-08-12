@@ -46,5 +46,5 @@ class PaymentTransaction(models.Model):
                 fee_invoice.invoice_state = 'partial'
             last_reference = fee_invoice.account_move_id.transaction_ids._get_last().reference or 'Unknown'
             fee_invoice.message_post(body=_(
-                'Online payment confirmed (transaction %s).'
+                'Online payment confirmed (transaction %s).',
             ) % last_reference)

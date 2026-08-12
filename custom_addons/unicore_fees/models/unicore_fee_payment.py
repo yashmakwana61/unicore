@@ -1,7 +1,8 @@
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
-from datetime import date
 import logging
+from datetime import date
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -29,7 +30,7 @@ class UniCoreFeePayment(models.Model):
             )
             if invoice_name:
                 rec.display_name = '%s - %s' % (
-                    rec.receipt_number, invoice_name
+                    rec.receipt_number, invoice_name,
                 )
             else:
                 rec.display_name = rec.receipt_number or ''
@@ -127,7 +128,7 @@ class UniCoreFeePayment(models.Model):
                 raise ValidationError(_('Payment amount must be positive.'))
             if rec.invoice_id and rec.amount > rec.invoice_id.amount_outstanding + rec.amount:
                 raise ValidationError(_(
-                    'Payment amount (%.2f) exceeds outstanding balance (%.2f).'
+                    'Payment amount (%.2f) exceeds outstanding balance (%.2f).',
                 ) % (rec.amount, rec.invoice_id.amount_outstanding))
 
     @api.model_create_multi
@@ -148,7 +149,7 @@ class UniCoreFeePayment(models.Model):
         self.write({'payment_state': 'confirmed'})
         self._update_invoice_state()
         self.message_post(body=_('Payment %s confirmed. Amount: %s') % (
-            self.receipt_number, self.amount
+            self.receipt_number, self.amount,
         ))
 
     def action_cancel(self):

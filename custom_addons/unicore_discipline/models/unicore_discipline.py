@@ -1,4 +1,4 @@
-from odoo import api, fields, models, _
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -14,7 +14,7 @@ class MisbehaviourCategory(models.Model):
         ('low', 'Low'),
         ('medium', 'Medium'),
         ('high', 'High'),
-        ('critical', 'Critical')
+        ('critical', 'Critical'),
     ], string='Severity Level', required=True, default='low')
     company_id = fields.Many2one('res.company', string='Institution', default=lambda self: self.env.company)
 
@@ -65,7 +65,7 @@ class DisciplineRecord(models.Model):
         ('under_review', 'Under Review'),
         ('action_taken', 'Action Taken'),
         ('closed', 'Closed'),
-        ('cancelled', 'Cancelled')
+        ('cancelled', 'Cancelled'),
     ], string='Status', default='draft', required=True, tracking=True)
 
     @api.constrains('incident_date')

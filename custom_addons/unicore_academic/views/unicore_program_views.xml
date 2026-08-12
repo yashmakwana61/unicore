@@ -1,207 +1,177 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-
-    <!-- Window Action -->
-    <record id="action_unicore_program" model="ir.actions.act_window">
-        <field name="name">Programs</field>
-        <field name="res_model">unicore.program</field>
-        <field name="view_mode">kanban,list,form</field>
-        <field name="domain">[]</field>
-        <field name="context">{}</field>
-    </record>
-
-    <!-- Form View -->
-    <record id="unicore_program_form_view" model="ir.ui.view">
-        <field name="name">unicore.program.form</field>
-        <field name="model">unicore.program</field>
-        <field name="arch" type="xml">
-            <form>
-                <header>
-                    <field name="program_state" widget="statusbar"
-                           statusbar_visible="draft,approved,active,discontinued"/>
-                    <button name="action_approve" type="object"
-                            string="Approve" class="btn-primary"
-                            invisible="program_state != 'draft'"/>
-                    <button name="action_activate" type="object"
-                            string="Activate"
-                            invisible="program_state != 'approved'"/>
-                    <button name="action_discontinue" type="object"
-                            string="Discontinue"
-                            invisible="program_state != 'active'"/>
-                    <button name="action_reset_draft" type="object"
-                            string="Reset to Draft"
-                            groups="unicore_base.group_unicore_admin"
-                            invisible="program_state == 'draft'"/>
-                </header>
-                <sheet>
-                    <div class="oe_button_box" name="button_box">
-                        <button name="action_open_specialisations" type="object"
-                                class="oe_stat_button" icon="fa-bookmark">
-                            <field string="Specialisations" name="specialisation_count" widget="statinfo"/>
-                        </button>
-                    </div>
-                    <group>
-                        <group name="left">
-                            <field name="name"/>
-                            <field name="code"/>
-                            <field name="degree_title"/>
-                            <field name="is_legacy_institution" invisible="1"/>
-                            <field name="department_id" options="{'no_create': True}"
-                                   required="is_legacy_institution"/>
-                            <field name="academic_unit_id" options="{'no_create': True}"
-                                   invisible="is_legacy_institution"/>
-                            <field name="faculty_id"/>
-                            <field name="company_id"/>
-                            <field name="coordinator_id" options="{'no_create': True}"/>
-                            <field name="sequence"/>
-                        </group>
-                        <group name="right">
-                            <field name="program_type"/>
-                            <field name="program_state"/>
-                            <field name="duration_years"/>
-                            <field name="semesters_count"/>
-                            <field name="total_credits"/>
-                            <field name="credit_system"/>
-                            <field name="cohort_kind" readonly="is_legacy_institution"/>
-                            <field name="cohort_grouping_label" readonly="1"/>
-                            <field name="campus_ids" widget="many2many_tags"/>
-                        </group>
-                    </group>
-                    <separator string="Financial Information"/>
-                    <group>
-                        <group>
-                            <field name="tuition_fee_per_semester"/>
-                        </group>
-                        <group>
-                            <field name="currency_id" options="{'no_create': True}"/>
-                        </group>
-                    </group>
-                    <separator string="Accreditation"/>
-                    <group>
-                        <group>
-                            <field name="accreditation_status"/>
-                            <field name="accreditation_body"/>
-                        </group>
-                        <group>
-                            <field name="accreditation_expiry"/>
-                        </group>
-                    </group>
-                    <notebook>
-                        <page name="specialisations" string="Specialisations">
-                            <field name="specialisation_ids">
-                                <list editable="bottom">
-                                    <field name="code"/>
-                                    <field name="name"/>
-                                    <field name="min_credits"/>
-                                    <field name="is_default"/>
-                                </list>
-                            </field>
-                        </page>
-                        <page name="entry_requirements" string="Entry Requirements">
-                            <field name="min_entry_qualification"/>
-                        </page>
-                        <page name="overview" string="Program Overview">
-                            <field name="description" widget="html"/>
-                        </page>
-                        <page name="outcomes" string="Learning Outcomes">
-                            <field name="learning_outcomes" widget="html"/>
-                        </page>
-                    </notebook>
-                </sheet>
-                <chatter/>
-            </form>
-        </field>
-    </record>
-
-    <!-- List View -->
-    <record id="unicore_program_list_view" model="ir.ui.view">
-        <field name="name">unicore.program.list</field>
-        <field name="model">unicore.program</field>
-        <field name="arch" type="xml">
-            <list>
-                <field name="code"/>
-                <field name="name"/>
-                <field name="department_id"/>
-                <field name="academic_unit_id" optional="hide"/>
-                <field name="faculty_id"/>
-                <field name="program_type"/>
-                <field name="cohort_kind" optional="hide"/>
-                <field name="duration_years"/>
-                <field name="total_credits"/>
-                <field name="program_state"/>
-                <field name="accreditation_status" optional="hide"/>
-            </list>
-        </field>
-    </record>
-
-    <!-- Search View -->
-    <record id="unicore_program_search_view" model="ir.ui.view">
-        <field name="name">unicore.program.search</field>
-        <field name="model">unicore.program</field>
-        <field name="arch" type="xml">
-            <search>
-                <field name="name"/>
-                <field name="code"/>
-                <field name="department_id"/>
-                <field name="academic_unit_id"/>
-                <field name="faculty_id"/>
-                <field name="program_type"/>
-                <field name="cohort_kind"/>
-                <filter name="filter_active" string="Active Programs"
-                        domain="[('program_state', '=', 'active')]"/>
-                <filter name="filter_undergrad" string="Undergraduate"
-                        domain="[('program_type', '=', 'undergraduate')]"/>
-                <filter name="filter_postgrad" string="Postgraduate"
-                        domain="[('program_type', '=', 'postgraduate')]"/>
-                <filter name="filter_doctoral" string="Doctoral"
-                        domain="[('program_type', '=', 'doctoral')]"/>
-                <filter name="filter_accredited" string="Accredited"
-                        domain="[('accreditation_status', '=', 'accredited')]"/>
-                <group name="groupby">
-                    <filter name="groupby_department" string="Department"
-                            context="{'group_by': 'department_id'}"/>
-                    <filter name="groupby_academic_unit" string="Academic Unit"
-                            context="{'group_by': 'academic_unit_id'}"/>
-                    <filter name="groupby_faculty" string="Faculty"
-                            context="{'group_by': 'faculty_id'}"/>
-                    <filter name="groupby_type" string="Program Type"
-                            context="{'group_by': 'program_type'}"/>
-                    <filter name="groupby_cohort" string="Cohort Kind"
-                            context="{'group_by': 'cohort_kind'}"/>
-                    <filter name="groupby_status" string="Status"
-                            context="{'group_by': 'program_state'}"/>
-                </group>
-            </search>
-        </field>
-    </record>
-
-    <!-- Kanban View -->
-    <record id="unicore_program_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.program.kanban</field>
-        <field name="model">unicore.program</field>
-        <field name="arch" type="xml">
-            <kanban class="o_kanban_mobile" highlight_color="color">
-                <field name="code"/>
-                <field name="name"/>
-                <field name="program_type"/>
-                <field name="department_id"/>
-                <field name="duration_years"/>
-                <field name="program_state"/>
-                <field name="color"/>
-                <templates>
-                    <t t-name="card" class="flex-row">
-                        <main>
-                            <field name="code" class="fw-bold fs-5"/>
-                            <field name="name"/>
-                            <field name="program_type"/>
-                            <field name="department_id"/>
-                            <field name="duration_years"/>
-                            <field name="program_state" widget="badge"/>
-                        </main>
-                    </t>
-                </templates>
-            </kanban>
-        </field>
-    </record>
-
+  <!-- Window Action -->
+  <record id="action_unicore_program" model="ir.actions.act_window">
+    <field name="name">Programs</field>
+    <field name="res_model">unicore.program</field>
+    <field name="view_mode">kanban,list,form</field>
+    <field name="domain">[]</field>
+    <field name="context">{}</field>
+  </record>
+  <!-- Form View -->
+  <record id="unicore_program_form_view" model="ir.ui.view">
+    <field name="name">unicore.program.form</field>
+    <field name="model">unicore.program</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+          <field name="program_state" widget="statusbar" statusbar_visible="draft,approved,active,discontinued"/>
+          <button name="action_approve" type="object" string="Approve" class="btn-primary" invisible="program_state != 'draft'"/>
+          <button name="action_activate" type="object" string="Activate" invisible="program_state != 'approved'"/>
+          <button name="action_discontinue" type="object" string="Discontinue" invisible="program_state != 'active'"/>
+          <button name="action_reset_draft" type="object" string="Reset to Draft" groups="unicore_base.group_unicore_admin" invisible="program_state == 'draft'"/>
+        </header>
+        <sheet>
+          <div class="oe_button_box" name="button_box">
+            <button name="action_open_specialisations" type="object" class="oe_stat_button" icon="fa-bookmark">
+              <field string="Specialisations" name="specialisation_count" widget="statinfo"/>
+            </button>
+          </div>
+          <group>
+            <group name="left">
+              <field name="name"/>
+              <field name="code"/>
+              <field name="degree_title"/>
+              <field name="is_legacy_institution" invisible="1"/>
+              <field name="department_id" options="{'no_create': True}" required="is_legacy_institution"/>
+              <field name="academic_unit_id" options="{'no_create': True}" invisible="is_legacy_institution"/>
+              <field name="faculty_id"/>
+              <field name="company_id"/>
+              <field name="coordinator_id" options="{'no_create': True}"/>
+              <field name="sequence"/>
+            </group>
+            <group name="right">
+              <field name="program_type"/>
+              <field name="program_state"/>
+              <field name="duration_years"/>
+              <field name="semesters_count"/>
+              <field name="total_credits"/>
+              <field name="credit_system"/>
+              <field name="cohort_kind" readonly="is_legacy_institution"/>
+              <field name="cohort_grouping_label" readonly="1"/>
+              <field name="campus_ids" widget="many2many_tags"/>
+            </group>
+          </group>
+          <separator string="Financial Information"/>
+          <group>
+            <group>
+              <field name="tuition_fee_per_semester"/>
+            </group>
+            <group>
+              <field name="currency_id" options="{'no_create': True}"/>
+            </group>
+          </group>
+          <separator string="Accreditation"/>
+          <group>
+            <group>
+              <field name="accreditation_status"/>
+              <field name="accreditation_body"/>
+            </group>
+            <group>
+              <field name="accreditation_expiry"/>
+            </group>
+          </group>
+          <notebook>
+            <page name="specialisations" string="Specialisations">
+              <field name="specialisation_ids">
+                <list editable="bottom">
+                  <field name="code"/>
+                  <field name="name"/>
+                  <field name="min_credits"/>
+                  <field name="is_default"/>
+                </list>
+              </field>
+            </page>
+            <page name="entry_requirements" string="Entry Requirements">
+              <field name="min_entry_qualification"/>
+            </page>
+            <page name="overview" string="Program Overview">
+              <field name="description" widget="html"/>
+            </page>
+            <page name="outcomes" string="Learning Outcomes">
+              <field name="learning_outcomes" widget="html"/>
+            </page>
+          </notebook>
+        </sheet>
+        <chatter/>
+      </form>
+    </field>
+  </record>
+  <!-- List View -->
+  <record id="unicore_program_list_view" model="ir.ui.view">
+    <field name="name">unicore.program.list</field>
+    <field name="model">unicore.program</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="code"/>
+        <field name="name"/>
+        <field name="department_id"/>
+        <field name="academic_unit_id" optional="hide"/>
+        <field name="faculty_id"/>
+        <field name="program_type"/>
+        <field name="cohort_kind" optional="hide"/>
+        <field name="duration_years"/>
+        <field name="total_credits"/>
+        <field name="program_state"/>
+        <field name="accreditation_status" optional="hide"/>
+      </list>
+    </field>
+  </record>
+  <!-- Search View -->
+  <record id="unicore_program_search_view" model="ir.ui.view">
+    <field name="name">unicore.program.search</field>
+    <field name="model">unicore.program</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="name"/>
+        <field name="code"/>
+        <field name="department_id"/>
+        <field name="academic_unit_id"/>
+        <field name="faculty_id"/>
+        <field name="program_type"/>
+        <field name="cohort_kind"/>
+        <filter name="filter_active" string="Active Programs" domain="[('program_state', '=', 'active')]"/>
+        <filter name="filter_undergrad" string="Undergraduate" domain="[('program_type', '=', 'undergraduate')]"/>
+        <filter name="filter_postgrad" string="Postgraduate" domain="[('program_type', '=', 'postgraduate')]"/>
+        <filter name="filter_doctoral" string="Doctoral" domain="[('program_type', '=', 'doctoral')]"/>
+        <filter name="filter_accredited" string="Accredited" domain="[('accreditation_status', '=', 'accredited')]"/>
+        <group name="groupby">
+          <filter name="groupby_department" string="Department" context="{'group_by': 'department_id'}"/>
+          <filter name="groupby_academic_unit" string="Academic Unit" context="{'group_by': 'academic_unit_id'}"/>
+          <filter name="groupby_faculty" string="Faculty" context="{'group_by': 'faculty_id'}"/>
+          <filter name="groupby_type" string="Program Type" context="{'group_by': 'program_type'}"/>
+          <filter name="groupby_cohort" string="Cohort Kind" context="{'group_by': 'cohort_kind'}"/>
+          <filter name="groupby_status" string="Status" context="{'group_by': 'program_state'}"/>
+        </group>
+      </search>
+    </field>
+  </record>
+  <!-- Kanban View -->
+  <record id="unicore_program_kanban_view" model="ir.ui.view">
+    <field name="name">unicore.program.kanban</field>
+    <field name="model">unicore.program</field>
+    <field name="arch" type="xml">
+      <kanban class="o_kanban_mobile" highlight_color="color">
+        <field name="code"/>
+        <field name="name"/>
+        <field name="program_type"/>
+        <field name="department_id"/>
+        <field name="duration_years"/>
+        <field name="program_state"/>
+        <field name="color"/>
+        <templates>
+          <t t-name="card" class="flex-row">
+            <main>
+              <field name="code" class="fw-bold fs-5"/>
+              <field name="name"/>
+              <field name="program_type"/>
+              <field name="department_id"/>
+              <field name="duration_years"/>
+              <field name="program_state" widget="badge"/>
+            </main>
+          </t>
+        </templates>
+      </kanban>
+    </field>
+  </record>
 </odoo>

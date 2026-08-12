@@ -1,0 +1,16 @@
+# Python Version Requirement: 3.11+
+# These are dependencies for UniCore custom modules on top of the Odoo 19.0 CE core dependencies.
+
+# Core dependencies discovered in custom_addons
+lxml
+playwright
+psycopg2-binary
+qrcode
+requests
+werkzeug
+
+# Anticipated dependencies based on module names / integration plans
+openai
+stripe
+razorpay
+pyTelegramBotAPI

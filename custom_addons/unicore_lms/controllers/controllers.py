@@ -18,4 +18,3 @@
 #         return http.request.render('unicore_lms.object', {
 #             'object': obj
 #         })
-

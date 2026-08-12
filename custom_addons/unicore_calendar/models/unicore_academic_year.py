@@ -1,6 +1,5 @@
 import logging
-
-from datetime import date, timedelta
+from datetime import date
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
@@ -151,7 +150,7 @@ class UnicoreAcademicYear(models.Model):
         week_model = self.env['unicore.academic.week']
         for record in self:
             record.week_count = week_model.search_count(
-                [('academic_year_id', '=', record.id)]
+                [('academic_year_id', '=', record.id)],
             )
 
     def _compute_total_working_days(self):
@@ -180,7 +179,7 @@ class UnicoreAcademicYear(models.Model):
                 record.year_state == 'active'
                 and record.date_start
                 and record.date_end
-                and record.date_start <= today <= record.date_end
+                and record.date_start <= today <= record.date_end,
             )
 
     @api.constrains('date_start', 'date_end')
@@ -189,7 +188,7 @@ class UnicoreAcademicYear(models.Model):
             if record.date_start and record.date_end:
                 if record.date_end <= record.date_start:
                     raise ValidationError(
-                        _('End date must be after start date.')
+                        _('End date must be after start date.'),
                     )
 
     @api.constrains('date_start', 'date_end', 'year_state', 'company_id')
@@ -205,7 +204,7 @@ class UnicoreAcademicYear(models.Model):
                 ])
                 if overlapping:
                     raise ValidationError(
-                        _('Academic year dates cannot overlap with another academic year for the same institution.')
+                        _('Academic year dates cannot overlap with another academic year for the same institution.'),
                     )
 
     @api.constrains('year_state', 'company_id')
@@ -219,7 +218,7 @@ class UnicoreAcademicYear(models.Model):
                 ])
                 if other_active:
                     raise ValidationError(
-                        _('Only one academic year can be active per institution at a time.')
+                        _('Only one academic year can be active per institution at a time.'),
                     )
 
     @api.model_create_multi
@@ -259,7 +258,7 @@ class UnicoreAcademicYear(models.Model):
                 raise ValidationError(
                     _('Institution profile "%(profile)s" uses a Term-based '
                       'calendar; academic years must be "Term Based".',
-                      profile=profile.name)
+                      profile=profile.name),
                 )
 
     def _check_term_structure(self):
@@ -274,7 +273,7 @@ class UnicoreAcademicYear(models.Model):
                 if bad:
                     raise ValidationError(
                         _('A Term-based academic year can only contain Term '
-                          'semesters (First/Second/Third/Fourth Term).')
+                          'semesters (First/Second/Third/Fourth Term).'),
                     )
 
     def action_confirm(self):

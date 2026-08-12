@@ -3,7 +3,7 @@ UniCore Student — Partner Extension
 Links unicore.student to res.partner for accounting/invoicing.
 """
 
-from odoo import api, fields, models, _
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -27,7 +27,7 @@ class UnicoreStudentPartnerExt(models.Model):
         # Get accounting config to check if auto-create is enabled
         try:
             config = self.env['unicore.fee.accounting.config']._get_active_config(
-                company_id=records[0].company_id.id
+                company_id=records[0].company_id.id,
             )
         except UserError:
             config = None
@@ -50,7 +50,7 @@ class UnicoreStudentPartnerExt(models.Model):
         # Check if sync is enabled
         try:
             config = self.env['unicore.fee.accounting.config']._get_active_config(
-                company_id=self.company_id.id
+                company_id=self.company_id.id,
             )
         except UserError:
             config = None
@@ -91,7 +91,7 @@ class UnicoreStudentPartnerExt(models.Model):
         # Add student reference in partner notes
         partner.comment = _('Student ID: %s\nEnrolled in: %s') % (
             student.student_id_number,
-            student.program_id.name
+            student.program_id.name,
         )
 
         return partner

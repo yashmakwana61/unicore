@@ -1,6 +1,6 @@
-# -*- coding: utf-8 -*-
 import json
-from odoo import api, fields, models
+
+from odoo import fields, models
 
 
 class ResUsers(models.Model):
@@ -11,14 +11,14 @@ class ResUsers(models.Model):
         ('system', 'System Default'),
         ('inter', 'Inter'),
         ('roboto', 'Roboto'),
-        ('outfit', 'Outfit')
+        ('outfit', 'Outfit'),
     ], string='Theme Font Family')
 
     theme_list_density = fields.Selection([
         ('', 'Company Default'),
         ('default', 'Default'),
         ('comfortable', 'Comfortable'),
-        ('compact', 'Compact')
+        ('compact', 'Compact'),
     ], string='Theme List Density')
 
     theme_border_radius = fields.Selection([
@@ -26,13 +26,13 @@ class ResUsers(models.Model):
         ('none', 'None'),
         ('small', 'Small'),
         ('medium', 'Medium'),
-        ('large', 'Large')
+        ('large', 'Large'),
     ], string='Theme Border Radius')
 
     theme_chatter_position = fields.Selection([
         ('', 'Company Default'),
         ('bottom', 'Bottom'),
-        ('side', 'Side')
+        ('side', 'Side'),
     ], string='Theme Chatter Position')
 
     theme_pinned_apps = fields.Many2many(

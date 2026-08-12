@@ -1,5 +1,4 @@
-from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError
+from odoo import fields, models
 
 
 class DigitalMaterial(models.Model):
@@ -21,7 +20,7 @@ class DigitalMaterial(models.Model):
         ('epub', 'EPUB eBook'),
         ('audio', 'Audiobook (MP3/WAV)'),
         ('video', 'Video (MP4)'),
-        ('other', 'Other')
+        ('other', 'Other'),
     ], string='File Type', required=True, default='pdf')
     file_name = fields.Char(string='File Name')
     file_content = fields.Binary(
@@ -32,7 +31,7 @@ class DigitalMaterial(models.Model):
     access_level = fields.Selection([
         ('all', 'All Users'),
         ('enrolled_only', 'Enrolled Students Only'),
-        ('faculty_only', 'Faculty Only')
+        ('faculty_only', 'Faculty Only'),
     ], string='Access Level', required=True, default='enrolled_only')
     description = fields.Text(string='Description')
 

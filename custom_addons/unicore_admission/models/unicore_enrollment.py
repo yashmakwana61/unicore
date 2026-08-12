@@ -8,10 +8,11 @@ prerequisite verification, duplicate prevention,
 timetable conflict detection, and seat capacity
 enforcement with automatic waitlist routing.
 """
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
-from datetime import date
 import logging
+from datetime import date
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -306,7 +307,7 @@ class UniCoreEnrollment(models.Model):
             ('enrollment_state', '=', 'registered'),
         ])
         existing_offering_ids = existing_enrollments.mapped(
-            'course_offering_id'
+            'course_offering_id',
         ).ids
         if not existing_offering_ids:
             return False, _('No other active enrollments this semester.')
@@ -321,11 +322,11 @@ class UniCoreEnrollment(models.Model):
                 if (new_entry.day_of_week == existing_entry.day_of_week
                         and new_entry.time_slot_id == existing_entry.time_slot_id):
                     return True, _(
-                        'Schedule conflict with course "%s" on %s at %s.'
+                        'Schedule conflict with course "%s" on %s at %s.',
                     ) % (
                         existing_entry.course_id.code,
                         dict(new_entry._fields['day_of_week'].selection).get(
-                            new_entry.day_of_week
+                            new_entry.day_of_week,
                         ),
                         new_entry.time_slot_id.name,
                     )
@@ -341,7 +342,7 @@ class UniCoreEnrollment(models.Model):
         for vals in vals_list:
             student = self.env['unicore.student'].browse(vals.get('student_id'))
             offering = self.env['unicore.course.offering'].browse(
-                vals.get('course_offering_id')
+                vals.get('course_offering_id'),
             )
 
             # STEP 1: Offering must be open
@@ -349,7 +350,7 @@ class UniCoreEnrollment(models.Model):
                 raise UserError(
                     _('Cannot enroll: course offering "%s" is not open '
                       'for enrollment (current status: %s).')
-                    % (offering.display_name, offering.offering_state)
+                    % (offering.display_name, offering.offering_state),
                 )
 
             # STEP 2: Student eligibility
@@ -357,22 +358,22 @@ class UniCoreEnrollment(models.Model):
                 raise UserError(
                     _('Cannot enroll: student "%s" has status "%s" which '
                       'is not eligible for course registration.')
-                    % (student.display_name, student.student_state)
+                    % (student.display_name, student.student_state),
                 )
 
             # STEP 3: Prerequisite check
             prereq_passed, prereq_notes = self._check_prerequisites(
-                student, offering.course_id
+                student, offering.course_id,
             )
             vals['prerequisite_check_passed'] = prereq_passed
             vals['prerequisite_check_notes'] = prereq_notes
             if not prereq_passed and not self.env.context.get(
-                'force_enrollment_override'
+                'force_enrollment_override',
             ):
                 raise UserError(
                     _('Cannot enroll: %s\n\nIf this is an authorized '
                       'exception, an administrator must use the '
-                      'override option.') % prereq_notes
+                      'override option.') % prereq_notes,
                 )
 
             # STEP 4: Duplicate check (SQL constraint backup)
@@ -386,16 +387,16 @@ class UniCoreEnrollment(models.Model):
                 raise UserError(
                     _('Student "%s" is already enrolled in "%s" '
                       'for this semester.')
-                    % (student.display_name, offering.course_id.code)
+                    % (student.display_name, offering.course_id.code),
                 )
 
             # STEP 5: Schedule conflict check
             has_conflict, conflict_notes = self._check_schedule_conflict(
-                student, offering
+                student, offering,
             )
             vals['schedule_conflict_checked'] = True
             if has_conflict and not self.env.context.get(
-                'force_enrollment_override'
+                'force_enrollment_override',
             ):
                 raise UserError(_('Cannot enroll: %s') % conflict_notes)
 
@@ -418,14 +419,13 @@ class UniCoreEnrollment(models.Model):
                     raise UserError(
                         _('Course offering "%s" is full. %s has been '
                           'added to the waitlist at position %d.')
-                        % (offering.display_name, student.display_name, position)
+                        % (offering.display_name, student.display_name, position),
                     )
-                else:
-                    raise UserError(
-                        _('Cannot enroll: course offering "%s" has reached '
-                          'maximum capacity.')
-                        % offering.display_name
-                    )
+                raise UserError(
+                    _('Cannot enroll: course offering "%s" has reached '
+                      'maximum capacity.')
+                    % offering.display_name,
+                )
 
         created_records = super().create(vals_list)
 
@@ -440,7 +440,7 @@ class UniCoreEnrollment(models.Model):
                 'notes': _('Initial registration.'),
             })
             rec.message_post(
-                body=_('Enrolled in %s.') % rec.course_id.display_name
+                body=_('Enrolled in %s.') % rec.course_id.display_name,
             )
 
         return created_records
@@ -454,7 +454,7 @@ class UniCoreEnrollment(models.Model):
             raise UserError(
                 _('The add/drop deadline (%s) has passed. Use Withdraw '
                   'instead, which will be recorded on the transcript.')
-                % semester.add_drop_end
+                % semester.add_drop_end,
             )
 
         self.write({
@@ -492,7 +492,7 @@ class UniCoreEnrollment(models.Model):
         })
         self.message_post(
             body=_('Withdrawn from course on %s. This will appear '
-                   'on the transcript.') % today
+                   'on the transcript.') % today,
         )
         self._promote_from_waitlist()
 
@@ -542,7 +542,7 @@ class UniCoreEnrollment(models.Model):
             next_waiting.message_post(
                 body=_('A seat has opened up in "%s". Please process '
                        'this waitlist entry for promotion to enrollment.')
-                % self.course_offering_id.display_name
+                % self.course_offering_id.display_name,
             )
             _logger.info(
                 'Seat opened in offering %s — next waitlist candidate '

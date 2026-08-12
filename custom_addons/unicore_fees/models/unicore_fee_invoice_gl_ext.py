@@ -3,8 +3,8 @@ UniCore Fee Invoice — GL Integration Extension
 Handles automatic creation and posting of account.move from fee invoices.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class UniCoreFeeInvoiceGLExt(models.Model):
@@ -73,7 +73,7 @@ class UniCoreFeeInvoiceGLExt(models.Model):
         # Get accounting config
         try:
             config = self.env['unicore.fee.accounting.config']._get_active_config(
-                company_id=self.company_id.id
+                company_id=self.company_id.id,
             )
         except UserError as e:
             raise UserError(_('Cannot create GL invoice: %s') % str(e))
@@ -82,7 +82,7 @@ class UniCoreFeeInvoiceGLExt(models.Model):
         if not self.student_id.partner_id:
             raise UserError(_(
                 'Student %s does not have a billing partner configured. '
-                'Create a partner for this student first.'
+                'Create a partner for this student first.',
             ) % self.student_id.display_name)
 
         # Prepare invoice lines
@@ -138,7 +138,7 @@ class UniCoreFeeInvoiceGLExt(models.Model):
 
         # Log activity
         self.message_post(body=_(
-            'GL Invoice %s created and linked (Status: %s)'
+            'GL Invoice %s created and linked (Status: %s)',
         ) % (move.name, move.state))
 
         return move
@@ -158,7 +158,7 @@ class UniCoreFeeInvoiceGLExt(models.Model):
         reverse_move = self.account_move_id._reverse_moves(
             reason=_('Reversal of fee invoice %s (Student: %s)') % (
                 self.invoice_number,
-                self.student_id.display_name
+                self.student_id.display_name,
             ),
             date=fields.Date.today(),
         )
@@ -168,7 +168,7 @@ class UniCoreFeeInvoiceGLExt(models.Model):
 
         # Update reference
         self.message_post(body=_(
-            'GL reversal note %s created for cancelled invoice'
+            'GL reversal note %s created for cancelled invoice',
         ) % reverse_move[0].name)
 
     def action_view_account_invoice(self):
@@ -232,7 +232,7 @@ class UniCoreFeeInvoiceGLExt(models.Model):
 
         # Get AR lines from GL invoice
         ar_lines = gl_move.line_ids.filtered(
-            lambda l: l.account_id.account_type == 'asset_receivable'
+            lambda l: l.account_id.account_type == 'asset_receivable',
         )
 
         if not ar_lines:

@@ -14,7 +14,6 @@ Verifies the ``unicore.admission.enrollment.wizard`` end to end:
 
 from datetime import date
 
-from odoo.exceptions import UserError
 from odoo.tests import TransactionCase, tagged
 
 

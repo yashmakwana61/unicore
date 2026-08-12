@@ -5,8 +5,9 @@ to the student form so registrars/faculty can inspect a
 student's assignment submissions.
 """
 
-from odoo import api, fields, models, _
 import logging
+
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -38,7 +39,7 @@ class UniCoreStudentAssignmentExt(models.Model):
             subs = rec.assignment_submission_ids
             rec.assignment_submission_count = len(subs)
             rec.graded_assignment_count = len(
-                subs.filtered(lambda s: s.state == 'graded')
+                subs.filtered(lambda s: s.state == 'graded'),
             )
             # Pending = active enrolled courses with a published
             # assignment that has no submission yet
@@ -49,9 +50,9 @@ class UniCoreStudentAssignmentExt(models.Model):
                 ('enrollment_state', '=', 'registered'),
             ])
             assignment_ids = enrollments.mapped(
-                'course_offering_id.assignment_ids'
+                'course_offering_id.assignment_ids',
             ).filtered(
-                lambda a: a.assignment_state == 'published'
+                lambda a: a.assignment_state == 'published',
             )
             submitted_ids = set(subs.mapped('assignment_id').ids)
             for assignment in assignment_ids:

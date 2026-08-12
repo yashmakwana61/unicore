@@ -1,5 +1,6 @@
+
 import odoo
-from datetime import date
+from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 
 

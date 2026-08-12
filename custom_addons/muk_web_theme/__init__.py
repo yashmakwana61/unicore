@@ -13,11 +13,11 @@ def _setup_module(env: Environment) -> None:
     if env.ref('base.main_company', False):
         with file_open('web/static/img/favicon.ico', 'rb') as file:
             env.ref('base.main_company').write(
-                {'favicon': base64.b64encode(file.read())}
+                {'favicon': base64.b64encode(file.read())},
             )
         with file_open('muk_web_theme/static/src/img/background.png', 'rb') as file:
             env.ref('base.main_company').write(
-                {'background_image': base64.b64encode(file.read())}
+                {'background_image': base64.b64encode(file.read())},
             )
 
 

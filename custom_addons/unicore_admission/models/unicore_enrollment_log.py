@@ -6,9 +6,10 @@ unicore.enrollment action methods — never created
 or edited directly by users. Required for
 accreditation and compliance record-keeping.
 """
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -30,7 +31,7 @@ class UniCoreEnrollmentLog(models.Model):
                  'action')
     def _compute_display_name(self):
         action_labels = dict(
-            self._fields['action'].selection
+            self._fields['action'].selection,
         ) if 'action' in self._fields else {}
         for rec in self:
             student_name = (
@@ -43,11 +44,11 @@ class UniCoreEnrollmentLog(models.Model):
             action_label = action_labels.get(rec.action, rec.action or '')
             if action_label:
                 rec.display_name = '%s - %s (%s)' % (
-                    student_name, offering_name, action_label
+                    student_name, offering_name, action_label,
                 )
             else:
                 rec.display_name = '%s - %s' % (
-                    student_name, offering_name
+                    student_name, offering_name,
                 )
     _order = 'action_date desc'
 
@@ -110,11 +111,11 @@ class UniCoreEnrollmentLog(models.Model):
     def write(self, vals):
         raise UserError(
             _('Enrollment log entries are immutable and cannot be edited. '
-              'This is an audit compliance requirement.')
+              'This is an audit compliance requirement.'),
         )
 
     def unlink(self):
         raise UserError(
             _('Enrollment log entries are immutable and cannot be deleted. '
-              'This is an audit compliance requirement.')
+              'This is an audit compliance requirement.'),
         )

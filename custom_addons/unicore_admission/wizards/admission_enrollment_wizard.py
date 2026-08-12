@@ -124,7 +124,7 @@ class AdmissionEnrollmentWizard(models.TransientModel):
         if not curriculum:
             return self.env['unicore.curriculum.line']
         return curriculum.curriculum_line_ids.filtered(
-            lambda line: line.is_mandatory and line.semester_number == 1
+            lambda line: line.is_mandatory and line.semester_number == 1,
         )
 
     def _resolve_offering(self, applicant, line, semester):
@@ -279,7 +279,7 @@ class AdmissionEnrollmentWizard(models.TransientModel):
         # 4) Audit trail + chatter.
         summary = _(
             'Enrolled in program %(program)s for %(semester)s. '
-            '%(count)d course registration(s) created.'
+            '%(count)d course registration(s) created.',
         ) % {
             'program': applicant.program_id.name,
             'semester': semester.name,

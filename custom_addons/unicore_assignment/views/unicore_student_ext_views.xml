@@ -1,58 +1,41 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-    <data>
-
-        <!-- ============================================================ -->
-        <!-- EXTEND STUDENT FORM (Assignments smart button + notebook tab) -->
-        <!-- ============================================================ -->
-
-        <record id="view_unicore_student_form_ext_assignment"
-                model="ir.ui.view">
-            <field name="name">unicore.student.form.ext.assignment</field>
-            <field name="model">unicore.student</field>
-            <field name="inherit_id"
-                   ref="unicore_student.unicore_student_form_view"/>
-            <field name="arch" type="xml">
-
-                <!-- Add submissions stat button to the button box -->
-                <xpath expr="//div[@name='button_box']" position="inside">
-                    <button name="action_view_assignment_submissions"
-                            type="object"
-                            class="oe_stat_button" icon="fa-tasks"
-                            groups="unicore_base.group_unicore_faculty">
-                        <field name="assignment_submission_count"
-                               widget="statinfo" string="Submissions"/>
-                    </button>
-                </xpath>
-
-                <!-- Add Assignments notebook page at the end of notebook -->
-                <xpath expr="//notebook" position="inside">
-                    <page string="Assignments"
-                          groups="unicore_base.group_unicore_faculty"
-                          name="assignments">
-                        <group>
-                            <field name="pending_assignment_count"
-                                   readonly="1"/>
-                            <field name="graded_assignment_count"
-                                   readonly="1"/>
-                        </group>
-                        <field name="assignment_submission_ids"
-                               readonly="1" editable="0">
-                            <list>
-                                <field name="assignment_id"/>
-                                <field name="course_id"/>
-                                <field name="state"/>
-                                <field name="submission_date"/>
-                                <field name="is_late"/>
-                                <field name="marks_obtained"/>
-                                <field name="grade_letter"/>
-                            </list>
-                        </field>
-                    </page>
-                </xpath>
-
+  <data>
+    <!-- ============================================================ -->
+    <!-- EXTEND STUDENT FORM (Assignments smart button + notebook tab) -->
+    <!-- ============================================================ -->
+    <record id="view_unicore_student_form_ext_assignment" model="ir.ui.view">
+      <field name="name">unicore.student.form.ext.assignment</field>
+      <field name="model">unicore.student</field>
+      <field name="inherit_id" ref="unicore_student.unicore_student_form_view"/>
+      <field name="arch" type="xml">
+        <!-- Add submissions stat button to the button box -->
+        <xpath expr="//div[@name='button_box']" position="inside">
+          <button name="action_view_assignment_submissions" type="object" class="oe_stat_button" icon="fa-tasks" groups="unicore_base.group_unicore_faculty">
+            <field name="assignment_submission_count" widget="statinfo" string="Submissions"/>
+          </button>
+        </xpath>
+        <!-- Add Assignments notebook page at the end of notebook -->
+        <xpath expr="//notebook" position="inside">
+          <page string="Assignments" groups="unicore_base.group_unicore_faculty" name="assignments">
+            <group>
+              <field name="pending_assignment_count" readonly="1"/>
+              <field name="graded_assignment_count" readonly="1"/>
+            </group>
+            <field name="assignment_submission_ids" readonly="1" editable="0">
+              <list>
+                <field name="assignment_id"/>
+                <field name="course_id"/>
+                <field name="state"/>
+                <field name="submission_date"/>
+                <field name="is_late"/>
+                <field name="marks_obtained"/>
+                <field name="grade_letter"/>
+              </list>
             </field>
-        </record>
-
-    </data>
+          </page>
+        </xpath>
+      </field>
+    </record>
+  </data>
 </odoo>

@@ -5,10 +5,11 @@ for a specific semester. Carries the pass number,
 boarding stop, fee and payment status.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
-from datetime import date
 import logging
+from datetime import date
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -252,7 +253,7 @@ class UniCoreTransportPass(models.Model):
             if not vals.get('pass_number'):
                 vals['pass_number'] = (
                     self.env['ir.sequence'].next_by_code(
-                        'unicore.transport.pass'
+                        'unicore.transport.pass',
                     ) or '/'
                 )
         return super().create(vals_list)
@@ -261,7 +262,7 @@ class UniCoreTransportPass(models.Model):
         self.ensure_one()
         self.pass_state = 'suspended'
         self.message_post(
-            body=_('Transport pass suspended.')
+            body=_('Transport pass suspended.'),
         )
 
     def action_reactivate(self):
@@ -269,18 +270,18 @@ class UniCoreTransportPass(models.Model):
         if self.is_expired:
             raise UserError(
                 _('Cannot reactivate an expired pass. '
-                  'Please issue a new pass.')
+                  'Please issue a new pass.'),
             )
         self.pass_state = 'active'
         self.message_post(
-            body=_('Transport pass reactivated.')
+            body=_('Transport pass reactivated.'),
         )
 
     def action_cancel(self):
         self.ensure_one()
         self.pass_state = 'cancelled'
         self.message_post(
-            body=_('Transport pass cancelled.')
+            body=_('Transport pass cancelled.'),
         )
 
     def action_mark_fee_paid(self):
@@ -291,5 +292,5 @@ class UniCoreTransportPass(models.Model):
         })
         self.message_post(
             body=_('Transport fee of %s paid.')
-                 % self.transport_fee
+                 % self.transport_fee,
         )

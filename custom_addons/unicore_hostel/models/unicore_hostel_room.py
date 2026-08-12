@@ -5,9 +5,10 @@ capacity, room type, amenities and current
 occupancy tracking.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -33,7 +34,7 @@ class UniCoreHostelRoom(models.Model):
             )
             if block_name:
                 rec.display_name = '%s - %s' % (
-                    rec.room_number, block_name
+                    rec.room_number, block_name,
                 )
             else:
                 rec.display_name = rec.room_number or ''
@@ -106,11 +107,11 @@ class UniCoreHostelRoom(models.Model):
         for rec in self:
             active = rec.allocation_ids.filtered(
                 lambda a: a.allocation_state
-                == 'checked_in'
+                == 'checked_in',
             )
             rec.current_occupancy = len(active)
             rec.available_beds = max(
-                0, rec.capacity - len(active)
+                0, rec.capacity - len(active),
             )
             rec.is_full = (
                 len(active) >= rec.capacity
@@ -195,5 +196,5 @@ class UniCoreHostelRoom(models.Model):
             if rec.capacity < 1:
                 raise ValidationError(
                     _('Room capacity must be at '
-                      'least 1.')
+                      'least 1.'),
                 )

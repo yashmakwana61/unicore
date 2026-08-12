@@ -1,52 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-
   <!-- Form View -->
-  <record id="view_unicore_grade_entry_form"
-          model="ir.ui.view">
+  <record id="view_unicore_grade_entry_form" model="ir.ui.view">
     <field name="name">unicore.grade.entry.form</field>
     <field name="model">unicore.grade.entry</field>
     <field name="arch" type="xml">
       <form>
         <header>
-          <button name="action_submit"
-            string="Submit" type="object"
-            invisible="entry_state != 'draft'"
-            class="btn-primary"/>
-          <button name="action_verify"
-            string="Verify" type="object"
-            invisible="entry_state != 'submitted'"
-            class="btn-primary"
-            groups="unicore_base.group_unicore_registrar"/>
-          <button name="action_publish"
-            string="Publish Result" type="object"
-            invisible="entry_state != 'verified'"
-            class="btn-primary"
-            groups="unicore_base.group_unicore_registrar"/>
-          <button name="action_lock"
-            string="Lock" type="object"
-            invisible="entry_state != 'published'"
-            groups="unicore_base.group_unicore_admin"/>
-          <button name="action_reset_draft"
-            string="Reset to Draft" type="object"
-            invisible="entry_state in ('draft','locked')"
-            groups="unicore_base.group_unicore_admin"/>
-          <field name="entry_state"
-            widget="statusbar"
-            statusbar_visible="draft,submitted,
-              verified,published,locked"/>
+          <button name="action_submit" string="Submit" type="object" invisible="entry_state != 'draft'" class="btn-primary"/>
+          <button name="action_verify" string="Verify" type="object" invisible="entry_state != 'submitted'" class="btn-primary" groups="unicore_base.group_unicore_registrar"/>
+          <button name="action_publish" string="Publish Result" type="object" invisible="entry_state != 'verified'" class="btn-primary" groups="unicore_base.group_unicore_registrar"/>
+          <button name="action_lock" string="Lock" type="object" invisible="entry_state != 'published'" groups="unicore_base.group_unicore_admin"/>
+          <button name="action_reset_draft" string="Reset to Draft" type="object" invisible="entry_state in ('draft','locked')" groups="unicore_base.group_unicore_admin"/>
+          <field name="entry_state" widget="statusbar" statusbar_visible="draft,submitted,               verified,published,locked"/>
         </header>
         <sheet>
-          <widget name="web_ribbon"
-            title="Published"
-            invisible="entry_state != 'published'"
-            bg_color="text-bg-success"/>
-          <widget name="web_ribbon"
-            title="Locked"
-            invisible="entry_state != 'locked'"
-            bg_color="text-bg-secondary"/>
-          <div class="oe_button_box"
-               name="button_box">
+          <widget name="web_ribbon" title="Published" invisible="entry_state != 'published'" bg_color="text-bg-success"/>
+          <widget name="web_ribbon" title="Locked" invisible="entry_state != 'locked'" bg_color="text-bg-secondary"/>
+          <div class="oe_button_box" name="button_box">
           </div>
           <group>
             <group string="Academic Details">
@@ -54,8 +25,7 @@
               <field name="student_id" readonly="1"/>
               <field name="course_id" readonly="1"/>
               <field name="semester_id" readonly="1"/>
-              <field name="course_offering_id"
-                     readonly="1"/>
+              <field name="course_offering_id" readonly="1"/>
               <field name="exam_schedule_id"/>
               <field name="grade_scale_id"/>
             </group>
@@ -64,8 +34,7 @@
               <field name="grade_point"/>
               <field name="is_pass" readonly="1"/>
               <field name="credit_hours" readonly="1"/>
-              <field name="grade_points_earned"
-                     readonly="1"/>
+              <field name="grade_points_earned" readonly="1"/>
               <field name="percentage" readonly="1"/>
               <field name="is_supplementary_required"/>
             </group>
@@ -78,32 +47,25 @@
               <field name="external_max" readonly="1"/>
             </group>
             <group>
-              <field name="total_marks_obtained"
-                     readonly="1"/>
+              <field name="total_marks_obtained" readonly="1"/>
               <field name="total_marks_max" readonly="1"/>
               <field name="passing_marks" readonly="1"/>
             </group>
           </group>
           <group string="Remarks">
-            <field name="faculty_remarks"
-                   nolabel="1"/>
+            <field name="faculty_remarks" nolabel="1"/>
           </group>
         </sheet>
         <chatter/>
       </form>
     </field>
   </record>
-
   <!-- List View -->
-  <record id="view_unicore_grade_entry_list"
-          model="ir.ui.view">
+  <record id="view_unicore_grade_entry_list" model="ir.ui.view">
     <field name="name">unicore.grade.entry.list</field>
     <field name="model">unicore.grade.entry</field>
     <field name="arch" type="xml">
-      <list decoration-success="is_pass == True"
-            decoration-danger="is_pass == False and
-              entry_state in ('published','locked')"
-            decoration-muted="entry_state == 'draft'">
+      <list decoration-success="is_pass == True" decoration-danger="is_pass == False and               entry_state in ('published','locked')" decoration-muted="entry_state == 'draft'">
         <field name="student_id"/>
         <field name="course_id"/>
         <field name="semester_id"/>
@@ -118,10 +80,8 @@
       </list>
     </field>
   </record>
-
   <!-- Search View -->
-  <record id="view_unicore_grade_entry_search"
-          model="ir.ui.view">
+  <record id="view_unicore_grade_entry_search" model="ir.ui.view">
     <field name="name">unicore.grade.entry.search</field>
     <field name="model">unicore.grade.entry</field>
     <field name="arch" type="xml">
@@ -129,67 +89,37 @@
         <field name="student_id"/>
         <field name="course_id"/>
         <field name="semester_id"/>
-        <filter name="published" string="Published"
-          domain="[('entry_state','=','published')]"/>
-        <filter name="draft" string="Draft"
-          domain="[('entry_state','=','draft')]"/>
-        <filter name="submitted" string="Submitted"
-          domain="[('entry_state','=','submitted')]"/>
-        <filter name="failed" string="Failed Students"
-          domain="[('is_pass','=',False),
-            ('entry_state','in',
-             ['published','locked'])]"/>
-        <filter name="supp_required"
-          string="Supplementary Required"
-          domain="[('is_supplementary_required',
-            '=',True)]"/>
+        <filter name="published" string="Published" domain="[('entry_state','=','published')]"/>
+        <filter name="draft" string="Draft" domain="[('entry_state','=','draft')]"/>
+        <filter name="submitted" string="Submitted" domain="[('entry_state','=','submitted')]"/>
+        <filter name="failed" string="Failed Students" domain="[('is_pass','=',False),             ('entry_state','in',              ['published','locked'])]"/>
+        <filter name="supp_required" string="Supplementary Required" domain="[('is_supplementary_required',             '=',True)]"/>
         <separator/>
-        <filter name="group_by_student"
-          string="Student"
-          context="{'group_by':'student_id'}"/>
-        <filter name="group_by_course"
-          string="Course"
-          context="{'group_by':'course_id'}"/>
-        <filter name="group_by_semester"
-          string="Semester"
-          context="{'group_by':'semester_id'}"/>
-        <filter name="group_by_state"
-          string="Status"
-          context="{'group_by':'entry_state'}"/>
+        <filter name="group_by_student" string="Student" context="{'group_by':'student_id'}"/>
+        <filter name="group_by_course" string="Course" context="{'group_by':'course_id'}"/>
+        <filter name="group_by_semester" string="Semester" context="{'group_by':'semester_id'}"/>
+        <filter name="group_by_state" string="Status" context="{'group_by':'entry_state'}"/>
       </search>
     </field>
   </record>
-
   <!-- Window Actions -->
-  <record id="action_unicore_grade_entry"
-          model="ir.actions.act_window">
+  <record id="action_unicore_grade_entry" model="ir.actions.act_window">
     <field name="name">Grade Entries</field>
     <field name="res_model">unicore.grade.entry</field>
     <field name="view_mode">list,form</field>
-    <field name="context">
-      {'search_default_group_by_semester': 1}
-    </field>
+    <field name="context">{'search_default_group_by_semester': 1}</field>
   </record>
-
-  <record id="action_unicore_grade_entry_my"
-          model="ir.actions.act_window">
+  <record id="action_unicore_grade_entry_my" model="ir.actions.act_window">
     <field name="name">My Results</field>
     <field name="res_model">unicore.grade.entry</field>
     <field name="view_mode">list,form</field>
-    <field name="domain">
-      [('student_id.partner_id.user_ids',
-        'in', [uid])]
-    </field>
+    <field name="domain">[('student_id.partner_id.user_ids',
+        'in', [uid])]</field>
   </record>
-
-  <record id="action_unicore_grade_entry_pending"
-          model="ir.actions.act_window">
+  <record id="action_unicore_grade_entry_pending" model="ir.actions.act_window">
     <field name="name">Pending Verification</field>
     <field name="res_model">unicore.grade.entry</field>
     <field name="view_mode">list,form</field>
-    <field name="domain">
-      [('entry_state','=','submitted')]
-    </field>
+    <field name="domain">[('entry_state','=','submitted')]</field>
   </record>
-
 </odoo>

@@ -1,10 +1,12 @@
-from . import unicore_institution_feature
-from . import unicore_terminology_profile
-from . import unicore_institution_profile
-from . import unicore_grading_scheme
-from . import res_company
-from . import ir_actions
-from . import ir_ui_view
-from . import ir_ui_menu
-from . import unicore_academic_unit
-from . import base
+from . import (
+    base,
+    ir_actions,
+    ir_ui_menu,
+    ir_ui_view,
+    res_company,
+    unicore_academic_unit,
+    unicore_grading_scheme,
+    unicore_institution_feature,
+    unicore_institution_profile,
+    unicore_terminology_profile,
+)

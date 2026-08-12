@@ -10,8 +10,9 @@ Also adds a send_to_faculty() helper to the engine that mirrors
 the existing send_to_student() / send_to_guardian() helpers.
 """
 
-from odoo import fields, models
 import logging
+
+from odoo import fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -63,14 +64,14 @@ class UniCoreNotificationEngineExt(models.AbstractModel):
         config = Config.get_config_for_company(company_id)
 
         variables.setdefault(
-            'faculty_name', faculty.display_name
+            'faculty_name', faculty.display_name,
         )
         if student:
             variables.setdefault(
-                'student_name', student.display_name
+                'student_name', student.display_name,
             )
         variables.setdefault(
-            'institution_name', faculty.company_id.name
+            'institution_name', faculty.company_id.name,
         )
 
         results = {
@@ -82,7 +83,7 @@ class UniCoreNotificationEngineExt(models.AbstractModel):
         # EMAIL
         if config.email_enabled:
             template = self._get_template(
-                trigger_event, 'email', company_id
+                trigger_event, 'email', company_id,
             )
             if template:
                 rendered = template.render_template(variables)
@@ -104,7 +105,7 @@ class UniCoreNotificationEngineExt(models.AbstractModel):
                     recipient_email=to_email,
                     message_subject=rendered.get('email_subject'),
                     message_body=rendered.get(
-                        'email_body_html', ''
+                        'email_body_html', '',
                     )[:2000],
                     faculty_member_id=faculty.id,
                     student_id=student.id if student else None,
@@ -115,7 +116,7 @@ class UniCoreNotificationEngineExt(models.AbstractModel):
         # WHATSAPP
         if config.whatsapp_enabled and faculty.mobile:
             template = self._get_template(
-                trigger_event, 'whatsapp', company_id
+                trigger_event, 'whatsapp', company_id,
             )
             if template:
                 rendered = template.render_template(variables)
@@ -149,7 +150,7 @@ class UniCoreNotificationEngineExt(models.AbstractModel):
         # IN-APP
         if config.inapp_enabled and faculty.partner_id:
             template = self._get_template(
-                trigger_event, 'inapp', company_id
+                trigger_event, 'inapp', company_id,
             )
             if template:
                 rendered = template.render_template(variables)

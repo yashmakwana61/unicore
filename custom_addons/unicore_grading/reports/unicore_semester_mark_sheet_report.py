@@ -20,7 +20,7 @@ class UniCoreSemesterMarkSheetReport(models.AbstractModel):
             by_offering = {}
             for entry in entries:
                 by_offering.setdefault(
-                    entry.course_offering_id, []
+                    entry.course_offering_id, [],
                 ).append(entry)
 
             offerings = []

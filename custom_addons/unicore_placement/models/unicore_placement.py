@@ -1,4 +1,4 @@
-from odoo import api, fields, models, _
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -48,7 +48,7 @@ class PlacementDrive(models.Model):
         ('draft', 'Draft'),
         ('active', 'Active'),
         ('completed', 'Completed'),
-        ('cancelled', 'Cancelled')
+        ('cancelled', 'Cancelled'),
     ], string='Status', default='draft', required=True, tracking=True)
 
     name = fields.Char(
@@ -106,7 +106,7 @@ class PlacementApplication(models.Model):
         ('applied', 'Applied'),
         ('shortlisted', 'Shortlisted'),
         ('offered', 'Offered'),
-        ('rejected', 'Rejected')
+        ('rejected', 'Rejected'),
     ], string='Status', default='applied', required=True, tracking=True)
 
     name = fields.Char(
@@ -129,11 +129,11 @@ class PlacementApplication(models.Model):
             existing = self.search([
                 ('student_id', '=', rec.student_id.id),
                 ('drive_id', '=', rec.drive_id.id),
-                ('id', '!=', rec.id)
+                ('id', '!=', rec.id),
             ])
             if existing:
                 raise ValidationError(_('Student has already applied to this drive.'))
-                
+
             # Check eligibility
             if rec.drive_id.eligible_program_ids and rec.student_id.program_id:
                 if rec.student_id.program_id not in rec.drive_id.eligible_program_ids:

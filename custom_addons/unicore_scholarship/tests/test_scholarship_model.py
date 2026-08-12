@@ -1,5 +1,6 @@
-import odoo
 from datetime import date, timedelta
+
+import odoo
 from odoo.tests.common import TransactionCase
 
 

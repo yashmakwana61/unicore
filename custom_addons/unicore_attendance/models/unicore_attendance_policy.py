@@ -7,9 +7,10 @@ required for a student to be eligible for
 examinations and academic progression.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -115,15 +116,15 @@ class UniCoreAttendancePolicy(models.Model):
         for rec in self:
             if not (0 < rec.min_attendance_percentage <= 100):
                 raise ValidationError(
-                    _('Minimum attendance percentage must be between 0 and 100.')
+                    _('Minimum attendance percentage must be between 0 and 100.'),
                 )
             if not (0 < rec.warning_threshold_percentage <= 100):
                 raise ValidationError(
-                    _('Warning threshold must be between 0 and 100.')
+                    _('Warning threshold must be between 0 and 100.'),
                 )
             if rec.warning_threshold_percentage < rec.min_attendance_percentage:
                 raise ValidationError(
-                    _('Warning threshold must be greater than or equal to minimum attendance percentage.')
+                    _('Warning threshold must be greater than or equal to minimum attendance percentage.'),
                 )
 
     @api.constrains('policy_scope', 'course_type', 'course_id', 'course_offering_id')
@@ -131,15 +132,15 @@ class UniCoreAttendancePolicy(models.Model):
         for rec in self:
             if rec.policy_scope == 'course_type' and not rec.course_type:
                 raise ValidationError(
-                    _('Course Type is required when scope is By Course Type.')
+                    _('Course Type is required when scope is By Course Type.'),
                 )
             if rec.policy_scope == 'course' and not rec.course_id:
                 raise ValidationError(
-                    _('Course is required when scope is Specific Course.')
+                    _('Course is required when scope is Specific Course.'),
                 )
             if rec.policy_scope == 'offering' and not rec.course_offering_id:
                 raise ValidationError(
-                    _('Course Offering is required when scope is Specific Offering.')
+                    _('Course Offering is required when scope is Specific Offering.'),
                 )
 
     @api.model

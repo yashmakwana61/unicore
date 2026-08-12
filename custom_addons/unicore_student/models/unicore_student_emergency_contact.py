@@ -75,5 +75,5 @@ class UnicoreStudentEmergencyContact(models.Model):
                 ])
                 if existing_primary:
                     raise ValidationError(_(
-                        'Student already has a primary contact: %s') % existing_primary[0].name
+                        'Student already has a primary contact: %s') % existing_primary[0].name,
                     )

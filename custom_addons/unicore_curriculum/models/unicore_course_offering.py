@@ -9,9 +9,10 @@ Students enroll into course offerings
 (handled by unicore_enrollment module).
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -28,7 +29,7 @@ class UniCoreCourseOffering(models.Model):
     name = fields.Char(
         string='Offering Name',
         compute='_compute_name',
-        store=True
+        store=True,
     )
 
     @api.depends('course_id', 'semester_id', 'section_code')
@@ -47,12 +48,12 @@ class UniCoreCourseOffering(models.Model):
         string='Offering Code',
         readonly=True,
         copy=False,
-        help='Auto-generated offering identifier'
+        help='Auto-generated offering identifier',
     )
     section_code = fields.Char(
         string='Section / Group',
         size=10,
-        help='Section identifier e.g. A, B, G1, G2'
+        help='Section identifier e.g. A, B, G1, G2',
     )
 
     # ------- COURSE & PROGRAM -------
@@ -63,24 +64,24 @@ class UniCoreCourseOffering(models.Model):
         required=True,
         ondelete='restrict',
         tracking=True,
-        domain="[('course_state', 'in', ['approved','active']), ('company_id', '=', company_id)]"
+        domain="[('course_state', 'in', ['approved','active']), ('company_id', '=', company_id)]",
     )
     curriculum_line_id = fields.Many2one(
         comodel_name='unicore.curriculum.line',
         string='Curriculum Line',
         ondelete='set null',
-        help='Optional link to curriculum plan line'
+        help='Optional link to curriculum plan line',
     )
     program_id = fields.Many2one(
         comodel_name='unicore.program',
         string='Program',
         required=True,
         ondelete='restrict',
-        tracking=True
+        tracking=True,
     )
     semester_number = fields.Integer(
         string='Program Semester Number',
-        help='Which semester of the program this offering is for'
+        help='Which semester of the program this offering is for',
     )
 
     # ------- CALENDAR -------
@@ -90,7 +91,7 @@ class UniCoreCourseOffering(models.Model):
         string='Academic Year',
         required=True,
         ondelete='restrict',
-        tracking=True
+        tracking=True,
     )
     semester_id = fields.Many2one(
         comodel_name='unicore.semester',
@@ -98,7 +99,7 @@ class UniCoreCourseOffering(models.Model):
         required=True,
         ondelete='restrict',
         tracking=True,
-        domain="[('academic_year_id', '=', academic_year_id)]"
+        domain="[('academic_year_id', '=', academic_year_id)]",
     )
 
     # ------- INSTITUTION -------
@@ -108,7 +109,7 @@ class UniCoreCourseOffering(models.Model):
         string='Institution',
         required=True,
         default=lambda self: self.env.company,
-        ondelete='restrict'
+        ondelete='restrict',
     )
     campus_id = fields.Many2one(
         comodel_name='unicore.campus',
@@ -116,7 +117,7 @@ class UniCoreCourseOffering(models.Model):
         required=True,
         ondelete='restrict',
         tracking=True,
-        domain="[('company_id', '=', company_id)]"
+        domain="[('company_id', '=', company_id)]",
     )
 
     # ------- FACULTY -------
@@ -126,14 +127,14 @@ class UniCoreCourseOffering(models.Model):
         string='Primary Instructor',
         ondelete='set null',
         tracking=True,
-        domain="[('company_id', '=', company_id), ('member_state', '=', 'active')]"
+        domain="[('company_id', '=', company_id), ('member_state', '=', 'active')]",
     )
     co_instructor_ids = fields.Many2many(
         comodel_name='unicore.faculty.member',
         relation='unicore_course_offering_co_instructor_rel',
         column1='offering_id',
         column2='faculty_member_id',
-        string='Co-Instructors'
+        string='Co-Instructors',
     )
 
     # ------- CAPACITY -------
@@ -141,27 +142,27 @@ class UniCoreCourseOffering(models.Model):
     max_enrollment = fields.Integer(
         string='Maximum Enrollment',
         default=40,
-        help='Maximum students allowed in this offering'
+        help='Maximum students allowed in this offering',
     )
     min_enrollment = fields.Integer(
         string='Minimum Enrollment',
         default=5,
-        help='Minimum students required to run this offering'
+        help='Minimum students required to run this offering',
     )
     enrolled_count = fields.Integer(
         string='Enrolled Students',
         default=0,
-        help='Updated by unicore_enrollment module'
+        help='Updated by unicore_enrollment module',
     )
     available_seats = fields.Integer(
         string='Available Seats',
         compute='_compute_available_seats',
-        store=False
+        store=False,
     )
     is_full = fields.Boolean(
         string='Section Full',
         compute='_compute_is_full',
-        store=True
+        store=True,
     )
 
     @api.depends('max_enrollment', 'enrolled_count')
@@ -169,7 +170,7 @@ class UniCoreCourseOffering(models.Model):
         for rec in self:
             rec.available_seats = max(
                 0,
-                rec.max_enrollment - rec.enrolled_count
+                rec.max_enrollment - rec.enrolled_count,
             )
 
     @api.depends('max_enrollment', 'enrolled_count')
@@ -186,7 +187,7 @@ class UniCoreCourseOffering(models.Model):
         related='course_id.credit_hours',
         store=True,
         readonly=True,
-        digits=(4, 1)
+        digits=(4, 1),
     )
 
     # ------- STATUS -------
@@ -202,10 +203,10 @@ class UniCoreCourseOffering(models.Model):
         string='Offering Status',
         required=True,
         default='draft',
-        tracking=True
+        tracking=True,
     )
     cancellation_reason = fields.Text(
-        string='Cancellation Reason'
+        string='Cancellation Reason',
     )
 
     # ------- SQL CONSTRAINTS -------
@@ -230,15 +231,15 @@ class UniCoreCourseOffering(models.Model):
         for rec in self:
             if rec.max_enrollment < 1:
                 raise ValidationError(
-                    _('Maximum enrollment must be at least 1.')
+                    _('Maximum enrollment must be at least 1.'),
                 )
             if rec.min_enrollment < 0:
                 raise ValidationError(
-                    _('Minimum enrollment cannot be negative.')
+                    _('Minimum enrollment cannot be negative.'),
                 )
             if rec.min_enrollment > rec.max_enrollment:
                 raise ValidationError(
-                    _('Minimum enrollment cannot exceed maximum enrollment.')
+                    _('Minimum enrollment cannot exceed maximum enrollment.'),
                 )
 
     @api.constrains('semester_id', 'academic_year_id')
@@ -249,7 +250,7 @@ class UniCoreCourseOffering(models.Model):
                     and rec.semester_id.academic_year_id
                     != rec.academic_year_id):
                 raise ValidationError(
-                    _('Selected semester does not belong to the selected academic year.')
+                    _('Selected semester does not belong to the selected academic year.'),
                 )
 
     # ------- CREATE OVERRIDE -------
@@ -260,7 +261,7 @@ class UniCoreCourseOffering(models.Model):
             if not vals.get('offering_code'):
                 vals['offering_code'] = (
                     self.env['ir.sequence'].next_by_code(
-                        'unicore.course.offering'
+                        'unicore.course.offering',
                     ) or '/'
                 )
         return super().create(vals_list)
@@ -283,15 +284,15 @@ class UniCoreCourseOffering(models.Model):
         self.ensure_one()
         if self.offering_state != 'draft':
             raise UserError(
-                _('Only draft offerings can be opened for enrollment.')
+                _('Only draft offerings can be opened for enrollment.'),
             )
         if not self.faculty_member_id:
             raise UserError(
-                _('Please assign a primary instructor before opening enrollment.')
+                _('Please assign a primary instructor before opening enrollment.'),
             )
         self.offering_state = 'open'
         self.message_post(
-            body=_('Course offering opened for enrollment.')
+            body=_('Course offering opened for enrollment.'),
         )
 
     def action_start(self):
@@ -307,35 +308,35 @@ class UniCoreCourseOffering(models.Model):
         self.offering_state = 'ongoing'
         self.message_post(
             body=_('Course offering started. %d students enrolled.')
-                 % self.enrolled_count
+                 % self.enrolled_count,
         )
 
     def action_complete(self):
         self.ensure_one()
         self.offering_state = 'completed'
         self.message_post(
-            body=_('Course offering marked as completed.')
+            body=_('Course offering marked as completed.'),
         )
 
     def action_cancel(self):
         self.ensure_one()
         if not self.cancellation_reason:
             raise UserError(
-                _('Please provide a cancellation reason before cancelling this offering.')
+                _('Please provide a cancellation reason before cancelling this offering.'),
             )
         self.offering_state = 'cancelled'
         self.message_post(
             body=_('Course offering cancelled. Reason: %s')
-                 % self.cancellation_reason
+                 % self.cancellation_reason,
         )
 
     def action_reset_draft(self):
         self.ensure_one()
         if self.offering_state == 'completed':
             raise UserError(
-                _('Completed offerings cannot be reset to draft.')
+                _('Completed offerings cannot be reset to draft.'),
             )
         self.offering_state = 'draft'
         self.message_post(
-            body=_('Course offering reset to Draft.')
+            body=_('Course offering reset to Draft.'),
         )

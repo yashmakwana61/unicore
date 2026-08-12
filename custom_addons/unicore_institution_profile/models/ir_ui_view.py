@@ -21,8 +21,9 @@ company's terminology rules and strictly gated:
   leading generic token are rewritten; everything else is untouched.
 """
 
-from odoo import api, models
 from lxml import etree
+
+from odoo import api, models
 
 
 class IrUiView(models.Model):
@@ -31,7 +32,7 @@ class IrUiView(models.Model):
     @api.model
     def get_view(self, view_id=None, view_type='form', **options):
         result = super().get_view(
-            view_id=view_id, view_type=view_type, **options
+            view_id=view_id, view_type=view_type, **options,
         )
         arch = result.get('arch')
         if not arch:

@@ -1,60 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-
-  <record id="view_unicore_library_issue_form"
-          model="ir.ui.view">
+  <record id="view_unicore_library_issue_form" model="ir.ui.view">
     <field name="name">unicore.library.issue.form</field>
     <field name="model">unicore.library.issue</field>
     <field name="arch" type="xml">
       <form>
         <header>
-          <button name="action_return"
-            string="Return Book"
-            type="object"
-            invisible="issue_state != 'issued'"
-            class="btn-primary"/>
-          <button name="action_renew"
-            string="Renew"
-            type="object"
-            invisible="issue_state != 'issued'"/>
-          <button name="action_mark_lost"
-            string="Mark as Lost"
-            type="object"
-            invisible="issue_state != 'issued'"
-            groups="unicore_base.group_unicore_admin"/>
-          <button name="action_mark_fine_paid"
-            string="Fine Paid"
-            type="object"
-            invisible="fine_amount == 0 or fine_paid"
-            class="btn-success"
-            groups="unicore_base.group_unicore_staff"/>
-          <button name="action_waive_fine"
-            string="Waive Fine"
-            type="object"
-            invisible="fine_amount == 0 or fine_waived"
-            groups="unicore_base.group_unicore_admin"/>
-          <field name="issue_state"
-            widget="statusbar"
-            statusbar_visible="issued,returned"/>
+          <button name="action_return" string="Return Book" type="object" invisible="issue_state != 'issued'" class="btn-primary"/>
+          <button name="action_renew" string="Renew" type="object" invisible="issue_state != 'issued'"/>
+          <button name="action_mark_lost" string="Mark as Lost" type="object" invisible="issue_state != 'issued'" groups="unicore_base.group_unicore_admin"/>
+          <button name="action_mark_fine_paid" string="Fine Paid" type="object" invisible="fine_amount == 0 or fine_paid" class="btn-success" groups="unicore_base.group_unicore_staff"/>
+          <button name="action_waive_fine" string="Waive Fine" type="object" invisible="fine_amount == 0 or fine_waived" groups="unicore_base.group_unicore_admin"/>
+          <field name="issue_state" widget="statusbar" statusbar_visible="issued,returned"/>
         </header>
         <sheet>
-          <widget name="web_ribbon"
-            title="OVERDUE"
-            invisible="not is_overdue or
-              issue_state == 'returned'"
-            bg_color="text-bg-danger"/>
-          <widget name="web_ribbon"
-            title="RETURNED"
-            invisible="issue_state != 'returned'"
-            bg_color="text-bg-success"/>
-          <widget name="web_ribbon"
-            title="LOST"
-            invisible="issue_state != 'lost'"
-            bg_color="text-bg-secondary"/>
+          <widget name="web_ribbon" title="OVERDUE" invisible="not is_overdue or               issue_state == 'returned'" bg_color="text-bg-danger"/>
+          <widget name="web_ribbon" title="RETURNED" invisible="issue_state != 'returned'" bg_color="text-bg-success"/>
+          <widget name="web_ribbon" title="LOST" invisible="issue_state != 'lost'" bg_color="text-bg-secondary"/>
           <group>
             <group string="Issue Details">
-              <field name="issue_number"
-                     readonly="1"/>
+              <field name="issue_number" readonly="1"/>
               <field name="member_id"/>
               <field name="book_copy_id"/>
               <field name="book_id" readonly="1"/>
@@ -63,34 +28,26 @@
             <group string="Dates and Fines">
               <field name="issue_date"/>
               <field name="due_date"/>
-              <field name="return_date"
-                     readonly="1"/>
-              <field name="days_overdue"
-                     readonly="1"/>
+              <field name="return_date" readonly="1"/>
+              <field name="days_overdue" readonly="1"/>
               <field name="is_overdue" readonly="1"/>
               <field name="fine_per_day"/>
-              <field name="fine_amount"
-                     readonly="1"/>
+              <field name="fine_amount" readonly="1"/>
               <field name="fine_paid"/>
-              <field name="fine_paid_date"
-                     readonly="1"/>
+              <field name="fine_paid_date" readonly="1"/>
               <field name="fine_waived"/>
             </group>
           </group>
           <group>
             <group string="Renewal">
-              <field name="renewal_count"
-                     readonly="1"/>
+              <field name="renewal_count" readonly="1"/>
               <field name="max_renewals"/>
-              <field name="last_renewed_on"
-                     readonly="1"/>
+              <field name="last_renewed_on" readonly="1"/>
             </group>
             <group string="Staff">
               <field name="issued_by_id" readonly="1"/>
-              <field name="returned_to_id"
-                     readonly="1"/>
-              <field name="condition_on_issue"
-                     readonly="1"/>
+              <field name="returned_to_id" readonly="1"/>
+              <field name="condition_on_issue" readonly="1"/>
               <field name="condition_on_return"/>
             </group>
           </group>
@@ -102,19 +59,11 @@
       </form>
     </field>
   </record>
-
-  <record id="view_unicore_library_issue_list"
-          model="ir.ui.view">
+  <record id="view_unicore_library_issue_list" model="ir.ui.view">
     <field name="name">unicore.library.issue.list</field>
     <field name="model">unicore.library.issue</field>
     <field name="arch" type="xml">
-      <list decoration-danger=
-              "is_overdue and
-               issue_state == 'issued'"
-            decoration-success=
-              "issue_state == 'returned'"
-            decoration-muted=
-              "issue_state in ('lost','cancelled')">
+      <list decoration-danger="is_overdue and                issue_state == 'issued'" decoration-success="issue_state == 'returned'" decoration-muted="issue_state in ('lost','cancelled')">
         <field name="issue_number"/>
         <field name="member_id"/>
         <field name="book_id"/>
@@ -128,9 +77,7 @@
       </list>
     </field>
   </record>
-
-  <record id="view_unicore_library_issue_search"
-          model="ir.ui.view">
+  <record id="view_unicore_library_issue_search" model="ir.ui.view">
     <field name="name">unicore.library.issue.search</field>
     <field name="model">unicore.library.issue</field>
     <field name="arch" type="xml">
@@ -138,57 +85,34 @@
         <field name="issue_number"/>
         <field name="member_id"/>
         <field name="book_id"/>
-        <filter name="issued" string="Currently Issued"
-          domain="[('issue_state','=','issued')]"/>
-        <filter name="overdue" string="Overdue"
-          domain="[('is_overdue','=',True),('issue_state','=','issued')]"/>
-        <filter name="unpaid_fines"
-          string="Unpaid Fines"
-          domain="[('fine_amount','>',0),('fine_paid','=',False),
-                   ('fine_waived','=',False)]"/>
-        <filter name="due_today"
-          string="Due Today"
-          domain="[('due_date','=',context_today().strftime('%Y-%m-%d')),
-            ('issue_state','=','issued')]"/>
+        <filter name="issued" string="Currently Issued" domain="[('issue_state','=','issued')]"/>
+        <filter name="overdue" string="Overdue" domain="[('is_overdue','=',True),('issue_state','=','issued')]"/>
+        <filter name="unpaid_fines" string="Unpaid Fines" domain="[('fine_amount','&gt;',0),('fine_paid','=',False),                    ('fine_waived','=',False)]"/>
+        <filter name="due_today" string="Due Today" domain="[('due_date','=',context_today().strftime('%Y-%m-%d')),             ('issue_state','=','issued')]"/>
         <group name="group_by">
-          <filter name="group_by_member"
-            string="Member"
-            context="{'group_by':'member_id'}"/>
-          <filter name="group_by_state"
-            string="Status"
-            context="{'group_by':'issue_state'}"/>
+          <filter name="group_by_member" string="Member" context="{'group_by':'member_id'}"/>
+          <filter name="group_by_state" string="Status" context="{'group_by':'issue_state'}"/>
         </group>
       </search>
     </field>
   </record>
-
-  <record id="action_unicore_library_issue"
-          model="ir.actions.act_window">
+  <record id="action_unicore_library_issue" model="ir.actions.act_window">
     <field name="name">Book Issues</field>
     <field name="res_model">unicore.library.issue</field>
     <field name="view_mode">list,form</field>
-    <field name="context">
-      {'search_default_issued': 1}
-    </field>
+    <field name="context">{'search_default_issued': 1}</field>
   </record>
-
-  <record id="action_unicore_library_overdue"
-          model="ir.actions.act_window">
+  <record id="action_unicore_library_overdue" model="ir.actions.act_window">
     <field name="name">Overdue Books</field>
     <field name="res_model">unicore.library.issue</field>
     <field name="view_mode">list,form</field>
-    <field name="domain">
-      [('is_overdue','=',True),
-       ('issue_state','=','issued')]
-    </field>
+    <field name="domain">[('is_overdue','=',True),
+       ('issue_state','=','issued')]</field>
   </record>
-
-  <record id="action_unicore_library_issue_new"
-          model="ir.actions.act_window">
+  <record id="action_unicore_library_issue_new" model="ir.actions.act_window">
     <field name="name">Issue Book</field>
     <field name="res_model">unicore.library.issue</field>
     <field name="view_mode">form</field>
     <field name="target">new</field>
   </record>
-
 </odoo>

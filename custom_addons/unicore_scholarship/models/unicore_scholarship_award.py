@@ -6,9 +6,10 @@ for direct adjustment. Tracks per-semester
 disbursements.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -34,7 +35,7 @@ class UniCoreScholarshipAward(models.Model):
             )
             if student_name:
                 rec.display_name = '%s - %s' % (
-                    rec.award_number, student_name
+                    rec.award_number, student_name,
                 )
             else:
                 rec.display_name = rec.award_number or ''
@@ -164,7 +165,7 @@ class UniCoreScholarshipAward(models.Model):
         for rec in self:
             if rec.award_amount <= 0:
                 raise ValidationError(
-                    _('Award amount must be positive.')
+                    _('Award amount must be positive.'),
                 )
 
     @api.model_create_multi
@@ -173,7 +174,7 @@ class UniCoreScholarshipAward(models.Model):
             if not vals.get('award_number'):
                 vals['award_number'] = (
                     self.env['ir.sequence'].next_by_code(
-                        'unicore.scholarship.award'
+                        'unicore.scholarship.award',
                     ) or '/'
                 )
         return super().create(vals_list)
@@ -184,11 +185,11 @@ class UniCoreScholarshipAward(models.Model):
                 != 'approved'):
             raise UserError(
                 _('The linked application must be '
-                  'approved before approving the award.')
+                  'approved before approving the award.'),
             )
         self.award_state = 'approved'
         self.message_post(
-            body=_('Award approved.')
+            body=_('Award approved.'),
         )
 
     def action_disburse(self):
@@ -201,7 +202,7 @@ class UniCoreScholarshipAward(models.Model):
         self.ensure_one()
         if self.award_state != 'approved':
             raise UserError(
-                _('Only approved awards can be disbursed.')
+                _('Only approved awards can be disbursed.'),
             )
 
         if (self.disbursement_method == 'fee_adjustment'
@@ -226,9 +227,9 @@ class UniCoreScholarshipAward(models.Model):
             invoice.message_post(
                 body=_(
                     'Scholarship award %s applied '
-                    'as discount of %s.'
+                    'as discount of %s.',
                 ) % (self.award_number,
-                     self.award_amount)
+                     self.award_amount),
             )
 
         self.write({
@@ -238,7 +239,7 @@ class UniCoreScholarshipAward(models.Model):
         self.message_post(
             body=_('Award disbursed: %s via %s.')
                  % (self.award_amount,
-                    self.disbursement_method)
+                    self.disbursement_method),
         )
 
     def action_cancel(self):
@@ -249,9 +250,9 @@ class UniCoreScholarshipAward(models.Model):
                 _('Cannot cancel a disbursed award '
                   'that has been applied to a fee '
                   'invoice. Reverse the fee adjustment '
-                  'first.')
+                  'first.'),
             )
         self.award_state = 'cancelled'
         self.message_post(
-            body=_('Award cancelled.')
+            body=_('Award cancelled.'),
         )

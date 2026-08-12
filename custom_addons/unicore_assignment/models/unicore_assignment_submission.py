@@ -12,11 +12,11 @@ against the submitted file, e.g.
 A full PDF-markup UI is a stretch goal and not required for v1.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
-from datetime import datetime
 import json
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -240,7 +240,7 @@ class UniCoreAssignmentSubmission(models.Model):
             if rec.submission_date > due_dt:
                 delta = rec.submission_date - due_dt
                 rec.late_minutes = int(
-                    delta.total_seconds() // 60
+                    delta.total_seconds() // 60,
                 )
                 rec.is_late = True
 
@@ -249,8 +249,8 @@ class UniCoreAssignmentSubmission(models.Model):
         for rec in self:
             rec.rubric_points_awarded = sum(
                 rec.rubric_evaluation_ids.mapped(
-                    'points_awarded'
-                )
+                    'points_awarded',
+                ),
             )
 
     def _compute_annotation_count(self):
@@ -270,7 +270,7 @@ class UniCoreAssignmentSubmission(models.Model):
             if rec.assignment_id.max_marks:
                 rec.marks_percentage = round(
                     rec.marks_obtained * 100.0
-                    / rec.assignment_id.max_marks, 2
+                    / rec.assignment_id.max_marks, 2,
                 )
             else:
                 rec.marks_percentage = 0.0
@@ -306,14 +306,14 @@ class UniCoreAssignmentSubmission(models.Model):
         for rec in self:
             if rec.marks_obtained < 0:
                 raise ValidationError(_(
-                    'Marks obtained cannot be negative.'
+                    'Marks obtained cannot be negative.',
                 ))
             if (rec.assignment_id.max_marks
                     and rec.marks_obtained
                     > rec.assignment_id.max_marks):
                 raise ValidationError(_(
                     'Marks obtained cannot exceed the maximum '
-                    'marks of the assignment.'
+                    'marks of the assignment.',
                 ))
 
     # ------- SEQUENCE / DEFAULT ENROLLMENT -------
@@ -348,12 +348,12 @@ class UniCoreAssignmentSubmission(models.Model):
         for rec in self:
             if rec.state in ('graded', 'returned'):
                 raise UserError(_(
-                    'This submission has already been graded.'
+                    'This submission has already been graded.',
                 ))
             if not rec.submission_file and not rec.submission_text:
                 raise UserError(_(
                     'Please attach a file or add notes before '
-                    'submitting.'
+                    'submitting.',
                 ))
             rec.submission_date = fields.Datetime.now()
             rec.attempt_count = rec.attempt_count + 1
@@ -368,7 +368,7 @@ class UniCoreAssignmentSubmission(models.Model):
             if rec.state != 'returned':
                 raise UserError(_(
                     'Only returned submissions can be reset '
-                    'to draft.'
+                    'to draft.',
                 ))
             rec.state = 'draft'
             rec.feedback = False
@@ -381,7 +381,7 @@ class UniCoreAssignmentSubmission(models.Model):
             if rec.state not in ('submitted', 'late', 'returned'):
                 raise UserError(_(
                     'Only submitted or late submissions can '
-                    'be graded.'
+                    'be graded.',
                 ))
             rec.state = 'graded'
             rec.graded_by_id = self.env.uid
@@ -402,7 +402,7 @@ class UniCoreAssignmentSubmission(models.Model):
                         ),
                         'marks_obtained': str(rec.marks_obtained),
                         'max_marks': str(
-                            rec.assignment_id.max_marks
+                            rec.assignment_id.max_marks,
                         ),
                     },
                 )
@@ -416,7 +416,7 @@ class UniCoreAssignmentSubmission(models.Model):
         for rec in self:
             if rec.state != 'graded':
                 raise UserError(_(
-                    'Only graded submissions can be returned.'
+                    'Only graded submissions can be returned.',
                 ))
             rec.state = 'returned'
 
@@ -425,7 +425,7 @@ class UniCoreAssignmentSubmission(models.Model):
         for rec in self:
             if rec.state != 'graded':
                 raise UserError(_(
-                    'Only graded submissions can be reopened.'
+                    'Only graded submissions can be reopened.',
                 ))
             rec.state = 'submitted'
             rec.graded_by_id = False
@@ -447,10 +447,10 @@ class UniCoreAssignmentSubmission(models.Model):
         self.ensure_one()
         if not isinstance(annotation_list, list):
             raise ValidationError(_(
-                'Annotations must be a JSON list.'
+                'Annotations must be a JSON list.',
             ))
         self.annotations = json.dumps(
-            annotation_list, ensure_ascii=False
+            annotation_list, ensure_ascii=False,
         )
 
     def add_annotation(self, page, x, y, text, **extra):

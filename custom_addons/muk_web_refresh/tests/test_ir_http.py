@@ -62,7 +62,7 @@ class TestIrHttp(common.HttpCase):
 
     def test_the_interval_follows_the_config_parameter(self):
         self.env['ir.config_parameter'].sudo().set_param(
-            'muk_web_refresh.pager_autoload_interval', '5000'
+            'muk_web_refresh.pager_autoload_interval', '5000',
         )
         interval = self._interval()
         self.assertEqual(interval, 5000)

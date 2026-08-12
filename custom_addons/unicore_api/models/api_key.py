@@ -1,8 +1,8 @@
 import secrets
-from datetime import datetime, date
+from datetime import date, datetime
 
-from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError, AccessDenied
+from odoo import _, api, fields, models
+from odoo.exceptions import AccessDenied
 
 
 class UniCoreApiKey(models.Model):
@@ -112,7 +112,7 @@ class UniCoreApiKey(models.Model):
         if key.expires_on and key.expires_on < date.today():
             raise AccessDenied(_('API key has expired.'))
         today_start = fields.Datetime.to_string(
-            datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+            datetime.now().replace(hour=0, minute=0, second=0, microsecond=0),
         )
         usage_count = self.sudo().search_count([
             ('id', '=', key.id),

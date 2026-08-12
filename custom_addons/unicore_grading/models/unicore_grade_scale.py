@@ -4,9 +4,10 @@ Defines the institutional grading system mapping
 percentage ranges to letter grades and grade points.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -73,7 +74,7 @@ class UniCoreGradeScale(models.Model):
                         _('Company "%s" already has a '
                           'default grade scale. Please '
                           'unset the existing default first.')
-                        % rec.company_id.name
+                        % rec.company_id.name,
                     )
 
     @api.model
@@ -100,7 +101,7 @@ class UniCoreGradeScale(models.Model):
         """
         self.ensure_one()
         for line in self.line_ids.sorted(
-            key=lambda l: l.min_percentage, reverse=True
+            key=lambda l: l.min_percentage, reverse=True,
         ):
             if percentage >= line.min_percentage:
                 return line.letter_grade, line.grade_point
@@ -159,16 +160,16 @@ class UniCoreGradeScaleLine(models.Model):
         for rec in self:
             if rec.min_percentage < 0:
                 raise ValidationError(
-                    _('Minimum percentage cannot be negative.')
+                    _('Minimum percentage cannot be negative.'),
                 )
             if rec.max_percentage > 100:
                 raise ValidationError(
-                    _('Maximum percentage cannot exceed 100.')
+                    _('Maximum percentage cannot exceed 100.'),
                 )
             if rec.min_percentage >= rec.max_percentage:
                 raise ValidationError(
                     _('Minimum percentage must be less '
-                      'than maximum percentage.')
+                      'than maximum percentage.'),
                 )
 
     @api.constrains('grade_point', 'scale_id')
@@ -176,11 +177,11 @@ class UniCoreGradeScaleLine(models.Model):
         for rec in self:
             if rec.grade_point < 0:
                 raise ValidationError(
-                    _('Grade point cannot be negative.')
+                    _('Grade point cannot be negative.'),
                 )
             if (rec.scale_id.max_gpa
                     and rec.grade_point > rec.scale_id.max_gpa):
                 raise ValidationError(
                     _('Grade point %s exceeds scale maximum %s.')
-                    % (rec.grade_point, rec.scale_id.max_gpa)
+                    % (rec.grade_point, rec.scale_id.max_gpa),
                 )

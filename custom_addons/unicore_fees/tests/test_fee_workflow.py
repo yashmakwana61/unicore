@@ -1,6 +1,7 @@
-import odoo
 from datetime import date, timedelta
-from odoo.exceptions import UserError, ValidationError
+
+import odoo
+from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
 

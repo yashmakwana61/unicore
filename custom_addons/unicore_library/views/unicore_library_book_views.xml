@@ -1,49 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-
   <!-- Book Form -->
-  <record id="view_unicore_library_book_form"
-          model="ir.ui.view">
+  <record id="view_unicore_library_book_form" model="ir.ui.view">
     <field name="name">unicore.library.book.form</field>
     <field name="model">unicore.library.book</field>
     <field name="arch" type="xml">
       <form>
         <header>
-          <field name="book_state"
-            widget="statusbar"
-            statusbar_visible="active,inactive"/>
+          <field name="book_state" widget="statusbar" statusbar_visible="active,inactive"/>
         </header>
         <sheet>
-          <widget name="web_ribbon"
-            title="Unavailable"
-            invisible="available_copies > 0 or
-              book_state != 'active'"
-            bg_color="text-bg-warning"/>
-          <div class="oe_button_box"
-               name="button_box">
-            <button type="object"
-              name="action_add_copy"
-              class="oe_stat_button"
-              icon="fa-copy">
-              <field name="total_copies"
-                     widget="statinfo"
-                     string="Total Copies"/>
+          <widget name="web_ribbon" title="Unavailable" invisible="available_copies &gt; 0 or               book_state != 'active'" bg_color="text-bg-warning"/>
+          <div class="oe_button_box" name="button_box">
+            <button type="object" name="action_add_copy" class="oe_stat_button" icon="fa-copy">
+              <field name="total_copies" widget="statinfo" string="Total Copies"/>
             </button>
-            <button class="oe_stat_button"
-                    icon="fa-check-circle"
-                    type="object"
-                    name="action_add_copy">
-              <field name="available_copies"
-                     widget="statinfo"
-                     string="Available"/>
+            <button class="oe_stat_button" icon="fa-check-circle" type="object" name="action_add_copy">
+              <field name="available_copies" widget="statinfo" string="Available"/>
             </button>
-            <button class="oe_stat_button"
-                    icon="fa-book"
-                    type="object"
-                    name="action_add_copy">
-              <field name="issued_copies"
-                     widget="statinfo"
-                     string="Issued"/>
+            <button class="oe_stat_button" icon="fa-book" type="object" name="action_add_copy">
+              <field name="issued_copies" widget="statinfo" string="Issued"/>
             </button>
           </div>
           <div class="row">
@@ -53,10 +29,8 @@
                   <field name="title"/>
                   <field name="subtitle"/>
                   <field name="isbn"/>
-                  <field name="author_ids"
-                    widget="many2many_tags"/>
-                  <field name="author_display"
-                    readonly="1"/>
+                  <field name="author_ids" widget="many2many_tags"/>
+                  <field name="author_display" readonly="1"/>
                   <field name="publisher_id"/>
                   <field name="publication_year"/>
                   <field name="edition"/>
@@ -65,8 +39,7 @@
                 </group>
                 <group string="Classification">
                   <field name="book_type"/>
-                  <field name="subject_ids"
-                    widget="many2many_tags"/>
+                  <field name="subject_ids" widget="many2many_tags"/>
                   <field name="call_number"/>
                   <field name="location"/>
                   <field name="company_id"/>
@@ -74,9 +47,7 @@
               </group>
             </div>
             <div class="col-md-3">
-              <field name="cover_image"
-                     widget="image"
-                     options="{'size': [128,170]}"/>
+              <field name="cover_image" widget="image" options="{'size': [128,170]}"/>
             </div>
           </div>
           <notebook>
@@ -95,8 +66,7 @@
               <field name="description" nolabel="1"/>
             </page>
             <page string="Table of Contents">
-              <field name="table_of_contents"
-                     nolabel="1"/>
+              <field name="table_of_contents" nolabel="1"/>
             </page>
           </notebook>
         </sheet>
@@ -104,20 +74,12 @@
       </form>
     </field>
   </record>
-
   <!-- Book List -->
-  <record id="view_unicore_library_book_list"
-          model="ir.ui.view">
+  <record id="view_unicore_library_book_list" model="ir.ui.view">
     <field name="name">unicore.library.book.list</field>
     <field name="model">unicore.library.book</field>
     <field name="arch" type="xml">
-      <list decoration-success=
-              "available_copies > 0"
-            decoration-warning=
-              "available_copies == 0 and
-               total_copies > 0"
-            decoration-muted=
-              "book_state != 'active'">
+      <list decoration-success="available_copies &gt; 0" decoration-warning="available_copies == 0 and                total_copies &gt; 0" decoration-muted="book_state != 'active'">
         <field name="title"/>
         <field name="author_display"/>
         <field name="isbn"/>
@@ -130,10 +92,8 @@
       </list>
     </field>
   </record>
-
   <!-- Book Kanban -->
-  <record id="view_unicore_library_book_kanban"
-          model="ir.ui.view">
+  <record id="view_unicore_library_book_kanban" model="ir.ui.view">
     <field name="name">unicore.library.book.kanban</field>
     <field name="model">unicore.library.book</field>
     <field name="arch" type="xml">
@@ -154,7 +114,7 @@
                 </t>
               </div>
               <div class="mt-1">
-                <span t-att-class="'badge ' + ('bg-success' if record.available_copies.raw_value > 0 else 'bg-warning text-dark')">
+                <span t-att-class="'badge ' + ('bg-success' if record.available_copies.raw_value &gt; 0 else 'bg-warning text-dark')">
                   Available:
                   <field name="available_copies"/>
                   /
@@ -170,10 +130,8 @@
       </kanban>
     </field>
   </record>
-
   <!-- Book Search -->
-  <record id="view_unicore_library_book_search"
-          model="ir.ui.view">
+  <record id="view_unicore_library_book_search" model="ir.ui.view">
     <field name="name">unicore.library.book.search</field>
     <field name="model">unicore.library.book</field>
     <field name="arch" type="xml">
@@ -184,72 +142,47 @@
         <field name="publisher_id"/>
         <field name="subject_ids"/>
         <field name="call_number"/>
-        <filter name="available" string="Available"
-          domain="[('available_copies','>',0)]"/>
-        <filter name="reference"
-          string="Reference Books"
-          domain="[('book_type','=','reference')]"/>
-        <filter name="active" string="Active"
-          domain="[('book_state','=','active')]"/>
+        <filter name="available" string="Available" domain="[('available_copies','&gt;',0)]"/>
+        <filter name="reference" string="Reference Books" domain="[('book_type','=','reference')]"/>
+        <filter name="active" string="Active" domain="[('book_state','=','active')]"/>
         <group name="group_by">
-          <filter name="group_by_subject"
-            string="Subject"
-            context="{'group_by':'subject_ids'}"/>
-          <filter name="group_by_type"
-            string="Book Type"
-            context="{'group_by':'book_type'}"/>
-          <filter name="group_by_publisher"
-            string="Publisher"
-            context="{'group_by':'publisher_id'}"/>
+          <filter name="group_by_subject" string="Subject" context="{'group_by':'subject_ids'}"/>
+          <filter name="group_by_type" string="Book Type" context="{'group_by':'book_type'}"/>
+          <filter name="group_by_publisher" string="Publisher" context="{'group_by':'publisher_id'}"/>
         </group>
       </search>
     </field>
   </record>
-
   <!-- Window Actions -->
-  <record id="action_unicore_library_book"
-          model="ir.actions.act_window">
+  <record id="action_unicore_library_book" model="ir.actions.act_window">
     <field name="name">Book Catalogue</field>
     <field name="res_model">unicore.library.book</field>
     <field name="view_mode">kanban,list,form</field>
-    <field name="context">
-      {'search_default_active': 1}
-    </field>
+    <field name="context">{'search_default_active': 1}</field>
   </record>
-
-  <record id="action_unicore_library_book_available"
-          model="ir.actions.act_window">
+  <record id="action_unicore_library_book_available" model="ir.actions.act_window">
     <field name="name">Available Books</field>
     <field name="res_model">unicore.library.book</field>
     <field name="view_mode">list,kanban,form</field>
-    <field name="domain">
-      [('available_copies','>',0),
-       ('book_state','=','active')]
-    </field>
+    <field name="domain">[('available_copies','&gt;',0),
+       ('book_state','=','active')]</field>
   </record>
-
   <!-- Subject config action -->
-  <record id="action_unicore_library_subject"
-          model="ir.actions.act_window">
+  <record id="action_unicore_library_subject" model="ir.actions.act_window">
     <field name="name">Subjects</field>
     <field name="res_model">unicore.library.subject</field>
     <field name="view_mode">list,form</field>
   </record>
-
   <!-- Publisher config action -->
-  <record id="action_unicore_library_publisher"
-          model="ir.actions.act_window">
+  <record id="action_unicore_library_publisher" model="ir.actions.act_window">
     <field name="name">Publishers</field>
     <field name="res_model">unicore.library.publisher</field>
     <field name="view_mode">list,form</field>
   </record>
-
   <!-- Author config action -->
-  <record id="action_unicore_library_author"
-          model="ir.actions.act_window">
+  <record id="action_unicore_library_author" model="ir.actions.act_window">
     <field name="name">Authors</field>
     <field name="res_model">unicore.library.author</field>
     <field name="view_mode">list,form</field>
   </record>
-
 </odoo>

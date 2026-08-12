@@ -1,102 +1,52 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-
-  <record id="view_unicore_hostel_maintenance_form"
-          model="ir.ui.view">
+  <record id="view_unicore_hostel_maintenance_form" model="ir.ui.view">
     <field name="name">unicore.hostel.maintenance.form</field>
     <field name="model">unicore.hostel.maintenance</field>
     <field name="arch" type="xml">
       <form>
         <header>
-          <button name="action_start"
-            string="Start Work"
-            type="object"
-            invisible="maintenance_state != 'open'"
-            class="btn-primary"
-            groups="unicore_base.group_unicore_staff"/>
-          <button name="action_resolve"
-            string="Mark Resolved"
-            type="object"
-            invisible="maintenance_state !=
-              'in_progress'"
-            class="btn-success"
-            groups="unicore_base.group_unicore_staff"/>
-          <button name="action_reopen"
-            string="Reopen"
-            type="object"
-            invisible="maintenance_state !=
-              'resolved'"
-            groups="unicore_base.group_unicore_admin"/>
-          <button name="action_cancel"
-            string="Cancel"
-            type="object"
-            invisible="maintenance_state in
-              ('resolved','cancelled')"
-            groups="unicore_base.group_unicore_admin"/>
-          <field name="maintenance_state"
-            widget="statusbar"
-            statusbar_visible="open,in_progress,
-              resolved"/>
+          <button name="action_start" string="Start Work" type="object" invisible="maintenance_state != 'open'" class="btn-primary" groups="unicore_base.group_unicore_staff"/>
+          <button name="action_resolve" string="Mark Resolved" type="object" invisible="maintenance_state !=               'in_progress'" class="btn-success" groups="unicore_base.group_unicore_staff"/>
+          <button name="action_reopen" string="Reopen" type="object" invisible="maintenance_state !=               'resolved'" groups="unicore_base.group_unicore_admin"/>
+          <button name="action_cancel" string="Cancel" type="object" invisible="maintenance_state in               ('resolved','cancelled')" groups="unicore_base.group_unicore_admin"/>
+          <field name="maintenance_state" widget="statusbar" statusbar_visible="open,in_progress,               resolved"/>
         </header>
         <sheet>
-          <widget name="web_ribbon"
-            title="URGENT"
-            invisible="priority != 'urgent'"
-            bg_color="text-bg-danger"/>
-          <widget name="web_ribbon"
-            title="RESOLVED"
-            invisible="maintenance_state !=
-              'resolved'"
-            bg_color="text-bg-success"/>
+          <widget name="web_ribbon" title="URGENT" invisible="priority != 'urgent'" bg_color="text-bg-danger"/>
+          <widget name="web_ribbon" title="RESOLVED" invisible="maintenance_state !=               'resolved'" bg_color="text-bg-success"/>
           <group>
             <group string="Request Details">
-              <field name="request_number"
-                     readonly="1"/>
+              <field name="request_number" readonly="1"/>
               <field name="room_id"/>
               <field name="block_id" readonly="1"/>
               <field name="student_id"/>
-              <field name="request_date"
-                     readonly="1"/>
+              <field name="request_date" readonly="1"/>
             </group>
             <group string="Issue Details">
               <field name="issue_type"/>
               <field name="priority"/>
               <field name="assigned_to"/>
-              <field name="resolved_date"
-                     readonly="1"/>
-              <field name="resolution_days"
-                     readonly="1"/>
+              <field name="resolved_date" readonly="1"/>
+              <field name="resolution_days" readonly="1"/>
             </group>
           </group>
           <group string="Description">
             <field name="description" nolabel="1"/>
           </group>
-          <group string="Resolution"
-            invisible="maintenance_state == 'open'">
-            <field name="resolution_notes"
-                   nolabel="1"/>
+          <group string="Resolution" invisible="maintenance_state == 'open'">
+            <field name="resolution_notes" nolabel="1"/>
           </group>
         </sheet>
         <chatter/>
       </form>
     </field>
   </record>
-
-  <record id="view_unicore_hostel_maintenance_list"
-          model="ir.ui.view">
+  <record id="view_unicore_hostel_maintenance_list" model="ir.ui.view">
     <field name="name">unicore.hostel.maintenance.list</field>
     <field name="model">unicore.hostel.maintenance</field>
     <field name="arch" type="xml">
-      <list decoration-danger=
-              "priority == 'urgent' and
-               maintenance_state != 'resolved'"
-            decoration-warning=
-              "priority == 'high' and
-               maintenance_state != 'resolved'"
-            decoration-success=
-              "maintenance_state == 'resolved'"
-            decoration-muted=
-              "maintenance_state == 'cancelled'">
+      <list decoration-danger="priority == 'urgent' and                maintenance_state != 'resolved'" decoration-warning="priority == 'high' and                maintenance_state != 'resolved'" decoration-success="maintenance_state == 'resolved'" decoration-muted="maintenance_state == 'cancelled'">
         <field name="request_number"/>
         <field name="room_id"/>
         <field name="block_id"/>
@@ -110,9 +60,7 @@
       </list>
     </field>
   </record>
-
-  <record id="view_unicore_hostel_maintenance_search"
-          model="ir.ui.view">
+  <record id="view_unicore_hostel_maintenance_search" model="ir.ui.view">
     <field name="name">unicore.hostel.maintenance.search</field>
     <field name="model">unicore.hostel.maintenance</field>
     <field name="arch" type="xml">
@@ -121,50 +69,30 @@
         <field name="room_id"/>
         <field name="block_id"/>
         <field name="student_id"/>
-        <filter name="open" string="Open"
-          domain="[('maintenance_state','=','open')]"/>
-        <filter name="urgent" string="Urgent"
-          domain="[('priority','=','urgent')]"/>
-        <filter name="in_progress"
-          string="In Progress"
-          domain="[('maintenance_state','=','in_progress')]"/>
-        <filter name="resolved" string="Resolved"
-          domain="[('maintenance_state','=','resolved')]"/>
+        <filter name="open" string="Open" domain="[('maintenance_state','=','open')]"/>
+        <filter name="urgent" string="Urgent" domain="[('priority','=','urgent')]"/>
+        <filter name="in_progress" string="In Progress" domain="[('maintenance_state','=','in_progress')]"/>
+        <filter name="resolved" string="Resolved" domain="[('maintenance_state','=','resolved')]"/>
         <group name="group_by">
-          <filter name="group_by_block"
-            string="Block"
-            context="{'group_by':'block_id'}"/>
-          <filter name="group_by_type"
-            string="Issue Type"
-            context="{'group_by':'issue_type'}"/>
-          <filter name="group_by_priority"
-            string="Priority"
-            context="{'group_by':'priority'}"/>
+          <filter name="group_by_block" string="Block" context="{'group_by':'block_id'}"/>
+          <filter name="group_by_type" string="Issue Type" context="{'group_by':'issue_type'}"/>
+          <filter name="group_by_priority" string="Priority" context="{'group_by':'priority'}"/>
         </group>
       </search>
     </field>
   </record>
-
-  <record id="action_unicore_hostel_maintenance"
-          model="ir.actions.act_window">
+  <record id="action_unicore_hostel_maintenance" model="ir.actions.act_window">
     <field name="name">Maintenance Requests</field>
     <field name="res_model">unicore.hostel.maintenance</field>
     <field name="view_mode">list,form</field>
-    <field name="context">
-      {'search_default_open': 1}
-    </field>
+    <field name="context">{'search_default_open': 1}</field>
   </record>
-
-  <record id="action_unicore_hostel_maintenance_urgent"
-          model="ir.actions.act_window">
+  <record id="action_unicore_hostel_maintenance_urgent" model="ir.actions.act_window">
     <field name="name">Urgent Maintenance</field>
     <field name="res_model">unicore.hostel.maintenance</field>
     <field name="view_mode">list,form</field>
-    <field name="domain">
-      [('priority','in',['urgent','high']),
+    <field name="domain">[('priority','in',['urgent','high']),
        ('maintenance_state','in',
-        ['open','in_progress'])]
-    </field>
+        ['open','in_progress'])]</field>
   </record>
-
 </odoo>

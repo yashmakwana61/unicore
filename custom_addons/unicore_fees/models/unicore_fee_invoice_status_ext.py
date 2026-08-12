@@ -3,9 +3,10 @@ UniCore Fee Invoice — Status Update Extension
 Updates invoice status based on GL reconciliation and payments.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError
 from datetime import date
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class UniCoreFeeInvoiceStatusExt(models.Model):
@@ -28,7 +29,7 @@ class UniCoreFeeInvoiceStatusExt(models.Model):
 
             # Get all receivable lines from GL invoice
             ar_lines = rec.account_move_id.line_ids.filtered(
-                lambda l: l.account_id.account_type == 'asset_receivable'
+                lambda l: l.account_id.account_type == 'asset_receivable',
             )
 
             if not ar_lines:
@@ -59,11 +60,11 @@ class UniCoreFeeInvoiceStatusExt(models.Model):
         # Log GL reconciliation status
         if self.account_move_id and self.gl_fully_reconciled:
             self.message_post(body=_(
-                'Invoice status updated: %s (GL: Fully Reconciled)'
+                'Invoice status updated: %s (GL: Fully Reconciled)',
             ) % self.get_selection_value('invoice_state'))
         elif self.account_move_id:
             self.message_post(body=_(
-                'Invoice status updated: %s (GL: Partial Reconciliation)'
+                'Invoice status updated: %s (GL: Partial Reconciliation)',
             ) % self.get_selection_value('invoice_state'))
 
     def get_selection_value(self, field_name):

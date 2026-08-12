@@ -1,18 +1,19 @@
 from datetime import date
 
-from odoo import http, _
-from odoo.http import request
-from odoo.addons.portal.controllers.portal import (
-    CustomerPortal, pager as portal_pager
-)
 from werkzeug.exceptions import NotFound
+
+from odoo import _, http
+from odoo.http import request
+
+from odoo.addons.portal.controllers.portal import CustomerPortal
+from odoo.addons.portal.controllers.portal import pager as portal_pager
 
 
 class UniCoreGuardianPortal(CustomerPortal):
 
     def _prepare_home_portal_values(self, counters):
         values = super()._prepare_home_portal_values(
-            counters
+            counters,
         )
         guardian = self._get_current_guardian()
         if guardian:
@@ -39,7 +40,7 @@ class UniCoreGuardianPortal(CustomerPortal):
         if not guardian:
             raise NotFound(
                 _('No guardian record found for '
-                  'your account.')
+                  'your account.'),
             )
         return guardian
 
@@ -66,7 +67,7 @@ class UniCoreGuardianPortal(CustomerPortal):
         guardian = self._guardian_required()
         if not isinstance(
             guardian,
-            request.env['unicore.guardian'].__class__
+            request.env['unicore.guardian'].__class__,
         ):
             return guardian
 
@@ -134,7 +135,7 @@ class UniCoreGuardianPortal(CustomerPortal):
         guardian = self._guardian_required()
         if not isinstance(
             guardian,
-            request.env['unicore.guardian'].__class__
+            request.env['unicore.guardian'].__class__,
         ):
             return guardian
 
@@ -152,10 +153,10 @@ class UniCoreGuardianPortal(CustomerPortal):
         ], limit=1)
         if not relation:
             raise NotFound(
-                _('No active ward relationship found.')
+                _('No active ward relationship found.'),
             )
         if not self._check_permission(
-            relation, 'can_view_academic_records'
+            relation, 'can_view_academic_records',
         ):
             return request.render(
                 'unicore_portal_guardian'
@@ -209,7 +210,7 @@ class UniCoreGuardianPortal(CustomerPortal):
         guardian = self._guardian_required()
         if not isinstance(
             guardian,
-            request.env['unicore.guardian'].__class__
+            request.env['unicore.guardian'].__class__,
         ):
             return guardian
 
@@ -227,10 +228,10 @@ class UniCoreGuardianPortal(CustomerPortal):
         ], limit=1)
         if not relation:
             raise NotFound(
-                _('No active ward relationship found.')
+                _('No active ward relationship found.'),
             )
         if not self._check_permission(
-            relation, 'can_view_academic_records'
+            relation, 'can_view_academic_records',
         ):
             return request.render(
                 'unicore_portal_guardian'
@@ -283,7 +284,7 @@ class UniCoreGuardianPortal(CustomerPortal):
         guardian = self._guardian_required()
         if not isinstance(
             guardian,
-            request.env['unicore.guardian'].__class__
+            request.env['unicore.guardian'].__class__,
         ):
             return guardian
 
@@ -301,10 +302,10 @@ class UniCoreGuardianPortal(CustomerPortal):
         ], limit=1)
         if not relation:
             raise NotFound(
-                _('No active ward relationship found.')
+                _('No active ward relationship found.'),
             )
         if not self._check_permission(
-            relation, 'can_view_fee_records'
+            relation, 'can_view_fee_records',
         ):
             return request.render(
                 'unicore_portal_guardian'
@@ -350,7 +351,7 @@ class UniCoreGuardianPortal(CustomerPortal):
         guardian = self._guardian_required()
         if not isinstance(
             guardian,
-            request.env['unicore.guardian'].__class__
+            request.env['unicore.guardian'].__class__,
         ):
             return guardian
 
@@ -359,7 +360,7 @@ class UniCoreGuardianPortal(CustomerPortal):
         ward_exam_data = []
         for rel in ward_relations:
             if not self._check_permission(
-                rel, 'can_view_academic_records'
+                rel, 'can_view_academic_records',
             ):
                 continue
 
@@ -422,7 +423,7 @@ class UniCoreGuardianPortal(CustomerPortal):
         guardian = self._guardian_required()
         if not isinstance(
             guardian,
-            request.env['unicore.guardian'].__class__
+            request.env['unicore.guardian'].__class__,
         ):
             return guardian
 
@@ -433,7 +434,7 @@ class UniCoreGuardianPortal(CustomerPortal):
 
         today = date.today()
         notices = notices.filtered(
-            lambda n: not n.expiry_date or n.expiry_date >= today
+            lambda n: not n.expiry_date or n.expiry_date >= today,
         )
 
         campus_ids = set()
@@ -446,7 +447,7 @@ class UniCoreGuardianPortal(CustomerPortal):
             lambda n: n.audience == 'all'
             or (n.audience == 'guardians')
             or (n.audience == 'specific'
-                and any(c.id in campus_ids for c in n.campus_ids))
+                and any(c.id in campus_ids for c in n.campus_ids)),
         )
 
         notice_count = len(notices)

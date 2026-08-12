@@ -1,5 +1,5 @@
 import logging
-from datetime import date, timedelta
+from datetime import date
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
@@ -276,7 +276,7 @@ class FacultyMember(models.Model):
     def _compute_current_weekly_hours(self):
         for record in self:
             record.current_weekly_hours = sum(
-                record.workload_ids.mapped('weekly_hours')
+                record.workload_ids.mapped('weekly_hours'),
             )
 
     @api.depends('current_weekly_hours', 'max_weekly_hours')

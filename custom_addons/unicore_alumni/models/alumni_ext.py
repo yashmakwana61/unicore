@@ -1,5 +1,4 @@
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
 
 
 class AlumniExt(models.Model):

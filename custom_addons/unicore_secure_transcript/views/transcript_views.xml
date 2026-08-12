@@ -1,101 +1,107 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-    <data>
-        <record id="view_unicore_secure_transcript_tree" model="ir.ui.view">
-            <field name="name">unicore.secure.transcript.tree</field>
-            <field name="model">unicore.secure.transcript</field>
-            <field name="arch" type="xml">
-                <list string="Secure Transcripts">
-                    <field name="student_id" widget="many2one_avatar"/>
-                    <field name="issued_date"/>
-                    <field name="verification_hash" optional="hide"/>
-                    <field name="state" widget="badge"
-                           decoration-info="state == 'draft'"
-                           decoration-success="state == 'issued'"
-                           decoration-danger="state == 'revoked'"/>
-                </list>
-            </field>
-        </record>
-
-        <record id="view_unicore_secure_transcript_form" model="ir.ui.view">
-            <field name="name">unicore.secure.transcript.form</field>
-            <field name="model">unicore.secure.transcript</field>
-            <field name="arch" type="xml">
-                <form string="Secure Transcript">
-                    <header>
-                        <button name="action_issue" string="Issue Transcript" type="object" class="oe_highlight" invisible="state != 'draft'"/>
-                        <button name="action_revoke" string="Revoke" type="object" class="btn-danger" invisible="state != 'issued'"/>
-                        <field name="state" widget="statusbar" statusbar_visible="draft,issued"/>
-                    </header>
-                    <sheet>
-                        <div class="oe_title">
-                            <h1><field name="name"/></h1>
-                        </div>
-                        <group>
-                            <group>
-                                <field name="student_id" widget="many2one_avatar"/>
-                                <field name="company_id" invisible="1"/>
-                                <field name="issued_date"/>
-                            </group>
-                            <group>
-                                <field name="verification_hash" invisible="state == 'draft'"/>
-                                <field name="qr_code" widget="image" invisible="state == 'draft'" class="oe_avatar"/>
-                            </group>
-                        </group>
-                        <notebook>
-                            <page string="Semester Results" name="results">
-                                <field name="semester_result_ids">
-                                    <list string="Semester Results" create="0" delete="0">
-                                        <field name="semester_id"/>
-                                        <field name="semester_gpa"/>
-                                        <field name="credits_earned"/>
-                                        <field name="result_status"/>
-                                    </list>
-                                </field>
-                            </page>
-                        </notebook>
-                    </sheet>
-                    <chatter/>
-                </form>
-            </field>
-        </record>
-
-        <record id="action_unicore_secure_transcript" model="ir.actions.act_window">
-            <field name="name">Secure Transcripts</field>
-            <field name="res_model">unicore.secure.transcript</field>
-            <field name="view_mode">list,form</field>
-        </record>
-
-        <!-- Public verification page template -->
-        <template id="transcript_verify_page" name="Transcript Verification">
-            <t t-call="website.layout">
-                <div class="container mt-5 mb-5">
-                    <div class="row justify-content-center">
-                        <div class="col-md-8">
-                            <t t-if="verified">
-                                <div class="alert alert-success text-center" role="alert">
-                                    <h2><i class="fa fa-check-circle"/> Transcript Verified</h2>
-                                    <p>This transcript is authentic and has been issued by the institution.</p>
-                                </div>
-                                <div class="card mt-3">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Student: <t t-esc="transcript.student_id.display_name"/></h5>
-                                        <p>Issued Date: <t t-esc="transcript.issued_date"/></p>
-                                        <p>Hash: <code><t t-esc="hash_code"/></code></p>
-                                    </div>
-                                </div>
-                            </t>
-                            <t t-else="">
-                                <div class="alert alert-danger text-center" role="alert">
-                                    <h2><i class="fa fa-times-circle"/> Verification Failed</h2>
-                                    <p>No valid transcript was found for the provided hash. This document may be forged or revoked.</p>
-                                    <p>Hash: <code><t t-esc="hash_code"/></code></p>
-                                </div>
-                            </t>
-                        </div>
-                    </div>
+  <data>
+    <record id="view_unicore_secure_transcript_tree" model="ir.ui.view">
+      <field name="name">unicore.secure.transcript.tree</field>
+      <field name="model">unicore.secure.transcript</field>
+      <field name="arch" type="xml">
+        <list string="Secure Transcripts">
+          <field name="student_id" widget="many2one_avatar"/>
+          <field name="issued_date"/>
+          <field name="verification_hash" optional="hide"/>
+          <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'issued'" decoration-danger="state == 'revoked'"/>
+        </list>
+      </field>
+    </record>
+    <record id="view_unicore_secure_transcript_form" model="ir.ui.view">
+      <field name="name">unicore.secure.transcript.form</field>
+      <field name="model">unicore.secure.transcript</field>
+      <field name="arch" type="xml">
+        <form string="Secure Transcript">
+          <header>
+            <button name="action_issue" string="Issue Transcript" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+            <button name="action_revoke" string="Revoke" type="object" class="btn-danger" invisible="state != 'issued'"/>
+            <field name="state" widget="statusbar" statusbar_visible="draft,issued"/>
+          </header>
+          <sheet>
+            <div class="oe_title">
+              <h1>
+                <field name="name"/>
+              </h1>
+            </div>
+            <group>
+              <group>
+                <field name="student_id" widget="many2one_avatar"/>
+                <field name="company_id" invisible="1"/>
+                <field name="issued_date"/>
+              </group>
+              <group>
+                <field name="verification_hash" invisible="state == 'draft'"/>
+                <field name="qr_code" widget="image" invisible="state == 'draft'" class="oe_avatar"/>
+              </group>
+            </group>
+            <notebook>
+              <page string="Semester Results" name="results">
+                <field name="semester_result_ids">
+                  <list string="Semester Results" create="0" delete="0">
+                    <field name="semester_id"/>
+                    <field name="semester_gpa"/>
+                    <field name="credits_earned"/>
+                    <field name="result_status"/>
+                  </list>
+                </field>
+              </page>
+            </notebook>
+          </sheet>
+          <chatter/>
+        </form>
+      </field>
+    </record>
+    <record id="action_unicore_secure_transcript" model="ir.actions.act_window">
+      <field name="name">Secure Transcripts</field>
+      <field name="res_model">unicore.secure.transcript</field>
+      <field name="view_mode">list,form</field>
+    </record>
+    <!-- Public verification page template -->
+    <template id="transcript_verify_page" name="Transcript Verification">
+      <t t-call="website.layout">
+        <div class="container mt-5 mb-5">
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <t t-if="verified">
+                <div class="alert alert-success text-center" role="alert">
+                  <h2>
+                    <i class="fa fa-check-circle"/> Transcript Verified</h2>
+                  <p>This transcript is authentic and has been issued by the institution.</p>
                 </div>
-            </t>
-        </template>
-    </data>
+                <div class="card mt-3">
+                  <div class="card-body">
+                    <h5 class="card-title">Student: <t t-esc="transcript.student_id.display_name"/>
+                    </h5>
+                    <p>Issued Date: <t t-esc="transcript.issued_date"/>
+                    </p>
+                    <p>Hash: <code>
+                        <t t-esc="hash_code"/>
+                      </code>
+                    </p>
+                  </div>
+                </div>
+              </t>
+              <t t-else="">
+                <div class="alert alert-danger text-center" role="alert">
+                  <h2>
+                    <i class="fa fa-times-circle"/> Verification Failed</h2>
+                  <p>No valid transcript was found for the provided hash. This document may be forged or revoked.</p>
+                  <p>Hash: <code>
+                      <t t-esc="hash_code"/>
+                    </code>
+                  </p>
+                </div>
+              </t>
+            </div>
+          </div>
+        </div>
+      </t>
+    </template>
+  </data>
 </odoo>

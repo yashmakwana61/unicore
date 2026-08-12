@@ -1,2 +1,1 @@
-from . import test_convocation
-from . import test_convocation_cohort
+from . import test_convocation, test_convocation_cohort

@@ -6,9 +6,10 @@ a name, maximum points and description of what is expected.
 The total points of the rubric sum the criteria maxima.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -84,7 +85,7 @@ class UniCoreAssignmentRubric(models.Model):
     def _compute_total_points(self):
         for rec in self:
             rec.total_points = sum(
-                rec.criterion_ids.mapped('max_points')
+                rec.criterion_ids.mapped('max_points'),
             )
 
     @api.depends('assignment_ids')
@@ -100,7 +101,7 @@ class UniCoreAssignmentRubric(models.Model):
             if rec.total_points <= 0:
                 raise ValidationError(_(
                     'A rubric must have at least one criterion '
-                    'with a positive maximum points value.'
+                    'with a positive maximum points value.',
                 ))
 
     # ------- SEQUENCE -------

@@ -6,10 +6,11 @@ the child-opening action. This is the regression baseline for the Phase 1
 wiring of unicore.program.academic_unit_id.
 """
 
+from psycopg2 import IntegrityError
+
 import odoo
 from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
-from psycopg2 import IntegrityError
 
 
 @odoo.tests.tagged('unicore', 'unit')

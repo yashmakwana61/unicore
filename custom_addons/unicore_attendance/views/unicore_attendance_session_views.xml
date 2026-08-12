@@ -1,178 +1,185 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-    <data>
-
-        <record id="view_unicore_attendance_session_form" model="ir.ui.view">
-            <field name="name">unicore.attendance.session.form</field>
-            <field name="model">unicore.attendance.session</field>
-            <field name="arch" type="xml">
-                <form>
-                    <header>
-                        <field name="session_state" widget="statusbar"/>
-                        <button name="action_open_for_marking" string="Open for Marking" type="object" class="btn-primary" invisible="session_state != 'scheduled'"/>
-                        <button name="action_close_session" string="Close Session" type="object" class="btn-primary" invisible="session_state != 'open'"/>
-                        <button name="action_reopen_session" string="Reopen Session" type="object" invisible="session_state != 'closed'" groups="unicore_base.group_unicore_admin"/>
-                        <button name="action_cancel_session" string="Cancel Session" type="object" invisible="session_state in ('closed','cancelled')" groups="unicore_base.group_unicore_registrar"/>
-                        <widget name="web_ribbon" title="Holiday" invisible="not is_holiday" bg_color="text-bg-info"/>
-                        <widget name="web_ribbon" title="Cancelled" invisible="not is_cancelled" bg_color="text-bg-danger"/>
-                    </header>
-                    <sheet>
-                        <group string="Session Details">
-                            <group>
-                                <field name="timetable_entry_id"/>
-                                <field name="course_offering_id" readonly="1"/>
-                                <field name="course_id" readonly="1"/>
-                                <field name="semester_id" readonly="1"/>
-                                <field name="session_date"/>
-                                <field name="day_of_week" readonly="1"/>
-                            </group>
-                            <group>
-                                <field name="room_id" readonly="1"/>
-                                <field name="time_slot_id" readonly="1"/>
-                                <field name="instructor_id" readonly="1"/>
-                                <field name="campus_id" readonly="1"/>
-                                <field name="is_holiday"/>
-                                <field name="is_cancelled"/>
-                            </group>
-                        </group>
-                        <group string="Cancellation" invisible="not is_cancelled">
-                            <field name="cancellation_reason" nolabel="1"/>
-                        </group>
-                        <separator string="Attendance Summary"/>
-                        <group>
-                            <group>
-                                <field name="total_students" readonly="1"/>
-                                <field name="present_count" readonly="1"/>
-                                <field name="absent_count" readonly="1"/>
-                            </group>
-                            <group>
-                                <field name="late_count" readonly="1"/>
-                                <field name="excused_count" readonly="1"/>
-                                <field name="attendance_percentage" readonly="1" widget="percentage"/>
-                            </group>
-                        </group>
-                        <group string="Marked By" invisible="session_state not in ('closed',)">
-                            <group>
-                                <field name="marked_by_id" readonly="1"/>
-                            </group>
-                            <group>
-                                <field name="marked_on" readonly="1"/>
-                            </group>
-                        </group>
-                        <notebook>
-                            <page string="Attendance Records">
-                                <field name="attendance_record_ids" nolabel="1" editable="top">
-                                    <list decoration-success="status == 'present'" decoration-warning="status == 'late'" decoration-danger="status == 'absent'" decoration-muted="status == 'excused'">
-                                        <field name="student_id" readonly="1"/>
-                                        <field name="status"/>
-                                        <field name="late_minutes" invisible="status != 'late'"/>
-                                        <field name="excuse_reason" invisible="status != 'excused'"/>
-                                        <field name="remarks"/>
-                                        <field name="cumulative_attendance_percentage" readonly="1"/>
-                                        <field name="shortage_alert" readonly="1" widget="boolean"/>
-                                    </list>
-                                </field>
-                            </page>
-                        </notebook>
-                    </sheet>
-                    <chatter/>
-                </form>
-            </field>
-        </record>
-
-        <record id="view_unicore_attendance_session_list" model="ir.ui.view">
-            <field name="name">unicore.attendance.session.list</field>
-            <field name="model">unicore.attendance.session</field>
-            <field name="arch" type="xml">
-                <list decoration-success="session_state == 'closed'" decoration-warning="session_state == 'open'" decoration-muted="session_state in ('cancelled',)" decoration-info="session_state == 'scheduled'">
+  <data>
+    <record id="view_unicore_attendance_session_form" model="ir.ui.view">
+      <field name="name">unicore.attendance.session.form</field>
+      <field name="model">unicore.attendance.session</field>
+      <field name="arch" type="xml">
+        <form>
+          <header>
+            <field name="session_state" widget="statusbar"/>
+            <button name="action_open_for_marking" string="Open for Marking" type="object" class="btn-primary" invisible="session_state != 'scheduled'"/>
+            <button name="action_close_session" string="Close Session" type="object" class="btn-primary" invisible="session_state != 'open'"/>
+            <button name="action_reopen_session" string="Reopen Session" type="object" invisible="session_state != 'closed'" groups="unicore_base.group_unicore_admin"/>
+            <button name="action_cancel_session" string="Cancel Session" type="object" invisible="session_state in ('closed','cancelled')" groups="unicore_base.group_unicore_registrar"/>
+            <widget name="web_ribbon" title="Holiday" invisible="not is_holiday" bg_color="text-bg-info"/>
+            <widget name="web_ribbon" title="Cancelled" invisible="not is_cancelled" bg_color="text-bg-danger"/>
+          </header>
+          <sheet>
+            <group string="Session Details">
+              <group>
+                <field name="timetable_entry_id"/>
+                <field name="course_offering_id" readonly="1"/>
+                <field name="course_id" readonly="1"/>
+                <field name="semester_id" readonly="1"/>
+                <field name="session_date"/>
+                <field name="day_of_week" readonly="1"/>
+              </group>
+              <group>
+                <field name="room_id" readonly="1"/>
+                <field name="time_slot_id" readonly="1"/>
+                <field name="instructor_id" readonly="1"/>
+                <field name="campus_id" readonly="1"/>
+                <field name="is_holiday"/>
+                <field name="is_cancelled"/>
+              </group>
+            </group>
+            <group string="Cancellation" invisible="not is_cancelled">
+              <field name="cancellation_reason" nolabel="1"/>
+            </group>
+            <separator string="Attendance Summary"/>
+            <group>
+              <group>
+                <field name="total_students" readonly="1"/>
+                <field name="present_count" readonly="1"/>
+                <field name="absent_count" readonly="1"/>
+              </group>
+              <group>
+                <field name="late_count" readonly="1"/>
+                <field name="excused_count" readonly="1"/>
+                <field name="attendance_percentage" readonly="1" widget="percentage"/>
+              </group>
+            </group>
+            <group string="Marked By" invisible="session_state not in ('closed',)">
+              <group>
+                <field name="marked_by_id" readonly="1"/>
+              </group>
+              <group>
+                <field name="marked_on" readonly="1"/>
+              </group>
+            </group>
+            <notebook>
+              <page string="Attendance Records">
+                <field name="attendance_record_ids" nolabel="1" editable="top">
+                  <list decoration-success="status == 'present'" decoration-warning="status == 'late'" decoration-danger="status == 'absent'" decoration-muted="status == 'excused'">
+                    <field name="student_id" readonly="1"/>
+                    <field name="status"/>
+                    <field name="late_minutes" invisible="status != 'late'"/>
+                    <field name="excuse_reason" invisible="status != 'excused'"/>
+                    <field name="remarks"/>
+                    <field name="cumulative_attendance_percentage" readonly="1"/>
+                    <field name="shortage_alert" readonly="1" widget="boolean"/>
+                  </list>
+                </field>
+              </page>
+            </notebook>
+          </sheet>
+          <chatter/>
+        </form>
+      </field>
+    </record>
+    <record id="view_unicore_attendance_session_list" model="ir.ui.view">
+      <field name="name">unicore.attendance.session.list</field>
+      <field name="model">unicore.attendance.session</field>
+      <field name="arch" type="xml">
+        <list decoration-success="session_state == 'closed'" decoration-warning="session_state == 'open'" decoration-muted="session_state in ('cancelled',)" decoration-info="session_state == 'scheduled'">
+          <field name="session_date"/>
+          <field name="day_of_week"/>
+          <field name="course_id"/>
+          <field name="time_slot_id"/>
+          <field name="room_id"/>
+          <field name="instructor_id"/>
+          <field name="total_students"/>
+          <field name="present_count"/>
+          <field name="absent_count"/>
+          <field name="attendance_percentage"/>
+          <field name="session_state"/>
+        </list>
+      </field>
+    </record>
+    <record id="view_unicore_attendance_session_search" model="ir.ui.view">
+      <field name="name">unicore.attendance.session.search</field>
+      <field name="model">unicore.attendance.session</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="course_id"/>
+          <field name="instructor_id"/>
+          <field name="campus_id"/>
+          <field name="semester_id"/>
+          <field name="session_date"/>
+          <filter string="Open Sessions" name="filter_open" domain="[('session_state','=','open')]"/>
+          <filter string="Scheduled" name="filter_scheduled" domain="[('session_state','=','scheduled')]"/>
+          <filter string="Closed Sessions" name="filter_closed" domain="[('session_state','=','closed')]"/>
+          <filter string="Holiday Sessions" name="filter_holiday" domain="[('is_holiday','=',True)]"/>
+          <filter string="Cancelled Sessions" name="filter_cancelled" domain="[('is_cancelled','=',True)]"/>
+          <separator/>
+          <filter string="Course" name="group_course" context="{'group_by':'course_id'}"/>
+          <filter string="Instructor" name="group_instructor" context="{'group_by':'instructor_id'}"/>
+          <filter string="Campus" name="group_campus" context="{'group_by':'campus_id'}"/>
+          <filter string="Semester" name="group_semester" context="{'group_by':'semester_id'}"/>
+          <filter string="Day of Week" name="group_day" context="{'group_by':'day_of_week'}"/>
+          <filter string="Status" name="group_status" context="{'group_by':'session_state'}"/>
+        </search>
+      </field>
+    </record>
+    <record id="view_unicore_attendance_session_kanban" model="ir.ui.view">
+      <field name="name">unicore.attendance.session.kanban</field>
+      <field name="model">unicore.attendance.session</field>
+      <field name="arch" type="xml">
+        <kanban default_group_by="session_state">
+          <templates>
+            <t t-name="card">
+              <div class="oe_kanban_card">
+                <div class="o_kanban_card_header">
+                  <strong>
                     <field name="session_date"/>
-                    <field name="day_of_week"/>
+                  </strong>
+                </div>
+                <div class="o_kanban_card_content">
+                  <div>
                     <field name="course_id"/>
+                  </div>
+                  <div>
                     <field name="time_slot_id"/>
+                  </div>
+                  <div>
                     <field name="room_id"/>
+                  </div>
+                  <div>
                     <field name="instructor_id"/>
-                    <field name="total_students"/>
-                    <field name="present_count"/>
-                    <field name="absent_count"/>
-                    <field name="attendance_percentage"/>
+                  </div>
+                  <div>Attendance: <field name="present_count"/> / <field name="total_students"/>
+                  </div>
+                  <span class="badge">
+                    <field name="attendance_percentage" widget="percentage"/>
+                  </span>
+                  <span class="badge">
                     <field name="session_state"/>
-                </list>
-            </field>
-        </record>
-
-        <record id="view_unicore_attendance_session_search" model="ir.ui.view">
-            <field name="name">unicore.attendance.session.search</field>
-            <field name="model">unicore.attendance.session</field>
-            <field name="arch" type="xml">
-                <search>
-                    <field name="course_id"/>
-                    <field name="instructor_id"/>
-                    <field name="campus_id"/>
-                    <field name="semester_id"/>
-                    <field name="session_date"/>
-                    <filter string="Open Sessions" name="filter_open" domain="[('session_state','=','open')]"/>
-                    <filter string="Scheduled" name="filter_scheduled" domain="[('session_state','=','scheduled')]"/>
-                    <filter string="Closed Sessions" name="filter_closed" domain="[('session_state','=','closed')]"/>
-                    <filter string="Holiday Sessions" name="filter_holiday" domain="[('is_holiday','=',True)]"/>
-                    <filter string="Cancelled Sessions" name="filter_cancelled" domain="[('is_cancelled','=',True)]"/>
-                    <separator/>
-                    <filter string="Course" name="group_course" context="{'group_by':'course_id'}"/>
-                    <filter string="Instructor" name="group_instructor" context="{'group_by':'instructor_id'}"/>
-                    <filter string="Campus" name="group_campus" context="{'group_by':'campus_id'}"/>
-                    <filter string="Semester" name="group_semester" context="{'group_by':'semester_id'}"/>
-                    <filter string="Day of Week" name="group_day" context="{'group_by':'day_of_week'}"/>
-                    <filter string="Status" name="group_status" context="{'group_by':'session_state'}"/>
-                </search>
-            </field>
-        </record>
-
-        <record id="view_unicore_attendance_session_kanban" model="ir.ui.view">
-            <field name="name">unicore.attendance.session.kanban</field>
-            <field name="model">unicore.attendance.session</field>
-            <field name="arch" type="xml">
-                <kanban default_group_by="session_state">
-                    <templates>
-                        <t t-name="card">
-                            <div class="oe_kanban_card">
-                                <div class="o_kanban_card_header">
-                                    <strong><field name="session_date"/></strong>
-                                </div>
-                                <div class="o_kanban_card_content">
-                                    <div><field name="course_id"/></div>
-                                    <div><field name="time_slot_id"/></div>
-                                    <div><field name="room_id"/></div>
-                                    <div><field name="instructor_id"/></div>
-                                    <div>Attendance: <field name="present_count"/> / <field name="total_students"/></div>
-                                    <span class="badge"><field name="attendance_percentage" widget="percentage"/></span>
-                                    <span class="badge"><field name="session_state"/></span>
-                                </div>
-                            </div>
-                        </t>
-                    </templates>
-                </kanban>
-            </field>
-        </record>
-
-        <record id="action_unicore_attendance_session" model="ir.actions.act_window">
-            <field name="name">Attendance Sessions</field>
-            <field name="res_model">unicore.attendance.session</field>
-            <field name="view_mode">list,kanban,form</field>
-            <field name="context">{'search_default_group_course': 1}</field>
-        </record>
-
-        <record id="action_unicore_attendance_session_today" model="ir.actions.act_window">
-            <field name="name">Today's Sessions</field>
-            <field name="res_model">unicore.attendance.session</field>
-            <field name="view_mode">list,form</field>
-            <field name="domain">[('session_date','=',context_today().strftime('%Y-%m-%d'))]</field>
-        </record>
-
-        <record id="action_unicore_attendance_session_open" model="ir.actions.act_window">
-            <field name="name">Open Sessions</field>
-            <field name="res_model">unicore.attendance.session</field>
-            <field name="view_mode">list,form</field>
-            <field name="domain">[('session_state','=','open')]</field>
-        </record>
-
-    </data>
+                  </span>
+                </div>
+              </div>
+            </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
+    <record id="action_unicore_attendance_session" model="ir.actions.act_window">
+      <field name="name">Attendance Sessions</field>
+      <field name="res_model">unicore.attendance.session</field>
+      <field name="view_mode">list,kanban,form</field>
+      <field name="context">{'search_default_group_course': 1}</field>
+    </record>
+    <record id="action_unicore_attendance_session_today" model="ir.actions.act_window">
+      <field name="name">Today's Sessions</field>
+      <field name="res_model">unicore.attendance.session</field>
+      <field name="view_mode">list,form</field>
+      <field name="domain">[('session_date','=',context_today().strftime('%Y-%m-%d'))]</field>
+    </record>
+    <record id="action_unicore_attendance_session_open" model="ir.actions.act_window">
+      <field name="name">Open Sessions</field>
+      <field name="res_model">unicore.attendance.session</field>
+      <field name="view_mode">list,form</field>
+      <field name="domain">[('session_state','=','open')]</field>
+    </record>
+  </data>
 </odoo>

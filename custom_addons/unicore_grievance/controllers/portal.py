@@ -1,6 +1,8 @@
-from odoo import http, _
+from odoo import http
 from odoo.http import request
+
 from odoo.addons.portal.controllers.portal import CustomerPortal
+
 
 class GrievancePortal(CustomerPortal):
 
@@ -8,7 +10,7 @@ class GrievancePortal(CustomerPortal):
         values = super()._prepare_home_portal_values(counters)
         if 'grievance_count' in counters:
             values['grievance_count'] = request.env['unicore.grievance.request'].search_count([
-                ('raised_by_id', '=', request.env.user.partner_id.id)
+                ('raised_by_id', '=', request.env.user.partner_id.id),
             ])
         return values
 

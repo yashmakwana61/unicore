@@ -1,5 +1,4 @@
 import logging
-
 from datetime import date
 
 from odoo import _, api, fields, models
@@ -109,7 +108,7 @@ class UnicoreFaculty(models.Model):
         program_model = self.env['unicore.program']
         for record in self:
             record.program_count = program_model.search_count(
-                [('faculty_id', '=', record.id)]
+                [('faculty_id', '=', record.id)],
             )
 
     @api.constrains('code')
@@ -118,11 +117,11 @@ class UnicoreFaculty(models.Model):
             if record.code:
                 if not record.code.isalpha():
                     raise ValidationError(
-                        _('Faculty code must contain only letters (no numbers or special characters).')
+                        _('Faculty code must contain only letters (no numbers or special characters).'),
                     )
                 if record.code != record.code.upper():
                     raise ValidationError(
-                        _('Faculty code must be uppercase only.')
+                        _('Faculty code must be uppercase only.'),
                     )
 
     @api.constrains('established_year')
@@ -133,14 +132,14 @@ class UnicoreFaculty(models.Model):
                 record.established_year < 1800 or record.established_year > current_year
             ):
                 raise ValidationError(
-                    _('Established year must be between 1800 and %(year)s.', year=current_year)
+                    _('Established year must be between 1800 and %(year)s.', year=current_year),
                 )
 
     def action_set_operational(self):
         self.ensure_one()
         if not self.department_ids:
             raise UserError(
-                _('You must add at least one department before setting the faculty to Operational.')
+                _('You must add at least one department before setting the faculty to Operational.'),
             )
         self.faculty_state = 'active'
 

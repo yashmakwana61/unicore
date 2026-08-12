@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 {
     'name': 'Asset Request',
     'version': '19.0.1.0.0',
@@ -31,4 +30,6 @@ approved/rejected → fulfilled lifecycle.
     'installable': True,
     'application': True,
     'license': 'OPL-1',
+
+    'auto_install': False,
 }

@@ -3,7 +3,7 @@ UniCore Fee Accounting Configuration Model
 Manages GL account mappings and invoice posting settings for fee invoices.
 """
 
-from odoo import api, fields, models, _
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 
@@ -125,7 +125,7 @@ class UniCoreFeeAccountingConfig(models.Model):
                 if existing:
                     raise ValidationError(_(
                         'Only one active accounting configuration is allowed per institution. '
-                        'Deactivate the existing configuration first.'
+                        'Deactivate the existing configuration first.',
                     ))
 
     @api.constrains('journal_id', 'company_id')
@@ -133,7 +133,7 @@ class UniCoreFeeAccountingConfig(models.Model):
         for rec in self:
             if rec.journal_id.company_id != rec.company_id:
                 raise ValidationError(_(
-                    'Journal must belong to the same institution as the configuration.'
+                    'Journal must belong to the same institution as the configuration.',
                 ))
 
     def _get_active_config(self, company_id=None):
@@ -157,7 +157,7 @@ class UniCoreFeeAccountingConfig(models.Model):
         if not config:
             raise UserError(_(
                 'No active fee accounting configuration found for %s. '
-                'Please configure Fee Accounting Settings.'
+                'Please configure Fee Accounting Settings.',
             ) % self.env.company.name)
 
         return config

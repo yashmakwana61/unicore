@@ -6,12 +6,11 @@ workflow distinct from the registrar-side
 existing action_place_on_leave on unicore.student.
 """
 import logging
-from datetime import date
 
-from odoo import api, fields, models, _
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
-_logger = logging(__name__)
+_logger = logging.getLogger(__name__)
 
 
 class UniCoreStudentLeaveRequest(models.Model):
@@ -172,7 +171,7 @@ class UniCoreStudentLeaveRequest(models.Model):
                 if record.date_to < record.date_from:
                     raise ValidationError(_(
                         'Leave end date cannot be before '
-                        'start date.'
+                        'start date.',
                     ))
 
     @api.constrains('student_id', 'state')
@@ -185,7 +184,7 @@ class UniCoreStudentLeaveRequest(models.Model):
                 raise ValidationError(_(
                     'Student is already on leave. Cannot '
                     'submit a new leave request while '
-                    'the student is currently on leave.'
+                    'the student is currently on leave.',
                 ))
 
     # --- COMPUTES ---
@@ -208,7 +207,7 @@ class UniCoreStudentLeaveRequest(models.Model):
                 vals['name'] = (
                     self.env['ir.sequence']
                     .next_by_code(
-                        'unicore.student.leave.request'
+                        'unicore.student.leave.request',
                     )
                     or '/'
                 )
@@ -222,17 +221,17 @@ class UniCoreStudentLeaveRequest(models.Model):
             if record.state != 'draft':
                 raise UserError(_(
                     'Only draft requests can be '
-                    'submitted.'
+                    'submitted.',
                 ))
             if not record.reason:
                 raise UserError(_(
                     'Please provide a reason for '
-                    'the leave request.'
+                    'the leave request.',
                 ))
             if not record.date_from or not record.date_to:
                 raise UserError(_(
                     'Please specify both start and '
-                    'end dates.'
+                    'end dates.',
                 ))
             record.write({
                 'state': 'submitted',
@@ -271,12 +270,12 @@ class UniCoreStudentLeaveRequest(models.Model):
             if record.state != 'submitted':
                 raise UserError(_(
                     'Only submitted requests can be '
-                    'approved.'
+                    'approved.',
                 ))
             student = record.student_id
             if student.student_state == 'on_leave':
                 raise UserError(_(
-                    'Student is already on leave.'
+                    'Student is already on leave.',
                 ))
 
             # Invoke the existing Place on Leave
@@ -322,7 +321,7 @@ class UniCoreStudentLeaveRequest(models.Model):
             if record.state != 'submitted':
                 raise UserError(_(
                     'Only submitted requests can be '
-                    'rejected.'
+                    'rejected.',
                 ))
             record.write({
                 'state': 'rejected',
@@ -333,7 +332,7 @@ class UniCoreStudentLeaveRequest(models.Model):
             record.message_post(
                 body=_(
                     'Leave request rejected by %s. '
-                    'Notes: %s'
+                    'Notes: %s',
                 ) % (
                     self.env.user.name,
                     record.approval_notes or '(none)',
@@ -355,7 +354,7 @@ class UniCoreStudentLeaveRequest(models.Model):
             if record.state != 'rejected':
                 raise UserError(_(
                     'Only rejected requests can be '
-                    'resubmitted.'
+                    'resubmitted.',
                 ))
             record.write({
                 'state': 'draft',
@@ -370,7 +369,7 @@ class UniCoreStudentLeaveRequest(models.Model):
             if record.state not in ('draft', 'submitted'):
                 raise UserError(_(
                     'Only draft or submitted requests '
-                    'can be cancelled.'
+                    'can be cancelled.',
                 ))
             record.write({'state': 'cancelled'})
             record.message_post(
@@ -402,7 +401,7 @@ class UniCoreStudentLeaveRequest(models.Model):
         approver = RegistrarGroup.users[0]
         self.activity_schedule(
             activity_type_id=self.env.ref(
-                'mail.mail_activity_data_todo'
+                'mail.mail_activity_data_todo',
             ).id,
             summary=_('Review Leave Request: %s') % (
                 self.name,
@@ -410,7 +409,7 @@ class UniCoreStudentLeaveRequest(models.Model):
             user_id=approver.id,
             note=_(
                 'Leave request for student %s '
-                '(%s) from %s to %s. Reason: %s'
+                '(%s) from %s to %s. Reason: %s',
             ) % (
                 self.student_name,
                 self.student_number or '',

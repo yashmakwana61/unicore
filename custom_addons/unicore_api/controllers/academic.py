@@ -2,13 +2,13 @@ from odoo import fields, http
 from odoo.http import request
 
 from odoo.addons.unicore_api.controllers.common import (
-    api_response,
-    api_error,
-    validate_api_key,
+    _check_body_size,
     _require_scope,
     _safe_call,
     _validate_int_param,
-    _check_body_size,
+    api_error,
+    api_response,
+    validate_api_key,
 )
 
 
@@ -45,7 +45,7 @@ class UniCoreApiAcademic(http.Controller):
         if campus_id:
             domain.append(('campus_ids', '=', campus_id))
         programs = request.env['unicore.program'].sudo().search(
-            domain, order='name'
+            domain, order='name',
         )
         return api_response([{
             'id': p.id,
@@ -104,12 +104,12 @@ class UniCoreApiAcademic(http.Controller):
             return err
         domain = [('course_state', '=', 'active')]
         if program_id:
-            domain.append(('id', 'in', 
+            domain.append(('id', 'in',
                 request.env['unicore.course.offering'].sudo().search([
                     ('program_id', '=', program_id),
                 ]).mapped('course_id.id')))
         courses = request.env['unicore.course'].sudo().search(
-            domain, order='name'
+            domain, order='name',
         )
         return api_response([{
             'id': c.id,

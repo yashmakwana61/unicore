@@ -23,7 +23,7 @@ class TestReloadViews(TransactionCase):
                 'name': 'Test Reload Views',
                 'model_id': cls.env.ref('base.model_res_partner').id,
                 'state': 'refresh',
-            }
+            },
         )
 
     # ----------------------------------------------------------

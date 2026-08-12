@@ -1,134 +1,115 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-    <data>
-
-        <!-- ============================================================ -->
-        <!-- RUBRIC FORM VIEW                                              -->
-        <!-- ============================================================ -->
-
-        <record id="view_unicore_assignment_rubric_form" model="ir.ui.view">
-            <field name="name">unicore.assignment.rubric.form</field>
-            <field name="model">unicore.assignment.rubric</field>
-            <field name="arch" type="xml">
-                <form string="Rubric">
-                    <header>
-                        <button name="action_view_assignments" type="object"
-                                string="Assignments"
-                                invisible="assignment_count == 0"
-                                class="oe_highlight"/>
-                    </header>
-                    <sheet>
-                        <div class="oe_title">
-                            <h1>
-                                <field name="name" placeholder="Rubric name..."/>
-                            </h1>
-                            <group class="oe_subtotal">
-                                <field name="code" readonly="1"/>
-                            </group>
-                        </div>
-                        <group name="rubric_details" string="Details">
-                            <group>
-                                <field name="company_id"/>
-                                <field name="total_points" readonly="1"
-                                       widget="float"/>
-                            </group>
-                            <group>
-                                <field name="assignment_count" readonly="1"
-                                       widget="statinfo"/>
-                                <field name="active"/>
-                            </group>
-                        </group>
-                        <group name="rubric_description" string="Description">
-                            <field name="description" nolabel="1"/>
-                        </group>
-                        <separator string="Criteria"/>
-                        <field name="criterion_ids" string="Criteria">
-                            <list editable="bottom">
-                                <field name="sequence"/>
-                                <field name="name"/>
-                                <field name="max_points"/>
-                                <field name="is_bonus"/>
-                                <field name="description"/>
-                            </list>
-                        </field>
-                        <group name="usage" string="Used In Assignments"
-                               invisible="assignment_count == 0">
-                            <field name="assignment_ids" readonly="1">
-                                <list>
-                                    <field name="title"/>
-                                    <field name="course_id"/>
-                                    <field name="assignment_type"/>
-                                    <field name="assignment_state"/>
-                                    <field name="due_date"/>
-                                </list>
-                            </field>
-                        </group>
-                    </sheet>
-                </form>
+  <data>
+    <!-- ============================================================ -->
+    <!-- RUBRIC FORM VIEW                                              -->
+    <!-- ============================================================ -->
+    <record id="view_unicore_assignment_rubric_form" model="ir.ui.view">
+      <field name="name">unicore.assignment.rubric.form</field>
+      <field name="model">unicore.assignment.rubric</field>
+      <field name="arch" type="xml">
+        <form string="Rubric">
+          <header>
+            <button name="action_view_assignments" type="object" string="Assignments" invisible="assignment_count == 0" class="oe_highlight"/>
+          </header>
+          <sheet>
+            <div class="oe_title">
+              <h1>
+                <field name="name" placeholder="Rubric name..."/>
+              </h1>
+              <group class="oe_subtotal">
+                <field name="code" readonly="1"/>
+              </group>
+            </div>
+            <group name="rubric_details" string="Details">
+              <group>
+                <field name="company_id"/>
+                <field name="total_points" readonly="1" widget="float"/>
+              </group>
+              <group>
+                <field name="assignment_count" readonly="1" widget="statinfo"/>
+                <field name="active"/>
+              </group>
+            </group>
+            <group name="rubric_description" string="Description">
+              <field name="description" nolabel="1"/>
+            </group>
+            <separator string="Criteria"/>
+            <field name="criterion_ids" string="Criteria">
+              <list editable="bottom">
+                <field name="sequence"/>
+                <field name="name"/>
+                <field name="max_points"/>
+                <field name="is_bonus"/>
+                <field name="description"/>
+              </list>
             </field>
-        </record>
-
-        <!-- ============================================================ -->
-        <!-- RUBRIC LIST VIEW                                              -->
-        <!-- ============================================================ -->
-
-        <record id="view_unicore_assignment_rubric_list" model="ir.ui.view">
-            <field name="name">unicore.assignment.rubric.list</field>
-            <field name="model">unicore.assignment.rubric</field>
-            <field name="arch" type="xml">
-                <list string="Rubrics" editable="bottom">
-                    <field name="name"/>
-                    <field name="code" readonly="1"/>
-                    <field name="company_id" groups="unicore_base.group_unicore_admin"/>
-                    <field name="criterion_ids" widget="many2many_tags"
-                           string="Criteria"/>
-                    <field name="total_points" readonly="1"/>
-                    <field name="assignment_count" readonly="1"/>
-                    <field name="active" readonly="1"/>
+            <group name="usage" string="Used In Assignments" invisible="assignment_count == 0">
+              <field name="assignment_ids" readonly="1">
+                <list>
+                  <field name="title"/>
+                  <field name="course_id"/>
+                  <field name="assignment_type"/>
+                  <field name="assignment_state"/>
+                  <field name="due_date"/>
                 </list>
-            </field>
-        </record>
-
-        <!-- ============================================================ -->
-        <!-- RUBRIC SEARCH VIEW                                            -->
-        <!-- ============================================================ -->
-
-        <record id="view_unicore_assignment_rubric_search" model="ir.ui.view">
-            <field name="name">unicore.assignment.rubric.search</field>
-            <field name="model">unicore.assignment.rubric</field>
-            <field name="arch" type="xml">
-                <search string="Rubrics">
-                    <field name="name"/>
-                    <field name="criterion_ids"/>
-                    <filter name="rubric_used" string="In Use"
-                            domain="[('assignment_count', '>', 0)]"/>
-                    <filter name="rubric_unused" string="Not Used"
-                            domain="[('assignment_count', '=', 0)]"/>
-                    <separator/>
-                    <filter name="group_company" string="Institution"
-                            context="{'group_by': 'company_id'}"/>
-                </search>
-            </field>
-        </record>
-
-        <!-- ============================================================ -->
-        <!-- RUBRIC ACTIONS                                                -->
-        <!-- ============================================================ -->
-
-        <record id="action_unicore_assignment_rubric" model="ir.actions.act_window">
-            <field name="name">Rubrics</field>
-            <field name="res_model">unicore.assignment.rubric</field>
-            <field name="view_mode">list,form</field>
-            <field name="help" type="html">
-                <p class="o_view_nocontent_smiling_face">
+              </field>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    <!-- ============================================================ -->
+    <!-- RUBRIC LIST VIEW                                              -->
+    <!-- ============================================================ -->
+    <record id="view_unicore_assignment_rubric_list" model="ir.ui.view">
+      <field name="name">unicore.assignment.rubric.list</field>
+      <field name="model">unicore.assignment.rubric</field>
+      <field name="arch" type="xml">
+        <list string="Rubrics" editable="bottom">
+          <field name="name"/>
+          <field name="code" readonly="1"/>
+          <field name="company_id" groups="unicore_base.group_unicore_admin"/>
+          <field name="criterion_ids" widget="many2many_tags" string="Criteria"/>
+          <field name="total_points" readonly="1"/>
+          <field name="assignment_count" readonly="1"/>
+          <field name="active" readonly="1"/>
+        </list>
+      </field>
+    </record>
+    <!-- ============================================================ -->
+    <!-- RUBRIC SEARCH VIEW                                            -->
+    <!-- ============================================================ -->
+    <record id="view_unicore_assignment_rubric_search" model="ir.ui.view">
+      <field name="name">unicore.assignment.rubric.search</field>
+      <field name="model">unicore.assignment.rubric</field>
+      <field name="arch" type="xml">
+        <search string="Rubrics">
+          <field name="name"/>
+          <field name="criterion_ids"/>
+          <filter name="rubric_used" string="In Use" domain="[('assignment_count', '&gt;', 0)]"/>
+          <filter name="rubric_unused" string="Not Used" domain="[('assignment_count', '=', 0)]"/>
+          <separator/>
+          <filter name="group_company" string="Institution" context="{'group_by': 'company_id'}"/>
+        </search>
+      </field>
+    </record>
+    <!-- ============================================================ -->
+    <!-- RUBRIC ACTIONS                                                -->
+    <!-- ============================================================ -->
+    <record id="action_unicore_assignment_rubric" model="ir.actions.act_window">
+      <field name="name">Rubrics</field>
+      <field name="res_model">unicore.assignment.rubric</field>
+      <field name="view_mode">list,form</field>
+      <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
                     Create your first grading rubric
                 </p>
-                <p>
+        <p>
                     Rubrics are reusable sets of criteria used to grade
                     assignments consistently.
                 </p>
-            </field>
-        </record>
-
-    </data>
+      </field>
+    </record>
+  </data>
 </odoo>

@@ -6,7 +6,7 @@ records that can be linked to multiple students.
 import logging
 from datetime import date
 
-from odoo import api, fields, models, _
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
@@ -34,7 +34,7 @@ class UniCoreGuardian(models.Model):
         readonly=True,
         copy=False,
         tracking=True,
-        help='Auto-generated unique guardian identifier'
+        help='Auto-generated unique guardian identifier',
     )
     image_1920 = fields.Binary(string='Photo', attachment=True)
     gender = fields.Selection([
@@ -91,7 +91,7 @@ class UniCoreGuardian(models.Model):
         required=True,
         default=lambda self: self.env.company,
         ondelete='restrict',
-        tracking=True
+        tracking=True,
     )
 
     # ------- STUDENT RELATIONSHIP FIELDS -------
@@ -99,12 +99,12 @@ class UniCoreGuardian(models.Model):
     student_rel_ids = fields.One2many(
         'unicore.guardian.student.rel',
         'guardian_id',
-        string='Ward Students'
+        string='Ward Students',
     )
     student_count = fields.Integer(
         string='Number of Wards',
         compute='_compute_student_count',
-        store=True
+        store=True,
     )
 
     # ------- FINANCIAL FIELDS -------
@@ -113,7 +113,7 @@ class UniCoreGuardian(models.Model):
         string='Primary Financial Guarantor',
         default=False,
         tracking=True,
-        help='This guardian is financially responsible for fee payments'
+        help='This guardian is financially responsible for fee payments',
     )
     guarantor_student_ids = fields.Many2many(
         'unicore.student',
@@ -121,7 +121,7 @@ class UniCoreGuardian(models.Model):
         'guardian_id',
         'student_id',
         string='Financial Responsibility For',
-        help='Students for whom this guardian is the designated financial guarantor'
+        help='Students for whom this guardian is the designated financial guarantor',
     )
 
     # ------- PORTAL ACCESS FIELDS -------
@@ -130,24 +130,24 @@ class UniCoreGuardian(models.Model):
         'res.partner',
         string='Related Contact',
         copy=False,
-        help='Odoo partner for portal and communication'
+        help='Odoo partner for portal and communication',
     )
     user_id = fields.Many2one(
         'res.users',
         string='Portal User Account',
         copy=False,
         tracking=True,
-        help='Portal login account for this guardian'
+        help='Portal login account for this guardian',
     )
     has_portal_access = fields.Boolean(
         string='Has Portal Access',
         compute='_compute_has_portal_access',
         search='_search_has_portal_access',
-        store=False
+        store=False,
     )
     portal_access_granted_on = fields.Datetime(
         string='Portal Access Granted On',
-        readonly=True
+        readonly=True,
     )
 
     # ------- STATUS FIELDS -------
@@ -182,17 +182,17 @@ class UniCoreGuardian(models.Model):
                 today = date.today()
                 if rec.date_of_birth >= today:
                     raise ValidationError(
-                        _('Date of birth must be in the past.')
+                        _('Date of birth must be in the past.'),
                     )
                 age = today.year - rec.date_of_birth.year
                 if (today.month, today.day) < (
                     rec.date_of_birth.month,
-                    rec.date_of_birth.day
+                    rec.date_of_birth.day,
                 ):
                     age -= 1
                 if age < 18:
                     raise ValidationError(
-                        _('Guardian must be at least 18 years old.')
+                        _('Guardian must be at least 18 years old.'),
                     )
 
     @api.constrains('email')
@@ -200,7 +200,7 @@ class UniCoreGuardian(models.Model):
         for rec in self:
             if rec.email and '@' not in rec.email:
                 raise ValidationError(
-                    _('Please enter a valid email address.')
+                    _('Please enter a valid email address.'),
                 )
 
     # ------- COMPUTE METHODS -------
@@ -242,7 +242,7 @@ class UniCoreGuardian(models.Model):
         portal_group = self.env.ref('base.group_portal', raise_if_not_found=False)
         if (operator == '=' and value) or (operator == '!=' and not value):
             return [('user_id.groups_id', 'in', portal_group.ids)]
-        elif (operator == '=' and not value) or (operator == '!=' and value):
+        if (operator == '=' and not value) or (operator == '!=' and value):
             return ['|', ('user_id', '=', False), ('user_id.groups_id', 'not in', portal_group.ids)]
         raise NotImplementedError("Unsupported search operator for has_portal_access")
 
@@ -254,7 +254,7 @@ class UniCoreGuardian(models.Model):
             if not vals.get('guardian_id_number'):
                 vals['guardian_id_number'] = (
                     self.env['ir.sequence'].next_by_code(
-                        'unicore.guardian'
+                        'unicore.guardian',
                     ) or '/'
                 )
         records = super().create(vals_list)
@@ -279,21 +279,21 @@ class UniCoreGuardian(models.Model):
         self.ensure_one()
         self.guardian_state = 'inactive'
         self.message_post(
-            body=_('Guardian marked as Inactive.')
+            body=_('Guardian marked as Inactive.'),
         )
 
     def action_set_active(self):
         self.ensure_one()
         self.guardian_state = 'active'
         self.message_post(
-            body=_('Guardian marked as Active.')
+            body=_('Guardian marked as Active.'),
         )
 
     def action_mark_deceased(self):
         self.ensure_one()
         self.guardian_state = 'deceased'
         self.message_post(
-            body=_('Guardian record marked as Deceased.')
+            body=_('Guardian record marked as Deceased.'),
         )
 
     # ------- PORTAL METHODS -------
@@ -304,11 +304,11 @@ class UniCoreGuardian(models.Model):
             raise UserError(
                 _('A related contact must exist before '
                   'granting portal access. Please save '
-                  'the record first.')
+                  'the record first.'),
             )
         if self.has_portal_access:
             raise UserError(
-                _('This guardian already has portal access.')
+                _('This guardian already has portal access.'),
             )
         portal_group = self.env.ref('base.group_portal', raise_if_not_found=False)
         if self.user_id:
@@ -317,7 +317,7 @@ class UniCoreGuardian(models.Model):
             })
         else:
             user = self.env['res.users'].with_context(
-                no_reset_password=True
+                no_reset_password=True,
             ).create({
                 'name': self.display_name,
                 'login': self.email,
@@ -329,8 +329,8 @@ class UniCoreGuardian(models.Model):
         self.portal_access_granted_on = fields.Datetime.now()
         self.message_post(
             body=_(
-                'Portal access granted by %s.'
-            ) % self.env.user.name
+                'Portal access granted by %s.',
+            ) % self.env.user.name,
         )
         return {'type': 'ir.actions.client',
                 'tag': 'reload'}
@@ -339,7 +339,7 @@ class UniCoreGuardian(models.Model):
         self.ensure_one()
         if not self.has_portal_access:
             raise UserError(
-                _('This guardian does not have portal access.')
+                _('This guardian does not have portal access.'),
             )
         portal_group = self.env.ref('base.group_portal', raise_if_not_found=False)
         if self.user_id:
@@ -348,8 +348,8 @@ class UniCoreGuardian(models.Model):
             })
         self.message_post(
             body=_(
-                'Portal access revoked by %s.'
-            ) % self.env.user.name
+                'Portal access revoked by %s.',
+            ) % self.env.user.name,
         )
 
     def action_open_wards(self):

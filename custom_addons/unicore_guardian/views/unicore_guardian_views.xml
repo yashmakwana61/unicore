@@ -1,208 +1,210 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-    <record id="unicore_guardian_view_form" model="ir.ui.view">
-        <field name="name">unicore.guardian.form</field>
-        <field name="model">unicore.guardian</field>
-        <field name="arch" type="xml">
-            <form string="Guardian">
-                <header>
-                    <button name="action_set_inactive" string="Set Inactive" type="object" invisible="guardian_state != 'active'"/>
-                    <button name="action_set_active" string="Set Active" type="object" invisible="guardian_state != 'inactive'"/>
-                    <button name="action_mark_deceased" string="Mark Deceased" type="object" invisible="guardian_state == 'deceased'" groups="unicore_base.group_unicore_admin"/>
-                    <button name="action_grant_portal_access" string="Grant Portal Access" type="object" invisible="has_portal_access" groups="unicore_base.group_unicore_registrar"/>
-                    <button name="action_revoke_portal_access" string="Revoke Portal Access" type="object" invisible="not has_portal_access" groups="unicore_base.group_unicore_admin"/>
-                    <field name="guardian_state" widget="statusbar" statusbar_visible="active,inactive"/>
-                </header>
-                <sheet>
-                    <div class="oe_button_box" name="button_box">
-                        <button name="action_open_wards" type="object" class="oe_stat_button" icon="fa-user-graduate">
-                            <field name="student_count" widget="statinfo" string="Students"/>
-                        </button>
-                        <button type="object" name="action_grant_portal_access" class="oe_stat_button" icon="fa-globe" invisible="has_portal_access == False">
-                            <div class="o_stat_info">
-                                <span class="text-success">Portal Active</span>
-                            </div>
-                        </button>
-                        <button type="object" name="action_grant_portal_access" class="oe_stat_button" icon="fa-globe" invisible="has_portal_access == True">
-                            <div class="o_stat_info">
-                                <span class="text-muted">No Portal</span>
-                            </div>
-                        </button>
-                    </div>
-                    <field name="image_1920" widget="image" class="oe_avatar" options="{'size': [160, 160]}"/>
-                    <div class="oe_title">
-                        <h1>
-                            <field name="display_name" readonly="1" force_save="1"/>
-                        </h1>
-                    </div>
-                    <group name="personal_info" string="Personal Information">
-                        <group>
-                            <field name="name"/>
-                            <field name="last_name"/>
-                            <field name="guardian_id_number" readonly="1"/>
-                            <field name="gender"/>
-                            <field name="date_of_birth"/>
-                            <field name="age"/>
-                            <field name="nationality_id"/>
-                            <field name="national_id"/>
-                            <field name="passport_number"/>
-                        </group>
-                        <group>
-                            <field name="email"/>
-                            <field name="mobile"/>
-                            <field name="phone"/>
-                            <field name="whatsapp_number"/>
-                            <field name="preferred_contact_method"/>
-                            <field name="address_street"/>
-                            <field name="address_street2"/>
-                            <field name="address_city"/>
-                            <field name="address_zip"/>
-                            <field name="address_state_id"/>
-                            <field name="address_country_id"/>
-                        </group>
-                    </group>
-                    <group name="professional_info" string="Professional Information">
-                        <group>
-                            <field name="occupation"/>
-                            <field name="employer_name"/>
-                            <field name="employer_address"/>
-                        </group>
-                        <group>
-                            <field name="annual_income_range"/>
-                            <field name="is_primary_financial_guarantor"/>
-                            <field name="company_id"/>
-                        </group>
-                    </group>
-                    <notebook>
-                        <page name="ward_students" string="Ward Students">
-                            <field name="student_rel_ids">
-                                <list editable="bottom">
-                                    <field name="student_id"/>
-                                    <field name="relationship_type"/>
-                                    <field name="is_primary_guardian"/>
-                                    <field name="is_financial_guarantor"/>
-                                    <field name="can_view_academic_records"/>
-                                    <field name="can_view_fee_records"/>
-                                    <field name="can_receive_notifications"/>
-                                    <field name="is_active_relationship"/>
-                                </list>
-                            </field>
-                        </page>
-                        <page name="financial_responsibility" string="Financial Responsibility">
-                            <group>
-                                <field name="is_primary_financial_guarantor"/>
-                                <field name="guarantor_student_ids" widget="many2many_tags" domain="[('company_id', '=', company_id)]"/>
-                            </group>
-                            <div class="alert alert-info" role="alert">
+  <record id="unicore_guardian_view_form" model="ir.ui.view">
+    <field name="name">unicore.guardian.form</field>
+    <field name="model">unicore.guardian</field>
+    <field name="arch" type="xml">
+      <form string="Guardian">
+        <header>
+          <button name="action_set_inactive" string="Set Inactive" type="object" invisible="guardian_state != 'active'"/>
+          <button name="action_set_active" string="Set Active" type="object" invisible="guardian_state != 'inactive'"/>
+          <button name="action_mark_deceased" string="Mark Deceased" type="object" invisible="guardian_state == 'deceased'" groups="unicore_base.group_unicore_admin"/>
+          <button name="action_grant_portal_access" string="Grant Portal Access" type="object" invisible="has_portal_access" groups="unicore_base.group_unicore_registrar"/>
+          <button name="action_revoke_portal_access" string="Revoke Portal Access" type="object" invisible="not has_portal_access" groups="unicore_base.group_unicore_admin"/>
+          <field name="guardian_state" widget="statusbar" statusbar_visible="active,inactive"/>
+        </header>
+        <sheet>
+          <div class="oe_button_box" name="button_box">
+            <button name="action_open_wards" type="object" class="oe_stat_button" icon="fa-user-graduate">
+              <field name="student_count" widget="statinfo" string="Students"/>
+            </button>
+            <button type="object" name="action_grant_portal_access" class="oe_stat_button" icon="fa-globe" invisible="has_portal_access == False">
+              <div class="o_stat_info">
+                <span class="text-success">Portal Active</span>
+              </div>
+            </button>
+            <button type="object" name="action_grant_portal_access" class="oe_stat_button" icon="fa-globe" invisible="has_portal_access == True">
+              <div class="o_stat_info">
+                <span class="text-muted">No Portal</span>
+              </div>
+            </button>
+          </div>
+          <field name="image_1920" widget="image" class="oe_avatar" options="{'size': [160, 160]}"/>
+          <div class="oe_title">
+            <h1>
+              <field name="display_name" readonly="1" force_save="1"/>
+            </h1>
+          </div>
+          <group name="personal_info" string="Personal Information">
+            <group>
+              <field name="name"/>
+              <field name="last_name"/>
+              <field name="guardian_id_number" readonly="1"/>
+              <field name="gender"/>
+              <field name="date_of_birth"/>
+              <field name="age"/>
+              <field name="nationality_id"/>
+              <field name="national_id"/>
+              <field name="passport_number"/>
+            </group>
+            <group>
+              <field name="email"/>
+              <field name="mobile"/>
+              <field name="phone"/>
+              <field name="whatsapp_number"/>
+              <field name="preferred_contact_method"/>
+              <field name="address_street"/>
+              <field name="address_street2"/>
+              <field name="address_city"/>
+              <field name="address_zip"/>
+              <field name="address_state_id"/>
+              <field name="address_country_id"/>
+            </group>
+          </group>
+          <group name="professional_info" string="Professional Information">
+            <group>
+              <field name="occupation"/>
+              <field name="employer_name"/>
+              <field name="employer_address"/>
+            </group>
+            <group>
+              <field name="annual_income_range"/>
+              <field name="is_primary_financial_guarantor"/>
+              <field name="company_id"/>
+            </group>
+          </group>
+          <notebook>
+            <page name="ward_students" string="Ward Students">
+              <field name="student_rel_ids">
+                <list editable="bottom">
+                  <field name="student_id"/>
+                  <field name="relationship_type"/>
+                  <field name="is_primary_guardian"/>
+                  <field name="is_financial_guarantor"/>
+                  <field name="can_view_academic_records"/>
+                  <field name="can_view_fee_records"/>
+                  <field name="can_receive_notifications"/>
+                  <field name="is_active_relationship"/>
+                </list>
+              </field>
+            </page>
+            <page name="financial_responsibility" string="Financial Responsibility">
+              <group>
+                <field name="is_primary_financial_guarantor"/>
+                <field name="guarantor_student_ids" widget="many2many_tags" domain="[('company_id', '=', company_id)]"/>
+              </group>
+              <div class="alert alert-info" role="alert">
                                 Students listed here will have this guardian as their designated financial guarantor for fee invoicing and payment tracking.
                             </div>
-                        </page>
-                        <page name="portal_access" string="Portal Access">
-                            <group>
-                                <field name="partner_id"/>
-                                <field name="user_id" readonly="1"/>
-                                <field name="has_portal_access" readonly="1"/>
-                                <field name="portal_access_granted_on" readonly="1"/>
-                            </group>
-                            <div class="alert alert-info" role="alert">
+            </page>
+            <page name="portal_access" string="Portal Access">
+              <group>
+                <field name="partner_id"/>
+                <field name="user_id" readonly="1"/>
+                <field name="has_portal_access" readonly="1"/>
+                <field name="portal_access_granted_on" readonly="1"/>
+              </group>
+              <div class="alert alert-info" role="alert">
                                 Grant portal access to allow this guardian to view their ward students academic records and fee status online.
                             </div>
-                        </page>
-                        <page name="notes" string="Notes">
-                            <field name="notes" nolabel="1" placeholder="Internal notes..."/>
-                        </page>
-                    </notebook>
-                </sheet>
-                <chatter/>
-            </form>
-        </field>
-    </record>
-
-    <record id="unicore_guardian_view_list" model="ir.ui.view">
-        <field name="name">unicore.guardian.list</field>
-        <field name="model">unicore.guardian</field>
-        <field name="arch" type="xml">
-            <list string="Guardians" decoration-muted="guardian_state in ('inactive','deceased')" decoration-success="has_portal_access == True">
-                <field name="guardian_id_number"/>
-                <field name="display_name"/>
-                <field name="gender"/>
-                <field name="mobile"/>
-                <field name="email"/>
-                <field name="student_count"/>
-                <field name="is_primary_financial_guarantor"/>
-                <field name="has_portal_access"/>
-                <field name="guardian_state" widget="badge" decoration-info="guardian_state == 'active'"/>
-            </list>
-        </field>
-    </record>
-
-    <record id="unicore_guardian_view_search" model="ir.ui.view">
-        <field name="name">unicore.guardian.search</field>
-        <field name="model">unicore.guardian</field>
-        <field name="arch" type="xml">
-            <search string="Search Guardians">
-                <field name="display_name"/>
-                <field name="guardian_id_number"/>
-                <field name="email"/>
-                <field name="mobile"/>
-                <field name="national_id"/>
-                
-                <filter name="filter_active" string="Active Guardians" domain="[('guardian_state', '=', 'active')]"/>
-                <filter name="filter_financial_guarantors" string="Financial Guarantors" domain="[('is_primary_financial_guarantor', '=', True)]"/>
-                <!-- <filter name="filter_has_portal" string="Has Portal Access" domain="[('has_portal_access', '=', True)]"/> -->
-                <!-- <filter name="filter_no_portal" string="No Portal Access Yet" domain="[('has_portal_access', '=', False)]"/> -->
-
-                <group name="groupby">
-                    <filter string="Institution" name="groupby_company" context="{'group_by': 'company_id'}"/>
-                    <filter string="Guardian Status" name="groupby_state" context="{'group_by': 'guardian_state'}"/>
-                </group>
-            </search>
-        </field>
-    </record>
-
-    <record id="unicore_guardian_view_kanban" model="ir.ui.view">
-        <field name="name">unicore.guardian.kanban</field>
-        <field name="model">unicore.guardian</field>
-        <field name="arch" type="xml">
-            <kanban>
-                <field name="id"/>
-                <field name="image_1920"/>
-                <field name="guardian_id_number"/>
-                <field name="display_name"/>
-                <field name="mobile"/>
-                <field name="student_count"/>
-                <field name="guardian_state"/>
-                <field name="has_portal_access"/>
-                <templates>
-                    <t t-name="card">
-                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
-                            <t t-if="record.image_1920.raw_value">
-                                <div class="o_kanban_image_fill_left d-none d-md-block" t-attf-style="background-image:url('#{kanban_image('unicore.guardian', 'image_1920', record.id.raw_value)}')"/>
-                            </t>
-                            <t t-else="">
-                                <img class="o_kanban_image" alt="Avatar" t-att-src='_s + "/base/static/img/avatar_grey.png"'/>
-                            </t>
-                            <div class="oe_kanban_details">
-                                <strong class="o_kanban_record_title">
-                                    <field name="display_name"/>
-                                </strong>
-                                <div class="o_kanban_tags_section"/>
-                                <ul>
-                                    <li><field name="guardian_id_number"/></li>
-                                    <li><field name="mobile"/></li>
-                                    <li>Wards: <field name="student_count"/></li>
-                                </ul>
-                                <div class="o_row">
-                                    <span class="badge rounded-pill text-bg-info"><field name="guardian_state"/></span>
-                                    <t t-if="record.has_portal_access.raw_value">
-                                        <span class="fa fa-globe text-success" title="Portal Access"/>
-                                    </t>
-                                </div>
-                            </div>
-                        </div>
-                    </t>
-                </templates>
-            </kanban>
-        </field>
-    </record>
+            </page>
+            <page name="notes" string="Notes">
+              <field name="notes" nolabel="1" placeholder="Internal notes..."/>
+            </page>
+          </notebook>
+        </sheet>
+        <chatter/>
+      </form>
+    </field>
+  </record>
+  <record id="unicore_guardian_view_list" model="ir.ui.view">
+    <field name="name">unicore.guardian.list</field>
+    <field name="model">unicore.guardian</field>
+    <field name="arch" type="xml">
+      <list string="Guardians" decoration-muted="guardian_state in ('inactive','deceased')" decoration-success="has_portal_access == True">
+        <field name="guardian_id_number"/>
+        <field name="display_name"/>
+        <field name="gender"/>
+        <field name="mobile"/>
+        <field name="email"/>
+        <field name="student_count"/>
+        <field name="is_primary_financial_guarantor"/>
+        <field name="has_portal_access"/>
+        <field name="guardian_state" widget="badge" decoration-info="guardian_state == 'active'"/>
+      </list>
+    </field>
+  </record>
+  <record id="unicore_guardian_view_search" model="ir.ui.view">
+    <field name="name">unicore.guardian.search</field>
+    <field name="model">unicore.guardian</field>
+    <field name="arch" type="xml">
+      <search string="Search Guardians">
+        <field name="display_name"/>
+        <field name="guardian_id_number"/>
+        <field name="email"/>
+        <field name="mobile"/>
+        <field name="national_id"/>
+        <filter name="filter_active" string="Active Guardians" domain="[('guardian_state', '=', 'active')]"/>
+        <filter name="filter_financial_guarantors" string="Financial Guarantors" domain="[('is_primary_financial_guarantor', '=', True)]"/>
+        <!-- <filter name="filter_has_portal" string="Has Portal Access" domain="[('has_portal_access', '=', True)]"/> -->
+        <!-- <filter name="filter_no_portal" string="No Portal Access Yet" domain="[('has_portal_access', '=', False)]"/> -->
+        <group name="groupby">
+          <filter string="Institution" name="groupby_company" context="{'group_by': 'company_id'}"/>
+          <filter string="Guardian Status" name="groupby_state" context="{'group_by': 'guardian_state'}"/>
+        </group>
+      </search>
+    </field>
+  </record>
+  <record id="unicore_guardian_view_kanban" model="ir.ui.view">
+    <field name="name">unicore.guardian.kanban</field>
+    <field name="model">unicore.guardian</field>
+    <field name="arch" type="xml">
+      <kanban>
+        <field name="id"/>
+        <field name="image_1920"/>
+        <field name="guardian_id_number"/>
+        <field name="display_name"/>
+        <field name="mobile"/>
+        <field name="student_count"/>
+        <field name="guardian_state"/>
+        <field name="has_portal_access"/>
+        <templates>
+          <t t-name="card">
+            <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+              <t t-if="record.image_1920.raw_value">
+                <div class="o_kanban_image_fill_left d-none d-md-block" t-attf-style="background-image:url('#{kanban_image('unicore.guardian', 'image_1920', record.id.raw_value)}')"/>
+              </t>
+              <t t-else="">
+                <img class="o_kanban_image" alt="Avatar" t-att-src="_s + &quot;/base/static/img/avatar_grey.png&quot;"/>
+              </t>
+              <div class="oe_kanban_details">
+                <strong class="o_kanban_record_title">
+                  <field name="display_name"/>
+                </strong>
+                <div class="o_kanban_tags_section"/>
+                <ul>
+                  <li>
+                    <field name="guardian_id_number"/>
+                  </li>
+                  <li>
+                    <field name="mobile"/>
+                  </li>
+                  <li>Wards: <field name="student_count"/>
+                  </li>
+                </ul>
+                <div class="o_row">
+                  <span class="badge rounded-pill text-bg-info">
+                    <field name="guardian_state"/>
+                  </span>
+                  <t t-if="record.has_portal_access.raw_value">
+                    <span class="fa fa-globe text-success" title="Portal Access"/>
+                  </t>
+                </div>
+              </div>
+            </div>
+          </t>
+        </templates>
+      </kanban>
+    </field>
+  </record>
 </odoo>

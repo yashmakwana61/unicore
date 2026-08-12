@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <data noupdate="0">
-
     <!-- ================================================================
          DEMO PARTNERS (used for portal login linkage)
          The student/faculty models auto-create their own partner; here
@@ -16,7 +15,6 @@
       <field name="company_type">person</field>
       <field name="type">contact</field>
     </record>
-
     <record id="uc_demo_partner_student_arav" model="res.partner">
       <field name="name">Aarav Patel</field>
       <field name="email">aarav.patel@student.pfu.edu</field>
@@ -25,16 +23,13 @@
       <field name="company_type">person</field>
       <field name="type">contact</field>
     </record>
-
     <!-- Link the demo faculty member and student to these partners -->
     <record id="uc_demo_faculty_rajesh" model="unicore.faculty.member">
       <field name="partner_id" ref="uc_demo_partner_faculty_rajesh"/>
     </record>
-
     <record id="uc_demo_student_arav" model="unicore.student">
       <field name="partner_id" ref="uc_demo_partner_student_arav"/>
     </record>
-
     <!-- ================================================================
          ASSIGN FACULTY TO DEMO COURSE OFFERINGS
          (needed so assignments and the faculty portal resolve the
@@ -43,19 +38,15 @@
     <record id="uc_demo_offering_cs101" model="unicore.course.offering">
       <field name="faculty_member_id" ref="uc_demo_faculty_rajesh"/>
     </record>
-
     <record id="uc_demo_offering_math101" model="unicore.course.offering">
       <field name="faculty_member_id" ref="uc_demo_faculty_anita"/>
     </record>
-
     <record id="uc_demo_offering_mba101" model="unicore.course.offering">
       <field name="faculty_member_id" ref="uc_demo_faculty_suresh"/>
     </record>
-
     <record id="uc_demo_offering_mba102" model="unicore.course.offering">
       <field name="faculty_member_id" ref="uc_demo_faculty_suresh"/>
     </record>
-
     <!-- ================================================================
          DEMO PORTAL LOGIN USERS
          (defined early because submissions reference the grader user)
@@ -71,7 +62,6 @@
       <field name="company_ids" eval="[(6, 0, [ref('base.main_company')])]"/>
       <field name="group_ids" eval="[(6, 0, [ref('unicore_base.group_unicore_faculty')])]"/>
     </record>
-
     <record id="uc_demo_user_student_arav" model="res.users">
       <field name="name">Aarav Patel (Student)</field>
       <field name="login">student_arav</field>
@@ -81,20 +71,15 @@
       <field name="company_ids" eval="[(6, 0, [ref('base.main_company')])]"/>
       <field name="group_ids" eval="[(6, 0, [ref('base.group_portal'), ref('unicore_base.group_unicore_student')])]"/>
     </record>
-
     <!-- ================================================================
          DEMO RUBRICS
     ================================================================ -->
-
     <!-- Homework Rubric (10 pts) -->
     <record id="uc_demo_rubric_homework" model="unicore.assignment.rubric">
       <field name="name">Homework Rubric</field>
-      <field name="description"><![CDATA[
-        <p>Standard rubric used to grade homework and problem sets.</p>
-      ]]></field>
+      <field name="description">&lt;p&gt;Standard rubric used to grade homework and problem sets.&lt;/p&gt;</field>
       <field name="company_id" ref="base.main_company"/>
     </record>
-
     <record id="uc_demo_criterion_hw_completeness" model="unicore.assignment.rubric.criterion">
       <field name="rubric_id" ref="uc_demo_rubric_homework"/>
       <field name="sequence">10</field>
@@ -102,7 +87,6 @@
       <field name="max_points">4.0</field>
       <field name="description">All parts of the assignment answered.</field>
     </record>
-
     <record id="uc_demo_criterion_hw_correctness" model="unicore.assignment.rubric.criterion">
       <field name="rubric_id" ref="uc_demo_rubric_homework"/>
       <field name="sequence">20</field>
@@ -110,7 +94,6 @@
       <field name="max_points">4.0</field>
       <field name="description">Solutions are technically correct.</field>
     </record>
-
     <record id="uc_demo_criterion_hw_presentation" model="unicore.assignment.rubric.criterion">
       <field name="rubric_id" ref="uc_demo_rubric_homework"/>
       <field name="sequence">30</field>
@@ -118,16 +101,12 @@
       <field name="max_points">2.0</field>
       <field name="description">Clear, tidy and well-structured submission.</field>
     </record>
-
     <!-- Lab Report Rubric (25 pts) -->
     <record id="uc_demo_rubric_lab_report" model="unicore.assignment.rubric">
       <field name="name">Lab Report Rubric</field>
-      <field name="description"><![CDATA[
-        <p>Rubric for evaluating laboratory reports and practical work.</p>
-      ]]></field>
+      <field name="description">&lt;p&gt;Rubric for evaluating laboratory reports and practical work.&lt;/p&gt;</field>
       <field name="company_id" ref="base.main_company"/>
     </record>
-
     <record id="uc_demo_criterion_lab_analysis" model="unicore.assignment.rubric.criterion">
       <field name="rubric_id" ref="uc_demo_rubric_lab_report"/>
       <field name="sequence">10</field>
@@ -135,7 +114,6 @@
       <field name="max_points">5.0</field>
       <field name="description">Correctly interprets the problem statement.</field>
     </record>
-
     <record id="uc_demo_criterion_lab_impl" model="unicore.assignment.rubric.criterion">
       <field name="rubric_id" ref="uc_demo_rubric_lab_report"/>
       <field name="sequence">20</field>
@@ -143,7 +121,6 @@
       <field name="max_points">10.0</field>
       <field name="description">Working code with correct logic.</field>
     </record>
-
     <record id="uc_demo_criterion_lab_testing" model="unicore.assignment.rubric.criterion">
       <field name="rubric_id" ref="uc_demo_rubric_lab_report"/>
       <field name="sequence">30</field>
@@ -151,7 +128,6 @@
       <field name="max_points">5.0</field>
       <field name="description">Edge cases tested and documented.</field>
     </record>
-
     <record id="uc_demo_criterion_lab_docs" model="unicore.assignment.rubric.criterion">
       <field name="rubric_id" ref="uc_demo_rubric_lab_report"/>
       <field name="sequence">40</field>
@@ -159,16 +135,12 @@
       <field name="max_points">5.0</field>
       <field name="description">Comments, report and references.</field>
     </record>
-
     <!-- Project Rubric (30 pts) -->
     <record id="uc_demo_rubric_project" model="unicore.assignment.rubric">
       <field name="name">Project Rubric</field>
-      <field name="description"><![CDATA[
-        <p>Rubric for evaluating case studies and projects.</p>
-      ]]></field>
+      <field name="description">&lt;p&gt;Rubric for evaluating case studies and projects.&lt;/p&gt;</field>
       <field name="company_id" ref="base.main_company"/>
     </record>
-
     <record id="uc_demo_criterion_proj_research" model="unicore.assignment.rubric.criterion">
       <field name="rubric_id" ref="uc_demo_rubric_project"/>
       <field name="sequence">10</field>
@@ -176,7 +148,6 @@
       <field name="max_points">10.0</field>
       <field name="description">Depth of research and data analysis.</field>
     </record>
-
     <record id="uc_demo_criterion_proj_concepts" model="unicore.assignment.rubric.criterion">
       <field name="rubric_id" ref="uc_demo_rubric_project"/>
       <field name="sequence">20</field>
@@ -184,7 +155,6 @@
       <field name="max_points">10.0</field>
       <field name="description">Uses course frameworks correctly.</field>
     </record>
-
     <record id="uc_demo_criterion_proj_reco" model="unicore.assignment.rubric.criterion">
       <field name="rubric_id" ref="uc_demo_rubric_project"/>
       <field name="sequence">30</field>
@@ -192,7 +162,6 @@
       <field name="max_points">5.0</field>
       <field name="description">Actionable, realistic recommendations.</field>
     </record>
-
     <record id="uc_demo_criterion_proj_pres" model="unicore.assignment.rubric.criterion">
       <field name="rubric_id" ref="uc_demo_rubric_project"/>
       <field name="sequence">40</field>
@@ -200,23 +169,19 @@
       <field name="max_points">5.0</field>
       <field name="description">Clarity, structure and professionalism.</field>
     </record>
-
     <!-- ================================================================
          DEMO ASSIGNMENTS
          today = 2026-08-05 (Odd Semester 2026: 15 Jul – 30 Nov)
     ================================================================ -->
-
     <!-- CS101 (Rajesh) -->
     <record id="uc_demo_assignment_cs101_hw1" model="unicore.assignment">
       <field name="title">Week 2 – Variables &amp; Data Types</field>
-      <field name="description"><![CDATA[
-        <p>Complete exercises 1–10 from the Python primer.</p>
-        <ul>
-          <li>Declare and use variables of int, float, string and bool.</li>
-          <li>Show type conversion with <b>int()</b> and <b>str()</b>.</li>
-          <li>Include comments explaining each line.</li>
-        </ul>
-      ]]></field>
+      <field name="description">&lt;p&gt;Complete exercises 1–10 from the Python primer.&lt;/p&gt;
+        &lt;ul&gt;
+          &lt;li&gt;Declare and use variables of int, float, string and bool.&lt;/li&gt;
+          &lt;li&gt;Show type conversion with &lt;b&gt;int()&lt;/b&gt; and &lt;b&gt;str()&lt;/b&gt;.&lt;/li&gt;
+          &lt;li&gt;Include comments explaining each line.&lt;/li&gt;
+        &lt;/ul&gt;</field>
       <field name="assignment_type">homework</field>
       <field name="max_marks">10.0</field>
       <field name="pass_marks">5.0</field>
@@ -228,14 +193,11 @@
       <field name="course_offering_id" ref="uc_demo_offering_cs101"/>
       <field name="assignment_state">published</field>
     </record>
-
     <record id="uc_demo_assignment_cs101_lab1" model="unicore.assignment">
       <field name="title">Lab 1 – Loops &amp; Functions in Python</field>
-      <field name="description"><![CDATA[
-        <p>Write a program that prints a multiplication table for any
-           number using a loop, wrapped in a reusable function.</p>
-        <p>Upload your <b>.py</b> file along with a short report.</p>
-      ]]></field>
+      <field name="description">&lt;p&gt;Write a program that prints a multiplication table for any
+           number using a loop, wrapped in a reusable function.&lt;/p&gt;
+        &lt;p&gt;Upload your &lt;b&gt;.py&lt;/b&gt; file along with a short report.&lt;/p&gt;</field>
       <field name="assignment_type">lab</field>
       <field name="max_marks">25.0</field>
       <field name="pass_marks">12.5</field>
@@ -247,14 +209,11 @@
       <field name="course_offering_id" ref="uc_demo_offering_cs101"/>
       <field name="assignment_state">published</field>
     </record>
-
     <record id="uc_demo_assignment_cs101_proj" model="unicore.assignment">
       <field name="title">Mini Project – Student Record System</field>
-      <field name="description"><![CDATA[
-        <p>Build a console-based student record system in Python that
+      <field name="description">&lt;p&gt;Build a console-based student record system in Python that
            supports add, search, update and delete operations with data
-           persisted to a JSON file.</p>
-      ]]></field>
+           persisted to a JSON file.&lt;/p&gt;</field>
       <field name="assignment_type">project</field>
       <field name="max_marks">100.0</field>
       <field name="pass_marks">50.0</field>
@@ -266,14 +225,11 @@
       <field name="course_offering_id" ref="uc_demo_offering_cs101"/>
       <field name="assignment_state">draft</field>
     </record>
-
     <!-- MATH101 (Anita) -->
     <record id="uc_demo_assignment_math101_hw1" model="unicore.assignment">
       <field name="title">Problem Set 1 – Sets &amp; Relations</field>
-      <field name="description"><![CDATA[
-        <p>Solve problems 1–8 on sets, subsets, unions and equivalence
-           relations from the chapter 1 handout.</p>
-      ]]></field>
+      <field name="description">&lt;p&gt;Solve problems 1–8 on sets, subsets, unions and equivalence
+           relations from the chapter 1 handout.&lt;/p&gt;</field>
       <field name="assignment_type">homework</field>
       <field name="max_marks">10.0</field>
       <field name="pass_marks">5.0</field>
@@ -285,14 +241,11 @@
       <field name="course_offering_id" ref="uc_demo_offering_math101"/>
       <field name="assignment_state">published</field>
     </record>
-
     <!-- MBA101 (Suresh) -->
     <record id="uc_demo_assignment_mba101_proj" model="unicore.assignment">
       <field name="title">Case Study – Strategic Management</field>
-      <field name="description"><![CDATA[
-        <p>Analyse the provided company case study using Porter's Five
-           Forces and propose a 5-point strategic recommendation.</p>
-      ]]></field>
+      <field name="description">&lt;p&gt;Analyse the provided company case study using Porter's Five
+           Forces and propose a 5-point strategic recommendation.&lt;/p&gt;</field>
       <field name="assignment_type">project</field>
       <field name="max_marks">30.0</field>
       <field name="pass_marks">15.0</field>
@@ -304,13 +257,10 @@
       <field name="course_offering_id" ref="uc_demo_offering_mba101"/>
       <field name="assignment_state">published</field>
     </record>
-
     <!-- MBA102 (Suresh) -->
     <record id="uc_demo_assignment_mba102_quiz" model="unicore.assignment">
       <field name="title">Quiz 1 – Descriptive Statistics</field>
-      <field name="description"><![CDATA[
-        <p>Answer the quiz on mean, median, mode and standard deviation.</p>
-      ]]></field>
+      <field name="description">&lt;p&gt;Answer the quiz on mean, median, mode and standard deviation.&lt;/p&gt;</field>
       <field name="assignment_type">quiz</field>
       <field name="max_marks">10.0</field>
       <field name="pass_marks">5.0</field>
@@ -321,12 +271,10 @@
       <field name="course_offering_id" ref="uc_demo_offering_mba102"/>
       <field name="assignment_state">closed</field>
     </record>
-
     <!-- ================================================================
          DEMO SUBMISSIONS
          (a small placeholder file is embedded as base64 text)
     ================================================================ -->
-
     <!-- CS101 HW1 submissions -->
     <record id="uc_demo_sub_cs101_hw1_arav" model="unicore.assignment.submission">
       <field name="assignment_id" ref="uc_demo_assignment_cs101_hw1"/>
@@ -338,18 +286,13 @@
       <field name="attempt_count">1</field>
       <field name="state">graded</field>
       <field name="marks_obtained">8.0</field>
-      <field name="feedback"><![CDATA[
-        <p>Good work overall. Completeness was excellent. A couple of
-           type-conversion answers lost a point — recheck exercise 7.</p>
-      ]]></field>
+      <field name="feedback">&lt;p&gt;Good work overall. Completeness was excellent. A couple of
+           type-conversion answers lost a point — recheck exercise 7.&lt;/p&gt;</field>
       <field name="graded_by_id" ref="uc_demo_user_faculty_rajesh"/>
       <field name="graded_date">2026-08-10 10:30:00</field>
-      <field name="annotations"><![CDATA[
-        [{"page":1,"x":120,"y":340,"text":"Good example here"},
-         {"page":1,"x":200,"y":420,"text":"Recheck exercise 7"}]
-      ]]></field>
+      <field name="annotations">[{"page":1,"x":120,"y":340,"text":"Good example here"},
+         {"page":1,"x":200,"y":420,"text":"Recheck exercise 7"}]</field>
     </record>
-
     <record id="uc_demo_sub_cs101_hw1_diya" model="unicore.assignment.submission">
       <field name="assignment_id" ref="uc_demo_assignment_cs101_hw1"/>
       <field name="student_id" ref="uc_demo_student_diya"/>
@@ -360,7 +303,6 @@
       <field name="attempt_count">1</field>
       <field name="state">submitted</field>
     </record>
-
     <record id="uc_demo_sub_cs101_hw1_kabir" model="unicore.assignment.submission">
       <field name="assignment_id" ref="uc_demo_assignment_cs101_hw1"/>
       <field name="student_id" ref="uc_demo_student_kabir"/>
@@ -371,7 +313,6 @@
       <field name="attempt_count">1</field>
       <field name="state">late</field>
     </record>
-
     <record id="uc_demo_sub_cs101_hw1_myra" model="unicore.assignment.submission">
       <field name="assignment_id" ref="uc_demo_assignment_cs101_hw1"/>
       <field name="student_id" ref="uc_demo_student_myra"/>
@@ -382,7 +323,6 @@
       <field name="attempt_count">1</field>
       <field name="state">submitted</field>
     </record>
-
     <record id="uc_demo_sub_cs101_hw1_aryan" model="unicore.assignment.submission">
       <field name="assignment_id" ref="uc_demo_assignment_cs101_hw1"/>
       <field name="student_id" ref="uc_demo_student_aryan"/>
@@ -391,7 +331,6 @@
       <field name="attempt_count">1</field>
       <field name="state">draft</field>
     </record>
-
     <!-- CS101 Lab1 submissions -->
     <record id="uc_demo_sub_cs101_lab1_arav" model="unicore.assignment.submission">
       <field name="assignment_id" ref="uc_demo_assignment_cs101_lab1"/>
@@ -403,7 +342,6 @@
       <field name="attempt_count">1</field>
       <field name="state">submitted</field>
     </record>
-
     <!-- MATH101 HW1 submissions -->
     <record id="uc_demo_sub_math101_hw1_arav" model="unicore.assignment.submission">
       <field name="assignment_id" ref="uc_demo_assignment_math101_hw1"/>
@@ -415,7 +353,6 @@
       <field name="attempt_count">1</field>
       <field name="state">submitted</field>
     </record>
-
     <record id="uc_demo_sub_math101_hw1_diya" model="unicore.assignment.submission">
       <field name="assignment_id" ref="uc_demo_assignment_math101_hw1"/>
       <field name="student_id" ref="uc_demo_student_diya"/>
@@ -425,12 +362,9 @@
       <field name="submission_date">2026-08-13 09:05:00</field>
       <field name="attempt_count">1</field>
       <field name="state">returned</field>
-      <field name="feedback"><![CDATA[
-        <p>Please revise sections 2 and 3 — the union operation is
-           incorrect. Resubmit once corrected.</p>
-      ]]></field>
+      <field name="feedback">&lt;p&gt;Please revise sections 2 and 3 — the union operation is
+           incorrect. Resubmit once corrected.&lt;/p&gt;</field>
     </record>
-
     <!-- MBA101 Project submissions -->
     <record id="uc_demo_sub_mba101_proj_rohan" model="unicore.assignment.submission">
       <field name="assignment_id" ref="uc_demo_assignment_mba101_proj"/>
@@ -442,18 +376,13 @@
       <field name="attempt_count">1</field>
       <field name="state">graded</field>
       <field name="marks_obtained">25.0</field>
-      <field name="feedback"><![CDATA[
-        <p>Excellent research. Strong recommendations — tighten the
-           financial section next time.</p>
-      ]]></field>
+      <field name="feedback">&lt;p&gt;Excellent research. Strong recommendations — tighten the
+           financial section next time.&lt;/p&gt;</field>
       <field name="graded_by_id" ref="uc_demo_user_faculty_rajesh"/>
       <field name="graded_date">2026-08-22 11:00:00</field>
-      <field name="annotations"><![CDATA[
-        [{"page":2,"x":90,"y":300,"text":"Strong evidence here"},
-         {"page":3,"x":150,"y":410,"text":"Add financial figures"}]
-      ]]></field>
+      <field name="annotations">[{"page":2,"x":90,"y":300,"text":"Strong evidence here"},
+         {"page":3,"x":150,"y":410,"text":"Add financial figures"}]</field>
     </record>
-
     <record id="uc_demo_sub_mba101_proj_nisha" model="unicore.assignment.submission">
       <field name="assignment_id" ref="uc_demo_assignment_mba101_proj"/>
       <field name="student_id" ref="uc_demo_student_nisha"/>
@@ -464,7 +393,6 @@
       <field name="attempt_count">1</field>
       <field name="state">submitted</field>
     </record>
-
     <!-- MBA102 Quiz submission (closed assignment) -->
     <record id="uc_demo_sub_mba102_quiz_rohan" model="unicore.assignment.submission">
       <field name="assignment_id" ref="uc_demo_assignment_mba102_quiz"/>
@@ -479,11 +407,9 @@
       <field name="graded_by_id" ref="uc_demo_user_faculty_rajesh"/>
       <field name="graded_date">2026-07-26 09:40:00</field>
     </record>
-
     <!-- ================================================================
          RUBRIC EVALUATION LINES for graded submissions
     ================================================================ -->
-
     <!-- arav — CS101 HW1 (rubric: homework 4/4/2) -->
     <record id="uc_demo_eval_hw1_arav_complete" model="unicore.assignment.submission.criterion">
       <field name="submission_id" ref="uc_demo_sub_cs101_hw1_arav"/>
@@ -502,7 +428,6 @@
       <field name="points_awarded">1.0</field>
       <field name="comments">Missing comments in last section.</field>
     </record>
-
     <!-- rohan — MBA101 Project (rubric: project 10/10/5/5) -->
     <record id="uc_demo_eval_proj_rohan_research" model="unicore.assignment.submission.criterion">
       <field name="submission_id" ref="uc_demo_sub_mba101_proj_rohan"/>
@@ -525,6 +450,5 @@
       <field name="criterion_id" ref="uc_demo_criterion_proj_pres"/>
       <field name="points_awarded">4.0</field>
     </record>
-
   </data>
 </odoo>

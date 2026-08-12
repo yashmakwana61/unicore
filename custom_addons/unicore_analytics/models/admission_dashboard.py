@@ -1,6 +1,6 @@
-from odoo import _, api, fields, models
-from datetime import datetime
 import logging
+
+from odoo import api, models
 
 _logger = logging.getLogger(__name__)
 
@@ -33,7 +33,7 @@ class AdmissionApplicantDashboard(models.Model):
         state_counts = self.read_group(
             domain,
             fields=['state'],
-            groupby=['state']
+            groupby=['state'],
         )
         state_map = {item['state']: item['state_count'] for item in state_counts}
 
@@ -41,7 +41,7 @@ class AdmissionApplicantDashboard(models.Model):
         funnel_states = [
             'inquiry', 'applied', 'documents_pending', 'under_review',
             'shortlisted', 'entrance_scheduled', 'merit_listed',
-            'offer_sent', 'fee_pending', 'confirmed'
+            'offer_sent', 'fee_pending', 'confirmed',
         ]
         funnel = []
         for state in funnel_states:
@@ -72,7 +72,7 @@ class AdmissionApplicantDashboard(models.Model):
         shortlisted_count = sum(
             state_map.get(s, 0) for s in [
                 'shortlisted', 'merit_listed', 'offer_sent',
-                'fee_pending', 'confirmed'
+                'fee_pending', 'confirmed',
             ]
         )
         data['shortlist_rate'] = (
@@ -91,7 +91,7 @@ class AdmissionApplicantDashboard(models.Model):
         score_data = self.read_group(
             domain,
             fields=['composite_score:avg', 'entrance_score:avg', 'aggregate_percentage:avg'],
-            groupby=[]
+            groupby=[],
         )
         if score_data:
             data['avg_composite_score'] = round(score_data[0]['composite_score'], 1) if score_data[0]['composite_score'] else 0
@@ -110,13 +110,13 @@ class AdmissionApplicantDashboard(models.Model):
         program_breakdown = self.read_group(
             domain,
             fields=['program_id', 'id:count'],
-            groupby=['program_id']
+            groupby=['program_id'],
         )
         data['by_program'] = [
             {
                 'program_id': item['program_id'][0] if item['program_id'] else None,
                 'program_name': item['program_id'][1] if item['program_id'] else 'Unknown',
-                'count': item['id']
+                'count': item['id'],
             }
             for item in program_breakdown
         ]
@@ -125,13 +125,13 @@ class AdmissionApplicantDashboard(models.Model):
         campus_breakdown = self.read_group(
             domain,
             fields=['campus_id', 'id:count'],
-            groupby=['campus_id']
+            groupby=['campus_id'],
         )
         data['by_campus'] = [
             {
                 'campus_id': item['campus_id'][0] if item['campus_id'] else None,
                 'campus_name': item['campus_id'][1] if item['campus_id'] else 'Unknown',
-                'count': item['id']
+                'count': item['id'],
             }
             for item in campus_breakdown
         ]
@@ -140,13 +140,13 @@ class AdmissionApplicantDashboard(models.Model):
         year_breakdown = self.read_group(
             domain,
             fields=['cycle_id', 'id:count'],
-            groupby=['cycle_id']
+            groupby=['cycle_id'],
         )
         data['by_academic_year'] = [
             {
                 'cycle_id': item['cycle_id'][0] if item['cycle_id'] else None,
                 'cycle_name': item['cycle_id'][1] if item['cycle_id'] else 'Unknown',
-                'count': item['id']
+                'count': item['id'],
             }
             for item in year_breakdown
         ]
@@ -155,13 +155,13 @@ class AdmissionApplicantDashboard(models.Model):
         gender_breakdown = self.read_group(
             domain,
             fields=['gender', 'id:count'],
-            groupby=['gender']
+            groupby=['gender'],
         )
         data['by_gender'] = [
             {
                 'gender': item['gender'],
                 'label': self._format_gender(item['gender']),
-                'count': item['id']
+                'count': item['id'],
             }
             for item in gender_breakdown
         ]
@@ -170,13 +170,13 @@ class AdmissionApplicantDashboard(models.Model):
         nationality_breakdown = self.read_group(
             domain,
             fields=['nationality_id', 'id:count'],
-            groupby=['nationality_id']
+            groupby=['nationality_id'],
         )
         data['by_nationality'] = [
             {
                 'nationality_id': item['nationality_id'][0] if item['nationality_id'] else None,
                 'nationality_name': item['nationality_id'][1] if item['nationality_id'] else 'Not Specified',
-                'count': item['id']
+                'count': item['id'],
             }
             for item in nationality_breakdown
         ]
@@ -185,14 +185,14 @@ class AdmissionApplicantDashboard(models.Model):
         time_breakdown = self.read_group(
             domain,
             fields=['create_date', 'id:count'],
-            groupby=['create_date:month']
+            groupby=['create_date:month'],
         )
         applications_over_time = []
         for item in time_breakdown:
             if item['create_date']:
                 applications_over_time.append({
                     'month': item['create_date'],
-                    'count': item['id']
+                    'count': item['id'],
                 })
         data['applications_over_time'] = applications_over_time
 

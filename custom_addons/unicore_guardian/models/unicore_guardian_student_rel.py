@@ -6,7 +6,8 @@ model — NOT a simple Many2many — because it holds
 permission flags and relationship type data.
 """
 import logging
-from odoo import api, fields, models, _
+
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
@@ -23,21 +24,21 @@ class UniCoreGuardianStudentRel(models.Model):
         string='Guardian',
         required=True,
         ondelete='cascade',
-        index=True
+        index=True,
     )
     student_id = fields.Many2one(
         'unicore.student',
         string='Student',
         required=True,
         ondelete='cascade',
-        index=True
+        index=True,
     )
     company_id = fields.Many2one(
         'res.company',
         string='Institution',
         related='student_id.company_id',
         store=True,
-        readonly=True
+        readonly=True,
     )
     relationship_type = fields.Selection([
         ('father', 'Father'),
@@ -56,42 +57,42 @@ class UniCoreGuardianStudentRel(models.Model):
         string='Primary Guardian',
         default=False,
         tracking=True,
-        help='Primary point of contact for this student'
+        help='Primary point of contact for this student',
     )
     is_financial_guarantor = fields.Boolean(
         string='Financial Guarantor',
         default=False,
         tracking=True,
-        help='Financially responsible for this student'
+        help='Financially responsible for this student',
     )
     can_view_academic_records = fields.Boolean(
         string='Can View Academic Records',
         default=True,
-        help='Allow guardian to view student grades and attendance via portal'
+        help='Allow guardian to view student grades and attendance via portal',
     )
     can_view_fee_records = fields.Boolean(
         string='Can View Fee Records',
         default=True,
-        help='Allow guardian to view and pay fees via portal'
+        help='Allow guardian to view and pay fees via portal',
     )
     can_receive_notifications = fields.Boolean(
         string='Receive Notifications',
         default=True,
-        help='Send academic and fee notifications to this guardian'
+        help='Send academic and fee notifications to this guardian',
     )
     start_date = fields.Date(
         string='Relationship Start Date',
         default=fields.Date.today,
-        help='Date when this guardian relationship was established'
+        help='Date when this guardian relationship was established',
     )
     end_date = fields.Date(
         string='Relationship End Date',
-        help='Date when this relationship ended (if applicable)'
+        help='Date when this relationship ended (if applicable)',
     )
     is_active_relationship = fields.Boolean(
         string='Active Relationship',
         default=True,
-        tracking=True
+        tracking=True,
     )
     notes = fields.Text(string='Relationship Notes')
 
@@ -122,7 +123,7 @@ class UniCoreGuardianStudentRel(models.Model):
                         _('Student "%s" already has a primary '
                           'guardian assigned. Only one primary '
                           'guardian is allowed per student.')
-                        % rec.student_id.display_name
+                        % rec.student_id.display_name,
                     )
 
     @api.constrains('is_financial_guarantor', 'student_id')
@@ -140,7 +141,7 @@ class UniCoreGuardianStudentRel(models.Model):
                         _('Student "%s" already has a financial '
                           'guarantor assigned. Only one financial '
                           'guarantor is allowed per student.')
-                        % rec.student_id.display_name
+                        % rec.student_id.display_name,
                     )
 
     @api.constrains('start_date', 'end_date')
@@ -149,7 +150,7 @@ class UniCoreGuardianStudentRel(models.Model):
             if rec.start_date and rec.end_date:
                 if rec.end_date < rec.start_date:
                     raise ValidationError(
-                        _('End date must be after start date.')
+                        _('End date must be after start date.'),
                     )
 
     # ------- ONCHANGE -------

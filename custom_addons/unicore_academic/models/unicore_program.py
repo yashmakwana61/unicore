@@ -1,5 +1,4 @@
 import logging
-
 from datetime import date
 
 from odoo import _, api, fields, models
@@ -231,7 +230,7 @@ class UnicoreProgram(models.Model):
         }
         for record in self:
             record.cohort_grouping_label = labels.get(
-                record.cohort_kind, ''
+                record.cohort_kind, '',
             )
 
     @api.depends('department_id.company_id', 'academic_unit_id.company_id')
@@ -273,12 +272,12 @@ class UnicoreProgram(models.Model):
                 if not record.department_id:
                     raise ValidationError(
                         _('A Department is required for programs of a '
-                          'university (legacy) institution.')
+                          'university (legacy) institution.'),
                     )
             elif not record.department_id and not record.academic_unit_id:
                 raise ValidationError(
                     _('A program must be attached to either a Department '
-                      'or an Academic Unit.')
+                      'or an Academic Unit.'),
                 )
 
     def _check_cohort_kind(self):
@@ -294,7 +293,7 @@ class UnicoreProgram(models.Model):
                     and record.cohort_kind != 'academic_year'):
                 raise ValidationError(
                     _('University (legacy) institutions can only use '
-                      'Academic Year / Batch cohorts.')
+                      'Academic Year / Batch cohorts.'),
                 )
 
     @api.model_create_multi
@@ -326,11 +325,11 @@ class UnicoreProgram(models.Model):
         for record in self:
             if record.duration_years <= 0:
                 raise ValidationError(
-                    _('Duration must be greater than zero.')
+                    _('Duration must be greater than zero.'),
                 )
             if record.duration_years > 10:
                 raise ValidationError(
-                    _('Duration cannot exceed 10 years.')
+                    _('Duration cannot exceed 10 years.'),
                 )
 
     @api.constrains('total_credits')
@@ -338,7 +337,7 @@ class UnicoreProgram(models.Model):
         for record in self:
             if record.total_credits <= 0:
                 raise ValidationError(
-                    _('Total credits must be greater than zero.')
+                    _('Total credits must be greater than zero.'),
                 )
 
     @api.constrains('accreditation_expiry', 'accreditation_status')
@@ -347,7 +346,7 @@ class UnicoreProgram(models.Model):
             if record.accreditation_status == 'accredited' and record.accreditation_expiry:
                 if record.accreditation_expiry < date.today():
                     raise ValidationError(
-                        _('Accreditation expiry date must be in the future.')
+                        _('Accreditation expiry date must be in the future.'),
                     )
 
     @api.onchange('duration_years')
@@ -363,7 +362,7 @@ class UnicoreProgram(models.Model):
                         years=self.duration_years,
                         semesters=self.semesters_count,
                     ),
-                }
+                },
             }
 
     def action_approve(self):
@@ -380,7 +379,7 @@ class UnicoreProgram(models.Model):
         self.ensure_one()
         if not self.campus_ids:
             raise UserError(
-                _('At least one campus must be assigned before activating the program.')
+                _('At least one campus must be assigned before activating the program.'),
             )
         self.program_state = 'active'
 

@@ -6,10 +6,10 @@ catalogs. This is the regression baseline for Phase 1 (is_legacy_university
 compatibility) and Phase 5 (onboarding templates).
 """
 
-import odoo
-from odoo.exceptions import ValidationError
-from odoo.tests.common import TransactionCase
 from psycopg2 import IntegrityError
+
+import odoo
+from odoo.tests.common import TransactionCase
 
 
 @odoo.tests.tagged('unicore', 'unit')

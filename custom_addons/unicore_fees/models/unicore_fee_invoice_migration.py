@@ -3,9 +3,10 @@ UniCore Fee Invoice — GL Migration & Batch Processing
 Handles one-time migration of existing invoices and continuous processing.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -83,7 +84,7 @@ class UniCoreFeeInvoiceMigration(models.Model):
                     'title': 'Migration Summary',
                     'message': summary,
                     'type': 'warning' if errors else 'success',
-                }
+                },
             }
 
         return summary
@@ -119,8 +120,6 @@ class UniCoreFeeInvoiceMigration(models.Model):
         """
         _logger.info('Payment reconciliation is now handled by GL module directly')
         return 0
-
-        return reconciled_count
 
 
 class UniCoreFeeInvoiceBatchWizard(models.TransientModel):
@@ -196,9 +195,9 @@ class UniCoreFeeInvoiceBatchWizard(models.TransientModel):
         if self.dry_run:
             message = _(
                 'DRY RUN: Would migrate %d invoices to GL.\n\n'
-                'Invoices to migrate:\n%s'
+                'Invoices to migrate:\n%s',
             ) % (len(invoices), '\n'.join(
-                [inv.invoice_number for inv in invoices[:20]]
+                [inv.invoice_number for inv in invoices[:20]],
             ))
             if len(invoices) > 20:
                 message += _('\n... and %d more') % (len(invoices) - 20)
@@ -211,21 +210,20 @@ class UniCoreFeeInvoiceBatchWizard(models.TransientModel):
                     'message': message,
                     'type': 'info',
                     'sticky': True,
-                }
+                },
             }
-        else:
-            # Perform actual migration
-            summary = invoices.action_migrate_to_gl()
-            return {
-                'type': 'ir.actions.client',
-                'tag': 'display_notification',
-                'params': {
-                    'title': 'Migration Complete',
-                    'message': summary,
-                    'type': 'success',
-                    'sticky': True,
-                }
-            }
+        # Perform actual migration
+        summary = invoices.action_migrate_to_gl()
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': 'Migration Complete',
+                'message': summary,
+                'type': 'success',
+                'sticky': True,
+            },
+        }
 
     def _create_missing_partners(self, invoices):
         """Create res.partner for students without partners."""
@@ -233,7 +231,7 @@ class UniCoreFeeInvoiceBatchWizard(models.TransientModel):
             if not invoice.student_id.partner_id:
                 try:
                     partner = invoice.student_id._create_student_partner(
-                        invoice.student_id
+                        invoice.student_id,
                     )
                     invoice.student_id.write({'partner_id': partner.id})
                     _logger.info('Created partner for student %s',
@@ -241,7 +239,7 @@ class UniCoreFeeInvoiceBatchWizard(models.TransientModel):
                 except Exception as e:
                     _logger.warning(
                         'Failed to create partner for student %s: %s',
-                        invoice.student_id.student_id_number, str(e)
+                        invoice.student_id.student_id_number, str(e),
                     )
 
     def _action_reconcile_payments(self):
@@ -256,7 +254,7 @@ class UniCoreFeeInvoiceBatchWizard(models.TransientModel):
 
         if not pending_payments:
             raise UserError(_(
-                'No pending payments to reconcile.'
+                'No pending payments to reconcile.',
             ))
 
         if self.dry_run:
@@ -266,10 +264,10 @@ class UniCoreFeeInvoiceBatchWizard(models.TransientModel):
                 'params': {
                     'title': 'Reconciliation Preview',
                     'message': _(
-                        'DRY RUN: Would reconcile %d payments with GL.'
+                        'DRY RUN: Would reconcile %d payments with GL.',
                     ) % len(pending_payments),
                     'type': 'info',
-                }
+                },
             }
 
         # Perform reconciliation
@@ -289,5 +287,5 @@ class UniCoreFeeInvoiceBatchWizard(models.TransientModel):
                 'title': 'Reconciliation Complete',
                 'message': _('Reconciled %d payments.') % reconciled,
                 'type': 'success',
-            }
+            },
         }

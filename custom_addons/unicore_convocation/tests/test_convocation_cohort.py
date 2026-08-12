@@ -4,9 +4,9 @@ Verifies the convocation "Graduates by Cohort" action on the event and the
 same-cohort "Cohort Mates" action on the graduated student.
 """
 
-import odoo
 from datetime import date
 
+import odoo
 from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 

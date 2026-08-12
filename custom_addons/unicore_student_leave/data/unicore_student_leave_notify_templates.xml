@@ -1,65 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <data noupdate="1">
-
     <!-- ========== LEAVE REQUEST APPROVED — EMAIL ========== -->
-
-    <record id="template_leave_approved_email"
-            model="unicore.notification.template">
-      <field name="name">
-        Leave Request Approved — Email
-      </field>
+    <record id="template_leave_approved_email" model="unicore.notification.template">
+      <field name="name">Leave Request Approved — Email</field>
       <field name="company_id" ref="base.main_company"/>
-      <field name="trigger_event">
-        leave_request_approved
-      </field>
+      <field name="trigger_event">leave_request_approved</field>
       <field name="channel">email</field>
       <field name="recipient_type">student</field>
-      <field name="email_subject">
-        Leave Request Approved — {request_reference}
-      </field>
-      <field name="email_body_html"><![CDATA[
-<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-  <h2 style="color: #27ae60;">Leave Request Approved</h2>
-  <p>Dear {student_name},</p>
-  <p>Your leave request
-     <strong>{request_reference}</strong> has been
-     <strong>approved</strong>.</p>
-  <ul>
-    <li><strong>Start Date:</strong> {date_from}</li>
-    <li><strong>End Date:</strong> {date_to}</li>
-    <li><strong>Approved By:</strong> {approver_name}</li>
-  </ul>
-  <p>Your student status has been updated to
-     <strong>On Leave</strong>. Please ensure you
+      <field name="email_subject">Leave Request Approved — {request_reference}</field>
+      <field name="email_body_html">&lt;div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;"&gt;
+  &lt;h2 style="color: #27ae60;"&gt;Leave Request Approved&lt;/h2&gt;
+  &lt;p&gt;Dear {student_name},&lt;/p&gt;
+  &lt;p&gt;Your leave request
+     &lt;strong&gt;{request_reference}&lt;/strong&gt; has been
+     &lt;strong&gt;approved&lt;/strong&gt;.&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;strong&gt;Start Date:&lt;/strong&gt; {date_from}&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;End Date:&lt;/strong&gt; {date_to}&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;Approved By:&lt;/strong&gt; {approver_name}&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;p&gt;Your student status has been updated to
+     &lt;strong&gt;On Leave&lt;/strong&gt;. Please ensure you
      complete any pending coursework before your
-     leave period begins.</p>
-  <p>If you have questions, please contact the
-     registrar's office.</p>
-  <p>Regards,<br/>{institution_name}</p>
-</div>
-      ]]></field>
+     leave period begins.&lt;/p&gt;
+  &lt;p&gt;If you have questions, please contact the
+     registrar's office.&lt;/p&gt;
+  &lt;p&gt;Regards,&lt;br/&gt;{institution_name}&lt;/p&gt;
+&lt;/div&gt;</field>
       <field name="is_system_template" eval="True"/>
       <field name="is_active_trigger" eval="True"/>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-
     <!-- ========== LEAVE REQUEST APPROVED — WHATSAPP ========== -->
-
-    <record id="template_leave_approved_whatsapp"
-            model="unicore.notification.template">
-      <field name="name">
-        Leave Request Approved — WhatsApp
-      </field>
+    <record id="template_leave_approved_whatsapp" model="unicore.notification.template">
+      <field name="name">Leave Request Approved — WhatsApp</field>
       <field name="company_id" ref="base.main_company"/>
-      <field name="trigger_event">
-        leave_request_approved
-      </field>
+      <field name="trigger_event">leave_request_approved</field>
       <field name="channel">whatsapp</field>
       <field name="recipient_type">student</field>
-      <field name="whatsapp_body">
-        Leave Request Approved
+      <field name="whatsapp_body">Leave Request Approved
 
 Dear {student_name}, your leave request
 {request_reference} has been approved.
@@ -68,96 +49,67 @@ Dates: {date_from} to {date_to}
 Approved by: {approver_name}
 
 Your status has been updated to On Leave.
-— {institution_name}
-      </field>
+— {institution_name}</field>
       <field name="is_system_template" eval="True"/>
       <field name="is_active_trigger" eval="True"/>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-
     <!-- ========== LEAVE REQUEST APPROVED — IN-APP ========== -->
-
-    <record id="template_leave_approved_inapp"
-            model="unicore.notification.template">
-      <field name="name">
-        Leave Request Approved — In-App
-      </field>
+    <record id="template_leave_approved_inapp" model="unicore.notification.template">
+      <field name="name">Leave Request Approved — In-App</field>
       <field name="company_id" ref="base.main_company"/>
-      <field name="trigger_event">
-        leave_request_approved
-      </field>
+      <field name="trigger_event">leave_request_approved</field>
       <field name="channel">inapp</field>
       <field name="recipient_type">student</field>
-      <field name="inapp_body">
-        Leave request
+      <field name="inapp_body">Leave request
         &lt;strong&gt;{request_reference}&lt;/strong&gt;
         approved by {approver_name}.
-        Dates: {date_from} to {date_to}.
-      </field>
+        Dates: {date_from} to {date_to}.</field>
       <field name="is_system_template" eval="True"/>
       <field name="is_active_trigger" eval="True"/>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-
     <!-- ========== LEAVE REQUEST REJECTED — EMAIL ========== -->
-
-    <record id="template_leave_rejected_email"
-            model="unicore.notification.template">
-      <field name="name">
-        Leave Request Rejected — Email
-      </field>
+    <record id="template_leave_rejected_email" model="unicore.notification.template">
+      <field name="name">Leave Request Rejected — Email</field>
       <field name="company_id" ref="base.main_company"/>
-      <field name="trigger_event">
-        leave_request_rejected
-      </field>
+      <field name="trigger_event">leave_request_rejected</field>
       <field name="channel">email</field>
       <field name="recipient_type">student</field>
-      <field name="email_subject">
-        Leave Request Not Approved —
-        {request_reference}
-      </field>
-      <field name="email_body_html"><![CDATA[
-<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-  <h2 style="color: #e74c3c;">Leave Request Not Approved</h2>
-  <p>Dear {student_name},</p>
-  <p>Unfortunately, your leave request
-     <strong>{request_reference}</strong> has not
-     been approved.</p>
-  <ul>
-    <li><strong>Start Date:</strong> {date_from}</li>
-    <li><strong>End Date:</strong> {date_to}</li>
-    <li><strong>Reviewed By:</strong> {approver_name}</li>
-  </ul>
-  <p><strong>Notes:</strong> {approval_notes}</p>
-  <p>If you believe this decision was made in error,
+      <field name="email_subject">Leave Request Not Approved —
+        {request_reference}</field>
+      <field name="email_body_html">&lt;div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;"&gt;
+  &lt;h2 style="color: #e74c3c;"&gt;Leave Request Not Approved&lt;/h2&gt;
+  &lt;p&gt;Dear {student_name},&lt;/p&gt;
+  &lt;p&gt;Unfortunately, your leave request
+     &lt;strong&gt;{request_reference}&lt;/strong&gt; has not
+     been approved.&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;strong&gt;Start Date:&lt;/strong&gt; {date_from}&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;End Date:&lt;/strong&gt; {date_to}&lt;/li&gt;
+    &lt;li&gt;&lt;strong&gt;Reviewed By:&lt;/strong&gt; {approver_name}&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;p&gt;&lt;strong&gt;Notes:&lt;/strong&gt; {approval_notes}&lt;/p&gt;
+  &lt;p&gt;If you believe this decision was made in error,
      please contact the registrar's office for
-     further assistance.</p>
-  <p>Regards,<br/>{institution_name}</p>
-</div>
-      ]]></field>
+     further assistance.&lt;/p&gt;
+  &lt;p&gt;Regards,&lt;br/&gt;{institution_name}&lt;/p&gt;
+&lt;/div&gt;</field>
       <field name="is_system_template" eval="True"/>
       <field name="is_active_trigger" eval="True"/>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-
     <!-- ========== LEAVE REQUEST REJECTED — WHATSAPP ========== -->
-
-    <record id="template_leave_rejected_whatsapp"
-            model="unicore.notification.template">
-      <field name="name">
-        Leave Request Rejected — WhatsApp
-      </field>
+    <record id="template_leave_rejected_whatsapp" model="unicore.notification.template">
+      <field name="name">Leave Request Rejected — WhatsApp</field>
       <field name="company_id" ref="base.main_company"/>
-      <field name="trigger_event">
-        leave_request_rejected
-      </field>
+      <field name="trigger_event">leave_request_rejected</field>
       <field name="channel">whatsapp</field>
       <field name="recipient_type">student</field>
-      <field name="whatsapp_body">
-        Leave Request Update
+      <field name="whatsapp_body">Leave Request Update
 
 Dear {student_name}, your leave request
 {request_reference} has not been approved.
@@ -167,38 +119,27 @@ Notes: {approval_notes}
 
 Please contact the registrar's office if
 you have questions.
-— {institution_name}
-      </field>
+— {institution_name}</field>
       <field name="is_system_template" eval="True"/>
       <field name="is_active_trigger" eval="True"/>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-
     <!-- ========== LEAVE REQUEST REJECTED — IN-APP ========== -->
-
-    <record id="template_leave_rejected_inapp"
-            model="unicore.notification.template">
-      <field name="name">
-        Leave Request Rejected — In-App
-      </field>
+    <record id="template_leave_rejected_inapp" model="unicore.notification.template">
+      <field name="name">Leave Request Rejected — In-App</field>
       <field name="company_id" ref="base.main_company"/>
-      <field name="trigger_event">
-        leave_request_rejected
-      </field>
+      <field name="trigger_event">leave_request_rejected</field>
       <field name="channel">inapp</field>
       <field name="recipient_type">student</field>
-      <field name="inapp_body">
-        Leave request
+      <field name="inapp_body">Leave request
         &lt;strong&gt;{request_reference}&lt;/strong&gt;
         was not approved by {approver_name}.
-        Notes: {approval_notes}
-      </field>
+        Notes: {approval_notes}</field>
       <field name="is_system_template" eval="True"/>
       <field name="is_active_trigger" eval="True"/>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-
   </data>
 </odoo>

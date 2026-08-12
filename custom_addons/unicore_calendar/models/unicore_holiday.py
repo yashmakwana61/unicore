@@ -1,7 +1,5 @@
 import logging
 
-from datetime import date
-
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
@@ -111,7 +109,7 @@ class UnicoreHoliday(models.Model):
             if record.date_start and record.date_end:
                 if record.date_end < record.date_start:
                     raise ValidationError(
-                        _('End date must be on or after start date.')
+                        _('End date must be on or after start date.'),
                     )
 
     @api.constrains('date_start', 'date_end', 'academic_year_id')
@@ -121,11 +119,11 @@ class UnicoreHoliday(models.Model):
                 ay = record.academic_year_id
                 if record.date_start < ay.date_start:
                     raise ValidationError(
-                        _('Holiday start date cannot be before the academic year start date.')
+                        _('Holiday start date cannot be before the academic year start date.'),
                     )
                 if record.date_end > ay.date_end:
                     raise ValidationError(
-                        _('Holiday end date cannot be after the academic year end date.')
+                        _('Holiday end date cannot be after the academic year end date.'),
                     )
 
     @api.constrains('date_start', 'date_end', 'holiday_type', 'company_id')

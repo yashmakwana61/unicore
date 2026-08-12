@@ -4,9 +4,9 @@ Book catalogue with subject classification and
 individual copy tracking per accession number.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
 import logging
+
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -40,7 +40,7 @@ class UniCoreLibrarySubject(models.Model):
         Book = self.env['unicore.library.book']
         for rec in self:
             rec.book_count = Book.search_count([
-                ('subject_ids', 'in', [rec.id])
+                ('subject_ids', 'in', [rec.id]),
             ])
 
     _sql_constraints = [
@@ -123,7 +123,7 @@ class UniCoreLibraryBook(models.Model):
     def _compute_author_display(self):
         for rec in self:
             rec.author_display = ', '.join(
-                rec.author_ids.mapped('name')
+                rec.author_ids.mapped('name'),
             )
 
     # --- PUBLICATION ---
@@ -221,20 +221,20 @@ class UniCoreLibraryBook(models.Model):
     def _compute_copy_stats(self):
         for rec in self:
             copies = rec.copy_ids.filtered(
-                lambda c: c.copy_state != 'withdrawn'
+                lambda c: c.copy_state != 'withdrawn',
             )
             rec.total_copies = len(copies)
             rec.available_copies = len(
                 copies.filtered(
                     lambda c: c.copy_state
-                    == 'available'
-                )
+                    == 'available',
+                ),
             )
             rec.issued_copies = len(
                 copies.filtered(
                     lambda c: c.copy_state
-                    == 'issued'
-                )
+                    == 'issued',
+                ),
             )
 
     is_available = fields.Boolean(
@@ -391,7 +391,7 @@ class UniCoreLibraryBookCopy(models.Model):
             if not vals.get('accession_number'):
                 vals['accession_number'] = (
                     self.env['ir.sequence'].next_by_code(
-                        'unicore.library.book.copy'
+                        'unicore.library.book.copy',
                     ) or '/'
                 )
         return super().create(vals_list)

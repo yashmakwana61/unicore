@@ -19,7 +19,7 @@
         <field name="model">mailing.list</field>
         <field name="inherit_id" ref="mass_mailing.mailing_list_view_tree"/>
         <field name="arch" type="xml">
-            <xpath expr="//tree" position="inside">
+            <xpath expr="//list" position="inside">
                 <field name="unicore_alumni_list" invisible="1"/>
             </xpath>
         </field>

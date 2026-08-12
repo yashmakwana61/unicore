@@ -5,10 +5,11 @@ capacity tracking and compliance document monitoring
 (insurance, fitness certificate, permits).
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
-from datetime import date
 import logging
+from datetime import date
+
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -235,7 +236,7 @@ class UniCoreTransportVehicle(models.Model):
             if rec.seating_capacity < 1:
                 raise ValidationError(
                     _('Seating capacity must be '
-                      'at least 1.')
+                      'at least 1.'),
                 )
 
     def action_view_routes(self):

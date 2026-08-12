@@ -1,156 +1,125 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-
-    <!-- Window Action -->
-    <record id="action_unicore_semester" model="ir.actions.act_window">
-        <field name="name">Semesters</field>
-        <field name="res_model">unicore.semester</field>
-        <field name="view_mode">list,form</field>
-        <field name="domain">[]</field>
-        <field name="context">{}</field>
-    </record>
-
-    <!-- Form View -->
-    <record id="unicore_semester_form_view" model="ir.ui.view">
-        <field name="name">unicore.semester.form</field>
-        <field name="model">unicore.semester</field>
-        <field name="arch" type="xml">
-            <form>
-                <header>
-                    <field name="semester_state" widget="statusbar"
-                           statusbar_visible="draft,confirmed,registration,ongoing,exam,completed"/>
-                    <button name="action_confirm" type="object"
-                            string="Confirm" class="btn-primary"
-                            invisible="semester_state != 'draft'"/>
-                    <button name="action_open_registration" type="object"
-                            string="Open Registration"
-                            invisible="semester_state != 'confirmed'"/>
-                    <button name="action_start" type="object"
-                            string="Start Semester"
-                            invisible="semester_state != 'registration'"/>
-                    <button name="action_start_exam" type="object"
-                            string="Start Exam Period"
-                            invisible="semester_state != 'ongoing'"/>
-                    <button name="action_complete" type="object"
-                            string="Complete"
-                            invisible="semester_state != 'exam'"/>
-                    <button name="action_cancel" type="object"
-                            string="Cancel"
-                            groups="unicore_base.group_unicore_admin"
-                            invisible="semester_state in ('completed', 'cancelled')"/>
-                    <button name="action_reset_draft" type="object"
-                            string="Reset to Draft"
-                            groups="unicore_base.group_unicore_admin"
-                            invisible="semester_state != 'cancelled'"/>
-                    <button name="action_generate_weeks" type="object"
-                            string="Generate Weeks" icon="fa-calendar"
-                            invisible="semester_state == 'draft'"/>
-                </header>
-                <sheet>
-                    <div class="oe_button_box" name="button_box">
-                        <button name="action_open_weeks" type="object"
-                                class="oe_stat_button" icon="fa-calendar-week">
-                            <field string="Weeks" name="week_count" widget="statinfo"/>
-                        </button>
-                    </div>
-                    <group>
-                        <group name="left">
-                            <field name="name"/>
-                            <field name="code"/>
-                            <field name="academic_year_id" options="{'no_create': True}"/>
-                            <field name="company_id"/>
-                            <field name="semester_type"/>
-                            <field name="sequence"/>
-                            <field name="program_ids" widget="many2many_tags"/>
-                        </group>
-                        <group name="right">
-                            <field name="semester_state"/>
-                            <field name="is_current"/>
-                            <field name="date_start"/>
-                            <field name="date_end"/>
-                            <field name="total_days"/>
-                            <field name="week_count"/>
-                            <field name="teaching_weeks"/>
-                        </group>
-                    </group>
-                    <separator string="Key Dates"/>
-                    <group>
-                        <group>
-                            <field name="registration_start"/>
-                            <field name="registration_end"/>
-                            <field name="add_drop_end"/>
-                            <field name="withdrawal_end"/>
-                        </group>
-                        <group>
-                            <field name="exam_start"/>
-                            <field name="exam_end"/>
-                            <field name="result_declaration_date"/>
-                        </group>
-                    </group>
-                    <notebook>
-                        <page name="weeks" string="Academic Weeks">
-                            <field name="week_ids">
-                                <list editable="bottom">
-                                    <field name="week_number"/>
-                                    <field name="name"/>
-                                    <field name="date_start"/>
-                                    <field name="date_end"/>
-                                    <field name="week_type"/>
-                                    <field name="is_current"/>
-                                </list>
-                            </field>
-                        </page>
-                    </notebook>
-                </sheet>
-                <chatter/>
-            </form>
-        </field>
-    </record>
-
-    <!-- List View -->
-    <record id="unicore_semester_list_view" model="ir.ui.view">
-        <field name="name">unicore.semester.list</field>
-        <field name="model">unicore.semester</field>
-        <field name="arch" type="xml">
-            <list>
-                <field name="code"/>
-                <field name="name"/>
-                <field name="academic_year_id"/>
-                <field name="semester_type"/>
-                <field name="date_start"/>
-                <field name="date_end"/>
-                <field name="week_count"/>
-                <field name="is_current"/>
-                <field name="semester_state"/>
-            </list>
-        </field>
-    </record>
-
-    <!-- Search View -->
-    <record id="unicore_semester_search_view" model="ir.ui.view">
-        <field name="name">unicore.semester.search</field>
-        <field name="model">unicore.semester</field>
-        <field name="arch" type="xml">
-            <search>
-                <field name="name"/>
-                <field name="code"/>
-                <field name="academic_year_id"/>
-                <filter name="filter_current" string="Current Semester"
-                        domain="[('is_current', '=', True)]"/>
-                <filter name="filter_registration" string="Registration Open"
-                        domain="[('semester_state', '=', 'registration')]"/>
-                <filter name="filter_ongoing" string="Ongoing"
-                        domain="[('semester_state', '=', 'ongoing')]"/>
-                <group name="groupby">
-                    <filter name="groupby_academic_year" string="Academic Year"
-                            context="{'group_by': 'academic_year_id'}"/>
-                    <filter name="groupby_type" string="Semester Type"
-                            context="{'group_by': 'semester_type'}"/>
-                    <filter name="groupby_status" string="Status"
-                            context="{'group_by': 'semester_state'}"/>
-                </group>
-            </search>
-        </field>
-    </record>
-
+  <!-- Window Action -->
+  <record id="action_unicore_semester" model="ir.actions.act_window">
+    <field name="name">Semesters</field>
+    <field name="res_model">unicore.semester</field>
+    <field name="view_mode">list,form</field>
+    <field name="domain">[]</field>
+    <field name="context">{}</field>
+  </record>
+  <!-- Form View -->
+  <record id="unicore_semester_form_view" model="ir.ui.view">
+    <field name="name">unicore.semester.form</field>
+    <field name="model">unicore.semester</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+          <field name="semester_state" widget="statusbar" statusbar_visible="draft,confirmed,registration,ongoing,exam,completed"/>
+          <button name="action_confirm" type="object" string="Confirm" class="btn-primary" invisible="semester_state != 'draft'"/>
+          <button name="action_open_registration" type="object" string="Open Registration" invisible="semester_state != 'confirmed'"/>
+          <button name="action_start" type="object" string="Start Semester" invisible="semester_state != 'registration'"/>
+          <button name="action_start_exam" type="object" string="Start Exam Period" invisible="semester_state != 'ongoing'"/>
+          <button name="action_complete" type="object" string="Complete" invisible="semester_state != 'exam'"/>
+          <button name="action_cancel" type="object" string="Cancel" groups="unicore_base.group_unicore_admin" invisible="semester_state in ('completed', 'cancelled')"/>
+          <button name="action_reset_draft" type="object" string="Reset to Draft" groups="unicore_base.group_unicore_admin" invisible="semester_state != 'cancelled'"/>
+          <button name="action_generate_weeks" type="object" string="Generate Weeks" icon="fa-calendar" invisible="semester_state == 'draft'"/>
+        </header>
+        <sheet>
+          <div class="oe_button_box" name="button_box">
+            <button name="action_open_weeks" type="object" class="oe_stat_button" icon="fa-calendar-week">
+              <field string="Weeks" name="week_count" widget="statinfo"/>
+            </button>
+          </div>
+          <group>
+            <group name="left">
+              <field name="name"/>
+              <field name="code"/>
+              <field name="academic_year_id" options="{'no_create': True}"/>
+              <field name="company_id"/>
+              <field name="semester_type"/>
+              <field name="sequence"/>
+              <field name="program_ids" widget="many2many_tags"/>
+            </group>
+            <group name="right">
+              <field name="semester_state"/>
+              <field name="is_current"/>
+              <field name="date_start"/>
+              <field name="date_end"/>
+              <field name="total_days"/>
+              <field name="week_count"/>
+              <field name="teaching_weeks"/>
+            </group>
+          </group>
+          <separator string="Key Dates"/>
+          <group>
+            <group>
+              <field name="registration_start"/>
+              <field name="registration_end"/>
+              <field name="add_drop_end"/>
+              <field name="withdrawal_end"/>
+            </group>
+            <group>
+              <field name="exam_start"/>
+              <field name="exam_end"/>
+              <field name="result_declaration_date"/>
+            </group>
+          </group>
+          <notebook>
+            <page name="weeks" string="Academic Weeks">
+              <field name="week_ids">
+                <list editable="bottom">
+                  <field name="week_number"/>
+                  <field name="name"/>
+                  <field name="date_start"/>
+                  <field name="date_end"/>
+                  <field name="week_type"/>
+                  <field name="is_current"/>
+                </list>
+              </field>
+            </page>
+          </notebook>
+        </sheet>
+        <chatter/>
+      </form>
+    </field>
+  </record>
+  <!-- List View -->
+  <record id="unicore_semester_list_view" model="ir.ui.view">
+    <field name="name">unicore.semester.list</field>
+    <field name="model">unicore.semester</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="code"/>
+        <field name="name"/>
+        <field name="academic_year_id"/>
+        <field name="semester_type"/>
+        <field name="date_start"/>
+        <field name="date_end"/>
+        <field name="week_count"/>
+        <field name="is_current"/>
+        <field name="semester_state"/>
+      </list>
+    </field>
+  </record>
+  <!-- Search View -->
+  <record id="unicore_semester_search_view" model="ir.ui.view">
+    <field name="name">unicore.semester.search</field>
+    <field name="model">unicore.semester</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="name"/>
+        <field name="code"/>
+        <field name="academic_year_id"/>
+        <filter name="filter_current" string="Current Semester" domain="[('is_current', '=', True)]"/>
+        <filter name="filter_registration" string="Registration Open" domain="[('semester_state', '=', 'registration')]"/>
+        <filter name="filter_ongoing" string="Ongoing" domain="[('semester_state', '=', 'ongoing')]"/>
+        <group name="groupby">
+          <filter name="groupby_academic_year" string="Academic Year" context="{'group_by': 'academic_year_id'}"/>
+          <filter name="groupby_type" string="Semester Type" context="{'group_by': 'semester_type'}"/>
+          <filter name="groupby_status" string="Status" context="{'group_by': 'semester_state'}"/>
+        </group>
+      </search>
+    </field>
+  </record>
 </odoo>

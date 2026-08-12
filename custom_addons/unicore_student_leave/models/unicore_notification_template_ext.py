@@ -2,7 +2,7 @@
 Extends unicore.notification.template to add
 trigger events for student leave request workflows.
 """
-from odoo import models, _
+from odoo import models
 
 
 class UniCoreNotificationTemplateExtension(models.Model):
@@ -16,7 +16,7 @@ class UniCoreNotificationTemplateExtension(models.Model):
         # Get parent selection values
         current_selection = super()._selection_trigger_event(
         ) if hasattr(
-            models.Model, '_selection_trigger_event'
+            models.Model, '_selection_trigger_event',
         ) else []
 
         # If super() is not available or returns empty,

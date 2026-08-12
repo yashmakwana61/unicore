@@ -1,8 +1,6 @@
-import odoo
-import unittest
 from datetime import date, timedelta
 
-from odoo import fields
+import odoo
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import TransactionCase
 
@@ -102,7 +100,7 @@ class UniCoreStudentModelTest(TransactionCase):
 
         student_with_middle = self.env['unicore.student'].create(
             dict(self.student_vals, name='Alice', middle_name='Marie', last_name='Smith',
-                 email='alice@example.com', mobile='+911111111111')
+                 email='alice@example.com', mobile='+911111111111'),
         )
         self.assertEqual(student_with_middle.display_name, 'Alice Marie Smith')
 

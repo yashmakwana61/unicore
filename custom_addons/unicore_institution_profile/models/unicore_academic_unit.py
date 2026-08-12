@@ -33,5 +33,5 @@ class UnicoreAcademicUnit(models.Model):
                       unit_type=record.unit_type_id.name,
                       profile=profile.name,
                       allowed=', '.join(allowed.mapped('name')) or _('none'),
-                    )
+                    ),
                 )

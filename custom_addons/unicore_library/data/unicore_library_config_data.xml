@@ -1,95 +1,68 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <data noupdate="1">
-
     <!-- Sequences -->
-    <record id="seq_unicore_library_copy"
-            model="ir.sequence">
+    <record id="seq_unicore_library_copy" model="ir.sequence">
       <field name="name">Library Book Copy</field>
-      <field name="code">
-        unicore.library.book.copy
-      </field>
+      <field name="code">unicore.library.book.copy</field>
       <field name="prefix">ACC/</field>
       <field name="padding">6</field>
       <field name="number_next">1</field>
       <field name="number_increment">1</field>
       <field name="company_id" eval="False"/>
     </record>
-
-    <record id="seq_unicore_library_member"
-            model="ir.sequence">
+    <record id="seq_unicore_library_member" model="ir.sequence">
       <field name="name">Library Member</field>
-      <field name="code">
-        unicore.library.member
-      </field>
+      <field name="code">unicore.library.member</field>
       <field name="prefix">LIB/</field>
       <field name="padding">5</field>
       <field name="number_next">1</field>
       <field name="number_increment">1</field>
       <field name="company_id" eval="False"/>
     </record>
-
-    <record id="seq_unicore_library_issue"
-            model="ir.sequence">
+    <record id="seq_unicore_library_issue" model="ir.sequence">
       <field name="name">Library Issue</field>
-      <field name="code">
-        unicore.library.issue
-      </field>
+      <field name="code">unicore.library.issue</field>
       <field name="prefix">ISS/%(year)s/</field>
       <field name="padding">5</field>
       <field name="number_next">1</field>
       <field name="number_increment">1</field>
       <field name="company_id" eval="False"/>
     </record>
-
-    <record id="seq_unicore_library_reservation"
-            model="ir.sequence">
+    <record id="seq_unicore_library_reservation" model="ir.sequence">
       <field name="name">Library Reservation</field>
-      <field name="code">
-        unicore.library.reservation
-      </field>
+      <field name="code">unicore.library.reservation</field>
       <field name="prefix">RES/%(year)s/</field>
       <field name="padding">5</field>
       <field name="number_next">1</field>
       <field name="number_increment">1</field>
       <field name="company_id" eval="False"/>
     </record>
-
     <!-- Default Library Subjects -->
     <record id="subject_cs" model="unicore.library.subject">
       <field name="name">Computer Science</field>
       <field name="code">CS</field>
     </record>
-
     <record id="subject_math" model="unicore.library.subject">
       <field name="name">Mathematics</field>
       <field name="code">MATH</field>
     </record>
-
-    <record id="subject_management"
-            model="unicore.library.subject">
+    <record id="subject_management" model="unicore.library.subject">
       <field name="name">Management</field>
       <field name="code">MGMT</field>
     </record>
-
-    <record id="subject_electronics"
-            model="unicore.library.subject">
+    <record id="subject_electronics" model="unicore.library.subject">
       <field name="name">Electronics</field>
       <field name="code">EC</field>
     </record>
-
-    <record id="subject_english"
-            model="unicore.library.subject">
+    <record id="subject_english" model="unicore.library.subject">
       <field name="name">English Language</field>
       <field name="code">ENG</field>
     </record>
-
     <!-- Cron job for overdue tracking -->
-    <record id="cron_unicore_library_overdue"
-            model="ir.cron">
+    <record id="cron_unicore_library_overdue" model="ir.cron">
       <field name="name">UniCore Library: Check Overdue Books</field>
-      <field name="model_id"
-        ref="unicore_library.model_unicore_library_issue"/>
+      <field name="model_id" ref="unicore_library.model_unicore_library_issue"/>
       <field name="state">code</field>
       <field name="code">model.cron_update_overdue_status()</field>
       <field name="interval_number">1</field>
@@ -97,6 +70,5 @@
       <field name="active">True</field>
       <field name="user_id" ref="base.user_root"/>
     </record>
-
   </data>
 </odoo>

@@ -1,5 +1,4 @@
-import json
-from odoo import api, fields, models, _
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
@@ -18,7 +17,7 @@ class QuestionBank(models.Model):
         ('a', 'A'),
         ('b', 'B'),
         ('c', 'C'),
-        ('d', 'D')
+        ('d', 'D'),
     ], string='Correct Answer', required=True)
     company_id = fields.Many2one('res.company', string='Institution', default=lambda self: self.env.company)
 
@@ -36,15 +35,15 @@ class Quiz(models.Model):
         'unicore_quiz_question_rel',
         'quiz_id', 'question_id',
         string='Questions',
-        domain="[('company_id', 'in', [company_id, False])]"
+        domain="[('company_id', 'in', [company_id, False])]",
     )
     time_limit = fields.Integer(string='Time Limit (Minutes)', required=True, default=15)
     state = fields.Selection([
         ('draft', 'Draft'),
         ('active', 'Active'),
-        ('closed', 'Closed')
+        ('closed', 'Closed'),
     ], string='Status', default='draft', required=True, tracking=True)
-    
+
     def action_activate(self):
         if not self.question_ids:
             raise ValidationError(_('Please add at least one question to activate the quiz.'))
@@ -83,7 +82,7 @@ class QuizAttempt(models.Model):
     tab_switches = fields.Integer(string='Tab Switches (Anti-Cheating)', default=0)
     state = fields.Selection([
         ('in_progress', 'In Progress'),
-        ('submitted', 'Submitted')
+        ('submitted', 'Submitted'),
     ], string='Status', default='in_progress', required=True)
 
     @api.constrains('student_id', 'quiz_id')
@@ -92,7 +91,7 @@ class QuizAttempt(models.Model):
             existing = self.search([
                 ('student_id', '=', rec.student_id.id),
                 ('quiz_id', '=', rec.quiz_id.id),
-                ('id', '!=', rec.id)
+                ('id', '!=', rec.id),
             ])
             if existing:
                 raise ValidationError(_('A student can only attempt a quiz once.'))
@@ -102,17 +101,17 @@ class QuizAttempt(models.Model):
         attempt = self.browse(attempt_id)
         if not attempt or attempt.state == 'submitted':
             return False
-            
+
         score = 0
         total = len(attempt.quiz_id.question_ids)
         for question in attempt.quiz_id.question_ids:
             # answers dictionary contains question_id as key and answer selection (a/b/c/d) as value
             if answers.get(str(question.id)) == question.correct_answer:
                 score += 1
-                
+
         attempt.write({
             'score': (score / total) * 100 if total > 0 else 0,
             'tab_switches': tab_switches,
-            'state': 'submitted'
+            'state': 'submitted',
         })
         return True

@@ -39,7 +39,7 @@ class TestSessionInfo(HttpCase):
         """Return the session info payload for a freshly authenticated login."""
         self.authenticate(login, login)
         return self.make_jsonrpc_request(
-            '/web/session/get_session_info', {}, timeout=120
+            '/web/session/get_session_info', {}, timeout=120,
         )
 
     # ----------------------------------------------------------

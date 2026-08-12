@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 UniCore Asset Request Model
 Equipment/facility request and approval workflow.
@@ -6,10 +5,11 @@ Faculty and staff submit requests for assets; administrators
 review and approve/reject; once approved, the request is
 fulfilled (equipment delivered or booked).
 """
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError
-from datetime import date
 import logging
+from datetime import date
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -168,7 +168,7 @@ class UniCoreAssetRequest(models.Model):
         for vals in vals_list:
             if vals.get('name', '/') == '/':
                 vals['name'] = self.env['ir.sequence'].next_by_code(
-                    'unicore.asset.request'
+                    'unicore.asset.request',
                 ) or '/'
         return super().create(vals_list)
 

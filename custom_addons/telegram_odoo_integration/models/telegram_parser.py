@@ -16,7 +16,7 @@ from decimal import Decimal, InvalidOperation
 ITEM_RE = re.compile(
     r'^\s*(?P<name>(?:(?!\s+[Qq]ty\b).)+)'
     r'\s+[Qq]ty\s*[:=]\s*(?P<qty>\d+(?:[.,]\d+)?)'
-    r'\s+[Pp]rice\s*[:=]\s*(?P<price>\d+(?:[.,]\d+)?)\s*$'
+    r'\s+[Pp]rice\s*[:=]\s*(?P<price>\d+(?:[.,]\d+)?)\s*$',
 )
 
 # Optional leading "Order:" keyword (case-insensitive).

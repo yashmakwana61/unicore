@@ -5,8 +5,9 @@ course offering form so faculty can jump straight into the
 assignments created for a specific offering.
 """
 
-from odoo import api, fields, models, _
 import logging
+
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -42,14 +43,14 @@ class UniCoreCourseOfferingAssignmentExt(models.Model):
             rec.assignment_count = len(rec.assignment_ids)
             rec.published_assignment_count = len(
                 rec.assignment_ids.filtered(
-                    lambda a: a.assignment_state == 'published'
-                )
+                    lambda a: a.assignment_state == 'published',
+                ),
             )
             rec.open_assignment_count = len(
                 rec.assignment_ids.filtered(
                     lambda a: a.assignment_state in
-                    ('published',)
-                )
+                    ('published',),
+                ),
             )
 
     @api.depends('assignment_ids.submission_ids')

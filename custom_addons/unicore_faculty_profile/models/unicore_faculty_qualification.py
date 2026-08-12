@@ -67,5 +67,5 @@ class FacultyQualification(models.Model):
                 ])
                 if existing:
                     raise ValidationError(_(
-                        'Only one qualification per faculty member can be marked as highest.'
+                        'Only one qualification per faculty member can be marked as highest.',
                     ))

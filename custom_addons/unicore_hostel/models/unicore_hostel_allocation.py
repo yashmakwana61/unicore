@@ -5,10 +5,11 @@ an academic year. Tracks check-in, check-out,
 hostel fees and room condition.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
-from datetime import date
 import logging
+from datetime import date
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -176,7 +177,7 @@ class UniCoreHostelAllocation(models.Model):
                         + rec.expected_checkout.month
                         - rec.expected_checkin.month
                         + 1
-                    )
+                    ),
                 )
                 rec.total_hostel_fee = (
                     rec.monthly_rent * months
@@ -228,7 +229,7 @@ class UniCoreHostelAllocation(models.Model):
                 rec.security_deposit_refund = max(
                     0.0,
                     rec.security_deposit
-                    - rec.damage_charges
+                    - rec.damage_charges,
                 )
             else:
                 rec.security_deposit_refund = 0.0
@@ -286,13 +287,13 @@ class UniCoreHostelAllocation(models.Model):
                     and student.gender == 'female'):
                 raise ValidationError(
                     _('Female students cannot be '
-                      'allocated to a Boys hostel.')
+                      'allocated to a Boys hostel.'),
                 )
             if (block.gender_type == 'female'
                     and student.gender == 'male'):
                 raise ValidationError(
                     _('Male students cannot be '
-                      'allocated to a Girls hostel.')
+                      'allocated to a Girls hostel.'),
                 )
 
     @api.constrains('room_id')
@@ -303,7 +304,7 @@ class UniCoreHostelAllocation(models.Model):
                 raise ValidationError(
                     _('Room %s is already at full '
                       'capacity.')
-                    % room.room_number
+                    % room.room_number,
                 )
 
     @api.model_create_multi
@@ -312,7 +313,7 @@ class UniCoreHostelAllocation(models.Model):
             if not vals.get('allocation_number'):
                 vals['allocation_number'] = (
                     self.env['ir.sequence'].next_by_code(
-                        'unicore.hostel.allocation'
+                        'unicore.hostel.allocation',
                     ) or '/'
                 )
         return super().create(vals_list)
@@ -322,7 +323,7 @@ class UniCoreHostelAllocation(models.Model):
         if self.allocation_state != 'allocated':
             raise UserError(
                 _('Only allocated rooms can be '
-                  'checked in.')
+                  'checked in.'),
             )
         self.write({
             'allocation_state': 'checked_in',
@@ -337,7 +338,7 @@ class UniCoreHostelAllocation(models.Model):
                      self.room_id.room_number,
                      self.block_id.name,
                      date.today(),
-                 )
+                 ),
         )
 
     def action_checkout(self):
@@ -345,7 +346,7 @@ class UniCoreHostelAllocation(models.Model):
         if self.allocation_state != 'checked_in':
             raise UserError(
                 _('Only checked-in students can '
-                  'check out.')
+                  'check out.'),
             )
         self.write({
             'allocation_state': 'checked_out',
@@ -360,7 +361,7 @@ class UniCoreHostelAllocation(models.Model):
                      self.room_id.room_number,
                      date.today(),
                      self.security_deposit_refund,
-                 )
+                 ),
         )
 
     def action_cancel(self):
@@ -368,14 +369,14 @@ class UniCoreHostelAllocation(models.Model):
         if self.allocation_state == 'checked_in':
             raise UserError(
                 _('Cannot cancel a checked-in '
-                  'allocation. Please check out first.')
+                  'allocation. Please check out first.'),
             )
         self.write({
             'allocation_state': 'cancelled',
         })
         self._update_room_state()
         self.message_post(
-            body=_('Allocation cancelled.')
+            body=_('Allocation cancelled.'),
         )
 
     def _update_room_state(self):

@@ -2,14 +2,14 @@ from odoo import http
 from odoo.http import request
 
 from odoo.addons.unicore_api.controllers.common import (
-    api_response,
-    api_error,
-    validate_api_key,
+    _check_body_size,
     _require_scope,
     _safe_call,
     _validate_int_param,
     _validate_str_param,
-    _check_body_size,
+    api_error,
+    api_response,
+    validate_api_key,
 )
 
 VALID_STUDENT_STATES = [
@@ -87,7 +87,7 @@ class UniCoreApiStudents(http.Controller):
             )
 
         students = request.env['unicore.student'].sudo().search(
-            domain, offset=offset, limit=limit, order='name'
+            domain, offset=offset, limit=limit, order='name',
         )
         total = request.env['unicore.student'].sudo().search_count(domain)
         return api_response(

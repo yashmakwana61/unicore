@@ -1,6 +1,8 @@
 """UniCore Analytics — Models Package"""
-from . import unicore_student_analytics
-from . import unicore_academic_analytics
-from . import unicore_financial_analytics
-from . import unicore_admission_analytics
-from . import admission_dashboard
+from . import (
+    admission_dashboard,
+    unicore_academic_analytics,
+    unicore_admission_analytics,
+    unicore_financial_analytics,
+    unicore_student_analytics,
+)

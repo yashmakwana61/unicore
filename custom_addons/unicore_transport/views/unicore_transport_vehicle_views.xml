@@ -1,47 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-
-  <record id="view_unicore_transport_vehicle_form"
-          model="ir.ui.view">
+  <record id="view_unicore_transport_vehicle_form" model="ir.ui.view">
     <field name="name">unicore.transport.vehicle.form</field>
     <field name="model">unicore.transport.vehicle</field>
     <field name="arch" type="xml">
       <form>
         <header>
-          <field name="vehicle_state"
-            widget="statusbar"
-            statusbar_visible="active,maintenance"/>
+          <field name="vehicle_state" widget="statusbar" statusbar_visible="active,maintenance"/>
         </header>
         <sheet>
-          <widget name="web_ribbon"
-            title="Maintenance"
-            invisible="vehicle_state != 'maintenance'"
-            bg_color="text-bg-warning"/>
-          <widget name="web_ribbon"
-            title="Retired"
-            invisible="vehicle_state != 'retired'"
-            bg_color="text-bg-secondary"/>
-          <widget name="web_ribbon"
-            title="Insurance Expiring"
-            invisible="not is_insurance_expiring"
-            bg_color="text-bg-danger"/>
-          <div class="oe_button_box"
-               name="button_box">
-            <button class="oe_stat_button"
-                    icon="fa-road"
-                    type="object"
-                    name="action_view_routes">
-              <field name="route_count"
-                     widget="statinfo"
-                     string="Routes"/>
+          <widget name="web_ribbon" title="Maintenance" invisible="vehicle_state != 'maintenance'" bg_color="text-bg-warning"/>
+          <widget name="web_ribbon" title="Retired" invisible="vehicle_state != 'retired'" bg_color="text-bg-secondary"/>
+          <widget name="web_ribbon" title="Insurance Expiring" invisible="not is_insurance_expiring" bg_color="text-bg-danger"/>
+          <div class="oe_button_box" name="button_box">
+            <button class="oe_stat_button" icon="fa-road" type="object" name="action_view_routes">
+              <field name="route_count" widget="statinfo" string="Routes"/>
             </button>
-            <button class="oe_stat_button"
-                    icon="fa-ticket"
-                    type="object"
-                    name="action_view_passes">
-              <field name="current_pass_count"
-                     widget="statinfo"
-                     string="Active Passes"/>
+            <button class="oe_stat_button" icon="fa-ticket" type="object" name="action_view_passes">
+              <field name="current_pass_count" widget="statinfo" string="Active Passes"/>
             </button>
           </div>
           <group>
@@ -70,11 +46,9 @@
             <group>
               <field name="insurance_policy"/>
               <field name="insurance_expiry"/>
-              <field name="days_to_insurance_expiry"
-                     readonly="1"/>
+              <field name="days_to_insurance_expiry" readonly="1"/>
               <field name="fitness_expiry"/>
-              <field name="days_to_fitness_expiry"
-                     readonly="1"/>
+              <field name="days_to_fitness_expiry" readonly="1"/>
             </group>
             <group>
               <field name="permit_expiry"/>
@@ -89,21 +63,11 @@
       </form>
     </field>
   </record>
-
-  <record id="view_unicore_transport_vehicle_list"
-          model="ir.ui.view">
+  <record id="view_unicore_transport_vehicle_list" model="ir.ui.view">
     <field name="name">unicore.transport.vehicle.list</field>
     <field name="model">unicore.transport.vehicle</field>
     <field name="arch" type="xml">
-      <list decoration-success=
-              "vehicle_state == 'active'"
-            decoration-warning=
-              "vehicle_state == 'maintenance'
-              or is_insurance_expiring
-              or is_fitness_expiring"
-            decoration-muted=
-              "vehicle_state in
-              ('retired','breakdown')">
+      <list decoration-success="vehicle_state == 'active'" decoration-warning="vehicle_state == 'maintenance'               or is_insurance_expiring               or is_fitness_expiring" decoration-muted="vehicle_state in               ('retired','breakdown')">
         <field name="name"/>
         <field name="registration_number"/>
         <field name="vehicle_type"/>
@@ -117,25 +81,16 @@
       </list>
     </field>
   </record>
-
-  <record id="action_unicore_transport_vehicle"
-          model="ir.actions.act_window">
+  <record id="action_unicore_transport_vehicle" model="ir.actions.act_window">
     <field name="name">Vehicles</field>
     <field name="res_model">unicore.transport.vehicle</field>
     <field name="view_mode">list,form</field>
   </record>
-
-  <record id="action_unicore_transport_vehicle_expiring"
-          model="ir.actions.act_window">
+  <record id="action_unicore_transport_vehicle_expiring" model="ir.actions.act_window">
     <field name="name">Expiring Documents</field>
     <field name="res_model">unicore.transport.vehicle</field>
     <field name="view_mode">list,form</field>
-    <field name="domain">
-      [('vehicle_state','=','active')]
-    </field>
-    <field name="context">
-      {'search_default_expiring': 1}
-    </field>
+    <field name="domain">[('vehicle_state','=','active')]</field>
+    <field name="context">{'search_default_expiring': 1}</field>
   </record>
-
 </odoo>

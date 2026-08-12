@@ -1,4 +1,4 @@
-from odoo import api, fields, models, _
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -231,7 +231,7 @@ class UniCoreDocument(models.Model):
             'attachment_ids': [],
         })
         self.message_post(
-            body=_('New version v%d created: %s') % (new_doc.version, new_doc.name)
+            body=_('New version v%d created: %s') % (new_doc.version, new_doc.name),
         )
         return {
             'type': 'ir.actions.act_window',

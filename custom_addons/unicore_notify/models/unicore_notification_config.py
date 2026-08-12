@@ -5,9 +5,10 @@ Stores WhatsApp API credentials, email defaults
 and global notification preferences.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -130,12 +131,12 @@ class UniCoreNotificationConfig(models.Model):
             if rec.fee_reminder_days_before < 0:
                 raise ValidationError(
                     _('Fee reminder days cannot '
-                      'be negative.')
+                      'be negative.'),
                 )
             if rec.exam_reminder_days_before < 0:
                 raise ValidationError(
                     _('Exam reminder days cannot '
-                      'be negative.')
+                      'be negative.'),
                 )
 
     def action_test_whatsapp(self):
@@ -146,17 +147,17 @@ class UniCoreNotificationConfig(models.Model):
         self.ensure_one()
         if not self.whatsapp_enabled:
             raise UserError(
-                _('WhatsApp is not enabled.')
+                _('WhatsApp is not enabled.'),
             )
         if not self.whatsapp_phone_number_id:
             raise UserError(
                 _('Please configure WhatsApp '
-                  'Phone Number ID.')
+                  'Phone Number ID.'),
             )
         if not self.whatsapp_access_token:
             raise UserError(
                 _('Please configure WhatsApp '
-                  'Access Token.')
+                  'Access Token.'),
             )
         Engine = self.env['unicore.notification.engine']
         result = Engine._test_whatsapp_connection(self)
@@ -168,16 +169,15 @@ class UniCoreNotificationConfig(models.Model):
                     'title': _('WhatsApp Connection OK'),
                     'message': _(
                         'WhatsApp API connection '
-                        'successful.'
+                        'successful.',
                     ),
                     'type': 'success',
                 },
             }
-        else:
-            raise UserError(
-                _('WhatsApp API connection failed. '
-                  'Check your credentials and URL.')
-            )
+        raise UserError(
+            _('WhatsApp API connection failed. '
+              'Check your credentials and URL.'),
+        )
 
     @api.model
     def get_config_for_company(self, company_id):

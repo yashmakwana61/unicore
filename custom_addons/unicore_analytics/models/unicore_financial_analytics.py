@@ -4,9 +4,10 @@ PostgreSQL VIEW-based models for fee collection
 trends and financial performance analytics.
 """
 
+import logging
+
 from odoo import fields, models, tools
 from odoo.orm.fields_misc import Id
-import logging
 
 _logger = logging.getLogger(__name__)
 
@@ -69,7 +70,7 @@ class UniCoreFeeCollectionReport(models.Model):
     def init(self):
         tools.drop_view_if_exists(
             self.env.cr,
-            'unicore_fee_collection_report'
+            'unicore_fee_collection_report',
         )
         self.env.cr.execute("""
             CREATE OR REPLACE VIEW
@@ -150,7 +151,7 @@ class UniCorePaymentMethodReport(models.Model):
     def init(self):
         tools.drop_view_if_exists(
             self.env.cr,
-            'unicore_payment_method_report'
+            'unicore_payment_method_report',
         )
         self.env.cr.execute("""
             CREATE OR REPLACE VIEW

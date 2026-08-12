@@ -1,5 +1,7 @@
-from . import unicore_faculty_member
-from . import unicore_faculty_qualification
-from . import unicore_faculty_publication
-from . import unicore_faculty_workload
-from . import unicore_staff_member
+from . import (
+    unicore_faculty_member,
+    unicore_faculty_publication,
+    unicore_faculty_qualification,
+    unicore_faculty_workload,
+    unicore_staff_member,
+)

@@ -73,7 +73,7 @@ class AdmissionCycle(models.Model):
             ):
                 if weight is not None and (weight < 0 or weight > 100):
                     raise ValidationError(
-                        _('%s must be between 0 and 100.') % label
+                        _('%s must be between 0 and 100.') % label,
                     )
             total = (
                 (record.weight_aggregate or 0) +
@@ -83,7 +83,7 @@ class AdmissionCycle(models.Model):
             if abs(total - 100.0) > 1e-6:
                 raise ValidationError(_(
                     'Scoring weights must add up to 100%% (currently %.1f%%).'
-                    % total
+                    % total,
                 ))
 
     @api.depends('seat_ids')
@@ -132,11 +132,11 @@ class AdmissionCycle(models.Model):
                         seat.program_id.name,
                         len(to_merit),
                         len(eligible) - len(to_merit),
-                    )
+                    ),
                 )
             if summary:
                 record.message_post(
-                    body=_('Merit list generated.<br/>- %s') % '<br/>- '.join(summary)
+                    body=_('Merit list generated.<br/>- %s') % '<br/>- '.join(summary),
                 )
 
     def action_close(self):
@@ -211,7 +211,7 @@ class AdmissionCycleSeat(models.Model):
         for record in self:
             if record.reserved_seats > record.total_seats:
                 raise ValidationError(
-                    _('Reserved seats cannot exceed total seats for %s.') % record.program_id.name
+                    _('Reserved seats cannot exceed total seats for %s.') % record.program_id.name,
                 )
 
     _sql_constraints = [

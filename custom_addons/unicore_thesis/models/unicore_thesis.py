@@ -1,5 +1,4 @@
-from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError
+from odoo import api, fields, models
 
 
 class Thesis(models.Model):
@@ -38,7 +37,7 @@ class Thesis(models.Model):
         ('submitted', 'Final Submission'),
         ('defended', 'Defended'),
         ('approved', 'Approved'),
-        ('rejected', 'Rejected')
+        ('rejected', 'Rejected'),
     ], string='Status', default='proposal', required=True, tracking=True)
     review_ids = fields.One2many(
         'unicore.thesis.review',
@@ -85,7 +84,7 @@ class ThesisReview(models.Model):
     decision = fields.Selection([
         ('approve', 'Recommend Approval'),
         ('revise', 'Needs Revision'),
-        ('reject', 'Recommend Rejection')
+        ('reject', 'Recommend Rejection'),
     ], string='Decision', required=True)
 
     name = fields.Char(

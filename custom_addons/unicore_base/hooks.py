@@ -1,10 +1,9 @@
-from odoo import _
 
 
 def post_init_hook(env):
     """Add admin users to the UniCore admin group after installation."""
     group_unicore_admin = env.ref(
-        'unicore_base.group_unicore_admin', raise_if_not_found=False
+        'unicore_base.group_unicore_admin', raise_if_not_found=False,
     )
     if not group_unicore_admin:
         return

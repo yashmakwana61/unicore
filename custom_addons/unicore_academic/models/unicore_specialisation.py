@@ -87,5 +87,5 @@ class UnicoreSpecialisation(models.Model):
                 ])
                 if existing:
                     raise ValidationError(
-                        _('Only one default specialisation is allowed per program.')
+                        _('Only one default specialisation is allowed per program.'),
                     )

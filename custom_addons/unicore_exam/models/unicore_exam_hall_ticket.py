@@ -8,9 +8,10 @@ Approved hall tickets feed into the seating plan.
 Each ticket has a unique auto-generated ticket number.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -38,7 +39,7 @@ class UniCoreExamHallTicket(models.Model):
             )
             if student_name:
                 rec.display_name = '%s - %s' % (
-                    rec.ticket_number, student_name
+                    rec.ticket_number, student_name,
                 )
             else:
                 rec.display_name = rec.ticket_number or ''
@@ -186,7 +187,7 @@ class UniCoreExamHallTicket(models.Model):
                     raise UserError(
                         _('Student "%s" is ineligible: %s\n\n'
                           'Use Override Approval to proceed despite ineligibility.')
-                        % (rec.student_id.display_name, rec.eligibility_note)
+                        % (rec.student_id.display_name, rec.eligibility_note),
                     )
                 rec.ticket_state = 'approved'
                 rec.message_post(body=_('Hall ticket approved.'))
@@ -203,7 +204,7 @@ class UniCoreExamHallTicket(models.Model):
             })
             rec.message_post(
                 body=_('Hall ticket override-approved by %s despite ineligibility.')
-                % self.env.user.name
+                % self.env.user.name,
             )
 
     def action_block(self):
@@ -224,10 +225,10 @@ class UniCoreExamHallTicket(models.Model):
 
     def action_approve_all_eligible(self):
         eligible_draft = self.filtered(
-            lambda t: t.ticket_state == 'draft' and t.eligibility_status == 'eligible'
+            lambda t: t.ticket_state == 'draft' and t.eligibility_status == 'eligible',
         )
         for rec in eligible_draft:
             rec.ticket_state = 'approved'
         self.exam_schedule_id[:1].message_post(
-            body=_('%d eligible tickets approved in batch.') % len(eligible_draft)
+            body=_('%d eligible tickets approved in batch.') % len(eligible_draft),
         )

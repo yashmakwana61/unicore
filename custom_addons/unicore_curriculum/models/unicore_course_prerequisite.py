@@ -5,9 +5,10 @@ A prerequisite is a course that must be completed
 before a student can enroll in another course.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -42,7 +43,7 @@ class UniCoreCoursePrerequisite(models.Model):
         string='Course',
         required=True,
         ondelete='cascade',
-        index=True
+        index=True,
     )
     prerequisite_course_id = fields.Many2one(
         comodel_name='unicore.course',
@@ -50,14 +51,14 @@ class UniCoreCoursePrerequisite(models.Model):
         required=True,
         ondelete='restrict',
         index=True,
-        help='This course must be completed before enrolling in the parent course'
+        help='This course must be completed before enrolling in the parent course',
     )
     company_id = fields.Many2one(
         comodel_name='res.company',
         string='Institution',
         related='course_id.company_id',
         store=True,
-        readonly=True
+        readonly=True,
     )
     prerequisite_type = fields.Selection(
         selection=[
@@ -70,14 +71,14 @@ class UniCoreCoursePrerequisite(models.Model):
         default='mandatory',
         help='Mandatory: must pass before enrolling. '
              'Recommended: advised but not enforced. '
-             'Co-Requisite: must be taken simultaneously.'
+             'Co-Requisite: must be taken simultaneously.',
     )
     minimum_grade = fields.Char(
         string='Minimum Grade Required',
-        help='e.g. C, 50%, Pass — leave empty for any pass'
+        help='e.g. C, 50%, Pass — leave empty for any pass',
     )
     notes = fields.Text(
-        string='Notes'
+        string='Notes',
     )
 
     # ------- SQL CONSTRAINTS -------
@@ -97,7 +98,7 @@ class UniCoreCoursePrerequisite(models.Model):
         for rec in self:
             if rec.course_id == rec.prerequisite_course_id:
                 raise ValidationError(
-                    _('A course cannot be its own prerequisite.')
+                    _('A course cannot be its own prerequisite.'),
                 )
 
     @api.constrains('course_id', 'prerequisite_course_id')
@@ -105,14 +106,14 @@ class UniCoreCoursePrerequisite(models.Model):
         for rec in self:
             if self._has_circular_dependency(
                 rec.course_id,
-                rec.prerequisite_course_id
+                rec.prerequisite_course_id,
             ):
                 raise ValidationError(
                     _('Circular prerequisite detected. '
                       'Course "%s" is already a prerequisite '
                       'of "%s".')
                     % (rec.course_id.name,
-                       rec.prerequisite_course_id.name)
+                       rec.prerequisite_course_id.name),
                 )
 
     def _has_circular_dependency(self, target_course, check_course):
@@ -129,7 +130,7 @@ class UniCoreCoursePrerequisite(models.Model):
                 return True
             if self._has_circular_dependency(
                 target_course,
-                prereq.prerequisite_course_id
+                prereq.prerequisite_course_id,
             ):
                 return True
         return False

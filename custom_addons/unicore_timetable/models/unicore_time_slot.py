@@ -6,10 +6,10 @@ the institution. Time slots are day-agnostic templates
 a day-of-week in unicore.timetable.entry to form
 an actual scheduled class.
 """
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
-from datetime import datetime, timedelta
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -102,7 +102,7 @@ class UniCoreTimeSlot(models.Model):
         for rec in self:
             if rec.end_time > rec.start_time:
                 rec.duration_minutes = int(
-                    (rec.end_time - rec.start_time) * 60
+                    (rec.end_time - rec.start_time) * 60,
                 )
             else:
                 rec.duration_minutes = 0
@@ -118,7 +118,7 @@ class UniCoreTimeSlot(models.Model):
             start_str = rec._float_to_time_str(rec.start_time)
             end_str = rec._float_to_time_str(rec.end_time)
             rec.display_label = '%s (%s - %s)' % (
-                rec.name, start_str, end_str
+                rec.name, start_str, end_str,
             )
 
     def _float_to_time_str(self, float_hour):
@@ -132,7 +132,7 @@ class UniCoreTimeSlot(models.Model):
             hours - 12 if hours > 12 else 12
         )
         return '%02d:%02d %s' % (
-            display_hour, minutes, period
+            display_hour, minutes, period,
         )
 
     _sql_constraints = [
@@ -148,15 +148,15 @@ class UniCoreTimeSlot(models.Model):
         for rec in self:
             if rec.start_time < 0 or rec.start_time >= 24:
                 raise ValidationError(
-                    _('Start time must be between 00:00 and 23:59.')
+                    _('Start time must be between 00:00 and 23:59.'),
                 )
             if rec.end_time <= 0 or rec.end_time > 24:
                 raise ValidationError(
-                    _('End time must be between 00:01 and 24:00.')
+                    _('End time must be between 00:01 and 24:00.'),
                 )
             if rec.end_time <= rec.start_time:
                 raise ValidationError(
-                    _('End time must be after start time.')
+                    _('End time must be after start time.'),
                 )
 
     @api.constrains('start_time', 'end_time', 'campus_id', 'company_id')
@@ -168,7 +168,7 @@ class UniCoreTimeSlot(models.Model):
             ]
             if rec.campus_id:
                 domain.append(
-                    ('campus_id', 'in', [rec.campus_id.id, False])
+                    ('campus_id', 'in', [rec.campus_id.id, False]),
                 )
             else:
                 domain.append(('campus_id', '=', False))
@@ -180,5 +180,5 @@ class UniCoreTimeSlot(models.Model):
                         _('Time slot "%s" (%s-%s) overlaps with existing '
                           'slot "%s" (%s-%s).')
                         % (rec.name, rec.start_time, rec.end_time,
-                           other.name, other.start_time, other.end_time)
+                           other.name, other.start_time, other.end_time),
                     )

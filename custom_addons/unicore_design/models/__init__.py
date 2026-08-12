@@ -1,5 +1,1 @@
-# -*- coding: utf-8 -*-
-from . import res_company
-from . import res_users
-from . import ir_http
-from . import res_config_settings
+from . import ir_http, res_company, res_config_settings, res_users

@@ -7,10 +7,11 @@ across all teaching dates in the semester date range,
 automatically excluding holiday dates.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError
-from datetime import date, timedelta
 import logging
+from datetime import timedelta
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -139,11 +140,10 @@ class UniCoreGenerateSessionsWizard(models.TransientModel):
                 if existing:
                     if skip_existing:
                         continue
-                    else:
-                        raise UserError(
-                            _('Session already exists for entry "%s" on %s. Enable Skip Existing to ignore duplicates.')
-                            % (entry.display_name, teaching_date)
-                        )
+                    raise UserError(
+                        _('Session already exists for entry "%s" on %s. Enable Skip Existing to ignore duplicates.')
+                        % (entry.display_name, teaching_date),
+                    )
                 Session.create({
                     'timetable_entry_id': entry.id,
                     'session_date': teaching_date,
@@ -163,7 +163,7 @@ class UniCoreGenerateSessionsWizard(models.TransientModel):
                         ('entry_state', '=', 'confirmed'),
                     ])
                     holiday_dates = rec._get_holiday_dates(
-                        rec.course_offering_id.semester_id
+                        rec.course_offering_id.semester_id,
                     )
                     count = 0
                     for entry in entries:
@@ -182,7 +182,7 @@ class UniCoreGenerateSessionsWizard(models.TransientModel):
         if self.generation_mode == 'offering':
             if not self.course_offering_id:
                 raise UserError(
-                    _('Please select a course offering.')
+                    _('Please select a course offering.'),
                 )
             total_created = self._generate_for_offering(
                 self.course_offering_id,
@@ -191,7 +191,7 @@ class UniCoreGenerateSessionsWizard(models.TransientModel):
         elif self.generation_mode == 'semester':
             if not self.semester_id:
                 raise UserError(
-                    _('Please select a semester.')
+                    _('Please select a semester.'),
                 )
             Offering = self.env['unicore.course.offering']
             offerings = Offering.search([
@@ -201,7 +201,7 @@ class UniCoreGenerateSessionsWizard(models.TransientModel):
             ])
             if not offerings:
                 raise UserError(
-                    _('No open or ongoing course offerings found for the selected semester.')
+                    _('No open or ongoing course offerings found for the selected semester.'),
                 )
             for offering in offerings:
                 total_created += self._generate_for_offering(offering, self.skip_existing)

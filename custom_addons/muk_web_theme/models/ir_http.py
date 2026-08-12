@@ -22,6 +22,6 @@ class IrHttp(models.AbstractModel):
                     entry.update(
                         {
                             'has_background_image': bool(company.background_image),
-                        }
+                        },
                     )
         return result

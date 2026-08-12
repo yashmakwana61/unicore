@@ -7,7 +7,7 @@
     """,
     'version': '19.0.1.0.11',
     'category': 'Tools/UI',
-    'license': 'LGPL-3',
+    'license': 'OPL-1',
     'author': 'MuK IT',
     'website': 'http://www.mukit.at',
     'live_test_url': 'https://youtu.be/QCSJugQC-O4',

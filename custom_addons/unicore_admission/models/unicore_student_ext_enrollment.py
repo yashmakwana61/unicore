@@ -1,4 +1,4 @@
-from odoo import api, fields, models, _
+from odoo import _, api, fields, models
 
 
 class UniCoreStudentEnrollmentExt(models.Model):
@@ -26,8 +26,8 @@ class UniCoreStudentEnrollmentExt(models.Model):
         for rec in self:
             rec.active_enrollment_count = len(
                 rec.enrollment_ids.filtered(
-                    lambda e: e.enrollment_state == 'registered'
-                )
+                    lambda e: e.enrollment_state == 'registered',
+                ),
             )
 
     @api.depends('enrollment_ids', 'enrollment_ids.enrollment_state',
@@ -41,7 +41,7 @@ class UniCoreStudentEnrollmentExt(models.Model):
                 lambda e: (
                     e.enrollment_state == 'registered'
                     and e.semester_id == rec.current_semester_id
-                )
+                ),
             )
             rec.total_credits_this_semester = sum(
                 e.credit_hours for e in active

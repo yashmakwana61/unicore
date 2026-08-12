@@ -91,7 +91,7 @@ class UnicoreStudentAcademicHistory(models.Model):
             if record.credits_earned > record.credits_attempted:
                 raise ValidationError(
                     _('Credits earned (%(earned)d) cannot exceed credits attempted (%(attempted)d).',
-                      earned=record.credits_earned, attempted=record.credits_attempted)
+                      earned=record.credits_earned, attempted=record.credits_attempted),
                 )
 
     @api.constrains('semester_gpa', 'cumulative_gpa')
@@ -99,7 +99,7 @@ class UnicoreStudentAcademicHistory(models.Model):
         for record in self:
             if record.semester_gpa < 0.0 or record.semester_gpa > 4.0:
                 raise ValidationError(
-                    _('Semester GPA must be between 0.0 and 4.0 for record %s.') % record.display_name
+                    _('Semester GPA must be between 0.0 and 4.0 for record %s.') % record.display_name,
                 )
 
     _unique_student_semester = models.Constraint(

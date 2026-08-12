@@ -78,7 +78,7 @@ class EntranceTest(models.Model):
             for line in record.applicant_line_ids:
                 if line.attended and line.marks_obtained < 0:
                     raise UserError(_(
-                        'Please enter marks for all attended applicants before publishing.'
+                        'Please enter marks for all attended applicants before publishing.',
                     ))
                 if line.applicant_id.state == 'entrance_scheduled':
                     if line.attended:
@@ -142,7 +142,7 @@ class EntranceTestLine(models.Model):
                 raise ValidationError(_('Marks obtained cannot be negative.'))
             if record.test_id and record.marks_obtained > record.test_id.max_marks:
                 raise ValidationError(_(
-                    'Marks obtained cannot exceed maximum marks (%s).'
+                    'Marks obtained cannot exceed maximum marks (%s).',
                 ) % record.test_id.max_marks)
 
     _sql_constraints = [

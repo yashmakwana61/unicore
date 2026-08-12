@@ -5,9 +5,10 @@ or attempted. Records channel, recipient, status,
 error message and timestamp.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -43,7 +44,7 @@ class UniCoreNotificationLog(models.Model):
                 )
             if recipient:
                 rec.display_name = '%s - %s' % (
-                    rec.message_subject or '', recipient
+                    rec.message_subject or '', recipient,
                 )
             else:
                 rec.display_name = rec.message_subject or ''
@@ -151,11 +152,11 @@ class UniCoreNotificationLog(models.Model):
     def write(self, vals):
         raise UserError(
             _('Notification logs are immutable '
-              'and cannot be edited.')
+              'and cannot be edited.'),
         )
 
     def unlink(self):
         raise UserError(
             _('Notification logs cannot be deleted. '
-              'This is an audit compliance requirement.')
+              'This is an audit compliance requirement.'),
         )

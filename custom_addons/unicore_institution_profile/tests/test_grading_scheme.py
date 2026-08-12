@@ -1,5 +1,6 @@
-import odoo
 from psycopg2 import IntegrityError
+
+import odoo
 from odoo.tests.common import TransactionCase
 
 
@@ -38,7 +39,7 @@ class UniCoreGradingSchemeTest(TransactionCase):
 
     def test_03_seeded_schemes_exist(self):
         scheme = self.env.ref(
-            'unicore_institution_profile.grading_scheme_credit_gpa'
+            'unicore_institution_profile.grading_scheme_credit_gpa',
         )
         self.assertEqual(scheme.scheme_type, 'credit_gpa')
         self.assertTrue(scheme.is_default)
@@ -54,7 +55,7 @@ class UniCoreGradingSchemeTest(TransactionCase):
 
     def test_05_profile_effective_scheme_scheme_record(self):
         scheme = self.env.ref(
-            'unicore_institution_profile.grading_scheme_simple_percentage'
+            'unicore_institution_profile.grading_scheme_simple_percentage',
         )
         profile = self.env['unicore.institution.profile'].create({
             'name': 'Test School Profile',
@@ -65,13 +66,13 @@ class UniCoreGradingSchemeTest(TransactionCase):
             'grading_scheme_id': scheme.id,
         })
         self.assertEqual(
-            profile.effective_grading_scheme, 'simple_percentage'
+            profile.effective_grading_scheme, 'simple_percentage',
         )
 
     def test_06_company_helper_no_profile(self):
         self.company.institution_profile_id = False
         self.assertEqual(
-            self.company._get_effective_grading_scheme(), 'credit_gpa'
+            self.company._get_effective_grading_scheme(), 'credit_gpa',
         )
 
     def test_07_company_helper_profile_legacy(self):
@@ -83,12 +84,12 @@ class UniCoreGradingSchemeTest(TransactionCase):
         })
         self.company.institution_profile_id = profile.id
         self.assertEqual(
-            self.company._get_effective_grading_scheme(), 'credit_gpa'
+            self.company._get_effective_grading_scheme(), 'credit_gpa',
         )
 
     def test_08_company_helper_profile_scheme_record(self):
         scheme = self.env.ref(
-            'unicore_institution_profile.grading_scheme_pass_fail'
+            'unicore_institution_profile.grading_scheme_pass_fail',
         )
         profile = self.env['unicore.institution.profile'].create({
             'name': 'Test PF Profile',
@@ -100,5 +101,5 @@ class UniCoreGradingSchemeTest(TransactionCase):
         })
         self.company.institution_profile_id = profile.id
         self.assertEqual(
-            self.company._get_effective_grading_scheme(), 'pass_fail'
+            self.company._get_effective_grading_scheme(), 'pass_fail',
         )

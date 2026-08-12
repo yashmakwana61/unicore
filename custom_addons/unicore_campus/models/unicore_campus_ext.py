@@ -68,7 +68,7 @@ class UnicoreCampus(models.Model):
         room_model = self.env['unicore.room']
         for record in self:
             record.room_count = room_model.search_count(
-                [('campus_id', '=', record.id)]
+                [('campus_id', '=', record.id)],
             )
 
     def _compute_total_room_capacity(self):
@@ -81,7 +81,7 @@ class UnicoreCampus(models.Model):
         for record in self:
             if not record.building_ids:
                 raise UserError(
-                    _('You must add at least one building before setting the campus to Operational.')
+                    _('You must add at least one building before setting the campus to Operational.'),
                 )
             record.campus_state = 'active'
 

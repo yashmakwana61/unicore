@@ -6,10 +6,11 @@ semesters. A course is the master definition —
 independent of any specific program or semester.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
-from datetime import date
 import logging
+from datetime import date
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -28,14 +29,14 @@ class UniCoreCourse(models.Model):
         required=True,
         translate=True,
         tracking=True,
-        help='e.g. Data Structures and Algorithms'
+        help='e.g. Data Structures and Algorithms',
     )
     code = fields.Char(
         string='Course Code',
         required=True,
         size=20,
         tracking=True,
-        help='e.g. CRS-CS-001, MATH-101'
+        help='e.g. CRS-CS-001, MATH-101',
     )
     company_id = fields.Many2one(
         comodel_name='res.company',
@@ -43,7 +44,7 @@ class UniCoreCourse(models.Model):
         required=True,
         default=lambda self: self.env.company,
         ondelete='restrict',
-        tracking=True
+        tracking=True,
     )
     course_category = fields.Selection(
         selection=[
@@ -61,7 +62,7 @@ class UniCoreCourse(models.Model):
         string='Course Category',
         required=True,
         default='core',
-        tracking=True
+        tracking=True,
     )
     course_type = fields.Selection(
         selection=[
@@ -75,7 +76,7 @@ class UniCoreCourse(models.Model):
         ],
         string='Delivery Type',
         required=True,
-        default='theory'
+        default='theory',
     )
     department_id = fields.Many2one(
         comodel_name='unicore.department',
@@ -84,14 +85,14 @@ class UniCoreCourse(models.Model):
         tracking=True,
         help='Department that owns and maintains this course. Required for '
              'university (legacy) institutions; optional for other '
-             'institution types (Gap-1 shim, mirrors Phase 1 program anchor).'
+             'institution types (Gap-1 shim, mirrors Phase 1 program anchor).',
     )
     academic_faculty_id = fields.Many2one(
         comodel_name='unicore.faculty',
         string='Faculty / School',
         related='department_id.faculty_id',
         store=True,
-        readonly=True
+        readonly=True,
     )
 
     # ------- CREDIT FIELDS -------
@@ -103,7 +104,7 @@ class UniCoreCourse(models.Model):
         tracking=True,
         help='Total credit hours for this course. Required for university '
              '(legacy) institutions; optional for other institution types '
-             '(Phase 2: required="is_legacy_institution").'
+             '(Phase 2: required="is_legacy_institution").',
     )
     is_legacy_institution = fields.Boolean(
         string='Legacy University Institution',
@@ -123,23 +124,23 @@ class UniCoreCourse(models.Model):
     theory_hours = fields.Float(
         string='Theory Hours / Week',
         default=3.0,
-        digits=(4, 1)
+        digits=(4, 1),
     )
     lab_hours = fields.Float(
         string='Lab Hours / Week',
         default=0.0,
-        digits=(4, 1)
+        digits=(4, 1),
     )
     tutorial_hours = fields.Float(
         string='Tutorial Hours / Week',
         default=0.0,
-        digits=(4, 1)
+        digits=(4, 1),
     )
     total_contact_hours = fields.Float(
         string='Total Contact Hours / Week',
         compute='_compute_total_contact_hours',
         store=True,
-        digits=(4, 1)
+        digits=(4, 1),
     )
 
     @api.depends('theory_hours', 'lab_hours', 'tutorial_hours')
@@ -155,23 +156,23 @@ class UniCoreCourse(models.Model):
 
     has_internal_assessment = fields.Boolean(
         string='Has Internal Assessment',
-        default=True
+        default=True,
     )
     internal_assessment_marks = fields.Float(
         string='Internal Assessment Marks',
         default=40.0,
-        digits=(5, 1)
+        digits=(5, 1),
     )
     external_assessment_marks = fields.Float(
         string='External / Exam Marks',
         default=60.0,
-        digits=(5, 1)
+        digits=(5, 1),
     )
     total_marks = fields.Float(
         string='Total Marks',
         compute='_compute_total_marks',
         store=True,
-        digits=(5, 1)
+        digits=(5, 1),
     )
 
     @api.depends('internal_assessment_marks', 'external_assessment_marks')
@@ -186,13 +187,13 @@ class UniCoreCourse(models.Model):
         string='Passing Marks',
         default=40.0,
         digits=(5, 1),
-        help='Minimum marks required to pass this course'
+        help='Minimum marks required to pass this course',
     )
     passing_percentage = fields.Float(
         string='Passing Percentage',
         compute='_compute_passing_percentage',
         store=False,
-        digits=(5, 2)
+        digits=(5, 2),
     )
 
     @api.depends('passing_marks', 'total_marks')
@@ -208,7 +209,7 @@ class UniCoreCourse(models.Model):
     is_graded = fields.Boolean(
         string='Graded Course',
         default=True,
-        help='If False this course is Pass/Fail only'
+        help='If False this course is Pass/Fail only',
     )
 
     # ------- CURRICULUM LINKS -------
@@ -216,12 +217,12 @@ class UniCoreCourse(models.Model):
     prerequisite_ids = fields.One2many(
         comodel_name='unicore.course.prerequisite',
         inverse_name='course_id',
-        string='Prerequisites'
+        string='Prerequisites',
     )
     prerequisite_count = fields.Integer(
         string='Prerequisites',
         compute='_compute_prerequisite_count',
-        store=True
+        store=True,
     )
 
     @api.depends('prerequisite_ids')
@@ -232,29 +233,29 @@ class UniCoreCourse(models.Model):
     curriculum_line_ids = fields.One2many(
         comodel_name='unicore.curriculum.line',
         inverse_name='course_id',
-        string='Curriculum Assignments'
+        string='Curriculum Assignments',
     )
     program_count = fields.Integer(
         string='Used in Programs',
         compute='_compute_program_count',
-        store=False
+        store=False,
     )
 
     def _compute_program_count(self):
         for rec in self:
             rec.program_count = len(
-                rec.curriculum_line_ids.mapped('curriculum_id.program_id')
+                rec.curriculum_line_ids.mapped('curriculum_id.program_id'),
             )
 
     offering_ids = fields.One2many(
         comodel_name='unicore.course.offering',
         inverse_name='course_id',
-        string='Course Offerings'
+        string='Course Offerings',
     )
     offering_count = fields.Integer(
         string='Offerings',
         compute='_compute_offering_count',
-        store=True
+        store=True,
     )
 
     @api.depends('offering_ids')
@@ -265,16 +266,16 @@ class UniCoreCourse(models.Model):
     # ------- CONTENT FIELDS -------
 
     description = fields.Html(
-        string='Course Description'
+        string='Course Description',
     )
     syllabus = fields.Html(
-        string='Syllabus / Course Outline'
+        string='Syllabus / Course Outline',
     )
     learning_outcomes = fields.Html(
-        string='Learning Outcomes'
+        string='Learning Outcomes',
     )
     reference_books = fields.Text(
-        string='Reference Books / Materials'
+        string='Reference Books / Materials',
     )
 
     # ------- STATUS FIELDS -------
@@ -289,16 +290,16 @@ class UniCoreCourse(models.Model):
         string='Course Status',
         required=True,
         default='draft',
-        tracking=True
+        tracking=True,
     )
     approved_by_id = fields.Many2one(
         comodel_name='res.users',
         string='Approved By',
-        readonly=True
+        readonly=True,
     )
     approved_on = fields.Date(
         string='Approved On',
-        readonly=True
+        readonly=True,
     )
 
     # ------- SQL CONSTRAINTS -------
@@ -318,12 +319,12 @@ class UniCoreCourse(models.Model):
         for rec in self:
             if rec.credit_hours > 20:
                 raise ValidationError(
-                    _('Credit hours cannot exceed 20.')
+                    _('Credit hours cannot exceed 20.'),
                 )
             if rec.is_legacy_institution and rec.credit_hours <= 0:
                 raise ValidationError(
                     _('Credit hours must be greater than 0 for '
-                      'university (legacy) institutions.')
+                      'university (legacy) institutions.'),
                 )
 
     @api.constrains('passing_marks', 'total_marks')
@@ -332,11 +333,11 @@ class UniCoreCourse(models.Model):
             if rec.total_marks > 0:
                 if rec.passing_marks > rec.total_marks:
                     raise ValidationError(
-                        _('Passing marks cannot exceed total marks.')
+                        _('Passing marks cannot exceed total marks.'),
                     )
                 if rec.passing_marks < 0:
                     raise ValidationError(
-                        _('Passing marks cannot be negative.')
+                        _('Passing marks cannot be negative.'),
                     )
 
     @api.constrains('theory_hours', 'lab_hours', 'tutorial_hours')
@@ -346,7 +347,7 @@ class UniCoreCourse(models.Model):
                     or rec.lab_hours < 0
                     or rec.tutorial_hours < 0):
                 raise ValidationError(
-                    _('Contact hours cannot be negative.')
+                    _('Contact hours cannot be negative.'),
                 )
 
     # ------- COHORT / ANCHOR (Gap-1 shim) -------
@@ -364,7 +365,7 @@ class UniCoreCourse(models.Model):
             if rec.is_legacy_institution and not rec.department_id:
                 raise ValidationError(
                     _('Owning Department is required for university (legacy) '
-                      'institutions.')
+                      'institutions.'),
                 )
 
     @api.model_create_multi
@@ -385,7 +386,7 @@ class UniCoreCourse(models.Model):
         self.ensure_one()
         if self.course_state != 'draft':
             raise UserError(
-                _('Only draft courses can be approved.')
+                _('Only draft courses can be approved.'),
             )
         self.write({
             'course_state': 'approved',
@@ -393,25 +394,25 @@ class UniCoreCourse(models.Model):
             'approved_on': date.today(),
         })
         self.message_post(
-            body=_('Course approved by %s.') % self.env.user.name
+            body=_('Course approved by %s.') % self.env.user.name,
         )
 
     def action_activate(self):
         self.ensure_one()
         if self.course_state != 'approved':
             raise UserError(
-                _('Only approved courses can be activated.')
+                _('Only approved courses can be activated.'),
             )
         self.course_state = 'active'
         self.message_post(
-            body=_('Course activated and available for curriculum assignment.')
+            body=_('Course activated and available for curriculum assignment.'),
         )
 
     def action_discontinue(self):
         self.ensure_one()
         self.course_state = 'discontinued'
         self.message_post(
-            body=_('Course discontinued by %s.') % self.env.user.name
+            body=_('Course discontinued by %s.') % self.env.user.name,
         )
 
     def action_reset_draft(self):
@@ -422,12 +423,11 @@ class UniCoreCourse(models.Model):
             'approved_on': False,
         })
         self.message_post(
-            body=_('Course reset to Draft by %s.') % self.env.user.name
+            body=_('Course reset to Draft by %s.') % self.env.user.name,
         )
 
     # ------- ONCHANGE -------
 
     @api.onchange('department_id')
     def _onchange_department_id(self):
-        if self.department_id:
-            pass
+        pass

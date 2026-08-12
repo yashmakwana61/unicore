@@ -78,6 +78,6 @@ def post_init_hook(env):
                     'auto_create_partner': True,
                     'sync_partner_on_update': True,
                 })
-            except Exception as e:
+            except Exception:
                 # Silently fail - admin can set up manually
                 pass

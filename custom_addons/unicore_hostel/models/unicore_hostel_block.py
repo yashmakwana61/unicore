@@ -5,9 +5,9 @@ Has a warden, gender restriction, and contains
 multiple rooms.
 """
 
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
 import logging
+
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -180,7 +180,7 @@ class UniCoreHostelBlock(models.Model):
         for rec in self:
             active_rooms = rec.room_ids.filtered(
                 lambda r: r.room_state
-                not in ('maintenance', 'closed')
+                not in ('maintenance', 'closed'),
             )
             rec.total_rooms = len(active_rooms)
             total_cap = sum(
@@ -193,11 +193,11 @@ class UniCoreHostelBlock(models.Model):
             rec.total_capacity = total_cap
             rec.occupied_beds = occupied
             rec.available_beds = max(
-                0, total_cap - occupied
+                0, total_cap - occupied,
             )
             rec.occupancy_rate = (
                 round(
-                    occupied / total_cap * 100, 1
+                    occupied / total_cap * 100, 1,
                 )
                 if total_cap > 0 else 0.0
             )

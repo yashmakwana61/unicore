@@ -1,157 +1,145 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-    <data>
-        <record id="view_unicore_question_bank_tree" model="ir.ui.view">
-            <field name="name">unicore.question.bank.tree</field>
-            <field name="model">unicore.question.bank</field>
-            <field name="arch" type="xml">
-                <list string="Question Bank">
+  <data>
+    <record id="view_unicore_question_bank_tree" model="ir.ui.view">
+      <field name="name">unicore.question.bank.tree</field>
+      <field name="model">unicore.question.bank</field>
+      <field name="arch" type="xml">
+        <list string="Question Bank">
+          <field name="question_text"/>
+          <field name="correct_answer"/>
+        </list>
+      </field>
+    </record>
+    <record id="view_unicore_question_bank_form" model="ir.ui.view">
+      <field name="name">unicore.question.bank.form</field>
+      <field name="model">unicore.question.bank</field>
+      <field name="arch" type="xml">
+        <form string="Question">
+          <sheet>
+            <group string="Question">
+              <field name="question_text" nolabel="1"/>
+              <field name="company_id" invisible="1"/>
+            </group>
+            <group string="Options">
+              <group>
+                <field name="option_a"/>
+                <field name="option_b"/>
+              </group>
+              <group>
+                <field name="option_c"/>
+                <field name="option_d"/>
+              </group>
+            </group>
+            <group string="Answer">
+              <field name="correct_answer" widget="radio"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    <record id="view_unicore_quiz_tree" model="ir.ui.view">
+      <field name="name">unicore.quiz.tree</field>
+      <field name="model">unicore.quiz</field>
+      <field name="arch" type="xml">
+        <list string="Quizzes">
+          <field name="title"/>
+          <field name="time_limit"/>
+          <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'active'" decoration-danger="state == 'closed'"/>
+        </list>
+      </field>
+    </record>
+    <record id="view_unicore_quiz_form" model="ir.ui.view">
+      <field name="name">unicore.quiz.form</field>
+      <field name="model">unicore.quiz</field>
+      <field name="arch" type="xml">
+        <form string="Quiz">
+          <header>
+            <button name="action_activate" string="Activate" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+            <button name="action_close" string="Close" type="object" invisible="state != 'active'"/>
+            <field name="state" widget="statusbar" statusbar_visible="draft,active,closed"/>
+          </header>
+          <sheet>
+            <div class="oe_title">
+              <h1>
+                <field name="title" placeholder="Quiz Title..."/>
+              </h1>
+            </div>
+            <group>
+              <group>
+                <field name="time_limit"/>
+                <field name="company_id" invisible="1"/>
+              </group>
+            </group>
+            <notebook>
+              <page string="Questions" name="questions">
+                <field name="question_ids">
+                  <list>
                     <field name="question_text"/>
                     <field name="correct_answer"/>
-                </list>
-            </field>
-        </record>
-
-        <record id="view_unicore_question_bank_form" model="ir.ui.view">
-            <field name="name">unicore.question.bank.form</field>
-            <field name="model">unicore.question.bank</field>
-            <field name="arch" type="xml">
-                <form string="Question">
-                    <sheet>
-                        <group string="Question">
-                            <field name="question_text" nolabel="1"/>
-                            <field name="company_id" invisible="1"/>
-                        </group>
-                        <group string="Options">
-                            <group>
-                                <field name="option_a"/>
-                                <field name="option_b"/>
-                            </group>
-                            <group>
-                                <field name="option_c"/>
-                                <field name="option_d"/>
-                            </group>
-                        </group>
-                        <group string="Answer">
-                            <field name="correct_answer" widget="radio"/>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-        <record id="view_unicore_quiz_tree" model="ir.ui.view">
-            <field name="name">unicore.quiz.tree</field>
-            <field name="model">unicore.quiz</field>
-            <field name="arch" type="xml">
-                <list string="Quizzes">
-                    <field name="title"/>
-                    <field name="time_limit"/>
-                    <field name="state" widget="badge"
-                           decoration-info="state == 'draft'"
-                           decoration-success="state == 'active'"
-                           decoration-danger="state == 'closed'"/>
-                </list>
-            </field>
-        </record>
-
-        <record id="view_unicore_quiz_form" model="ir.ui.view">
-            <field name="name">unicore.quiz.form</field>
-            <field name="model">unicore.quiz</field>
-            <field name="arch" type="xml">
-                <form string="Quiz">
-                    <header>
-                        <button name="action_activate" string="Activate" type="object" class="oe_highlight" invisible="state != 'draft'"/>
-                        <button name="action_close" string="Close" type="object" invisible="state != 'active'"/>
-                        <field name="state" widget="statusbar" statusbar_visible="draft,active,closed"/>
-                    </header>
-                    <sheet>
-                        <div class="oe_title">
-                            <h1><field name="title" placeholder="Quiz Title..."/></h1>
-                        </div>
-                        <group>
-                            <group>
-                                <field name="time_limit"/>
-                                <field name="company_id" invisible="1"/>
-                            </group>
-                        </group>
-                        <notebook>
-                            <page string="Questions" name="questions">
-                                <field name="question_ids">
-                                    <list>
-                                        <field name="question_text"/>
-                                        <field name="correct_answer"/>
-                                    </list>
-                                </field>
-                            </page>
-                        </notebook>
-                    </sheet>
-                    <chatter/>
-                </form>
-            </field>
-        </record>
-
-        <record id="view_unicore_quiz_attempt_tree" model="ir.ui.view">
-            <field name="name">unicore.quiz.attempt.tree</field>
-            <field name="model">unicore.quiz.attempt</field>
-            <field name="arch" type="xml">
-                <list string="Quiz Attempts" create="0" delete="0">
-                    <field name="student_id" widget="many2one_avatar"/>
-                    <field name="quiz_id"/>
-                    <field name="score" widget="progressbar"/>
-                    <field name="tab_switches"/>
-                    <field name="state" widget="badge"
-                           decoration-warning="state == 'in_progress'"
-                           decoration-success="state == 'submitted'"/>
-                    <field name="create_date"/>
-                </list>
-            </field>
-        </record>
-        
-        <record id="view_unicore_quiz_attempt_form" model="ir.ui.view">
-            <field name="name">unicore.quiz.attempt.form</field>
-            <field name="model">unicore.quiz.attempt</field>
-            <field name="arch" type="xml">
-                <form string="Quiz Attempt" create="0" delete="0" edit="0">
-                    <sheet>
-                        <group>
-                            <group>
-                                <field name="student_id" widget="many2one_avatar"/>
-                                <field name="quiz_id"/>
-                                <field name="company_id" invisible="1"/>
-                            </group>
-                            <group>
-                                <field name="score" widget="progressbar"/>
-                                <field name="tab_switches"/>
-                                <field name="state"/>
-                            </group>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
-        <record id="action_unicore_question_bank" model="ir.actions.act_window">
-            <field name="name">Question Bank</field>
-            <field name="res_model">unicore.question.bank</field>
-            <field name="view_mode">list,form</field>
-        </record>
-
-        <record id="action_unicore_quiz" model="ir.actions.act_window">
-            <field name="name">Quizzes</field>
-            <field name="res_model">unicore.quiz</field>
-            <field name="view_mode">list,form</field>
-        </record>
-        
-        <record id="action_unicore_quiz_attempt" model="ir.actions.act_window">
-            <field name="name">Quiz Attempts</field>
-            <field name="res_model">unicore.quiz.attempt</field>
-            <field name="view_mode">list,form</field>
-        </record>
-
-        <record id="action_unicore_quiz_take" model="ir.actions.client">
-            <field name="name">Take Quiz</field>
-            <field name="tag">unicore_quiz.take_quiz_client_action</field>
-        </record>
-    </data>
+                  </list>
+                </field>
+              </page>
+            </notebook>
+          </sheet>
+          <chatter/>
+        </form>
+      </field>
+    </record>
+    <record id="view_unicore_quiz_attempt_tree" model="ir.ui.view">
+      <field name="name">unicore.quiz.attempt.tree</field>
+      <field name="model">unicore.quiz.attempt</field>
+      <field name="arch" type="xml">
+        <list string="Quiz Attempts" create="0" delete="0">
+          <field name="student_id" widget="many2one_avatar"/>
+          <field name="quiz_id"/>
+          <field name="score" widget="progressbar"/>
+          <field name="tab_switches"/>
+          <field name="state" widget="badge" decoration-warning="state == 'in_progress'" decoration-success="state == 'submitted'"/>
+          <field name="create_date"/>
+        </list>
+      </field>
+    </record>
+    <record id="view_unicore_quiz_attempt_form" model="ir.ui.view">
+      <field name="name">unicore.quiz.attempt.form</field>
+      <field name="model">unicore.quiz.attempt</field>
+      <field name="arch" type="xml">
+        <form string="Quiz Attempt" create="0" delete="0" edit="0">
+          <sheet>
+            <group>
+              <group>
+                <field name="student_id" widget="many2one_avatar"/>
+                <field name="quiz_id"/>
+                <field name="company_id" invisible="1"/>
+              </group>
+              <group>
+                <field name="score" widget="progressbar"/>
+                <field name="tab_switches"/>
+                <field name="state"/>
+              </group>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    <record id="action_unicore_question_bank" model="ir.actions.act_window">
+      <field name="name">Question Bank</field>
+      <field name="res_model">unicore.question.bank</field>
+      <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_unicore_quiz" model="ir.actions.act_window">
+      <field name="name">Quizzes</field>
+      <field name="res_model">unicore.quiz</field>
+      <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_unicore_quiz_attempt" model="ir.actions.act_window">
+      <field name="name">Quiz Attempts</field>
+      <field name="res_model">unicore.quiz.attempt</field>
+      <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_unicore_quiz_take" model="ir.actions.client">
+      <field name="name">Take Quiz</field>
+      <field name="tag">unicore_quiz.take_quiz_client_action</field>
+    </record>
+  </data>
 </odoo>

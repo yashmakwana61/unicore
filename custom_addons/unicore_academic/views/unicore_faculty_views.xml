@@ -1,152 +1,130 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-
-    <!-- Window Action -->
-    <record id="action_unicore_faculty" model="ir.actions.act_window">
-        <field name="name">Faculties</field>
-        <field name="res_model">unicore.faculty</field>
-        <field name="view_mode">kanban,list,form</field>
-        <field name="domain">[]</field>
-        <field name="context">{}</field>
-    </record>
-
-    <!-- Form View -->
-    <record id="unicore_faculty_form_view" model="ir.ui.view">
-        <field name="name">unicore.faculty.form</field>
-        <field name="model">unicore.faculty</field>
-        <field name="arch" type="xml">
-            <form>
-                <header>
-                    <field name="faculty_state" widget="statusbar"
-                           statusbar_visible="draft,active,suspended,closed"/>
-                    <button name="action_set_operational" type="object"
-                            string="Set Operational" class="btn-primary"
-                            invisible="faculty_state != 'draft'"/>
-                    <button name="action_suspend" type="object"
-                            string="Suspend"
-                            invisible="faculty_state != 'active'"/>
-                    <button name="action_close" type="object"
-                            string="Close"
-                            invisible="faculty_state not in ('active', 'suspended')"/>
-                    <button name="action_reset_draft" type="object"
-                            string="Reset to Draft"
-                            groups="unicore_base.group_unicore_admin"
-                            invisible="faculty_state not in ('suspended', 'closed')"/>
-                </header>
-                <sheet>
-                    <div class="oe_button_box" name="button_box">
-                        <button name="action_open_departments" type="object"
-                                class="oe_stat_button" icon="fa-sitemap">
-                            <field string="Departments" name="department_count" widget="statinfo"/>
-                        </button>
-                        <button name="action_open_programs" type="object"
-                                class="oe_stat_button" icon="fa-graduation-cap">
-                            <field string="Programs" name="program_count" widget="statinfo"/>
-                        </button>
-                    </div>
-                    <group>
-                        <group name="left">
-                            <field name="name"/>
-                            <field name="code"/>
-                            <field name="company_id" options="{'no_create': True}"/>
-                            <field name="dean_id" options="{'no_create': True}"/>
-                            <field name="sequence"/>
-                            <field name="established_year"/>
-                        </group>
-                        <group name="right">
-                            <field name="faculty_state"/>
-                            <field name="image" widget="image" class="oe_avatar"/>
-                            <field name="campus_ids" widget="many2many_tags"/>
-                        </group>
-                    </group>
-                    <notebook>
-                        <page name="departments" string="Departments">
-                            <field name="department_ids">
-                                <list editable="bottom">
-                                    <field name="code"/>
-                                    <field name="name"/>
-                                    <field name="hod_id"/>
-                                    <field name="program_count"/>
-                                    <field name="dept_state"/>
-                                </list>
-                            </field>
-                        </page>
-                        <page name="about" string="About">
-                            <field name="description" widget="html"/>
-                        </page>
-                    </notebook>
-                </sheet>
-                <chatter/>
-            </form>
-        </field>
-    </record>
-
-    <!-- List View -->
-    <record id="unicore_faculty_list_view" model="ir.ui.view">
-        <field name="name">unicore.faculty.list</field>
-        <field name="model">unicore.faculty</field>
-        <field name="arch" type="xml">
-            <list>
-                <field name="code"/>
-                <field name="name"/>
-                <field name="company_id"/>
-                <field name="dean_id"/>
-                <field name="department_count"/>
-                <field name="program_count"/>
-                <field name="faculty_state"/>
-            </list>
-        </field>
-    </record>
-
-    <!-- Search View -->
-    <record id="unicore_faculty_search_view" model="ir.ui.view">
-        <field name="name">unicore.faculty.search</field>
-        <field name="model">unicore.faculty</field>
-        <field name="arch" type="xml">
-            <search>
-                <field name="name"/>
-                <field name="code"/>
-                <field name="company_id"/>
-                <field name="dean_id"/>
-                <filter name="filter_operational" string="Operational"
-                        domain="[('faculty_state', '=', 'active')]"/>
-                <filter name="filter_draft" string="Draft"
-                        domain="[('faculty_state', '=', 'draft')]"/>
-                <group name="groupby">
-                    <filter name="groupby_institution" string="Institution"
-                            context="{'group_by': 'company_id'}"/>
-                    <filter name="groupby_status" string="Status"
-                            context="{'group_by': 'faculty_state'}"/>
-                </group>
-            </search>
-        </field>
-    </record>
-
-    <!-- Kanban View -->
-    <record id="unicore_faculty_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.faculty.kanban</field>
-        <field name="model">unicore.faculty</field>
-        <field name="arch" type="xml">
-            <kanban class="o_kanban_mobile" highlight_color="color">
-                <field name="code"/>
-                <field name="name"/>
-                <field name="dean_id"/>
-                <field name="department_count"/>
-                <field name="faculty_state"/>
-                <field name="color"/>
-                <templates>
-                    <t t-name="card" class="flex-row">
-                        <main>
-                            <field name="code" class="fw-bold fs-5"/>
-                            <field name="name"/>
-                            <field name="dean_id"/>
-                            <field name="department_count"/>
-                            <field name="faculty_state" widget="badge"/>
-                        </main>
-                    </t>
-                </templates>
-            </kanban>
-        </field>
-    </record>
-
+  <!-- Window Action -->
+  <record id="action_unicore_faculty" model="ir.actions.act_window">
+    <field name="name">Faculties</field>
+    <field name="res_model">unicore.faculty</field>
+    <field name="view_mode">kanban,list,form</field>
+    <field name="domain">[]</field>
+    <field name="context">{}</field>
+  </record>
+  <!-- Form View -->
+  <record id="unicore_faculty_form_view" model="ir.ui.view">
+    <field name="name">unicore.faculty.form</field>
+    <field name="model">unicore.faculty</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+          <field name="faculty_state" widget="statusbar" statusbar_visible="draft,active,suspended,closed"/>
+          <button name="action_set_operational" type="object" string="Set Operational" class="btn-primary" invisible="faculty_state != 'draft'"/>
+          <button name="action_suspend" type="object" string="Suspend" invisible="faculty_state != 'active'"/>
+          <button name="action_close" type="object" string="Close" invisible="faculty_state not in ('active', 'suspended')"/>
+          <button name="action_reset_draft" type="object" string="Reset to Draft" groups="unicore_base.group_unicore_admin" invisible="faculty_state not in ('suspended', 'closed')"/>
+        </header>
+        <sheet>
+          <div class="oe_button_box" name="button_box">
+            <button name="action_open_departments" type="object" class="oe_stat_button" icon="fa-sitemap">
+              <field string="Departments" name="department_count" widget="statinfo"/>
+            </button>
+            <button name="action_open_programs" type="object" class="oe_stat_button" icon="fa-graduation-cap">
+              <field string="Programs" name="program_count" widget="statinfo"/>
+            </button>
+          </div>
+          <group>
+            <group name="left">
+              <field name="name"/>
+              <field name="code"/>
+              <field name="company_id" options="{'no_create': True}"/>
+              <field name="dean_id" options="{'no_create': True}"/>
+              <field name="sequence"/>
+              <field name="established_year"/>
+            </group>
+            <group name="right">
+              <field name="faculty_state"/>
+              <field name="image" widget="image" class="oe_avatar"/>
+              <field name="campus_ids" widget="many2many_tags"/>
+            </group>
+          </group>
+          <notebook>
+            <page name="departments" string="Departments">
+              <field name="department_ids">
+                <list editable="bottom">
+                  <field name="code"/>
+                  <field name="name"/>
+                  <field name="hod_id"/>
+                  <field name="program_count"/>
+                  <field name="dept_state"/>
+                </list>
+              </field>
+            </page>
+            <page name="about" string="About">
+              <field name="description" widget="html"/>
+            </page>
+          </notebook>
+        </sheet>
+        <chatter/>
+      </form>
+    </field>
+  </record>
+  <!-- List View -->
+  <record id="unicore_faculty_list_view" model="ir.ui.view">
+    <field name="name">unicore.faculty.list</field>
+    <field name="model">unicore.faculty</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="code"/>
+        <field name="name"/>
+        <field name="company_id"/>
+        <field name="dean_id"/>
+        <field name="department_count"/>
+        <field name="program_count"/>
+        <field name="faculty_state"/>
+      </list>
+    </field>
+  </record>
+  <!-- Search View -->
+  <record id="unicore_faculty_search_view" model="ir.ui.view">
+    <field name="name">unicore.faculty.search</field>
+    <field name="model">unicore.faculty</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="name"/>
+        <field name="code"/>
+        <field name="company_id"/>
+        <field name="dean_id"/>
+        <filter name="filter_operational" string="Operational" domain="[('faculty_state', '=', 'active')]"/>
+        <filter name="filter_draft" string="Draft" domain="[('faculty_state', '=', 'draft')]"/>
+        <group name="groupby">
+          <filter name="groupby_institution" string="Institution" context="{'group_by': 'company_id'}"/>
+          <filter name="groupby_status" string="Status" context="{'group_by': 'faculty_state'}"/>
+        </group>
+      </search>
+    </field>
+  </record>
+  <!-- Kanban View -->
+  <record id="unicore_faculty_kanban_view" model="ir.ui.view">
+    <field name="name">unicore.faculty.kanban</field>
+    <field name="model">unicore.faculty</field>
+    <field name="arch" type="xml">
+      <kanban class="o_kanban_mobile" highlight_color="color">
+        <field name="code"/>
+        <field name="name"/>
+        <field name="dean_id"/>
+        <field name="department_count"/>
+        <field name="faculty_state"/>
+        <field name="color"/>
+        <templates>
+          <t t-name="card" class="flex-row">
+            <main>
+              <field name="code" class="fw-bold fs-5"/>
+              <field name="name"/>
+              <field name="dean_id"/>
+              <field name="department_count"/>
+              <field name="faculty_state" widget="badge"/>
+            </main>
+          </t>
+        </templates>
+      </kanban>
+    </field>
+  </record>
 </odoo>

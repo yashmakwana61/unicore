@@ -1,6 +1,8 @@
-from . import unicore_assignment_rubric
-from . import unicore_assignment
-from . import unicore_assignment_submission
-from . import unicore_course_offering_ext
-from . import unicore_student_ext
-from . import unicore_notification_template_ext
+from . import (
+    unicore_assignment,
+    unicore_assignment_rubric,
+    unicore_assignment_submission,
+    unicore_course_offering_ext,
+    unicore_notification_template_ext,
+    unicore_student_ext,
+)

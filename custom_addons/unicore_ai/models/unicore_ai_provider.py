@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
 import json
 import logging
+
 import requests
 
-from odoo import _, api, fields, models
+from odoo import _, api, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
@@ -30,31 +30,31 @@ class UnicoreAIProvider(models.AbstractModel):
     def _get_api_key(self):
         """Return the configured API key or raise."""
         key = self.env['ir.config_parameter'].sudo().get_param(
-            'unicore_ai.api_key', default=''
+            'unicore_ai.api_key', default='',
         )
         if not key:
             raise UserError(_(
                 'OpenCode Zen API key is not configured. '
-                'Please go to Settings → Unicore AI and enter your API key.'
+                'Please go to Settings → Unicore AI and enter your API key.',
             ))
         return key
 
     @api.model
     def _get_api_url(self):
         return self.env['ir.config_parameter'].sudo().get_param(
-            'unicore_ai.api_url', default=DEFAULT_API_URL
+            'unicore_ai.api_url', default=DEFAULT_API_URL,
         )
 
     @api.model
     def _get_model(self):
         return self.env['ir.config_parameter'].sudo().get_param(
-            'unicore_ai.model', default=DEFAULT_MODEL
+            'unicore_ai.model', default=DEFAULT_MODEL,
         )
 
     @api.model
     def _get_temperature(self):
         val = self.env['ir.config_parameter'].sudo().get_param(
-            'unicore_ai.temperature', default=str(DEFAULT_TEMPERATURE)
+            'unicore_ai.temperature', default=str(DEFAULT_TEMPERATURE),
         )
         try:
             return float(val)
@@ -64,7 +64,7 @@ class UnicoreAIProvider(models.AbstractModel):
     @api.model
     def _get_max_tokens(self):
         val = self.env['ir.config_parameter'].sudo().get_param(
-            'unicore_ai.max_tokens', default=str(DEFAULT_MAX_TOKENS)
+            'unicore_ai.max_tokens', default=str(DEFAULT_MAX_TOKENS),
         )
         try:
             return int(val)
@@ -117,12 +117,12 @@ class UnicoreAIProvider(models.AbstractModel):
             resp.raise_for_status()
         except requests.exceptions.Timeout:
             raise UserError(_(
-                'The AI service did not respond in time. Please try again.'
+                'The AI service did not respond in time. Please try again.',
             ))
         except requests.exceptions.ConnectionError:
             raise UserError(_(
                 'Could not connect to the AI service. '
-                'Please check your network and API URL configuration.'
+                'Please check your network and API URL configuration.',
             ))
         except requests.exceptions.HTTPError as exc:
             body = ''
@@ -149,7 +149,7 @@ class UnicoreAIProvider(models.AbstractModel):
         except (KeyError, IndexError):
             _logger.error('Unicore AI unexpected payload: %s', data)
             raise UserError(_(
-                'The AI service returned an unexpected response structure.'
+                'The AI service returned an unexpected response structure.',
             ))
 
     # ------------------------------------------------------------------

@@ -6,8 +6,9 @@ by actual confirmed unicore.enrollment records.
 Also adds the reverse relation to enrollments and
 waitlist entries.
 """
-from odoo import api, fields, models, _
 import logging
+
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -46,8 +47,8 @@ class UniCoreCourseOfferingEnrollmentExt(models.Model):
         for rec in self:
             rec.waitlist_count = len(
                 rec.waitlist_ids.filtered(
-                    lambda w: w.waitlist_state == 'waiting'
-                )
+                    lambda w: w.waitlist_state == 'waiting',
+                ),
             )
 
     @api.depends('enrollment_ids', 'enrollment_ids.enrollment_state')
@@ -56,8 +57,8 @@ class UniCoreCourseOfferingEnrollmentExt(models.Model):
             rec.enrolled_count = len(
                 rec.enrollment_ids.filtered(
                     lambda e: e.enrollment_state in
-                    ('registered', 'completed')
-                )
+                    ('registered', 'completed'),
+                ),
             )
 
     def action_view_enrollments(self):

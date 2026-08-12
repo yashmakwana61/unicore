@@ -7,9 +7,10 @@ to confirmed enrollments when seats become available
 — promotion is never fully automatic, to preserve
 student consent and registrar oversight.
 """
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -41,11 +42,11 @@ class UniCoreEnrollmentWaitlist(models.Model):
             )
             if rec.position:
                 rec.display_name = 'Waitlist #%s - %s - %s' % (
-                    rec.position, student_name, offering_name
+                    rec.position, student_name, offering_name,
                 )
             else:
                 rec.display_name = '%s - %s' % (
-                    student_name, offering_name
+                    student_name, offering_name,
                 )
     _order = 'course_offering_id, position'
     _check_company_auto = True
@@ -128,12 +129,12 @@ class UniCoreEnrollmentWaitlist(models.Model):
         self.ensure_one()
         if self.waitlist_state != 'waiting':
             raise UserError(
-                _('Only entries with status "Waiting" can be promoted.')
+                _('Only entries with status "Waiting" can be promoted.'),
             )
 
         Enrollment = self.env['unicore.enrollment']
         new_enrollment = Enrollment.with_context(
-            auto_waitlist=False
+            auto_waitlist=False,
         ).create({
             'student_id': self.student_id.id,
             'course_offering_id': self.course_offering_id.id,
@@ -145,7 +146,7 @@ class UniCoreEnrollmentWaitlist(models.Model):
             'promoted_enrollment_id': new_enrollment.id,
         })
         self.message_post(
-            body=_('Promoted to enrollment by %s.') % self.env.user.name
+            body=_('Promoted to enrollment by %s.') % self.env.user.name,
         )
         self._renumber_queue()
 
@@ -153,7 +154,7 @@ class UniCoreEnrollmentWaitlist(models.Model):
         self.ensure_one()
         self.waitlist_state = 'declined'
         self.message_post(
-            body=_('Student declined the waitlist offer.')
+            body=_('Student declined the waitlist offer.'),
         )
         self._renumber_queue()
 
@@ -161,7 +162,7 @@ class UniCoreEnrollmentWaitlist(models.Model):
         self.ensure_one()
         self.waitlist_state = 'expired'
         self.message_post(
-            body=_('Waitlist offer expired without response.')
+            body=_('Waitlist offer expired without response.'),
         )
         self._renumber_queue()
 

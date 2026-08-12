@@ -7,10 +7,10 @@ special events. Room bookings are checked against
 both other room bookings and recurring timetable
 entries to prevent double-booking.
 """
-from odoo import api, fields, models, _
-from odoo.exceptions import UserError, ValidationError
-from datetime import date, datetime, time, timedelta
 import logging
+
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -161,7 +161,7 @@ class UniCoreRoomBooking(models.Model):
                       'at this time slot.')
                     % (rec.room_id.display_name,
                        other_bookings[0].name,
-                       rec.booking_date)
+                       rec.booking_date),
                 )
 
             # Check against recurring timetable entries
@@ -183,7 +183,7 @@ class UniCoreRoomBooking(models.Model):
                               '"%s" scheduled on %s at this time slot.')
                             % (rec.room_id.display_name,
                                entry.display_name,
-                               rec.booking_date)
+                               rec.booking_date),
                         )
 
     def action_approve(self):
@@ -194,7 +194,7 @@ class UniCoreRoomBooking(models.Model):
         })
         self.message_post(
             body=_('Room booking approved by %s.')
-            % self.env.user.name
+            % self.env.user.name,
         )
 
     def action_cancel(self):
@@ -202,7 +202,7 @@ class UniCoreRoomBooking(models.Model):
         self.booking_state = 'cancelled'
         self.message_post(
             body=_('Room booking cancelled by %s.')
-            % self.env.user.name
+            % self.env.user.name,
         )
 
     def action_reset_requested(self):

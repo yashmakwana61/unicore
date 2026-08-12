@@ -4,10 +4,10 @@ from odoo import http
 from odoo.http import request
 
 from odoo.addons.unicore_api.controllers.common import (
-    api_response,
-    api_error,
-    validate_api_key,
     _safe_call,
+    api_error,
+    api_response,
+    validate_api_key,
 )
 
 

@@ -19,7 +19,7 @@ class UnicoreSequenceMixin(models.AbstractModel):
         """Return the ``ir.sequence`` scoped to ``company_id`` (creating a
         per-company copy from the global template on first use)."""
         company = self.env['res.company'].browse(
-            company_id or self.env.company.id
+            company_id or self.env.company.id,
         )
         seq_model = self.env['ir.sequence'].sudo()
         sequence = seq_model.search([
@@ -36,7 +36,7 @@ class UnicoreSequenceMixin(models.AbstractModel):
         if not template:
             raise UserError(_(
                 'Sequence "%s" is not configured. Please add a global '
-                'sequence template for it.' % code
+                'sequence template for it.' % code,
             ))
 
         return seq_model.create({

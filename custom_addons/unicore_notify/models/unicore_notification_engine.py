@@ -17,9 +17,10 @@ Usage from other modules:
     )
 """
 
-from odoo import api, fields, models, _
-import logging
 import json
+import logging
+
+from odoo import api, models
 
 try:
     import requests
@@ -30,7 +31,7 @@ except ImportError:
     _logger.warning(
         'requests library not available. '
         'WhatsApp notifications will not work. '
-        'Install requests: pip install requests'
+        'Install requests: pip install requests',
     )
 
 _logger = logging.getLogger(__name__)
@@ -115,17 +116,17 @@ class UniCoreNotificationEngine(models.AbstractModel):
         """
         if not to_email:
             _logger.warning(
-                'Cannot send email: no recipient address.'
+                'Cannot send email: no recipient address.',
             )
             return False
         try:
             company = self.env['res.company'].browse(
-                company_id
+                company_id,
             )
             email_from = (
                 '%s <%s>' % (
                     from_name or 'UniCore ERP',
-                    company.email or 'noreply@unicore.edu'
+                    company.email or 'noreply@unicore.edu',
                 )
             )
             mail = self.env['mail.mail'].sudo().create({
@@ -208,16 +209,15 @@ class UniCoreNotificationEngine(models.AbstractModel):
                     .get('id', 'unknown')
                 )
                 return True, message_id
-            else:
-                error = response.text
-                _logger.error(
-                    'WhatsApp API error %s: %s',
-                    response.status_code, error,
-                )
-                return False, error
+            error = response.text
+            _logger.error(
+                'WhatsApp API error %s: %s',
+                response.status_code, error,
+            )
+            return False, error
         except Exception as e:
             _logger.error(
-                'WhatsApp send failed: %s', str(e)
+                'WhatsApp send failed: %s', str(e),
             )
             return False, str(e)
 
@@ -239,12 +239,12 @@ class UniCoreNotificationEngine(models.AbstractModel):
                                  % config.whatsapp_access_token,
             }
             response = requests.get(
-                url, headers=headers, timeout=10
+                url, headers=headers, timeout=10,
             )
             return response.status_code == 200
         except Exception as e:
             _logger.error(
-                'WhatsApp test failed: %s', str(e)
+                'WhatsApp test failed: %s', str(e),
             )
             return False
 
@@ -275,10 +275,10 @@ class UniCoreNotificationEngine(models.AbstractModel):
 
         # Default variables always available
         variables.setdefault(
-            'student_name', student.display_name
+            'student_name', student.display_name,
         )
         variables.setdefault(
-            'student_id', student.student_id_number
+            'student_id', student.student_id_number,
         )
         variables.setdefault(
             'institution_name',
@@ -294,11 +294,11 @@ class UniCoreNotificationEngine(models.AbstractModel):
         # EMAIL
         if config.email_enabled:
             template = self._get_template(
-                trigger_event, 'email', company_id
+                trigger_event, 'email', company_id,
             )
             if template:
                 rendered = template.render_template(
-                    variables
+                    variables,
                 )
                 to_email = (
                     student.institutional_email
@@ -308,7 +308,7 @@ class UniCoreNotificationEngine(models.AbstractModel):
                     to_email=to_email,
                     subject=rendered.get('email_subject'),
                     body_html=rendered.get(
-                        'email_body_html'
+                        'email_body_html',
                     ),
                     company_id=company_id,
                 )
@@ -320,10 +320,10 @@ class UniCoreNotificationEngine(models.AbstractModel):
                     status='sent' if success else 'failed',
                     recipient_email=to_email,
                     message_subject=rendered.get(
-                        'email_subject'
+                        'email_subject',
                     ),
                     message_body=rendered.get(
-                        'email_body_html', ''
+                        'email_body_html', '',
                     )[:2000],
                     student_id=student.id,
                     template_id=template.id,
@@ -333,11 +333,11 @@ class UniCoreNotificationEngine(models.AbstractModel):
         # WHATSAPP
         if config.whatsapp_enabled and student.mobile:
             template = self._get_template(
-                trigger_event, 'whatsapp', company_id
+                trigger_event, 'whatsapp', company_id,
             )
             if template:
                 rendered = template.render_template(
-                    variables
+                    variables,
                 )
                 wa_body = rendered.get('whatsapp_body')
                 if wa_body:
@@ -370,15 +370,15 @@ class UniCoreNotificationEngine(models.AbstractModel):
         # IN-APP
         if config.inapp_enabled and student.partner_id:
             template = self._get_template(
-                trigger_event, 'inapp', company_id
+                trigger_event, 'inapp', company_id,
             )
             if template:
                 rendered = template.render_template(
-                    variables
+                    variables,
                 )
                 inapp_body = rendered.get('inapp_body')
                 if inapp_body and hasattr(
-                    student, 'message_post'
+                    student, 'message_post',
                 ):
                     try:
                         student.message_post(
@@ -420,11 +420,11 @@ class UniCoreNotificationEngine(models.AbstractModel):
         config = Config.get_config_for_company(company_id)
 
         variables.setdefault(
-            'guardian_name', guardian.display_name
+            'guardian_name', guardian.display_name,
         )
         if student:
             variables.setdefault(
-                'student_name', student.display_name
+                'student_name', student.display_name,
             )
 
         results = {'email': False, 'whatsapp': False}
@@ -432,17 +432,17 @@ class UniCoreNotificationEngine(models.AbstractModel):
         # EMAIL
         if config.email_enabled and guardian.email:
             template = self._get_template(
-                trigger_event, 'email', company_id
+                trigger_event, 'email', company_id,
             )
             if template:
                 rendered = template.render_template(
-                    variables
+                    variables,
                 )
                 success = self._send_email(
                     to_email=guardian.email,
                     subject=rendered.get('email_subject'),
                     body_html=rendered.get(
-                        'email_body_html'
+                        'email_body_html',
                     ),
                     company_id=company_id,
                 )
@@ -454,7 +454,7 @@ class UniCoreNotificationEngine(models.AbstractModel):
                     status='sent' if success else 'failed',
                     recipient_email=guardian.email,
                     message_subject=rendered.get(
-                        'email_subject'
+                        'email_subject',
                     ),
                     guardian_id=guardian.id,
                     student_id=student.id if student
@@ -469,11 +469,11 @@ class UniCoreNotificationEngine(models.AbstractModel):
         )
         if config.whatsapp_enabled and wa_number:
             template = self._get_template(
-                trigger_event, 'whatsapp', company_id
+                trigger_event, 'whatsapp', company_id,
             )
             if template:
                 rendered = template.render_template(
-                    variables
+                    variables,
                 )
                 wa_body = rendered.get('whatsapp_body')
                 if wa_body:
@@ -518,7 +518,7 @@ class UniCoreNotificationEngine(models.AbstractModel):
         from datetime import date, timedelta
         Invoice = self.env['unicore.fee.invoice']
         target_date = date.today() + timedelta(
-            days=days_before
+            days=days_before,
         )
         due_invoices = Invoice.search([
             ('company_id', '=', company_id),
@@ -533,7 +533,7 @@ class UniCoreNotificationEngine(models.AbstractModel):
                 'student_name': student.display_name,
                 'due_date': str(invoice.due_date),
                 'amount': str(
-                    round(invoice.amount_outstanding, 2)
+                    round(invoice.amount_outstanding, 2),
                 ),
                 'invoice_number': invoice.invoice_number,
             }
@@ -544,7 +544,7 @@ class UniCoreNotificationEngine(models.AbstractModel):
             )
             for rel in student.guardian_rel_ids.filtered(
                 lambda r: r.can_receive_notifications
-                          and r.is_active_relationship
+                          and r.is_active_relationship,
             ):
                 self.send_to_guardian(
                     guardian=rel.guardian_id,
@@ -583,7 +583,7 @@ class UniCoreNotificationEngine(models.AbstractModel):
                         record
                         .cumulative_attendance_percentage,
                         1,
-                    )
+                    ),
                 ),
                 'course_name': (
                     record.course_id.name
