@@ -1,6 +1,7 @@
 """UniCore Fees — Models Package"""
 from .. import reports
 from . import (
+    unicore_fee_account_reconcile_ext,
     unicore_fee_accounting_config,
     unicore_fee_invoice,
     unicore_fee_invoice_gl_ext,

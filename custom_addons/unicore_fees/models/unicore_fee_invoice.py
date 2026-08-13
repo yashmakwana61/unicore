@@ -157,22 +157,32 @@ class UniCoreFeeInvoice(models.Model):
             rec.subtotal = sum(line.amount for line in rec.line_ids)
             rec.total_amount = rec.subtotal - rec.discount_amount + rec.late_fee_amount
 
-    @api.depends('account_move_id', 'account_move_id.line_ids', 'total_amount')
+    @api.depends(
+        'account_move_id',
+        'account_move_id.line_ids',
+        'account_move_id.line_ids.reconciled',
+        'account_move_id.line_ids.amount_residual',
+        'total_amount',
+    )
     def _compute_payment_stats(self):
         for rec in self:
             # Get payment status from GL invoice reconciliation
             if rec.account_move_id:
-                # Find AR line and check reconciliation status
+                # Find AR lines and check reconciliation status
                 ar_lines = rec.account_move_id.line_ids.filtered(
                     lambda l: l.account_id.account_type == 'asset_receivable',
                 )
                 if ar_lines:
-                    # Calculate paid amount from reconciled lines
-                    reconciled_amount = sum(
-                        line.credit for line in ar_lines if line.reconciled
+                    # The sum of the receivable line residuals is the amount
+                    # still unpaid. `amount_residual` is recomputed by Odoo
+                    # whenever the lines are (partially) reconciled with a
+                    # payment, which keeps these stored fields in sync.
+                    rec.amount_outstanding = sum(
+                        line.amount_residual for line in ar_lines
                     )
-                    rec.amount_paid = reconciled_amount
-                    rec.amount_outstanding = max(0.0, rec.total_amount - rec.amount_paid)
+                    rec.amount_paid = max(
+                        0.0, rec.total_amount - rec.amount_outstanding,
+                    )
                 else:
                     rec.amount_paid = 0.0
                     rec.amount_outstanding = rec.total_amount

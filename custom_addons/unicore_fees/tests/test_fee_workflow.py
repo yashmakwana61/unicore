@@ -1,7 +1,6 @@
 from datetime import date, timedelta
 
 import odoo
-from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
 
@@ -51,10 +50,13 @@ class UniCoreFeeWorkflowTest(TransactionCase):
             'is_current': False,
             'company_id': cls.company.id,
         })
+        # The default company uses a term-mode calendar (institution profile),
+        # which forces academic years to ``year_type == 'term'``; such years may
+        # only contain term semesters.
         cls.semester = cls.env['unicore.semester'].create({
-            'name': 'Test ODD 2025-26',
-            'code': 'TODD-2526',
-            'semester_type': 'odd',
+            'name': 'Test First Term 2025-26',
+            'code': 'TT1-2526',
+            'semester_type': 'term_1',
             'academic_year_id': cls.academic_year.id,
             'date_start': '2025-07-15',
             'date_end': '2025-11-30',
@@ -127,6 +129,52 @@ class UniCoreFeeWorkflowTest(TransactionCase):
             'admission_date': '2025-06-01',
         })
 
+        cls._setup_accounting()
+
+    @classmethod
+    def _setup_accounting(cls):
+        """Resolve the company chart and (re)use the fee accounting config."""
+        company = cls.env.company
+        receivable = cls.env['account.account'].search([
+            ('account_type', '=', 'asset_receivable'),
+            ('reconcile', '=', True),
+        ], limit=1)
+        revenue = cls.env['account.account'].search([
+            ('account_type', '=', 'income'),
+        ], limit=1)
+        sale_journal = cls.env['account.journal'].search([
+            ('type', '=', 'sale'),
+            ('company_id', '=', company.id),
+        ], limit=1)
+        cls.bank_journal = cls.env['account.journal'].search([
+            ('type', '=', 'bank'),
+            ('company_id', '=', company.id),
+        ], limit=1)
+        if not (receivable and revenue and sale_journal and cls.bank_journal):
+            cls.skipTest('The company chart of accounts is incomplete')
+
+        # Only one active config is allowed per company; reuse an existing one.
+        cls.config = cls.env['unicore.fee.accounting.config'].search([
+            ('company_id', '=', company.id),
+        ], limit=1)
+        if cls.config:
+            cls.config.write({
+                'journal_id': sale_journal.id,
+                'revenue_account_id': revenue.id,
+                'receivable_account_id': receivable.id,
+                'auto_post_invoice': True,
+                'is_active': True,
+            })
+        else:
+            cls.config = cls.env['unicore.fee.accounting.config'].create({
+                'company_id': company.id,
+                'journal_id': sale_journal.id,
+                'revenue_account_id': revenue.id,
+                'receivable_account_id': receivable.id,
+                'auto_post_invoice': True,
+                'is_active': True,
+            })
+
     def _create_invoice(self, student, amount_lines=None, discount=0.0):
         if amount_lines is None:
             amount_lines = [('Tuition Fee', 25000.0), ('Library Fee', 5000.0)]
@@ -151,6 +199,9 @@ class UniCoreFeeWorkflowTest(TransactionCase):
         return invoice
 
     def _create_payment(self, invoice, amount, confirm=True):
+        # NOTE: `unicore.fee.payment` is archived; invoice amounts only update
+        # through the GL flow (`_record_gl_payment`). This helper is kept only
+        # to verify the legacy receipt-number sequence (test_07).
         payment = self.env['unicore.fee.payment'].create({
             'invoice_id': invoice.id,
             'amount': amount,
@@ -160,6 +211,35 @@ class UniCoreFeeWorkflowTest(TransactionCase):
         self.assertTrue(payment.id > 0)
         if confirm:
             payment.action_confirm()
+        return payment
+
+    def _record_gl_payment(self, invoice, amount):
+        """Send the fee invoice to the GL (if needed) and record a payment."""
+        if not invoice.account_move_id:
+            invoice.action_send()
+        move = invoice.account_move_id
+        self.assertTrue(move, 'GL invoice must be created on send')
+        self.assertEqual(move.state, 'posted', 'GL invoice must be auto-posted')
+
+        inbound_line = self.bank_journal.inbound_payment_method_line_ids[:1]
+        self.assertTrue(inbound_line, 'Bank journal must have an inbound method')
+        register = self.env['account.payment.register'].with_context(
+            active_model='account.move', active_ids=move.ids, active_id=move.id,
+        ).create({
+            'journal_id': self.bank_journal.id,
+            'amount': amount,
+            'payment_date': date.today(),
+            'payment_method_line_id': inbound_line.id,
+        })
+        payments = register._create_payments()
+        payment = payments[:1]
+        self.assertTrue(payment, 'Payment must be created')
+        # A partial payment legitimately stays 'in_process' until the invoice
+        # is fully paid.
+        self.assertIn(
+            payment.state, ('paid', 'in_process'),
+            'Payment must be posted',
+        )
         return payment
 
     def test_01_fee_structure_create(self):
@@ -189,7 +269,8 @@ class UniCoreFeeWorkflowTest(TransactionCase):
         """Partial payment must update amounts and state."""
         invoice = self._create_invoice(self.student2)
         self.assertEqual(invoice.total_amount, 30000.0)
-        self._create_payment(invoice, 15000.0)
+        self._record_gl_payment(invoice, 15000.0)
+        invoice.invalidate_recordset()
         self.assertEqual(invoice.amount_paid, 15000.0)
         self.assertEqual(invoice.amount_outstanding, 15000.0)
         self.assertEqual(invoice.invoice_state, 'partial')
@@ -198,16 +279,20 @@ class UniCoreFeeWorkflowTest(TransactionCase):
         """Full payment must close the invoice."""
         invoice = self._create_invoice(self.student2, [('Tuition Fee', 10000.0)])
         self.assertEqual(invoice.total_amount, 10000.0)
-        self._create_payment(invoice, 10000.0)
+        self._record_gl_payment(invoice, 10000.0)
+        invoice.invalidate_recordset()
         self.assertEqual(invoice.amount_paid, 10000.0)
         self.assertEqual(invoice.amount_outstanding, 0.0)
         self.assertEqual(invoice.invoice_state, 'paid')
 
-    def test_06_overpayment_blocked(self):
-        """Overpayment must be rejected by model constraint."""
+    def test_06_overpayment_handled_as_advance(self):
+        """Overpayment reconciles up to the invoice, leaving an advance."""
         invoice = self._create_invoice(self.student3, [('Tuition Fee', 10000.0)])
-        with self.assertRaises(ValidationError):
-            self._create_payment(invoice, 15000.0)
+        self._record_gl_payment(invoice, 15000.0)
+        invoice.invalidate_recordset()
+        self.assertEqual(invoice.amount_paid, 10000.0)
+        self.assertEqual(invoice.amount_outstanding, 0.0)
+        self.assertEqual(invoice.invoice_state, 'paid')
 
     def test_07_payment_number_sequence(self):
         """Each payment must receive a unique receipt number."""
@@ -221,30 +306,24 @@ class UniCoreFeeWorkflowTest(TransactionCase):
         self.assertTrue(p2.receipt_number.startswith('RCP/'))
 
     def test_08_cancelled_invoice_payment(self):
-        """Payment on a cancelled invoice should be blocked (currently allowed by model)."""
+        """A cancelled invoice drops out of the fees-due summary."""
         invoice = self._create_invoice(self.student1, [('Tuition Fee', 5000.0)])
+        invoice.action_send()
+        self.assertEqual(invoice.invoice_state, 'sent')
         invoice.action_cancel()
         self.assertEqual(invoice.invoice_state, 'cancelled')
-        prev_state = invoice.invoice_state
-        payment = self.env['unicore.fee.payment'].create({
-            'invoice_id': invoice.id,
-            'amount': 1000.0,
-            'payment_date': date.today(),
-            'payment_method': 'cash',
-        })
-        payment.action_confirm()
-        self.assertNotEqual(
-            invoice.invoice_state, prev_state,
-            'Payment on a cancelled invoice changed its state — '
-            'the model should block this',
-        )
+        self.student1._compute_fee_summary()
+        self.assertEqual(self.student1.total_fees_due, 0.0)
+        self.assertFalse(self.student1.has_fee_dues)
 
     def test_09_fee_summary_computed(self):
         """Student total_fees_due must reflect outstanding across invoices."""
         inv1 = self._create_invoice(self.student1, [('Tuition Fee', 20000.0)])
         inv2 = self._create_invoice(self.student2, [('Tuition Fee', 30000.0)])
-        self._create_payment(inv1, 20000.0)
-        self._create_payment(inv2, 10000.0)
+        self._record_gl_payment(inv1, 20000.0)
+        self._record_gl_payment(inv2, 10000.0)
+        inv1.invalidate_recordset()
+        inv2.invalidate_recordset()
         self.assertEqual(inv1.invoice_state, 'paid')
         self.assertEqual(inv2.invoice_state, 'partial')
         self.student1._compute_fee_summary()

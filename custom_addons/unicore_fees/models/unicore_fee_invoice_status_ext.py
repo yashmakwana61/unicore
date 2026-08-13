@@ -56,6 +56,11 @@ class UniCoreFeeInvoiceStatusExt(models.Model):
             self.invoice_state = 'partial'
         elif self.due_date and self.due_date < date.today():
             self.invoice_state = 'overdue'
+        elif self.account_move_id:
+            # Fully outstanding again although linked to a GL invoice: a
+            # recorded payment was un-reconciled in the GL, so the fee
+            # invoice goes back to sent.
+            self.invoice_state = 'sent'
 
         # Log GL reconciliation status
         if self.account_move_id and self.gl_fully_reconciled:

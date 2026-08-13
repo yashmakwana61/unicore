@@ -156,7 +156,7 @@ class UniCoreAssignmentSubmission(models.Model):
     )
     feedback = fields.Html(
         string='Feedback',
-        tracking=True,
+        help='Grading feedback from faculty (Html content is not chatter-tracked).',
     )
     graded_by_id = fields.Many2one(
         comodel_name='res.users',

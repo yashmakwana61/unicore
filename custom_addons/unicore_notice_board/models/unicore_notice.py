@@ -10,7 +10,7 @@ class UnicoreNotice(models.Model):
     _rec_name = 'title'
 
     title = fields.Char(string='Title', required=True, tracking=True)
-    body = fields.Html(string='Body', required=True, sanitize=True, tracking=True)
+    body = fields.Html(string='Body', required=True, sanitize=True)
     notice_type = fields.Selection(
         selection=[
             ('general', 'General'),

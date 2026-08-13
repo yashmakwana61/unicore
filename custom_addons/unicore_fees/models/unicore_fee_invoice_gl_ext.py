@@ -154,17 +154,20 @@ class UniCoreFeeInvoiceGLExt(models.Model):
         if not self.account_move_id or self.account_move_id.state != 'posted':
             return
 
-        # Create reversal/credit note
+        # Create reversal/credit note. Odoo 19 `_reverse_moves` takes the
+        # reversal defaults via `default_values_list` and, when ``cancel`` is
+        # True, posts the reversal and reconciles it with the original invoice
+        # so no amount remains payable on the cancelled fee invoice.
         reverse_move = self.account_move_id._reverse_moves(
-            reason=_('Reversal of fee invoice %s (Student: %s)') % (
-                self.invoice_number,
-                self.student_id.display_name,
-            ),
-            date=fields.Date.today(),
+            default_values_list=[{
+                'ref': _('Reversal of fee invoice %s (Student: %s)') % (
+                    self.invoice_number,
+                    self.student_id.display_name,
+                ),
+                'invoice_date': fields.Date.today(),
+            }],
+            cancel=True,
         )
-
-        # Post the reversal immediately
-        reverse_move.action_post()
 
         # Update reference
         self.message_post(body=_(

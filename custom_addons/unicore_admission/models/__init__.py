@@ -1,4 +1,5 @@
 from . import (
+    unicore_admission_sequence,
     admission_applicant,
     admission_cycle,
     admission_enrollment,
@@ -6,7 +7,6 @@ from . import (
     entrance_test,
     offer_letter,
     res_company,
-    unicore_admission_sequence,
     unicore_course_offering_ext,
     unicore_enrollment,
     unicore_enrollment_log,
