@@ -1,14 +1,14 @@
-"""UniCore Fees — Models Package"""
+"""Oacis Fees — Models Package"""
 from .. import reports
 from . import (
-    unicore_fee_account_reconcile_ext,
-    unicore_fee_accounting_config,
-    unicore_fee_invoice,
-    unicore_fee_invoice_gl_ext,
-    unicore_fee_invoice_migration,
-    unicore_fee_invoice_status_ext,
-    unicore_fee_payment,
-    unicore_fee_structure,
-    unicore_student_fee_ext,
-    unicore_student_partner_ext,
+    oacis_fee_account_reconcile_ext,
+    oacis_fee_accounting_config,
+    oacis_fee_invoice,
+    oacis_fee_invoice_gl_ext,
+    oacis_fee_invoice_migration,
+    oacis_fee_invoice_status_ext,
+    oacis_fee_payment,
+    oacis_fee_structure,
+    oacis_student_fee_ext,
+    oacis_student_partner_ext,
 )

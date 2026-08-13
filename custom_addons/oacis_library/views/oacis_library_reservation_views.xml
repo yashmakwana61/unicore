@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-  <record id="view_unicore_library_reservation_form" model="ir.ui.view">
-    <field name="name">unicore.library.reservation.form</field>
-    <field name="model">unicore.library.reservation</field>
+  <record id="view_oacis_library_reservation_form" model="ir.ui.view">
+    <field name="name">oacis.library.reservation.form</field>
+    <field name="model">oacis.library.reservation</field>
     <field name="arch" type="xml">
       <form>
         <header>
-          <button name="action_fulfill" string="Mark Fulfilled" type="object" invisible="reservation_state !=               'ready'" class="btn-success" groups="unicore_base.group_unicore_staff"/>
-          <button name="action_cancel" string="Cancel Reservation" type="object" invisible="reservation_state in               ('fulfilled','cancelled','expired')" groups="unicore_base.group_unicore_staff"/>
+          <button name="action_fulfill" string="Mark Fulfilled" type="object" invisible="reservation_state !=               'ready'" class="btn-success" groups="oacis_base.group_oacis_staff"/>
+          <button name="action_cancel" string="Cancel Reservation" type="object" invisible="reservation_state in               ('fulfilled','cancelled','expired')" groups="oacis_base.group_oacis_staff"/>
           <field name="reservation_state" widget="statusbar" statusbar_visible="active,ready,               fulfilled"/>
         </header>
         <sheet>
@@ -35,9 +35,9 @@
       </form>
     </field>
   </record>
-  <record id="view_unicore_library_reservation_list" model="ir.ui.view">
-    <field name="name">unicore.library.reservation.list</field>
-    <field name="model">unicore.library.reservation</field>
+  <record id="view_oacis_library_reservation_list" model="ir.ui.view">
+    <field name="name">oacis.library.reservation.list</field>
+    <field name="model">oacis.library.reservation</field>
     <field name="arch" type="xml">
       <list decoration-success="reservation_state == 'ready'" decoration-muted="reservation_state in               ('fulfilled','cancelled','expired')">
         <field name="reservation_number"/>
@@ -50,9 +50,9 @@
       </list>
     </field>
   </record>
-  <record id="action_unicore_library_reservation" model="ir.actions.act_window">
+  <record id="action_oacis_library_reservation" model="ir.actions.act_window">
     <field name="name">Book Reservations</field>
-    <field name="res_model">unicore.library.reservation</field>
+    <field name="res_model">oacis.library.reservation</field>
     <field name="view_mode">list,form</field>
     <field name="domain">[('reservation_state','in',
         ['active','ready'])]</field>

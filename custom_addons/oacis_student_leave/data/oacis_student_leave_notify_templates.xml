@@ -2,7 +2,7 @@
 <odoo>
   <data noupdate="1">
     <!-- ========== LEAVE REQUEST APPROVED — EMAIL ========== -->
-    <record id="template_leave_approved_email" model="unicore.notification.template">
+    <record id="template_leave_approved_email" model="oacis.notification.template">
       <field name="name">Leave Request Approved — Email</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">leave_request_approved</field>
@@ -34,7 +34,7 @@
       <field name="active" eval="True"/>
     </record>
     <!-- ========== LEAVE REQUEST APPROVED — WHATSAPP ========== -->
-    <record id="template_leave_approved_whatsapp" model="unicore.notification.template">
+    <record id="template_leave_approved_whatsapp" model="oacis.notification.template">
       <field name="name">Leave Request Approved — WhatsApp</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">leave_request_approved</field>
@@ -56,7 +56,7 @@ Your status has been updated to On Leave.
       <field name="active" eval="True"/>
     </record>
     <!-- ========== LEAVE REQUEST APPROVED — IN-APP ========== -->
-    <record id="template_leave_approved_inapp" model="unicore.notification.template">
+    <record id="template_leave_approved_inapp" model="oacis.notification.template">
       <field name="name">Leave Request Approved — In-App</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">leave_request_approved</field>
@@ -72,7 +72,7 @@ Your status has been updated to On Leave.
       <field name="active" eval="True"/>
     </record>
     <!-- ========== LEAVE REQUEST REJECTED — EMAIL ========== -->
-    <record id="template_leave_rejected_email" model="unicore.notification.template">
+    <record id="template_leave_rejected_email" model="oacis.notification.template">
       <field name="name">Leave Request Rejected — Email</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">leave_request_rejected</field>
@@ -103,7 +103,7 @@ Your status has been updated to On Leave.
       <field name="active" eval="True"/>
     </record>
     <!-- ========== LEAVE REQUEST REJECTED — WHATSAPP ========== -->
-    <record id="template_leave_rejected_whatsapp" model="unicore.notification.template">
+    <record id="template_leave_rejected_whatsapp" model="oacis.notification.template">
       <field name="name">Leave Request Rejected — WhatsApp</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">leave_request_rejected</field>
@@ -126,7 +126,7 @@ you have questions.
       <field name="active" eval="True"/>
     </record>
     <!-- ========== LEAVE REQUEST REJECTED — IN-APP ========== -->
-    <record id="template_leave_rejected_inapp" model="unicore.notification.template">
+    <record id="template_leave_rejected_inapp" model="oacis.notification.template">
       <field name="name">Leave Request Rejected — In-App</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">leave_request_rejected</field>

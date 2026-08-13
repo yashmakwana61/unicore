@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_staff_member_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.staff.member.kanban</field>
-        <field name="model">unicore.staff.member</field>
+    <record id="oacis_staff_member_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.staff.member.kanban</field>
+        <field name="model">oacis.staff.member</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="staff_state">
                 <field name="display_name"/>
@@ -20,7 +20,7 @@
                 <field name="color"/>
                 <templates>
                     <t t-name="card" class="flex-row">
-                        <img t-att-src="record.image_1920.raw_value ? 'data:image/png;base64,'+record.image_1920.raw_value : '/unicore_base/static/description/icon.png'"
+                        <img t-att-src="record.image_1920.raw_value ? 'data:image/png;base64,'+record.image_1920.raw_value : '/oacis_base/static/description/icon.png'"
                              class="o_kanban_image rounded shadow-sm me-3" alt="staff"/>
                         <main>
                             <div class="d-flex justify-content-between align-items-start">
@@ -50,9 +50,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_faculty_publication_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.faculty.publication.kanban</field>
-        <field name="model">unicore.faculty.publication</field>
+    <record id="oacis_faculty_publication_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.faculty.publication.kanban</field>
+        <field name="model">oacis.faculty.publication</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" default_group_by="publication_type">
                 <field name="title"/>
@@ -88,9 +88,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_faculty_workload_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.faculty.workload.kanban</field>
-        <field name="model">unicore.faculty.workload</field>
+    <record id="oacis_faculty_workload_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.faculty.workload.kanban</field>
+        <field name="model">oacis.faculty.workload</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" default_group_by="workload_type">
                 <field name="course_name"/>

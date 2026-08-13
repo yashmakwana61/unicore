@@ -11,9 +11,9 @@ class AdmissionStage(models.Model):
     configurable ``stage_id``.
     """
 
-    _name = 'unicore.admission.stage'
+    _name = 'oacis.admission.stage'
     _description = 'Admission Stage'
-    _inherit = 'unicore.mixin'
+    _inherit = 'oacis.mixin'
     _order = 'sequence, id'
     _check_company_auto = True
 
@@ -104,7 +104,7 @@ class AdmissionStage(models.Model):
         existing = self.search([('company_id', '=', company.id)], limit=1)
         if existing:
             return self.search([('company_id', '=', company.id)])
-        stages = self.env['unicore.admission.stage']
+        stages = self.env['oacis.admission.stage']
         for name, sequence, state, color, is_terminal in self._DEFAULT_STAGES:
             stages |= self.create({
                 'name': name,
@@ -136,7 +136,7 @@ class AdmissionStage(models.Model):
         """
         self.ensure_one()
         if self.is_terminal:
-            return self.env['unicore.admission.stage']
+            return self.env['oacis.admission.stage']
         return self.search([
             ('company_id', '=', self.company_id.id),
             ('sequence', '>', self.sequence),

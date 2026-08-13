@@ -1,8 +1,8 @@
-# UniCore Admission Dashboard Implementation
+# Oacis Admission Dashboard Implementation
 
 ## Overview
 
-A new **OWL client-action dashboard** for admission funnel analytics has been built as the first component-based dashboard in UniCore. It serves as a reference pattern for future module dashboards.
+A new **OWL client-action dashboard** for admission funnel analytics has been built as the first component-based dashboard in Oacis. It serves as a reference pattern for future module dashboards.
 
 **Key principle:** All data aggregation is **server-side via `read_group`**. The dashboard never counts raw records in JavaScript.
 
@@ -14,7 +14,7 @@ A new **OWL client-action dashboard** for admission funnel analytics has been bu
 
 | File Path | Purpose |
 |-----------|---------|
-| `models/admission_dashboard.py` | Inherits `unicore.admission.applicant`; adds `get_admission_dashboard_data()` aggregation method |
+| `models/admission_dashboard.py` | Inherits `oacis.admission.applicant`; adds `get_admission_dashboard_data()` aggregation method |
 | `static/src/js/admission_dashboard.js` | OWL component; owns filter state, calls aggregation method, renders charts/cards |
 | `static/src/xml/admission_dashboard.xml` | OWL template; displays KPI cards, filters, charts, breakdown tables |
 | `static/src/scss/admission_dashboard.scss` | Styling; reuses `--uc-primary` (#714B67) design tokens from theme |
@@ -29,12 +29,12 @@ A new **OWL client-action dashboard** for admission funnel analytics has been bu
 
 ### Files Untouched (Preserved Exactly)
 
-- `unicore_admission/models/admission_applicant.py` (the base model)
-- `unicore_admission/views/*` (form/tree/search views)
-- `unicore_admission/security/*` (access rules)
-- `unicore_analytics/models/unicore_admission_analytics.py` (report VIEW)
-- `unicore_analytics/views/unicore_admission_analytics_views.xml` (report views)
-- `unicore_analytics/menus/unicore_analytics_menus.xml` (existing menu)
+- `oacis_admission/models/admission_applicant.py` (the base model)
+- `oacis_admission/views/*` (form/tree/search views)
+- `oacis_admission/security/*` (access rules)
+- `oacis_analytics/models/oacis_admission_analytics.py` (report VIEW)
+- `oacis_analytics/views/oacis_admission_analytics_views.xml` (report views)
+- `oacis_analytics/menus/oacis_analytics_menus.xml` (existing menu)
 
 ---
 
@@ -43,7 +43,7 @@ A new **OWL client-action dashboard** for admission funnel analytics has been bu
 1. **User opens dashboard** → OWL component loads
 2. **User sets filters** (academic year, campus, program, state, date range)
 3. **Component builds domain** from filter state
-4. **ORM call** → `unicore.admission.applicant.get_admission_dashboard_data(domain)`
+4. **ORM call** → `oacis.admission.applicant.get_admission_dashboard_data(domain)`
 5. **Aggregation method**:
    - Runs `search_count(domain)` for total
    - Runs `read_group()` for every dimension (program, campus, gender, state, nationality)
@@ -143,16 +143,16 @@ Analytics (menu root)
 │   └── Category Distribution (existing report)
 ```
 
-- **New menu:** `menu_unicore_analytics_admission_dashboard` with action `action_unicore_admission_dashboard`
+- **New menu:** `menu_oacis_analytics_admission_dashboard` with action `action_oacis_admission_dashboard`
 - **Existing menus:** Untouched
-- **Parent:** `menu_unicore_analytics_admission` (the Admission Analytics submenu)
+- **Parent:** `menu_oacis_analytics_admission` (the Admission Analytics submenu)
 - **Sequence:** 5 (appears before "Admission Funnel" at sequence 10)
 
 ---
 
 ## Design Tokens
 
-Styling reuses **UniCore theme design system**:
+Styling reuses **Oacis theme design system**:
 
 ```css
 --uc-primary: #714B67           /* Main purple */
@@ -166,7 +166,7 @@ Styling reuses **UniCore theme design system**:
 
 Dark mode support via `@media (prefers-color-scheme: dark)`.
 
-**KPI card styling** mirrors existing stat buttons in `unicore_theme/form_view.scss`.
+**KPI card styling** mirrors existing stat buttons in `oacis_theme/form_view.scss`.
 
 ---
 
@@ -185,12 +185,12 @@ Dark mode support via `@media (prefers-color-scheme: dark)`.
 
 ### Prerequisites
 - Chart.js available in Odoo environment (assumes bundled or available via theme)
-- `unicore_admission` module installed (dependency already in `unicore_analytics`)
+- `oacis_admission` module installed (dependency already in `oacis_analytics`)
 
 ### Module Update
 
 ```bash
-docker compose exec odoo odoo -d unicore_production -u unicore_analytics --stop-after-init
+docker compose exec odoo odoo -d oacis_production -u oacis_analytics --stop-after-init
 ```
 
 Then perform a hard browser refresh.
@@ -200,14 +200,14 @@ Then perform a hard browser refresh.
 If Chart.js is not available, re-run with asset rebuild:
 
 ```bash
-docker compose exec odoo odoo -d unicore_production --update-all-assets --stop-after-init
+docker compose exec odoo odoo -d oacis_production --update-all-assets --stop-after-init
 ```
 
 ---
 
 ## Future Enhancements
 
-This dashboard serves as the **reference implementation** for OWL component dashboards in UniCore. Future modules should:
+This dashboard serves as the **reference implementation** for OWL component dashboards in Oacis. Future modules should:
 
 1. **Copy the pattern:** `models/dashboard.py` (inheriting base model), JS/XML/SCSS in `static/src/`
 2. **Server-side aggregation:** Always use `read_group`, never raw record counting
@@ -219,7 +219,7 @@ This dashboard serves as the **reference implementation** for OWL component dash
 
 ## Self-Check Verification
 
-- ✅ Aggregation reads `unicore.admission.applicant` via server-side `read_group`; no JS record-counting
+- ✅ Aggregation reads `oacis.admission.applicant` via server-side `read_group`; no JS record-counting
 - ✅ Client-action registration mirrors `apps_landing_screen.js` (registry category, action tag, setup/mount pattern)
 - ✅ Funnel uses ordered progression states only; rejected/withdrawn/waitlisted shown as separate KPI exits
 - ✅ Overlapping conversion/admission rates use the report VIEW's definitions verbatim
@@ -228,7 +228,7 @@ This dashboard serves as the **reference implementation** for OWL component dash
 - ✅ New menu added alongside existing report menu; existing menus XML untouched
 - ✅ Only new files created; applicant model/views/security and report VIEWs unchanged
 - ✅ No time-to-decision, no source/channel, no forecasting, no new field/model
-- ✅ Tokens reused; SCSS in `unicore_analytics/static/`; manifest `assets` added + `data` appended
+- ✅ Tokens reused; SCSS in `oacis_analytics/static/`; manifest `assets` added + `data` appended
 
 ---
 
@@ -247,5 +247,5 @@ This dashboard serves as the **reference implementation** for OWL component dash
 8. ✅ `__manifest__.py` (added assets + data)
 
 **Unchanged files (verified untouched):**
-- All files in `unicore_admission/`
-- All files in `unicore_analytics/` except those listed above
+- All files in `oacis_admission/`
+- All files in `oacis_analytics/` except those listed above

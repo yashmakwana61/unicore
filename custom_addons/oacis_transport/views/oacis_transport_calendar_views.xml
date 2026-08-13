@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_transport_trip_calendar_view" model="ir.ui.view">
-        <field name="name">unicore.transport.trip.calendar</field>
-        <field name="model">unicore.transport.trip</field>
+    <record id="oacis_transport_trip_calendar_view" model="ir.ui.view">
+        <field name="name">oacis.transport.trip.calendar</field>
+        <field name="model">oacis.transport.trip</field>
         <field name="type">calendar</field>
         <field name="arch" type="xml">
             <calendar date_start="trip_date" color="color" string="Transport Trip Calendar">
@@ -25,9 +25,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_transport_pass_calendar_view" model="ir.ui.view">
-        <field name="name">unicore.transport.pass.calendar</field>
-        <field name="model">unicore.transport.pass</field>
+    <record id="oacis_transport_pass_calendar_view" model="ir.ui.view">
+        <field name="name">oacis.transport.pass.calendar</field>
+        <field name="model">oacis.transport.pass</field>
         <field name="type">calendar</field>
         <field name="arch" type="xml">
             <calendar date_start="valid_from" date_stop="valid_until" color="color" string="Transport Pass Calendar">

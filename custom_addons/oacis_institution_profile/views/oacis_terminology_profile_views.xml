@@ -2,17 +2,17 @@
 <odoo>
 
     <!-- Window Action -->
-    <record id="action_unicore_terminology_profile" model="ir.actions.act_window">
+    <record id="action_oacis_terminology_profile" model="ir.actions.act_window">
         <field name="name">Terminology Profiles</field>
-        <field name="res_model">unicore.terminology.profile</field>
+        <field name="res_model">oacis.terminology.profile</field>
         <field name="view_mode">list,form</field>
         <field name="domain">[]</field>
     </record>
 
     <!-- List View -->
-    <record id="unicore_terminology_profile_list_view" model="ir.ui.view">
-        <field name="name">unicore.terminology.profile.list</field>
-        <field name="model">unicore.terminology.profile</field>
+    <record id="oacis_terminology_profile_list_view" model="ir.ui.view">
+        <field name="name">oacis.terminology.profile.list</field>
+        <field name="model">oacis.terminology.profile</field>
         <field name="arch" type="xml">
             <list string="Terminology Profiles">
                 <field name="name"/>
@@ -24,9 +24,9 @@
     </record>
 
     <!-- Form View -->
-    <record id="unicore_terminology_profile_form_view" model="ir.ui.view">
-        <field name="name">unicore.terminology.profile.form</field>
-        <field name="model">unicore.terminology.profile</field>
+    <record id="oacis_terminology_profile_form_view" model="ir.ui.view">
+        <field name="name">oacis.terminology.profile.form</field>
+        <field name="model">oacis.terminology.profile</field>
         <field name="arch" type="xml">
             <form string="Terminology Profile">
                 <sheet>

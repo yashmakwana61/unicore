@@ -2,10 +2,10 @@ from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
-class UniCoreDocumentCategory(models.Model):
-    _name = 'unicore.document.category'
+class OacisDocumentCategory(models.Model):
+    _name = 'oacis.document.category'
     _description = 'Document Category'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
     _order = 'sequence, name'
     _parent_name = 'parent_id'
     _parent_store = True
@@ -32,7 +32,7 @@ class UniCoreDocumentCategory(models.Model):
                 rec.complete_name = rec.name
 
     parent_id = fields.Many2one(
-        comodel_name='unicore.document.category',
+        comodel_name='oacis.document.category',
         string='Parent Category',
         ondelete='restrict',
         index=True,
@@ -40,7 +40,7 @@ class UniCoreDocumentCategory(models.Model):
     )
     parent_path = fields.Char(index=True)
     child_ids = fields.One2many(
-        comodel_name='unicore.document.category',
+        comodel_name='oacis.document.category',
         inverse_name='parent_id',
         string='Subcategories',
     )
@@ -74,7 +74,7 @@ class UniCoreDocumentCategory(models.Model):
 
     can_upload_groups = fields.Many2many(
         comodel_name='res.groups',
-        relation='unicore_doc_cat_upload_group_rel',
+        relation='oacis_doc_cat_upload_group_rel',
         column1='category_id',
         column2='group_id',
         string='Upload Groups',
@@ -82,7 +82,7 @@ class UniCoreDocumentCategory(models.Model):
     )
     can_view_groups = fields.Many2many(
         comodel_name='res.groups',
-        relation='unicore_doc_cat_view_group_rel',
+        relation='oacis_doc_cat_view_group_rel',
         column1='category_id',
         column2='group_id',
         string='View Groups',
@@ -106,7 +106,7 @@ class UniCoreDocumentCategory(models.Model):
     )
 
     def _compute_document_count(self):
-        Document = self.env['unicore.document']
+        Document = self.env['oacis.document']
         for rec in self:
             rec.document_count = Document.search_count([
                 ('category_id', '=', rec.id),
@@ -129,7 +129,7 @@ class UniCoreDocumentCategory(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('%s Documents') % self.name,
-            'res_model': 'unicore.document',
+            'res_model': 'oacis.document',
             'view_mode': 'list,form',
             'domain': [('category_id', '=', self.id)],
             'context': {'default_category_id': self.id},

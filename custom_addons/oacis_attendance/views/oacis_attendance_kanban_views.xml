@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_attendance_record_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.attendance.record.kanban</field>
-        <field name="model">unicore.attendance.record</field>
+    <record id="oacis_attendance_record_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.attendance.record.kanban</field>
+        <field name="model">oacis.attendance.record</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="status">
                 <field name="display_name"/>

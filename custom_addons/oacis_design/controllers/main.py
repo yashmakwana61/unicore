@@ -3,7 +3,7 @@ from odoo.http import request
 
 # Side-by-side chatter layout for Odoo 19.
 #
-# The JS service adds the `o_unicore_chatter_side` class on the `.o_form_view`
+# The JS service adds the `o_oacis_chatter_side` class on the `.o_form_view`
 # root, so no `:has()` is needed. In 19.x the side-by-side split happens inside
 # `.o_form_renderer` (its flex children are `.o_form_sheet_bg` and
 # `.o-mail-Form-chatter`).
@@ -17,14 +17,14 @@ from odoo.http import request
 # panes: the sheet (left) and the chatter (right).
 SIDE_CHATTER_CSS = """
 @media (min-width: 992px) {
-    .o_form_view.o_unicore_chatter_side {
+    .o_form_view.o_oacis_chatter_side {
         flex-flow: column nowrap !important;
         height: 100% !important;
         min-height: 0 !important;
         overflow: hidden !important;
     }
 
-    .o_form_view.o_unicore_chatter_side > .o_form_view_container {
+    .o_form_view.o_oacis_chatter_side > .o_form_view_container {
         flex: 1 1 auto !important;
         height: 100% !important;
         width: auto !important;
@@ -32,25 +32,25 @@ SIDE_CHATTER_CSS = """
         min-width: 0 !important;
     }
 
-    .o_form_view.o_unicore_chatter_side .o_form_view_container .o_content {
+    .o_form_view.o_oacis_chatter_side .o_form_view_container .o_content {
         overflow: hidden !important;
     }
 
-    .o_form_view.o_unicore_chatter_side .o_form_renderer {
+    .o_form_view.o_oacis_chatter_side .o_form_renderer {
         display: flex !important;
         flex-flow: row nowrap !important;
         height: 100% !important;
         overflow: hidden !important;
     }
 
-    .o_form_view.o_unicore_chatter_side .o_form_renderer .o_form_sheet_bg {
+    .o_form_view.o_oacis_chatter_side .o_form_renderer .o_form_sheet_bg {
         flex: 2 1 0% !important;
         min-width: 0 !important;
         max-width: none !important;
         overflow: auto !important;
     }
 
-    .o_form_view.o_unicore_chatter_side .o_form_renderer .o-mail-Form-chatter.o-aside:not(.o-isInFormSheetBg) {
+    .o_form_view.o_oacis_chatter_side .o_form_renderer .o-mail-Form-chatter.o-aside:not(.o-isInFormSheetBg) {
         flex: 0 0 33.333333% !important;
         width: 33.333333% !important;
         max-width: 33.333333% !important;
@@ -64,18 +64,18 @@ SIDE_CHATTER_CSS = """
 }
 
 @media (max-width: 991.98px) {
-    .o_form_view.o_unicore_chatter_side .o_form_renderer {
+    .o_form_view.o_oacis_chatter_side .o_form_renderer {
         flex-flow: column nowrap !important;
         overflow: auto !important;
     }
 
-    .o_form_view.o_unicore_chatter_side .o_form_renderer .o_form_sheet_bg {
+    .o_form_view.o_oacis_chatter_side .o_form_renderer .o_form_sheet_bg {
         flex: 0 0 auto !important;
         max-width: 100% !important;
         overflow: visible !important;
     }
 
-    .o_form_view.o_unicore_chatter_side .o_form_renderer .o-mail-Form-chatter.o-aside {
+    .o_form_view.o_oacis_chatter_side .o_form_renderer .o-mail-Form-chatter.o-aside {
         flex: 0 0 auto !important;
         width: 100% !important;
         max-width: 100% !important;
@@ -91,14 +91,14 @@ SIDE_CHATTER_CSS = """
 # native XXL row layout.
 BOTTOM_CHATTER_CSS = """
 @media (min-width: 992px) {
-    .o_form_view.o_unicore_chatter_bottom {
+    .o_form_view.o_oacis_chatter_bottom {
         flex-flow: column nowrap !important;
         height: 100% !important;
         min-height: 0 !important;
         overflow: hidden !important;
     }
 
-    .o_form_view.o_unicore_chatter_bottom > .o_form_view_container {
+    .o_form_view.o_oacis_chatter_bottom > .o_form_view_container {
         flex: 1 1 auto !important;
         height: 100% !important;
         width: 100% !important;
@@ -106,24 +106,24 @@ BOTTOM_CHATTER_CSS = """
         min-width: 0 !important;
     }
 
-    .o_form_view.o_unicore_chatter_bottom .o_form_view_container .o_content {
+    .o_form_view.o_oacis_chatter_bottom .o_form_view_container .o_content {
         overflow: hidden !important;
     }
 
-    .o_form_view.o_unicore_chatter_bottom .o_form_renderer {
+    .o_form_view.o_oacis_chatter_bottom .o_form_renderer {
         display: flex !important;
         flex-flow: column nowrap !important;
         height: 100% !important;
         overflow: auto !important;
     }
 
-    .o_form_view.o_unicore_chatter_bottom .o_form_renderer .o_form_sheet_bg {
+    .o_form_view.o_oacis_chatter_bottom .o_form_renderer .o_form_sheet_bg {
         flex: 0 0 auto !important;
         overflow: visible !important;
         min-height: 0 !important;
     }
 
-    .o_form_view.o_unicore_chatter_bottom .o_form_renderer .o-mail-Form-chatter:not(.o-aside):not(.o-isInFormSheetBg) {
+    .o_form_view.o_oacis_chatter_bottom .o_form_renderer .o-mail-Form-chatter:not(.o-aside):not(.o-isInFormSheetBg) {
         flex: 0 0 auto !important;
         width: 100% !important;
         max-width: 100% !important;
@@ -135,12 +135,12 @@ BOTTOM_CHATTER_CSS = """
 """
 
 
-class UnicoreDesignController(http.Controller):
+class OacisDesignController(http.Controller):
 
-    @http.route('/unicore_design/theme.css', type='http', auth='user', readonly=True)
+    @http.route('/oacis_design/theme.css', type='http', auth='user', readonly=True)
     def theme_css(self, **kwargs):
         user = request.env.user
-        config = user._get_unicore_theme_config()
+        config = user._get_oacis_theme_config()
 
         # Map Font Family
         font_map = {
@@ -195,18 +195,18 @@ class UnicoreDesignController(http.Controller):
 
         # Build dynamic CSS
         css_content = f""":root {{
-    --unicore-font-family: {font_family};
-    --unicore-border-radius: {border_radius};
-    --unicore-startmenu-bg: {startmenu_bg};
-    --unicore-startmenu-blur: 16px;
+    --oacis-font-family: {font_family};
+    --oacis-border-radius: {border_radius};
+    --oacis-startmenu-bg: {startmenu_bg};
+    --oacis-startmenu-blur: 16px;
 }}
 
 body, .o_web_client, input, button, select, textarea, .btn, .o_input {{
-    font-family: var(--unicore-font-family) !important;
+    font-family: var(--oacis-font-family) !important;
 }}
 
 .btn, .form-control, .form-select, .o_input, .dropdown-menu, .modal-content, .card, .o_field_widget, .o_statusbar_buttons > button {{
-    border-radius: var(--unicore-border-radius) !important;
+    border-radius: var(--oacis-border-radius) !important;
 }}
 {density_css}
 {chatter_css}

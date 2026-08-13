@@ -1,25 +1,25 @@
 from odoo import api, models
 
 
-class UniCoreTranscriptReport(models.AbstractModel):
-    _name = 'report.unicore_grading.unicore_transcript_template'
+class OacisTranscriptReport(models.AbstractModel):
+    _name = 'report.oacis_grading.oacis_transcript_template'
     _description = 'Academic Transcript Report'
 
     @api.model
     def _get_report_values(self, docids, data=None):
-        students = self.env['unicore.student'].browse(docids)
+        students = self.env['oacis.student'].browse(docids)
         data = data or {}
 
         transcript_data = []
         for student in students:
-            semester_results = self.env['unicore.semester.result'].search([
+            semester_results = self.env['oacis.semester.result'].search([
                 ('student_id', '=', student.id),
                 ('is_published', '=', True),
             ], order='semester_id asc')
 
             semester_data = []
             for result in semester_results:
-                grade_entries = self.env['unicore.grade.entry'].search([
+                grade_entries = self.env['oacis.grade.entry'].search([
                     ('student_id', '=', student.id),
                     ('semester_id', '=', result.semester_id.id),
                     ('entry_state', 'in', ['published', 'locked']),
@@ -66,7 +66,7 @@ class UniCoreTranscriptReport(models.AbstractModel):
 
         return {
             'doc_ids': docids,
-            'doc_model': 'unicore.student',
+            'doc_model': 'oacis.student',
             'docs': students,
             'transcript_data': transcript_data,
             'data': data or {},

@@ -5,12 +5,12 @@ from odoo import _, api, fields, models
 _logger = logging.getLogger(__name__)
 
 
-class UnicoreFloor(models.Model):
+class OacisFloor(models.Model):
     """Represents a floor within a building."""
 
-    _name = 'unicore.floor'
+    _name = 'oacis.floor'
     _description = 'Building Floor'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
     _order = 'building_id, floor_number'
     _check_company_auto = True
 
@@ -25,13 +25,13 @@ class UnicoreFloor(models.Model):
         help='Use 0 for Ground Floor, -1 for Basement',
     )
     building_id = fields.Many2one(
-        comodel_name='unicore.building',
+        comodel_name='oacis.building',
         string='Building',
         required=True,
         ondelete='restrict',
     )
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus',
+        comodel_name='oacis.campus',
         related='building_id.campus_id',
         string='Campus',
         store=True,
@@ -45,7 +45,7 @@ class UnicoreFloor(models.Model):
         readonly=True,
     )
     room_ids = fields.One2many(
-        comodel_name='unicore.room',
+        comodel_name='oacis.room',
         inverse_name='floor_id',
         string='Rooms',
     )
@@ -70,7 +70,7 @@ class UnicoreFloor(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Rooms'),
-            'res_model': 'unicore.room',
+            'res_model': 'oacis.room',
             'view_mode': 'list,form,kanban',
             'domain': [('floor_id', '=', self.id)],
             'context': {'default_floor_id': self.id},

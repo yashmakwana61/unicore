@@ -1,11 +1,11 @@
 {
-    'name': 'UniCore Faculty Portal',
+    'name': 'Oacis Faculty Portal',
     'version': '19.0.1.0.0',
     'category': 'Education',
     'summary': 'Faculty self-service portal for '
                'schedule, attendance and grade entry',
     'description': """
-        UniCore Faculty Portal provides web-based
+        Oacis Faculty Portal provides web-based
         self-service access for faculty members:
 
         - Dashboard: today's classes, pending grade
@@ -23,23 +23,23 @@
         - My Profile: qualifications, workload
           summary and contact details
 
-        Faculty access via /my/unicore/faculty/
+        Faculty access via /my/oacis/faculty/
         Works for both internal and portal users.
     """,
     'author': 'Precisefect Solutions Pvt. Ltd.',
     'website': 'https://precisefect.com',
     'license': 'OPL-1',
     'depends': [
-        'unicore_base', 'unicore_security',
-        'unicore_campus', 'unicore_academic',
-        'unicore_calendar', 'unicore_student',
-        'unicore_faculty_profile', 'unicore_guardian',
-        'unicore_curriculum', 'unicore_timetable',
-        'unicore_admission', 'unicore_attendance',
-        'unicore_exam', 'unicore_grading',
-        'unicore_fees', 'unicore_scholarship',
-        'unicore_notify', 'unicore_assignment',
-        'unicore_portal_student',
+        'oacis_base', 'oacis_security',
+        'oacis_campus', 'oacis_academic',
+        'oacis_calendar', 'oacis_student',
+        'oacis_faculty_profile', 'oacis_guardian',
+        'oacis_curriculum', 'oacis_timetable',
+        'oacis_admission', 'oacis_attendance',
+        'oacis_exam', 'oacis_grading',
+        'oacis_fees', 'oacis_scholarship',
+        'oacis_notify', 'oacis_assignment',
+        'oacis_portal_student',
         'portal',
     ],
     'data': [

@@ -1,8 +1,8 @@
 """
-UniCore Course Offering Extension — Enrollment Module
+Oacis Course Offering Extension — Enrollment Module
 Converts the static enrolled_count field from
-unicore_curriculum into a live computed field driven
-by actual confirmed unicore.enrollment records.
+oacis_curriculum into a live computed field driven
+by actual confirmed oacis.enrollment records.
 Also adds the reverse relation to enrollments and
 waitlist entries.
 """
@@ -13,17 +13,17 @@ from odoo import _, api, fields, models
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreCourseOfferingEnrollmentExt(models.Model):
-    _inherit = 'unicore.course.offering'
+class OacisCourseOfferingEnrollmentExt(models.Model):
+    _inherit = 'oacis.course.offering'
 
     enrollment_ids = fields.One2many(
-        comodel_name='unicore.enrollment',
+        comodel_name='oacis.enrollment',
         inverse_name='course_offering_id',
         string='Enrollments',
     )
 
     waitlist_ids = fields.One2many(
-        comodel_name='unicore.enrollment.waitlist',
+        comodel_name='oacis.enrollment.waitlist',
         inverse_name='course_offering_id',
         string='Waitlist',
     )
@@ -66,7 +66,7 @@ class UniCoreCourseOfferingEnrollmentExt(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Enrollments'),
-            'res_model': 'unicore.enrollment',
+            'res_model': 'oacis.enrollment',
             'view_mode': 'list,form',
             'domain': [
                 ('course_offering_id', '=', self.id),
@@ -81,7 +81,7 @@ class UniCoreCourseOfferingEnrollmentExt(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Waitlist'),
-            'res_model': 'unicore.enrollment.waitlist',
+            'res_model': 'oacis.enrollment.waitlist',
             'view_mode': 'list,form',
             'domain': [
                 ('course_offering_id', '=', self.id),

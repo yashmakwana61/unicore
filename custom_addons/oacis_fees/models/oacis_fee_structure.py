@@ -1,5 +1,5 @@
 """
-UniCore Fee Structure Model
+Oacis Fee Structure Model
 Defines the fee schedule for a specific program,
 semester and campus combination. Contains line
 items for different fee components (tuition,
@@ -15,10 +15,10 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreFeeStructure(models.Model):
-    _name = 'unicore.fee.structure'
+class OacisFeeStructure(models.Model):
+    _name = 'oacis.fee.structure'
     _description = 'Fee Structure'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'academic_year_id desc, program_id, name'
     _check_company_auto = True
 
@@ -37,7 +37,7 @@ class UniCoreFeeStructure(models.Model):
         tracking=True,
     )
     academic_year_id = fields.Many2one(
-        comodel_name='unicore.academic.year',
+        comodel_name='oacis.academic.year',
         string='Academic Year',
         required=True,
         ondelete='restrict',
@@ -45,21 +45,21 @@ class UniCoreFeeStructure(models.Model):
         domain="[('company_id','=',company_id)]",
     )
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         ondelete='restrict',
         domain="[('academic_year_id','=',academic_year_id)]",
         help='Leave empty to apply to full year',
     )
     program_id = fields.Many2one(
-        comodel_name='unicore.program',
+        comodel_name='oacis.program',
         string='Program',
         ondelete='restrict',
         domain="[('company_id','=',company_id)]",
         help='Leave empty to apply to all programs',
     )
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus',
+        comodel_name='oacis.campus',
         string='Campus',
         ondelete='restrict',
         domain="[('company_id','=',company_id)]",
@@ -72,7 +72,7 @@ class UniCoreFeeStructure(models.Model):
         default=lambda self: self.env.company.currency_id,
     )
     line_ids = fields.One2many(
-        comodel_name='unicore.fee.structure.line',
+        comodel_name='oacis.fee.structure.line',
         inverse_name='structure_id',
         string='Fee Components',
     )
@@ -173,8 +173,8 @@ class UniCoreFeeStructure(models.Model):
         return self.browse()
 
 
-class UniCoreFeeStructureLine(models.Model):
-    _name = 'unicore.fee.structure.line'
+class OacisFeeStructureLine(models.Model):
+    _name = 'oacis.fee.structure.line'
     _description = 'Fee Structure Line'
     _order = 'structure_id, sequence'
     _check_company_auto = True
@@ -185,7 +185,7 @@ class UniCoreFeeStructureLine(models.Model):
         store=True,
     )
     structure_id = fields.Many2one(
-        comodel_name='unicore.fee.structure',
+        comodel_name='oacis.fee.structure',
         string='Fee Structure',
         required=True,
         ondelete='cascade',

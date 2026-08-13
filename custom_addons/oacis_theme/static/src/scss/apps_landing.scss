@@ -1,9 +1,9 @@
 // ============================================
-// UniCore Theme — Apps Landing Screen
+// Oacis Theme — Apps Landing Screen
 // ============================================
 
 // Scoped class applied to <body> during onMounted
-.o_unicore_apps_landing_active {
+.o_oacis_apps_landing_active {
 
     // We MUST use !important here because .o_navbar has its own flex/display 
     // rules (e.g. d-flex) that will override a simple `display: none`. This is a 

@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_academic_year_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.academic.year.kanban</field>
-        <field name="model">unicore.academic.year</field>
+    <record id="oacis_academic_year_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.academic.year.kanban</field>
+        <field name="model">oacis.academic.year</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="year_state">
                 <field name="name"/>
@@ -59,9 +59,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_semester_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.semester.kanban</field>
-        <field name="model">unicore.semester</field>
+    <record id="oacis_semester_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.semester.kanban</field>
+        <field name="model">oacis.semester</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="semester_state">
                 <field name="name"/>

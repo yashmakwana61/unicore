@@ -6,19 +6,19 @@ from odoo.exceptions import UserError
 _logger = logging.getLogger(__name__)
 
 
-class UnicoreCampus(models.Model):
-    """Extend unicore.campus with infrastructure management fields and workflow."""
+class OacisCampus(models.Model):
+    """Extend oacis.campus with infrastructure management fields and workflow."""
 
-    _inherit = 'unicore.campus'
+    _inherit = 'oacis.campus'
     _check_company_auto = True
 
     building_ids = fields.One2many(
-        comodel_name='unicore.building',
+        comodel_name='oacis.building',
         inverse_name='campus_id',
         string='Buildings',
     )
     facility_ids = fields.One2many(
-        comodel_name='unicore.facility',
+        comodel_name='oacis.facility',
         inverse_name='campus_id',
         string='Facilities',
     )
@@ -65,14 +65,14 @@ class UnicoreCampus(models.Model):
             record.facility_count = len(record.facility_ids)
 
     def _compute_room_count(self):
-        room_model = self.env['unicore.room']
+        room_model = self.env['oacis.room']
         for record in self:
             record.room_count = room_model.search_count(
                 [('campus_id', '=', record.id)],
             )
 
     def _compute_total_room_capacity(self):
-        room_model = self.env['unicore.room']
+        room_model = self.env['oacis.room']
         for record in self:
             rooms = room_model.search([('campus_id', '=', record.id)])
             record.total_room_capacity = sum(rooms.mapped('capacity'))
@@ -99,7 +99,7 @@ class UnicoreCampus(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Buildings'),
-            'res_model': 'unicore.building',
+            'res_model': 'oacis.building',
             'view_mode': 'list,form,kanban',
             'domain': [('campus_id', '=', self.id)],
             'context': {'default_campus_id': self.id},
@@ -110,7 +110,7 @@ class UnicoreCampus(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Rooms'),
-            'res_model': 'unicore.room',
+            'res_model': 'oacis.room',
             'view_mode': 'list,form,kanban',
             'domain': [('campus_id', '=', self.id)],
             'context': {'default_campus_id': self.id},
@@ -121,7 +121,7 @@ class UnicoreCampus(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Facilities'),
-            'res_model': 'unicore.facility',
+            'res_model': 'oacis.facility',
             'view_mode': 'list,form',
             'domain': [('campus_id', '=', self.id)],
             'context': {'default_campus_id': self.id},

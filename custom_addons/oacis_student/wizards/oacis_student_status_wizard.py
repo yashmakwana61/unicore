@@ -1,14 +1,14 @@
 from odoo import fields, models
 
 
-class UnicoreStudentStatusWizard(models.TransientModel):
+class OacisStudentStatusWizard(models.TransientModel):
     """Wizard for student status transitions that require a reason."""
 
-    _name = 'unicore.student.status.wizard'
+    _name = 'oacis.student.status.wizard'
     _description = 'Student Status Change Wizard'
 
     student_id = fields.Many2one(
-        comodel_name='unicore.student', string='Student',
+        comodel_name='oacis.student', string='Student',
         required=True, readonly=True,
     )
     current_state = fields.Selection(

@@ -2,8 +2,8 @@ import odoo
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'unit')
-class UniCoreGradingSchemeDispatchTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'unit')
+class OacisGradingSchemeDispatchTest(TransactionCase):
     """Phase 2: the grade-entry result dispatch keys on the effective
     grading scheme of the company.
 
@@ -19,18 +19,18 @@ class UniCoreGradingSchemeDispatchTest(TransactionCase):
         # Legacy baseline: no profile set -> effective scheme = credit_gpa.
         cls.company.institution_profile_id = False
 
-        cls.faculty = cls.env['unicore.faculty'].create({
+        cls.faculty = cls.env['oacis.faculty'].create({
             'name': 'Test Faculty of Arts',
             'code': 'TFAA',
             'company_id': cls.company.id,
         })
-        cls.department = cls.env['unicore.department'].create({
+        cls.department = cls.env['oacis.department'].create({
             'name': 'Test English',
             'code': 'TENG',
             'faculty_id': cls.faculty.id,
             'company_id': cls.company.id,
         })
-        cls.program = cls.env['unicore.program'].create({
+        cls.program = cls.env['oacis.program'].create({
             'name': 'Test B.A. English',
             'code': 'TEST-BA-ENG',
             'program_type': 'undergraduate',
@@ -41,12 +41,12 @@ class UniCoreGradingSchemeDispatchTest(TransactionCase):
             'department_id': cls.department.id,
             'company_id': cls.company.id,
         })
-        cls.campus = cls.env['unicore.campus'].create({
+        cls.campus = cls.env['oacis.campus'].create({
             'name': 'Test Arts Campus',
             'code': 'TARTSCAMP',
             'company_id': cls.company.id,
         })
-        cls.academic_year = cls.env['unicore.academic.year'].create({
+        cls.academic_year = cls.env['oacis.academic.year'].create({
             'name': 'Test AY 2027-28',
             'code': 'TAY2728',
             'date_start': '2027-07-01',
@@ -55,7 +55,7 @@ class UniCoreGradingSchemeDispatchTest(TransactionCase):
             'is_current': False,
             'company_id': cls.company.id,
         })
-        cls.semester = cls.env['unicore.semester'].create({
+        cls.semester = cls.env['oacis.semester'].create({
             'name': 'Test ODD 2027-28',
             'code': 'TODD-2728',
             'semester_type': 'odd',
@@ -65,21 +65,21 @@ class UniCoreGradingSchemeDispatchTest(TransactionCase):
             'semester_state': 'ongoing',
             'company_id': cls.company.id,
         })
-        cls.course = cls.env['unicore.course'].create({
+        cls.course = cls.env['oacis.course'].create({
             'name': 'Test English Literature',
             'code': 'TEL401',
             'credit_hours': 4.0,
             'department_id': cls.department.id,
             'company_id': cls.company.id,
         })
-        cls.course2 = cls.env['unicore.course'].create({
+        cls.course2 = cls.env['oacis.course'].create({
             'name': 'Test World History',
             'code': 'TWH402',
             'credit_hours': 4.0,
             'department_id': cls.department.id,
             'company_id': cls.company.id,
         })
-        cls.offering = cls.env['unicore.course.offering'].create({
+        cls.offering = cls.env['oacis.course.offering'].create({
             'course_id': cls.course.id,
             'semester_id': cls.semester.id,
             'academic_year_id': cls.academic_year.id,
@@ -88,7 +88,7 @@ class UniCoreGradingSchemeDispatchTest(TransactionCase):
             'offering_state': 'open',
             'company_id': cls.company.id,
         })
-        cls.offering2 = cls.env['unicore.course.offering'].create({
+        cls.offering2 = cls.env['oacis.course.offering'].create({
             'course_id': cls.course2.id,
             'semester_id': cls.semester.id,
             'academic_year_id': cls.academic_year.id,
@@ -97,7 +97,7 @@ class UniCoreGradingSchemeDispatchTest(TransactionCase):
             'offering_state': 'open',
             'company_id': cls.company.id,
         })
-        cls.student = cls.env['unicore.student'].create({
+        cls.student = cls.env['oacis.student'].create({
             'name': 'Grading',
             'last_name': 'Test Student',
             'gender': 'female',
@@ -114,17 +114,17 @@ class UniCoreGradingSchemeDispatchTest(TransactionCase):
     def setUp(self):
         super().setUp()
         self.student.action_enroll()
-        self.enrollment = self.env['unicore.enrollment'].create({
+        self.enrollment = self.env['oacis.enrollment'].create({
             'student_id': self.student.id,
             'course_offering_id': self.offering.id,
         })
-        self.enrollment2 = self.env['unicore.enrollment'].create({
+        self.enrollment2 = self.env['oacis.enrollment'].create({
             'student_id': self.student.id,
             'course_offering_id': self.offering2.id,
         })
 
     def _publish(self, enrollment, internal, external):
-        grade = self.env['unicore.grade.entry'].create({
+        grade = self.env['oacis.grade.entry'].create({
             'enrollment_id': enrollment.id,
             'internal_marks': internal,
             'external_marks': external,
@@ -144,9 +144,9 @@ class UniCoreGradingSchemeDispatchTest(TransactionCase):
 
     def test_02_simple_percentage_dispatch(self):
         scheme = self.env.ref(
-            'unicore_institution_profile.grading_scheme_simple_percentage',
+            'oacis_institution_profile.grading_scheme_simple_percentage',
         )
-        profile = self.env['unicore.institution.profile'].create({
+        profile = self.env['oacis.institution.profile'].create({
             'name': 'Test School',
             'code': 'TEST-SCHOOL-PCT',
             'institution_type': 'school',
@@ -162,9 +162,9 @@ class UniCoreGradingSchemeDispatchTest(TransactionCase):
 
     def test_03_pass_fail_dispatch(self):
         scheme = self.env.ref(
-            'unicore_institution_profile.grading_scheme_pass_fail',
+            'oacis_institution_profile.grading_scheme_pass_fail',
         )
-        profile = self.env['unicore.institution.profile'].create({
+        profile = self.env['oacis.institution.profile'].create({
             'name': 'Test Training',
             'code': 'TEST-TRAIN-PF',
             'institution_type': 'training',

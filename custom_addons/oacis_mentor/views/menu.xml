@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <menuitem id="menu_unicore_mentor_root"
+        <menuitem id="menu_oacis_mentor_root"
                   name="Mentoring"
                   
                   sequence="70"/>
 
-        <menuitem id="menu_unicore_mentor_allocations"
+        <menuitem id="menu_oacis_mentor_allocations"
                   name="Allocations"
-                  parent="menu_unicore_mentor_root"
-                  action="action_unicore_mentor_allocation"
+                  parent="menu_oacis_mentor_root"
+                  action="action_oacis_mentor_allocation"
                   sequence="10"/>
 
-        <menuitem id="menu_unicore_mentor_meeting_logs"
+        <menuitem id="menu_oacis_mentor_meeting_logs"
                   name="Meeting Logs"
-                  parent="menu_unicore_mentor_root"
-                  action="action_unicore_mentor_meeting_log"
+                  parent="menu_oacis_mentor_root"
+                  action="action_oacis_mentor_meeting_log"
                   sequence="20"/>
     </data>
 </odoo>

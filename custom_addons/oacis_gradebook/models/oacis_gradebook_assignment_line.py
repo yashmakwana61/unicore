@@ -1,15 +1,15 @@
 """
-UniCore Grade Book Assignment Score Line
+Oacis Grade Book Assignment Score Line
 ========================================
 
 One row per (student x assignment) capturing the graded marks
 snapshot that feeds the grade book roll-up. This is a read-only
-aggregation of the existing ``unicore.assignment.submission``
+aggregation of the existing ``oacis.assignment.submission``
 data — it never modifies assignment or submission records. The
 source submission is kept for provenance so the score can be
 traced back to the original grade.
 
-The model is purely additive to the UniCore suite: it adds no
+The model is purely additive to the Oacis suite: it adds no
 columns to the grading or assignment modules.
 """
 
@@ -20,8 +20,8 @@ from odoo import api, fields, models
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreGradeBookAssignmentLine(models.Model):
-    _name = 'unicore.gradebook.assignment.line'
+class OacisGradeBookAssignmentLine(models.Model):
+    _name = 'oacis.gradebook.assignment.line'
     _description = 'Grade Book Assignment Score'
     _order = 'student_line_id, due_date, assignment_id'
     _check_company_auto = True
@@ -30,14 +30,14 @@ class UniCoreGradeBookAssignmentLine(models.Model):
     # ------- RELATIONS -------
 
     student_line_id = fields.Many2one(
-        comodel_name='unicore.gradebook.student.line',
+        comodel_name='oacis.gradebook.student.line',
         string='Student Line',
         required=True,
         ondelete='cascade',
         index=True,
     )
     config_id = fields.Many2one(
-        comodel_name='unicore.gradebook.config',
+        comodel_name='oacis.gradebook.config',
         string='Grade Book',
         related='student_line_id.config_id',
         store=True,
@@ -45,14 +45,14 @@ class UniCoreGradeBookAssignmentLine(models.Model):
         index=True,
     )
     assignment_id = fields.Many2one(
-        comodel_name='unicore.assignment',
+        comodel_name='oacis.assignment',
         string='Assignment',
         required=True,
         ondelete='cascade',
         index=True,
     )
     submission_id = fields.Many2one(
-        comodel_name='unicore.assignment.submission',
+        comodel_name='oacis.assignment.submission',
         string='Source Submission',
         ondelete='set null',
         index=True,
@@ -60,7 +60,7 @@ class UniCoreGradeBookAssignmentLine(models.Model):
              'Kept for provenance — the grade book never edits it.',
     )
     student_id = fields.Many2one(
-        comodel_name='unicore.student',
+        comodel_name='oacis.student',
         string='Student',
         related='student_line_id.student_id',
         store=True,
@@ -68,21 +68,21 @@ class UniCoreGradeBookAssignmentLine(models.Model):
         index=True,
     )
     course_offering_id = fields.Many2one(
-        comodel_name='unicore.course.offering',
+        comodel_name='oacis.course.offering',
         string='Course Offering',
         related='student_line_id.course_offering_id',
         store=True,
         readonly=True,
     )
     course_id = fields.Many2one(
-        comodel_name='unicore.course',
+        comodel_name='oacis.course',
         string='Course',
         related='student_line_id.course_id',
         store=True,
         readonly=True,
     )
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         related='student_line_id.semester_id',
         store=True,

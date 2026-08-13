@@ -1,4 +1,4 @@
 """
-UniCore Attendance — Wizards Package
+Oacis Attendance — Wizards Package
 """
-from . import unicore_generate_sessions_wizard
+from . import oacis_generate_sessions_wizard

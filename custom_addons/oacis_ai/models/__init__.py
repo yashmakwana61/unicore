@@ -1,1 +1,1 @@
-from . import res_config_settings, unicore_ai_chat, unicore_ai_provider
+from . import res_config_settings, oacis_ai_chat, oacis_ai_provider

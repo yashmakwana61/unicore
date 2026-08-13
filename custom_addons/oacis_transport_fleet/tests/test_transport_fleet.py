@@ -3,8 +3,8 @@ import odoo
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'transport')
-class UniCoreTransportFleetTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'transport')
+class OacisTransportFleetTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
@@ -12,7 +12,7 @@ class UniCoreTransportFleetTest(TransactionCase):
 
         cls.company = cls.env.company
 
-        cls.vehicle = cls.env['unicore.transport.vehicle'].create({
+        cls.vehicle = cls.env['oacis.transport.vehicle'].create({
             'name': 'Test Bus 01',
             'registration_number': 'KL-01-AB-1234',
             'vehicle_type': 'bus',
@@ -33,7 +33,7 @@ class UniCoreTransportFleetTest(TransactionCase):
         """Creating a transport vehicle auto-creates a fleet vehicle."""
         fleet = self.vehicle.fleet_vehicle_id
         self.assertTrue(fleet, 'A fleet vehicle must be auto-created')
-        self.assertEqual(fleet.unicore_vehicle_id, self.vehicle)
+        self.assertEqual(fleet.oacis_vehicle_id, self.vehicle)
 
     def test_02_fleet_vehicle_fields(self):
         """Fleet vehicle fields should mirror the transport vehicle."""
@@ -58,7 +58,7 @@ class UniCoreTransportFleetTest(TransactionCase):
         self.vehicle.write({'vehicle_state': 'maintenance'})
         # fleet.vehicle state is a many2one to fleet.vehicle.state,
         # so we check that the fleet vehicle is still linked
-        self.assertEqual(fleet.unicore_vehicle_id, self.vehicle)
+        self.assertEqual(fleet.oacis_vehicle_id, self.vehicle)
 
     def test_05_fleet_write_syncs_transport(self):
         """Changing the fleet vehicle license plate updates the transport vehicle."""
@@ -68,7 +68,7 @@ class UniCoreTransportFleetTest(TransactionCase):
 
     def test_06_manual_sync_creates_fleet(self):
         """action_sync_to_fleet creates a fleet vehicle when none exists."""
-        vehicle_no_fleet = self.env['unicore.transport.vehicle'].create({
+        vehicle_no_fleet = self.env['oacis.transport.vehicle'].create({
             'name': 'Sync Test Van',
             'registration_number': 'KL-03-EF-9012',
             'vehicle_type': 'van',

@@ -3,12 +3,12 @@
     <data noupdate="1">
 
         <!-- ============================================================ -->
-        <!-- RECORD RULES: unicore.assignment                             -->
+        <!-- RECORD RULES: oacis.assignment                             -->
         <!-- ============================================================ -->
 
-        <record id="rule_unicore_assignment_company" model="ir.rule">
+        <record id="rule_oacis_assignment_company" model="ir.rule">
             <field name="name">Assignment: Company Isolation</field>
-            <field name="model_id" ref="model_unicore_assignment"/>
+            <field name="model_id" ref="model_oacis_assignment"/>
             <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
             <field name="perm_read" eval="True"/>
@@ -17,33 +17,33 @@
             <field name="perm_unlink" eval="True"/>
         </record>
 
-        <record id="rule_unicore_assignment_student_self" model="ir.rule">
+        <record id="rule_oacis_assignment_student_self" model="ir.rule">
             <field name="name">Assignment: Student Enrolled Offering Only</field>
-            <field name="model_id" ref="model_unicore_assignment"/>
+            <field name="model_id" ref="model_oacis_assignment"/>
             <field name="domain_force">[('course_offering_id.enrollment_ids', 'any', [('student_id.partner_id.user_ids', 'in', [user.id])])]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_student'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_student'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="False"/>
             <field name="perm_create" eval="False"/>
             <field name="perm_unlink" eval="False"/>
         </record>
 
-        <record id="rule_unicore_assignment_faculty_own" model="ir.rule">
+        <record id="rule_oacis_assignment_faculty_own" model="ir.rule">
             <field name="name">Assignment: Faculty Own Offering</field>
-            <field name="model_id" ref="model_unicore_assignment"/>
+            <field name="model_id" ref="model_oacis_assignment"/>
             <field name="domain_force">[('course_offering_id.faculty_member_id.partner_id.user_ids', 'in', [user.id])]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_faculty'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_faculty'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
             <field name="perm_unlink" eval="False"/>
         </record>
 
-        <record id="rule_unicore_assignment_admin" model="ir.rule">
+        <record id="rule_oacis_assignment_admin" model="ir.rule">
             <field name="name">Assignment: Admin Bypass</field>
-            <field name="model_id" ref="model_unicore_assignment"/>
+            <field name="model_id" ref="model_oacis_assignment"/>
             <field name="domain_force">[(1, '=', 1)]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_admin'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_admin'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
@@ -51,12 +51,12 @@
         </record>
 
         <!-- ============================================================ -->
-        <!-- RECORD RULES: unicore.assignment.submission                  -->
+        <!-- RECORD RULES: oacis.assignment.submission                  -->
         <!-- ============================================================ -->
 
-        <record id="rule_unicore_assignment_submission_company" model="ir.rule">
+        <record id="rule_oacis_assignment_submission_company" model="ir.rule">
             <field name="name">Submission: Company Isolation</field>
-            <field name="model_id" ref="model_unicore_assignment_submission"/>
+            <field name="model_id" ref="model_oacis_assignment_submission"/>
             <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
             <field name="perm_read" eval="True"/>
@@ -65,33 +65,33 @@
             <field name="perm_unlink" eval="True"/>
         </record>
 
-        <record id="rule_unicore_assignment_submission_student_self" model="ir.rule">
+        <record id="rule_oacis_assignment_submission_student_self" model="ir.rule">
             <field name="name">Submission: Student Own Only</field>
-            <field name="model_id" ref="model_unicore_assignment_submission"/>
+            <field name="model_id" ref="model_oacis_assignment_submission"/>
             <field name="domain_force">[('student_id.partner_id.user_ids', 'in', [user.id])]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_student'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_student'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
             <field name="perm_unlink" eval="False"/>
         </record>
 
-        <record id="rule_unicore_assignment_submission_faculty_own" model="ir.rule">
+        <record id="rule_oacis_assignment_submission_faculty_own" model="ir.rule">
             <field name="name">Submission: Faculty Own Offering</field>
-            <field name="model_id" ref="model_unicore_assignment_submission"/>
+            <field name="model_id" ref="model_oacis_assignment_submission"/>
             <field name="domain_force">[('assignment_id.course_offering_id.faculty_member_id.partner_id.user_ids', 'in', [user.id])]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_faculty'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_faculty'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="False"/>
             <field name="perm_unlink" eval="False"/>
         </record>
 
-        <record id="rule_unicore_assignment_submission_admin" model="ir.rule">
+        <record id="rule_oacis_assignment_submission_admin" model="ir.rule">
             <field name="name">Submission: Admin Bypass</field>
-            <field name="model_id" ref="model_unicore_assignment_submission"/>
+            <field name="model_id" ref="model_oacis_assignment_submission"/>
             <field name="domain_force">[(1, '=', 1)]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_admin'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_admin'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
@@ -99,12 +99,12 @@
         </record>
 
         <!-- ============================================================ -->
-        <!-- RECORD RULES: unicore.assignment.rubric                      -->
+        <!-- RECORD RULES: oacis.assignment.rubric                      -->
         <!-- ============================================================ -->
 
-        <record id="rule_unicore_assignment_rubric_company" model="ir.rule">
+        <record id="rule_oacis_assignment_rubric_company" model="ir.rule">
             <field name="name">Rubric: Company Isolation</field>
-            <field name="model_id" ref="model_unicore_assignment_rubric"/>
+            <field name="model_id" ref="model_oacis_assignment_rubric"/>
             <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
             <field name="perm_read" eval="True"/>
@@ -113,11 +113,11 @@
             <field name="perm_unlink" eval="True"/>
         </record>
 
-        <record id="rule_unicore_assignment_rubric_admin" model="ir.rule">
+        <record id="rule_oacis_assignment_rubric_admin" model="ir.rule">
             <field name="name">Rubric: Admin Bypass</field>
-            <field name="model_id" ref="model_unicore_assignment_rubric"/>
+            <field name="model_id" ref="model_oacis_assignment_rubric"/>
             <field name="domain_force">[(1, '=', 1)]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_admin'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_admin'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
@@ -125,9 +125,9 @@
         </record>
 
         <!-- Rubric criteria follow their rubric's company -->
-        <record id="rule_unicore_assignment_rubric_criterion_company" model="ir.rule">
+        <record id="rule_oacis_assignment_rubric_criterion_company" model="ir.rule">
             <field name="name">Rubric Criterion: Company Isolation</field>
-            <field name="model_id" ref="model_unicore_assignment_rubric_criterion"/>
+            <field name="model_id" ref="model_oacis_assignment_rubric_criterion"/>
             <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
             <field name="perm_read" eval="True"/>
@@ -137,12 +137,12 @@
         </record>
 
         <!-- ============================================================ -->
-        <!-- RECORD RULES: unicore.assignment.submission.criterion        -->
+        <!-- RECORD RULES: oacis.assignment.submission.criterion        -->
         <!-- ============================================================ -->
 
-        <record id="rule_unicore_assignment_submission_criterion_company" model="ir.rule">
+        <record id="rule_oacis_assignment_submission_criterion_company" model="ir.rule">
             <field name="name">Submission Criterion: Company Isolation</field>
-            <field name="model_id" ref="model_unicore_assignment_submission_criterion"/>
+            <field name="model_id" ref="model_oacis_assignment_submission_criterion"/>
             <field name="domain_force">['|', ('submission_id.company_id', '=', False), ('submission_id.company_id', 'in', company_ids)]</field>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
             <field name="perm_read" eval="True"/>
@@ -151,11 +151,11 @@
             <field name="perm_unlink" eval="True"/>
         </record>
 
-        <record id="rule_unicore_assignment_submission_criterion_admin" model="ir.rule">
+        <record id="rule_oacis_assignment_submission_criterion_admin" model="ir.rule">
             <field name="name">Submission Criterion: Admin Bypass</field>
-            <field name="model_id" ref="model_unicore_assignment_submission_criterion"/>
+            <field name="model_id" ref="model_oacis_assignment_submission_criterion"/>
             <field name="domain_force">[(1, '=', 1)]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_admin'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_admin'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>

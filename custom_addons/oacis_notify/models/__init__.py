@@ -1,7 +1,7 @@
-"""UniCore Notify — Models Package"""
+"""Oacis Notify — Models Package"""
 from . import (
-    unicore_notification_config,
-    unicore_notification_engine,
-    unicore_notification_log,
-    unicore_notification_template,
+    oacis_notification_config,
+    oacis_notification_engine,
+    oacis_notification_log,
+    oacis_notification_template,
 )

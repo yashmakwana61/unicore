@@ -1,5 +1,5 @@
 """
-UniCore Scholarship Award Model
+Oacis Scholarship Award Model
 The actual disbursement record for an approved
 scholarship application. Links to fee invoice
 for direct adjustment. Tracks per-semester
@@ -14,11 +14,11 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreScholarshipAward(models.Model):
-    _name = 'unicore.scholarship.award'
+class OacisScholarshipAward(models.Model):
+    _name = 'oacis.scholarship.award'
     _description = 'Scholarship Award Disbursement'
     _rec_name = 'display_name'
-    _inherit = ['unicore.mixin', 'mail.thread']
+    _inherit = ['oacis.mixin', 'mail.thread']
 
     display_name = fields.Char(
         string='Display Name',
@@ -49,7 +49,7 @@ class UniCoreScholarshipAward(models.Model):
         index=True,
     )
     application_id = fields.Many2one(
-        comodel_name='unicore.scholarship.application',
+        comodel_name='oacis.scholarship.application',
         string='Application',
         required=True,
         ondelete='restrict',
@@ -57,14 +57,14 @@ class UniCoreScholarshipAward(models.Model):
         tracking=True,
     )
     scholarship_program_id = fields.Many2one(
-        comodel_name='unicore.scholarship.program',
+        comodel_name='oacis.scholarship.program',
         string='Scholarship Program',
         related='application_id.scholarship_program_id',
         store=True,
         readonly=True,
     )
     student_id = fields.Many2one(
-        comodel_name='unicore.student',
+        comodel_name='oacis.student',
         string='Student',
         related='application_id.student_id',
         store=True,
@@ -79,7 +79,7 @@ class UniCoreScholarshipAward(models.Model):
         readonly=True,
     )
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         required=True,
         ondelete='restrict',
@@ -117,7 +117,7 @@ class UniCoreScholarshipAward(models.Model):
     # --- FEE INVOICE LINK ---
 
     fee_invoice_id = fields.Many2one(
-        comodel_name='unicore.fee.invoice',
+        comodel_name='oacis.fee.invoice',
         string='Applied to Fee Invoice',
         ondelete='set null',
         domain="[('student_id','=',"
@@ -174,7 +174,7 @@ class UniCoreScholarshipAward(models.Model):
             if not vals.get('award_number'):
                 vals['award_number'] = (
                     self.env['ir.sequence'].next_by_code(
-                        'unicore.scholarship.award',
+                        'oacis.scholarship.award',
                     ) or '/'
                 )
         return super().create(vals_list)

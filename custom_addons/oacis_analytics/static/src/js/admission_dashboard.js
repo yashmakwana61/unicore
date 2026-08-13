@@ -5,7 +5,7 @@ import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 
 export class AdmissionDashboard extends Component {
-    static template = "unicore_analytics.AdmissionDashboard";
+    static template = "oacis_analytics.AdmissionDashboard";
 
     setup() {
         this.orm = useService("orm");
@@ -43,7 +43,7 @@ export class AdmissionDashboard extends Component {
 
             // Call the aggregation method
             const data = await this.orm.call(
-                "unicore.admission.applicant",
+                "oacis.admission.applicant",
                 "get_admission_dashboard_data",
                 [domain]
             );
@@ -303,4 +303,4 @@ export class AdmissionDashboard extends Component {
 }
 
 // Register as a standard client action
-registry.category("actions").add("unicore_admission_dashboard", AdmissionDashboard);
+registry.category("actions").add("oacis_admission_dashboard", AdmissionDashboard);

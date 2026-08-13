@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
-        <record id="model_unicore_campus" model="ir.model">
-            <field name="name">UniCore Campus</field>
-            <field name="model">unicore.campus</field>
+        <record id="model_oacis_campus" model="ir.model">
+            <field name="name">Oacis Campus</field>
+            <field name="model">oacis.campus</field>
         </record>
 
-        <record id="access_unicore_campus_admin" model="ir.model.access">
-            <field name="name">unicore.campus.admin</field>
-            <field name="model_id" ref="model_unicore_campus"/>
-            <field name="group_id" ref="group_unicore_admin"/>
+        <record id="access_oacis_campus_admin" model="ir.model.access">
+            <field name="name">oacis.campus.admin</field>
+            <field name="model_id" ref="model_oacis_campus"/>
+            <field name="group_id" ref="group_oacis_admin"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
             <field name="perm_unlink" eval="True"/>
         </record>
 
-        <record id="access_unicore_campus_manager" model="ir.model.access">
-            <field name="name">unicore.campus.manager</field>
-            <field name="model_id" ref="model_unicore_campus"/>
-            <field name="group_id" ref="group_unicore_manager"/>
+        <record id="access_oacis_campus_manager" model="ir.model.access">
+            <field name="name">oacis.campus.manager</field>
+            <field name="model_id" ref="model_oacis_campus"/>
+            <field name="group_id" ref="group_oacis_manager"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
             <field name="perm_unlink" eval="False"/>
         </record>
 
-        <record id="access_unicore_campus_registrar" model="ir.model.access">
-            <field name="name">unicore.campus.registrar</field>
-            <field name="model_id" ref="model_unicore_campus"/>
-            <field name="group_id" ref="group_unicore_registrar"/>
+        <record id="access_oacis_campus_registrar" model="ir.model.access">
+            <field name="name">oacis.campus.registrar</field>
+            <field name="model_id" ref="model_oacis_campus"/>
+            <field name="group_id" ref="group_oacis_registrar"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="False"/>
             <field name="perm_unlink" eval="False"/>
         </record>
 
-        <record id="access_unicore_campus_staff" model="ir.model.access">
-            <field name="name">unicore.campus.staff</field>
-            <field name="model_id" ref="model_unicore_campus"/>
-            <field name="group_id" ref="group_unicore_staff"/>
+        <record id="access_oacis_campus_staff" model="ir.model.access">
+            <field name="name">oacis.campus.staff</field>
+            <field name="model_id" ref="model_oacis_campus"/>
+            <field name="group_id" ref="group_oacis_staff"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="False"/>
             <field name="perm_create" eval="False"/>

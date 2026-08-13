@@ -1,5 +1,5 @@
 """
-UniCore Academic Analytics
+Oacis Academic Analytics
 PostgreSQL VIEW-based models for grade distribution,
 course performance and semester result analytics.
 """
@@ -12,8 +12,8 @@ from odoo.orm.fields_misc import Id
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreGradeDistributionReport(models.Model):
-    _name = 'unicore.grade.distribution.report'
+class OacisGradeDistributionReport(models.Model):
+    _name = 'oacis.grade.distribution.report'
     _description = 'Grade Distribution Report'
     _auto = False
     _rec_name = 'course_id'
@@ -26,12 +26,12 @@ class UniCoreGradeDistributionReport(models.Model):
         readonly=True,
     )
     course_id = fields.Many2one(
-        comodel_name='unicore.course',
+        comodel_name='oacis.course',
         string='Course',
         readonly=True,
     )
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         readonly=True,
     )
@@ -70,11 +70,11 @@ class UniCoreGradeDistributionReport(models.Model):
     def init(self):
         tools.drop_view_if_exists(
             self.env.cr,
-            'unicore_grade_distribution_report',
+            'oacis_grade_distribution_report',
         )
         self.env.cr.execute("""
             CREATE OR REPLACE VIEW
-            unicore_grade_distribution_report AS (
+            oacis_grade_distribution_report AS (
                 SELECT
                     ROW_NUMBER() OVER () AS id,
                     ge.company_id,
@@ -99,7 +99,7 @@ class UniCoreGradeDistributionReport(models.Model):
                         / NULLIF(COUNT(ge.id), 0)
                         * 100), 1
                     ) AS pass_rate
-                FROM unicore_grade_entry ge
+                FROM oacis_grade_entry ge
                 WHERE ge.entry_state IN
                     ('published', 'locked')
                 GROUP BY
@@ -111,8 +111,8 @@ class UniCoreGradeDistributionReport(models.Model):
         """)
 
 
-class UniCoreSemesterResultReport(models.Model):
-    _name = 'unicore.semester.result.report'
+class OacisSemesterResultReport(models.Model):
+    _name = 'oacis.semester.result.report'
     _description = 'Semester Result Analytics'
     _auto = False
     _rec_name = 'semester_id'
@@ -125,12 +125,12 @@ class UniCoreSemesterResultReport(models.Model):
         readonly=True,
     )
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         readonly=True,
     )
     program_id = fields.Many2one(
-        comodel_name='unicore.program',
+        comodel_name='oacis.program',
         string='Program',
         readonly=True,
     )
@@ -162,11 +162,11 @@ class UniCoreSemesterResultReport(models.Model):
     def init(self):
         tools.drop_view_if_exists(
             self.env.cr,
-            'unicore_semester_result_report',
+            'oacis_semester_result_report',
         )
         self.env.cr.execute("""
             CREATE OR REPLACE VIEW
-            unicore_semester_result_report AS (
+            oacis_semester_result_report AS (
                 SELECT
                     ROW_NUMBER() OVER () AS id,
                     sr.company_id,
@@ -180,8 +180,8 @@ class UniCoreSemesterResultReport(models.Model):
                     ROUND(
                         AVG(sr.credits_earned)::numeric, 1
                     ) AS avg_credits_earned
-                FROM unicore_semester_result sr
-                JOIN unicore_student s
+                FROM oacis_semester_result sr
+                JOIN oacis_student s
                     ON s.id = sr.student_id
                 WHERE sr.is_published = TRUE
                 GROUP BY

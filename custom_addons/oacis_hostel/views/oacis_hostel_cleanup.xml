@@ -4,28 +4,28 @@
     <!-- Remove the separate board/calendar/analysis/activity actions and menus.
          The underlying views are kept and exposed via view_mode on the main actions. -->
 
-    <delete model="ir.actions.act_window" id="action_unicore_hostel_allocation_activity"/>
-    <delete model="ir.actions.act_window" id="action_unicore_hostel_allocation_analysis"/>
-    <delete model="ir.actions.act_window" id="action_unicore_hostel_allocation_calendar"/>
-    <delete model="ir.actions.act_window" id="action_unicore_hostel_allocation_kanban"/>
-    <delete model="ir.actions.act_window" id="action_unicore_hostel_block_analysis"/>
-    <delete model="ir.actions.act_window" id="action_unicore_hostel_block_kanban"/>
-    <delete model="ir.actions.act_window" id="action_unicore_hostel_maintenance_analysis"/>
-    <delete model="ir.actions.act_window" id="action_unicore_hostel_maintenance_calendar"/>
-    <delete model="ir.actions.act_window" id="action_unicore_hostel_maintenance_kanban"/>
-    <delete model="ir.actions.act_window" id="action_unicore_hostel_room_analysis"/>
-    <delete model="ir.actions.act_window" id="action_unicore_hostel_room_kanban"/>
+    <delete model="ir.actions.act_window" id="action_oacis_hostel_allocation_activity"/>
+    <delete model="ir.actions.act_window" id="action_oacis_hostel_allocation_analysis"/>
+    <delete model="ir.actions.act_window" id="action_oacis_hostel_allocation_calendar"/>
+    <delete model="ir.actions.act_window" id="action_oacis_hostel_allocation_kanban"/>
+    <delete model="ir.actions.act_window" id="action_oacis_hostel_block_analysis"/>
+    <delete model="ir.actions.act_window" id="action_oacis_hostel_block_kanban"/>
+    <delete model="ir.actions.act_window" id="action_oacis_hostel_maintenance_analysis"/>
+    <delete model="ir.actions.act_window" id="action_oacis_hostel_maintenance_calendar"/>
+    <delete model="ir.actions.act_window" id="action_oacis_hostel_maintenance_kanban"/>
+    <delete model="ir.actions.act_window" id="action_oacis_hostel_room_analysis"/>
+    <delete model="ir.actions.act_window" id="action_oacis_hostel_room_kanban"/>
 
-    <delete model="ir.ui.menu" id="menu_unicore_hostel_allocation_activity"/>
-    <delete model="ir.ui.menu" id="menu_unicore_hostel_allocation_analysis"/>
-    <delete model="ir.ui.menu" id="menu_unicore_hostel_allocation_board"/>
-    <delete model="ir.ui.menu" id="menu_unicore_hostel_allocation_calendar"/>
-    <delete model="ir.ui.menu" id="menu_unicore_hostel_block_analysis"/>
-    <delete model="ir.ui.menu" id="menu_unicore_hostel_block_board"/>
-    <delete model="ir.ui.menu" id="menu_unicore_hostel_maintenance_analysis"/>
-    <delete model="ir.ui.menu" id="menu_unicore_hostel_maintenance_board"/>
-    <delete model="ir.ui.menu" id="menu_unicore_hostel_maintenance_calendar"/>
-    <delete model="ir.ui.menu" id="menu_unicore_hostel_room_analysis"/>
-    <delete model="ir.ui.menu" id="menu_unicore_hostel_room_board"/>
+    <delete model="ir.ui.menu" id="menu_oacis_hostel_allocation_activity"/>
+    <delete model="ir.ui.menu" id="menu_oacis_hostel_allocation_analysis"/>
+    <delete model="ir.ui.menu" id="menu_oacis_hostel_allocation_board"/>
+    <delete model="ir.ui.menu" id="menu_oacis_hostel_allocation_calendar"/>
+    <delete model="ir.ui.menu" id="menu_oacis_hostel_block_analysis"/>
+    <delete model="ir.ui.menu" id="menu_oacis_hostel_block_board"/>
+    <delete model="ir.ui.menu" id="menu_oacis_hostel_maintenance_analysis"/>
+    <delete model="ir.ui.menu" id="menu_oacis_hostel_maintenance_board"/>
+    <delete model="ir.ui.menu" id="menu_oacis_hostel_maintenance_calendar"/>
+    <delete model="ir.ui.menu" id="menu_oacis_hostel_room_analysis"/>
+    <delete model="ir.ui.menu" id="menu_oacis_hostel_room_board"/>
 
 </odoo>

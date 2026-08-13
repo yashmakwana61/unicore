@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <!-- PDF Report Action for Fee Invoice -->
-  <record id="action_unicore_fee_statement_pdf" model="ir.actions.report">
+  <record id="action_oacis_fee_statement_pdf" model="ir.actions.report">
     <field name="name">Student Fee Statement</field>
-    <field name="model">unicore.fee.invoice</field>
+    <field name="model">oacis.fee.invoice</field>
     <field name="report_type">qweb-pdf</field>
-    <field name="report_name">unicore_finance_report.report_fee_statement</field>
-    <field name="report_file">unicore_finance_report.report_fee_statement</field>
-    <field name="binding_model_id" ref="unicore_fees.model_unicore_fee_invoice"/>
+    <field name="report_name">oacis_finance_report.report_fee_statement</field>
+    <field name="report_file">oacis_finance_report.report_fee_statement</field>
+    <field name="binding_model_id" ref="oacis_fees.model_oacis_fee_invoice"/>
     <field name="binding_type">report</field>
   </record>
 </odoo>

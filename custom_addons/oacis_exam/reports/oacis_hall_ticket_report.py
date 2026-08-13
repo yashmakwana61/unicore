@@ -16,13 +16,13 @@ def _format_time(float_hour):
     return '%02d:%02d %s' % (hour12, minute, period)
 
 
-class UniCoreHallTicketReport(models.AbstractModel):
-    _name = 'report.unicore_exam.hall_ticket_template'
+class OacisHallTicketReport(models.AbstractModel):
+    _name = 'report.oacis_exam.hall_ticket_template'
     _description = 'Exam Hall Ticket Report'
 
     @api.model
     def _get_report_values(self, docids, data=None):
-        hall_tickets = self.env['unicore.exam.hall.ticket'].browse(docids)
+        hall_tickets = self.env['oacis.exam.hall.ticket'].browse(docids)
 
         ticket_data = []
         for ticket in hall_tickets:
@@ -32,7 +32,7 @@ class UniCoreHallTicketReport(models.AbstractModel):
 
             courses_exam_map = {}
             if semester:
-                semester_schedules = self.env['unicore.exam.schedule'].search([
+                semester_schedules = self.env['oacis.exam.schedule'].search([
                     ('semester_id', '=', semester.id),
                     ('exam_state', 'not in', ('draft', 'cancelled')),
                 ])
@@ -40,7 +40,7 @@ class UniCoreHallTicketReport(models.AbstractModel):
                     if sch.course_id:
                         courses_exam_map[sch.course_id.id] = sch
 
-            enrollments = self.env['unicore.enrollment'].search([
+            enrollments = self.env['oacis.enrollment'].search([
                 ('student_id', '=', student.id),
                 ('semester_id', '=', semester.id if semester else False),
                 ('enrollment_state', '!=', 'dropped'),
@@ -85,7 +85,7 @@ class UniCoreHallTicketReport(models.AbstractModel):
 
         return {
             'doc_ids': docids,
-            'doc_model': 'unicore.exam.hall.ticket',
+            'doc_model': 'oacis.exam.hall.ticket',
             'docs': hall_tickets,
             'ticket_data': ticket_data,
             'format_time': _format_time,

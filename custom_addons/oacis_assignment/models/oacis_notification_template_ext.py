@@ -1,5 +1,5 @@
 """
-UniCore Notification Extensions (Assignments)
+Oacis Notification Extensions (Assignments)
 Extends the notification engine and template model to support
 assignment-related trigger events and faculty notifications:
   - assignment_published : students informed when assignment is out
@@ -17,8 +17,8 @@ from odoo import fields, models
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreNotificationTemplateExt(models.Model):
-    _inherit = 'unicore.notification.template'
+class OacisNotificationTemplateExt(models.Model):
+    _inherit = 'oacis.notification.template'
 
     trigger_event = fields.Selection(
         selection_add=[
@@ -37,21 +37,21 @@ class UniCoreNotificationTemplateExt(models.Model):
     )
 
 
-class UniCoreNotificationEngineExt(models.AbstractModel):
-    _inherit = 'unicore.notification.engine'
+class OacisNotificationEngineExt(models.AbstractModel):
+    _inherit = 'oacis.notification.engine'
 
     def send_to_faculty(self, faculty, trigger_event,
                         variables=None, student=None):
         """
         Send a notification to a faculty member.
         Mirrors send_to_student/send_to_guardian but
-        targets unicore.faculty.member records.
+        targets oacis.faculty.member records.
 
         Args:
-            faculty: unicore.faculty.member record
+            faculty: oacis.faculty.member record
             trigger_event: str (matches template trigger)
             variables: dict of template variables
-            student: optional unicore.student record
+            student: optional oacis.student record
 
         Returns:
             dict with 'email', 'whatsapp', 'inapp' keys
@@ -60,7 +60,7 @@ class UniCoreNotificationEngineExt(models.AbstractModel):
             variables = {}
 
         company_id = faculty.company_id.id
-        Config = self.env['unicore.notification.config']
+        Config = self.env['oacis.notification.config']
         config = Config.get_config_for_company(company_id)
 
         variables.setdefault(

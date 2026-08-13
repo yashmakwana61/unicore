@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_scholarship_application_activity_view" model="ir.ui.view">
-        <field name="name">unicore.scholarship.application.activity</field>
-        <field name="model">unicore.scholarship.application</field>
+    <record id="oacis_scholarship_application_activity_view" model="ir.ui.view">
+        <field name="name">oacis.scholarship.application.activity</field>
+        <field name="model">oacis.scholarship.application</field>
         <field name="arch" type="xml">
             <activity string="Scholarship Application Activities"/>
         </field>

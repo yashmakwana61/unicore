@@ -1,6 +1,6 @@
 """
-UniCore Student Extension — Guardian Module
-Extends unicore.student to add guardian relationship
+Oacis Student Extension — Guardian Module
+Extends oacis.student to add guardian relationship
 fields and the action to open guardian records.
 """
 import logging
@@ -10,11 +10,11 @@ from odoo import _, api, fields, models
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreStudentGuardianExt(models.Model):
-    _inherit = 'unicore.student'
+class OacisStudentGuardianExt(models.Model):
+    _inherit = 'oacis.student'
 
     guardian_rel_ids = fields.One2many(
-        'unicore.guardian.student.rel',
+        'oacis.guardian.student.rel',
         'student_id',
         string='Guardian Relationships',
     )
@@ -24,13 +24,13 @@ class UniCoreStudentGuardianExt(models.Model):
         store=False,
     )
     primary_guardian_id = fields.Many2one(
-        'unicore.guardian',
+        'oacis.guardian',
         string='Primary Guardian',
         compute='_compute_primary_guardian',
         store=False,
     )
     financial_guarantor_id = fields.Many2one(
-        'unicore.guardian',
+        'oacis.guardian',
         string='Financial Guarantor',
         compute='_compute_financial_guarantor',
         store=False,
@@ -76,7 +76,7 @@ class UniCoreStudentGuardianExt(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Guardians'),
-            'res_model': 'unicore.guardian',
+            'res_model': 'oacis.guardian',
             'view_mode': 'list,form',
             'domain': [
                 ('student_rel_ids.student_id', '=', self.id),

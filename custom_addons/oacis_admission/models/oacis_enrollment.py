@@ -1,5 +1,5 @@
 """
-UniCore Enrollment Model
+Oacis Enrollment Model
 The core record of a student's registration into a
 specific course offering for a specific semester.
 Implements the full 6-step validation chain:
@@ -17,16 +17,16 @@ from odoo.exceptions import UserError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreEnrollment(models.Model):
-    _name = 'unicore.enrollment'
+class OacisEnrollment(models.Model):
+    _name = 'oacis.enrollment'
     _description = 'Student Course Enrollment'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'semester_id desc, student_id'
     _check_company_auto = True
     _rec_name = 'display_name'
 
     student_id = fields.Many2one(
-        comodel_name='unicore.student',
+        comodel_name='oacis.student',
         string='Student',
         required=True,
         ondelete='restrict',
@@ -37,7 +37,7 @@ class UniCoreEnrollment(models.Model):
     )
 
     course_offering_id = fields.Many2one(
-        comodel_name='unicore.course.offering',
+        comodel_name='oacis.course.offering',
         string='Course Offering',
         required=True,
         ondelete='restrict',
@@ -48,7 +48,7 @@ class UniCoreEnrollment(models.Model):
     )
 
     course_id = fields.Many2one(
-        comodel_name='unicore.course',
+        comodel_name='oacis.course',
         string='Course',
         related='course_offering_id.course_id',
         store=True,
@@ -56,7 +56,7 @@ class UniCoreEnrollment(models.Model):
     )
 
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         related='course_offering_id.semester_id',
         store=True,
@@ -72,7 +72,7 @@ class UniCoreEnrollment(models.Model):
     )
 
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus',
+        comodel_name='oacis.campus',
         string='Campus',
         related='course_offering_id.campus_id',
         store=True,
@@ -87,7 +87,7 @@ class UniCoreEnrollment(models.Model):
         help='Cohort kind of the enrolled student\'s program (Phase 7).',
     )
     grade_level_id = fields.Many2one(
-        comodel_name='unicore.academic.unit', string='Grade Level',
+        comodel_name='oacis.academic.unit', string='Grade Level',
         related='student_id.grade_level_id', readonly=True, store=True,
         help='Grade level of the enrolled student (K-12; Phase 7).',
     )
@@ -143,7 +143,7 @@ class UniCoreEnrollment(models.Model):
     # Set when this course registration was created by the
     # 'Enroll in Program' wizard on a confirmed admission applicant.
     admission_enrollment_id = fields.Many2one(
-        comodel_name='unicore.admission.enrollment',
+        comodel_name='oacis.admission.enrollment',
         string='Program Enrollment',
         ondelete='set null', index=True,
         help='Program-level admission enrollment this course registration '
@@ -182,7 +182,7 @@ class UniCoreEnrollment(models.Model):
         ],
         help='Placeholder for grading outcome. Full grade '
              'entry and GPA calculation is handled by the '
-             'future unicore_grading module. This field '
+             'future oacis_grading module. This field '
              'allows prerequisite checks in THIS module to '
              'determine pass/fail status without circular '
              'dependency on a module that does not exist yet.',
@@ -191,7 +191,7 @@ class UniCoreEnrollment(models.Model):
     final_grade_letter = fields.Char(
         string='Final Grade',
         readonly=True,
-        help='Set by future unicore_grading module. '
+        help='Set by future oacis_grading module. '
              'Read-only here — this module does not compute grades.',
     )
 
@@ -263,7 +263,7 @@ class UniCoreEnrollment(models.Model):
         have a 'pass' grade_status in a prior completed enrollment
         for this student.
         """
-        Prerequisite = self.env['unicore.course.prerequisite']
+        Prerequisite = self.env['oacis.course.prerequisite']
         mandatory_prereqs = Prerequisite.search([
             ('course_id', '=', course.id),
             ('prerequisite_type', '=', 'mandatory'),
@@ -292,7 +292,7 @@ class UniCoreEnrollment(models.Model):
         timetable entries of all offerings the student is ALREADY
         actively enrolled in for the SAME semester.
         """
-        TimetableEntry = self.env['unicore.timetable.entry']
+        TimetableEntry = self.env['oacis.timetable.entry']
         new_entries = TimetableEntry.search([
             ('course_offering_id', '=', offering.id),
             ('entry_state', '!=', 'cancelled'),
@@ -334,14 +334,14 @@ class UniCoreEnrollment(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        EnrollmentLog = self.env['unicore.enrollment.log'].sudo()
-        Waitlist = self.env['unicore.enrollment.waitlist']
+        EnrollmentLog = self.env['oacis.enrollment.log'].sudo()
+        Waitlist = self.env['oacis.enrollment.waitlist']
 
         created_records = self.browse()
 
         for vals in vals_list:
-            student = self.env['unicore.student'].browse(vals.get('student_id'))
-            offering = self.env['unicore.course.offering'].browse(
+            student = self.env['oacis.student'].browse(vals.get('student_id'))
+            offering = self.env['oacis.course.offering'].browse(
                 vals.get('course_offering_id'),
             )
 
@@ -461,7 +461,7 @@ class UniCoreEnrollment(models.Model):
             'enrollment_state': 'dropped',
             'drop_date': today,
         })
-        self.env['unicore.enrollment.log'].sudo().create({
+        self.env['oacis.enrollment.log'].sudo().create({
             'enrollment_id': self.id,
             'student_id': self.student_id.id,
             'course_offering_id': self.course_offering_id.id,
@@ -481,7 +481,7 @@ class UniCoreEnrollment(models.Model):
             'enrollment_state': 'withdrawn',
             'drop_date': today,
         })
-        self.env['unicore.enrollment.log'].sudo().create({
+        self.env['oacis.enrollment.log'].sudo().create({
             'enrollment_id': self.id,
             'student_id': self.student_id.id,
             'course_offering_id': self.course_offering_id.id,
@@ -499,7 +499,7 @@ class UniCoreEnrollment(models.Model):
     def action_complete(self):
         self.ensure_one()
         self.enrollment_state = 'completed'
-        self.env['unicore.enrollment.log'].sudo().create({
+        self.env['oacis.enrollment.log'].sudo().create({
             'enrollment_id': self.id,
             'student_id': self.student_id.id,
             'course_offering_id': self.course_offering_id.id,
@@ -513,7 +513,7 @@ class UniCoreEnrollment(models.Model):
     def action_cancel(self):
         self.ensure_one()
         self.enrollment_state = 'cancelled'
-        self.env['unicore.enrollment.log'].sudo().create({
+        self.env['oacis.enrollment.log'].sudo().create({
             'enrollment_id': self.id,
             'student_id': self.student_id.id,
             'course_offering_id': self.course_offering_id.id,
@@ -533,7 +533,7 @@ class UniCoreEnrollment(models.Model):
         or student must confirm.
         """
         self.ensure_one()
-        Waitlist = self.env['unicore.enrollment.waitlist']
+        Waitlist = self.env['oacis.enrollment.waitlist']
         next_waiting = Waitlist.search([
             ('course_offering_id', '=', self.course_offering_id.id),
             ('waitlist_state', '=', 'waiting'),

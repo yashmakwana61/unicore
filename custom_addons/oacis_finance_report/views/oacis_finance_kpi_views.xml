@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <!-- Form View for KPI -->
-  <record id="view_unicore_finance_kpi_form" model="ir.ui.view">
-    <field name="name">unicore.finance.kpi.form</field>
-    <field name="model">unicore.finance.kpi</field>
+  <record id="view_oacis_finance_kpi_form" model="ir.ui.view">
+    <field name="name">oacis.finance.kpi.form</field>
+    <field name="model">oacis.finance.kpi</field>
     <field name="arch" type="xml">
       <form>
         <sheet>
@@ -40,9 +40,9 @@
     </field>
   </record>
   <!-- List View -->
-  <record id="view_unicore_finance_kpi_list" model="ir.ui.view">
-    <field name="name">unicore.finance.kpi.list</field>
-    <field name="model">unicore.finance.kpi</field>
+  <record id="view_oacis_finance_kpi_list" model="ir.ui.view">
+    <field name="name">oacis.finance.kpi.list</field>
+    <field name="model">oacis.finance.kpi</field>
     <field name="arch" type="xml">
       <list>
         <field name="kpi_date"/>
@@ -58,9 +58,9 @@
     </field>
   </record>
   <!-- Graph View -->
-  <record id="view_unicore_finance_kpi_graph" model="ir.ui.view">
-    <field name="name">unicore.finance.kpi.graph</field>
-    <field name="model">unicore.finance.kpi</field>
+  <record id="view_oacis_finance_kpi_graph" model="ir.ui.view">
+    <field name="name">oacis.finance.kpi.graph</field>
+    <field name="model">oacis.finance.kpi</field>
     <field name="arch" type="xml">
       <graph string="Collection Efficiency" type="bar">
         <field name="kpi_date" interval="month"/>
@@ -70,9 +70,9 @@
     </field>
   </record>
   <!-- Window Action -->
-  <record id="action_unicore_finance_kpi" model="ir.actions.act_window">
+  <record id="action_oacis_finance_kpi" model="ir.actions.act_window">
     <field name="name">Financial KPIs</field>
-    <field name="res_model">unicore.finance.kpi</field>
+    <field name="res_model">oacis.finance.kpi</field>
     <field name="view_mode">list,graph,form</field>
   </record>
 </odoo>

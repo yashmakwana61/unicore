@@ -8,16 +8,16 @@ Removed the separate fee payment recording layer from the Fees module. Payments 
 ## Changes Made
 
 ### 1. **Archived Fee Payment Model**
-- Added `active` field to `unicore.fee.payment` (defaults to `False`)
+- Added `active` field to `oacis.fee.payment` (defaults to `False`)
 - Model is kept for historical records but marked as archived
 - Description updated: "Fee Payment (Archived - Use GL Invoicing)"
 
 ### 2. **Removed Fee Payment Views & Menus**
 Removed from manifest:
-- `views/unicore_fee_payment_views.xml` - Fee payment list/form views
-- `views/unicore_fee_reconciliation_wizard_views.xml` - Manual reconciliation wizard
-- `views/unicore_fee_batch_wizard_views.xml` - Batch migration wizard
-- `views/unicore_fee_payment_gl_ext_views.xml` - Payment GL extension views
+- `views/oacis_fee_payment_views.xml` - Fee payment list/form views
+- `views/oacis_fee_reconciliation_wizard_views.xml` - Manual reconciliation wizard
+- `views/oacis_fee_batch_wizard_views.xml` - Batch migration wizard
+- `views/oacis_fee_payment_gl_ext_views.xml` - Payment GL extension views
 
 Removed from menus:
 - "Payments" menu section
@@ -25,7 +25,7 @@ Removed from menus:
 - "Record Payment" menu item
 
 ### 3. **Updated Fee Invoice GL Extension**
-Added new methods in `unicore_fee_invoice_gl_ext.py`:
+Added new methods in `oacis_fee_invoice_gl_ext.py`:
 
 **`action_record_payment()`**
 - Opens GL payment recording wizard (account.payment.register)
@@ -44,8 +44,8 @@ Added new methods in `unicore_fee_invoice_gl_ext.py`:
 - Updated GL Integration page with new instructions
 
 ### 5. **Removed Payment GL Extensions**
-- Removed `unicore_fee_payment_gl_ext.py` (no longer imported)
-- Removed `unicore_fee_reconciliation_wizard.py` (no longer imported)
+- Removed `oacis_fee_payment_gl_ext.py` (no longer imported)
+- Removed `oacis_fee_reconciliation_wizard.py` (no longer imported)
 - Removed manual reconciliation logic
 - Removed auto-reconciliation logic
 
@@ -55,8 +55,8 @@ Added new methods in `unicore_fee_invoice_gl_ext.py`:
 
 ### 7. **Cleaned Up Models Import**
 Removed imports from `models/__init__.py`:
-- `unicore_fee_payment_gl_ext`
-- `unicore_fee_reconciliation_wizard`
+- `oacis_fee_payment_gl_ext`
+- `oacis_fee_reconciliation_wizard`
 
 ---
 
@@ -151,7 +151,7 @@ Removed imports from `models/__init__.py`:
 
 ## Migration Notes
 
-- Existing fee payments remain in `unicore.fee.payment` model (archived)
+- Existing fee payments remain in `oacis.fee.payment` model (archived)
 - They don't affect normal operations
 - New payments must be recorded through GL payment wizard
 - Can query old data if needed using developer tools with `active_unlink_filter` disabled
@@ -161,11 +161,11 @@ Removed imports from `models/__init__.py`:
 ## Removed Files (Still Exist But No Longer Used)
 
 These files remain in the codebase but are not loaded by the module:
-- `models/unicore_fee_payment_gl_ext.py` - Payment GL reconciliation
-- `models/unicore_fee_reconciliation_wizard.py` - Manual reconciliation
-- `views/unicore_fee_payment_views.xml` - Payment list/form views
-- `views/unicore_fee_reconciliation_wizard_views.xml` - Reconciliation wizard views
-- `views/unicore_fee_batch_wizard_views.xml` - Batch wizard views
-- `views/unicore_fee_payment_gl_ext_views.xml` - Payment GL views
+- `models/oacis_fee_payment_gl_ext.py` - Payment GL reconciliation
+- `models/oacis_fee_reconciliation_wizard.py` - Manual reconciliation
+- `views/oacis_fee_payment_views.xml` - Payment list/form views
+- `views/oacis_fee_reconciliation_wizard_views.xml` - Reconciliation wizard views
+- `views/oacis_fee_batch_wizard_views.xml` - Batch wizard views
+- `views/oacis_fee_payment_gl_ext_views.xml` - Payment GL views
 
 You can delete these files if desired, or keep them for reference.

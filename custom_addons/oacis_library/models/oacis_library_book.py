@@ -1,5 +1,5 @@
 """
-UniCore Library Book Models
+Oacis Library Book Models
 Book catalogue with subject classification and
 individual copy tracking per accession number.
 """
@@ -11,8 +11,8 @@ from odoo import _, api, fields, models
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreLibrarySubject(models.Model):
-    _name = 'unicore.library.subject'
+class OacisLibrarySubject(models.Model):
+    _name = 'oacis.library.subject'
     _description = 'Library Subject / Classification'
     _order = 'name'
 
@@ -25,7 +25,7 @@ class UniCoreLibrarySubject(models.Model):
         size=20,
     )
     parent_id = fields.Many2one(
-        comodel_name='unicore.library.subject',
+        comodel_name='oacis.library.subject',
         string='Parent Subject',
         ondelete='set null',
     )
@@ -37,7 +37,7 @@ class UniCoreLibrarySubject(models.Model):
     )
 
     def _compute_book_count(self):
-        Book = self.env['unicore.library.book']
+        Book = self.env['oacis.library.book']
         for rec in self:
             rec.book_count = Book.search_count([
                 ('subject_ids', 'in', [rec.id]),
@@ -50,8 +50,8 @@ class UniCoreLibrarySubject(models.Model):
     ]
 
 
-class UniCoreLibraryPublisher(models.Model):
-    _name = 'unicore.library.publisher'
+class OacisLibraryPublisher(models.Model):
+    _name = 'oacis.library.publisher'
     _description = 'Publisher'
     _order = 'name'
 
@@ -74,10 +74,10 @@ class UniCoreLibraryPublisher(models.Model):
     ]
 
 
-class UniCoreLibraryBook(models.Model):
-    _name = 'unicore.library.book'
+class OacisLibraryBook(models.Model):
+    _name = 'oacis.library.book'
     _description = 'Library Book'
-    _inherit = ['unicore.mixin', 'mail.thread',
+    _inherit = ['oacis.mixin', 'mail.thread',
                 'mail.activity.mixin']
     _order = 'title'
     _check_company_auto = True
@@ -107,8 +107,8 @@ class UniCoreLibraryBook(models.Model):
     # --- AUTHORS ---
 
     author_ids = fields.Many2many(
-        comodel_name='unicore.library.author',
-        relation='unicore_book_author_rel',
+        comodel_name='oacis.library.author',
+        relation='oacis_book_author_rel',
         column1='book_id',
         column2='author_id',
         string='Authors',
@@ -129,7 +129,7 @@ class UniCoreLibraryBook(models.Model):
     # --- PUBLICATION ---
 
     publisher_id = fields.Many2one(
-        comodel_name='unicore.library.publisher',
+        comodel_name='oacis.library.publisher',
         string='Publisher',
         ondelete='set null',
     )
@@ -156,8 +156,8 @@ class UniCoreLibraryBook(models.Model):
     # --- CLASSIFICATION ---
 
     subject_ids = fields.Many2many(
-        comodel_name='unicore.library.subject',
-        relation='unicore_book_subject_rel',
+        comodel_name='oacis.library.subject',
+        relation='oacis_book_subject_rel',
         column1='book_id',
         column2='subject_id',
         string='Subjects',
@@ -196,7 +196,7 @@ class UniCoreLibraryBook(models.Model):
     # --- COPY STATS ---
 
     copy_ids = fields.One2many(
-        comodel_name='unicore.library.book.copy',
+        comodel_name='oacis.library.book.copy',
         inverse_name='book_id',
         string='Copies',
     )
@@ -276,7 +276,7 @@ class UniCoreLibraryBook(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Add Copy'),
-            'res_model': 'unicore.library.book.copy',
+            'res_model': 'oacis.library.book.copy',
             'view_mode': 'form',
             'target': 'new',
             'context': {
@@ -288,8 +288,8 @@ class UniCoreLibraryBook(models.Model):
         }
 
 
-class UniCoreLibraryAuthor(models.Model):
-    _name = 'unicore.library.author'
+class OacisLibraryAuthor(models.Model):
+    _name = 'oacis.library.author'
     _description = 'Book Author'
     _order = 'name'
 
@@ -310,10 +310,10 @@ class UniCoreLibraryAuthor(models.Model):
     ]
 
 
-class UniCoreLibraryBookCopy(models.Model):
-    _name = 'unicore.library.book.copy'
+class OacisLibraryBookCopy(models.Model):
+    _name = 'oacis.library.book.copy'
     _description = 'Book Copy'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
     _order = 'accession_number'
     _check_company_auto = True
 
@@ -325,7 +325,7 @@ class UniCoreLibraryBookCopy(models.Model):
         copy=False,
     )
     book_id = fields.Many2one(
-        comodel_name='unicore.library.book',
+        comodel_name='oacis.library.book',
         string='Book',
         required=True,
         ondelete='restrict',
@@ -378,7 +378,7 @@ class UniCoreLibraryBookCopy(models.Model):
         ],
     )
     current_issue_id = fields.Many2one(
-        comodel_name='unicore.library.issue',
+        comodel_name='oacis.library.issue',
         string='Current Issue',
         readonly=True,
         ondelete='set null',
@@ -391,7 +391,7 @@ class UniCoreLibraryBookCopy(models.Model):
             if not vals.get('accession_number'):
                 vals['accession_number'] = (
                     self.env['ir.sequence'].next_by_code(
-                        'unicore.library.book.copy',
+                        'oacis.library.book.copy',
                     ) or '/'
                 )
         return super().create(vals_list)

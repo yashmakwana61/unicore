@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_admission_applicant_activity_view" model="ir.ui.view">
-        <field name="name">unicore.admission.applicant.activity</field>
-        <field name="model">unicore.admission.applicant</field>
+    <record id="oacis_admission_applicant_activity_view" model="ir.ui.view">
+        <field name="name">oacis.admission.applicant.activity</field>
+        <field name="model">oacis.admission.applicant</field>
         <field name="arch" type="xml">
             <activity string="Applicant Activities"/>
         </field>

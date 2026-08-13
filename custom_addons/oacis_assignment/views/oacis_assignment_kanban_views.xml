@@ -6,9 +6,9 @@
         <!-- ASSIGNMENT KANBAN VIEW                                        -->
         <!-- ============================================================ -->
 
-        <record id="view_unicore_assignment_kanban" model="ir.ui.view">
-            <field name="name">unicore.assignment.kanban</field>
-            <field name="model">unicore.assignment</field>
+        <record id="view_oacis_assignment_kanban" model="ir.ui.view">
+            <field name="name">oacis.assignment.kanban</field>
+            <field name="model">oacis.assignment</field>
             <field name="arch" type="xml">
                 <kanban class="o_kanban_mobile">
                     <field name="title"/>
@@ -74,9 +74,9 @@
         <!-- SUBMISSION KANBAN VIEW (per student)                          -->
         <!-- ============================================================ -->
 
-        <record id="view_unicore_assignment_submission_kanban" model="ir.ui.view">
-            <field name="name">unicore.assignment.submission.kanban</field>
-            <field name="model">unicore.assignment.submission</field>
+        <record id="view_oacis_assignment_submission_kanban" model="ir.ui.view">
+            <field name="name">oacis.assignment.submission.kanban</field>
+            <field name="model">oacis.assignment.submission</field>
             <field name="arch" type="xml">
                 <kanban class="o_kanban_mobile">
                     <field name="display_name"/>

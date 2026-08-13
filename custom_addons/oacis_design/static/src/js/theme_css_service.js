@@ -27,49 +27,49 @@ function ensureLink(id, rel, href) {
 }
 
 // Injected dynamic CSS loader service
-export const unicoreThemeCssService = {
+export const oacisThemeCssService = {
     dependencies: ["lazy_session"],
     start(env, { lazy_session }) {
         // Retrieve the cache-busting theme hash from the lazy-loaded session config
-        lazy_session.getValue("unicore_theme_hash", (hash) => {
-            let url = "/unicore_design/theme.css";
+        lazy_session.getValue("oacis_theme_hash", (hash) => {
+            let url = "/oacis_design/theme.css";
             if (hash) {
                 url += `?v=${encodeURIComponent(hash)}`;
             }
-            ensureLink("unicore-theme-stylesheet", "stylesheet", url);
+            ensureLink("oacis-theme-stylesheet", "stylesheet", url);
         });
         // Load web fonts through a dedicated <link> so theme.css never blocks
         // on the Google Fonts response (a CSS @import would delay the whole
         // stylesheet). Expose the effective config on <html> too, for CSS/UI tests.
-        const config = session.unicore_theme_config;
+        const config = session.oacis_theme_config;
         if (config) {
-            document.documentElement.dataset.unicoreChatter =
+            document.documentElement.dataset.oacisChatter =
                 config.theme_chatter_position || "bottom";
             const fontUrl = FONT_CSS_URL[config.theme_font_family];
             if (fontUrl) {
                 // Separate <link>, not a CSS @import: theme.css then applies
                 // immediately even if the Google Fonts response is slow.
-                ensureLink("unicore-theme-font", "stylesheet", fontUrl);
+                ensureLink("oacis-theme-font", "stylesheet", fontUrl);
             }
         }
     },
 };
 
-registry.category("services").add("unicore_theme_css", unicoreThemeCssService);
+registry.category("services").add("oacis_theme_css", oacisThemeCssService);
 
 // Add a marker class on the form root (`.o_form_view`) so the theme CSS can
 // target the layout without relying on `:has()`. The CSS in
-// /unicore_design/theme.css then switches the renderer to a row (side) or
+// /oacis_design/theme.css then switches the renderer to a row (side) or
 // column (bottom) layout.
 patch(FormController.prototype, {
     get className() {
         const result = super.className;
-        const config = session.unicore_theme_config;
+        const config = session.oacis_theme_config;
         if (config && config.theme_chatter_position) {
             result[
                 config.theme_chatter_position === "side"
-                    ? "o_unicore_chatter_side"
-                    : "o_unicore_chatter_bottom"
+                    ? "o_oacis_chatter_side"
+                    : "o_oacis_chatter_bottom"
             ] = true;
         }
         return result;
@@ -83,7 +83,7 @@ patch(FormController.prototype, {
 // chatter.
 patch(FormRenderer.prototype, {
     mailLayout(hasAttachmentContainer) {
-        const config = session.unicore_theme_config;
+        const config = session.oacis_theme_config;
         if (!config || !config.theme_chatter_position) {
             return super.mailLayout(hasAttachmentContainer);
         }

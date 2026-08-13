@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <menuitem id="menu_unicore_discipline_root"
+        <menuitem id="menu_oacis_discipline_root"
                   name="Discipline"
                   
                   sequence="60"/>
 
-        <menuitem id="menu_unicore_discipline_records"
+        <menuitem id="menu_oacis_discipline_records"
                   name="Discipline Records"
-                  parent="menu_unicore_discipline_root"
-                  action="action_unicore_discipline_record"
+                  parent="menu_oacis_discipline_root"
+                  action="action_oacis_discipline_record"
                   sequence="10"/>
 
-        <menuitem id="menu_unicore_discipline_config"
+        <menuitem id="menu_oacis_discipline_config"
                   name="Configuration"
-                  parent="menu_unicore_discipline_root"
+                  parent="menu_oacis_discipline_root"
                   sequence="100"/>
 
-        <menuitem id="menu_unicore_misbehaviour_category"
+        <menuitem id="menu_oacis_misbehaviour_category"
                   name="Misbehaviour Categories"
-                  parent="menu_unicore_discipline_config"
-                  action="action_unicore_misbehaviour_category"
+                  parent="menu_oacis_discipline_config"
+                  action="action_oacis_misbehaviour_category"
                   sequence="10"/>
     </data>
 </odoo>

@@ -2,13 +2,13 @@
 <odoo>
   <data noupdate="1">
 
-    <record id="cron_unicore_analytics_refresh"
+    <record id="cron_oacis_analytics_refresh"
             model="ir.cron">
-      <field name="name">UniCore Analytics: Daily View Refresh Check</field>
+      <field name="name">Oacis Analytics: Daily View Refresh Check</field>
       <field name="model_id"
-        ref="unicore_analytics.model_unicore_student_enrollment_report"/>
+        ref="oacis_analytics.model_oacis_student_enrollment_report"/>
       <field name="state">code</field>
-      <field name="code">count = env['unicore.student.enrollment.report'].search_count([]); _logger.info('UniCore Analytics: %d student enrollment records in analytics view.', count)</field>
+      <field name="code">count = env['oacis.student.enrollment.report'].search_count([]); _logger.info('Oacis Analytics: %d student enrollment records in analytics view.', count)</field>
       <field name="interval_number">1</field>
       <field name="interval_type">days</field>
       <field name="active">True</field>

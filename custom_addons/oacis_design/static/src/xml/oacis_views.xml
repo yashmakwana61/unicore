@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
 
-    <t t-name="unicore_design.KanbanFlyout">
-        <div class="o_unicore_flyout_wrapper">
-            <div class="o_unicore_flyout_backdrop" t-on-click="props.onClose"/>
-            <div class="o_unicore_flyout_panel shadow-lg">
-                <div class="o_unicore_flyout_header d-flex align-items-center justify-content-between px-3 py-2 border-bottom bg-view">
+    <t t-name="oacis_design.KanbanFlyout">
+        <div class="o_oacis_flyout_wrapper">
+            <div class="o_oacis_flyout_backdrop" t-on-click="props.onClose"/>
+            <div class="o_oacis_flyout_panel shadow-lg">
+                <div class="o_oacis_flyout_header d-flex align-items-center justify-content-between px-3 py-2 border-bottom bg-view">
                     <div class="d-flex align-items-center gap-2 overflow-hidden me-2">
                         <i class="fa fa-file-text-o text-primary fs-5"/>
                         <h5 class="m-0 text-truncate font-weight-bold text-dark" t-esc="props.title || 'Quick View'"/>
@@ -14,49 +14,49 @@
                         <i class="fa fa-times"/>
                     </button>
                 </div>
-                <div class="o_unicore_flyout_body p-3 overflow-auto flex-grow-1">
+                <div class="o_oacis_flyout_body p-3 overflow-auto flex-grow-1">
                     <View type="'form'" resModel="props.resModel" resId="props.resId" display="{ controlPanel: false }" mode="'readonly'"/>
                 </div>
             </div>
         </div>
     </t>
 
-    <t t-name="unicore_design.KanbanRenderer" t-inherit="web.KanbanRenderer" t-inherit-mode="extension">
+    <t t-name="oacis_design.KanbanRenderer" t-inherit="web.KanbanRenderer" t-inherit-mode="extension">
         <xpath expr="//div[hasclass('o_kanban_renderer')]" position="inside">
-            <KanbanFlyout t-if="unicoreState.flyoutData"
-                          resModel="unicoreState.flyoutData.resModel"
-                          resId="unicoreState.flyoutData.resId"
-                          title="unicoreState.flyoutData.title"
+            <KanbanFlyout t-if="oacisState.flyoutData"
+                          resModel="oacisState.flyoutData.resModel"
+                          resId="oacisState.flyoutData.resId"
+                          title="oacisState.flyoutData.title"
                           onClose="() => this.closeKanbanFlyout()"/>
         </xpath>
     </t>
 
-    <t t-name="unicore_design.ControlPanel" t-inherit="web.ControlPanel" t-inherit-mode="extension">
+    <t t-name="oacis_design.ControlPanel" t-inherit="web.ControlPanel" t-inherit-mode="extension">
         <xpath expr="//div[hasclass('o_cp_pager')]" position="before">
             <button class="btn btn-icon btn-outline-secondary o_smart_refresher_btn me-1 d-inline-flex align-items-center justify-content-center"
                     t-on-click="onSmartRefresh"
                     title="Smart Refresh Data"
                     aria-label="Smart Refresh Data">
-                <i class="fa fa-refresh" t-att-class="{ 'fa-spin': unicoreRefresherState.isRefreshing }"/>
+                <i class="fa fa-refresh" t-att-class="{ 'fa-spin': oacisRefresherState.isRefreshing }"/>
             </button>
         </xpath>
     </t>
 
     <!-- Form view header toggle buttons for Fullscreen and Chatter Position -->
-    <t t-name="unicore_design.FormButtons" t-inherit="web.FormView.Buttons" t-inherit-mode="extension">
+    <t t-name="oacis_design.FormButtons" t-inherit="web.FormView.Buttons" t-inherit-mode="extension">
         <xpath expr="//button" position="before">
             <!-- Fullscreen Form View Toggle -->
-            <button type="button" class="btn btn-outline-secondary o_unicore_fullscreen_btn me-1 d-inline-flex align-items-center justify-content-center"
+            <button type="button" class="btn btn-outline-secondary o_oacis_fullscreen_btn me-1 d-inline-flex align-items-center justify-content-center"
                     t-on-click="toggleFullscreen"
-                    t-att-class="{ 'active': unicoreFormState.isFullscreen }"
+                    t-att-class="{ 'active': oacisFormState.isFullscreen }"
                     title="Toggle Fullscreen Form"
                     aria-label="Toggle Fullscreen Form">
-                <i class="fa" t-att-class="unicoreFormState.isFullscreen ? 'fa-compress' : 'fa-expand'"/>
+                <i class="fa" t-att-class="oacisFormState.isFullscreen ? 'fa-compress' : 'fa-expand'"/>
                 <span class="d-none d-xl-inline ms-1">Fullscreen</span>
             </button>
 
             <!-- Chatter Position Toggle -->
-            <button t-if="hasChatter" type="button" class="btn btn-outline-secondary o_unicore_chatter_toggle_btn me-1 d-inline-flex align-items-center justify-content-center"
+            <button t-if="hasChatter" type="button" class="btn btn-outline-secondary o_oacis_chatter_toggle_btn me-1 d-inline-flex align-items-center justify-content-center"
                     t-on-click="toggleChatterPosition"
                     t-att-title="chatterToggleTitle"
                     t-att-aria-label="chatterToggleTitle">
@@ -66,9 +66,9 @@
     </t>
 
     <!-- Resizable side chatter vertical drag handle -->
-    <t t-name="unicore_design.Chatter" t-inherit="mail.Chatter" t-inherit-mode="extension">
+    <t t-name="oacis_design.Chatter" t-inherit="mail.Chatter" t-inherit-mode="extension">
         <xpath expr="//div[hasclass('o-mail-Chatter')]" position="inside">
-            <div t-if="props.isChatterAside" class="o-unicore-chatter-drag-handle" t-on-mousedown="onChatterResizeMouseDown"/>
+            <div t-if="props.isChatterAside" class="o-oacis-chatter-drag-handle" t-on-mousedown="onChatterResizeMouseDown"/>
         </xpath>
     </t>
 

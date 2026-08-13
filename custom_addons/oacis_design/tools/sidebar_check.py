@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify the UniCore dual-tier sidebar in headless Chromium (desktop + mobile).
+"""Verify the Oacis dual-tier sidebar in headless Chromium (desktop + mobile).
 
 Checks, on a real headless Chromium:
   * the sidebar is rendered, fixed left (280px) and full-height, and the
@@ -28,7 +28,7 @@ import sys
 
 from playwright.sync_api import sync_playwright
 
-DEFAULT_BASE = os.environ.get("UNICORE_BASE_URL", "http://127.0.0.1:8069")
+DEFAULT_BASE = os.environ.get("OACIS_BASE_URL", "http://127.0.0.1:8069")
 results = []
 js_errors = []
 
@@ -58,12 +58,12 @@ def close_technical_modal(page):
 
 
 def desktop_checks(page):
-    sidebar = page.locator(".o_unicore_sidebar")
+    sidebar = page.locator(".o_oacis_sidebar")
 
     # 1. Sidebar rendered, fixed on the left
     check("sidebar rendered", sidebar.count() == 1)
     rect = page.evaluate(
-        """() => { const e = document.querySelector('.o_unicore_sidebar');
+        """() => { const e = document.querySelector('.o_oacis_sidebar');
                    const r = e.getBoundingClientRect();
                    return { x: Math.round(r.x), w: Math.round(r.width),
                             h: Math.round(r.height) }; }""",
@@ -79,19 +79,19 @@ def desktop_checks(page):
 
     # 3. Navbar toggle button
     check("navbar sidebar toggle",
-          page.locator(".o_navbar .o_unicore_sidebar_toggle").count() == 1)
+          page.locator(".o_navbar .o_oacis_sidebar_toggle").count() == 1)
 
     # 4. Tier 1: icon rail with apps
-    rail = page.locator(".o_unicore_sidebar_rail")
+    rail = page.locator(".o_oacis_sidebar_rail")
     check("rail present", rail.count() == 1)
-    apps = rail.locator(".o_unicore_sidebar_app")
+    apps = rail.locator(".o_oacis_sidebar_app")
     check("rail lists apps", apps.count() > 0, f"apps={apps.count()}")
 
     # 5. Tier 2: submenu panel with sections
-    panel = page.locator(".o_unicore_sidebar_panel")
+    panel = page.locator(".o_oacis_sidebar_panel")
     check("panel present", panel.count() == 1)
     check("panel visible", panel.is_visible())
-    groups = page.locator(".o_unicore_sidebar_group")
+    groups = page.locator(".o_oacis_sidebar_group")
     check("panel has menu groups", groups.count() > 0, f"groups={groups.count()}")
 
     # 6. Hover an app switches the panel content (auto-expand on hover)
@@ -99,30 +99,30 @@ def desktop_checks(page):
     second_name = second.get_attribute("title")
     second.hover()
     page.wait_for_timeout(400)
-    title_after = page.locator(".o_unicore_sidebar_panel_title").inner_text()
+    title_after = page.locator(".o_oacis_sidebar_panel_title").inner_text()
     check("hover switches panel", title_after == second_name,
           f"title={title_after!r} vs app={second_name!r}")
     check("hovered app active in rail", second.get_attribute("data-active") is not None)
 
     # 7. Search filters the rail + panel (no keyboard shortcut needed)
-    page.fill(".o_unicore_sidebar_search", "inv")
+    page.fill(".o_oacis_sidebar_search", "inv")
     page.wait_for_timeout(400)
     filtered = [a.get_attribute("title") for a in apps.all()]
     check("search filters rail",
           len(filtered) > 0 and any("inv" in n.lower() for n in filtered),
           f"filtered={filtered}")
     group_titles = [g.inner_text().strip()
-                    for g in page.locator(".o_unicore_sidebar_group_title").all()]
+                    for g in page.locator(".o_oacis_sidebar_group_title").all()]
     check("search shows grouped results", len(group_titles) > 0, f"groups={group_titles}")
-    page.fill(".o_unicore_sidebar_search", "")
+    page.fill(".o_oacis_sidebar_search", "")
     page.wait_for_timeout(300)
 
     # 8. Mini mode toggle collapses to icons + shrinks webclient padding
-    page.locator(".o_unicore_sidebar_mini").click()
+    page.locator(".o_oacis_sidebar_mini").click()
     page.wait_for_timeout(500)
     check("mini data attribute", sidebar.get_attribute("data-mini") is not None)
     rect2 = page.evaluate(
-        """() => { const e = document.querySelector('.o_unicore_sidebar');
+        """() => { const e = document.querySelector('.o_oacis_sidebar');
                    const r = e.getBoundingClientRect();
                    return { w: Math.round(r.width) }; }""")
     check("mini collapses width to rail", rect2["w"] == 64, f"w={rect2['w']}")
@@ -130,7 +130,7 @@ def desktop_checks(page):
         """() => getComputedStyle(document.querySelector('.o_web_client')).paddingLeft""")
     check("mini shrinks webclient padding", wc_pad2 == "64px", f"paddingLeft={wc_pad2}")
     panel_hidden = page.evaluate(
-        """() => { const e = document.querySelector('.o_unicore_sidebar_panel');
+        """() => { const e = document.querySelector('.o_oacis_sidebar_panel');
                    const cs = getComputedStyle(e);
                    return cs.visibility === 'hidden' || cs.opacity === '0'; }""")
     check("mini hides panel", panel_hidden)
@@ -139,13 +139,13 @@ def desktop_checks(page):
     apps.nth(1).hover()
     page.wait_for_timeout(400)
     panel_visible = page.evaluate(
-        """() => { const e = document.querySelector('.o_unicore_sidebar_panel');
+        """() => { const e = document.querySelector('.o_oacis_sidebar_panel');
                    const cs = getComputedStyle(e);
                    return cs.visibility === 'visible' && cs.opacity === '1'; }""")
     check("mini hover shows fly-out", panel_visible)
 
     # 10. Toggle back to standard
-    page.locator(".o_unicore_sidebar_mini").click()
+    page.locator(".o_oacis_sidebar_mini").click()
     page.wait_for_timeout(500)
     check("expand back to standard", sidebar.get_attribute("data-mini") is None)
     check("webclient padding restored",
@@ -154,7 +154,7 @@ def desktop_checks(page):
           == "280px")
 
     # 11. Clicking a submenu navigates
-    first_item = page.locator(".o_unicore_sidebar_panel .o_unicore_sidebar_item").first
+    first_item = page.locator(".o_oacis_sidebar_panel .o_oacis_sidebar_item").first
     item_text = first_item.inner_text().strip()
     first_item.click()
     page.wait_for_timeout(1500)
@@ -166,15 +166,15 @@ def desktop_checks(page):
 def clickability_checks(page):
     """Sections without children render as clickable items; parents and group
     headers are clickable too (falling back to the first actionable child)."""
-    apps = page.locator(".o_unicore_sidebar_rail .o_unicore_sidebar_app")
-    panel = page.locator(".o_unicore_sidebar_panel")
+    apps = page.locator(".o_oacis_sidebar_rail .o_oacis_sidebar_app")
+    panel = page.locator(".o_oacis_sidebar_panel")
 
     # An app whose direct children are all leaf actions (Admission) must show
     # clickable items instead of empty group headers.
     apps.nth(2).hover()
     page.wait_for_timeout(400)
-    items = panel.locator(".o_unicore_sidebar_item")
-    titles = panel.locator(".o_unicore_sidebar_group_title").count()
+    items = panel.locator(".o_oacis_sidebar_item")
+    titles = panel.locator(".o_oacis_sidebar_group_title").count()
     check("leaf-only app shows clickable items", items.count() >= 3,
           f"items={items.count()}")
     check("leaf-only app has no empty headers", titles == 0, f"titles={titles}")
@@ -186,7 +186,7 @@ def clickability_checks(page):
     # An app with nested groups (Invoicing) must have clickable parent items.
     apps.nth(5).hover()
     page.wait_for_timeout(400)
-    parents = panel.locator(".o_unicore_sidebar_item_parent")
+    parents = panel.locator(".o_oacis_sidebar_item_parent")
     check("app with children shows parent items", parents.count() > 0,
           f"parents={parents.count()}")
     before = page.url
@@ -197,7 +197,7 @@ def clickability_checks(page):
     # Group headers are clickable as well.
     apps.first.hover()
     page.wait_for_timeout(400)
-    gh = panel.locator(".o_unicore_sidebar_group_title").first
+    gh = panel.locator(".o_oacis_sidebar_group_title").first
     check("group header present", gh.count() == 1)
     before = page.url
     gh.click()
@@ -206,10 +206,10 @@ def clickability_checks(page):
 
 
 def mobile_checks(page):
-    sidebar = page.locator(".o_unicore_sidebar")
+    sidebar = page.locator(".o_oacis_sidebar")
     check("sidebar present on mobile", sidebar.count() == 1)
     off = page.evaluate(
-        """() => { const e = document.querySelector('.o_unicore_sidebar');
+        """() => { const e = document.querySelector('.o_oacis_sidebar');
                    const t = getComputedStyle(e).transform;
                    return t !== 'none' && t.includes('-'); }""")
     check("sidebar off-canvas initially", off)
@@ -222,14 +222,14 @@ def mobile_checks(page):
     page.wait_for_timeout(600)
     check("burger opens drawer",
           sidebar.get_attribute("data-open") is not None)
-    check("backdrop appears", page.locator(".o_unicore_sidebar_backdrop").is_visible())
+    check("backdrop appears", page.locator(".o_oacis_sidebar_backdrop").is_visible())
     check("webclient padded when open",
           page.evaluate(
               """() => getComputedStyle(document.querySelector('.o_web_client')).paddingLeft""")
           != "0px")
     check("no mini on mobile", sidebar.get_attribute("data-mini") is None)
 
-    page.locator(".o_unicore_sidebar_panel .o_unicore_sidebar_item").first.click()
+    page.locator(".o_oacis_sidebar_panel .o_oacis_sidebar_item").first.click()
     page.wait_for_timeout(1500)
     check("submenu click navigates", "/odoo" in page.url)
     check("drawer closes after nav", sidebar.get_attribute("data-open") is None)
@@ -238,7 +238,7 @@ def mobile_checks(page):
 
 
 def main():
-    ap = argparse.ArgumentParser(description="UniCore sidebar checker (Playwright)")
+    ap = argparse.ArgumentParser(description="Oacis sidebar checker (Playwright)")
     ap.add_argument("--base-url", default=DEFAULT_BASE)
     ap.add_argument("--login", default="admin")
     ap.add_argument("--password", default="admin")

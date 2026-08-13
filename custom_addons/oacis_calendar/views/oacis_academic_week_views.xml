@@ -2,18 +2,18 @@
 <odoo>
 
     <!-- Window Action -->
-    <record id="action_unicore_academic_week" model="ir.actions.act_window">
+    <record id="action_oacis_academic_week" model="ir.actions.act_window">
         <field name="name">Academic Weeks</field>
-        <field name="res_model">unicore.academic.week</field>
+        <field name="res_model">oacis.academic.week</field>
         <field name="view_mode">list,form</field>
         <field name="domain">[]</field>
         <field name="context">{}</field>
     </record>
 
     <!-- Form View -->
-    <record id="unicore_academic_week_form_view" model="ir.ui.view">
-        <field name="name">unicore.academic.week.form</field>
-        <field name="model">unicore.academic.week</field>
+    <record id="oacis_academic_week_form_view" model="ir.ui.view">
+        <field name="name">oacis.academic.week.form</field>
+        <field name="model">oacis.academic.week</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
@@ -38,9 +38,9 @@
     </record>
 
     <!-- List View -->
-    <record id="unicore_academic_week_list_view" model="ir.ui.view">
-        <field name="name">unicore.academic.week.list</field>
-        <field name="model">unicore.academic.week</field>
+    <record id="oacis_academic_week_list_view" model="ir.ui.view">
+        <field name="name">oacis.academic.week.list</field>
+        <field name="model">oacis.academic.week</field>
         <field name="arch" type="xml">
             <list>
                 <field name="week_number"/>
@@ -56,9 +56,9 @@
     </record>
 
     <!-- Search View -->
-    <record id="unicore_academic_week_search_view" model="ir.ui.view">
-        <field name="name">unicore.academic.week.search</field>
-        <field name="model">unicore.academic.week</field>
+    <record id="oacis_academic_week_search_view" model="ir.ui.view">
+        <field name="name">oacis.academic.week.search</field>
+        <field name="model">oacis.academic.week</field>
         <field name="arch" type="xml">
             <search>
                 <field name="name"/>

@@ -6,12 +6,12 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UnicoreRoom(models.Model):
+class OacisRoom(models.Model):
     """Represents a room or hall within a building floor."""
 
-    _name = 'unicore.room'
+    _name = 'oacis.room'
     _description = 'Room or Hall'
-    _inherit = ['unicore.mixin', 'mail.thread']
+    _inherit = ['oacis.mixin', 'mail.thread']
     _order = 'campus_id, building_id, floor_id, name'
     _check_company_auto = True
 
@@ -26,20 +26,20 @@ class UnicoreRoom(models.Model):
         help='Unique room identifier e.g. A101, LAB-03',
     )
     floor_id = fields.Many2one(
-        comodel_name='unicore.floor',
+        comodel_name='oacis.floor',
         string='Floor',
         required=True,
         ondelete='restrict',
     )
     building_id = fields.Many2one(
-        comodel_name='unicore.building',
+        comodel_name='oacis.building',
         related='floor_id.building_id',
         string='Building',
         store=True,
         readonly=True,
     )
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus',
+        comodel_name='oacis.campus',
         related='floor_id.campus_id',
         string='Campus',
         store=True,

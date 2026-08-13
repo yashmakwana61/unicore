@@ -3,7 +3,7 @@
 The web client renders field labels from the ``fields_get`` payload — the
 ``fields`` dict served by ``get_views``/``get_view`` — NOT from the view XML.
 So the only way an institution's terminology profile can relabel *every* form,
-list, kanban and search view across ALL UniCore modules is to rewrite the
+list, kanban and search view across ALL Oacis modules is to rewrite the
 ``fields_get`` output itself.
 
 We extend the ``base`` abstract model, which every model implicitly inherits,
@@ -37,7 +37,7 @@ class TerminologyBase(models.AbstractModel):
         if not company:
             return res
         # res.company.institution_profile_id does not exist yet (fresh install
-        # of modules loaded before unicore_institution_profile) => no-op.
+        # of modules loaded before oacis_institution_profile) => no-op.
         if 'institution_profile_id' not in self.env['res.company']._fields:
             return res
         try:

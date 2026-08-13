@@ -1,11 +1,11 @@
 """Phase 3: unified admission -> enrollment flow (Enroll in Program wizard).
 
-Verifies the ``unicore.admission.enrollment.wizard`` end to end:
+Verifies the ``oacis.admission.enrollment.wizard`` end to end:
 - default lines pre-fill from the applicant's current curriculum (mandatory
   Semester-1 courses only);
 - offerings resolve scoped to program + campus + company + open state;
 - confirming the wizard moves the student admitted -> enrolled -> active,
-  creates the program-level ``unicore.admission.enrollment`` record and the
+  creates the program-level ``oacis.admission.enrollment`` record and the
   course registrations, and links them;
 - full offerings route to the waitlist (line kept checked), missing offerings
   are flagged and skipped (never fatal);
@@ -17,8 +17,8 @@ from datetime import date
 from odoo.tests import TransactionCase, tagged
 
 
-@tagged('unicore', 'unit')
-class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
+@tagged('oacis', 'unit')
+class OacisAdmissionEnrollmentWizardTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
@@ -29,18 +29,18 @@ class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
         # ACADEMIC STRUCTURE (program A — standard intake)
         # ----------------------------------------------------------
 
-        cls.campus = cls.env['unicore.campus'].create({
+        cls.campus = cls.env['oacis.campus'].create({
             'name': 'Wizard Campus',
             'code': 'WZC',
             'company_id': cls.company.id,
         })
-        cls.academic_year = cls.env['unicore.academic.year'].create({
+        cls.academic_year = cls.env['oacis.academic.year'].create({
             'name': '2026-2027',
             'code': '2026',
             'date_start': '2026-06-01',
             'date_end': '2027-05-31',
         })
-        cls.semester = cls.env['unicore.semester'].create({
+        cls.semester = cls.env['oacis.semester'].create({
             'name': 'Semester 1 2026-27',
             'code': 'S1-2627',
             'academic_year_id': cls.academic_year.id,
@@ -50,18 +50,18 @@ class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
             'semester_state': 'ongoing',
             'company_id': cls.company.id,
         })
-        faculty = cls.env['unicore.faculty'].create({
+        faculty = cls.env['oacis.faculty'].create({
             'name': 'Faculty of Science',
             'code': 'WZFS',
             'company_id': cls.company.id,
         })
-        cls.department = cls.env['unicore.department'].create({
+        cls.department = cls.env['oacis.department'].create({
             'name': 'Physics',
             'code': 'WZPH',
             'faculty_id': faculty.id,
         })
         department = cls.department
-        cls.program = cls.env['unicore.program'].create({
+        cls.program = cls.env['oacis.program'].create({
             'name': 'Wizard B.Sc. Physics',
             'code': 'WZBSC',
             'program_type': 'undergraduate',
@@ -72,7 +72,7 @@ class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
             'department_id': department.id,
             'company_id': cls.company.id,
         })
-        cls.cycle = cls.env['unicore.admission.cycle'].create({
+        cls.cycle = cls.env['oacis.admission.cycle'].create({
             'name': 'Wizard Intake 2026-27',
             'code': 'WZI-2627',
             'campus_id': cls.campus.id,
@@ -82,7 +82,7 @@ class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
             'state': 'active',
             'company_id': cls.company.id,
         })
-        cls.env['unicore.admission.cycle.seat'].create({
+        cls.env['oacis.admission.cycle.seat'].create({
             'cycle_id': cls.cycle.id,
             'program_id': cls.program.id,
             'total_seats': 30,
@@ -91,7 +91,7 @@ class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
 
         # Courses
         def _course(name, code):
-            return cls.env['unicore.course'].create({
+            return cls.env['oacis.course'].create({
                 'name': name,
                 'code': code,
                 'department_id': department.id,
@@ -110,13 +110,13 @@ class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
 
         # Current curriculum: two mandatory Semester-1 courses + an elective
         # (Semester 1) + a mandatory Semester-2 course (must be excluded).
-        cls.curriculum = cls.env['unicore.curriculum'].create({
+        cls.curriculum = cls.env['oacis.curriculum'].create({
             'name': 'B.Sc. Physics 2026',
             'program_id': cls.program.id,
             'version': '1.0',
             'is_current': True,
         })
-        cls.env['unicore.curriculum.line'].create([
+        cls.env['oacis.curriculum.line'].create([
             {
                 'curriculum_id': cls.curriculum.id,
                 'course_id': cls.course_mechanics.id,
@@ -137,7 +137,7 @@ class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
             },
             {
                 'curriculum_id': cls.curriculum.id,
-                'course_id': cls.env['unicore.course'].create({
+                'course_id': cls.env['oacis.course'].create({
                     'name': 'Thermodynamics',
                     'code': 'PHY201',
                     'department_id': department.id,
@@ -151,7 +151,7 @@ class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
         ])
 
         # Open offerings for the two mandatory Semester-1 courses.
-        cls.offering_mechanics = cls.env['unicore.course.offering'].create({
+        cls.offering_mechanics = cls.env['oacis.course.offering'].create({
             'course_id': cls.course_mechanics.id,
             'program_id': cls.program.id,
             'academic_year_id': cls.academic_year.id,
@@ -161,7 +161,7 @@ class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
             'max_enrollment': 30,
             'company_id': cls.company.id,
         })
-        cls.offering_waves = cls.env['unicore.course.offering'].create({
+        cls.offering_waves = cls.env['oacis.course.offering'].create({
             'course_id': cls.course_waves.id,
             'program_id': cls.program.id,
             'academic_year_id': cls.academic_year.id,
@@ -176,7 +176,7 @@ class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
         # Program B — full offering -> waitlist routing
         # ----------------------------------------------------------
 
-        cls.program_full = cls.env['unicore.program'].create({
+        cls.program_full = cls.env['oacis.program'].create({
             'name': 'Wizard B.Tech ECE',
             'code': 'WZECE',
             'program_type': 'undergraduate',
@@ -187,7 +187,7 @@ class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
             'department_id': department.id,
             'company_id': cls.company.id,
         })
-        cls.course_full = cls.env['unicore.course'].create({
+        cls.course_full = cls.env['oacis.course'].create({
             'name': 'Signals',
             'code': 'ECE101',
             'department_id': department.id,
@@ -195,19 +195,19 @@ class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
             'credit_hours': 4,
             'company_id': cls.company.id,
         })
-        cls.curriculum_full = cls.env['unicore.curriculum'].create({
+        cls.curriculum_full = cls.env['oacis.curriculum'].create({
             'name': 'B.Tech ECE 2026',
             'program_id': cls.program_full.id,
             'version': '1.0',
             'is_current': True,
         })
-        cls.env['unicore.curriculum.line'].create({
+        cls.env['oacis.curriculum.line'].create({
             'curriculum_id': cls.curriculum_full.id,
             'course_id': cls.course_full.id,
             'semester_number': 1,
             'is_mandatory': True,
         })
-        cls.offering_full = cls.env['unicore.course.offering'].create({
+        cls.offering_full = cls.env['oacis.course.offering'].create({
             'course_id': cls.course_full.id,
             'program_id': cls.program_full.id,
             'academic_year_id': cls.academic_year.id,
@@ -225,14 +225,14 @@ class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
 
     def _open_wizard(self, applicant):
         """Instantiate the wizard exactly as the applicant smart button does."""
-        return self.env['unicore.admission.enrollment.wizard'].with_context(
+        return self.env['oacis.admission.enrollment.wizard'].with_context(
             default_applicant_id=applicant.id,
         ).create({'applicant_id': applicant.id})
 
     def _confirmed_applicant(self, program, email, name='Wizard Applicant'):
         """Create + confirm an applicant (state fee_pending -> confirmed),
         which also creates the linked student record."""
-        applicant = self.env['unicore.admission.applicant'].create({
+        applicant = self.env['oacis.admission.applicant'].create({
             'name': name,
             'email': email,
             'mobile': '9122000000',
@@ -289,8 +289,8 @@ class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
         self.assertEqual(student.current_semester_id, self.semester)
 
         # 2) Program-level admission enrollment record.
-        self.assertEqual(res['res_model'], 'unicore.admission.enrollment')
-        admission_enrollment = self.env['unicore.admission.enrollment'].browse(
+        self.assertEqual(res['res_model'], 'oacis.admission.enrollment')
+        admission_enrollment = self.env['oacis.admission.enrollment'].browse(
             res['res_id'])
         self.assertTrue(admission_enrollment.name)
         self.assertTrue(
@@ -304,7 +304,7 @@ class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
         self.assertEqual(admission_enrollment.enrollment_state, 'enrolled')
 
         # 3) Course registrations created + linked.
-        enrollments = self.env['unicore.enrollment'].search([
+        enrollments = self.env['oacis.enrollment'].search([
             ('admission_enrollment_id', '=', admission_enrollment.id),
         ])
         self.assertEqual(len(enrollments), 2)
@@ -324,7 +324,7 @@ class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
         student to the waitlist and leaves the program enrollment pending
         when no other course could be registered."""
         # Fill the single-seat offering with another student first.
-        filler = self.env['unicore.student'].create({
+        filler = self.env['oacis.student'].create({
             'name': 'Filler',
             'last_name': 'Student',
             'gender': 'male',
@@ -338,7 +338,7 @@ class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
             'admission_date': '2026-06-01',
         })
         filler.action_enroll()
-        self.env['unicore.enrollment'].create({
+        self.env['oacis.enrollment'].create({
             'student_id': filler.id,
             'course_offering_id': self.offering_full.id,
         })
@@ -354,7 +354,7 @@ class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
 
         wizard.action_confirm()
 
-        waitlist = self.env['unicore.enrollment.waitlist'].search([
+        waitlist = self.env['oacis.enrollment.waitlist'].search([
             ('course_offering_id', '=', self.offering_full.id),
             ('student_id', '=', applicant.student_id.id),
         ])
@@ -370,7 +370,7 @@ class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
     def test_04_missing_offering_is_skipped_not_fatal(self):
         """A mandatory course with no open offering is flagged 'no_offering',
         unchecked, and skipped on confirm without raising."""
-        program = self.env['unicore.program'].create({
+        program = self.env['oacis.program'].create({
             'name': 'Wizard B.A. History',
             'code': 'WZBAH',
             'program_type': 'undergraduate',
@@ -381,7 +381,7 @@ class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
             'department_id': self.department.id,
             'company_id': self.company.id,
         })
-        course = self.env['unicore.course'].create({
+        course = self.env['oacis.course'].create({
             'name': 'Ancient History',
             'code': 'HIS101',
             'department_id': self.course_mechanics.department_id.id,
@@ -389,13 +389,13 @@ class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
             'credit_hours': 4,
             'company_id': self.company.id,
         })
-        curriculum = self.env['unicore.curriculum'].create({
+        curriculum = self.env['oacis.curriculum'].create({
             'name': 'B.A. History 2026',
             'program_id': program.id,
             'version': '1.0',
             'is_current': True,
         })
-        self.env['unicore.curriculum.line'].create({
+        self.env['oacis.curriculum.line'].create({
             'curriculum_id': curriculum.id,
             'course_id': course.id,
             'semester_number': 1,
@@ -414,7 +414,7 @@ class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
         self.assertEqual(
             applicant.admission_enrollment_ids.enrollment_state, 'pending')
         self.assertEqual(
-            self.env['unicore.enrollment'].search_count([
+            self.env['oacis.enrollment'].search_count([
                 ('student_id', '=', applicant.student_id.id),
             ]), 0)
 
@@ -423,18 +423,18 @@ class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
         company_b = self.env['res.company'].create({
             'name': 'Wizard Branch B',
         })
-        campus_b = self.env['unicore.campus'].create({
+        campus_b = self.env['oacis.campus'].create({
             'name': 'Branch B Campus',
             'code': 'WZB',
             'company_id': company_b.id,
         })
-        year_b = self.env['unicore.academic.year'].create({
+        year_b = self.env['oacis.academic.year'].create({
             'name': '2028-2029 B',
             'code': '2028B',
             'date_start': '2028-06-01',
             'date_end': '2029-05-31',
         })
-        semester_b = self.env['unicore.semester'].create({
+        semester_b = self.env['oacis.semester'].create({
             'name': 'Sem 1 2028-29 B',
             'code': 'S1B',
             'academic_year_id': year_b.id,
@@ -445,7 +445,7 @@ class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
             'company_id': company_b.id,
         })
         # Only a company-B offering exists for this course.
-        self.env['unicore.course.offering'].create({
+        self.env['oacis.course.offering'].create({
             'course_id': self.course_mechanics.id,
             'program_id': self.program.id,
             'academic_year_id': year_b.id,
@@ -457,7 +457,7 @@ class UniCoreAdmissionEnrollmentWizardTest(TransactionCase):
         })
         # Sanity: the B offering exists and is open, yet must not leak.
         self.assertEqual(
-            self.env['unicore.course.offering'].search_count([
+            self.env['oacis.course.offering'].search_count([
                 ('course_id', '=', self.course_mechanics.id),
                 ('offering_state', '=', 'open'),
             ]), 2)

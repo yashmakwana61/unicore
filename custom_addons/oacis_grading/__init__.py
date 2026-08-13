@@ -1,5 +1,5 @@
 """
-UniCore Grading & Results Module
+Oacis Grading & Results Module
 Manages marks entry, grade computation, GPA/CGPA
 calculation, semester results and academic transcripts.
 """

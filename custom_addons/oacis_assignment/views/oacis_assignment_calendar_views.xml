@@ -6,9 +6,9 @@
         <!-- ASSIGNMENT CALENDAR VIEW                                      -->
         <!-- ============================================================ -->
 
-        <record id="view_unicore_assignment_calendar" model="ir.ui.view">
-            <field name="name">unicore.assignment.calendar</field>
-            <field name="model">unicore.assignment</field>
+        <record id="view_oacis_assignment_calendar" model="ir.ui.view">
+            <field name="name">oacis.assignment.calendar</field>
+            <field name="model">oacis.assignment</field>
             <field name="arch" type="xml">
                 <calendar string="Assignments"
                           date_start="due_date"
@@ -26,9 +26,9 @@
         <!-- ASSIGNMENT ANALYSIS (PIVOT + GRAPH)                           -->
         <!-- ============================================================ -->
 
-        <record id="view_unicore_assignment_pivot" model="ir.ui.view">
-            <field name="name">unicore.assignment.pivot</field>
-            <field name="model">unicore.assignment</field>
+        <record id="view_oacis_assignment_pivot" model="ir.ui.view">
+            <field name="name">oacis.assignment.pivot</field>
+            <field name="model">oacis.assignment</field>
             <field name="arch" type="xml">
                 <pivot string="Assignment Analysis">
                     <field name="course_id" type="row"/>
@@ -40,9 +40,9 @@
             </field>
         </record>
 
-        <record id="view_unicore_assignment_graph" model="ir.ui.view">
-            <field name="name">unicore.assignment.graph</field>
-            <field name="model">unicore.assignment</field>
+        <record id="view_oacis_assignment_graph" model="ir.ui.view">
+            <field name="name">oacis.assignment.graph</field>
+            <field name="model">oacis.assignment</field>
             <field name="arch" type="xml">
                 <graph string="Assignment Analysis">
                     <field name="assignment_type"/>

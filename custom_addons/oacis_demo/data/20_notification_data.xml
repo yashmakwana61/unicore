@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data noupdate="0">
-    <record id="uc_demo_notif_template_attendance" model="unicore.notification.template">
+    <record id="uc_demo_notif_template_attendance" model="oacis.notification.template">
       <field name="name">Attendance Shortage Alert</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">attendance_shortage</field>
@@ -11,7 +11,7 @@
       <field name="is_active_trigger">True</field>
     </record>
 
-    <record id="uc_demo_notif_template_fee" model="unicore.notification.template">
+    <record id="uc_demo_notif_template_fee" model="oacis.notification.template">
       <field name="name">Fee Payment Reminder</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">fee_due</field>

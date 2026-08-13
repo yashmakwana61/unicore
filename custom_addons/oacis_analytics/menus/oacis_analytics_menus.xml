@@ -3,106 +3,106 @@
 
   <!-- ROOT MENU — Standalone App -->
   <menuitem
-    id="menu_unicore_analytics_root"
+    id="menu_oacis_analytics_root"
     name="Analytics"
     sequence="230"
-    web_icon="unicore_analytics,static/description/icon.png"
-    groups="unicore_base.group_unicore_manager,unicore_base.group_unicore_admin"/>
+    web_icon="oacis_analytics,static/description/icon.png"
+    groups="oacis_base.group_oacis_manager,oacis_base.group_oacis_admin"/>
 
   <!-- Student Analytics -->
   <menuitem
-    id="menu_unicore_analytics_students"
+    id="menu_oacis_analytics_students"
     name="Student Analytics"
-    parent="menu_unicore_analytics_root"
+    parent="menu_oacis_analytics_root"
     sequence="10"
-    groups="unicore_base.group_unicore_manager"/>
+    groups="oacis_base.group_oacis_manager"/>
 
   <menuitem
-    id="menu_unicore_analytics_enrollment"
+    id="menu_oacis_analytics_enrollment"
     name="Enrollment Trends"
-    parent="menu_unicore_analytics_students"
-    action="action_unicore_student_enrollment_report"
+    parent="menu_oacis_analytics_students"
+    action="action_oacis_student_enrollment_report"
     sequence="10"
-    groups="unicore_base.group_unicore_manager"/>
+    groups="oacis_base.group_oacis_manager"/>
 
   <menuitem
-    id="menu_unicore_analytics_attendance"
+    id="menu_oacis_analytics_attendance"
     name="Attendance Analytics"
-    parent="menu_unicore_analytics_students"
-    action="action_unicore_attendance_report"
+    parent="menu_oacis_analytics_students"
+    action="action_oacis_attendance_report"
     sequence="20"
-    groups="unicore_base.group_unicore_manager"/>
+    groups="oacis_base.group_oacis_manager"/>
 
   <!-- Academic Analytics -->
   <menuitem
-    id="menu_unicore_analytics_academic"
+    id="menu_oacis_analytics_academic"
     name="Academic Analytics"
-    parent="menu_unicore_analytics_root"
+    parent="menu_oacis_analytics_root"
     sequence="20"
-    groups="unicore_base.group_unicore_manager"/>
+    groups="oacis_base.group_oacis_manager"/>
 
   <menuitem
-    id="menu_unicore_analytics_grades"
+    id="menu_oacis_analytics_grades"
     name="Grade Distribution"
-    parent="menu_unicore_analytics_academic"
-    action="action_unicore_grade_dist_report"
+    parent="menu_oacis_analytics_academic"
+    action="action_oacis_grade_dist_report"
     sequence="10"
-    groups="unicore_base.group_unicore_manager"/>
+    groups="oacis_base.group_oacis_manager"/>
 
   <menuitem
-    id="menu_unicore_analytics_results"
+    id="menu_oacis_analytics_results"
     name="Semester Results"
-    parent="menu_unicore_analytics_academic"
-    action="action_unicore_sem_result_report"
+    parent="menu_oacis_analytics_academic"
+    action="action_oacis_sem_result_report"
     sequence="20"
-    groups="unicore_base.group_unicore_manager"/>
+    groups="oacis_base.group_oacis_manager"/>
 
   <!-- Financial Analytics -->
   <menuitem
-    id="menu_unicore_analytics_financial"
+    id="menu_oacis_analytics_financial"
     name="Financial Analytics"
-    parent="menu_unicore_analytics_root"
+    parent="menu_oacis_analytics_root"
     sequence="30"
-    groups="unicore_base.group_unicore_manager"/>
+    groups="oacis_base.group_oacis_manager"/>
 
   <menuitem
-    id="menu_unicore_analytics_fee_collection"
+    id="menu_oacis_analytics_fee_collection"
     name="Fee Collection"
-    parent="menu_unicore_analytics_financial"
-    action="action_unicore_fee_coll_report"
+    parent="menu_oacis_analytics_financial"
+    action="action_oacis_fee_coll_report"
     sequence="10"
-    groups="unicore_base.group_unicore_manager"/>
+    groups="oacis_base.group_oacis_manager"/>
 
   <menuitem
-    id="menu_unicore_analytics_payment_methods"
+    id="menu_oacis_analytics_payment_methods"
     name="Payment Methods"
-    parent="menu_unicore_analytics_financial"
-    action="action_unicore_payment_method_report"
+    parent="menu_oacis_analytics_financial"
+    action="action_oacis_payment_method_report"
     sequence="20"
-    groups="unicore_base.group_unicore_manager"/>
+    groups="oacis_base.group_oacis_manager"/>
 
   <!-- Admission Analytics -->
   <menuitem
-    id="menu_unicore_analytics_admission"
+    id="menu_oacis_analytics_admission"
     name="Admission Analytics"
-    parent="menu_unicore_analytics_root"
+    parent="menu_oacis_analytics_root"
     sequence="40"
-    groups="unicore_base.group_unicore_manager"/>
+    groups="oacis_base.group_oacis_manager"/>
 
   <menuitem
-    id="menu_unicore_analytics_funnel"
+    id="menu_oacis_analytics_funnel"
     name="Admission Funnel"
-    parent="menu_unicore_analytics_admission"
-    action="action_unicore_admission_funnel_report"
+    parent="menu_oacis_analytics_admission"
+    action="action_oacis_admission_funnel_report"
     sequence="10"
-    groups="unicore_base.group_unicore_manager"/>
+    groups="oacis_base.group_oacis_manager"/>
 
   <menuitem
-    id="menu_unicore_analytics_categories"
+    id="menu_oacis_analytics_categories"
     name="Category Distribution"
-    parent="menu_unicore_analytics_admission"
-    action="action_unicore_applicant_cat_report"
+    parent="menu_oacis_analytics_admission"
+    action="action_oacis_applicant_cat_report"
     sequence="20"
-    groups="unicore_base.group_unicore_manager"/>
+    groups="oacis_base.group_oacis_manager"/>
 
 </odoo>

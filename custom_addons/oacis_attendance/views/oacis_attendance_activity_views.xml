@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_attendance_record_activity_view" model="ir.ui.view">
-        <field name="name">unicore.attendance.record.activity</field>
-        <field name="model">unicore.attendance.record</field>
+    <record id="oacis_attendance_record_activity_view" model="ir.ui.view">
+        <field name="name">oacis.attendance.record.activity</field>
+        <field name="model">oacis.attendance.record</field>
         <field name="arch" type="xml">
             <activity string="Attendance Record Activities"/>
         </field>

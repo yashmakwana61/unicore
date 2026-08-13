@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-  <record id="view_unicore_transport_trip_form" model="ir.ui.view">
-    <field name="name">unicore.transport.trip.form</field>
-    <field name="model">unicore.transport.trip</field>
+  <record id="view_oacis_transport_trip_form" model="ir.ui.view">
+    <field name="name">oacis.transport.trip.form</field>
+    <field name="model">oacis.transport.trip</field>
     <field name="arch" type="xml">
       <form>
         <header>
-          <button name="action_start" string="Start Trip" type="object" invisible="trip_state != 'scheduled'" class="btn-primary" groups="unicore_base.group_unicore_staff"/>
-          <button name="action_complete" string="Complete Trip" type="object" invisible="trip_state != 'in_progress'" class="btn-success" groups="unicore_base.group_unicore_staff"/>
-          <button name="action_cancel" string="Cancel Trip" type="object" invisible="trip_state in               ('completed','cancelled')" groups="unicore_base.group_unicore_admin"/>
+          <button name="action_start" string="Start Trip" type="object" invisible="trip_state != 'scheduled'" class="btn-primary" groups="oacis_base.group_oacis_staff"/>
+          <button name="action_complete" string="Complete Trip" type="object" invisible="trip_state != 'in_progress'" class="btn-success" groups="oacis_base.group_oacis_staff"/>
+          <button name="action_cancel" string="Cancel Trip" type="object" invisible="trip_state in               ('completed','cancelled')" groups="oacis_base.group_oacis_admin"/>
           <field name="trip_state" widget="statusbar" statusbar_visible="scheduled,               in_progress,completed"/>
         </header>
         <sheet>
@@ -47,9 +47,9 @@
       </form>
     </field>
   </record>
-  <record id="view_unicore_transport_trip_list" model="ir.ui.view">
-    <field name="name">unicore.transport.trip.list</field>
-    <field name="model">unicore.transport.trip</field>
+  <record id="view_oacis_transport_trip_list" model="ir.ui.view">
+    <field name="name">oacis.transport.trip.list</field>
+    <field name="model">oacis.transport.trip</field>
     <field name="arch" type="xml">
       <list decoration-danger="had_incident" decoration-success="trip_state == 'completed'                and not had_incident" decoration-warning="delay_minutes &gt; 15" decoration-muted="trip_state == 'cancelled'">
         <field name="trip_number"/>
@@ -65,9 +65,9 @@
       </list>
     </field>
   </record>
-  <record id="view_unicore_transport_trip_search" model="ir.ui.view">
-    <field name="name">unicore.transport.trip.search</field>
-    <field name="model">unicore.transport.trip</field>
+  <record id="view_oacis_transport_trip_search" model="ir.ui.view">
+    <field name="name">oacis.transport.trip.search</field>
+    <field name="model">oacis.transport.trip</field>
     <field name="arch" type="xml">
       <search>
         <field name="trip_number"/>
@@ -85,15 +85,15 @@
       </search>
     </field>
   </record>
-  <record id="action_unicore_transport_trip" model="ir.actions.act_window">
+  <record id="action_oacis_transport_trip" model="ir.actions.act_window">
     <field name="name">Trip Logs</field>
-    <field name="res_model">unicore.transport.trip</field>
+    <field name="res_model">oacis.transport.trip</field>
     <field name="view_mode">list,form</field>
     <field name="context">{'search_default_today': 1}</field>
   </record>
-  <record id="action_unicore_transport_trip_incidents" model="ir.actions.act_window">
+  <record id="action_oacis_transport_trip_incidents" model="ir.actions.act_window">
     <field name="name">Incident Reports</field>
-    <field name="res_model">unicore.transport.trip</field>
+    <field name="res_model">oacis.transport.trip</field>
     <field name="view_mode">list,form</field>
     <field name="domain">[('had_incident','=',True)]</field>
   </record>

@@ -1,5 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_secure_transcript_admin,unicore.secure.transcript.admin,model_unicore_secure_transcript,unicore_base.group_unicore_admin,1,1,1,1
-access_secure_transcript_manager,unicore.secure.transcript.manager,model_unicore_secure_transcript,unicore_base.group_unicore_manager,1,1,1,0
-access_secure_transcript_registrar,unicore.secure.transcript.registrar,model_unicore_secure_transcript,unicore_base.group_unicore_registrar,1,1,1,0
-access_secure_transcript_student,unicore.secure.transcript.student,model_unicore_secure_transcript,unicore_base.group_unicore_student,1,0,0,0
+access_secure_transcript_admin,oacis.secure.transcript.admin,model_oacis_secure_transcript,oacis_base.group_oacis_admin,1,1,1,1
+access_secure_transcript_manager,oacis.secure.transcript.manager,model_oacis_secure_transcript,oacis_base.group_oacis_manager,1,1,1,0
+access_secure_transcript_registrar,oacis.secure.transcript.registrar,model_oacis_secure_transcript,oacis_base.group_oacis_registrar,1,1,1,0
+access_secure_transcript_student,oacis.secure.transcript.student,model_oacis_secure_transcript,oacis_base.group_oacis_student,1,0,0,0

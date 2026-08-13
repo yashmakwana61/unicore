@@ -3,9 +3,9 @@ from odoo.exceptions import ValidationError
 
 
 class MisbehaviourCategory(models.Model):
-    _name = 'unicore.misbehaviour.category'
+    _name = 'oacis.misbehaviour.category'
     _description = 'Misbehaviour Category'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
     _order = 'severity_level desc, name'
     _check_company_auto = True
 
@@ -20,15 +20,15 @@ class MisbehaviourCategory(models.Model):
 
 
 class DisciplineRecord(models.Model):
-    _name = 'unicore.discipline.record'
+    _name = 'oacis.discipline.record'
     _description = 'Discipline Record'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'incident_date desc'
     _check_company_auto = True
     _rec_name = 'student_id'
 
     student_id = fields.Many2one(
-        'unicore.student',
+        'oacis.student',
         string='Student',
         required=True,
         ondelete='cascade',
@@ -41,7 +41,7 @@ class DisciplineRecord(models.Model):
         store=True,
     )
     category_id = fields.Many2one(
-        'unicore.misbehaviour.category',
+        'oacis.misbehaviour.category',
         string='Category',
         required=True,
         domain="[('company_id', 'in', [company_id, False])]",
@@ -49,7 +49,7 @@ class DisciplineRecord(models.Model):
     )
     description = fields.Text(string='Description', required=True)
     reported_by = fields.Many2one(
-        'unicore.faculty.member',
+        'oacis.faculty.member',
         string='Reported By',
         required=True,
     )

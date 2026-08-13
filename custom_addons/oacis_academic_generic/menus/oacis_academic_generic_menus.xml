@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Academic Units under UniCore Configuration -->
-    <menuitem id="menu_unicore_academic_unit_list"
+    <!-- Academic Units under Oacis Configuration -->
+    <menuitem id="menu_oacis_academic_unit_list"
               name="Academic Units"
-              parent="unicore_base.menu_unicore_configuration"
-              action="action_unicore_academic_unit"
+              parent="oacis_base.menu_oacis_configuration"
+              action="action_oacis_academic_unit"
               sequence="110"/>
 
-    <!-- Unit Types under UniCore Configuration -->
-    <menuitem id="menu_unicore_academic_unit_type_list"
+    <!-- Unit Types under Oacis Configuration -->
+    <menuitem id="menu_oacis_academic_unit_type_list"
               name="Unit Types"
-              parent="unicore_base.menu_unicore_configuration"
-              action="action_unicore_academic_unit_type"
+              parent="oacis_base.menu_oacis_configuration"
+              action="action_oacis_academic_unit_type"
               sequence="111"/>
 
 </odoo>

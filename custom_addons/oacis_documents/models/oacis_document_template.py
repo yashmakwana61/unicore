@@ -6,10 +6,10 @@ from odoo.exceptions import UserError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreDocumentTemplate(models.Model):
-    _name = 'unicore.document.template'
+class OacisDocumentTemplate(models.Model):
+    _name = 'oacis.document.template'
     _description = 'Document Template'
-    _inherit = ['unicore.mixin', 'mail.thread']
+    _inherit = ['oacis.mixin', 'mail.thread']
     _order = 'template_type, name'
     _check_company_auto = True
 
@@ -65,7 +65,7 @@ class UniCoreDocumentTemplate(models.Model):
     )
 
     def _compute_generated_count(self):
-        Document = self.env['unicore.document']
+        Document = self.env['oacis.document']
         for rec in self:
             rec.generated_count = Document.search_count([
                 ('document_type', '=', 'template'),
@@ -77,7 +77,7 @@ class UniCoreDocumentTemplate(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Generate Document'),
-            'res_model': 'unicore.document.generate.wizard',
+            'res_model': 'oacis.document.generate.wizard',
             'view_mode': 'form',
             'target': 'new',
             'context': {'default_template_id': self.id},
@@ -85,7 +85,7 @@ class UniCoreDocumentTemplate(models.Model):
 
     def generate_for_student(self, student_id):
         self.ensure_one()
-        student = self.env['unicore.student'].browse(student_id)
+        student = self.env['oacis.student'].browse(student_id)
         if not student.exists():
             raise UserError(_('Student record not found.'))
 
@@ -114,14 +114,14 @@ class UniCoreDocumentTemplate(models.Model):
             _logger.error('Template render error: %s', str(e))
             rendered_body = self.body_html
 
-        category = self.env['unicore.document.category'].search([
+        category = self.env['oacis.document.category'].search([
             ('category_type', '=', 'student'),
             ('company_id', '=', student.company_id.id),
             ('parent_id', '=', False),
         ], limit=1)
 
         doc_name = '%s -- %s' % (self.subject, student.display_name)
-        document = self.env['unicore.document'].create({
+        document = self.env['oacis.document'].create({
             'name': doc_name,
             'company_id': student.company_id.id,
             'category_id': category.id if category else False,
@@ -138,7 +138,7 @@ class UniCoreDocumentTemplate(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Generated Document'),
-            'res_model': 'unicore.document',
+            'res_model': 'oacis.document',
             'res_id': document.id,
             'view_mode': 'form',
             'target': 'current',

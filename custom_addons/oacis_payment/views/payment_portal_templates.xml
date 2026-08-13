@@ -4,9 +4,9 @@
     <!-- Portal: "Pay Online" button on the student fee page -->
     <record id="portal_student_fees_pay_online"
             model="ir.ui.view">
-        <field name="name">unicore payment portal fees pay online</field>
+        <field name="name">oacis payment portal fees pay online</field>
         <field name="inherit_id"
-               ref="unicore_portal_student.portal_student_fees"/>
+               ref="oacis_portal_student.portal_student_fees"/>
         <field name="arch" type="xml">
             <xpath expr="//div[hasclass('card-body')][.//table[hasclass('table')]]" position="inside">
                 <div class="mt-3 text-end">

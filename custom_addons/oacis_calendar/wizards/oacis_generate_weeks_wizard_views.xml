@@ -1,16 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <!-- Wizard Action -->
-  <record id="action_unicore_generate_weeks_wizard" model="ir.actions.act_window">
+  <record id="action_oacis_generate_weeks_wizard" model="ir.actions.act_window">
     <field name="name">Generate Academic Weeks</field>
-    <field name="res_model">unicore.generate.weeks.wizard</field>
+    <field name="res_model">oacis.generate.weeks.wizard</field>
     <field name="view_mode">form</field>
     <field name="target">new</field>
   </record>
   <!-- Wizard Form View -->
-  <record id="unicore_generate_weeks_wizard_form_view" model="ir.ui.view">
-    <field name="name">unicore.generate.weeks.wizard.form</field>
-    <field name="model">unicore.generate.weeks.wizard</field>
+  <record id="oacis_generate_weeks_wizard_form_view" model="ir.ui.view">
+    <field name="name">oacis.generate.weeks.wizard.form</field>
+    <field name="model">oacis.generate.weeks.wizard</field>
     <field name="arch" type="xml">
       <form>
         <group>

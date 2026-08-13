@@ -1,7 +1,7 @@
 from odoo import http
 from odoo.http import request
 
-from odoo.addons.unicore_api.controllers.common import (
+from odoo.addons.oacis_api.controllers.common import (
     _check_body_size,
     _require_scope,
     _safe_call,
@@ -18,7 +18,7 @@ VALID_STUDENT_STATES = [
 ]
 
 
-class UniCoreApiStudents(http.Controller):
+class OacisApiStudents(http.Controller):
 
     def _require_auth_read(self):
         api_key = validate_api_key(request)
@@ -31,7 +31,7 @@ class UniCoreApiStudents(http.Controller):
                 % api_key.scope, 'FORBIDDEN', 403)
         return api_key, None
 
-    @http.route('/api/unicore/v1/students', type='http', auth='public',
+    @http.route('/api/oacis/v1/students', type='http', auth='public',
                 methods=['GET'], csrf=False)
     def list_students(self, **kwargs):
         return _safe_call(self._list_students, **kwargs)
@@ -86,10 +86,10 @@ class UniCoreApiStudents(http.Controller):
                 ('student_id_number', 'ilike', search_val),
             )
 
-        students = request.env['unicore.student'].sudo().search(
+        students = request.env['oacis.student'].sudo().search(
             domain, offset=offset, limit=limit, order='name',
         )
-        total = request.env['unicore.student'].sudo().search_count(domain)
+        total = request.env['oacis.student'].sudo().search_count(domain)
         return api_response(
             [{
                 'id': s.id,
@@ -108,7 +108,7 @@ class UniCoreApiStudents(http.Controller):
             },
         )
 
-    @http.route('/api/unicore/v1/students/<int:student_id>',
+    @http.route('/api/oacis/v1/students/<int:student_id>',
                 type='http', auth='public',
                 methods=['GET'], csrf=False)
     def get_student(self, student_id, **kwargs):
@@ -118,7 +118,7 @@ class UniCoreApiStudents(http.Controller):
         api_key, err = self._require_auth_read()
         if err:
             return err
-        student = request.env['unicore.student'].sudo().browse(student_id)
+        student = request.env['oacis.student'].sudo().browse(student_id)
         if not student.exists():
             return api_error('Student not found.', 'NOT_FOUND', 404)
         return api_response({
@@ -143,7 +143,7 @@ class UniCoreApiStudents(http.Controller):
             'active': student.active,
         })
 
-    @http.route('/api/unicore/v1/students/<int:student_id>/enrollments',
+    @http.route('/api/oacis/v1/students/<int:student_id>/enrollments',
                 type='http', auth='public',
                 methods=['GET'], csrf=False)
     def get_student_enrollments(self, student_id, **kwargs):
@@ -153,10 +153,10 @@ class UniCoreApiStudents(http.Controller):
         api_key, err = self._require_auth_read()
         if err:
             return err
-        student = request.env['unicore.student'].sudo().browse(student_id)
+        student = request.env['oacis.student'].sudo().browse(student_id)
         if not student.exists():
             return api_error('Student not found.', 'NOT_FOUND', 404)
-        enrollments = request.env['unicore.enrollment'].sudo().search([
+        enrollments = request.env['oacis.enrollment'].sudo().search([
             ('student_id', '=', student_id),
         ])
         return api_response([{
@@ -169,7 +169,7 @@ class UniCoreApiStudents(http.Controller):
             'status': e.enrollment_state,
         } for e in enrollments])
 
-    @http.route('/api/unicore/v1/students/<int:student_id>/attendance',
+    @http.route('/api/oacis/v1/students/<int:student_id>/attendance',
                 type='http', auth='public',
                 methods=['GET'], csrf=False)
     def get_student_attendance(self, student_id, **kwargs):
@@ -179,10 +179,10 @@ class UniCoreApiStudents(http.Controller):
         api_key, err = self._require_auth_read()
         if err:
             return err
-        student = request.env['unicore.student'].sudo().browse(student_id)
+        student = request.env['oacis.student'].sudo().browse(student_id)
         if not student.exists():
             return api_error('Student not found.', 'NOT_FOUND', 404)
-        records = request.env['unicore.attendance.record'].sudo().search([
+        records = request.env['oacis.attendance.record'].sudo().search([
             ('student_id', '=', student_id),
         ], limit=200)
         return api_response([{
@@ -194,7 +194,7 @@ class UniCoreApiStudents(http.Controller):
             'course': r.course_id.name if r.course_id else None,
         } for r in records])
 
-    @http.route('/api/unicore/v1/students/<int:student_id>/grades',
+    @http.route('/api/oacis/v1/students/<int:student_id>/grades',
                 type='http', auth='public',
                 methods=['GET'], csrf=False)
     def get_student_grades(self, student_id, **kwargs):
@@ -204,10 +204,10 @@ class UniCoreApiStudents(http.Controller):
         api_key, err = self._require_auth_read()
         if err:
             return err
-        student = request.env['unicore.student'].sudo().browse(student_id)
+        student = request.env['oacis.student'].sudo().browse(student_id)
         if not student.exists():
             return api_error('Student not found.', 'NOT_FOUND', 404)
-        grades = request.env['unicore.grade.entry'].sudo().search([
+        grades = request.env['oacis.grade.entry'].sudo().search([
             ('student_id', '=', student_id),
         ])
         return api_response([{
@@ -219,7 +219,7 @@ class UniCoreApiStudents(http.Controller):
             'status': g.entry_state,
         } for g in grades])
 
-    @http.route('/api/unicore/v1/students/<int:student_id>/fees',
+    @http.route('/api/oacis/v1/students/<int:student_id>/fees',
                 type='http', auth='public',
                 methods=['GET'], csrf=False)
     def get_student_fees(self, student_id, **kwargs):
@@ -229,10 +229,10 @@ class UniCoreApiStudents(http.Controller):
         api_key, err = self._require_auth_read()
         if err:
             return err
-        student = request.env['unicore.student'].sudo().browse(student_id)
+        student = request.env['oacis.student'].sudo().browse(student_id)
         if not student.exists():
             return api_error('Student not found.', 'NOT_FOUND', 404)
-        fees = request.env['unicore.fee.invoice'].sudo().search([
+        fees = request.env['oacis.fee.invoice'].sudo().search([
             ('student_id', '=', student_id),
         ])
         total_outstanding = sum(f.amount_outstanding for f in fees)

@@ -1,16 +1,16 @@
 """
-UniCore Grade Book Config
+Oacis Grade Book Config
 =========================
 
 One configuration per course offering. Holds the percentage of
 continuous assessment (CA / internal) marks that assignments
 contribute and orchestrates the read-only roll-up of assignment
-scores into the existing ``unicore.grade.entry.internal_marks``
+scores into the existing ``oacis.grade.entry.internal_marks``
 field.
 
 Design constraints honoured (from the grading security audit):
 - No schema change: the grade book adds no columns to
-  ``unicore.grade.entry`` — it aggregates into the existing
+  ``oacis.grade.entry`` — it aggregates into the existing
   ``internal_marks`` field.
 - Business rules stay in the grading module's ``action_*``
   methods: this module never writes ``entry_state`` and only
@@ -28,10 +28,10 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreGradeBookConfig(models.Model):
-    _name = 'unicore.gradebook.config'
+class OacisGradeBookConfig(models.Model):
+    _name = 'oacis.gradebook.config'
     _description = 'Grade Book Configuration'
-    _inherit = ['unicore.mixin', 'mail.thread',
+    _inherit = ['oacis.mixin', 'mail.thread',
                 'mail.activity.mixin']
     _order = 'semester_id desc, course_id'
     _check_company_auto = True
@@ -56,7 +56,7 @@ class UniCoreGradeBookConfig(models.Model):
     # ------- OFFERING / COURSE -------
 
     course_offering_id = fields.Many2one(
-        comodel_name='unicore.course.offering',
+        comodel_name='oacis.course.offering',
         string='Course Offering',
         required=True,
         ondelete='cascade',
@@ -67,14 +67,14 @@ class UniCoreGradeBookConfig(models.Model):
                "['open','ongoing','completed'])]",
     )
     course_id = fields.Many2one(
-        comodel_name='unicore.course',
+        comodel_name='oacis.course',
         string='Course',
         related='course_offering_id.course_id',
         store=True,
         readonly=True,
     )
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         related='course_offering_id.semester_id',
         store=True,
@@ -89,14 +89,14 @@ class UniCoreGradeBookConfig(models.Model):
         readonly=True,
     )
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus',
+        comodel_name='oacis.campus',
         string='Campus',
         related='course_offering_id.campus_id',
         store=True,
         readonly=True,
     )
     faculty_member_id = fields.Many2one(
-        comodel_name='unicore.faculty.member',
+        comodel_name='oacis.faculty.member',
         string='Instructor',
         related='course_offering_id.faculty_member_id',
         store=True,
@@ -127,7 +127,7 @@ class UniCoreGradeBookConfig(models.Model):
     # ------- ASSIGNMENTS -------
 
     assignment_ids = fields.One2many(
-        comodel_name='unicore.assignment',
+        comodel_name='oacis.assignment',
         inverse_name='course_offering_id',
         string='Assignments',
     )
@@ -145,7 +145,7 @@ class UniCoreGradeBookConfig(models.Model):
     # ------- STUDENT LINES -------
 
     student_line_ids = fields.One2many(
-        comodel_name='unicore.gradebook.student.line',
+        comodel_name='oacis.gradebook.student.line',
         inverse_name='config_id',
         string='Student Lines',
     )
@@ -248,8 +248,8 @@ class UniCoreGradeBookConfig(models.Model):
         submissions and refreshes the stored roll-up lines. It never
         modifies assignment, submission or grading records.
         """
-        Submission = self.env['unicore.assignment.submission']
-        AssignmentLine = self.env['unicore.gradebook.assignment.line']
+        Submission = self.env['oacis.assignment.submission']
+        AssignmentLine = self.env['oacis.gradebook.assignment.line']
         for rec in self:
             offering = rec.course_offering_id
             if not offering:
@@ -277,7 +277,7 @@ class UniCoreGradeBookConfig(models.Model):
                 line = existing_lines.get(enr.id)
                 if not line:
                     line = self.env[
-                        'unicore.gradebook.student.line'
+                        'oacis.gradebook.student.line'
                     ].create({
                         'config_id': rec.id,
                         'enrollment_id': enr.id,
@@ -326,7 +326,7 @@ class UniCoreGradeBookConfig(models.Model):
             )
         return True
 
-    # ------- GRADE ENTRY INTEGRATION (unicore.grading) -------
+    # ------- GRADE ENTRY INTEGRATION (oacis.grading) -------
 
     def action_apply_ca_marks(self):
         """Push the computed assignment component into the existing
@@ -336,7 +336,7 @@ class UniCoreGradeBookConfig(models.Model):
         - Only entries in the editable ``draft`` / ``submitted``
           states are written.
         - ``entry_state`` is never modified — state transitions
-          remain owned by the unicore_grading ``action_*`` methods.
+          remain owned by the oacis_grading ``action_*`` methods.
         - Every written value stays within ``[0, internal_max]`` so
           the grading module's ``_check_internal_marks`` constraint
           keeps applying exactly as designed.
@@ -387,7 +387,7 @@ class UniCoreGradeBookConfig(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Grade Entries'),
-            'res_model': 'unicore.grade.entry',
+            'res_model': 'oacis.grade.entry',
             'view_mode': 'list,form',
             'domain': [('enrollment_id', 'in', enroll_ids)],
             'context': {
@@ -402,7 +402,7 @@ class UniCoreGradeBookConfig(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Graded Submissions'),
-            'res_model': 'unicore.assignment.submission',
+            'res_model': 'oacis.assignment.submission',
             'view_mode': 'list,form',
             'domain': [
                 ('course_offering_id', '=',

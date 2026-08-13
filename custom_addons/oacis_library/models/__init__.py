@@ -1,7 +1,7 @@
-"""UniCore Library — Models Package"""
+"""Oacis Library — Models Package"""
 from . import (
-    unicore_library_book,
-    unicore_library_issue,
-    unicore_library_member,
-    unicore_library_reservation,
+    oacis_library_book,
+    oacis_library_issue,
+    oacis_library_member,
+    oacis_library_reservation,
 )

@@ -3,9 +3,9 @@ from odoo.exceptions import UserError
 
 
 class OfferLetter(models.Model):
-    _name = 'unicore.admission.offer.letter'
+    _name = 'oacis.admission.offer.letter'
     _description = 'Offer Letter'
-    _inherit = ['unicore.mixin', 'unicore.sequence.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'oacis.sequence.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'offer_date desc, id desc'
     _rec_name = 'display_name'
 
@@ -36,7 +36,7 @@ class OfferLetter(models.Model):
         default=lambda self: _('New'), tracking=True,
     )
     applicant_id = fields.Many2one(
-        comodel_name='unicore.admission.applicant', string='Applicant',
+        comodel_name='oacis.admission.applicant', string='Applicant',
         required=True, ondelete='cascade', tracking=True,
     )
     applicant_name = fields.Char(
@@ -80,7 +80,7 @@ class OfferLetter(models.Model):
             if vals.get('letter_number', _('New')) == _('New'):
                 company_id = vals.get('company_id') or self.env.company.id
                 seq = self._next_sequence(
-                    'unicore.admission.offer.letter', company_id=company_id,
+                    'oacis.admission.offer.letter', company_id=company_id,
                 ) or '/'
                 vals['letter_number'] = seq
             if not vals.get('valid_until') and vals.get('offer_date'):

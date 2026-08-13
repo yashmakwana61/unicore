@@ -1,5 +1,5 @@
 """
-UniCore Course Offering Extension (Assignments)
+Oacis Course Offering Extension (Assignments)
 Adds assignment statistics and a navigation action to the
 course offering form so faculty can jump straight into the
 assignments created for a specific offering.
@@ -12,11 +12,11 @@ from odoo import _, api, fields, models
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreCourseOfferingAssignmentExt(models.Model):
-    _inherit = 'unicore.course.offering'
+class OacisCourseOfferingAssignmentExt(models.Model):
+    _inherit = 'oacis.course.offering'
 
     assignment_ids = fields.One2many(
-        comodel_name='unicore.assignment',
+        comodel_name='oacis.assignment',
         inverse_name='course_offering_id',
         string='Assignments',
     )
@@ -66,7 +66,7 @@ class UniCoreCourseOfferingAssignmentExt(models.Model):
         return {
             'name': _('Assignments'),
             'type': 'ir.actions.act_window',
-            'res_model': 'unicore.assignment',
+            'res_model': 'oacis.assignment',
             'view_mode': 'list,form,kanban',
             'domain': [('course_offering_id', '=', self.id)],
             'context': {
@@ -80,7 +80,7 @@ class UniCoreCourseOfferingAssignmentExt(models.Model):
         return {
             'name': _('Submissions'),
             'type': 'ir.actions.act_window',
-            'res_model': 'unicore.assignment.submission',
+            'res_model': 'oacis.assignment.submission',
             'view_mode': 'list,form',
             'domain': [('course_offering_id', '=', self.id)],
         }

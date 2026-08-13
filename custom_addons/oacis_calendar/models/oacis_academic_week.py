@@ -7,12 +7,12 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UnicoreAcademicWeek(models.Model):
+class OacisAcademicWeek(models.Model):
     """Academic Week within a Semester."""
 
-    _name = 'unicore.academic.week'
+    _name = 'oacis.academic.week'
     _description = 'Academic Week'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
     _order = 'semester_id, week_number'
     _check_company_auto = True
 
@@ -27,13 +27,13 @@ class UnicoreAcademicWeek(models.Model):
         help='Sequential week number within semester',
     )
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         required=True,
         ondelete='restrict',
     )
     academic_year_id = fields.Many2one(
-        comodel_name='unicore.academic.year',
+        comodel_name='oacis.academic.year',
         related='semester_id.academic_year_id',
         string='Academic Year',
         store=True,

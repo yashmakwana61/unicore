@@ -1,5 +1,5 @@
 """
-UniCore Semester Result Model
+Oacis Semester Result Model
 Per-student per-semester academic result summary.
 Generated after all grade entries for a semester
 are finalised. Stores semester GPA and overall
@@ -13,11 +13,11 @@ from odoo import _, api, fields, models
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreSemesterResult(models.Model):
-    _name = 'unicore.semester.result'
+class OacisSemesterResult(models.Model):
+    _name = 'oacis.semester.result'
     _description = 'Semester Result'
     _rec_name = 'display_name'
-    _inherit = ['unicore.mixin', 'mail.thread']
+    _inherit = ['oacis.mixin', 'mail.thread']
 
     display_name = fields.Char(
         string='Display Name',
@@ -45,7 +45,7 @@ class UniCoreSemesterResult(models.Model):
     _check_company_auto = True
 
     student_id = fields.Many2one(
-        comodel_name='unicore.student',
+        comodel_name='oacis.student',
         string='Student',
         required=True,
         ondelete='restrict',
@@ -53,7 +53,7 @@ class UniCoreSemesterResult(models.Model):
         tracking=True,
     )
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         required=True,
         ondelete='restrict',
@@ -148,7 +148,7 @@ class UniCoreSemesterResult(models.Model):
         Safe to re-run \u2014 existing results are
         updated, not duplicated.
         """
-        GradeEntry = self.env['unicore.grade.entry']
+        GradeEntry = self.env['oacis.grade.entry']
         entries = GradeEntry.search([
             ('semester_id', '=', semester_id),
             ('company_id', '=', company_id),

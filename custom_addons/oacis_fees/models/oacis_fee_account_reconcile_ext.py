@@ -1,5 +1,5 @@
 """
-UniCore Fee Invoice — GL Reconciliation Extension
+Oacis Fee Invoice — GL Reconciliation Extension
 
 Bridges the Odoo Accounting reconciliation flow (account.payment.register,
 manual reconciliation, bank statement reconciliation) back to the Fees module.
@@ -15,7 +15,7 @@ outstanding.
 from odoo import api, models
 
 
-class UniCoreFeeAccountReconcileExt(models.Model):
+class OacisFeeAccountReconcileExt(models.Model):
     _inherit = 'account.partial.reconcile'
 
     @api.model_create_multi
@@ -40,7 +40,7 @@ class UniCoreFeeAccountReconcileExt(models.Model):
         if not moves:
             return
 
-        invoices = self.env['unicore.fee.invoice'].sudo().search([
+        invoices = self.env['oacis.fee.invoice'].sudo().search([
             ('account_move_id', 'in', moves.ids),
         ])
         for invoice in invoices:

@@ -1,5 +1,5 @@
 """
-UniCore Notification Template Model
+Oacis Notification Template Model
 Reusable message templates for multi-channel
 notifications. Supports variable substitution
 using Python's str.format() with named keys.
@@ -25,10 +25,10 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreNotificationTemplate(models.Model):
-    _name = 'unicore.notification.template'
+class OacisNotificationTemplate(models.Model):
+    _name = 'oacis.notification.template'
     _description = 'Notification Template'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
     _order = 'trigger_event, channel'
     _check_company_auto = True
 

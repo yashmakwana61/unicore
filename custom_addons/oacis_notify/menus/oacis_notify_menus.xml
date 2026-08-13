@@ -1,68 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- ROOT MENU — Under UniCore Base app -->
+    <!-- ROOT MENU — Under Oacis Base app -->
     <menuitem
-        id="menu_unicore_notify_root"
+        id="menu_oacis_notify_root"
         name="Notifications"
         sequence="250"
-        web_icon="unicore_notify,static/description/icon.png"
-        groups="unicore_base.group_unicore_registrar,unicore_base.group_unicore_admin"/>
+        web_icon="oacis_notify,static/description/icon.png"
+        groups="oacis_base.group_oacis_registrar,oacis_base.group_oacis_admin"/>
 
     <!-- Level 2: Notification Log -->
     <menuitem
-        id="menu_unicore_notify_logs"
+        id="menu_oacis_notify_logs"
         name="Notification Log"
-        parent="menu_unicore_notify_root"
+        parent="menu_oacis_notify_root"
         sequence="10"
-        groups="unicore_base.group_unicore_registrar"/>
+        groups="oacis_base.group_oacis_registrar"/>
 
     <menuitem
-        id="menu_unicore_notify_log_all"
+        id="menu_oacis_notify_log_all"
         name="All Notifications"
-        parent="menu_unicore_notify_logs"
-        action="action_unicore_notification_log"
+        parent="menu_oacis_notify_logs"
+        action="action_oacis_notification_log"
         sequence="10"
-        groups="unicore_base.group_unicore_registrar"/>
+        groups="oacis_base.group_oacis_registrar"/>
 
     <menuitem
-        id="menu_unicore_notify_log_today"
+        id="menu_oacis_notify_log_today"
         name="Today's Notifications"
-        parent="menu_unicore_notify_logs"
-        action="action_unicore_notification_log_today"
+        parent="menu_oacis_notify_logs"
+        action="action_oacis_notification_log_today"
         sequence="20"
-        groups="unicore_base.group_unicore_registrar"/>
+        groups="oacis_base.group_oacis_registrar"/>
 
     <menuitem
-        id="menu_unicore_notify_log_failed"
+        id="menu_oacis_notify_log_failed"
         name="Failed Notifications"
-        parent="menu_unicore_notify_logs"
-        action="action_unicore_notification_log_failed"
+        parent="menu_oacis_notify_logs"
+        action="action_oacis_notification_log_failed"
         sequence="30"
-        groups="unicore_base.group_unicore_registrar"/>
+        groups="oacis_base.group_oacis_registrar"/>
 
     <!-- Level 2: Configuration -->
     <menuitem
-        id="menu_unicore_notify_config_root"
+        id="menu_oacis_notify_config_root"
         name="Configuration"
-        parent="menu_unicore_notify_root"
+        parent="menu_oacis_notify_root"
         sequence="90"
-        groups="unicore_base.group_unicore_admin"/>
+        groups="oacis_base.group_oacis_admin"/>
 
     <menuitem
-        id="menu_unicore_notify_templates"
+        id="menu_oacis_notify_templates"
         name="Notification Templates"
-        parent="menu_unicore_notify_config_root"
-        action="action_unicore_notification_template"
+        parent="menu_oacis_notify_config_root"
+        action="action_oacis_notification_template"
         sequence="10"
-        groups="unicore_base.group_unicore_admin"/>
+        groups="oacis_base.group_oacis_admin"/>
 
     <menuitem
-        id="menu_unicore_notify_config"
+        id="menu_oacis_notify_config"
         name="Notification Settings"
-        parent="menu_unicore_notify_config_root"
-        action="action_unicore_notification_config"
+        parent="menu_oacis_notify_config_root"
+        action="action_oacis_notification_config"
         sequence="20"
-        groups="unicore_base.group_unicore_admin"/>
+        groups="oacis_base.group_oacis_admin"/>
 
 </odoo>

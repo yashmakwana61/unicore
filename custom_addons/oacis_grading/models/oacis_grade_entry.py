@@ -1,5 +1,5 @@
 """
-UniCore Grade Entry Model
+Oacis Grade Entry Model
 The core marks record for one student in one course
 offering. Contains internal and external marks,
 computes total, derives letter grade and grade point
@@ -15,10 +15,10 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreGradeEntry(models.Model):
-    _name = 'unicore.grade.entry'
+class OacisGradeEntry(models.Model):
+    _name = 'oacis.grade.entry'
     _description = 'Grade Entry'
-    _inherit = ['unicore.mixin', 'mail.thread',
+    _inherit = ['oacis.mixin', 'mail.thread',
                 'mail.activity.mixin']
     _order = 'semester_id desc, student_id'
     _check_company_auto = True
@@ -27,7 +27,7 @@ class UniCoreGradeEntry(models.Model):
     # --- CORE LINKS ---
 
     enrollment_id = fields.Many2one(
-        comodel_name='unicore.enrollment',
+        comodel_name='oacis.enrollment',
         string='Enrollment',
         required=True,
         ondelete='restrict',
@@ -38,7 +38,7 @@ class UniCoreGradeEntry(models.Model):
                "('company_id','=',company_id)]",
     )
     student_id = fields.Many2one(
-        comodel_name='unicore.student',
+        comodel_name='oacis.student',
         string='Student',
         related='enrollment_id.student_id',
         store=True,
@@ -46,21 +46,21 @@ class UniCoreGradeEntry(models.Model):
         index=True,
     )
     course_offering_id = fields.Many2one(
-        comodel_name='unicore.course.offering',
+        comodel_name='oacis.course.offering',
         string='Course Offering',
         related='enrollment_id.course_offering_id',
         store=True,
         readonly=True,
     )
     course_id = fields.Many2one(
-        comodel_name='unicore.course',
+        comodel_name='oacis.course',
         string='Course',
         related='enrollment_id.course_id',
         store=True,
         readonly=True,
     )
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         related='enrollment_id.semester_id',
         store=True,
@@ -90,7 +90,7 @@ class UniCoreGradeEntry(models.Model):
     # --- EXAM LINK ---
 
     exam_schedule_id = fields.Many2one(
-        comodel_name='unicore.exam.schedule',
+        comodel_name='oacis.exam.schedule',
         string='Exam Schedule',
         ondelete='set null',
         domain="[('course_offering_id','=',"
@@ -177,7 +177,7 @@ class UniCoreGradeEntry(models.Model):
     # --- GRADE SCALE ---
 
     grade_scale_id = fields.Many2one(
-        comodel_name='unicore.grade.scale',
+        comodel_name='oacis.grade.scale',
         string='Grade Scale',
         domain="[('company_id','=',company_id)]",
         help='Leave empty to use institutional default',
@@ -222,7 +222,7 @@ class UniCoreGradeEntry(models.Model):
     @api.depends('percentage', 'grade_scale_id',
                  'total_marks_obtained', 'passing_marks')
     def _compute_grade(self):
-        GradeScale = self.env['unicore.grade.scale']
+        GradeScale = self.env['oacis.grade.scale']
         for rec in self:
             scale = (
                 rec.grade_scale_id

@@ -1,5 +1,5 @@
 """
-UniCore Exam Schedule Model
+Oacis Exam Schedule Model
 Defines a single examination event for a specific
 course offering. Links the course offering to an
 exam date, time, venue and duration. Multiple exam
@@ -16,10 +16,10 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreExamSchedule(models.Model):
-    _name = 'unicore.exam.schedule'
+class OacisExamSchedule(models.Model):
+    _name = 'oacis.exam.schedule'
     _description = 'Exam Schedule'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'exam_date, exam_start_time'
     _check_company_auto = True
 
@@ -31,7 +31,7 @@ class UniCoreExamSchedule(models.Model):
     )
 
     course_offering_id = fields.Many2one(
-        comodel_name='unicore.course.offering',
+        comodel_name='oacis.course.offering',
         string='Course Offering',
         required=True,
         ondelete='restrict',
@@ -41,7 +41,7 @@ class UniCoreExamSchedule(models.Model):
     )
 
     course_id = fields.Many2one(
-        comodel_name='unicore.course',
+        comodel_name='oacis.course',
         string='Course',
         related='course_offering_id.course_id',
         store=True,
@@ -49,7 +49,7 @@ class UniCoreExamSchedule(models.Model):
     )
 
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         related='course_offering_id.semester_id',
         store=True,
@@ -57,7 +57,7 @@ class UniCoreExamSchedule(models.Model):
     )
 
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus',
+        comodel_name='oacis.campus',
         string='Campus',
         related='course_offering_id.campus_id',
         store=True,
@@ -114,8 +114,8 @@ class UniCoreExamSchedule(models.Model):
     )
 
     venue_ids = fields.Many2many(
-        comodel_name='unicore.room',
-        relation='unicore_exam_schedule_room_rel',
+        comodel_name='oacis.room',
+        relation='oacis_exam_schedule_room_rel',
         column1='exam_schedule_id',
         column2='room_id',
         string='Exam Venues',
@@ -131,15 +131,15 @@ class UniCoreExamSchedule(models.Model):
     )
 
     invigilator_ids = fields.Many2many(
-        comodel_name='unicore.faculty.member',
-        relation='unicore_exam_schedule_invigilator_rel',
+        comodel_name='oacis.faculty.member',
+        relation='oacis_exam_schedule_invigilator_rel',
         column1='exam_schedule_id',
         column2='faculty_member_id',
         string='Invigilators',
     )
 
     chief_invigilator_id = fields.Many2one(
-        comodel_name='unicore.faculty.member',
+        comodel_name='oacis.faculty.member',
         string='Chief Invigilator',
         ondelete='set null',
         tracking=True,
@@ -170,7 +170,7 @@ class UniCoreExamSchedule(models.Model):
     )
 
     hall_ticket_ids = fields.One2many(
-        comodel_name='unicore.exam.hall.ticket',
+        comodel_name='oacis.exam.hall.ticket',
         inverse_name='exam_schedule_id',
         string='Hall Tickets',
     )
@@ -197,7 +197,7 @@ class UniCoreExamSchedule(models.Model):
     )
 
     seating_ids = fields.One2many(
-        comodel_name='unicore.exam.seating',
+        comodel_name='oacis.exam.seating',
         inverse_name='exam_schedule_id',
         string='Seating Plan',
     )
@@ -312,10 +312,10 @@ class UniCoreExamSchedule(models.Model):
         if self.exam_state not in ('published', 'hall_tickets_generated'):
             raise UserError(_('Exam must be Published before generating hall tickets.'))
 
-        Enrollment = self.env['unicore.enrollment']
-        AttendanceRecord = self.env['unicore.attendance.record']
-        AttendancePolicy = self.env['unicore.attendance.policy']
-        HallTicket = self.env['unicore.exam.hall.ticket']
+        Enrollment = self.env['oacis.enrollment']
+        AttendanceRecord = self.env['oacis.attendance.record']
+        AttendancePolicy = self.env['oacis.attendance.policy']
+        HallTicket = self.env['oacis.exam.hall.ticket']
 
         active_enrollments = Enrollment.search([
             ('course_offering_id', '=', self.course_offering_id.id),
@@ -374,7 +374,7 @@ class UniCoreExamSchedule(models.Model):
         if not self.venue_ids:
             raise UserError(_('Please assign exam venues before generating seating.'))
 
-        Seating = self.env['unicore.exam.seating']
+        Seating = self.env['oacis.exam.seating']
         Seating.search([('exam_schedule_id', '=', self.id)]).unlink()
 
         approved_tickets = self.hall_ticket_ids.filtered(

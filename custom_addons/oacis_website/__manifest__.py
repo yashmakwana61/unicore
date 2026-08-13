@@ -2,12 +2,12 @@
     'name': 'Admissions Website',
     'version': '19.0.1.0.0',
     'category': 'Education',
-    'summary': 'Bridge UniCore admissions into Odoo website, livechat and CRM',
+    'summary': 'Bridge Oacis admissions into Odoo website, livechat and CRM',
     'description': """
         Admissions Website
         ==================
 
-        Bridges UniCore's admissions process into Odoo's native Website,
+        Bridges Oacis's admissions process into Odoo's native Website,
         Live Chat and CRM modules so prospective students can explore
         programmes, chat with admissions staff, and submit enquiries
         through a standard website.
@@ -21,7 +21,7 @@
           records in the admissions CRM pipeline.
         - Smart buttons on the CRM lead open the linked website page
           and the admissions enquiry.
-        - No core ``unicore_admission``, ``website``, ``im_livechat``,
+        - No core ``oacis_admission``, ``website``, ``im_livechat``,
           or ``crm`` logic is modified.
     """,
     'author': 'Precisefect Solutions Pvt. Ltd.',
@@ -31,8 +31,8 @@
         'website',
         'im_livechat',
         'crm',
-        'unicore_admission',
-        'unicore_base',
+        'oacis_admission',
+        'oacis_base',
     ],
     'data': [
         'security/ir.model.access.csv',
@@ -42,7 +42,7 @@
         'views/crm_lead_views.xml',
     ],
     'images': ['static/description/icon.png'],
-    'web_icon': 'unicore_website,static/description/icon.png',
+    'web_icon': 'oacis_website,static/description/icon.png',
     'installable': True,
     'application': False,
     'auto_install': False,

@@ -13,7 +13,7 @@ import { useRef } from "@odoo/owl";
  * ROLLBACK SAFETY:
  * If this patch causes the navbar or app menu to break, remove this file's
  * entry from 'web.assets_backend' in __manifest__.py and restart the container:
- * docker compose exec odoo odoo -d unicore_production -u unicore_theme --stop-after-init
+ * docker compose exec odoo odoo -d oacis_production -u oacis_theme --stop-after-init
  */
 
 patch(NavBar.prototype, {

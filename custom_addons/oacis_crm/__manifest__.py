@@ -2,12 +2,12 @@
     'name': 'Admissions CRM',
     'version': '19.0.1.0.0',
     'category': 'Education',
-    'summary': 'Bridge UniCore admission applicants into Odoo CRM pipeline',
+    'summary': 'Bridge Oacis admission applicants into Odoo CRM pipeline',
     'description': """
         Admissions CRM
         ==============
 
-        Mirrors UniCore admission applicants into Odoo's native CRM pipeline
+        Mirrors Oacis admission applicants into Odoo's native CRM pipeline
         so the admissions team can track enquiries, schedule follow-ups
         (activities/emails), and report on the funnel using standard CRM
         views and reporting.
@@ -20,18 +20,18 @@
           (best-effort, bypassing the guarded action methods so the CRM
           pipeline stays authoritative).
         - A smart button on the applicant form opens the linked lead.
-        - The CRM app is made visible to UniCore admins and managers via
+        - The CRM app is made visible to Oacis admins and managers via
           implied ``sales_team.group_sale_salesman``.
 
-        No core ``unicore_admission`` or ``crm`` logic is modified.
+        No core ``oacis_admission`` or ``crm`` logic is modified.
     """,
     'author': 'Precisefect Solutions Pvt. Ltd.',
     'website': 'https://precisefect.com',
     'license': 'OPL-1',
     'depends': [
         'crm',
-        'unicore_admission',
-        'unicore_base',
+        'oacis_admission',
+        'oacis_base',
     ],
     'data': [
         'security/ir.model.access.csv',
@@ -41,7 +41,7 @@
         'views/crm_lead_views.xml',
     ],
     'images': ['static/description/icon.png'],
-    'web_icon': 'unicore_crm,static/description/icon.png',
+    'web_icon': 'oacis_crm,static/description/icon.png',
     'installable': True,
     'application': False,
     'auto_install': False,

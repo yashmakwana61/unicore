@@ -1,7 +1,7 @@
-UniCore Faculty & Staff Profiles
+Oacis Faculty & Staff Profiles
 =================================
 
-Manages faculty member and administrative staff profiles for UniCore ERP.
+Manages faculty member and administrative staff profiles for Oacis ERP.
 
 Features:
 - Faculty Member (Academic Staff) profiles with qualifications, publications, and workload
@@ -12,9 +12,9 @@ Features:
 - Company-level isolation for multi-institution setups
 
 Dependencies:
-- unicore_base (security groups, mixin)
-- unicore_security
-- unicore_campus
-- unicore_academic
-- unicore_calendar
-- unicore_student
+- oacis_base (security groups, mixin)
+- oacis_security
+- oacis_campus
+- oacis_academic
+- oacis_calendar
+- oacis_student

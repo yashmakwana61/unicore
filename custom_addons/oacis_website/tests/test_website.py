@@ -4,8 +4,8 @@ from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'website')
-class UniCoreWebsiteTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'website')
+class OacisWebsiteTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
@@ -13,18 +13,18 @@ class UniCoreWebsiteTest(TransactionCase):
 
         cls.company = cls.env.company
 
-        cls.faculty = cls.env['unicore.faculty'].create({
+        cls.faculty = cls.env['oacis.faculty'].create({
             'name': 'Test Faculty of Admissions Web',
             'code': 'TFAW',
             'company_id': cls.company.id,
         })
-        cls.department = cls.env['unicore.department'].create({
+        cls.department = cls.env['oacis.department'].create({
             'name': 'Test Admissions Web Office',
             'code': 'TAWO',
             'faculty_id': cls.faculty.id,
             'company_id': cls.company.id,
         })
-        cls.program = cls.env['unicore.program'].create({
+        cls.program = cls.env['oacis.program'].create({
             'name': 'Test B.A. Web',
             'code': 'TEST-BA-WEB',
             'program_type': 'undergraduate',
@@ -35,12 +35,12 @@ class UniCoreWebsiteTest(TransactionCase):
             'department_id': cls.department.id,
             'company_id': cls.company.id,
         })
-        cls.campus = cls.env['unicore.campus'].create({
+        cls.campus = cls.env['oacis.campus'].create({
             'name': 'Test Web Campus',
             'code': 'TWCAMP',
             'company_id': cls.company.id,
         })
-        cls.academic_year = cls.env['unicore.academic.year'].create({
+        cls.academic_year = cls.env['oacis.academic.year'].create({
             'name': 'Test AY 2025-26 Web',
             'code': 'TAY2526W',
             'date_start': '2025-07-01',
@@ -49,7 +49,7 @@ class UniCoreWebsiteTest(TransactionCase):
             'is_current': False,
             'company_id': cls.company.id,
         })
-        cls.semester = cls.env['unicore.semester'].create({
+        cls.semester = cls.env['oacis.semester'].create({
             'name': 'Test ODD 2025-26 Web',
             'code': 'TODD-2526W',
             'semester_type': 'odd',
@@ -63,13 +63,13 @@ class UniCoreWebsiteTest(TransactionCase):
         cls.website = cls.env['website'].create({
             'name': 'Test Admissions Website',
             'domain': 'admissions.test.com',
-            'unicore_admissions_page': True,
+            'oacis_admissions_page': True,
             'company_id': cls.company.id,
         })
 
         cls.livechat_channel = cls.env['im_livechat.channel'].create({
             'name': 'Admissions Live Chat',
-            'unicore_admissions_channel': True,
+            'oacis_admissions_channel': True,
             'company_id': cls.company.id,
         })
 
@@ -77,7 +77,7 @@ class UniCoreWebsiteTest(TransactionCase):
 
     def test_01_website_admissions_flag(self):
         """The admissions website should have the flag set."""
-        self.assertTrue(self.website.unicore_admissions_page)
+        self.assertTrue(self.website.oacis_admissions_page)
 
     def test_02_website_enquiry_count(self):
         """admissions_enquiry_count reflects linked leads."""
@@ -95,7 +95,7 @@ class UniCoreWebsiteTest(TransactionCase):
 
     def test_03_livechat_admissions_flag(self):
         """The admissions livechat channel should have the flag set."""
-        self.assertTrue(self.livechat_channel.unicore_admissions_channel)
+        self.assertTrue(self.livechat_channel.oacis_admissions_channel)
 
     # -------------------- CRM LEAD --------------------
 

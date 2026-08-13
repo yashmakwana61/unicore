@@ -1,7 +1,7 @@
 from odoo import http
 from odoo.http import request
 
-from odoo.addons.unicore_api.controllers.common import (
+from odoo.addons.oacis_api.controllers.common import (
     _require_scope,
     _safe_call,
     api_error,
@@ -10,9 +10,9 @@ from odoo.addons.unicore_api.controllers.common import (
 )
 
 
-class UniCoreApiNotifications(http.Controller):
+class OacisApiNotifications(http.Controller):
 
-    @http.route('/api/unicore/v1/notifications/send', type='http',
+    @http.route('/api/oacis/v1/notifications/send', type='http',
                 auth='public', methods=['POST'], csrf=False)
     def send_notification(self, **kwargs):
         return _safe_call(self._send_notification, **kwargs)
@@ -39,10 +39,10 @@ class UniCoreApiNotifications(http.Controller):
                 'student_id, title, and message are required.',
                 'MISSING_FIELDS', 400,
             )
-        student = request.env['unicore.student'].sudo().browse(student_id)
+        student = request.env['oacis.student'].sudo().browse(student_id)
         if not student.exists():
             return api_error('Student not found.', 'NOT_FOUND', 404)
-        notification = request.env['unicore.notification.log'].sudo().create({
+        notification = request.env['oacis.notification.log'].sudo().create({
             'student_id': student_id,
             'message_subject': title,
             'message_body': message,

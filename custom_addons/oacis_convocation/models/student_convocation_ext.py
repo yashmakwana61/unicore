@@ -3,7 +3,7 @@ from odoo.exceptions import UserError
 
 
 class StudentConvocationExt(models.Model):
-    _inherit = 'unicore.student'
+    _inherit = 'oacis.student'
 
     convocation_event_id = fields.Many2one(
         'event.event', string='Convocation Event',
@@ -43,7 +43,7 @@ class StudentConvocationExt(models.Model):
         if self.convocation_event_id:
             return
         event = self.env['event.event'].search(
-            [('unicore_convocation_event', '=', True)], limit=1)
+            [('oacis_convocation_event', '=', True)], limit=1)
         if not event:
             return
         registration = self.env['event.registration'].search(
@@ -89,7 +89,7 @@ class StudentConvocationExt(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Cohort Mates'),
-            'res_model': 'unicore.student',
+            'res_model': 'oacis.student',
             'view_mode': 'list,form',
             'domain': domain,
             'context': {'search_default_group_cohort_kind': 1},

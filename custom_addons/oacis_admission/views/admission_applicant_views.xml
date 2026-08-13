@@ -2,8 +2,8 @@
 <odoo>
 
     <record id="admission_applicant_form_view" model="ir.ui.view">
-        <field name="name">unicore.admission.applicant.form</field>
-        <field name="model">unicore.admission.applicant</field>
+        <field name="name">oacis.admission.applicant.form</field>
+        <field name="model">oacis.admission.applicant</field>
         <field name="arch" type="xml">
             <form>
                 <header>
@@ -152,12 +152,12 @@
                             </group>
                         </page>
                         <page name="offer_letters" string="Offer Letters">
-                            <field name="offer_letter_ids" context="{'list_view_ref': 'unicore_admission.offer_letter_list_view'}"/>
+                            <field name="offer_letter_ids" context="{'list_view_ref': 'oacis_admission.offer_letter_list_view'}"/>
                         </page>
                         <page name="course_enrollments" string="Course Enrollments"
                               invisible="not student_id">
                             <field name="student_course_enrollment_ids" readonly="1"
-                                   context="{'list_view_ref': 'unicore_admission.view_unicore_enrollment_list'}"/>
+                                   context="{'list_view_ref': 'oacis_admission.view_oacis_enrollment_list'}"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -167,8 +167,8 @@
     </record>
 
     <record id="admission_applicant_list_view" model="ir.ui.view">
-        <field name="name">unicore.admission.applicant.list</field>
-        <field name="model">unicore.admission.applicant</field>
+        <field name="name">oacis.admission.applicant.list</field>
+        <field name="model">oacis.admission.applicant</field>
         <field name="arch" type="xml">
             <list>
                 <field name="application_number"/>
@@ -189,8 +189,8 @@
     </record>
 
     <record id="admission_applicant_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.admission.applicant.kanban</field>
-        <field name="model">unicore.admission.applicant</field>
+        <field name="name">oacis.admission.applicant.kanban</field>
+        <field name="model">oacis.admission.applicant</field>
         <field name="arch" type="xml">
             <kanban default_group_by="stage_id" unfold_all="1">
                 <field name="id"/>
@@ -252,8 +252,8 @@
     </record>
 
     <record id="admission_applicant_search_view" model="ir.ui.view">
-        <field name="name">unicore.admission.applicant.search</field>
-        <field name="model">unicore.admission.applicant</field>
+        <field name="name">oacis.admission.applicant.search</field>
+        <field name="model">oacis.admission.applicant</field>
         <field name="arch" type="xml">
             <search>
                 <field name="name"/>
@@ -282,9 +282,9 @@
         </field>
     </record>
 
-    <record id="action_unicore_admission_applicant" model="ir.actions.act_window">
+    <record id="action_oacis_admission_applicant" model="ir.actions.act_window">
         <field name="name">Applicants</field>
-        <field name="res_model">unicore.admission.applicant</field>
+        <field name="res_model">oacis.admission.applicant</field>
         <field name="view_mode">kanban,list,form</field>
         <field name="search_view_id" ref="admission_applicant_search_view"/>
         <field name="help" type="html">

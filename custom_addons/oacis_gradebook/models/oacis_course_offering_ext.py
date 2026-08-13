@@ -1,5 +1,5 @@
 """
-UniCore Course Offering Extension — Grade Book
+Oacis Course Offering Extension — Grade Book
 ==============================================
 
 Adds the reverse grade book link and a smart button to the course
@@ -14,11 +14,11 @@ from odoo import _, api, fields, models
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreCourseOfferingGradeBookExt(models.Model):
-    _inherit = 'unicore.course.offering'
+class OacisCourseOfferingGradeBookExt(models.Model):
+    _inherit = 'oacis.course.offering'
 
     gradebook_config_ids = fields.One2many(
-        comodel_name='unicore.gradebook.config',
+        comodel_name='oacis.gradebook.config',
         inverse_name='course_offering_id',
         string='Grade Books',
     )
@@ -41,7 +41,7 @@ class UniCoreCourseOfferingGradeBookExt(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Grade Book'),
-            'res_model': 'unicore.gradebook.config',
+            'res_model': 'oacis.gradebook.config',
             'view_mode': 'form',
             'res_id': config.id if config else False,
             'context': {

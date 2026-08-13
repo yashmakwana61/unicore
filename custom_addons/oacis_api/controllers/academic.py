@@ -1,7 +1,7 @@
 from odoo import fields, http
 from odoo.http import request
 
-from odoo.addons.unicore_api.controllers.common import (
+from odoo.addons.oacis_api.controllers.common import (
     _check_body_size,
     _require_scope,
     _safe_call,
@@ -12,7 +12,7 @@ from odoo.addons.unicore_api.controllers.common import (
 )
 
 
-class UniCoreApiAcademic(http.Controller):
+class OacisApiAcademic(http.Controller):
 
     def _require_auth_read(self):
         api_key = validate_api_key(request)
@@ -25,7 +25,7 @@ class UniCoreApiAcademic(http.Controller):
                 % api_key.scope, 'FORBIDDEN', 403)
         return api_key, None
 
-    @http.route('/api/unicore/v1/programs', type='http', auth='public',
+    @http.route('/api/oacis/v1/programs', type='http', auth='public',
                 methods=['GET'], csrf=False)
     def list_programs(self, **kwargs):
         return _safe_call(self._list_programs, **kwargs)
@@ -44,7 +44,7 @@ class UniCoreApiAcademic(http.Controller):
         domain = [('active', '=', True)]
         if campus_id:
             domain.append(('campus_ids', '=', campus_id))
-        programs = request.env['unicore.program'].sudo().search(
+        programs = request.env['oacis.program'].sudo().search(
             domain, order='name',
         )
         return api_response([{
@@ -56,7 +56,7 @@ class UniCoreApiAcademic(http.Controller):
             'campus': p.campus_ids[0].name if p.campus_ids else None,
         } for p in programs])
 
-    @http.route('/api/unicore/v1/semesters/current', type='http',
+    @http.route('/api/oacis/v1/semesters/current', type='http',
                 auth='public', methods=['GET'], csrf=False)
     def get_current_semester(self, **kwargs):
         return _safe_call(self._get_current_semester, **kwargs)
@@ -69,7 +69,7 @@ class UniCoreApiAcademic(http.Controller):
         if err:
             return err
         today = fields.Date.context_today(request)
-        semester = request.env['unicore.semester'].sudo().search([
+        semester = request.env['oacis.semester'].sudo().search([
             ('date_start', '<=', today),
             ('date_end', '>=', today),
             ('active', '=', True),
@@ -86,7 +86,7 @@ class UniCoreApiAcademic(http.Controller):
             'status': semester.semester_state,
         })
 
-    @http.route('/api/unicore/v1/courses', type='http', auth='public',
+    @http.route('/api/oacis/v1/courses', type='http', auth='public',
                 methods=['GET'], csrf=False)
     def list_courses(self, **kwargs):
         return _safe_call(self._list_courses, **kwargs)
@@ -105,10 +105,10 @@ class UniCoreApiAcademic(http.Controller):
         domain = [('course_state', '=', 'active')]
         if program_id:
             domain.append(('id', 'in',
-                request.env['unicore.course.offering'].sudo().search([
+                request.env['oacis.course.offering'].sudo().search([
                     ('program_id', '=', program_id),
                 ]).mapped('course_id.id')))
-        courses = request.env['unicore.course'].sudo().search(
+        courses = request.env['oacis.course'].sudo().search(
             domain, order='name',
         )
         return api_response([{

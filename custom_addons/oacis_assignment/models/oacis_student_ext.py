@@ -1,5 +1,5 @@
 """
-UniCore Student Extension (Assignments)
+Oacis Student Extension (Assignments)
 Adds assignment submission statistics and a navigation action
 to the student form so registrars/faculty can inspect a
 student's assignment submissions.
@@ -12,11 +12,11 @@ from odoo import _, api, fields, models
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreStudentAssignmentExt(models.Model):
-    _inherit = 'unicore.student'
+class OacisStudentAssignmentExt(models.Model):
+    _inherit = 'oacis.student'
 
     assignment_submission_ids = fields.One2many(
-        comodel_name='unicore.assignment.submission',
+        comodel_name='oacis.assignment.submission',
         inverse_name='student_id',
         string='Assignment Submissions',
     )
@@ -44,7 +44,7 @@ class UniCoreStudentAssignmentExt(models.Model):
             # Pending = active enrolled courses with a published
             # assignment that has no submission yet
             pending = 0
-            Enrollment = self.env['unicore.enrollment']
+            Enrollment = self.env['oacis.enrollment']
             enrollments = Enrollment.search([
                 ('student_id', '=', rec.id),
                 ('enrollment_state', '=', 'registered'),
@@ -66,7 +66,7 @@ class UniCoreStudentAssignmentExt(models.Model):
         return {
             'name': _('Assignment Submissions'),
             'type': 'ir.actions.act_window',
-            'res_model': 'unicore.assignment.submission',
+            'res_model': 'oacis.assignment.submission',
             'view_mode': 'list,form',
             'domain': [('student_id', '=', self.id)],
         }

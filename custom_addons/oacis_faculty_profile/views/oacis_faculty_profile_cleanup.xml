@@ -4,12 +4,12 @@
     <!-- Remove the separate board/calendar/analysis/activity actions and menus.
          The underlying views are kept and exposed via view_mode on the main actions. -->
 
-    <delete model="ir.actions.act_window" id="action_unicore_faculty_publication_kanban"/>
-    <delete model="ir.actions.act_window" id="action_unicore_faculty_workload_kanban"/>
-    <delete model="ir.actions.act_window" id="action_unicore_staff_member_kanban"/>
+    <delete model="ir.actions.act_window" id="action_oacis_faculty_publication_kanban"/>
+    <delete model="ir.actions.act_window" id="action_oacis_faculty_workload_kanban"/>
+    <delete model="ir.actions.act_window" id="action_oacis_staff_member_kanban"/>
 
-    <delete model="ir.ui.menu" id="menu_unicore_faculty_publication_board"/>
-    <delete model="ir.ui.menu" id="menu_unicore_faculty_workload_board"/>
-    <delete model="ir.ui.menu" id="menu_unicore_staff_member_board"/>
+    <delete model="ir.ui.menu" id="menu_oacis_faculty_publication_board"/>
+    <delete model="ir.ui.menu" id="menu_oacis_faculty_workload_board"/>
+    <delete model="ir.ui.menu" id="menu_oacis_staff_member_board"/>
 
 </odoo>

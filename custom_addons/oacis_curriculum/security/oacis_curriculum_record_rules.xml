@@ -3,12 +3,12 @@
     <data noupdate="1">
 
         <!-- ============================================= -->
-        <!-- unicore.course                                -->
+        <!-- oacis.course                                -->
         <!-- ============================================= -->
 
-        <record id="rule_unicore_course_company" model="ir.rule">
+        <record id="rule_oacis_course_company" model="ir.rule">
             <field name="name">Course: Company Isolation</field>
-            <field name="model_id" ref="model_unicore_course"/>
+            <field name="model_id" ref="model_oacis_course"/>
             <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
             <field name="perm_read" eval="True"/>
@@ -17,11 +17,11 @@
             <field name="perm_unlink" eval="True"/>
         </record>
 
-        <record id="rule_unicore_course_admin" model="ir.rule">
+        <record id="rule_oacis_course_admin" model="ir.rule">
             <field name="name">Course: Admin Bypass</field>
-            <field name="model_id" ref="model_unicore_course"/>
+            <field name="model_id" ref="model_oacis_course"/>
             <field name="domain_force">[(1, '=', 1)]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_admin'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_admin'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
@@ -29,12 +29,12 @@
         </record>
 
         <!-- ============================================= -->
-        <!-- unicore.course.prerequisite                   -->
+        <!-- oacis.course.prerequisite                   -->
         <!-- ============================================= -->
 
-        <record id="rule_unicore_course_prerequisite_company" model="ir.rule">
+        <record id="rule_oacis_course_prerequisite_company" model="ir.rule">
             <field name="name">Course Prerequisite: Company Isolation</field>
-            <field name="model_id" ref="model_unicore_course_prerequisite"/>
+            <field name="model_id" ref="model_oacis_course_prerequisite"/>
             <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
             <field name="perm_read" eval="True"/>
@@ -44,12 +44,12 @@
         </record>
 
         <!-- ============================================= -->
-        <!-- unicore.curriculum                            -->
+        <!-- oacis.curriculum                            -->
         <!-- ============================================= -->
 
-        <record id="rule_unicore_curriculum_company" model="ir.rule">
+        <record id="rule_oacis_curriculum_company" model="ir.rule">
             <field name="name">Curriculum: Company Isolation</field>
-            <field name="model_id" ref="model_unicore_curriculum"/>
+            <field name="model_id" ref="model_oacis_curriculum"/>
             <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
             <field name="perm_read" eval="True"/>
@@ -58,11 +58,11 @@
             <field name="perm_unlink" eval="True"/>
         </record>
 
-        <record id="rule_unicore_curriculum_admin" model="ir.rule">
+        <record id="rule_oacis_curriculum_admin" model="ir.rule">
             <field name="name">Curriculum: Admin Bypass</field>
-            <field name="model_id" ref="model_unicore_curriculum"/>
+            <field name="model_id" ref="model_oacis_curriculum"/>
             <field name="domain_force">[(1, '=', 1)]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_admin'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_admin'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
@@ -70,12 +70,12 @@
         </record>
 
         <!-- ============================================= -->
-        <!-- unicore.curriculum.line                       -->
+        <!-- oacis.curriculum.line                       -->
         <!-- ============================================= -->
 
-        <record id="rule_unicore_curriculum_line_company" model="ir.rule">
+        <record id="rule_oacis_curriculum_line_company" model="ir.rule">
             <field name="name">Curriculum Line: Company Isolation</field>
-            <field name="model_id" ref="model_unicore_curriculum_line"/>
+            <field name="model_id" ref="model_oacis_curriculum_line"/>
             <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
             <field name="perm_read" eval="True"/>
@@ -85,12 +85,12 @@
         </record>
 
         <!-- ============================================= -->
-        <!-- unicore.course.offering                       -->
+        <!-- oacis.course.offering                       -->
         <!-- ============================================= -->
 
-        <record id="rule_unicore_course_offering_company" model="ir.rule">
+        <record id="rule_oacis_course_offering_company" model="ir.rule">
             <field name="name">Course Offering: Company Isolation</field>
-            <field name="model_id" ref="model_unicore_course_offering"/>
+            <field name="model_id" ref="model_oacis_course_offering"/>
             <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
             <field name="perm_read" eval="True"/>
@@ -99,33 +99,33 @@
             <field name="perm_unlink" eval="True"/>
         </record>
 
-        <record id="rule_unicore_course_offering_campus_staff" model="ir.rule">
+        <record id="rule_oacis_course_offering_campus_staff" model="ir.rule">
             <field name="name">Course Offering: Campus Restriction for Staff</field>
-            <field name="model_id" ref="model_unicore_course_offering"/>
-            <field name="domain_force">['|', ('campus_id', '=', False), ('campus_id', 'in', user.unicore_campus_ids.ids)]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_staff'))]"/>
+            <field name="model_id" ref="model_oacis_course_offering"/>
+            <field name="domain_force">['|', ('campus_id', '=', False), ('campus_id', 'in', user.oacis_campus_ids.ids)]</field>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_staff'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="False"/>
             <field name="perm_create" eval="False"/>
             <field name="perm_unlink" eval="False"/>
         </record>
 
-        <record id="rule_unicore_course_offering_faculty_own" model="ir.rule">
+        <record id="rule_oacis_course_offering_faculty_own" model="ir.rule">
             <field name="name">Course Offering: Faculty Own Offerings</field>
-            <field name="model_id" ref="model_unicore_course_offering"/>
+            <field name="model_id" ref="model_oacis_course_offering"/>
             <field name="domain_force">['|', ('faculty_member_id.partner_id.user_ids', 'in', [user.id]), ('co_instructor_ids.partner_id.user_ids', 'in', [user.id])]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_faculty'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_faculty'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="False"/>
             <field name="perm_unlink" eval="False"/>
         </record>
 
-        <record id="rule_unicore_course_offering_admin" model="ir.rule">
+        <record id="rule_oacis_course_offering_admin" model="ir.rule">
             <field name="name">Course Offering: Admin Bypass</field>
-            <field name="model_id" ref="model_unicore_course_offering"/>
+            <field name="model_id" ref="model_oacis_course_offering"/>
             <field name="domain_force">[(1, '=', 1)]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_admin'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_admin'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>

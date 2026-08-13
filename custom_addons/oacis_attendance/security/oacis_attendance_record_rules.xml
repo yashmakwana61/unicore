@@ -3,12 +3,12 @@
     <data noupdate="1">
 
         <!-- ============================================ -->
-        <!-- unicore.attendance.policy Rules              -->
+        <!-- oacis.attendance.policy Rules              -->
         <!-- ============================================ -->
 
-        <record id="rule_unicore_attendance_policy_company" model="ir.rule">
+        <record id="rule_oacis_attendance_policy_company" model="ir.rule">
             <field name="name">Attendance Policy: Company Isolation</field>
-            <field name="model_id" ref="model_unicore_attendance_policy"/>
+            <field name="model_id" ref="model_oacis_attendance_policy"/>
             <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
             <field name="perm_read" eval="1"/>
@@ -17,11 +17,11 @@
             <field name="perm_unlink" eval="1"/>
         </record>
 
-        <record id="rule_unicore_attendance_policy_admin" model="ir.rule">
+        <record id="rule_oacis_attendance_policy_admin" model="ir.rule">
             <field name="name">Attendance Policy: Admin Bypass</field>
-            <field name="model_id" ref="model_unicore_attendance_policy"/>
+            <field name="model_id" ref="model_oacis_attendance_policy"/>
             <field name="domain_force">[(1, '=', 1)]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_admin'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_admin'))]"/>
             <field name="perm_read" eval="1"/>
             <field name="perm_write" eval="1"/>
             <field name="perm_create" eval="1"/>
@@ -29,12 +29,12 @@
         </record>
 
         <!-- ============================================ -->
-        <!-- unicore.attendance.session Rules             -->
+        <!-- oacis.attendance.session Rules             -->
         <!-- ============================================ -->
 
-        <record id="rule_unicore_attendance_session_company" model="ir.rule">
+        <record id="rule_oacis_attendance_session_company" model="ir.rule">
             <field name="name">Attendance Session: Company Isolation</field>
-            <field name="model_id" ref="model_unicore_attendance_session"/>
+            <field name="model_id" ref="model_oacis_attendance_session"/>
             <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
             <field name="perm_read" eval="1"/>
@@ -43,33 +43,33 @@
             <field name="perm_unlink" eval="1"/>
         </record>
 
-        <record id="rule_unicore_attendance_session_campus_staff" model="ir.rule">
+        <record id="rule_oacis_attendance_session_campus_staff" model="ir.rule">
             <field name="name">Attendance Session: Campus Restriction</field>
-            <field name="model_id" ref="model_unicore_attendance_session"/>
-            <field name="domain_force">['|', ('campus_id', '=', False), ('campus_id', 'in', user.unicore_campus_ids.ids)]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_staff'))]"/>
+            <field name="model_id" ref="model_oacis_attendance_session"/>
+            <field name="domain_force">['|', ('campus_id', '=', False), ('campus_id', 'in', user.oacis_campus_ids.ids)]</field>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_staff'))]"/>
             <field name="perm_read" eval="1"/>
             <field name="perm_write" eval="0"/>
             <field name="perm_create" eval="0"/>
             <field name="perm_unlink" eval="0"/>
         </record>
 
-        <record id="rule_unicore_attendance_session_faculty" model="ir.rule">
+        <record id="rule_oacis_attendance_session_faculty" model="ir.rule">
             <field name="name">Attendance Session: Faculty Own Sessions</field>
-            <field name="model_id" ref="model_unicore_attendance_session"/>
+            <field name="model_id" ref="model_oacis_attendance_session"/>
             <field name="domain_force">[('instructor_id.partner_id.user_ids', 'in', [user.id])]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_faculty'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_faculty'))]"/>
             <field name="perm_read" eval="1"/>
             <field name="perm_write" eval="1"/>
             <field name="perm_create" eval="0"/>
             <field name="perm_unlink" eval="0"/>
         </record>
 
-        <record id="rule_unicore_attendance_session_admin" model="ir.rule">
+        <record id="rule_oacis_attendance_session_admin" model="ir.rule">
             <field name="name">Attendance Session: Admin Bypass</field>
-            <field name="model_id" ref="model_unicore_attendance_session"/>
+            <field name="model_id" ref="model_oacis_attendance_session"/>
             <field name="domain_force">[(1, '=', 1)]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_admin'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_admin'))]"/>
             <field name="perm_read" eval="1"/>
             <field name="perm_write" eval="1"/>
             <field name="perm_create" eval="1"/>
@@ -77,12 +77,12 @@
         </record>
 
         <!-- ============================================ -->
-        <!-- unicore.attendance.record Rules              -->
+        <!-- oacis.attendance.record Rules              -->
         <!-- ============================================ -->
 
-        <record id="rule_unicore_attendance_record_company" model="ir.rule">
+        <record id="rule_oacis_attendance_record_company" model="ir.rule">
             <field name="name">Attendance Record: Company Isolation</field>
-            <field name="model_id" ref="model_unicore_attendance_record"/>
+            <field name="model_id" ref="model_oacis_attendance_record"/>
             <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
             <field name="perm_read" eval="1"/>
@@ -91,33 +91,33 @@
             <field name="perm_unlink" eval="1"/>
         </record>
 
-        <record id="rule_unicore_attendance_record_student" model="ir.rule">
+        <record id="rule_oacis_attendance_record_student" model="ir.rule">
             <field name="name">Attendance Record: Student Own Records</field>
-            <field name="model_id" ref="model_unicore_attendance_record"/>
+            <field name="model_id" ref="model_oacis_attendance_record"/>
             <field name="domain_force">[('student_id.partner_id.user_ids', 'in', [user.id])]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_student'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_student'))]"/>
             <field name="perm_read" eval="1"/>
             <field name="perm_write" eval="0"/>
             <field name="perm_create" eval="0"/>
             <field name="perm_unlink" eval="0"/>
         </record>
 
-        <record id="rule_unicore_attendance_record_faculty" model="ir.rule">
+        <record id="rule_oacis_attendance_record_faculty" model="ir.rule">
             <field name="name">Attendance Record: Faculty Own Sessions</field>
-            <field name="model_id" ref="model_unicore_attendance_record"/>
+            <field name="model_id" ref="model_oacis_attendance_record"/>
             <field name="domain_force">[('session_id.instructor_id.partner_id.user_ids', 'in', [user.id])]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_faculty'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_faculty'))]"/>
             <field name="perm_read" eval="1"/>
             <field name="perm_write" eval="1"/>
             <field name="perm_create" eval="0"/>
             <field name="perm_unlink" eval="0"/>
         </record>
 
-        <record id="rule_unicore_attendance_record_admin" model="ir.rule">
+        <record id="rule_oacis_attendance_record_admin" model="ir.rule">
             <field name="name">Attendance Record: Admin Bypass</field>
-            <field name="model_id" ref="model_unicore_attendance_record"/>
+            <field name="model_id" ref="model_oacis_attendance_record"/>
             <field name="domain_force">[(1, '=', 1)]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_admin'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_admin'))]"/>
             <field name="perm_read" eval="1"/>
             <field name="perm_write" eval="1"/>
             <field name="perm_create" eval="1"/>

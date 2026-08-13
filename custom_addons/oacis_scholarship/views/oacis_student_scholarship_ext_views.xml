@@ -2,10 +2,10 @@
 <odoo>
 
     <!-- Inherit Student Form View to add Scholarship smart button -->
-    <record id="view_unicore_student_scholarship_ext_form" model="ir.ui.view">
-        <field name="name">unicore.student.scholarship.ext.form</field>
-        <field name="model">unicore.student</field>
-        <field name="inherit_id" ref="unicore_student.unicore_student_form_view"/>
+    <record id="view_oacis_student_scholarship_ext_form" model="ir.ui.view">
+        <field name="name">oacis.student.scholarship.ext.form</field>
+        <field name="model">oacis.student</field>
+        <field name="inherit_id" ref="oacis_student.oacis_student_form_view"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@name='button_box']" position="inside">
                 <button name="action_view_scholarship_applications"

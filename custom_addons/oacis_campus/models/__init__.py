@@ -1,7 +1,7 @@
 from . import (
-    unicore_building,
-    unicore_campus_ext,
-    unicore_facility,
-    unicore_floor,
-    unicore_room,
+    oacis_building,
+    oacis_campus_ext,
+    oacis_facility,
+    oacis_floor,
+    oacis_room,
 )

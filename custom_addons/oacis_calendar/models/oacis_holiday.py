@@ -6,12 +6,12 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UnicoreHoliday(models.Model):
+class OacisHoliday(models.Model):
     """Academic Holiday or Event within an Academic Year."""
 
-    _name = 'unicore.holiday'
+    _name = 'oacis.holiday'
     _description = 'Academic Holiday or Event'
-    _inherit = ['unicore.mixin', 'mail.thread']
+    _inherit = ['oacis.mixin', 'mail.thread']
     _order = 'date_start'
     _check_company_auto = True
 
@@ -29,22 +29,22 @@ class UnicoreHoliday(models.Model):
         ondelete='restrict',
     )
     academic_year_id = fields.Many2one(
-        comodel_name='unicore.academic.year',
+        comodel_name='oacis.academic.year',
         string='Academic Year',
         required=True,
         ondelete='restrict',
         domain="[('company_id', '=', company_id)]",
     )
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         ondelete='set null',
         domain="[('academic_year_id', '=', academic_year_id)]",
         help='Optional: link to specific semester',
     )
     campus_ids = fields.Many2many(
-        comodel_name='unicore.campus',
-        relation='unicore_holiday_campus_rel',
+        comodel_name='oacis.campus',
+        relation='oacis_holiday_campus_rel',
         column1='holiday_id',
         column2='campus_id',
         string='Applicable Campuses',

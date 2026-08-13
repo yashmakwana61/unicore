@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_exam_schedule_activity_view" model="ir.ui.view">
-        <field name="name">unicore.exam.schedule.activity</field>
-        <field name="model">unicore.exam.schedule</field>
+    <record id="oacis_exam_schedule_activity_view" model="ir.ui.view">
+        <field name="name">oacis.exam.schedule.activity</field>
+        <field name="model">oacis.exam.schedule</field>
         <field name="arch" type="xml">
             <activity string="Exam Schedule Activities"/>
         </field>

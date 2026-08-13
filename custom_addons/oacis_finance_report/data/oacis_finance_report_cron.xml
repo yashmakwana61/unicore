@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <data noupdate="1">
-    <record id="cron_unicore_finance_snapshot" model="ir.cron">
-      <field name="name">UniCore: Generate Daily Finance Snapshot</field>
-      <field name="model_id" ref="unicore_finance_report.model_unicore_finance_snapshot"/>
+    <record id="cron_oacis_finance_snapshot" model="ir.cron">
+      <field name="name">Oacis: Generate Daily Finance Snapshot</field>
+      <field name="model_id" ref="oacis_finance_report.model_oacis_finance_snapshot"/>
       <field name="state">code</field>
       <field name="code">model.generate_daily_snapshot()</field>
       <field name="interval_number">1</field>
@@ -11,9 +11,9 @@
       <field name="active">True</field>
       <field name="user_id" ref="base.user_root"/>
     </record>
-    <record id="cron_unicore_finance_kpi" model="ir.cron">
-      <field name="name">UniCore: Refresh Financial KPIs</field>
-      <field name="model_id" ref="unicore_finance_report.model_unicore_finance_kpi"/>
+    <record id="cron_oacis_finance_kpi" model="ir.cron">
+      <field name="name">Oacis: Refresh Financial KPIs</field>
+      <field name="model_id" ref="oacis_finance_report.model_oacis_finance_kpi"/>
       <field name="state">code</field>
       <field name="code">companies = env['res.company'].search([])
 for company in companies:

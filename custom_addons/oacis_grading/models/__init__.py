@@ -1,7 +1,7 @@
-"""UniCore Grading — Models Package"""
+"""Oacis Grading — Models Package"""
 from . import (
-    unicore_enrollment_ext,
-    unicore_grade_entry,
-    unicore_grade_scale,
-    unicore_semester_result,
+    oacis_enrollment_ext,
+    oacis_grade_entry,
+    oacis_grade_scale,
+    oacis_semester_result,
 )

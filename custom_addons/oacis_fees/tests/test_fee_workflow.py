@@ -4,8 +4,8 @@ import odoo
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'financial')
-class UniCoreFeeWorkflowTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'financial')
+class OacisFeeWorkflowTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
@@ -14,18 +14,18 @@ class UniCoreFeeWorkflowTest(TransactionCase):
         cls.company = cls.env.company
         cls.currency = cls.company.currency_id
 
-        cls.faculty = cls.env['unicore.faculty'].create({
+        cls.faculty = cls.env['oacis.faculty'].create({
             'name': 'Test Faculty of Business',
             'code': 'TFB',
             'company_id': cls.company.id,
         })
-        cls.department = cls.env['unicore.department'].create({
+        cls.department = cls.env['oacis.department'].create({
             'name': 'Test Commerce',
             'code': 'TCOM',
             'faculty_id': cls.faculty.id,
             'company_id': cls.company.id,
         })
-        cls.program = cls.env['unicore.program'].create({
+        cls.program = cls.env['oacis.program'].create({
             'name': 'Test B.Com',
             'code': 'TEST-BCOM',
             'program_type': 'undergraduate',
@@ -36,12 +36,12 @@ class UniCoreFeeWorkflowTest(TransactionCase):
             'department_id': cls.department.id,
             'company_id': cls.company.id,
         })
-        cls.campus = cls.env['unicore.campus'].create({
+        cls.campus = cls.env['oacis.campus'].create({
             'name': 'Test Business Campus',
             'code': 'TBCAMP',
             'company_id': cls.company.id,
         })
-        cls.academic_year = cls.env['unicore.academic.year'].create({
+        cls.academic_year = cls.env['oacis.academic.year'].create({
             'name': 'Test AY 2025-26',
             'code': 'TAY2526',
             'date_start': '2025-07-01',
@@ -53,7 +53,7 @@ class UniCoreFeeWorkflowTest(TransactionCase):
         # The default company uses a term-mode calendar (institution profile),
         # which forces academic years to ``year_type == 'term'``; such years may
         # only contain term semesters.
-        cls.semester = cls.env['unicore.semester'].create({
+        cls.semester = cls.env['oacis.semester'].create({
             'name': 'Test First Term 2025-26',
             'code': 'TT1-2526',
             'semester_type': 'term_1',
@@ -64,7 +64,7 @@ class UniCoreFeeWorkflowTest(TransactionCase):
             'company_id': cls.company.id,
         })
 
-        cls.fee_structure = cls.env['unicore.fee.structure'].create({
+        cls.fee_structure = cls.env['oacis.fee.structure'].create({
             'name': 'Test B.Com Fee Structure',
             'company_id': cls.company.id,
             'academic_year_id': cls.academic_year.id,
@@ -89,7 +89,7 @@ class UniCoreFeeWorkflowTest(TransactionCase):
         })
         cls.fee_structure.action_activate()
 
-        cls.student1 = cls.env['unicore.student'].create({
+        cls.student1 = cls.env['oacis.student'].create({
             'name': 'Fee',
             'last_name': 'Student One',
             'gender': 'male',
@@ -102,7 +102,7 @@ class UniCoreFeeWorkflowTest(TransactionCase):
             'batch_year': 2025,
             'admission_date': '2025-06-01',
         })
-        cls.student2 = cls.env['unicore.student'].create({
+        cls.student2 = cls.env['oacis.student'].create({
             'name': 'Fee',
             'last_name': 'Student Two',
             'gender': 'female',
@@ -115,7 +115,7 @@ class UniCoreFeeWorkflowTest(TransactionCase):
             'batch_year': 2025,
             'admission_date': '2025-06-01',
         })
-        cls.student3 = cls.env['unicore.student'].create({
+        cls.student3 = cls.env['oacis.student'].create({
             'name': 'Fee',
             'last_name': 'Student Three',
             'gender': 'male',
@@ -154,7 +154,7 @@ class UniCoreFeeWorkflowTest(TransactionCase):
             cls.skipTest('The company chart of accounts is incomplete')
 
         # Only one active config is allowed per company; reuse an existing one.
-        cls.config = cls.env['unicore.fee.accounting.config'].search([
+        cls.config = cls.env['oacis.fee.accounting.config'].search([
             ('company_id', '=', company.id),
         ], limit=1)
         if cls.config:
@@ -166,7 +166,7 @@ class UniCoreFeeWorkflowTest(TransactionCase):
                 'is_active': True,
             })
         else:
-            cls.config = cls.env['unicore.fee.accounting.config'].create({
+            cls.config = cls.env['oacis.fee.accounting.config'].create({
                 'company_id': company.id,
                 'journal_id': sale_journal.id,
                 'revenue_account_id': revenue.id,
@@ -185,7 +185,7 @@ class UniCoreFeeWorkflowTest(TransactionCase):
                 'name': name,
                 'amount': amt,
             }))
-        invoice = self.env['unicore.fee.invoice'].create({
+        invoice = self.env['oacis.fee.invoice'].create({
             'student_id': student.id,
             'company_id': self.company.id,
             'academic_year_id': self.academic_year.id,
@@ -199,10 +199,10 @@ class UniCoreFeeWorkflowTest(TransactionCase):
         return invoice
 
     def _create_payment(self, invoice, amount, confirm=True):
-        # NOTE: `unicore.fee.payment` is archived; invoice amounts only update
+        # NOTE: `oacis.fee.payment` is archived; invoice amounts only update
         # through the GL flow (`_record_gl_payment`). This helper is kept only
         # to verify the legacy receipt-number sequence (test_07).
-        payment = self.env['unicore.fee.payment'].create({
+        payment = self.env['oacis.fee.payment'].create({
             'invoice_id': invoice.id,
             'amount': amount,
             'payment_date': date.today(),

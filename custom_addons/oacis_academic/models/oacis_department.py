@@ -7,12 +7,12 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UnicoreDepartment(models.Model):
+class OacisDepartment(models.Model):
     """Academic Department within a Faculty."""
 
-    _name = 'unicore.department'
+    _name = 'oacis.department'
     _description = 'Academic Department'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'faculty_id, sequence, name'
     _check_company_auto = True
 
@@ -29,7 +29,7 @@ class UnicoreDepartment(models.Model):
         help='e.g. CS, MECH, MBA, PHY',
     )
     faculty_id = fields.Many2one(
-        comodel_name='unicore.faculty',
+        comodel_name='oacis.faculty',
         string='Faculty',
         required=True,
         ondelete='restrict',
@@ -53,15 +53,15 @@ class UnicoreDepartment(models.Model):
         default=10,
     )
     campus_ids = fields.Many2many(
-        comodel_name='unicore.campus',
-        relation='unicore_department_campus_rel',
+        comodel_name='oacis.campus',
+        relation='oacis_department_campus_rel',
         column1='department_id',
         column2='campus_id',
         string='Campuses',
         help='Campuses where this department operates',
     )
     program_ids = fields.One2many(
-        comodel_name='unicore.program',
+        comodel_name='oacis.program',
         inverse_name='department_id',
         string='Programs',
     )
@@ -154,7 +154,7 @@ class UnicoreDepartment(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Programs'),
-            'res_model': 'unicore.program',
+            'res_model': 'oacis.program',
             'view_mode': 'kanban,list,form',
             'domain': [('department_id', '=', self.id)],
             'context': {'default_department_id': self.id},

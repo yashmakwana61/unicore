@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
-    <t t-name="unicore_theme.AppsLandingScreen" owl="1">
+    <t t-name="oacis_theme.AppsLandingScreen" owl="1">
         <div class="o_apps_landing_screen">
             <div class="o_apps_landing_search">
                 <input type="text" class="form-control" placeholder="Search apps..." 

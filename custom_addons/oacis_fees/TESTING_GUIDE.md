@@ -11,7 +11,7 @@ Before testing, ensure:
 
 1. ✓ Module is upgraded: 
    ```bash
-   ./venv/bin/python odoo-core/odoo-bin -c odoo.conf -d unicore_db -u unicore_fees --stop-after-init
+   ./venv/bin/python odoo-core/odoo-bin -c odoo.conf -d oacis_db -u oacis_fees --stop-after-init
    ```
 
 2. ✓ GL Chart of Accounts configured with:
@@ -311,7 +311,7 @@ To verify:
 
 ```
 Settings > Technical > Scheduled Actions
-  Look for: "UniCore Fees: Batch Create GL Invoices"
+  Look for: "Oacis Fees: Batch Create GL Invoices"
   Status: Should be active
 ```
 
@@ -323,12 +323,12 @@ If you need to start over:
 
 ```sql
 -- Archive test fee invoices (don't delete)
-UPDATE unicore_fee_invoice SET invoice_state = 'cancelled' WHERE invoice_number LIKE 'TEST%';
+UPDATE oacis_fee_invoice SET invoice_state = 'cancelled' WHERE invoice_number LIKE 'TEST%';
 
 -- Delete corresponding GL invoices (careful!)
 DELETE FROM account_move 
 WHERE ref IN (
-  SELECT invoice_number FROM unicore_fee_invoice WHERE invoice_state = 'cancelled'
+  SELECT invoice_number FROM oacis_fee_invoice WHERE invoice_state = 'cancelled'
 );
 ```
 

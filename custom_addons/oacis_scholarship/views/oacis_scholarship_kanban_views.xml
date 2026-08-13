@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_scholarship_program_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.scholarship.program.kanban</field>
-        <field name="model">unicore.scholarship.program</field>
+    <record id="oacis_scholarship_program_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.scholarship.program.kanban</field>
+        <field name="model">oacis.scholarship.program</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="program_state">
                 <field name="name"/>
@@ -62,9 +62,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_scholarship_application_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.scholarship.application.kanban</field>
-        <field name="model">unicore.scholarship.application</field>
+    <record id="oacis_scholarship_application_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.scholarship.application.kanban</field>
+        <field name="model">oacis.scholarship.application</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="application_state">
                 <field name="display_name"/>
@@ -101,9 +101,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_scholarship_award_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.scholarship.award.kanban</field>
-        <field name="model">unicore.scholarship.award</field>
+    <record id="oacis_scholarship_award_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.scholarship.award.kanban</field>
+        <field name="model">oacis.scholarship.award</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="award_state">
                 <field name="display_name"/>

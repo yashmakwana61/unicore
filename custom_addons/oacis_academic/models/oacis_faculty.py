@@ -7,12 +7,12 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UnicoreFaculty(models.Model):
+class OacisFaculty(models.Model):
     """Academic Faculty representing a School or College within a University."""
 
-    _name = 'unicore.faculty'
+    _name = 'oacis.faculty'
     _description = 'Academic Faculty (School/College within University)'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'sequence, name'
     _check_company_auto = True
 
@@ -37,8 +37,8 @@ class UnicoreFaculty(models.Model):
         tracking=True,
     )
     campus_ids = fields.Many2many(
-        comodel_name='unicore.campus',
-        relation='unicore_faculty_campus_rel',
+        comodel_name='oacis.campus',
+        relation='oacis_faculty_campus_rel',
         column1='faculty_id',
         column2='campus_id',
         string='Campuses',
@@ -56,7 +56,7 @@ class UnicoreFaculty(models.Model):
         default=10,
     )
     department_ids = fields.One2many(
-        comodel_name='unicore.department',
+        comodel_name='oacis.department',
         inverse_name='faculty_id',
         string='Departments',
     )
@@ -105,7 +105,7 @@ class UnicoreFaculty(models.Model):
             record.department_count = len(record.department_ids)
 
     def _compute_program_count(self):
-        program_model = self.env['unicore.program']
+        program_model = self.env['oacis.program']
         for record in self:
             record.program_count = program_model.search_count(
                 [('faculty_id', '=', record.id)],
@@ -160,7 +160,7 @@ class UnicoreFaculty(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Departments'),
-            'res_model': 'unicore.department',
+            'res_model': 'oacis.department',
             'view_mode': 'list,form',
             'domain': [('faculty_id', '=', self.id)],
             'context': {'default_faculty_id': self.id},
@@ -171,7 +171,7 @@ class UnicoreFaculty(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Programs'),
-            'res_model': 'unicore.program',
+            'res_model': 'oacis.program',
             'view_mode': 'kanban,list,form',
             'domain': [('faculty_id', '=', self.id)],
             'context': {'default_faculty_id': self.id},

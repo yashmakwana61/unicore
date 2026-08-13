@@ -4,9 +4,9 @@
     <!-- ============================================================
          Notification Log Analysis
          ============================================================ -->
-    <record id="unicore_notification_log_pivot_view" model="ir.ui.view">
-        <field name="name">unicore.notification.log.pivot</field>
-        <field name="model">unicore.notification.log</field>
+    <record id="oacis_notification_log_pivot_view" model="ir.ui.view">
+        <field name="name">oacis.notification.log.pivot</field>
+        <field name="model">oacis.notification.log</field>
         <field name="arch" type="xml">
             <pivot string="Notification Log Analysis">
                 <field name="channel" type="row"/>
@@ -15,9 +15,9 @@
         </field>
     </record>
 
-    <record id="unicore_notification_log_graph_view" model="ir.ui.view">
-        <field name="name">unicore.notification.log.graph</field>
-        <field name="model">unicore.notification.log</field>
+    <record id="oacis_notification_log_graph_view" model="ir.ui.view">
+        <field name="name">oacis.notification.log.graph</field>
+        <field name="model">oacis.notification.log</field>
         <field name="arch" type="xml">
             <graph string="Notification Log Analysis" type="bar">
                 <field name="channel" type="row"/>

@@ -1,5 +1,5 @@
 """
-UniCore Course Model
+Oacis Course Model
 Defines reusable academic course units that can be
 assigned to multiple programs and offered in multiple
 semesters. A course is the master definition —
@@ -15,10 +15,10 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreCourse(models.Model):
-    _name = 'unicore.course'
+class OacisCourse(models.Model):
+    _name = 'oacis.course'
     _description = 'Academic Course Definition'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'code, name'
     _check_company_auto = True
 
@@ -79,7 +79,7 @@ class UniCoreCourse(models.Model):
         default='theory',
     )
     department_id = fields.Many2one(
-        comodel_name='unicore.department',
+        comodel_name='oacis.department',
         string='Owning Department',
         ondelete='restrict',
         tracking=True,
@@ -88,7 +88,7 @@ class UniCoreCourse(models.Model):
              'institution types (Gap-1 shim, mirrors Phase 1 program anchor).',
     )
     academic_faculty_id = fields.Many2one(
-        comodel_name='unicore.faculty',
+        comodel_name='oacis.faculty',
         string='Faculty / School',
         related='department_id.faculty_id',
         store=True,
@@ -215,7 +215,7 @@ class UniCoreCourse(models.Model):
     # ------- CURRICULUM LINKS -------
 
     prerequisite_ids = fields.One2many(
-        comodel_name='unicore.course.prerequisite',
+        comodel_name='oacis.course.prerequisite',
         inverse_name='course_id',
         string='Prerequisites',
     )
@@ -231,7 +231,7 @@ class UniCoreCourse(models.Model):
             rec.prerequisite_count = len(rec.prerequisite_ids)
 
     curriculum_line_ids = fields.One2many(
-        comodel_name='unicore.curriculum.line',
+        comodel_name='oacis.curriculum.line',
         inverse_name='course_id',
         string='Curriculum Assignments',
     )
@@ -248,7 +248,7 @@ class UniCoreCourse(models.Model):
             )
 
     offering_ids = fields.One2many(
-        comodel_name='unicore.course.offering',
+        comodel_name='oacis.course.offering',
         inverse_name='course_id',
         string='Course Offerings',
     )

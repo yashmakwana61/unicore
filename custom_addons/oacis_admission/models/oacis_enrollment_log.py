@@ -1,8 +1,8 @@
 """
-UniCore Enrollment Log Model
+Oacis Enrollment Log Model
 Immutable, append-only audit trail of every
 enrollment state change. Created automatically by
-unicore.enrollment action methods — never created
+oacis.enrollment action methods — never created
 or edited directly by users. Required for
 accreditation and compliance record-keeping.
 """
@@ -14,8 +14,8 @@ from odoo.exceptions import UserError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreEnrollmentLog(models.Model):
-    _name = 'unicore.enrollment.log'
+class OacisEnrollmentLog(models.Model):
+    _name = 'oacis.enrollment.log'
     _description = 'Enrollment Audit Log'
     _rec_name = 'display_name'
 
@@ -53,7 +53,7 @@ class UniCoreEnrollmentLog(models.Model):
     _order = 'action_date desc'
 
     enrollment_id = fields.Many2one(
-        comodel_name='unicore.enrollment',
+        comodel_name='oacis.enrollment',
         string='Enrollment',
         required=True,
         ondelete='cascade',
@@ -61,7 +61,7 @@ class UniCoreEnrollmentLog(models.Model):
     )
 
     student_id = fields.Many2one(
-        comodel_name='unicore.student',
+        comodel_name='oacis.student',
         string='Student',
         required=True,
         ondelete='cascade',
@@ -69,7 +69,7 @@ class UniCoreEnrollmentLog(models.Model):
     )
 
     course_offering_id = fields.Many2one(
-        comodel_name='unicore.course.offering',
+        comodel_name='oacis.course.offering',
         string='Course Offering',
         required=True,
         ondelete='cascade',

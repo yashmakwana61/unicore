@@ -6,8 +6,8 @@ from odoo import fields, tests
 _logger = logging.getLogger(__name__)
 
 
-@tests.tagged('unicore', 'integration', 'post_install', '-at_install')
-class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
+@tests.tagged('oacis', 'integration', 'post_install', '-at_install')
+class OacisAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
 
     @classmethod
     def setUpClass(cls):
@@ -19,17 +19,17 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
         # ACADEMIC STRUCTURE
         # ----------------------------------------------------------
 
-        faculty = cls.env['unicore.faculty'].create({
+        faculty = cls.env['oacis.faculty'].create({
             'name': 'Faculty of Engineering',
             'code': 'FE',
             'company_id': cls.company.id,
         })
-        department = cls.env['unicore.department'].create({
+        department = cls.env['oacis.department'].create({
             'name': 'Computer Science',
             'code': 'CS',
             'faculty_id': faculty.id,
         })
-        cls.program = cls.env['unicore.program'].create({
+        cls.program = cls.env['oacis.program'].create({
             'name': 'B.Tech Computer Science',
             'code': 'BTCS',
             'degree_title': 'Bachelor of Technology',
@@ -41,20 +41,20 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
             'company_id': cls.company.id,
         })
 
-        cls.campus = cls.env['unicore.campus'].create({
+        cls.campus = cls.env['oacis.campus'].create({
             'name': 'Main Campus',
             'code': 'MNC',
             'company_id': cls.company.id,
         })
 
-        cls.academic_year = cls.env['unicore.academic.year'].create({
+        cls.academic_year = cls.env['oacis.academic.year'].create({
             'name': '2025-2026',
             'code': '2025',
             'date_start': '2025-06-01',
             'date_end': '2026-05-31',
         })
 
-        cls.semester = cls.env['unicore.semester'].create({
+        cls.semester = cls.env['oacis.semester'].create({
             'name': 'Odd Semester 2025-26',
             'code': 'ODD-2526',
             'academic_year_id': cls.academic_year.id,
@@ -68,7 +68,7 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
         # COURSE & OFFERING
         # ----------------------------------------------------------
 
-        cls.course = cls.env['unicore.course'].create({
+        cls.course = cls.env['oacis.course'].create({
             'name': 'Data Structures',
             'code': 'CS201',
             'department_id': department.id,
@@ -81,10 +81,10 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
             'company_id': cls.company.id,
         })
 
-        cls.faculty_member = cls.env['unicore.faculty.member'].create({
+        cls.faculty_member = cls.env['oacis.faculty.member'].create({
             'name': 'Prof. Johnson',
             'last_name': 'Johnson',
-            'email': 'johnson@unicore.edu',
+            'email': 'johnson@oacis.edu',
             'mobile': '2222222222',
             'gender': 'male',
             'academic_faculty_id': faculty.id,
@@ -93,7 +93,7 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
             'joining_date': fields.Date.today(),
         })
 
-        cls.offering = cls.env['unicore.course.offering'].create({
+        cls.offering = cls.env['oacis.course.offering'].create({
             'course_id': cls.course.id,
             'program_id': cls.program.id,
             'academic_year_id': cls.academic_year.id,
@@ -108,7 +108,7 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
         # ADMISSION CYCLE
         # ----------------------------------------------------------
 
-        cls.cycle = cls.env['unicore.admission.cycle'].create({
+        cls.cycle = cls.env['oacis.admission.cycle'].create({
             'name': 'Main Intake 2025-26',
             'code': 'MAIN-2526',
             'campus_id': cls.campus.id,
@@ -119,7 +119,7 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
             'company_id': cls.company.id,
         })
 
-        cls.env['unicore.admission.cycle.seat'].create({
+        cls.env['oacis.admission.cycle.seat'].create({
             'cycle_id': cls.cycle.id,
             'program_id': cls.program.id,
             'total_seats': 30,
@@ -127,12 +127,12 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
         })
 
         # ----------------------------------------------------------
-        # FEE STRUCTURE (only present when unicore_fees is installed)
+        # FEE STRUCTURE (only present when oacis_fees is installed)
         # ----------------------------------------------------------
 
         cls.fee_structure = None
-        if 'unicore.fee.structure' in cls.env:
-            cls.fee_structure = cls.env['unicore.fee.structure'].create({
+        if 'oacis.fee.structure' in cls.env:
+            cls.fee_structure = cls.env['oacis.fee.structure'].create({
                 'name': 'B.Tech CS Semester Fees 2025-26',
                 'company_id': cls.company.id,
                 'academic_year_id': cls.academic_year.id,
@@ -142,7 +142,7 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
                 'structure_state': 'active',
             })
 
-            cls.env['unicore.fee.structure.line'].create({
+            cls.env['oacis.fee.structure.line'].create({
                 'structure_id': cls.fee_structure.id,
                 'fee_type': 'tuition',
                 'name': 'Tuition Fee',
@@ -153,13 +153,13 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
         # GRADE SCALE
         # ----------------------------------------------------------
 
-        cls.grade_scale = cls.env['unicore.grade.scale'].create({
+        cls.grade_scale = cls.env['oacis.grade.scale'].create({
             'name': 'Standard 4.0 Scale',
             'company_id': cls.company.id,
             'is_default': False,
             'max_gpa': 4.0,
         })
-        cls.env['unicore.grade.scale.line'].create({
+        cls.env['oacis.grade.scale.line'].create({
             'scale_id': cls.grade_scale.id,
             'letter_grade': 'A',
             'min_percentage': 80.0,
@@ -167,7 +167,7 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
             'grade_point': 4.0,
             'is_passing': True,
         })
-        cls.env['unicore.grade.scale.line'].create({
+        cls.env['oacis.grade.scale.line'].create({
             'scale_id': cls.grade_scale.id,
             'letter_grade': 'B',
             'min_percentage': 60.0,
@@ -175,7 +175,7 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
             'grade_point': 3.0,
             'is_passing': True,
         })
-        cls.env['unicore.grade.scale.line'].create({
+        cls.env['oacis.grade.scale.line'].create({
             'scale_id': cls.grade_scale.id,
             'letter_grade': 'C',
             'min_percentage': 40.0,
@@ -183,7 +183,7 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
             'grade_point': 2.0,
             'is_passing': True,
         })
-        cls.env['unicore.grade.scale.line'].create({
+        cls.env['oacis.grade.scale.line'].create({
             'scale_id': cls.grade_scale.id,
             'letter_grade': 'F',
             'min_percentage': 0.0,
@@ -196,31 +196,31 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
         # TIMETABLE INFRASTRUCTURE (for attendance test)
         # ----------------------------------------------------------
 
-        building = cls.env['unicore.building'].create({
+        building = cls.env['oacis.building'].create({
             'name': 'Academic Block A',
             'code': 'BLK-A',
             'campus_id': cls.campus.id,
         })
-        floor = cls.env['unicore.floor'].create({
+        floor = cls.env['oacis.floor'].create({
             'name': 'First Floor',
             'floor_number': 1,
             'building_id': building.id,
         })
-        room = cls.env['unicore.room'].create({
+        room = cls.env['oacis.room'].create({
             'name': 'Room 101',
             'code': 'A101',
             'floor_id': floor.id,
             'capacity': 40,
             'room_type': 'classroom',
         })
-        time_slot = cls.env['unicore.time.slot'].create({
+        time_slot = cls.env['oacis.time.slot'].create({
             'name': 'Slot 8-9 AM',
             'company_id': cls.company.id,
             'start_time': 8.0,
             'end_time': 9.0,
             'slot_type': 'lecture',
         })
-        cls.timetable_entry = cls.env['unicore.timetable.entry'].create({
+        cls.timetable_entry = cls.env['oacis.timetable.entry'].create({
             'course_offering_id': cls.offering.id,
             'day_of_week': '1',
             'time_slot_id': time_slot.id,
@@ -242,10 +242,10 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
     # ==============================================================
 
     def test_01_create_applicant(self):
-        applicant = self.env['unicore.admission.applicant'].create({
+        applicant = self.env['oacis.admission.applicant'].create({
             'name': 'Rahul',
             'last_name': 'Sharma',
-            'email': 'rahul.sharma@test.unicore.edu',
+            'email': 'rahul.sharma@test.oacis.edu',
             'mobile': '9876543210',
             'gender': 'male',
             'date_of_birth': '2000-06-15',
@@ -407,7 +407,7 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
         if not student:
             self.skipTest('test_07 did not run first')
 
-        enrollment = self.env['unicore.enrollment'].create({
+        enrollment = self.env['oacis.enrollment'].create({
             'student_id': student.id,
             'course_offering_id': self.offering.id,
         })
@@ -427,13 +427,13 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
         if not student:
             self.skipTest('test_07 did not run first')
 
-        session = self.env['unicore.attendance.session'].create({
+        session = self.env['oacis.attendance.session'].create({
             'timetable_entry_id': self.timetable_entry.id,
             'session_date': self.semester.date_start,
             'session_state': 'open',
         })
 
-        record = self.env['unicore.attendance.record'].create({
+        record = self.env['oacis.attendance.record'].create({
             'session_id': session.id,
             'student_id': student.id,
             'enrollment_id': self.__class__.test_enrollment.id,
@@ -451,7 +451,7 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
         if not enrollment:
             self.skipTest('test_09 did not run first')
 
-        grade = self.env['unicore.grade.entry'].create({
+        grade = self.env['oacis.grade.entry'].create({
             'enrollment_id': enrollment.id,
             'internal_marks': 35.0,
             'external_marks': 52.0,
@@ -488,10 +488,10 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
         student = self.__class__.created_student
         if not student:
             self.skipTest('test_07 did not run first')
-        if 'unicore.fee.invoice' not in self.env:
-            self.skipTest('unicore_fees not installed')
+        if 'oacis.fee.invoice' not in self.env:
+            self.skipTest('oacis_fees not installed')
 
-        invoice = self.env['unicore.fee.invoice'].create({
+        invoice = self.env['oacis.fee.invoice'].create({
             'student_id': student.id,
             'company_id': self.company.id,
             'academic_year_id': self.academic_year.id,
@@ -508,7 +508,7 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
             'Got: %s' % invoice.invoice_number,
         )
 
-        self.env['unicore.fee.invoice.line'].create({
+        self.env['oacis.fee.invoice.line'].create({
             'invoice_id': invoice.id,
             'fee_type': 'tuition',
             'name': 'Tuition Fee',
@@ -528,10 +528,10 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
         invoice = self.__class__.test_invoice
         if not invoice:
             self.skipTest('test_13 did not run first')
-        if 'unicore.fee.payment' not in self.env:
-            self.skipTest('unicore_fees not installed')
+        if 'oacis.fee.payment' not in self.env:
+            self.skipTest('oacis_fees not installed')
 
-        payment = self.env['unicore.fee.payment'].create({
+        payment = self.env['oacis.fee.payment'].create({
             'invoice_id': invoice.id,
             'amount': 15000,
             'payment_method': 'online',
@@ -565,7 +565,7 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
             'Student ID number must be set at end of lifecycle',
         )
 
-        enrollment_count = self.env['unicore.enrollment'].search_count([
+        enrollment_count = self.env['oacis.enrollment'].search_count([
             ('student_id', '=', student.id),
         ])
         self.assertGreaterEqual(
@@ -573,7 +573,7 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
             'Student must have at least 1 enrollment',
         )
 
-        grade_count = self.env['unicore.grade.entry'].search_count([
+        grade_count = self.env['oacis.grade.entry'].search_count([
             ('student_id', '=', student.id),
         ])
         self.assertGreaterEqual(
@@ -581,8 +581,8 @@ class UniCoreAdmissionToEnrollmentTest(tests.common.SingleTransactionCase):
             'Student must have at least 1 grade entry',
         )
 
-        if 'unicore.fee.invoice' in self.env:
-            invoice_count = self.env['unicore.fee.invoice'].search_count([
+        if 'oacis.fee.invoice' in self.env:
+            invoice_count = self.env['oacis.fee.invoice'].search_count([
                 ('student_id', '=', student.id),
             ])
             self.assertGreaterEqual(

@@ -1,9 +1,9 @@
 # from odoo import models, fields, api
 
 
-# class unicore_lms(models.Model):
-#     _name = 'unicore_lms.unicore_lms'
-#     _description = 'unicore_lms.unicore_lms'
+# class oacis_lms(models.Model):
+#     _name = 'oacis_lms.oacis_lms'
+#     _description = 'oacis_lms.oacis_lms'
 
 #     name = fields.Char()
 #     value = fields.Integer()

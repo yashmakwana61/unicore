@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_holiday_calendar_view" model="ir.ui.view">
-        <field name="name">unicore.holiday.calendar</field>
-        <field name="model">unicore.holiday</field>
+    <record id="oacis_holiday_calendar_view" model="ir.ui.view">
+        <field name="name">oacis.holiday.calendar</field>
+        <field name="model">oacis.holiday</field>
         <field name="arch" type="xml">
             <calendar date_start="date_start" date_stop="date_end" color="color" string="Holiday Calendar">
                 <field name="holiday_type"/>
@@ -23,9 +23,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_academic_week_calendar_view" model="ir.ui.view">
-        <field name="name">unicore.academic.week.calendar</field>
-        <field name="model">unicore.academic.week</field>
+    <record id="oacis_academic_week_calendar_view" model="ir.ui.view">
+        <field name="name">oacis.academic.week.calendar</field>
+        <field name="model">oacis.academic.week</field>
         <field name="arch" type="xml">
             <calendar date_start="date_start" date_stop="date_end" color="color" string="Academic Week Calendar">
                 <field name="week_type"/>
@@ -40,9 +40,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_academic_year_calendar_view" model="ir.ui.view">
-        <field name="name">unicore.academic.year.calendar</field>
-        <field name="model">unicore.academic.year</field>
+    <record id="oacis_academic_year_calendar_view" model="ir.ui.view">
+        <field name="name">oacis.academic.year.calendar</field>
+        <field name="model">oacis.academic.year</field>
         <field name="arch" type="xml">
             <calendar date_start="date_start" date_stop="date_end" color="color" string="Academic Year Calendar">
                 <field name="year_type"/>
@@ -57,9 +57,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_semester_calendar_view" model="ir.ui.view">
-        <field name="name">unicore.semester.calendar</field>
-        <field name="model">unicore.semester</field>
+    <record id="oacis_semester_calendar_view" model="ir.ui.view">
+        <field name="name">oacis.semester.calendar</field>
+        <field name="model">oacis.semester</field>
         <field name="arch" type="xml">
             <calendar date_start="date_start" date_stop="date_end" color="color" string="Semester Calendar">
                 <field name="semester_type"/>

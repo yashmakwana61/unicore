@@ -1,14 +1,14 @@
 """
-Extends unicore.notification.template to add
+Extends oacis.notification.template to add
 trigger events for student leave request workflows.
 """
 from odoo import models
 
 
-class UniCoreNotificationTemplateExtension(models.Model):
+class OacisNotificationTemplateExtension(models.Model):
     """Add leave request trigger events to the
     notification template model."""
-    _inherit = 'unicore.notification.template'
+    _inherit = 'oacis.notification.template'
 
     def _selection_trigger_event(self):
         """Extend the trigger_event selection with

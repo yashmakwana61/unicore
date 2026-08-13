@@ -1,12 +1,12 @@
 """
-UniCore Student Extension for Portal
+Oacis Student Extension for Portal
 """
 from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 
-class UnicoreStudent(models.Model):
-    _inherit = 'unicore.student'
+class OacisStudent(models.Model):
+    _inherit = 'oacis.student'
 
     has_portal_user = fields.Boolean(
         compute='_compute_has_portal_user',

@@ -3,10 +3,10 @@
     <data>
 
         <!-- Extend Fee Invoice Form to show GL Invoice Link -->
-        <record id="view_unicore_fee_invoice_form_gl_ext" model="ir.ui.view">
-            <field name="name">unicore.fee.invoice.form.gl.ext</field>
-            <field name="model">unicore.fee.invoice</field>
-            <field name="inherit_id" ref="unicore_fees.view_unicore_fee_invoice_form"/>
+        <record id="view_oacis_fee_invoice_form_gl_ext" model="ir.ui.view">
+            <field name="name">oacis.fee.invoice.form.gl.ext</field>
+            <field name="model">oacis.fee.invoice</field>
+            <field name="inherit_id" ref="oacis_fees.view_oacis_fee_invoice_form"/>
             <field name="arch" type="xml">
 
                 <!-- Add GL Invoice stat button in button_box -->
@@ -18,19 +18,19 @@
 
                 <!-- Add GL Invoice info section -->
                 <xpath expr="//group[@name='invoice_details']" position="inside">
-                    <field name="account_move_id" readonly="1" groups="unicore_base.group_unicore_admin,unicore_base.group_unicore_finance" />
+                    <field name="account_move_id" readonly="1" groups="oacis_base.group_oacis_admin,oacis_base.group_oacis_finance" />
                 </xpath>
 
                 <!-- Add GL Status and Invoice Number to amounts section -->
                 <xpath expr="//group[@name='dates_amounts']" position="inside">
-                    <field name="gl_invoice_number" readonly="1" groups="unicore_base.group_unicore_admin,unicore_base.group_unicore_finance" />
-                    <field name="gl_status" readonly="1" groups="unicore_base.group_unicore_admin,unicore_base.group_unicore_finance" />
-                    <field name="gl_fully_reconciled" readonly="1" groups="unicore_base.group_unicore_admin,unicore_base.group_unicore_finance" />
+                    <field name="gl_invoice_number" readonly="1" groups="oacis_base.group_oacis_admin,oacis_base.group_oacis_finance" />
+                    <field name="gl_status" readonly="1" groups="oacis_base.group_oacis_admin,oacis_base.group_oacis_finance" />
+                    <field name="gl_fully_reconciled" readonly="1" groups="oacis_base.group_oacis_admin,oacis_base.group_oacis_finance" />
                 </xpath>
 
                 <!-- Add GL Invoice Info Page in Notebook -->
                 <xpath expr="//notebook/page[@name='fee_breakdown']" position="after">
-                    <page string="GL Integration" groups="unicore_base.group_unicore_admin,unicore_base.group_unicore_finance" invisible="not account_move_id">
+                    <page string="GL Integration" groups="oacis_base.group_oacis_admin,oacis_base.group_oacis_finance" invisible="not account_move_id">
                         <group>
                             <field name="account_move_id" readonly="1" />
                             <field name="gl_invoice_number" readonly="1" />
@@ -60,13 +60,13 @@
         </record>
 
         <!-- Extend Fee Invoice List to show GL Status -->
-        <record id="view_unicore_fee_invoice_list_gl_ext" model="ir.ui.view">
-            <field name="name">unicore.fee.invoice.list.gl.ext</field>
-            <field name="model">unicore.fee.invoice</field>
-            <field name="inherit_id" ref="unicore_fees.view_unicore_fee_invoice_list"/>
+        <record id="view_oacis_fee_invoice_list_gl_ext" model="ir.ui.view">
+            <field name="name">oacis.fee.invoice.list.gl.ext</field>
+            <field name="model">oacis.fee.invoice</field>
+            <field name="inherit_id" ref="oacis_fees.view_oacis_fee_invoice_list"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='invoice_state']" position="after">
-                    <field name="gl_status" groups="unicore_base.group_unicore_admin,unicore_base.group_unicore_finance" />
+                    <field name="gl_status" groups="oacis_base.group_oacis_admin,oacis_base.group_oacis_finance" />
                 </xpath>
             </field>
         </record>

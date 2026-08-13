@@ -13,7 +13,7 @@ class ResCompany(models.Model):
     _inherit = 'res.company'
 
     institution_profile_id = fields.Many2one(
-        comodel_name='unicore.institution.profile',
+        comodel_name='oacis.institution.profile',
         string='Institution Profile',
         tracking=True,
         help='Configures entity-type behavior: academic unit levels, calendar '
@@ -21,7 +21,7 @@ class ResCompany(models.Model):
              'legacy university behavior (100% current behavior).',
     )
     terminology_profile_id = fields.Many2one(
-        comodel_name='unicore.terminology.profile',
+        comodel_name='oacis.terminology.profile',
         related='institution_profile_id.terminology_profile_id',
         store=True,
         readonly=True,
@@ -172,7 +172,7 @@ class ResCompany(models.Model):
         profile = self.institution_profile_id
         if not profile:
             return set(
-                self.env['unicore.institution.feature'].search([]).mapped('code'))
+                self.env['oacis.institution.feature'].search([]).mapped('code'))
         return set(profile.feature_toggle_ids.mapped('code'))
 
     def has_feature(self, code):

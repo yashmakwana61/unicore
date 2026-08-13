@@ -1,6 +1,6 @@
 """
-UniCore Generate Sessions Wizard
-Generates unicore.attendance.session records for
+Oacis Generate Sessions Wizard
+Generates oacis.attendance.session records for
 a selected course offering (or all offerings in a
 semester) by expanding the weekly timetable entries
 across all teaching dates in the semester date range,
@@ -16,8 +16,8 @@ from odoo.exceptions import UserError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreGenerateSessionsWizard(models.TransientModel):
-    _name = 'unicore.generate.sessions.wizard'
+class OacisGenerateSessionsWizard(models.TransientModel):
+    _name = 'oacis.generate.sessions.wizard'
     _description = 'Generate Attendance Sessions Wizard'
 
     generation_mode = fields.Selection(
@@ -31,14 +31,14 @@ class UniCoreGenerateSessionsWizard(models.TransientModel):
     )
 
     course_offering_id = fields.Many2one(
-        comodel_name='unicore.course.offering',
+        comodel_name='oacis.course.offering',
         string='Course Offering',
         domain="[('offering_state', 'in', ['open', 'ongoing'])]",
         help='Required when mode is Specific Offering',
     )
 
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         help='Required when mode is All Offerings',
     )
@@ -68,7 +68,7 @@ class UniCoreGenerateSessionsWizard(models.TransientModel):
         the given semester, optionally filtered by campus.
         Only includes holidays where affects_attendance=True.
         """
-        Holiday = self.env['unicore.holiday']
+        Holiday = self.env['oacis.holiday']
         domain = [
             ('academic_year_id', '=', semester_id.academic_year_id.id),
             ('affects_attendance', '=', True),
@@ -110,8 +110,8 @@ class UniCoreGenerateSessionsWizard(models.TransientModel):
         entries of a given course offering.
         Returns the count of newly created sessions.
         """
-        Session = self.env['unicore.attendance.session']
-        TimetableEntry = self.env['unicore.timetable.entry']
+        Session = self.env['oacis.attendance.session']
+        TimetableEntry = self.env['oacis.timetable.entry']
 
         entries = TimetableEntry.search([
             ('course_offering_id', '=', offering.id),
@@ -156,8 +156,8 @@ class UniCoreGenerateSessionsWizard(models.TransientModel):
         for rec in self:
             try:
                 if rec.generation_mode == 'offering' and rec.course_offering_id:
-                    Session = self.env['unicore.attendance.session']
-                    TimetableEntry = self.env['unicore.timetable.entry']
+                    Session = self.env['oacis.attendance.session']
+                    TimetableEntry = self.env['oacis.timetable.entry']
                     entries = TimetableEntry.search([
                         ('course_offering_id', '=', rec.course_offering_id.id),
                         ('entry_state', '=', 'confirmed'),
@@ -193,7 +193,7 @@ class UniCoreGenerateSessionsWizard(models.TransientModel):
                 raise UserError(
                     _('Please select a semester.'),
                 )
-            Offering = self.env['unicore.course.offering']
+            Offering = self.env['oacis.course.offering']
             offerings = Offering.search([
                 ('semester_id', '=', self.semester_id.id),
                 ('company_id', '=', self.company_id.id),

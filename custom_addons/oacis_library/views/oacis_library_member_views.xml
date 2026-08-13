@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-  <record id="view_unicore_library_member_form" model="ir.ui.view">
-    <field name="name">unicore.library.member.form</field>
-    <field name="model">unicore.library.member</field>
+  <record id="view_oacis_library_member_form" model="ir.ui.view">
+    <field name="name">oacis.library.member.form</field>
+    <field name="model">oacis.library.member</field>
     <field name="arch" type="xml">
       <form>
         <header>
-          <button name="action_suspend" string="Suspend" type="object" invisible="member_state != 'active'" groups="unicore_base.group_unicore_admin"/>
+          <button name="action_suspend" string="Suspend" type="object" invisible="member_state != 'active'" groups="oacis_base.group_oacis_admin"/>
           <button name="action_reactivate" string="Reactivate" type="object" invisible="member_state == 'active'" class="btn-primary"/>
           <field name="member_state" widget="statusbar" statusbar_visible="active,suspended"/>
         </header>
@@ -47,9 +47,9 @@
       </form>
     </field>
   </record>
-  <record id="view_unicore_library_member_list" model="ir.ui.view">
-    <field name="name">unicore.library.member.list</field>
-    <field name="model">unicore.library.member</field>
+  <record id="view_oacis_library_member_list" model="ir.ui.view">
+    <field name="name">oacis.library.member.list</field>
+    <field name="model">oacis.library.member</field>
     <field name="arch" type="xml">
       <list decoration-danger="member_state == 'suspended'" decoration-warning="outstanding_fines &gt; 0" decoration-muted="member_state in               ('expired','blacklisted')">
         <field name="member_id"/>
@@ -62,9 +62,9 @@
       </list>
     </field>
   </record>
-  <record id="view_unicore_library_member_search" model="ir.ui.view">
-    <field name="name">unicore.library.member.search</field>
-    <field name="model">unicore.library.member</field>
+  <record id="view_oacis_library_member_search" model="ir.ui.view">
+    <field name="name">oacis.library.member.search</field>
+    <field name="model">oacis.library.member</field>
     <field name="arch" type="xml">
       <search>
         <field name="member_id"/>
@@ -80,9 +80,9 @@
       </search>
     </field>
   </record>
-  <record id="action_unicore_library_member" model="ir.actions.act_window">
+  <record id="action_oacis_library_member" model="ir.actions.act_window">
     <field name="name">Library Members</field>
-    <field name="res_model">unicore.library.member</field>
+    <field name="res_model">oacis.library.member</field>
     <field name="view_mode">list,form</field>
     <field name="context">{'search_default_active': 1}</field>
   </record>

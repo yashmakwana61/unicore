@@ -5,26 +5,26 @@ class SlideSlide(models.Model):
     _inherit = 'slide.slide'
 
     # Extend slide_category if needed, or just use boolean/relational fields
-    is_unicore_assignment = fields.Boolean(
-        string="Is Unicore Assignment",
-        help="Check this if this slide represents a Unicore Assignment.",
+    is_oacis_assignment = fields.Boolean(
+        string="Is Oacis Assignment",
+        help="Check this if this slide represents a Oacis Assignment.",
     )
 
-    unicore_assignment_id = fields.Many2one(
-        'unicore.assignment',
-        string="Unicore Assignment",
-        help="Link to the specific Unicore Assignment.",
+    oacis_assignment_id = fields.Many2one(
+        'oacis.assignment',
+        string="Oacis Assignment",
+        help="Link to the specific Oacis Assignment.",
     )
 
-    is_unicore_quiz = fields.Boolean(
-        string="Is Unicore Quiz",
-        help="Check this if this slide represents a Unicore Quiz.",
+    is_oacis_quiz = fields.Boolean(
+        string="Is Oacis Quiz",
+        help="Check this if this slide represents a Oacis Quiz.",
     )
 
-    unicore_quiz_id = fields.Many2one(
-        'unicore.quiz',
-        string="Unicore Quiz",
-        help="Link to the specific Unicore Quiz.",
+    oacis_quiz_id = fields.Many2one(
+        'oacis.quiz',
+        string="Oacis Quiz",
+        help="Link to the specific Oacis Quiz.",
     )
 
     # Live Class Integration

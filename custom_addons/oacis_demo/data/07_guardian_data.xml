@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data noupdate="0">
-    <record id="uc_demo_guardian_sanjay" model="unicore.guardian">
+    <record id="uc_demo_guardian_sanjay" model="oacis.guardian">
       <field name="name">Sanjay</field>
       <field name="last_name">Patel</field>
       <field name="gender">male</field>
@@ -10,7 +10,7 @@
       <field name="company_id" ref="base.main_company"/>
     </record>
 
-    <record id="uc_demo_guardian_rekha" model="unicore.guardian">
+    <record id="uc_demo_guardian_rekha" model="oacis.guardian">
       <field name="name">Rekha</field>
       <field name="last_name">Shah</field>
       <field name="gender">female</field>
@@ -19,7 +19,7 @@
       <field name="company_id" ref="base.main_company"/>
     </record>
 
-    <record id="uc_demo_guardian_amit" model="unicore.guardian">
+    <record id="uc_demo_guardian_amit" model="oacis.guardian">
       <field name="name">Amit</field>
       <field name="last_name">Joshi</field>
       <field name="gender">male</field>
@@ -28,7 +28,7 @@
       <field name="company_id" ref="base.main_company"/>
     </record>
 
-    <record id="uc_demo_guardian_meera" model="unicore.guardian">
+    <record id="uc_demo_guardian_meera" model="oacis.guardian">
       <field name="name">Meera</field>
       <field name="last_name">Desai</field>
       <field name="gender">female</field>
@@ -37,7 +37,7 @@
       <field name="company_id" ref="base.main_company"/>
     </record>
 
-    <record id="uc_demo_guardian_ravi" model="unicore.guardian">
+    <record id="uc_demo_guardian_ravi" model="oacis.guardian">
       <field name="name">Ravi</field>
       <field name="last_name">Sharma</field>
       <field name="gender">male</field>
@@ -46,7 +46,7 @@
       <field name="company_id" ref="base.main_company"/>
     </record>
 
-    <record id="uc_demo_rel_sanjay_arav" model="unicore.guardian.student.rel">
+    <record id="uc_demo_rel_sanjay_arav" model="oacis.guardian.student.rel">
       <field name="guardian_id" ref="uc_demo_guardian_sanjay"/>
       <field name="student_id" ref="uc_demo_student_arav"/>
       <field name="relationship_type">father</field>
@@ -55,7 +55,7 @@
       <field name="company_id" ref="base.main_company"/>
     </record>
 
-    <record id="uc_demo_rel_rekha_diya" model="unicore.guardian.student.rel">
+    <record id="uc_demo_rel_rekha_diya" model="oacis.guardian.student.rel">
       <field name="guardian_id" ref="uc_demo_guardian_rekha"/>
       <field name="student_id" ref="uc_demo_student_diya"/>
       <field name="relationship_type">mother</field>
@@ -64,7 +64,7 @@
       <field name="company_id" ref="base.main_company"/>
     </record>
 
-    <record id="uc_demo_rel_amit_kabir" model="unicore.guardian.student.rel">
+    <record id="uc_demo_rel_amit_kabir" model="oacis.guardian.student.rel">
       <field name="guardian_id" ref="uc_demo_guardian_amit"/>
       <field name="student_id" ref="uc_demo_student_kabir"/>
       <field name="relationship_type">father</field>
@@ -73,7 +73,7 @@
       <field name="company_id" ref="base.main_company"/>
     </record>
 
-    <record id="uc_demo_rel_meera_myra" model="unicore.guardian.student.rel">
+    <record id="uc_demo_rel_meera_myra" model="oacis.guardian.student.rel">
       <field name="guardian_id" ref="uc_demo_guardian_meera"/>
       <field name="student_id" ref="uc_demo_student_myra"/>
       <field name="relationship_type">mother</field>
@@ -82,7 +82,7 @@
       <field name="company_id" ref="base.main_company"/>
     </record>
 
-    <record id="uc_demo_rel_ravi_rohan" model="unicore.guardian.student.rel">
+    <record id="uc_demo_rel_ravi_rohan" model="oacis.guardian.student.rel">
       <field name="guardian_id" ref="uc_demo_guardian_ravi"/>
       <field name="student_id" ref="uc_demo_student_rohan"/>
       <field name="relationship_type">father</field>

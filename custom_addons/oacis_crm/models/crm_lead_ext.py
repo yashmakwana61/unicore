@@ -26,9 +26,9 @@ class CrmLead(models.Model):
     _inherit = 'crm.lead'
 
     applicant_id = fields.Many2one(
-        'unicore.admission.applicant', string='Admission Applicant',
+        'oacis.admission.applicant', string='Admission Applicant',
         ondelete='cascade', index=True, copy=False,
-        help='UniCore admission applicant this opportunity mirrors.')
+        help='Oacis admission applicant this opportunity mirrors.')
 
     def write(self, vals):
         res = super().write(vals)
@@ -47,7 +47,7 @@ class CrmLead(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Admission Applicant'),
-            'res_model': 'unicore.admission.applicant',
+            'res_model': 'oacis.admission.applicant',
             'res_id': self.applicant_id.id,
             'view_mode': 'form',
             'views': [(False, 'form')],

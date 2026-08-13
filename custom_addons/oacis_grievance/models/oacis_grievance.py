@@ -3,9 +3,9 @@ from odoo.exceptions import ValidationError
 
 
 class GrievanceCategory(models.Model):
-    _name = 'unicore.grievance.category'
+    _name = 'oacis.grievance.category'
     _description = 'Grievance Category'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
     _order = 'name'
     _check_company_auto = True
 
@@ -14,16 +14,16 @@ class GrievanceCategory(models.Model):
 
 
 class GrievanceTeam(models.Model):
-    _name = 'unicore.grievance.team'
+    _name = 'oacis.grievance.team'
     _description = 'Grievance Resolution Team'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
     _order = 'name'
     _check_company_auto = True
 
     name = fields.Char(string='Team Name', required=True)
     member_ids = fields.Many2many(
         'res.users',
-        'unicore_grievance_team_user_rel',
+        'oacis_grievance_team_user_rel',
         'team_id', 'user_id',
         string='Team Members',
     )
@@ -31,9 +31,9 @@ class GrievanceTeam(models.Model):
 
 
 class GrievanceRequest(models.Model):
-    _name = 'unicore.grievance.request'
+    _name = 'oacis.grievance.request'
     _description = 'Grievance Request'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'create_date desc'
     _check_company_auto = True
     _rec_name = 'id'
@@ -52,7 +52,7 @@ class GrievanceRequest(models.Model):
         required=True,
     )
     category_id = fields.Many2one(
-        'unicore.grievance.category',
+        'oacis.grievance.category',
         string='Category',
         required=True,
         domain="[('company_id', 'in', [company_id, False])]",
@@ -60,7 +60,7 @@ class GrievanceRequest(models.Model):
     )
     description = fields.Text(string='Description', required=True)
     assigned_team_id = fields.Many2one(
-        'unicore.grievance.team',
+        'oacis.grievance.team',
         string='Assigned Team',
         domain="[('company_id', 'in', [company_id, False])]",
         tracking=True,

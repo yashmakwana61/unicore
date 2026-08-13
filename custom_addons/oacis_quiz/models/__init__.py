@@ -1,1 +1,1 @@
-from . import unicore_quiz
+from . import oacis_quiz

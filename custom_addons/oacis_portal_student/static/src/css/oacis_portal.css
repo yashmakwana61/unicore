@@ -3,62 +3,62 @@
     font-weight: 700;
 }
 
-.unicore-attendance-bar {
+.oacis-attendance-bar {
     height: 8px;
     border-radius: 4px;
     background-color: #e9ecef;
 }
 
-.unicore-attendance-bar .fill {
+.oacis-attendance-bar .fill {
     height: 100%;
     border-radius: 4px;
     background-color: #28a745;
 }
 
-.unicore-attendance-bar .fill.warning {
+.oacis-attendance-bar .fill.warning {
     background-color: #ffc107;
 }
 
-.unicore-attendance-bar .fill.danger {
+.oacis-attendance-bar .fill.danger {
     background-color: #dc3545;
 }
 
-.unicore-ticket-card {
+.oacis-ticket-card {
     border-left: 4px solid #007bff;
 }
 
-.unicore-ticket-card.ineligible {
+.oacis-ticket-card.ineligible {
     border-left-color: #dc3545;
 }
 
-.unicore-grade-table .pass {
+.oacis-grade-table .pass {
     background-color: rgba(40, 167, 69, 0.1);
 }
 
-.unicore-grade-table .fail {
+.oacis-grade-table .fail {
     background-color: rgba(220, 53, 69, 0.1);
 }
 
-.unicore-fee-paid {
+.oacis-fee-paid {
     border-left: 4px solid #28a745;
 }
 
-.unicore-fee-overdue {
+.oacis-fee-overdue {
     border-left: 4px solid #dc3545;
 }
 
-.unicore-fee-partial {
+.oacis-fee-partial {
     border-left: 4px solid #ffc107;
 }
 
 /* Sidebar Layout */
-.unicore-portal-layout {
+.oacis-portal-layout {
     max-width: 1320px;
     margin: 0 auto;
     padding: 0 15px;
 }
 
-.unicore-sidebar {
+.oacis-sidebar {
     min-width: 220px;
     max-width: 220px;
     background: #fff;
@@ -69,12 +69,12 @@
     top: 16px;
 }
 
-.unicore-sidebar-toggle {
+.oacis-sidebar-toggle {
     width: 100%;
     text-align: left;
 }
 
-.unicore-nav-item {
+.oacis-nav-item {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -87,45 +87,45 @@
     border-radius: 0;
 }
 
-.unicore-nav-item i {
+.oacis-nav-item i {
     width: 18px;
     text-align: center;
     font-size: 1rem;
 }
 
-.unicore-nav-item:hover {
+.oacis-nav-item:hover {
     background: #f9fafb;
     color: #1d2939;
 }
 
-.unicore-nav-item.active {
+.oacis-nav-item.active {
     background: #f0f4ff;
     color: #175cd3;
     border-left-color: #175cd3;
     font-weight: 600;
 }
 
-.unicore-sidebar-content {
+.oacis-sidebar-content {
     min-width: 0;
 }
 
 /* Sidebar content pages use container-fluid inside */
-.unicore-sidebar-content > .container {
+.oacis-sidebar-content > .container {
     max-width: 100%;
     padding-left: 0;
     padding-right: 0;
 }
 
 /* Assignment cards */
-.unicore-assignment-card {
+.oacis-assignment-card {
     border-left: 4px solid #175cd3;
 }
 
-.unicore-assignment-card.unicore-assignment-due {
+.oacis-assignment-card.oacis-assignment-due {
     border-left-color: #dc3545;
 }
 
-.unicore-assignment-card .card-header {
+.oacis-assignment-card .card-header {
     background: #f8fafc;
 }
 
@@ -134,7 +134,7 @@
         font-size: 1.5rem;
     }
 
-    .unicore-sidebar {
+    .oacis-sidebar {
         min-width: 100%;
         max-width: 100%;
         position: static;

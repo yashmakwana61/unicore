@@ -1,1 +1,1 @@
-from . import unicore_appointment
+from . import oacis_appointment

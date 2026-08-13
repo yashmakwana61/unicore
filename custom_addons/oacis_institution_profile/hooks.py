@@ -1,4 +1,4 @@
-"""Install hooks for unicore_institution_profile.
+"""Install hooks for oacis_institution_profile.
 
 19.0.1.1.0 — driver activation: attach the seeded University (Legacy) profile
 to every company so the institution-profile config actually drives behavior.
@@ -13,7 +13,7 @@ def _backfill_legacy_profile(env):
     relabeling, grading dispatch, feature toggles) with zero observable change.
     """
     legacy = env.ref(
-        'unicore_institution_profile.profile_university_legacy',
+        'oacis_institution_profile.profile_university_legacy',
         raise_if_not_found=False,
     )
     if not legacy:

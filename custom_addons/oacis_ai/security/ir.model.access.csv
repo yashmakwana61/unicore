@@ -1,6 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_unicore_ai_chat_session_user,unicore.ai.chat.session user,model_unicore_ai_chat_session,group_unicore_ai_user,1,1,1,1
-access_unicore_ai_chat_message_user,unicore.ai.chat.message user,model_unicore_ai_chat_message,group_unicore_ai_user,1,1,1,1
-access_unicore_ai_generate_wizard_user,unicore.ai.generate.wizard user,model_unicore_ai_generate_wizard,group_unicore_ai_user,1,1,1,1
-access_unicore_ai_chat_session_manager,unicore.ai.chat.session manager,model_unicore_ai_chat_session,group_unicore_ai_manager,1,1,1,1
-access_unicore_ai_chat_message_manager,unicore.ai.chat.message manager,model_unicore_ai_chat_message,group_unicore_ai_manager,1,1,1,1
+access_oacis_ai_chat_session_user,oacis.ai.chat.session user,model_oacis_ai_chat_session,group_oacis_ai_user,1,1,1,1
+access_oacis_ai_chat_message_user,oacis.ai.chat.message user,model_oacis_ai_chat_message,group_oacis_ai_user,1,1,1,1
+access_oacis_ai_generate_wizard_user,oacis.ai.generate.wizard user,model_oacis_ai_generate_wizard,group_oacis_ai_user,1,1,1,1
+access_oacis_ai_chat_session_manager,oacis.ai.chat.session manager,model_oacis_ai_chat_session,group_oacis_ai_manager,1,1,1,1
+access_oacis_ai_chat_message_manager,oacis.ai.chat.message manager,model_oacis_ai_chat_message,group_oacis_ai_manager,1,1,1,1

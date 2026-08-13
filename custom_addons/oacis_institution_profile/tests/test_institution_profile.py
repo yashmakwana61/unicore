@@ -1,4 +1,4 @@
-"""Smoke / regression suite for unicore_institution_profile (Phase 0).
+"""Smoke / regression suite for oacis_institution_profile (Phase 0).
 
 Verifies the seeded University-Legacy profile (the compatibility shim),
 terminology defaults, the nullable res.company wiring, and the profile/feature
@@ -12,18 +12,18 @@ import odoo
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'unit')
-class UniCoreInstitutionProfileTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'unit')
+class OacisInstitutionProfileTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
 
         cls.profile_legacy = cls.env.ref(
-            'unicore_institution_profile.profile_university_legacy')
+            'oacis_institution_profile.profile_university_legacy')
         cls.terminology_legacy = cls.env.ref(
-            'unicore_institution_profile.terminology_university_legacy')
-        cls.feature_ids = cls.env['unicore.institution.feature'].search(
+            'oacis_institution_profile.terminology_university_legacy')
+        cls.feature_ids = cls.env['oacis.institution.feature'].search(
             [], order='sequence')
 
     def test_01_seed_institution_profile(self):
@@ -86,18 +86,18 @@ class UniCoreInstitutionProfileTest(TransactionCase):
     def test_06_unique_profile_code(self):
         """Profile codes must be unique."""
         with self.assertRaises(IntegrityError):
-            self.env['unicore.institution.profile'].create({
+            self.env['oacis.institution.profile'].create({
                 'name': 'Duplicate', 'code': 'UNI_LEGACY',
             })
 
     def test_07_action_open_institution_profiles(self):
         """Convenience action opens the profile list."""
         action = self.profile_legacy.action_open_institution_profiles()
-        self.assertEqual(action['res_model'], 'unicore.institution.profile')
+        self.assertEqual(action['res_model'], 'oacis.institution.profile')
 
     def test_08_create_school_like_profile(self):
         """A school-style profile can be modeled without legacy flag."""
-        school = self.env['unicore.institution.profile'].create({
+        school = self.env['oacis.institution.profile'].create({
             'name': 'K-12 School (Pilot)',
             'code': 'K12_PILOT',
             'institution_type': 'school',

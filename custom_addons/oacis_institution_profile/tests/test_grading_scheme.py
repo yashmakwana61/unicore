@@ -4,8 +4,8 @@ import odoo
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'unit')
-class UniCoreGradingSchemeTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'unit')
+class OacisGradingSchemeTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
@@ -15,7 +15,7 @@ class UniCoreGradingSchemeTest(TransactionCase):
         cls.company.institution_profile_id = False
 
     def test_01_scheme_create(self):
-        scheme = self.env['unicore.grading.scheme'].create({
+        scheme = self.env['oacis.grading.scheme'].create({
             'name': 'Test Credit GPA',
             'code': 'TEST_CGPA',
             'scheme_type': 'credit_gpa',
@@ -25,13 +25,13 @@ class UniCoreGradingSchemeTest(TransactionCase):
         self.assertEqual(scheme.name, 'Test Credit GPA')
 
     def test_02_scheme_code_unique(self):
-        self.env['unicore.grading.scheme'].create({
+        self.env['oacis.grading.scheme'].create({
             'name': 'Test Weighted',
             'code': 'TEST_WPCT',
             'scheme_type': 'weighted_percentage',
         })
         with self.assertRaises(IntegrityError):
-            self.env['unicore.grading.scheme'].create({
+            self.env['oacis.grading.scheme'].create({
                 'name': 'Test Duplicate',
                 'code': 'TEST_WPCT',
                 'scheme_type': 'simple_percentage',
@@ -39,13 +39,13 @@ class UniCoreGradingSchemeTest(TransactionCase):
 
     def test_03_seeded_schemes_exist(self):
         scheme = self.env.ref(
-            'unicore_institution_profile.grading_scheme_credit_gpa',
+            'oacis_institution_profile.grading_scheme_credit_gpa',
         )
         self.assertEqual(scheme.scheme_type, 'credit_gpa')
         self.assertTrue(scheme.is_default)
 
     def test_04_profile_effective_scheme_legacy_fallback(self):
-        profile = self.env['unicore.institution.profile'].create({
+        profile = self.env['oacis.institution.profile'].create({
             'name': 'Test Legacy Profile',
             'code': 'TEST-LEGACY',
             'is_legacy_university': True,
@@ -55,9 +55,9 @@ class UniCoreGradingSchemeTest(TransactionCase):
 
     def test_05_profile_effective_scheme_scheme_record(self):
         scheme = self.env.ref(
-            'unicore_institution_profile.grading_scheme_simple_percentage',
+            'oacis_institution_profile.grading_scheme_simple_percentage',
         )
-        profile = self.env['unicore.institution.profile'].create({
+        profile = self.env['oacis.institution.profile'].create({
             'name': 'Test School Profile',
             'code': 'TEST-SCHOOL',
             'institution_type': 'school',
@@ -76,7 +76,7 @@ class UniCoreGradingSchemeTest(TransactionCase):
         )
 
     def test_07_company_helper_profile_legacy(self):
-        profile = self.env['unicore.institution.profile'].create({
+        profile = self.env['oacis.institution.profile'].create({
             'name': 'Test Legacy Profile 2',
             'code': 'TEST-LEGACY2',
             'is_legacy_university': True,
@@ -89,9 +89,9 @@ class UniCoreGradingSchemeTest(TransactionCase):
 
     def test_08_company_helper_profile_scheme_record(self):
         scheme = self.env.ref(
-            'unicore_institution_profile.grading_scheme_pass_fail',
+            'oacis_institution_profile.grading_scheme_pass_fail',
         )
-        profile = self.env['unicore.institution.profile'].create({
+        profile = self.env['oacis.institution.profile'].create({
             'name': 'Test PF Profile',
             'code': 'TEST-PF',
             'institution_type': 'school',

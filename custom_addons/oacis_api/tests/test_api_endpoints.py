@@ -5,8 +5,8 @@ from odoo.tests import tagged
 from odoo.tests.common import HttpCase
 
 
-@tagged('unicore', 'api', 'post_install', '-at_install')
-class UniCoreApiEndpointTest(HttpCase):
+@tagged('oacis', 'api', 'post_install', '-at_install')
+class OacisApiEndpointTest(HttpCase):
 
     @classmethod
     def setUpClass(cls):
@@ -14,17 +14,17 @@ class UniCoreApiEndpointTest(HttpCase):
 
         cls.company = cls.env.company
 
-        faculty = cls.env['unicore.faculty'].create({
+        faculty = cls.env['oacis.faculty'].create({
             'name': 'Faculty of Science',
             'code': 'FOS',
             'company_id': cls.company.id,
         })
-        department = cls.env['unicore.department'].create({
+        department = cls.env['oacis.department'].create({
             'name': 'Mathematics',
             'code': 'MATH',
             'faculty_id': faculty.id,
         })
-        cls.program = cls.env['unicore.program'].create({
+        cls.program = cls.env['oacis.program'].create({
             'name': 'B.Sc. Mathematics',
             'code': 'BSM',
             'degree_title': 'Bachelor of Science',
@@ -35,20 +35,20 @@ class UniCoreApiEndpointTest(HttpCase):
             'department_id': department.id,
         })
 
-        cls.campus = cls.env['unicore.campus'].create({
+        cls.campus = cls.env['oacis.campus'].create({
             'name': 'Main Campus',
             'code': 'MNC',
             'company_id': cls.company.id,
         })
 
-        cls.academic_year = cls.env['unicore.academic.year'].create({
+        cls.academic_year = cls.env['oacis.academic.year'].create({
             'name': '2025-2026',
             'code': '2025-26',
             'date_start': '2025-06-01',
             'date_end': '2026-05-31',
         })
 
-        cls.semester = cls.env['unicore.semester'].create({
+        cls.semester = cls.env['oacis.semester'].create({
             'name': 'Semester 1',
             'code': 'S1',
             'academic_year_id': cls.academic_year.id,
@@ -57,17 +57,17 @@ class UniCoreApiEndpointTest(HttpCase):
             'semester_state': 'ongoing',
         })
 
-        course = cls.env['unicore.course'].create({
+        course = cls.env['oacis.course'].create({
             'name': 'Calculus I',
             'code': 'MATH101',
             'department_id': department.id,
             'course_state': 'active',
         })
 
-        faculty_member = cls.env['unicore.faculty.member'].create({
+        faculty_member = cls.env['oacis.faculty.member'].create({
             'name': 'Prof. Smith',
             'last_name': 'Smith',
-            'email': 'smith@unicore.edu',
+            'email': 'smith@oacis.edu',
             'mobile': '1111111111',
             'gender': 'male',
             'academic_faculty_id': faculty.id,
@@ -76,7 +76,7 @@ class UniCoreApiEndpointTest(HttpCase):
             'joining_date': fields.Date.today(),
         })
 
-        cls.offering = cls.env['unicore.course.offering'].create({
+        cls.offering = cls.env['oacis.course.offering'].create({
             'course_id': course.id,
             'program_id': cls.program.id,
             'academic_year_id': cls.academic_year.id,
@@ -86,7 +86,7 @@ class UniCoreApiEndpointTest(HttpCase):
             'faculty_member_id': faculty_member.id,
         })
 
-        cls.test_student = cls.env['unicore.student'].create({
+        cls.test_student = cls.env['oacis.student'].create({
             'name': 'Test',
             'last_name': 'API Student',
             'email': 'test.api@uni.edu',
@@ -103,21 +103,21 @@ class UniCoreApiEndpointTest(HttpCase):
 
         admin_user = cls.env.ref('base.user_admin')
 
-        cls.read_key = cls.env['unicore.api.key'].create({
+        cls.read_key = cls.env['oacis.api.key'].create({
             'name': 'Read Test Key',
             'user_id': admin_user.id,
             'scope': 'read_only',
             'daily_limit': 1000,
         })
 
-        cls.full_key = cls.env['unicore.api.key'].create({
+        cls.full_key = cls.env['oacis.api.key'].create({
             'name': 'Full Test Key',
             'user_id': admin_user.id,
             'scope': 'full',
             'daily_limit': 1000,
         })
 
-        cls.notify_key = cls.env['unicore.api.key'].create({
+        cls.notify_key = cls.env['oacis.api.key'].create({
             'name': 'Notify Test Key',
             'user_id': admin_user.id,
             'scope': 'notify_only',
@@ -131,8 +131,8 @@ class UniCoreApiEndpointTest(HttpCase):
     def _api_get(self, path, key=None, params=None):
         headers = {}
         if key:
-            headers['X-UniCore-Key'] = key.token
-        url = '/api/unicore/v1' + path
+            headers['X-Oacis-Key'] = key.token
+        url = '/api/oacis/v1' + path
         if params:
             query = '&'.join(
                 '%s=%s' % (k, v)
@@ -145,8 +145,8 @@ class UniCoreApiEndpointTest(HttpCase):
     def _api_post(self, path, key=None, body=None):
         headers = {'Content-Type': 'application/json'}
         if key:
-            headers['X-UniCore-Key'] = key.token
-        url = '/api/unicore/v1' + path
+            headers['X-Oacis-Key'] = key.token
+        url = '/api/oacis/v1' + path
         data = json.dumps(body or {}).encode()
         response = self.url_open(url, data=data, headers=headers)
         return response
@@ -164,7 +164,7 @@ class UniCoreApiEndpointTest(HttpCase):
         data = self._json(response)
         self.assertTrue(data['success'])
         self.assertEqual(data['data']['status'], 'UP')
-        self.assertEqual(data['data']['service'], 'UniCore API')
+        self.assertEqual(data['data']['service'], 'Oacis API')
 
     def test_02_info_endpoint(self):
         response = self._api_get('/info', key=self.read_key)
@@ -187,9 +187,9 @@ class UniCoreApiEndpointTest(HttpCase):
         self.assertEqual(data['code'], 'UNAUTHORIZED')
 
     def test_04_invalid_key_returns_401(self):
-        headers = {'X-UniCore-Key': 'fake_key_xyz'}
+        headers = {'X-Oacis-Key': 'fake_key_xyz'}
         response = self.url_open(
-            '/api/unicore/v1/students', headers=headers,
+            '/api/oacis/v1/students', headers=headers,
         )
         self.assertEqual(response.status_code, 401)
         data = self._json(response)

@@ -3,9 +3,9 @@ from odoo.exceptions import ValidationError
 
 
 class Skill(models.Model):
-    _name = 'unicore.skill'
+    _name = 'oacis.skill'
     _description = 'Skill'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
     _order = 'category, name'
     _check_company_auto = True
 
@@ -21,15 +21,15 @@ class Skill(models.Model):
 
 
 class StudentSkillAssessment(models.Model):
-    _name = 'unicore.student.skill.assessment'
+    _name = 'oacis.student.skill.assessment'
     _description = 'Student Skill Assessment'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'date_assessed desc'
     _check_company_auto = True
     _rec_name = 'name'
 
     student_id = fields.Many2one(
-        'unicore.student',
+        'oacis.student',
         string='Student',
         required=True,
         ondelete='cascade',
@@ -42,14 +42,14 @@ class StudentSkillAssessment(models.Model):
         store=True,
     )
     skill_id = fields.Many2one(
-        'unicore.skill',
+        'oacis.skill',
         string='Skill',
         required=True,
         domain="[('company_id', 'in', [company_id, False])]",
         tracking=True,
     )
     assessed_by_id = fields.Many2one(
-        'unicore.faculty.member',
+        'oacis.faculty.member',
         string='Assessed By',
         required=True,
     )

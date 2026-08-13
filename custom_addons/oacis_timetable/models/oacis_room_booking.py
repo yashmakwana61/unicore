@@ -1,5 +1,5 @@
 """
-UniCore Room Booking Model
+Oacis Room Booking Model
 Represents a one-off, non-recurring room reservation
 that exists outside the regular weekly timetable
 pattern — e.g. guest lectures, makeup classes,
@@ -15,10 +15,10 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreRoomBooking(models.Model):
-    _name = 'unicore.room.booking'
+class OacisRoomBooking(models.Model):
+    _name = 'oacis.room.booking'
     _description = 'Ad-Hoc Room Booking'
-    _inherit = ['unicore.mixin', 'mail.thread']
+    _inherit = ['oacis.mixin', 'mail.thread']
     _order = 'booking_date, time_slot_id'
     _check_company_auto = True
 
@@ -38,7 +38,7 @@ class UniCoreRoomBooking(models.Model):
     )
 
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus',
+        comodel_name='oacis.campus',
         string='Campus',
         required=True,
         ondelete='restrict',
@@ -46,7 +46,7 @@ class UniCoreRoomBooking(models.Model):
     )
 
     room_id = fields.Many2one(
-        comodel_name='unicore.room',
+        comodel_name='oacis.room',
         string='Room',
         required=True,
         ondelete='restrict',
@@ -77,7 +77,7 @@ class UniCoreRoomBooking(models.Model):
     )
 
     time_slot_id = fields.Many2one(
-        comodel_name='unicore.time.slot',
+        comodel_name='oacis.time.slot',
         string='Time Slot',
         required=True,
         ondelete='restrict',
@@ -85,7 +85,7 @@ class UniCoreRoomBooking(models.Model):
     )
 
     requested_by_id = fields.Many2one(
-        comodel_name='unicore.faculty.member',
+        comodel_name='oacis.faculty.member',
         string='Requested By',
         tracking=True,
     )
@@ -106,7 +106,7 @@ class UniCoreRoomBooking(models.Model):
     )
 
     related_course_offering_id = fields.Many2one(
-        comodel_name='unicore.course.offering',
+        comodel_name='oacis.course.offering',
         string='Related Course Offering',
         help='Optional: link to a course offering if '
              'this is a makeup class',
@@ -165,7 +165,7 @@ class UniCoreRoomBooking(models.Model):
                 )
 
             # Check against recurring timetable entries
-            TimetableEntry = self.env['unicore.timetable.entry']
+            TimetableEntry = self.env['oacis.timetable.entry']
             conflicting_entries = TimetableEntry.search([
                 ('room_id', '=', rec.room_id.id),
                 ('day_of_week', '=', rec.day_of_week),

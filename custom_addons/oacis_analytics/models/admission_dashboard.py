@@ -7,7 +7,7 @@ _logger = logging.getLogger(__name__)
 
 class AdmissionApplicantDashboard(models.Model):
     """Extend admission applicant with dashboard aggregation method."""
-    _inherit = 'unicore.admission.applicant'
+    _inherit = 'oacis.admission.applicant'
 
     @api.model
     def get_admission_dashboard_data(self, domain=None):

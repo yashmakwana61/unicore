@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_enrollment_activity_view" model="ir.ui.view">
-        <field name="name">unicore.enrollment.activity</field>
-        <field name="model">unicore.enrollment</field>
+    <record id="oacis_enrollment_activity_view" model="ir.ui.view">
+        <field name="name">oacis.enrollment.activity</field>
+        <field name="model">oacis.enrollment</field>
         <field name="arch" type="xml">
             <activity string="Enrollment Activities"/>
         </field>

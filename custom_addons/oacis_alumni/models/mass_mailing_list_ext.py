@@ -4,8 +4,8 @@ from odoo import api, fields, models
 class MassMailingListExt(models.Model):
     _inherit = 'mailing.list'
 
-    unicore_alumni_list = fields.Boolean(
-        string='UniCore Alumni List',
+    oacis_alumni_list = fields.Boolean(
+        string='Oacis Alumni List',
         help='Mark this mailing list as an alumni engagement list.',
     )
     alumni_contact_count = fields.Integer(

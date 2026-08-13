@@ -2,12 +2,12 @@ from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
-class UnicoreStudentAcademicHistory(models.Model):
+class OacisStudentAcademicHistory(models.Model):
     """Academic history records storing past enrollments, year/semester results."""
 
-    _name = 'unicore.student.academic.history'
+    _name = 'oacis.student.academic.history'
     _description = 'Student Academic History'
-    _inherit = ['unicore.mixin', 'mail.thread']
+    _inherit = ['oacis.mixin', 'mail.thread']
     _order = 'academic_year_id desc, semester_id desc'
     _check_company_auto = True
     _rec_name = 'display_name'
@@ -17,7 +17,7 @@ class UnicoreStudentAcademicHistory(models.Model):
     )
 
     student_id = fields.Many2one(
-        comodel_name='unicore.student', string='Student',
+        comodel_name='oacis.student', string='Student',
         required=True, ondelete='cascade',
     )
     company_id = fields.Many2one(
@@ -25,16 +25,16 @@ class UnicoreStudentAcademicHistory(models.Model):
         related='student_id.company_id', store=True, readonly=True,
     )
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus', string='Campus',
+        comodel_name='oacis.campus', string='Campus',
         related='student_id.campus_id', store=True, readonly=True,
     )
 
     academic_year_id = fields.Many2one(
-        comodel_name='unicore.academic.year', string='Academic Year',
+        comodel_name='oacis.academic.year', string='Academic Year',
         required=True,
     )
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester', string='Semester',
+        comodel_name='oacis.semester', string='Semester',
         domain="[('academic_year_id', '=', academic_year_id)]",
         required=True,
     )

@@ -1,23 +1,23 @@
 from odoo import fields, models
 
 
-class UnicoreGradingScheme(models.Model):
+class OacisGradingScheme(models.Model):
     """Grading scheme strategy record (Phase 2).
 
     One record per grading strategy (credit_gpa, weighted/simple percentage,
     rubric / standards based, pass_fail, certificate / completion only).
     An institution profile points at one scheme via
-    ``unicore.institution.profile.grading_scheme_id``; the legacy
+    ``oacis.institution.profile.grading_scheme_id``; the legacy
     ``grading_scheme`` Selection on the profile stays as the fallback so unset
     profiles keep 100% of current behavior (zero regression).
 
-    The grading dispatch (``unicore.grade.entry``) keys on the resolved
+    The grading dispatch (``oacis.grade.entry``) keys on the resolved
     ``scheme_type`` of the effective scheme for a company.
     """
 
-    _name = 'unicore.grading.scheme'
+    _name = 'oacis.grading.scheme'
     _description = 'Grading Scheme'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
     _order = 'sequence, name'
 
     name = fields.Char(

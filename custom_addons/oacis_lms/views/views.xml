@@ -2,9 +2,9 @@
   <data>
     <!-- explicit list view definition -->
 <!--
-    <record model="ir.ui.view" id="unicore_lms.list">
-      <field name="name">unicore_lms list</field>
-      <field name="model">unicore_lms.unicore_lms</field>
+    <record model="ir.ui.view" id="oacis_lms.list">
+      <field name="name">oacis_lms list</field>
+      <field name="model">oacis_lms.oacis_lms</field>
       <field name="arch" type="xml">
         <list>
           <field name="name"/>
@@ -17,18 +17,18 @@
 
     <!-- actions opening views on models -->
 <!--
-    <record model="ir.actions.act_window" id="unicore_lms.action_window">
-      <field name="name">unicore_lms window</field>
-      <field name="res_model">unicore_lms.unicore_lms</field>
+    <record model="ir.actions.act_window" id="oacis_lms.action_window">
+      <field name="name">oacis_lms window</field>
+      <field name="res_model">oacis_lms.oacis_lms</field>
       <field name="view_mode">list,form</field>
     </record>
 -->
 
     <!-- server action to the one above -->
 <!--
-    <record model="ir.actions.server" id="unicore_lms.action_server">
-      <field name="name">unicore_lms server</field>
-      <field name="model_id" ref="model_unicore_lms_unicore_lms"/>
+    <record model="ir.actions.server" id="oacis_lms.action_server">
+      <field name="name">oacis_lms server</field>
+      <field name="model_id" ref="model_oacis_lms_oacis_lms"/>
       <field name="state">code</field>
       <field name="code">
         action = {
@@ -42,19 +42,19 @@
 
     <!-- Top menu item -->
 <!--
-    <menuitem name="unicore_lms" id="unicore_lms.menu_root"/>
+    <menuitem name="oacis_lms" id="oacis_lms.menu_root"/>
 -->
     <!-- menu categories -->
 <!--
-    <menuitem name="Menu 1" id="unicore_lms.menu_1" parent="unicore_lms.menu_root"/>
-    <menuitem name="Menu 2" id="unicore_lms.menu_2" parent="unicore_lms.menu_root"/>
+    <menuitem name="Menu 1" id="oacis_lms.menu_1" parent="oacis_lms.menu_root"/>
+    <menuitem name="Menu 2" id="oacis_lms.menu_2" parent="oacis_lms.menu_root"/>
 -->
     <!-- actions -->
 <!--
-    <menuitem name="List" id="unicore_lms.menu_1_list" parent="unicore_lms.menu_1"
-              action="unicore_lms.action_window"/>
-    <menuitem name="Server to list" id="unicore_lms" parent="unicore_lms.menu_2"
-              action="unicore_lms.action_server"/>
+    <menuitem name="List" id="oacis_lms.menu_1_list" parent="oacis_lms.menu_1"
+              action="oacis_lms.action_window"/>
+    <menuitem name="Server to list" id="oacis_lms" parent="oacis_lms.menu_2"
+              action="oacis_lms.action_server"/>
 -->
   </data>
 </odoo>

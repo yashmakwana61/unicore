@@ -2,12 +2,12 @@ from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
-class UnicoreStudentEmergencyContact(models.Model):
+class OacisStudentEmergencyContact(models.Model):
     """Emergency contact and guardian information for students."""
 
-    _name = 'unicore.student.emergency.contact'
+    _name = 'oacis.student.emergency.contact'
     _description = 'Student Emergency Contact / Guardian'
-    _inherit = ['unicore.mixin', 'mail.thread']
+    _inherit = ['oacis.mixin', 'mail.thread']
     _order = 'is_primary desc, sequence, name'
     _check_company_auto = True
     _rec_name = 'name'
@@ -45,7 +45,7 @@ class UnicoreStudentEmergencyContact(models.Model):
     notes = fields.Text(string='Notes')
 
     student_id = fields.Many2one(
-        comodel_name='unicore.student', string='Student',
+        comodel_name='oacis.student', string='Student',
         required=True, ondelete='cascade',
     )
     company_id = fields.Many2one(
@@ -53,7 +53,7 @@ class UnicoreStudentEmergencyContact(models.Model):
         related='student_id.company_id', store=True, readonly=True,
     )
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus', string='Campus',
+        comodel_name='oacis.campus', string='Campus',
         related='student_id.campus_id', store=True, readonly=True,
     )
 

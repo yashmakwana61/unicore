@@ -2,18 +2,18 @@
 <odoo>
 
     <!-- Window Action -->
-    <record id="action_unicore_room" model="ir.actions.act_window">
+    <record id="action_oacis_room" model="ir.actions.act_window">
         <field name="name">Rooms</field>
-        <field name="res_model">unicore.room</field>
+        <field name="res_model">oacis.room</field>
         <field name="view_mode">list,form,kanban</field>
         <field name="domain">[]</field>
         <field name="context">{}</field>
     </record>
 
     <!-- Form View -->
-    <record id="unicore_room_form_view" model="ir.ui.view">
-        <field name="name">unicore.room.form</field>
-        <field name="model">unicore.room</field>
+    <record id="oacis_room_form_view" model="ir.ui.view">
+        <field name="name">oacis.room.form</field>
+        <field name="model">oacis.room</field>
         <field name="arch" type="xml">
             <form>
                 <header>
@@ -48,9 +48,9 @@
     </record>
 
     <!-- List View -->
-    <record id="unicore_room_list_view" model="ir.ui.view">
-        <field name="name">unicore.room.list</field>
-        <field name="model">unicore.room</field>
+    <record id="oacis_room_list_view" model="ir.ui.view">
+        <field name="name">oacis.room.list</field>
+        <field name="model">oacis.room</field>
         <field name="arch" type="xml">
             <list>
                 <field name="code"/>
@@ -67,9 +67,9 @@
     </record>
 
     <!-- Search View -->
-    <record id="unicore_room_search_view" model="ir.ui.view">
-        <field name="name">unicore.room.search</field>
-        <field name="model">unicore.room</field>
+    <record id="oacis_room_search_view" model="ir.ui.view">
+        <field name="name">oacis.room.search</field>
+        <field name="model">oacis.room</field>
         <field name="arch" type="xml">
             <search>
                 <field name="name"/>
@@ -95,9 +95,9 @@
     </record>
 
     <!-- Kanban View -->
-    <record id="unicore_room_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.room.kanban</field>
-        <field name="model">unicore.room</field>
+    <record id="oacis_room_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.room.kanban</field>
+        <field name="model">oacis.room</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color">
                 <field name="code"/>

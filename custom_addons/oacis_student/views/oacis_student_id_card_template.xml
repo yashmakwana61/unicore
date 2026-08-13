@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="unicore_student_id_card_template">
+    <template id="oacis_student_id_card_template">
         <t t-call="web.html_container">
             <div class="page">
                 <t t-foreach="docs" t-as="student">
@@ -69,7 +69,7 @@
         </t>
     </template>
 
-    <template id="unicore_student_id_card_template_no_inherit">
+    <template id="oacis_student_id_card_template_no_inherit">
         <style>
             .id-card {
                 width: 85.6mm;

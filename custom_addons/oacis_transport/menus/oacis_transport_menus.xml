@@ -3,83 +3,83 @@
 
   <!-- ROOT MENU — Standalone App -->
   <menuitem
-    id="menu_unicore_transport_root"
+    id="menu_oacis_transport_root"
     name="Transport"
     sequence="190"
-    web_icon="unicore_transport,static/description/icon.png"
-    groups="unicore_base.group_unicore_staff,unicore_base.group_unicore_admin"/>
+    web_icon="oacis_transport,static/description/icon.png"
+    groups="oacis_base.group_oacis_staff,oacis_base.group_oacis_admin"/>
 
   <!-- Passes -->
   <menuitem
-    id="menu_unicore_transport_passes"
+    id="menu_oacis_transport_passes"
     name="Transport Passes"
-    parent="menu_unicore_transport_root"
+    parent="menu_oacis_transport_root"
     sequence="10"
-    groups="unicore_base.group_unicore_staff"/>
+    groups="oacis_base.group_oacis_staff"/>
 
   <menuitem
-    id="menu_unicore_transport_pass_active"
+    id="menu_oacis_transport_pass_active"
     name="Active Passes"
-    parent="menu_unicore_transport_passes"
-    action="action_unicore_transport_pass"
+    parent="menu_oacis_transport_passes"
+    action="action_oacis_transport_pass"
     sequence="10"
-    groups="unicore_base.group_unicore_staff"/>
+    groups="oacis_base.group_oacis_staff"/>
 
   <menuitem
-    id="menu_unicore_transport_fee_pending"
+    id="menu_oacis_transport_fee_pending"
     name="Fee Pending"
-    parent="menu_unicore_transport_passes"
-    action="action_unicore_transport_fee_pending"
+    parent="menu_oacis_transport_passes"
+    action="action_oacis_transport_fee_pending"
     sequence="20"
-    groups="unicore_base.group_unicore_staff"/>
+    groups="oacis_base.group_oacis_staff"/>
 
   <!-- Trip Logs -->
   <menuitem
-    id="menu_unicore_transport_trips"
+    id="menu_oacis_transport_trips"
     name="Trip Logs"
-    parent="menu_unicore_transport_root"
+    parent="menu_oacis_transport_root"
     sequence="20"
-    groups="unicore_base.group_unicore_staff"/>
+    groups="oacis_base.group_oacis_staff"/>
 
   <menuitem
-    id="menu_unicore_transport_trip_today"
+    id="menu_oacis_transport_trip_today"
     name="Today's Trips"
-    parent="menu_unicore_transport_trips"
-    action="action_unicore_transport_trip"
+    parent="menu_oacis_transport_trips"
+    action="action_oacis_transport_trip"
     sequence="10"
-    groups="unicore_base.group_unicore_staff"/>
+    groups="oacis_base.group_oacis_staff"/>
 
   <menuitem
-    id="menu_unicore_transport_incidents"
+    id="menu_oacis_transport_incidents"
     name="Incident Reports"
-    parent="menu_unicore_transport_trips"
-    action="action_unicore_transport_trip_incidents"
+    parent="menu_oacis_transport_trips"
+    action="action_oacis_transport_trip_incidents"
     sequence="20"
-    groups="unicore_base.group_unicore_staff"/>
+    groups="oacis_base.group_oacis_staff"/>
 
   <!-- Routes -->
   <menuitem
-    id="menu_unicore_transport_routes"
+    id="menu_oacis_transport_routes"
     name="Routes"
-    parent="menu_unicore_transport_root"
-    action="action_unicore_transport_route"
+    parent="menu_oacis_transport_root"
+    action="action_oacis_transport_route"
     sequence="30"
-    groups="unicore_base.group_unicore_staff"/>
+    groups="oacis_base.group_oacis_staff"/>
 
   <!-- Configuration -->
   <menuitem
-    id="menu_unicore_transport_config"
+    id="menu_oacis_transport_config"
     name="Configuration"
-    parent="menu_unicore_transport_root"
+    parent="menu_oacis_transport_root"
     sequence="90"
-    groups="unicore_base.group_unicore_admin"/>
+    groups="oacis_base.group_oacis_admin"/>
 
   <menuitem
-    id="menu_unicore_transport_vehicles"
+    id="menu_oacis_transport_vehicles"
     name="Vehicles"
-    parent="menu_unicore_transport_config"
-    action="action_unicore_transport_vehicle"
+    parent="menu_oacis_transport_config"
+    action="action_oacis_transport_vehicle"
     sequence="10"
-    groups="unicore_base.group_unicore_admin"/>
+    groups="oacis_base.group_oacis_admin"/>
 
 </odoo>

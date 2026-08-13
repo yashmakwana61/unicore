@@ -2,7 +2,7 @@
 <odoo>
   <data noupdate="1">
     <!-- ========== FEE DUE REMINDER ========== -->
-    <record id="template_fee_due_email" model="unicore.notification.template">
+    <record id="template_fee_due_email" model="oacis.notification.template">
       <field name="name">Fee Due Reminder — Email</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">fee_due</field>
@@ -26,7 +26,7 @@
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-    <record id="template_fee_due_whatsapp" model="unicore.notification.template">
+    <record id="template_fee_due_whatsapp" model="oacis.notification.template">
       <field name="name">Fee Due Reminder — WhatsApp</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">fee_due</field>
@@ -46,7 +46,7 @@ Visit the student portal or finance office.</field>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-    <record id="template_fee_due_inapp" model="unicore.notification.template">
+    <record id="template_fee_due_inapp" model="oacis.notification.template">
       <field name="name">Fee Due Reminder — In-App</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">fee_due</field>
@@ -59,7 +59,7 @@ Visit the student portal or finance office.</field>
       <field name="active" eval="True"/>
     </record>
     <!-- ========== FEE OVERDUE ALERT ========== -->
-    <record id="template_fee_overdue_email" model="unicore.notification.template">
+    <record id="template_fee_overdue_email" model="oacis.notification.template">
       <field name="name">Fee Overdue Alert — Email</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">fee_overdue</field>
@@ -83,7 +83,7 @@ Visit the student portal or finance office.</field>
       <field name="active" eval="True"/>
     </record>
     <!-- ========== FEE PAID CONFIRMATION ========== -->
-    <record id="template_fee_paid_email" model="unicore.notification.template">
+    <record id="template_fee_paid_email" model="oacis.notification.template">
       <field name="name">Fee Payment Confirmation — Email</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">fee_paid</field>
@@ -105,7 +105,7 @@ Visit the student portal or finance office.</field>
       <field name="active" eval="True"/>
     </record>
     <!-- ========== ATTENDANCE SHORTAGE ========== -->
-    <record id="template_attendance_shortage_email" model="unicore.notification.template">
+    <record id="template_attendance_shortage_email" model="oacis.notification.template">
       <field name="name">Attendance Shortage Alert — Email</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">attendance_shortage</field>
@@ -128,7 +128,7 @@ Visit the student portal or finance office.</field>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-    <record id="template_attendance_shortage_whatsapp" model="unicore.notification.template">
+    <record id="template_attendance_shortage_whatsapp" model="oacis.notification.template">
       <field name="name">Attendance Shortage Alert — WhatsApp</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">attendance_shortage</field>
@@ -146,7 +146,7 @@ Please attend classes regularly to avoid being debarred from exams.</field>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-    <record id="template_attendance_shortage_inapp" model="unicore.notification.template">
+    <record id="template_attendance_shortage_inapp" model="oacis.notification.template">
       <field name="name">Attendance Shortage Alert — In-App</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">attendance_shortage</field>
@@ -159,7 +159,7 @@ Please attend classes regularly to avoid being debarred from exams.</field>
       <field name="active" eval="True"/>
     </record>
     <!-- ========== EXAM REMINDER ========== -->
-    <record id="template_exam_reminder_email" model="unicore.notification.template">
+    <record id="template_exam_reminder_email" model="oacis.notification.template">
       <field name="name">Exam Reminder — Email</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">exam_reminder</field>
@@ -183,7 +183,7 @@ Please attend classes regularly to avoid being debarred from exams.</field>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-    <record id="template_exam_reminder_whatsapp" model="unicore.notification.template">
+    <record id="template_exam_reminder_whatsapp" model="oacis.notification.template">
       <field name="name">Exam Reminder — WhatsApp</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">exam_reminder</field>
@@ -202,7 +202,7 @@ Carry your hall ticket and ID card. Best of luck!</field>
       <field name="active" eval="True"/>
     </record>
     <!-- ========== RESULT PUBLISHED ========== -->
-    <record id="template_result_published_email" model="unicore.notification.template">
+    <record id="template_result_published_email" model="oacis.notification.template">
       <field name="name">Result Published — Email</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">result_published</field>
@@ -224,7 +224,7 @@ Carry your hall ticket and ID card. Best of luck!</field>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-    <record id="template_result_published_inapp" model="unicore.notification.template">
+    <record id="template_result_published_inapp" model="oacis.notification.template">
       <field name="name">Result Published — In-App</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">result_published</field>
@@ -237,7 +237,7 @@ Carry your hall ticket and ID card. Best of luck!</field>
       <field name="active" eval="True"/>
     </record>
     <!-- ========== ENROLLMENT CONFIRMED ========== -->
-    <record id="template_enrollment_confirmed_email" model="unicore.notification.template">
+    <record id="template_enrollment_confirmed_email" model="oacis.notification.template">
       <field name="name">Enrollment Confirmed — Email</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">enrollment_confirmed</field>
@@ -258,7 +258,7 @@ Carry your hall ticket and ID card. Best of luck!</field>
       <field name="active" eval="True"/>
     </record>
     <!-- ========== SCHOLARSHIP APPROVED ========== -->
-    <record id="template_scholarship_approved_email" model="unicore.notification.template">
+    <record id="template_scholarship_approved_email" model="oacis.notification.template">
       <field name="name">Scholarship Approved — Email</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">scholarship_approved</field>
@@ -282,7 +282,7 @@ Carry your hall ticket and ID card. Best of luck!</field>
       <field name="active" eval="True"/>
     </record>
     <!-- ========== WELCOME / ADMISSION ========== -->
-    <record id="template_welcome_email" model="unicore.notification.template">
+    <record id="template_welcome_email" model="oacis.notification.template">
       <field name="name">Welcome — Email</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">welcome</field>

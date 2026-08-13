@@ -1,5 +1,5 @@
 """
-UniCore Enrollment Waitlist Model
+Oacis Enrollment Waitlist Model
 Queue entry created automatically when a student
 attempts to enroll in a full course offering.
 Registrar staff manually promote waitlisted students
@@ -15,11 +15,11 @@ from odoo.exceptions import UserError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreEnrollmentWaitlist(models.Model):
-    _name = 'unicore.enrollment.waitlist'
+class OacisEnrollmentWaitlist(models.Model):
+    _name = 'oacis.enrollment.waitlist'
     _description = 'Enrollment Waitlist Entry'
     _rec_name = 'display_name'
-    _inherit = ['unicore.mixin', 'mail.thread']
+    _inherit = ['oacis.mixin', 'mail.thread']
 
     display_name = fields.Char(
         string='Display Name',
@@ -52,7 +52,7 @@ class UniCoreEnrollmentWaitlist(models.Model):
     _check_company_auto = True
 
     student_id = fields.Many2one(
-        comodel_name='unicore.student',
+        comodel_name='oacis.student',
         string='Student',
         required=True,
         ondelete='cascade',
@@ -61,7 +61,7 @@ class UniCoreEnrollmentWaitlist(models.Model):
     )
 
     course_offering_id = fields.Many2one(
-        comodel_name='unicore.course.offering',
+        comodel_name='oacis.course.offering',
         string='Course Offering',
         required=True,
         ondelete='cascade',
@@ -104,7 +104,7 @@ class UniCoreEnrollmentWaitlist(models.Model):
     )
 
     promoted_enrollment_id = fields.Many2one(
-        comodel_name='unicore.enrollment',
+        comodel_name='oacis.enrollment',
         string='Resulting Enrollment',
         readonly=True,
         copy=False,
@@ -122,7 +122,7 @@ class UniCoreEnrollmentWaitlist(models.Model):
     def action_promote_to_enrollment(self):
         """
         Registrar-initiated promotion: creates an actual
-        unicore.enrollment record using the standard create()
+        oacis.enrollment record using the standard create()
         validation chain (so prerequisites and conflicts are
         STILL checked at promotion time).
         """
@@ -132,7 +132,7 @@ class UniCoreEnrollmentWaitlist(models.Model):
                 _('Only entries with status "Waiting" can be promoted.'),
             )
 
-        Enrollment = self.env['unicore.enrollment']
+        Enrollment = self.env['oacis.enrollment']
         new_enrollment = Enrollment.with_context(
             auto_waitlist=False,
         ).create({

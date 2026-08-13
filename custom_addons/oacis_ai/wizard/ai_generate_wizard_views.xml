@@ -2,9 +2,9 @@
 <odoo>
 
     <!-- AI Generate Wizard Form -->
-    <record id="view_unicore_ai_generate_wizard_form" model="ir.ui.view">
-        <field name="name">unicore.ai.generate.wizard.form</field>
-        <field name="model">unicore.ai.generate.wizard</field>
+    <record id="view_oacis_ai_generate_wizard_form" model="ir.ui.view">
+        <field name="name">oacis.ai.generate.wizard.form</field>
+        <field name="model">oacis.ai.generate.wizard</field>
         <field name="arch" type="xml">
             <form string="AI Text Generator">
                 <group>
@@ -41,9 +41,9 @@
     </record>
 
     <!-- Action to open the wizard (can be triggered from menus or buttons) -->
-    <record id="action_unicore_ai_generate_wizard" model="ir.actions.act_window">
+    <record id="action_oacis_ai_generate_wizard" model="ir.actions.act_window">
         <field name="name">AI Text Generator</field>
-        <field name="res_model">unicore.ai.generate.wizard</field>
+        <field name="res_model">oacis.ai.generate.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>

@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <!-- STUDENT ENROLLMENT REPORT -->
-  <record id="view_unicore_student_enroll_pivot" model="ir.ui.view">
-    <field name="name">unicore.student.enrollment.report.pivot</field>
-    <field name="model">unicore.student.enrollment.report</field>
+  <record id="view_oacis_student_enroll_pivot" model="ir.ui.view">
+    <field name="name">oacis.student.enrollment.report.pivot</field>
+    <field name="model">oacis.student.enrollment.report</field>
     <field name="arch" type="xml">
       <pivot string="Student Enrollment Analytics" disable_linking="False">
         <field name="program_id" type="row"/>
@@ -15,9 +15,9 @@
       </pivot>
     </field>
   </record>
-  <record id="view_unicore_student_enroll_graph" model="ir.ui.view">
-    <field name="name">unicore.student.enrollment.report.graph</field>
-    <field name="model">unicore.student.enrollment.report</field>
+  <record id="view_oacis_student_enroll_graph" model="ir.ui.view">
+    <field name="name">oacis.student.enrollment.report.graph</field>
+    <field name="model">oacis.student.enrollment.report</field>
     <field name="arch" type="xml">
       <graph string="Student Enrollment Trends" type="bar" stacked="1">
         <field name="program_id"/>
@@ -25,9 +25,9 @@
       </graph>
     </field>
   </record>
-  <record id="view_unicore_student_enroll_list" model="ir.ui.view">
-    <field name="name">unicore.student.enrollment.report.list</field>
-    <field name="model">unicore.student.enrollment.report</field>
+  <record id="view_oacis_student_enroll_list" model="ir.ui.view">
+    <field name="name">oacis.student.enrollment.report.list</field>
+    <field name="model">oacis.student.enrollment.report</field>
     <field name="arch" type="xml">
       <list>
         <field name="program_id"/>
@@ -45,9 +45,9 @@
       </list>
     </field>
   </record>
-  <record id="view_unicore_student_enroll_search" model="ir.ui.view">
-    <field name="name">unicore.student.enrollment.report.search</field>
-    <field name="model">unicore.student.enrollment.report</field>
+  <record id="view_oacis_student_enroll_search" model="ir.ui.view">
+    <field name="name">oacis.student.enrollment.report.search</field>
+    <field name="model">oacis.student.enrollment.report</field>
     <field name="arch" type="xml">
       <search>
         <field name="program_id"/>
@@ -67,16 +67,16 @@
       </search>
     </field>
   </record>
-  <record id="action_unicore_student_enrollment_report" model="ir.actions.act_window">
+  <record id="action_oacis_student_enrollment_report" model="ir.actions.act_window">
     <field name="name">Student Enrollment Analytics</field>
-    <field name="res_model">unicore.student.enrollment.report</field>
+    <field name="res_model">oacis.student.enrollment.report</field>
     <field name="view_mode">graph,pivot,list</field>
     <field name="context">{'search_default_active_students': 1}</field>
   </record>
   <!-- ATTENDANCE REPORT -->
-  <record id="view_unicore_attendance_report_pivot" model="ir.ui.view">
-    <field name="name">unicore.attendance.report.pivot</field>
-    <field name="model">unicore.attendance.report</field>
+  <record id="view_oacis_attendance_report_pivot" model="ir.ui.view">
+    <field name="name">oacis.attendance.report.pivot</field>
+    <field name="model">oacis.attendance.report</field>
     <field name="arch" type="xml">
       <pivot string="Attendance Analytics">
         <field name="course_id" type="row"/>
@@ -87,9 +87,9 @@
       </pivot>
     </field>
   </record>
-  <record id="view_unicore_attendance_report_graph" model="ir.ui.view">
-    <field name="name">unicore.attendance.report.graph</field>
-    <field name="model">unicore.attendance.report</field>
+  <record id="view_oacis_attendance_report_graph" model="ir.ui.view">
+    <field name="name">oacis.attendance.report.graph</field>
+    <field name="model">oacis.attendance.report</field>
     <field name="arch" type="xml">
       <graph string="Attendance Shortage Analysis" type="bar">
         <field name="course_id"/>
@@ -98,9 +98,9 @@
       </graph>
     </field>
   </record>
-  <record id="view_unicore_attendance_report_list" model="ir.ui.view">
-    <field name="name">unicore.attendance.report.list</field>
-    <field name="model">unicore.attendance.report</field>
+  <record id="view_oacis_attendance_report_list" model="ir.ui.view">
+    <field name="name">oacis.attendance.report.list</field>
+    <field name="model">oacis.attendance.report</field>
     <field name="arch" type="xml">
       <list>
         <field name="course_id"/>
@@ -113,9 +113,9 @@
       </list>
     </field>
   </record>
-  <record id="action_unicore_attendance_report" model="ir.actions.act_window">
+  <record id="action_oacis_attendance_report" model="ir.actions.act_window">
     <field name="name">Attendance Analytics</field>
-    <field name="res_model">unicore.attendance.report</field>
+    <field name="res_model">oacis.attendance.report</field>
     <field name="view_mode">graph,pivot,list</field>
   </record>
 </odoo>

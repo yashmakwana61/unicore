@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_enrollment_waitlist_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.enrollment.waitlist.kanban</field>
-        <field name="model">unicore.enrollment.waitlist</field>
+    <record id="oacis_enrollment_waitlist_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.enrollment.waitlist.kanban</field>
+        <field name="model">oacis.enrollment.waitlist</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="waitlist_state">
                 <field name="display_name"/>

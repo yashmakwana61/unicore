@@ -1,9 +1,9 @@
 """
-UniCore Student Leave Request Model
+Oacis Student Leave Request Model
 Provides a student/guardian-initiated leave request
 workflow distinct from the registrar-side
 "Place on Leave" button. On approval, triggers the
-existing action_place_on_leave on unicore.student.
+existing action_place_on_leave on oacis.student.
 """
 import logging
 
@@ -13,10 +13,10 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreStudentLeaveRequest(models.Model):
-    _name = 'unicore.student.leave.request'
+class OacisStudentLeaveRequest(models.Model):
+    _name = 'oacis.student.leave.request'
     _description = 'Student Leave Request'
-    _inherit = ['unicore.mixin', 'mail.thread',
+    _inherit = ['oacis.mixin', 'mail.thread',
                 'mail.activity.mixin']
     _order = 'date_from desc, id desc'
     _check_company_auto = True
@@ -34,14 +34,14 @@ class UniCoreStudentLeaveRequest(models.Model):
     # --- REQUEST DETAILS ---
 
     student_id = fields.Many2one(
-        comodel_name='unicore.student',
+        comodel_name='oacis.student',
         string='Student',
         required=True,
         ondelete='restrict',
         tracking=True,
     )
     guardian_id = fields.Many2one(
-        comodel_name='unicore.guardian',
+        comodel_name='oacis.guardian',
         string='Submitted By (Guardian)',
         ondelete='restrict',
         tracking=True,
@@ -207,7 +207,7 @@ class UniCoreStudentLeaveRequest(models.Model):
                 vals['name'] = (
                     self.env['ir.sequence']
                     .next_by_code(
-                        'unicore.student.leave.request',
+                        'oacis.student.leave.request',
                     )
                     or '/'
                 )
@@ -386,7 +386,7 @@ class UniCoreStudentLeaveRequest(models.Model):
         self.ensure_one()
         # Find a registrar user to assign the activity
         RegistrarGroup = self.env.ref(
-            'unicore_base.group_unicore_registrar',
+            'oacis_base.group_oacis_registrar',
             raise_if_not_found=False,
         )
         if not RegistrarGroup or not RegistrarGroup.users:
@@ -423,7 +423,7 @@ class UniCoreStudentLeaveRequest(models.Model):
         """Send notification to student and guardian
         when the request is approved or rejected."""
         self.ensure_one()
-        Engine = self.env['unicore.notification.engine']
+        Engine = self.env['oacis.notification.engine']
         variables = {
             'student_name': self.student_name,
             'student_id': self.student_number or '',
@@ -486,7 +486,7 @@ class UniCoreStudentLeaveRequest(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Student'),
-            'res_model': 'unicore.student',
+            'res_model': 'oacis.student',
             'res_id': self.student_id.id,
             'view_mode': 'form',
             'target': 'current',
@@ -500,7 +500,7 @@ class UniCoreStudentLeaveRequest(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Guardian'),
-            'res_model': 'unicore.guardian',
+            'res_model': 'oacis.guardian',
             'res_id': self.guardian_id.id,
             'view_mode': 'form',
             'target': 'current',

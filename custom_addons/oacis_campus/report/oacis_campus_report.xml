@@ -3,18 +3,18 @@
 
     <record id="action_report_campus_summary" model="ir.actions.report">
         <field name="name">Campus Summary</field>
-        <field name="model">unicore.campus</field>
+        <field name="model">oacis.campus</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">unicore_campus.report_campus_summary</field>
-        <field name="report_file">unicore_campus.report_campus_summary</field>
-        <field name="binding_model_id" ref="unicore_base.model_unicore_campus"/>
+        <field name="report_name">oacis_campus.report_campus_summary</field>
+        <field name="report_file">oacis_campus.report_campus_summary</field>
+        <field name="binding_model_id" ref="oacis_base.model_oacis_campus"/>
         <field name="binding_type">report</field>
         <field name="print_report_name">'CampusSummary_%(object.name)s_%(object.code)s'</field>
     </record>
 
     <!-- Report Template -->
     <record id="report_campus_summary_template" model="ir.ui.view">
-        <field name="name">unicore.campus.report.summary</field>
+        <field name="name">oacis.campus.report.summary</field>
         <field name="type">qweb</field>
         <field name="arch" type="xml">
             <template id="report_campus_summary" name="Campus Infrastructure Summary">

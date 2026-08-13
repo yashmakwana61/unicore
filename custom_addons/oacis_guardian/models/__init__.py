@@ -1,4 +1,4 @@
 """
-UniCore Guardian — Models Package
+Oacis Guardian — Models Package
 """
-from . import unicore_guardian, unicore_guardian_student_rel, unicore_student_ext
+from . import oacis_guardian, oacis_guardian_student_rel, oacis_student_ext

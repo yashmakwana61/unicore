@@ -1,5 +1,5 @@
 """
-UniCore Hostel Maintenance Request Model
+Oacis Hostel Maintenance Request Model
 Students or wardens can log maintenance issues
 for hostel rooms. Tracks priority, assignment
 and resolution.
@@ -14,10 +14,10 @@ from odoo.exceptions import UserError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreHostelMaintenance(models.Model):
-    _name = 'unicore.hostel.maintenance'
+class OacisHostelMaintenance(models.Model):
+    _name = 'oacis.hostel.maintenance'
     _description = 'Hostel Maintenance Request'
-    _inherit = ['unicore.mixin', 'mail.thread',
+    _inherit = ['oacis.mixin', 'mail.thread',
                 'mail.activity.mixin']
     _order = 'request_date desc, priority desc'
     _check_company_auto = True
@@ -57,7 +57,7 @@ class UniCoreHostelMaintenance(models.Model):
         ondelete='restrict',
     )
     room_id = fields.Many2one(
-        comodel_name='unicore.hostel.room',
+        comodel_name='oacis.hostel.room',
         string='Room',
         required=True,
         ondelete='restrict',
@@ -65,14 +65,14 @@ class UniCoreHostelMaintenance(models.Model):
         domain="[('company_id','=',company_id)]",
     )
     block_id = fields.Many2one(
-        comodel_name='unicore.hostel.block',
+        comodel_name='oacis.hostel.block',
         string='Block',
         related='room_id.block_id',
         store=True,
         readonly=True,
     )
     student_id = fields.Many2one(
-        comodel_name='unicore.student',
+        comodel_name='oacis.student',
         string='Reported By (Student)',
         ondelete='set null',
         domain="[('company_id','=',company_id)]",
@@ -176,7 +176,7 @@ class UniCoreHostelMaintenance(models.Model):
             if not vals.get('request_number'):
                 vals['request_number'] = (
                     self.env['ir.sequence'].next_by_code(
-                        'unicore.hostel.maintenance',
+                        'oacis.hostel.maintenance',
                     ) or '/'
                 )
         return super().create(vals_list)

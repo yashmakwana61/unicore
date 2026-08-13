@@ -6,14 +6,14 @@ from odoo import _, fields, models
 _logger = logging.getLogger(__name__)
 
 
-class UnicoreGenerateWeeksWizard(models.TransientModel):
+class OacisGenerateWeeksWizard(models.TransientModel):
     """Wizard to generate academic weeks for a semester."""
 
-    _name = 'unicore.generate.weeks.wizard'
+    _name = 'oacis.generate.weeks.wizard'
     _description = 'Generate Academic Weeks for Semester'
 
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         required=True,
         ondelete='cascade',
@@ -42,7 +42,7 @@ class UnicoreGenerateWeeksWizard(models.TransientModel):
         required=True,
     )
     preview_line_ids = fields.One2many(
-        comodel_name='unicore.generate.weeks.line',
+        comodel_name='oacis.generate.weeks.line',
         inverse_name='wizard_id',
         string='Preview',
     )
@@ -81,7 +81,7 @@ class UnicoreGenerateWeeksWizard(models.TransientModel):
             current = week_end + timedelta(days=1)
             week_num += 1
 
-        Line = self.env['unicore.generate.weeks.line']
+        Line = self.env['oacis.generate.weeks.line']
         for line_vals in lines:
             Line.create({
                 'wizard_id': self.id,
@@ -97,12 +97,12 @@ class UnicoreGenerateWeeksWizard(models.TransientModel):
     def action_generate(self):
         self.ensure_one()
         sem = self.semester_id
-        existing = self.env['unicore.academic.week'].search([
+        existing = self.env['oacis.academic.week'].search([
             ('semester_id', '=', sem.id),
         ])
         existing.unlink()
 
-        Week = self.env['unicore.academic.week']
+        Week = self.env['oacis.academic.week']
         for line in self.preview_line_ids:
             Week.create({
                 'semester_id': sem.id,
@@ -121,20 +121,20 @@ class UnicoreGenerateWeeksWizard(models.TransientModel):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Academic Weeks'),
-            'res_model': 'unicore.academic.week',
+            'res_model': 'oacis.academic.week',
             'view_mode': 'list,form',
             'domain': [('semester_id', '=', sem.id)],
         }
 
 
-class UnicoreGenerateWeeksLine(models.TransientModel):
+class OacisGenerateWeeksLine(models.TransientModel):
     """Preview line for week generation wizard."""
 
-    _name = 'unicore.generate.weeks.line'
+    _name = 'oacis.generate.weeks.line'
     _description = 'Week Generation Preview Line'
 
     wizard_id = fields.Many2one(
-        comodel_name='unicore.generate.weeks.wizard',
+        comodel_name='oacis.generate.weeks.wizard',
         string='Wizard',
         required=True,
         ondelete='cascade',

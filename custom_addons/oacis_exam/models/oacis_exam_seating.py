@@ -1,5 +1,5 @@
 """
-UniCore Exam Seating Model
+Oacis Exam Seating Model
 Assigns an eligible, approved hall ticket holder
 to a specific room and seat number for an exam.
 Generated automatically by the exam schedule's
@@ -16,11 +16,11 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreExamSeating(models.Model):
-    _name = 'unicore.exam.seating'
+class OacisExamSeating(models.Model):
+    _name = 'oacis.exam.seating'
     _description = 'Exam Seating Assignment'
     _rec_name = 'display_name'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
 
     display_name = fields.Char(
         string='Display Name',
@@ -48,7 +48,7 @@ class UniCoreExamSeating(models.Model):
     _check_company_auto = True
 
     exam_schedule_id = fields.Many2one(
-        comodel_name='unicore.exam.schedule',
+        comodel_name='oacis.exam.schedule',
         string='Exam',
         required=True,
         ondelete='cascade',
@@ -56,7 +56,7 @@ class UniCoreExamSeating(models.Model):
     )
 
     hall_ticket_id = fields.Many2one(
-        comodel_name='unicore.exam.hall.ticket',
+        comodel_name='oacis.exam.hall.ticket',
         string='Hall Ticket',
         required=True,
         ondelete='cascade',
@@ -64,7 +64,7 @@ class UniCoreExamSeating(models.Model):
     )
 
     student_id = fields.Many2one(
-        comodel_name='unicore.student',
+        comodel_name='oacis.student',
         string='Student',
         related='hall_ticket_id.student_id',
         store=True,
@@ -73,7 +73,7 @@ class UniCoreExamSeating(models.Model):
     )
 
     course_id = fields.Many2one(
-        comodel_name='unicore.course',
+        comodel_name='oacis.course',
         string='Course',
         related='exam_schedule_id.course_id',
         store=True,
@@ -96,7 +96,7 @@ class UniCoreExamSeating(models.Model):
     )
 
     room_id = fields.Many2one(
-        comodel_name='unicore.room',
+        comodel_name='oacis.room',
         string='Room',
         required=True,
         ondelete='restrict',

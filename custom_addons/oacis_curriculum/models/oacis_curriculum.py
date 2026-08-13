@@ -1,5 +1,5 @@
 """
-UniCore Curriculum Model
+Oacis Curriculum Model
 A curriculum is the structured plan of courses
 assigned to a specific academic program, organised
 by semester number. Each program has one curriculum.
@@ -17,10 +17,10 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreCurriculum(models.Model):
-    _name = 'unicore.curriculum'
+class OacisCurriculum(models.Model):
+    _name = 'oacis.curriculum'
     _description = 'Program Curriculum'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'program_id, version'
     _check_company_auto = True
 
@@ -31,14 +31,14 @@ class UniCoreCurriculum(models.Model):
         help='e.g. BSCS Curriculum 2024, MBA Plan v2',
     )
     program_id = fields.Many2one(
-        comodel_name='unicore.program',
+        comodel_name='oacis.program',
         string='Program',
         required=True,
         ondelete='restrict',
         tracking=True,
     )
     specialisation_id = fields.Many2one(
-        comodel_name='unicore.specialisation',
+        comodel_name='oacis.specialisation',
         string='Specialisation',
         ondelete='restrict',
         tracking=True,
@@ -53,7 +53,7 @@ class UniCoreCurriculum(models.Model):
         readonly=True,
     )
     department_id = fields.Many2one(
-        comodel_name='unicore.department',
+        comodel_name='oacis.department',
         string='Department',
         related='program_id.department_id',
         store=True,
@@ -80,7 +80,7 @@ class UniCoreCurriculum(models.Model):
         help='Mark as the currently active curriculum version',
     )
     curriculum_line_ids = fields.One2many(
-        comodel_name='unicore.curriculum.line',
+        comodel_name='oacis.curriculum.line',
         inverse_name='curriculum_id',
         string='Curriculum Lines',
     )

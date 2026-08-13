@@ -1,4 +1,4 @@
-"""Grade Book roll-up tests (unicore_gradebook).
+"""Grade Book roll-up tests (oacis_gradebook).
 
 Validates the grade book behaviour:
 - roll-up math (percentage and weighted CA component)
@@ -16,7 +16,7 @@ from odoo.tests.common import TransactionCase
 
 
 @odoo.tests.tagged('post_install', '-at_install')
-class UniCoreGradeBookRollupTest(TransactionCase):
+class OacisGradeBookRollupTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
@@ -24,18 +24,18 @@ class UniCoreGradeBookRollupTest(TransactionCase):
 
         cls.company = cls.env.company
 
-        cls.faculty = cls.env['unicore.faculty'].create({
+        cls.faculty = cls.env['oacis.faculty'].create({
             'name': 'GB Test Faculty',
             'code': 'GBTF',
             'company_id': cls.company.id,
         })
-        cls.department = cls.env['unicore.department'].create({
+        cls.department = cls.env['oacis.department'].create({
             'name': 'GB Test Dept',
             'code': 'GBTD',
             'faculty_id': cls.faculty.id,
             'company_id': cls.company.id,
         })
-        cls.program = cls.env['unicore.program'].create({
+        cls.program = cls.env['oacis.program'].create({
             'name': 'GB Test B.Sc.',
             'code': 'GB-BSC',
             'program_type': 'undergraduate',
@@ -46,12 +46,12 @@ class UniCoreGradeBookRollupTest(TransactionCase):
             'department_id': cls.department.id,
             'company_id': cls.company.id,
         })
-        cls.campus = cls.env['unicore.campus'].create({
+        cls.campus = cls.env['oacis.campus'].create({
             'name': 'GB Test Campus',
             'code': 'GBTCCAMP',
             'company_id': cls.company.id,
         })
-        cls.academic_year = cls.env['unicore.academic.year'].create({
+        cls.academic_year = cls.env['oacis.academic.year'].create({
             'name': 'GB Test AY 2028-29',
             'code': 'GBTAY2829',
             'date_start': '2028-07-01',
@@ -60,7 +60,7 @@ class UniCoreGradeBookRollupTest(TransactionCase):
             'is_current': False,
             'company_id': cls.company.id,
         })
-        cls.semester = cls.env['unicore.semester'].create({
+        cls.semester = cls.env['oacis.semester'].create({
             'name': 'GB Test ODD 2028-29',
             'code': 'GBTODD-2829',
             'semester_type': 'odd',
@@ -72,7 +72,7 @@ class UniCoreGradeBookRollupTest(TransactionCase):
         })
         # internal_assessment_marks drives max_ca_marks on the
         # grade book and internal_max on the grade entry.
-        cls.course = cls.env['unicore.course'].create({
+        cls.course = cls.env['oacis.course'].create({
             'name': 'GB Test Mathematics',
             'code': 'GBM401',
             'credit_hours': 4.0,
@@ -83,7 +83,7 @@ class UniCoreGradeBookRollupTest(TransactionCase):
             'department_id': cls.department.id,
             'company_id': cls.company.id,
         })
-        cls.offering = cls.env['unicore.course.offering'].create({
+        cls.offering = cls.env['oacis.course.offering'].create({
             'course_id': cls.course.id,
             'semester_id': cls.semester.id,
             'academic_year_id': cls.academic_year.id,
@@ -92,7 +92,7 @@ class UniCoreGradeBookRollupTest(TransactionCase):
             'offering_state': 'open',
             'company_id': cls.company.id,
         })
-        cls.student = cls.env['unicore.student'].create({
+        cls.student = cls.env['oacis.student'].create({
             'name': 'GradeBook',
             'last_name': 'Rollup Test',
             'gender': 'female',
@@ -109,15 +109,15 @@ class UniCoreGradeBookRollupTest(TransactionCase):
     def setUp(self):
         super().setUp()
         self.student.action_enroll()
-        self.enrollment = self.env['unicore.enrollment'].create({
+        self.enrollment = self.env['oacis.enrollment'].create({
             'student_id': self.student.id,
             'course_offering_id': self.offering.id,
         })
-        self.config = self.env['unicore.gradebook.config'].create({
+        self.config = self.env['oacis.gradebook.config'].create({
             'course_offering_id': self.offering.id,
             'assignment_weight_pct': 20.0,
         })
-        self.assignment_a = self.env['unicore.assignment'].create({
+        self.assignment_a = self.env['oacis.assignment'].create({
             'title': 'GB Assignment A',
             'course_offering_id': self.offering.id,
             'assignment_type': 'homework',
@@ -125,7 +125,7 @@ class UniCoreGradeBookRollupTest(TransactionCase):
             'due_date': '2028-09-01',
             'company_id': self.company.id,
         })
-        self.assignment_b = self.env['unicore.assignment'].create({
+        self.assignment_b = self.env['oacis.assignment'].create({
             'title': 'GB Assignment B',
             'course_offering_id': self.offering.id,
             'assignment_type': 'project',
@@ -138,7 +138,7 @@ class UniCoreGradeBookRollupTest(TransactionCase):
 
     def _grade_submission(self, assignment, marks, state='graded'):
         """Create a graded submission for the test student."""
-        return self.env['unicore.assignment.submission'].create({
+        return self.env['oacis.assignment.submission'].create({
             'assignment_id': assignment.id,
             'student_id': self.student.id,
             'enrollment_id': self.enrollment.id,
@@ -147,7 +147,7 @@ class UniCoreGradeBookRollupTest(TransactionCase):
         })
 
     def _grade_entry(self, state='draft'):
-        entry = self.env['unicore.grade.entry'].create({
+        entry = self.env['oacis.grade.entry'].create({
             'enrollment_id': self.enrollment.id,
         })
         if state == 'submitted':
@@ -200,7 +200,7 @@ class UniCoreGradeBookRollupTest(TransactionCase):
         self.assertEqual(line.graded_assignment_count, 2)
 
         # Deleting a graded submission drops its snapshot line.
-        sub_b = self.env['unicore.assignment.submission'].search([
+        sub_b = self.env['oacis.assignment.submission'].search([
             ('assignment_id', '=', self.assignment_b.id),
             ('student_id', '=', self.student.id),
         ], limit=1)

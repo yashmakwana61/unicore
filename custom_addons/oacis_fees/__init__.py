@@ -1,6 +1,6 @@
 """
-UniCore Fees Management Application
-Standalone fee management app for UniCore ERP.
+Oacis Fees Management Application
+Standalone fee management app for Oacis ERP.
 Manages fee structures, student invoicing,
 payment tracking and financial reporting.
 """
@@ -15,7 +15,7 @@ def post_init_hook(env):
     from odoo.exceptions import UserError
 
     Company = env['res.company']
-    AccountingConfig = env['unicore.fee.accounting.config']
+    AccountingConfig = env['oacis.fee.accounting.config']
     Journal = env['account.journal']
     Account = env['account.account']
 

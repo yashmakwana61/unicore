@@ -4,6 +4,6 @@ from odoo import fields, models
 class ImLivechatChannelExt(models.Model):
     _inherit = 'im_livechat.channel'
 
-    unicore_admissions_channel = fields.Boolean(
-        string='UniCore Admissions Channel',
+    oacis_admissions_channel = fields.Boolean(
+        string='Oacis Admissions Channel',
         help='Mark this livechat channel for admissions enquiries.')

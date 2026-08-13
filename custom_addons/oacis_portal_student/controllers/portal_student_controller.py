@@ -1,5 +1,5 @@
 """
-UniCore Student Portal Controller
+Oacis Student Portal Controller
 Provides web routes for the student self-service
 portal. All routes require portal user login and
 restrict data to the currently logged-in student.
@@ -20,15 +20,15 @@ from odoo.addons.portal.controllers.portal import pager as portal_pager
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreStudentPortal(CustomerPortal):
+class OacisStudentPortal(CustomerPortal):
     """
     Student portal controller. Extends CustomerPortal
-    to add UniCore student pages under /my/unicore/
+    to add Oacis student pages under /my/oacis/
     """
 
     def _prepare_home_portal_values(self, counters):
         """
-        Add UniCore student counters to the portal
+        Add Oacis student counters to the portal
         home page (My Home). Extends the parent method.
         """
         values = super()._prepare_home_portal_values(
@@ -36,9 +36,9 @@ class UniCoreStudentPortal(CustomerPortal):
         )
         student = self._get_current_student()
         if student:
-            if 'unicore_courses' in counters:
-                values['unicore_courses'] = (
-                    request.env['unicore.enrollment']
+            if 'oacis_courses' in counters:
+                values['oacis_courses'] = (
+                    request.env['oacis.enrollment']
                     .sudo()
                     .search_count([
                         ('student_id', '=', student.id),
@@ -46,15 +46,15 @@ class UniCoreStudentPortal(CustomerPortal):
                          'registered'),
                     ])
                 )
-            if 'unicore_assignments' in counters:
+            if 'oacis_assignments' in counters:
                 offerings = self.env[
-                    'unicore.enrollment'
+                    'oacis.enrollment'
                 ].sudo().search([
                     ('student_id', '=', student.id),
                     ('enrollment_state', '=', 'registered'),
                 ]).mapped('course_offering_id')
-                values['unicore_assignments'] = (
-                    request.env['unicore.assignment']
+                values['oacis_assignments'] = (
+                    request.env['oacis.assignment']
                     .sudo()
                     .search_count([
                         ('course_offering_id', 'in',
@@ -63,9 +63,9 @@ class UniCoreStudentPortal(CustomerPortal):
                          'published'),
                     ])
                 )
-            if 'unicore_invoices' in counters:
-                values['unicore_invoices'] = (
-                    request.env['unicore.fee.invoice']
+            if 'oacis_invoices' in counters:
+                values['oacis_invoices'] = (
+                    request.env['oacis.fee.invoice']
                     .sudo()
                     .search_count([
                         ('student_id', '=', student.id),
@@ -77,14 +77,14 @@ class UniCoreStudentPortal(CustomerPortal):
 
     def _get_current_student(self):
         """
-        Find the unicore.student record linked to
+        Find the oacis.student record linked to
         the currently logged-in portal user.
         Returns False if not found.
         """
         if request.env.user._is_public():
             return False
         partner = request.env.user.partner_id
-        student = request.env['unicore.student'].sudo().search([
+        student = request.env['oacis.student'].sudo().search([
             ('partner_id', '=', partner.id),
         ], limit=1)
         return student or False
@@ -110,7 +110,7 @@ class UniCoreStudentPortal(CustomerPortal):
     # ===================================================
 
     @http.route(
-        '/my/unicore/student',
+        '/my/oacis/student',
         type='http',
         auth='user',
         website=True,
@@ -124,15 +124,15 @@ class UniCoreStudentPortal(CustomerPortal):
         """
         student = self._student_required()
         if not isinstance(student,
-                          request.env['unicore.student']
+                          request.env['oacis.student']
                           .__class__):
             return student
 
-        Enrollment = request.env['unicore.enrollment'].sudo()
+        Enrollment = request.env['oacis.enrollment'].sudo()
         AttRecord = request.env[
-            'unicore.attendance.record'
+            'oacis.attendance.record'
         ].sudo()
-        Invoice = request.env['unicore.fee.invoice'].sudo()
+        Invoice = request.env['oacis.fee.invoice'].sudo()
 
         # Current semester enrollments
         current_enrollments = Enrollment.search([
@@ -172,7 +172,7 @@ class UniCoreStudentPortal(CustomerPortal):
             'page_name': 'student_dashboard',
         }
         return request.render(
-            'unicore_portal_student'
+            'oacis_portal_student'
             '.portal_student_dashboard',
             values,
         )
@@ -182,7 +182,7 @@ class UniCoreStudentPortal(CustomerPortal):
     # ===================================================
 
     @http.route(
-        '/my/unicore/student/courses',
+        '/my/oacis/student/courses',
         type='http',
         auth='user',
         website=True,
@@ -194,13 +194,13 @@ class UniCoreStudentPortal(CustomerPortal):
         """
         student = self._student_required()
         if not isinstance(student,
-                          request.env['unicore.student']
+                          request.env['oacis.student']
                           .__class__):
             return student
 
-        Enrollment = request.env['unicore.enrollment'].sudo()
+        Enrollment = request.env['oacis.enrollment'].sudo()
         TimetableEntry = request.env[
-            'unicore.timetable.entry'
+            'oacis.timetable.entry'
         ].sudo()
 
         enrollments = Enrollment.search([
@@ -227,7 +227,7 @@ class UniCoreStudentPortal(CustomerPortal):
             'page_name': 'student_courses',
         }
         return request.render(
-            'unicore_portal_student'
+            'oacis_portal_student'
             '.portal_student_courses',
             values,
         )
@@ -237,7 +237,7 @@ class UniCoreStudentPortal(CustomerPortal):
     # ===================================================
 
     @http.route(
-        '/my/unicore/student/attendance',
+        '/my/oacis/student/attendance',
         type='http',
         auth='user',
         website=True,
@@ -249,12 +249,12 @@ class UniCoreStudentPortal(CustomerPortal):
         """
         student = self._student_required()
         if not isinstance(student,
-                          request.env['unicore.student']
+                          request.env['oacis.student']
                           .__class__):
             return student
 
         AttRecord = request.env[
-            'unicore.attendance.record'
+            'oacis.attendance.record'
         ].sudo()
 
         # Get unique per-course records (latest)
@@ -285,7 +285,7 @@ class UniCoreStudentPortal(CustomerPortal):
             'page_name': 'student_attendance',
         }
         return request.render(
-            'unicore_portal_student'
+            'oacis_portal_student'
             '.portal_student_attendance',
             values,
         )
@@ -295,7 +295,7 @@ class UniCoreStudentPortal(CustomerPortal):
     # ===================================================
 
     @http.route(
-        '/my/unicore/student/exams',
+        '/my/oacis/student/exams',
         type='http',
         auth='user',
         website=True,
@@ -307,12 +307,12 @@ class UniCoreStudentPortal(CustomerPortal):
         """
         student = self._student_required()
         if not isinstance(student,
-                          request.env['unicore.student']
+                          request.env['oacis.student']
                           .__class__):
             return student
 
         HallTicket = request.env[
-            'unicore.exam.hall.ticket'
+            'oacis.exam.hall.ticket'
         ].sudo()
 
         tickets = HallTicket.search([
@@ -337,7 +337,7 @@ class UniCoreStudentPortal(CustomerPortal):
             'page_name': 'student_exams',
         }
         return request.render(
-            'unicore_portal_student'
+            'oacis_portal_student'
             '.portal_student_exams',
             values,
         )
@@ -347,7 +347,7 @@ class UniCoreStudentPortal(CustomerPortal):
     # ===================================================
 
     @http.route(
-        '/my/unicore/student/results',
+        '/my/oacis/student/results',
         type='http',
         auth='user',
         website=True,
@@ -359,15 +359,15 @@ class UniCoreStudentPortal(CustomerPortal):
         """
         student = self._student_required()
         if not isinstance(student,
-                          request.env['unicore.student']
+                          request.env['oacis.student']
                           .__class__):
             return student
 
         GradeEntry = request.env[
-            'unicore.grade.entry'
+            'oacis.grade.entry'
         ].sudo()
         SemesterResult = request.env[
-            'unicore.semester.result'
+            'oacis.semester.result'
         ].sudo()
 
         grade_entries = GradeEntry.search([
@@ -388,7 +388,7 @@ class UniCoreStudentPortal(CustomerPortal):
             'page_name': 'student_results',
         }
         return request.render(
-            'unicore_portal_student'
+            'oacis_portal_student'
             '.portal_student_results',
             values,
         )
@@ -398,7 +398,7 @@ class UniCoreStudentPortal(CustomerPortal):
     # ===================================================
 
     @http.route(
-        '/my/unicore/student/fees',
+        '/my/oacis/student/fees',
         type='http',
         auth='user',
         website=True,
@@ -409,11 +409,11 @@ class UniCoreStudentPortal(CustomerPortal):
         """
         student = self._student_required()
         if not isinstance(student,
-                          request.env['unicore.student']
+                          request.env['oacis.student']
                           .__class__):
             return student
 
-        Invoice = request.env['unicore.fee.invoice'].sudo()
+        Invoice = request.env['oacis.fee.invoice'].sudo()
 
         invoices = Invoice.search([
             ('student_id', '=', student.id),
@@ -432,7 +432,7 @@ class UniCoreStudentPortal(CustomerPortal):
             'page_name': 'student_fees',
         }
         return request.render(
-            'unicore_portal_student'
+            'oacis_portal_student'
             '.portal_student_fees',
             values,
         )
@@ -442,7 +442,7 @@ class UniCoreStudentPortal(CustomerPortal):
     # ===================================================
 
     @http.route(
-        '/my/unicore/student/scholarships',
+        '/my/oacis/student/scholarships',
         type='http',
         auth='user',
         website=True,
@@ -453,12 +453,12 @@ class UniCoreStudentPortal(CustomerPortal):
         """
         student = self._student_required()
         if not isinstance(student,
-                          request.env['unicore.student']
+                          request.env['oacis.student']
                           .__class__):
             return student
 
         Application = request.env[
-            'unicore.scholarship.application'
+            'oacis.scholarship.application'
         ].sudo()
 
         applications = Application.search([
@@ -474,7 +474,7 @@ class UniCoreStudentPortal(CustomerPortal):
             'page_name': 'student_scholarships',
         }
         return request.render(
-            'unicore_portal_student'
+            'oacis_portal_student'
             '.portal_student_scholarships',
             values,
         )
@@ -484,7 +484,7 @@ class UniCoreStudentPortal(CustomerPortal):
     # ===================================================
 
     @http.route(
-        '/my/unicore/student/notices',
+        '/my/oacis/student/notices',
         type='http',
         auth='user',
         website=True,
@@ -493,11 +493,11 @@ class UniCoreStudentPortal(CustomerPortal):
         student = self._student_required()
         if not isinstance(
             student,
-            request.env['unicore.student'].__class__,
+            request.env['oacis.student'].__class__,
         ):
             return student
 
-        Notice = request.env['unicore.notice'].sudo()
+        Notice = request.env['oacis.notice'].sudo()
         notices = Notice.search([
             ('publisher_id', '!=', False),
         ], order='pinned desc, publish_date desc')
@@ -524,7 +524,7 @@ class UniCoreStudentPortal(CustomerPortal):
 
         notice_count = len(notices)
         pager = portal_pager(
-            url='/my/unicore/student/notices',
+            url='/my/oacis/student/notices',
             total=notice_count,
             page=page,
             step=20,
@@ -540,7 +540,7 @@ class UniCoreStudentPortal(CustomerPortal):
             'date_end': date_end,
         }
         return request.render(
-            'unicore_notice_board.portal_student_notices',
+            'oacis_notice_board.portal_student_notices',
             values,
         )
 
@@ -554,7 +554,7 @@ class UniCoreStudentPortal(CustomerPortal):
         registered for (published assignments only matter here,
         but we list all active offerings).
         """
-        Enrollment = request.env['unicore.enrollment'].sudo()
+        Enrollment = request.env['oacis.enrollment'].sudo()
         enrollments = Enrollment.search([
             ('student_id', '=', student.id),
             ('enrollment_state', '=', 'registered'),
@@ -562,7 +562,7 @@ class UniCoreStudentPortal(CustomerPortal):
         return enrollments.mapped('course_offering_id')
 
     @http.route(
-        '/my/unicore/student/assignments',
+        '/my/oacis/student/assignments',
         type='http',
         auth='user',
         website=True,
@@ -575,16 +575,16 @@ class UniCoreStudentPortal(CustomerPortal):
         student = self._student_required()
         if not isinstance(
             student,
-            request.env['unicore.student'].__class__,
+            request.env['oacis.student'].__class__,
         ):
             return student
 
         offerings = self._get_student_offerings(student)
         offering_ids = offerings.ids
 
-        Assignment = request.env['unicore.assignment'].sudo()
+        Assignment = request.env['oacis.assignment'].sudo()
         Submission = request.env[
-            'unicore.assignment.submission'
+            'oacis.assignment.submission'
         ].sudo()
 
         assignments = Assignment.search([
@@ -623,7 +623,7 @@ class UniCoreStudentPortal(CustomerPortal):
             'page_name': 'student_assignments',
         }
         return request.render(
-            'unicore_portal_student'
+            'oacis_portal_student'
             '.portal_student_assignments',
             values,
         )
@@ -633,7 +633,7 @@ class UniCoreStudentPortal(CustomerPortal):
     # ===================================================
 
     @http.route(
-        '/my/unicore/student/assignments/'
+        '/my/oacis/student/assignments/'
         '<int:assignment_id>',
         type='http',
         auth='user',
@@ -649,11 +649,11 @@ class UniCoreStudentPortal(CustomerPortal):
         student = self._student_required()
         if not isinstance(
             student,
-            request.env['unicore.student'].__class__,
+            request.env['oacis.student'].__class__,
         ):
             return student
 
-        Assignment = request.env['unicore.assignment'].sudo()
+        Assignment = request.env['oacis.assignment'].sudo()
         assignment = Assignment.browse(assignment_id)
         if not assignment.exists():
             raise NotFound()
@@ -665,7 +665,7 @@ class UniCoreStudentPortal(CustomerPortal):
             )
 
         Submission = request.env[
-            'unicore.assignment.submission'
+            'oacis.assignment.submission'
         ].sudo()
         submission = Submission.search([
             ('assignment_id', '=', assignment.id),
@@ -694,7 +694,7 @@ class UniCoreStudentPortal(CustomerPortal):
             'page_name': 'student_assignment_detail',
         }
         return request.render(
-            'unicore_portal_student'
+            'oacis_portal_student'
             '.portal_student_assignment_detail',
             values,
         )
@@ -704,7 +704,7 @@ class UniCoreStudentPortal(CustomerPortal):
     # ===================================================
 
     @http.route(
-        '/my/unicore/student/assignments/'
+        '/my/oacis/student/assignments/'
         '<int:assignment_id>/submit',
         type='http',
         auth='user',
@@ -722,11 +722,11 @@ class UniCoreStudentPortal(CustomerPortal):
         student = self._student_required()
         if not isinstance(
             student,
-            request.env['unicore.student'].__class__,
+            request.env['oacis.student'].__class__,
         ):
             return student
 
-        Assignment = request.env['unicore.assignment'].sudo()
+        Assignment = request.env['oacis.assignment'].sudo()
         assignment = Assignment.browse(assignment_id)
         if not assignment.exists():
             raise NotFound()
@@ -742,7 +742,7 @@ class UniCoreStudentPortal(CustomerPortal):
             )
 
         Submission = request.env[
-            'unicore.assignment.submission'
+            'oacis.assignment.submission'
         ].sudo()
         submission = Submission.search([
             ('assignment_id', '=', assignment.id),
@@ -750,7 +750,7 @@ class UniCoreStudentPortal(CustomerPortal):
         ], limit=1)
 
         # Handle file upload (multipart) following the
-        # established UniCore portal upload pattern.
+        # established Oacis portal upload pattern.
         submission_file = False
         filename = ''
         if request.httprequest.files.get('submission_file'):
@@ -804,6 +804,6 @@ class UniCoreStudentPortal(CustomerPortal):
             _logger.error('Faculty notify failed: %s', str(e))
 
         return request.redirect(
-            '/my/unicore/student/assignments/%d'
+            '/my/oacis/student/assignments/%d'
             % assignment.id,
         )

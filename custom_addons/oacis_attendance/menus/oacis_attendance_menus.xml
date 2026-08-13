@@ -2,66 +2,66 @@
 <odoo>
     <data>
 
-        <menuitem id="menu_unicore_attendance"
+        <menuitem id="menu_oacis_attendance"
                   name="Attendance"
                   sequence="80"
-                  web_icon="unicore_attendance,static/description/icon.png"/>
+                  web_icon="oacis_attendance,static/description/icon.png"/>
 
-        <menuitem id="menu_unicore_attendance_my"
+        <menuitem id="menu_oacis_attendance_my"
                   name="My Attendance"
-                  parent="menu_unicore_attendance"
-                  action="action_unicore_attendance_my"
+                  parent="menu_oacis_attendance"
+                  action="action_oacis_attendance_my"
                   sequence="10"
-                  groups="unicore_base.group_unicore_student"/>
+                  groups="oacis_base.group_oacis_student"/>
 
-        <menuitem id="menu_unicore_attendance_session_open"
+        <menuitem id="menu_oacis_attendance_session_open"
                   name="Open Sessions"
-                  parent="menu_unicore_attendance"
-                  action="action_unicore_attendance_session_open"
+                  parent="menu_oacis_attendance"
+                  action="action_oacis_attendance_session_open"
                   sequence="20"
-                  groups="unicore_base.group_unicore_faculty"/>
+                  groups="oacis_base.group_oacis_faculty"/>
 
-        <menuitem id="menu_unicore_attendance_session_today"
+        <menuitem id="menu_oacis_attendance_session_today"
                   name="Today's Sessions"
-                  parent="menu_unicore_attendance"
-                  action="action_unicore_attendance_session_today"
+                  parent="menu_oacis_attendance"
+                  action="action_oacis_attendance_session_today"
                   sequence="30"
-                  groups="unicore_base.group_unicore_staff"/>
+                  groups="oacis_base.group_oacis_staff"/>
 
-        <menuitem id="menu_unicore_attendance_session_all"
+        <menuitem id="menu_oacis_attendance_session_all"
                   name="All Sessions"
-                  parent="menu_unicore_attendance"
-                  action="action_unicore_attendance_session"
+                  parent="menu_oacis_attendance"
+                  action="action_oacis_attendance_session"
                   sequence="40"
-                  groups="unicore_base.group_unicore_registrar"/>
+                  groups="oacis_base.group_oacis_registrar"/>
 
-        <menuitem id="menu_unicore_attendance_shortage"
+        <menuitem id="menu_oacis_attendance_shortage"
                   name="Shortage Alerts"
-                  parent="menu_unicore_attendance"
-                  action="action_unicore_attendance_shortage"
+                  parent="menu_oacis_attendance"
+                  action="action_oacis_attendance_shortage"
                   sequence="50"
-                  groups="unicore_base.group_unicore_staff"/>
+                  groups="oacis_base.group_oacis_staff"/>
 
-        <menuitem id="menu_unicore_attendance_record_all"
+        <menuitem id="menu_oacis_attendance_record_all"
                   name="All Records"
-                  parent="menu_unicore_attendance"
-                  action="action_unicore_attendance_record"
+                  parent="menu_oacis_attendance"
+                  action="action_oacis_attendance_record"
                   sequence="60"
-                  groups="unicore_base.group_unicore_registrar"/>
+                  groups="oacis_base.group_oacis_registrar"/>
 
-        <menuitem id="menu_unicore_attendance_policy"
+        <menuitem id="menu_oacis_attendance_policy"
                   name="Attendance Policies"
-                  parent="menu_unicore_attendance"
-                  action="action_unicore_attendance_policy"
+                  parent="menu_oacis_attendance"
+                  action="action_oacis_attendance_policy"
                   sequence="70"
-                  groups="unicore_base.group_unicore_manager"/>
+                  groups="oacis_base.group_oacis_manager"/>
 
-        <menuitem id="menu_unicore_generate_sessions"
+        <menuitem id="menu_oacis_generate_sessions"
                   name="Generate Sessions"
-                  parent="menu_unicore_attendance"
-                  action="action_unicore_generate_sessions_wizard"
+                  parent="menu_oacis_attendance"
+                  action="action_oacis_generate_sessions_wizard"
                   sequence="80"
-                  groups="unicore_base.group_unicore_registrar"/>
+                  groups="oacis_base.group_oacis_registrar"/>
 
     </data>
 </odoo>

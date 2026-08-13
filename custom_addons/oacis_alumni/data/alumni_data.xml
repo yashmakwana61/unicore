@@ -2,8 +2,8 @@
 <odoo>
 
     <record id="mass_mailing_list_alumni" model="mailing.list">
-        <field name="name">UniCore Alumni</field>
-        <field name="unicore_alumni_list">True</field>
+        <field name="name">Oacis Alumni</field>
+        <field name="oacis_alumni_list">True</field>
     </record>
 
 </odoo>

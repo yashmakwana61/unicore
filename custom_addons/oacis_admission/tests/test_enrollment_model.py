@@ -3,8 +3,8 @@ from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'unit')
-class UniCoreCourseEnrollmentTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'unit')
+class OacisCourseEnrollmentTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
@@ -12,18 +12,18 @@ class UniCoreCourseEnrollmentTest(TransactionCase):
 
         cls.company = cls.env.company
 
-        cls.faculty = cls.env['unicore.faculty'].create({
+        cls.faculty = cls.env['oacis.faculty'].create({
             'name': 'Test Faculty of Science',
             'code': 'TFS',
             'company_id': cls.company.id,
         })
-        cls.department = cls.env['unicore.department'].create({
+        cls.department = cls.env['oacis.department'].create({
             'name': 'Test Mathematics',
             'code': 'TMATH',
             'faculty_id': cls.faculty.id,
             'company_id': cls.company.id,
         })
-        cls.program = cls.env['unicore.program'].create({
+        cls.program = cls.env['oacis.program'].create({
             'name': 'Test B.Sc. Maths',
             'code': 'TEST-BSC-MATH',
             'program_type': 'undergraduate',
@@ -34,12 +34,12 @@ class UniCoreCourseEnrollmentTest(TransactionCase):
             'department_id': cls.department.id,
             'company_id': cls.company.id,
         })
-        cls.campus = cls.env['unicore.campus'].create({
+        cls.campus = cls.env['oacis.campus'].create({
             'name': 'Test Science Campus',
             'code': 'TSCICAMP',
             'company_id': cls.company.id,
         })
-        cls.academic_year = cls.env['unicore.academic.year'].create({
+        cls.academic_year = cls.env['oacis.academic.year'].create({
             'name': 'Test AY 2026-27',
             'code': 'TAY2627',
             'date_start': '2026-07-01',
@@ -48,7 +48,7 @@ class UniCoreCourseEnrollmentTest(TransactionCase):
             'is_current': False,
             'company_id': cls.company.id,
         })
-        cls.semester = cls.env['unicore.semester'].create({
+        cls.semester = cls.env['oacis.semester'].create({
             'name': 'Test EVEN 2026-27',
             'code': 'TEVEN-2627',
             'semester_type': 'even',
@@ -58,14 +58,14 @@ class UniCoreCourseEnrollmentTest(TransactionCase):
             'semester_state': 'ongoing',
             'company_id': cls.company.id,
         })
-        cls.course = cls.env['unicore.course'].create({
+        cls.course = cls.env['oacis.course'].create({
             'name': 'Test Linear Algebra',
             'code': 'TLA301',
             'credit_hours': 4.0,
             'department_id': cls.department.id,
             'company_id': cls.company.id,
         })
-        cls.offering = cls.env['unicore.course.offering'].create({
+        cls.offering = cls.env['oacis.course.offering'].create({
             'course_id': cls.course.id,
             'semester_id': cls.semester.id,
             'academic_year_id': cls.academic_year.id,
@@ -75,7 +75,7 @@ class UniCoreCourseEnrollmentTest(TransactionCase):
             'max_enrollment': 60,
             'company_id': cls.company.id,
         })
-        cls.student = cls.env['unicore.student'].create({
+        cls.student = cls.env['oacis.student'].create({
             'name': 'Test',
             'last_name': 'Student',
             'gender': 'male',
@@ -94,7 +94,7 @@ class UniCoreCourseEnrollmentTest(TransactionCase):
         self.student.action_enroll()
 
     def test_01_enrollment_create_basic(self):
-        enrollment = self.env['unicore.enrollment'].create({
+        enrollment = self.env['oacis.enrollment'].create({
             'student_id': self.student.id,
             'course_offering_id': self.offering.id,
         })
@@ -104,12 +104,12 @@ class UniCoreCourseEnrollmentTest(TransactionCase):
         self.assertEqual(enrollment.semester_id.id, self.semester.id)
 
     def test_02_duplicate_enrollment_blocked(self):
-        self.env['unicore.enrollment'].create({
+        self.env['oacis.enrollment'].create({
             'student_id': self.student.id,
             'course_offering_id': self.offering.id,
         })
         with self.assertRaises(Exception):
-            self.env['unicore.enrollment'].create({
+            self.env['oacis.enrollment'].create({
                 'student_id': self.student.id,
                 'course_offering_id': self.offering.id,
             })
@@ -120,7 +120,7 @@ class UniCoreCourseEnrollmentTest(TransactionCase):
             'actual_graduation_date': '2025-06-15',
         })
         with self.assertRaises(UserError):
-            self.env['unicore.enrollment'].create({
+            self.env['oacis.enrollment'].create({
                 'student_id': self.student.id,
                 'course_offering_id': self.offering.id,
             })
@@ -130,11 +130,11 @@ class UniCoreCourseEnrollmentTest(TransactionCase):
             'max_enrollment': 1,
             'min_enrollment': 0,
         })
-        self.env['unicore.enrollment'].create({
+        self.env['oacis.enrollment'].create({
             'student_id': self.student.id,
             'course_offering_id': self.offering.id,
         })
-        student2 = self.env['unicore.student'].create({
+        student2 = self.env['oacis.student'].create({
             'name': 'Second',
             'last_name': 'Student',
             'gender': 'male',
@@ -149,7 +149,7 @@ class UniCoreCourseEnrollmentTest(TransactionCase):
         })
         student2.action_enroll()
         with self.assertRaises(UserError):
-            self.env['unicore.enrollment'].create({
+            self.env['oacis.enrollment'].create({
                 'student_id': student2.id,
                 'course_offering_id': self.offering.id,
             })
@@ -157,7 +157,7 @@ class UniCoreCourseEnrollmentTest(TransactionCase):
     def test_05_enrollment_requires_open_offering(self):
         self.offering.offering_state = 'draft'
         with self.assertRaises(UserError):
-            self.env['unicore.enrollment'].create({
+            self.env['oacis.enrollment'].create({
                 'student_id': self.student.id,
                 'course_offering_id': self.offering.id,
             })

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data noupdate="0">
-    <record id="group_unicore_api_user" model="res.groups">
+    <record id="group_oacis_api_user" model="res.groups">
       <field name="name">API User</field>
       <field name="implied_ids"
              eval="[(4, ref('base.group_user'))]"/>
     </record>
 
-    <record id="group_unicore_api_admin" model="res.groups">
+    <record id="group_oacis_api_admin" model="res.groups">
       <field name="name">API Admin</field>
       <field name="implied_ids"
-             eval="[(4, ref('group_unicore_api_user'))]"/>
+             eval="[(4, ref('group_oacis_api_user'))]"/>
     </record>
   </data>
 </odoo>

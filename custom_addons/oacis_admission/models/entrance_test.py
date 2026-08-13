@@ -3,16 +3,16 @@ from odoo.exceptions import UserError, ValidationError
 
 
 class EntranceTest(models.Model):
-    _name = 'unicore.admission.entrance.test'
+    _name = 'oacis.admission.entrance.test'
     _description = 'Entrance Test'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'test_date desc, id desc'
     _rec_name = 'name'
 
     name = fields.Char(string='Test Name', required=True, tracking=True)
     code = fields.Char(string='Test Code', required=True, tracking=True)
     cycle_id = fields.Many2one(
-        comodel_name='unicore.admission.cycle', string='Admission Cycle',
+        comodel_name='oacis.admission.cycle', string='Admission Cycle',
         required=True, tracking=True,
     )
     test_date = fields.Date(string='Test Date', required=True, tracking=True)
@@ -37,7 +37,7 @@ class EntranceTest(models.Model):
         ondelete='restrict', tracking=True,
     )
     applicant_line_ids = fields.One2many(
-        comodel_name='unicore.admission.entrance.test.line',
+        comodel_name='oacis.admission.entrance.test.line',
         inverse_name='test_id', string='Applicants',
     )
     total_applicants = fields.Integer(
@@ -116,16 +116,16 @@ class EntranceTest(models.Model):
 
 
 class EntranceTestLine(models.Model):
-    _name = 'unicore.admission.entrance.test.line'
+    _name = 'oacis.admission.entrance.test.line'
     _description = 'Entrance Test Applicant Line'
     _rec_name = 'applicant_id'
 
     test_id = fields.Many2one(
-        comodel_name='unicore.admission.entrance.test', string='Entrance Test',
+        comodel_name='oacis.admission.entrance.test', string='Entrance Test',
         required=True, ondelete='cascade',
     )
     applicant_id = fields.Many2one(
-        comodel_name='unicore.admission.applicant', string='Applicant',
+        comodel_name='oacis.admission.applicant', string='Applicant',
         required=True, ondelete='restrict',
     )
     marks_obtained = fields.Float(string='Marks Obtained', default=0.0)

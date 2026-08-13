@@ -1,7 +1,7 @@
-UniCore Student Management
+Oacis Student Management
 ==========================
 
-This module provides complete student lifecycle management for UniCore ERP.
+This module provides complete student lifecycle management for Oacis ERP.
 
 Features
 --------
@@ -21,23 +21,23 @@ Features
 
 Dependencies
 ------------
-* unicore_base
-* unicore_security
-* unicore_campus
-* unicore_academic
-* unicore_calendar
+* oacis_base
+* oacis_security
+* oacis_campus
+* oacis_academic
+* oacis_calendar
 
 Models
 ------
-* unicore.student — Core student record
-* unicore.student.document — Document management
-* unicore.student.emergency.contact — Emergency contacts / guardians
-* unicore.student.academic.history — Semester-wise academic records
-* unicore.student.status.wizard — Status change reason wizard
+* oacis.student — Core student record
+* oacis.student.document — Document management
+* oacis.student.emergency.contact — Emergency contacts / guardians
+* oacis.student.academic.history — Semester-wise academic records
+* oacis.student.status.wizard — Status change reason wizard
 
 Security Groups
 ---------------
-All 7 groups from unicore_base with granular permissions:
+All 7 groups from oacis_base with granular permissions:
 * Admin/Manager: Full CRUD on all models
 * Registrar: Full CRUD on student, document, contact, history
 * Finance: Read student + CRUD documents and history

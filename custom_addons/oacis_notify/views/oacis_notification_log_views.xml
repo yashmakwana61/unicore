@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <!-- ==================== FORM VIEW ==================== -->
-  <record id="view_unicore_notification_log_form" model="ir.ui.view">
-    <field name="name">unicore.notification.log.form</field>
-    <field name="model">unicore.notification.log</field>
+  <record id="view_oacis_notification_log_form" model="ir.ui.view">
+    <field name="name">oacis.notification.log.form</field>
+    <field name="model">oacis.notification.log</field>
     <field name="arch" type="xml">
       <form create="false" edit="false" delete="false">
         <sheet>
@@ -48,9 +48,9 @@
     </field>
   </record>
   <!-- ==================== LIST VIEW ==================== -->
-  <record id="view_unicore_notification_log_list" model="ir.ui.view">
-    <field name="name">unicore.notification.log.list</field>
-    <field name="model">unicore.notification.log</field>
+  <record id="view_oacis_notification_log_list" model="ir.ui.view">
+    <field name="name">oacis.notification.log.list</field>
+    <field name="model">oacis.notification.log</field>
     <field name="arch" type="xml">
       <list create="false" edit="false" delete="false" decoration-success="delivery_status == 'sent'" decoration-danger="delivery_status == 'failed'" decoration-warning="delivery_status == 'pending'" decoration-muted="delivery_status == 'skipped'">
         <field name="sent_at"/>
@@ -69,9 +69,9 @@
     </field>
   </record>
   <!-- ==================== SEARCH VIEW ==================== -->
-  <record id="view_unicore_notification_log_search" model="ir.ui.view">
-    <field name="name">unicore.notification.log.search</field>
-    <field name="model">unicore.notification.log</field>
+  <record id="view_oacis_notification_log_search" model="ir.ui.view">
+    <field name="name">oacis.notification.log.search</field>
+    <field name="model">oacis.notification.log</field>
     <field name="arch" type="xml">
       <search>
         <field name="trigger_event"/>
@@ -101,20 +101,20 @@
     </field>
   </record>
   <!-- ==================== ACTIONS ==================== -->
-  <record id="action_unicore_notification_log" model="ir.actions.act_window">
+  <record id="action_oacis_notification_log" model="ir.actions.act_window">
     <field name="name">Notification Log</field>
-    <field name="res_model">unicore.notification.log</field>
+    <field name="res_model">oacis.notification.log</field>
     <field name="view_mode">list,form</field>
   </record>
-  <record id="action_unicore_notification_log_failed" model="ir.actions.act_window">
+  <record id="action_oacis_notification_log_failed" model="ir.actions.act_window">
     <field name="name">Failed Notifications</field>
-    <field name="res_model">unicore.notification.log</field>
+    <field name="res_model">oacis.notification.log</field>
     <field name="view_mode">list,form</field>
     <field name="domain">[('delivery_status','=','failed')]</field>
   </record>
-  <record id="action_unicore_notification_log_today" model="ir.actions.act_window">
+  <record id="action_oacis_notification_log_today" model="ir.actions.act_window">
     <field name="name">Today's Notifications</field>
-    <field name="res_model">unicore.notification.log</field>
+    <field name="res_model">oacis.notification.log</field>
     <field name="view_mode">list,form</field>
     <field name="context">{'search_default_today': 1}</field>
   </record>

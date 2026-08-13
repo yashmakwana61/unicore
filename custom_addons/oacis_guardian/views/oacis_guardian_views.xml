@@ -1,16 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-  <record id="unicore_guardian_view_form" model="ir.ui.view">
-    <field name="name">unicore.guardian.form</field>
-    <field name="model">unicore.guardian</field>
+  <record id="oacis_guardian_view_form" model="ir.ui.view">
+    <field name="name">oacis.guardian.form</field>
+    <field name="model">oacis.guardian</field>
     <field name="arch" type="xml">
       <form string="Guardian">
         <header>
           <button name="action_set_inactive" string="Set Inactive" type="object" invisible="guardian_state != 'active'"/>
           <button name="action_set_active" string="Set Active" type="object" invisible="guardian_state != 'inactive'"/>
-          <button name="action_mark_deceased" string="Mark Deceased" type="object" invisible="guardian_state == 'deceased'" groups="unicore_base.group_unicore_admin"/>
-          <button name="action_grant_portal_access" string="Grant Portal Access" type="object" invisible="has_portal_access" groups="unicore_base.group_unicore_registrar"/>
-          <button name="action_revoke_portal_access" string="Revoke Portal Access" type="object" invisible="not has_portal_access" groups="unicore_base.group_unicore_admin"/>
+          <button name="action_mark_deceased" string="Mark Deceased" type="object" invisible="guardian_state == 'deceased'" groups="oacis_base.group_oacis_admin"/>
+          <button name="action_grant_portal_access" string="Grant Portal Access" type="object" invisible="has_portal_access" groups="oacis_base.group_oacis_registrar"/>
+          <button name="action_revoke_portal_access" string="Revoke Portal Access" type="object" invisible="not has_portal_access" groups="oacis_base.group_oacis_admin"/>
           <field name="guardian_state" widget="statusbar" statusbar_visible="active,inactive"/>
         </header>
         <sheet>
@@ -117,9 +117,9 @@
       </form>
     </field>
   </record>
-  <record id="unicore_guardian_view_list" model="ir.ui.view">
-    <field name="name">unicore.guardian.list</field>
-    <field name="model">unicore.guardian</field>
+  <record id="oacis_guardian_view_list" model="ir.ui.view">
+    <field name="name">oacis.guardian.list</field>
+    <field name="model">oacis.guardian</field>
     <field name="arch" type="xml">
       <list string="Guardians" decoration-muted="guardian_state in ('inactive','deceased')" decoration-success="has_portal_access == True">
         <field name="guardian_id_number"/>
@@ -134,9 +134,9 @@
       </list>
     </field>
   </record>
-  <record id="unicore_guardian_view_search" model="ir.ui.view">
-    <field name="name">unicore.guardian.search</field>
-    <field name="model">unicore.guardian</field>
+  <record id="oacis_guardian_view_search" model="ir.ui.view">
+    <field name="name">oacis.guardian.search</field>
+    <field name="model">oacis.guardian</field>
     <field name="arch" type="xml">
       <search string="Search Guardians">
         <field name="display_name"/>
@@ -155,9 +155,9 @@
       </search>
     </field>
   </record>
-  <record id="unicore_guardian_view_kanban" model="ir.ui.view">
-    <field name="name">unicore.guardian.kanban</field>
-    <field name="model">unicore.guardian</field>
+  <record id="oacis_guardian_view_kanban" model="ir.ui.view">
+    <field name="name">oacis.guardian.kanban</field>
+    <field name="model">oacis.guardian</field>
     <field name="arch" type="xml">
       <kanban>
         <field name="id"/>
@@ -172,7 +172,7 @@
           <t t-name="card">
             <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
               <t t-if="record.image_1920.raw_value">
-                <div class="o_kanban_image_fill_left d-none d-md-block" t-attf-style="background-image:url('#{kanban_image('unicore.guardian', 'image_1920', record.id.raw_value)}')"/>
+                <div class="o_kanban_image_fill_left d-none d-md-block" t-attf-style="background-image:url('#{kanban_image('oacis.guardian', 'image_1920', record.id.raw_value)}')"/>
               </t>
               <t t-else="">
                 <img class="o_kanban_image" alt="Avatar" t-att-src="_s + &quot;/base/static/img/avatar_grey.png&quot;"/>

@@ -6,9 +6,9 @@
         <!-- FORM VIEW                                     -->
         <!-- ============================================= -->
 
-        <record id="view_unicore_course_offering_form" model="ir.ui.view">
-            <field name="name">unicore.course.offering.form</field>
-            <field name="model">unicore.course.offering</field>
+        <record id="view_oacis_course_offering_form" model="ir.ui.view">
+            <field name="name">oacis.course.offering.form</field>
+            <field name="model">oacis.course.offering</field>
             <field name="arch" type="xml">
                 <form>
                     <header>
@@ -26,11 +26,11 @@
                         <button name="action_cancel" type="object"
                                 string="Cancel"
                                 invisible="offering_state in ('completed','cancelled')"
-                                groups="unicore_base.group_unicore_registrar"/>
+                                groups="oacis_base.group_oacis_registrar"/>
                         <button name="action_reset_draft" type="object"
                                 string="Reset to Draft"
                                 invisible="offering_state in ('draft','completed')"
-                                groups="unicore_base.group_unicore_admin"/>
+                                groups="oacis_base.group_oacis_admin"/>
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
@@ -102,9 +102,9 @@
         <!-- LIST VIEW                                     -->
         <!-- ============================================= -->
 
-        <record id="view_unicore_course_offering_list" model="ir.ui.view">
-            <field name="name">unicore.course.offering.list</field>
-            <field name="model">unicore.course.offering</field>
+        <record id="view_oacis_course_offering_list" model="ir.ui.view">
+            <field name="name">oacis.course.offering.list</field>
+            <field name="model">oacis.course.offering</field>
             <field name="arch" type="xml">
                 <list decoration-success="offering_state == 'ongoing'"
                       decoration-warning="is_full == True"
@@ -127,9 +127,9 @@
         <!-- SEARCH VIEW                                   -->
         <!-- ============================================= -->
 
-        <record id="view_unicore_course_offering_search" model="ir.ui.view">
-            <field name="name">unicore.course.offering.search</field>
-            <field name="model">unicore.course.offering</field>
+        <record id="view_oacis_course_offering_search" model="ir.ui.view">
+            <field name="name">oacis.course.offering.search</field>
+            <field name="model">oacis.course.offering</field>
             <field name="arch" type="xml">
                 <search>
                     <field name="course_id"/>
@@ -165,9 +165,9 @@
         <!-- KANBAN VIEW                                   -->
         <!-- ============================================= -->
 
-        <record id="view_unicore_course_offering_kanban" model="ir.ui.view">
-            <field name="name">unicore.course.offering.kanban</field>
-            <field name="model">unicore.course.offering</field>
+        <record id="view_oacis_course_offering_kanban" model="ir.ui.view">
+            <field name="name">oacis.course.offering.kanban</field>
+            <field name="model">oacis.course.offering</field>
             <field name="arch" type="xml">
                 <kanban default_group_by="offering_state">
                     <templates>

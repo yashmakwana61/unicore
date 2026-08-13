@@ -2,10 +2,10 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
-class UniCoreDocument(models.Model):
-    _name = 'unicore.document'
+class OacisDocument(models.Model):
+    _name = 'oacis.document'
     _description = 'Document'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'category_id, upload_date desc'
     _check_company_auto = True
     _rec_name = 'name'
@@ -24,7 +24,7 @@ class UniCoreDocument(models.Model):
         ondelete='restrict',
     )
     category_id = fields.Many2one(
-        comodel_name='unicore.document.category',
+        comodel_name='oacis.document.category',
         string='Category / Folder',
         required=True,
         ondelete='restrict',
@@ -67,21 +67,21 @@ class UniCoreDocument(models.Model):
     tags = fields.Char(string='Tags', help='Comma-separated tags for quick search')
 
     student_id = fields.Many2one(
-        comodel_name='unicore.student',
+        comodel_name='oacis.student',
         string='Student',
         ondelete='set null',
         index=True,
         domain="[('company_id','=',company_id)]",
     )
     faculty_member_id = fields.Many2one(
-        comodel_name='unicore.faculty.member',
+        comodel_name='oacis.faculty.member',
         string='Faculty Member',
         ondelete='set null',
         index=True,
         domain="[('company_id','=',company_id)]",
     )
     applicant_id = fields.Many2one(
-        comodel_name='unicore.admission.applicant',
+        comodel_name='oacis.admission.applicant',
         string='Applicant',
         ondelete='set null',
         domain="[('company_id','=',company_id)]",
@@ -89,7 +89,7 @@ class UniCoreDocument(models.Model):
 
     attachment_ids = fields.Many2many(
         comodel_name='ir.attachment',
-        relation='unicore_document_attachment_rel',
+        relation='oacis_document_attachment_rel',
         column1='document_id',
         column2='attachment_id',
         string='Files',
@@ -162,7 +162,7 @@ class UniCoreDocument(models.Model):
 
     version = fields.Integer(string='Version', default=1, readonly=True)
     previous_version_id = fields.Many2one(
-        comodel_name='unicore.document',
+        comodel_name='oacis.document',
         string='Previous Version',
         ondelete='set null',
     )
@@ -236,7 +236,7 @@ class UniCoreDocument(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('New Version'),
-            'res_model': 'unicore.document',
+            'res_model': 'oacis.document',
             'res_id': new_doc.id,
             'view_mode': 'form',
             'target': 'current',

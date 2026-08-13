@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <!-- Extend the Community AppsMenu template to inject our search and grid -->
-    <t t-name="unicore_theme.NavBar.AppsMenu.Extension" t-inherit="web.NavBar.AppsMenu" t-inherit-mode="extension">
+    <t t-name="oacis_theme.NavBar.AppsMenu.Extension" t-inherit="web.NavBar.AppsMenu" t-inherit-mode="extension">
         <xpath expr="//DropdownItem[@t-foreach='apps']" position="replace">
             <div class="o_apps_mega_menu">
                 <!-- 1. Search Input Bar -->

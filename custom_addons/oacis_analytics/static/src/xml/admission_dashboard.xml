@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
-    <t t-name="unicore_analytics.AdmissionDashboard" owl="1">
+    <t t-name="oacis_analytics.AdmissionDashboard" owl="1">
         <div class="o_admission_dashboard">
             <!-- Loading State -->
             <t t-if="state.loading">

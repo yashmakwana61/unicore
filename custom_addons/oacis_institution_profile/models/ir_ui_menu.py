@@ -2,7 +2,7 @@
 
 Two jobs:
 
-* Feature gating — hide the menus of optional UniCore modules when the current
+* Feature gating — hide the menus of optional Oacis modules when the current
   company's institution profile does not enable the corresponding feature.
 * Terminology relabeling — rewrite the visible menu names (``Faculties``,
   ``Departments``, ``Programs``, ...) to the institution's vocabulary. This is
@@ -30,19 +30,19 @@ class IrUiMenu(models.Model):
     # technical module -> feature code. Only modules behind a feature toggle are
     # gated; everything else (base, configuration, academic core) always shows.
     _FEATURE_MODULES = {
-        'unicore_hostel': 'HOSTEL',
-        'unicore_transport': 'TRANSPORT',
-        'unicore_transport_fleet': 'TRANSPORT',
-        'unicore_library': 'LIBRARY',
-        'unicore_alumni': 'ALUMNI',
-        'unicore_convocation': 'CONVOCATION',
-        'unicore_scholarship': 'SCHOLARSHIP',
-        'unicore_crm': 'CRM',
-        'unicore_admission': 'ADMISSION',
-        'unicore_website': 'WEBSITE',
-        'unicore_attendance': 'ATTENDANCE',
-        'unicore_exam': 'EXAM',
-        'unicore_fees': 'FEES',
+        'oacis_hostel': 'HOSTEL',
+        'oacis_transport': 'TRANSPORT',
+        'oacis_transport_fleet': 'TRANSPORT',
+        'oacis_library': 'LIBRARY',
+        'oacis_alumni': 'ALUMNI',
+        'oacis_convocation': 'CONVOCATION',
+        'oacis_scholarship': 'SCHOLARSHIP',
+        'oacis_crm': 'CRM',
+        'oacis_admission': 'ADMISSION',
+        'oacis_website': 'WEBSITE',
+        'oacis_attendance': 'ATTENDANCE',
+        'oacis_exam': 'EXAM',
+        'oacis_fees': 'FEES',
     }
 
     def _filter_visible_menus(self):
@@ -51,7 +51,7 @@ class IrUiMenu(models.Model):
         if not company or not company.institution_profile_id:
             return menus
         all_codes = set(
-            self.env['unicore.institution.feature'].search([]).mapped('code'))
+            self.env['oacis.institution.feature'].search([]).mapped('code'))
         disabled = all_codes - company._enabled_feature_codes()
         if not disabled:
             return menus

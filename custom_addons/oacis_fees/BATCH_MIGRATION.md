@@ -1,4 +1,4 @@
-# UniCore Fees — Batch Migration & Cron Processing
+# Oacis Fees — Batch Migration & Cron Processing
 
 ## Overview
 
@@ -47,7 +47,7 @@ For automatically processing new invoices and payments continuously.
 
 ```python
 # Migrate all invoices at once
-invoices = env['unicore.fee.invoice'].search([
+invoices = env['oacis.fee.invoice'].search([
     ('invoice_state', 'in', ['sent', 'partial', 'paid', 'overdue']),
     ('account_move_id', '=', False),
 ])
@@ -69,7 +69,7 @@ print(summary)  # Shows count of migrated/failed
 - Logs results
 
 **Configuration:**
-- **Model:** unicore.fee.invoice
+- **Model:** oacis.fee.invoice
 - **Method:** action_batch_create_gl_invoices()
 - **Interval:** 1 hour
 - **Auto-repeat:** Yes (-1 = infinite)
@@ -88,7 +88,7 @@ print(summary)  # Shows count of migrated/failed
 - Logs results
 
 **Configuration:**
-- **Model:** unicore.fee.payment
+- **Model:** oacis.fee.payment
 - **Method:** action_batch_reconcile_payments()
 - **Interval:** 1 hour
 - **Auto-repeat:** Yes (-1 = infinite)
@@ -164,10 +164,10 @@ print(summary)  # Shows count of migrated/failed
 ### View Active Crons
 
 1. Navigate to: Settings → Technical → Automation → Scheduled Actions
-2. Search for "UniCore Fees"
+2. Search for "Oacis Fees"
 3. You'll see:
-   - `UniCore Fees: Batch Create GL Invoices`
-   - `UniCore Fees: Batch Reconcile Payments`
+   - `Oacis Fees: Batch Create GL Invoices`
+   - `Oacis Fees: Batch Reconcile Payments`
 
 ### Enable/Disable Cron
 
@@ -196,7 +196,7 @@ print(summary)  # Shows count of migrated/failed
 
 1. Navigate to: Settings → Technical → Logging → Cron Logs
 2. Filter by "Scheduled Action"
-3. Look for "UniCore Fees" crons
+3. Look for "Oacis Fees" crons
 4. View execution time, status (success/error)
 
 ### Typical Log Entry
@@ -386,7 +386,7 @@ For large datasets (1000+ invoices):
 If you want to disable automatic processing after migration:
 
 1. Navigate to: Settings → Technical → Automation → Scheduled Actions
-2. Search for "UniCore Fees"
+2. Search for "Oacis Fees"
 3. Click each cron
 4. Uncheck "Active"
 5. Save

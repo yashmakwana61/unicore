@@ -2,12 +2,12 @@
     'name': 'Alumni Engagement',
     'version': '19.0.1.0.0',
     'category': 'Education',
-    'summary': 'Bridge UniCore alumni into Odoo mass mailing and events',
+    'summary': 'Bridge Oacis alumni into Odoo mass mailing and events',
     'description': """
         Alumni Engagement
         =================
 
-        Bridges UniCore alumni records into Odoo's native Mass Mailing
+        Bridges Oacis alumni records into Odoo's native Mass Mailing
         and Event modules so the alumni office can run newsletters,
         reunion events, and fundraising campaigns.
 
@@ -19,7 +19,7 @@
           registrations are synced bidirectionally.
         - Smart buttons on the student form open linked mailing lists
           and alumni events.
-        - No core ``unicore_student``, ``mass_mailing``, or ``event``
+        - No core ``oacis_student``, ``mass_mailing``, or ``event``
           logic is modified.
     """,
     'author': 'Precisefect Solutions Pvt. Ltd.',
@@ -28,8 +28,8 @@
     'depends': [
         'mass_mailing',
         'event',
-        'unicore_student',
-        'unicore_base',
+        'oacis_student',
+        'oacis_base',
     ],
     'data': [
         'security/ir.model.access.csv',
@@ -39,7 +39,7 @@
         'views/event_views.xml',
     ],
     'images': ['static/description/icon.png'],
-    'web_icon': 'unicore_alumni,static/description/icon.png',
+    'web_icon': 'oacis_alumni,static/description/icon.png',
     'installable': True,
     'application': False,
     'auto_install': False,

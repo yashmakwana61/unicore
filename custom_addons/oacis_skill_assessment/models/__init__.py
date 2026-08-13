@@ -1,1 +1,1 @@
-from . import unicore_skill
+from . import oacis_skill

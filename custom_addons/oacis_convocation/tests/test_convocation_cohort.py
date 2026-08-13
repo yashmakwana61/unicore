@@ -11,26 +11,26 @@ from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'convocation')
-class UniCoreConvocationCohortTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'convocation')
+class OacisConvocationCohortTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.company = cls.env.company
 
-        cls.faculty = cls.env['unicore.faculty'].create({
+        cls.faculty = cls.env['oacis.faculty'].create({
             'name': 'Test Faculty of Convocation',
             'code': 'TFC',
             'company_id': cls.company.id,
         })
-        cls.department = cls.env['unicore.department'].create({
+        cls.department = cls.env['oacis.department'].create({
             'name': 'Test Convocation Office',
             'code': 'TCONV',
             'faculty_id': cls.faculty.id,
             'company_id': cls.company.id,
         })
-        cls.program = cls.env['unicore.program'].create({
+        cls.program = cls.env['oacis.program'].create({
             'name': 'Test B.A. Convocation',
             'code': 'TEST-BA-CONV',
             'program_type': 'undergraduate',
@@ -41,12 +41,12 @@ class UniCoreConvocationCohortTest(TransactionCase):
             'department_id': cls.department.id,
             'company_id': cls.company.id,
         })
-        cls.campus = cls.env['unicore.campus'].create({
+        cls.campus = cls.env['oacis.campus'].create({
             'name': 'Test Convocation Campus',
             'code': 'TCCAMP',
             'company_id': cls.company.id,
         })
-        cls.academic_year = cls.env['unicore.academic.year'].create({
+        cls.academic_year = cls.env['oacis.academic.year'].create({
             'name': 'Test AY 2024-25',
             'code': 'TAY2425C',
             'date_start': '2024-07-01',
@@ -59,10 +59,10 @@ class UniCoreConvocationCohortTest(TransactionCase):
             'name': 'Test Convocation 2025',
             'date_begin': date.today(),
             'date_end': date.today(),
-            'unicore_convocation_event': True,
+            'oacis_convocation_event': True,
             'company_id': cls.company.id,
         })
-        cls.graduate = cls.env['unicore.student'].create({
+        cls.graduate = cls.env['oacis.student'].create({
             'name': 'Jane Graduate',
             'last_name': 'Smith',
             'gender': 'female',
@@ -79,7 +79,7 @@ class UniCoreConvocationCohortTest(TransactionCase):
         })
 
     def _graduated_student(self, name, email, mobile):
-        return self.env['unicore.student'].create({
+        return self.env['oacis.student'].create({
             'name': name,
             'last_name': 'Grad',
             'gender': 'female',
@@ -98,7 +98,7 @@ class UniCoreConvocationCohortTest(TransactionCase):
     def test_01_graduates_by_cohort_action(self):
         """The event action opens graduates grouped by cohort kind."""
         action = self.convocation_event.action_view_convocation_graduates()
-        self.assertEqual(action['res_model'], 'unicore.student')
+        self.assertEqual(action['res_model'], 'oacis.student')
         self.assertIn(
             ('convocation_event_id', '=', self.convocation_event.id),
             action['domain'])
@@ -115,18 +115,18 @@ class UniCoreConvocationCohortTest(TransactionCase):
             mate.convocation_event_id, self.graduate.convocation_event_id)
 
         action = self.graduate.action_view_convocation_cohort_mates()
-        self.assertEqual(action['res_model'], 'unicore.student')
+        self.assertEqual(action['res_model'], 'oacis.student')
         self.assertIn(('batch_year', '=', 2023), action['domain'])
         self.assertIn(
             ('convocation_event_id', '=', self.graduate.convocation_event_id.id),
             action['domain'])
         # the mate matches the cohort-mates domain
-        self.assertIn(mate.id, self.env['unicore.student'].search(
+        self.assertIn(mate.id, self.env['oacis.student'].search(
             action['domain']).ids)
 
     def test_03_cohort_mates_no_event_raises(self):
         """A student not linked to a convocation cannot view cohort mates."""
-        student = self.env['unicore.student'].create({
+        student = self.env['oacis.student'].create({
             'name': 'Not Grad',
             'last_name': 'NG',
             'gender': 'male',

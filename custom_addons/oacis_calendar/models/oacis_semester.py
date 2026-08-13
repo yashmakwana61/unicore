@@ -7,12 +7,12 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UnicoreSemester(models.Model):
+class OacisSemester(models.Model):
     """Semester or Term within an Academic Year."""
 
-    _name = 'unicore.semester'
+    _name = 'oacis.semester'
     _description = 'Semester or Term'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'academic_year_id, sequence, date_start'
     _check_company_auto = True
 
@@ -29,7 +29,7 @@ class UnicoreSemester(models.Model):
         help='e.g. SEM1-2425, FALL24',
     )
     academic_year_id = fields.Many2one(
-        comodel_name='unicore.academic.year',
+        comodel_name='oacis.academic.year',
         string='Academic Year',
         required=True,
         ondelete='restrict',
@@ -106,7 +106,7 @@ class UnicoreSemester(models.Model):
         string='Result Declaration Date',
     )
     week_ids = fields.One2many(
-        comodel_name='unicore.academic.week',
+        comodel_name='oacis.academic.week',
         inverse_name='semester_id',
         string='Academic Weeks',
     )
@@ -146,8 +146,8 @@ class UnicoreSemester(models.Model):
         store=True,
     )
     program_ids = fields.Many2many(
-        comodel_name='unicore.program',
-        relation='unicore_semester_program_rel',
+        comodel_name='oacis.program',
+        relation='oacis_semester_program_rel',
         column1='semester_id',
         column2='program_id',
         string='Applicable Programs',
@@ -271,7 +271,7 @@ class UnicoreSemester(models.Model):
         for record in self:
             if record.academic_year_id and record.academic_year_id.year_type == 'term':
                 if record.semester_type not in (
-                        self.env['unicore.academic.year']._TERM_SEMESTER_TYPES):
+                        self.env['oacis.academic.year']._TERM_SEMESTER_TYPES):
                     raise ValidationError(
                         _('A Term-based academic year can only contain Term '
                           'semesters (First/Second/Third/Fourth Term).'),
@@ -310,7 +310,7 @@ class UnicoreSemester(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Generate Academic Weeks'),
-            'res_model': 'unicore.generate.weeks.wizard',
+            'res_model': 'oacis.generate.weeks.wizard',
             'view_mode': 'form',
             'target': 'new',
             'context': {'default_semester_id': self.id},
@@ -321,7 +321,7 @@ class UnicoreSemester(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Academic Weeks'),
-            'res_model': 'unicore.academic.week',
+            'res_model': 'oacis.academic.week',
             'view_mode': 'list,form',
             'domain': [('semester_id', '=', self.id)],
             'context': {'default_semester_id': self.id},
@@ -330,7 +330,7 @@ class UnicoreSemester(models.Model):
     @api.model
     def get_current_semester(self, company_id=None):
         company = company_id or self.env.company.id
-        academic_year = self.env['unicore.academic.year'].get_current_year(company)
+        academic_year = self.env['oacis.academic.year'].get_current_year(company)
         if not academic_year:
             return self.browse()
         current = self.search([

@@ -3,15 +3,15 @@ from odoo.exceptions import ValidationError
 
 
 class MentorAllocation(models.Model):
-    _name = 'unicore.mentor.allocation'
+    _name = 'oacis.mentor.allocation'
     _description = 'Mentor Allocation'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'academic_year_id desc, mentor_id'
     _check_company_auto = True
     _rec_name = 'name'
 
     mentor_id = fields.Many2one(
-        'unicore.faculty.member',
+        'oacis.faculty.member',
         string='Mentor (Faculty)',
         required=True,
         ondelete='cascade',
@@ -24,15 +24,15 @@ class MentorAllocation(models.Model):
         store=True,
     )
     academic_year_id = fields.Many2one(
-        'unicore.academic.year',
+        'oacis.academic.year',
         string='Academic Year',
         required=True,
         domain="[('company_id', '=', company_id)]",
         tracking=True,
     )
     student_ids = fields.Many2many(
-        'unicore.student',
-        'unicore_mentor_student_rel',
+        'oacis.student',
+        'oacis_mentor_student_rel',
         'allocation_id', 'student_id',
         string='Mentees',
         domain="[('company_id', '=', company_id)]",
@@ -64,15 +64,15 @@ class MentorAllocation(models.Model):
 
 
 class MentorMeetingLog(models.Model):
-    _name = 'unicore.mentor.meeting.log'
+    _name = 'oacis.mentor.meeting.log'
     _description = 'Mentor Meeting Log'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
     _order = 'meeting_date desc'
     _check_company_auto = True
     _rec_name = 'meeting_date'
 
     allocation_id = fields.Many2one(
-        'unicore.mentor.allocation',
+        'oacis.mentor.allocation',
         string='Mentorship Allocation',
         required=True,
         ondelete='cascade',
@@ -84,7 +84,7 @@ class MentorMeetingLog(models.Model):
         store=True,
     )
     student_id = fields.Many2one(
-        'unicore.student',
+        'oacis.student',
         string='Student',
         required=True,
         domain="[('id', 'in', student_ids)]",

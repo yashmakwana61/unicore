@@ -1,9 +1,9 @@
-"""Smoke / regression suite for unicore_academic_generic (Phase 0).
+"""Smoke / regression suite for oacis_academic_generic (Phase 0).
 
 Covers the generic academic-unit tree: seeded unit-type taxonomy, hierarchy
 creation, parent-type allow-list enforcement, cycle detection, uniqueness, and
 the child-opening action. This is the regression baseline for the Phase 1
-wiring of unicore.program.academic_unit_id.
+wiring of oacis.program.academic_unit_id.
 """
 
 from psycopg2 import IntegrityError
@@ -13,29 +13,29 @@ from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'unit')
-class UniCoreAcademicUnitTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'unit')
+class OacisAcademicUnitTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
 
         cls.company = cls.env.company
-        UnitType = cls.env['unicore.academic.unit.type']
+        UnitType = cls.env['oacis.academic.unit.type']
 
-        cls.type_faculty = cls.env.ref('unicore_academic_generic.unit_type_faculty')
-        cls.type_department = cls.env.ref('unicore_academic_generic.unit_type_department')
-        cls.type_grade_level = cls.env.ref('unicore_academic_generic.unit_type_grade_level')
-        cls.type_wing = cls.env.ref('unicore_academic_generic.unit_type_wing')
-        cls.type_other = cls.env.ref('unicore_academic_generic.unit_type_other')
-        cls.type_division = cls.env.ref('unicore_academic_generic.unit_type_division')
-        cls.type_stream = cls.env.ref('unicore_academic_generic.unit_type_stream')
-        cls.type_batch_group = cls.env.ref('unicore_academic_generic.unit_type_batch_group')
+        cls.type_faculty = cls.env.ref('oacis_academic_generic.unit_type_faculty')
+        cls.type_department = cls.env.ref('oacis_academic_generic.unit_type_department')
+        cls.type_grade_level = cls.env.ref('oacis_academic_generic.unit_type_grade_level')
+        cls.type_wing = cls.env.ref('oacis_academic_generic.unit_type_wing')
+        cls.type_other = cls.env.ref('oacis_academic_generic.unit_type_other')
+        cls.type_division = cls.env.ref('oacis_academic_generic.unit_type_division')
+        cls.type_stream = cls.env.ref('oacis_academic_generic.unit_type_stream')
+        cls.type_batch_group = cls.env.ref('oacis_academic_generic.unit_type_batch_group')
         # Unused here but kept to assert the full seed set exists.
         assert UnitType.search_count([]) >= 8
 
     def _new_unit(self, name, code, unit_type, parent=None):
-        return self.env['unicore.academic.unit'].create({
+        return self.env['oacis.academic.unit'].create({
             'name': name,
             'code': code,
             'unit_type_id': unit_type.id,
@@ -96,7 +96,7 @@ class UniCoreAcademicUnitTest(TransactionCase):
 
     def test_05_cycle_detection(self):
         """A unit cannot be its own ancestor."""
-        node_type = self.env['unicore.academic.unit.type'].create({
+        node_type = self.env['oacis.academic.unit.type'].create({
             'name': 'Test Node', 'code': 'NODE',
         })
         node_type.allowed_child_type_ids = [(6, 0, [node_type.id])]
@@ -126,7 +126,7 @@ class UniCoreAcademicUnitTest(TransactionCase):
         faculty = self._new_unit('Faculty of Commerce', 'FCOM', self.type_faculty)
         self._new_unit('Accounting', 'ACC', self.type_department, parent=faculty)
         action = faculty.action_open_children()
-        self.assertEqual(action['res_model'], 'unicore.academic.unit')
+        self.assertEqual(action['res_model'], 'oacis.academic.unit')
         self.assertEqual(action['view_mode'], 'list,form,kanban')
         self.assertEqual(action['domain'], [('parent_id', '=', faculty.id)])
         self.assertEqual(action['context']['default_parent_id'], faculty.id)

@@ -1,8 +1,8 @@
 """
-UniCore Attendance Session Model
+Oacis Attendance Session Model
 Represents one actual class session that took place
 (or is scheduled to take place) on a specific date.
-Sessions are generated from unicore.timetable.entry
+Sessions are generated from oacis.timetable.entry
 records by the Generate Sessions wizard, with holiday
 dates automatically excluded.
 Faculty open a session, mark attendance for enrolled
@@ -18,16 +18,16 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreAttendanceSession(models.Model):
-    _name = 'unicore.attendance.session'
+class OacisAttendanceSession(models.Model):
+    _name = 'oacis.attendance.session'
     _description = 'Attendance Session'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'session_date desc, timetable_entry_id'
     _rec_name = 'display_name'
     _check_company_auto = True
 
     timetable_entry_id = fields.Many2one(
-        comodel_name='unicore.timetable.entry',
+        comodel_name='oacis.timetable.entry',
         string='Timetable Entry',
         required=True,
         ondelete='restrict',
@@ -36,7 +36,7 @@ class UniCoreAttendanceSession(models.Model):
     )
 
     course_offering_id = fields.Many2one(
-        comodel_name='unicore.course.offering',
+        comodel_name='oacis.course.offering',
         string='Course Offering',
         related='timetable_entry_id.course_offering_id',
         store=True,
@@ -45,7 +45,7 @@ class UniCoreAttendanceSession(models.Model):
     )
 
     course_id = fields.Many2one(
-        comodel_name='unicore.course',
+        comodel_name='oacis.course',
         string='Course',
         related='timetable_entry_id.course_id',
         store=True,
@@ -53,7 +53,7 @@ class UniCoreAttendanceSession(models.Model):
     )
 
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         related='timetable_entry_id.semester_id',
         store=True,
@@ -61,7 +61,7 @@ class UniCoreAttendanceSession(models.Model):
     )
 
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus',
+        comodel_name='oacis.campus',
         string='Campus',
         related='timetable_entry_id.campus_id',
         store=True,
@@ -77,7 +77,7 @@ class UniCoreAttendanceSession(models.Model):
     )
 
     room_id = fields.Many2one(
-        comodel_name='unicore.room',
+        comodel_name='oacis.room',
         string='Room',
         related='timetable_entry_id.room_id',
         store=True,
@@ -85,7 +85,7 @@ class UniCoreAttendanceSession(models.Model):
     )
 
     instructor_id = fields.Many2one(
-        comodel_name='unicore.faculty.member',
+        comodel_name='oacis.faculty.member',
         string='Instructor',
         related='timetable_entry_id.instructor_id',
         store=True,
@@ -93,7 +93,7 @@ class UniCoreAttendanceSession(models.Model):
     )
 
     time_slot_id = fields.Many2one(
-        comodel_name='unicore.time.slot',
+        comodel_name='oacis.time.slot',
         string='Time Slot',
         related='timetable_entry_id.time_slot_id',
         store=True,
@@ -149,7 +149,7 @@ class UniCoreAttendanceSession(models.Model):
     )
 
     attendance_record_ids = fields.One2many(
-        comodel_name='unicore.attendance.record',
+        comodel_name='oacis.attendance.record',
         inverse_name='session_id',
         string='Attendance Records',
     )
@@ -304,8 +304,8 @@ class UniCoreAttendanceSession(models.Model):
                 _('Cannot open a cancelled or holiday session for attendance marking.'),
             )
 
-        Enrollment = self.env['unicore.enrollment']
-        AttendanceRecord = self.env['unicore.attendance.record']
+        Enrollment = self.env['oacis.enrollment']
+        AttendanceRecord = self.env['oacis.attendance.record']
 
         active_enrollments = Enrollment.search([
             ('course_offering_id', '=', self.course_offering_id.id),

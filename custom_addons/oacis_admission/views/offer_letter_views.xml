@@ -2,8 +2,8 @@
 <odoo>
 
     <record id="offer_letter_form_view" model="ir.ui.view">
-        <field name="name">unicore.admission.offer.letter.form</field>
-        <field name="model">unicore.admission.offer.letter</field>
+        <field name="name">oacis.admission.offer.letter.form</field>
+        <field name="model">oacis.admission.offer.letter</field>
         <field name="arch" type="xml">
             <form>
                 <header>
@@ -47,8 +47,8 @@
     </record>
 
     <record id="offer_letter_list_view" model="ir.ui.view">
-        <field name="name">unicore.admission.offer.letter.list</field>
-        <field name="model">unicore.admission.offer.letter</field>
+        <field name="name">oacis.admission.offer.letter.list</field>
+        <field name="model">oacis.admission.offer.letter</field>
         <field name="arch" type="xml">
             <list>
                 <field name="letter_number"/>
@@ -65,8 +65,8 @@
     </record>
 
     <record id="offer_letter_search_view" model="ir.ui.view">
-        <field name="name">unicore.admission.offer.letter.search</field>
-        <field name="model">unicore.admission.offer.letter</field>
+        <field name="name">oacis.admission.offer.letter.search</field>
+        <field name="model">oacis.admission.offer.letter</field>
         <field name="arch" type="xml">
             <search>
                 <field name="letter_number"/>
@@ -80,9 +80,9 @@
         </field>
     </record>
 
-    <record id="action_unicore_admission_offer_letter" model="ir.actions.act_window">
+    <record id="action_oacis_admission_offer_letter" model="ir.actions.act_window">
         <field name="name">Offer Letters</field>
-        <field name="res_model">unicore.admission.offer.letter</field>
+        <field name="res_model">oacis.admission.offer.letter</field>
         <field name="view_mode">list,form</field>
         <field name="search_view_id" ref="offer_letter_search_view"/>
         <field name="help" type="html">

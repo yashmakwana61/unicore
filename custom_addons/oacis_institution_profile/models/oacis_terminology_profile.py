@@ -1,18 +1,18 @@
 from odoo import api, fields, models
 
 
-class UnicoreTerminologyProfile(models.Model):
+class OacisTerminologyProfile(models.Model):
     """Field-label substitution layer for entity-specific terminology.
 
     Cosmetic only - no model or field names change. Each term maps the generic
-    UniCore vocabulary to the institution's vocabulary, or hides the concept by
+    Oacis vocabulary to the institution's vocabulary, or hides the concept by
     leaving it blank. Applied at institution setup time (one-time relabeling,
     Phase 5), per the locked product decision.
     """
 
-    _name = 'unicore.terminology.profile'
+    _name = 'oacis.terminology.profile'
     _description = 'Terminology Profile'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
     _order = 'name'
 
     # concept -> (term field name, generic fallback label)

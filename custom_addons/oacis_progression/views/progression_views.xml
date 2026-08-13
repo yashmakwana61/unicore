@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="view_unicore_progression_record_tree" model="ir.ui.view">
-            <field name="name">unicore.progression.record.tree</field>
-            <field name="model">unicore.progression.record</field>
+        <record id="view_oacis_progression_record_tree" model="ir.ui.view">
+            <field name="name">oacis.progression.record.tree</field>
+            <field name="model">oacis.progression.record</field>
             <field name="arch" type="xml">
                 <list string="Progression Records">
                     <field name="student_id" widget="many2one_avatar"/>
@@ -20,9 +20,9 @@
             </field>
         </record>
 
-        <record id="view_unicore_progression_record_form" model="ir.ui.view">
-            <field name="name">unicore.progression.record.form</field>
-            <field name="model">unicore.progression.record</field>
+        <record id="view_oacis_progression_record_form" model="ir.ui.view">
+            <field name="name">oacis.progression.record.form</field>
+            <field name="model">oacis.progression.record</field>
             <field name="arch" type="xml">
                 <form string="Progression Record">
                     <header>
@@ -63,9 +63,9 @@
             </field>
         </record>
 
-        <record id="view_unicore_progression_record_search" model="ir.ui.view">
-            <field name="name">unicore.progression.record.search</field>
-            <field name="model">unicore.progression.record</field>
+        <record id="view_oacis_progression_record_search" model="ir.ui.view">
+            <field name="name">oacis.progression.record.search</field>
+            <field name="model">oacis.progression.record</field>
             <field name="arch" type="xml">
                 <search string="Search Progression Records">
                     <field name="student_id" widget="many2one_avatar"/>
@@ -80,11 +80,11 @@
             </field>
         </record>
 
-        <record id="action_unicore_progression_record" model="ir.actions.act_window">
+        <record id="action_oacis_progression_record" model="ir.actions.act_window">
             <field name="name">Progression Records</field>
-            <field name="res_model">unicore.progression.record</field>
+            <field name="res_model">oacis.progression.record</field>
             <field name="view_mode">list,form</field>
-            <field name="search_view_id" ref="view_unicore_progression_record_search"/>
+            <field name="search_view_id" ref="view_oacis_progression_record_search"/>
             <field name="help" type="html">
               <p class="o_view_nocontent_smiling_face">
                 Create a new progression record

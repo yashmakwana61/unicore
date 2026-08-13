@@ -4,8 +4,8 @@
     <!-- Remove the separate board/calendar/analysis/activity actions and menus.
          The underlying views are kept and exposed via view_mode on the main actions. -->
 
-    <delete model="ir.actions.act_window" id="action_unicore_notification_log_analysis"/>
+    <delete model="ir.actions.act_window" id="action_oacis_notification_log_analysis"/>
 
-    <delete model="ir.ui.menu" id="menu_unicore_notify_log_analysis"/>
+    <delete model="ir.ui.menu" id="menu_oacis_notify_log_analysis"/>
 
 </odoo>

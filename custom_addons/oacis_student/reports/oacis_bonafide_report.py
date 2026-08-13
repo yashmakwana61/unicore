@@ -3,13 +3,13 @@ from datetime import date
 from odoo import api, models
 
 
-class UniCoreBonafideReport(models.AbstractModel):
-    _name = 'report.unicore_student.bonafide_template'
+class OacisBonafideReport(models.AbstractModel):
+    _name = 'report.oacis_student.bonafide_template'
     _description = 'Bonafide Certificate Report'
 
     @api.model
     def _get_report_values(self, docids, data=None):
-        students = self.env['unicore.student'].browse(docids)
+        students = self.env['oacis.student'].browse(docids)
         data = data or {}
 
         def get_salutation(gender):
@@ -26,7 +26,7 @@ class UniCoreBonafideReport(models.AbstractModel):
 
         return {
             'doc_ids': docids,
-            'doc_model': 'unicore.student',
+            'doc_model': 'oacis.student',
             'docs': students,
             'data': data,
             'get_salutation': get_salutation,

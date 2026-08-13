@@ -1,7 +1,7 @@
-"""UniCore Transport — Models Package"""
+"""Oacis Transport — Models Package"""
 from . import (
-    unicore_transport_pass,
-    unicore_transport_route,
-    unicore_transport_trip,
-    unicore_transport_vehicle,
+    oacis_transport_pass,
+    oacis_transport_route,
+    oacis_transport_trip,
+    oacis_transport_vehicle,
 )

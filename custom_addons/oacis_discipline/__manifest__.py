@@ -1,12 +1,12 @@
 {
-    'name': 'UniCore Discipline',
+    'name': 'Oacis Discipline',
     'version': '19.0.1.0.0',
     'category': 'Education',
     'summary': 'Discipline Management',
     'author': 'Precisefect Solutions Pvt. Ltd.',
     'website': 'https://www.precisefect.com',
     'license': 'OPL-1',
-    'depends': ['unicore_student', 'unicore_faculty_profile'],
+    'depends': ['oacis_student', 'oacis_faculty_profile'],
     'data': [
         'security/ir.model.access.csv',
         'security/security_rules.xml',

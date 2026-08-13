@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="view_unicore_student_form_convocation_ext"
+    <record id="view_oacis_student_form_convocation_ext"
             model="ir.ui.view">
-        <field name="name">unicore.student.form.convocation.ext</field>
-        <field name="model">unicore.student</field>
-        <field name="inherit_id" ref="unicore_student.unicore_student_form_view"/>
+        <field name="name">oacis.student.form.convocation.ext</field>
+        <field name="model">oacis.student</field>
+        <field name="inherit_id" ref="oacis_student.oacis_student_form_view"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@name='button_box']" position="inside">
                 <button name="action_view_convocation_event"
@@ -22,7 +22,7 @@
                         class="oe_stat_button"
                         icon="fa-link"
                         invisible="convocation_event_id"
-                        groups="unicore_base.group_unicore_admin,unicore_base.group_unicore_manager">
+                        groups="oacis_base.group_oacis_admin,oacis_base.group_oacis_manager">
                     <div class="o_stat_info">
                         <span class="o_stat_text">Register</span>
                     </div>

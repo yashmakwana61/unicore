@@ -1,5 +1,5 @@
 """
-UniCore Fee Accounting Configuration Model
+Oacis Fee Accounting Configuration Model
 Manages GL account mappings and invoice posting settings for fee invoices.
 """
 
@@ -7,8 +7,8 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 
-class UniCoreFeeAccountingConfig(models.Model):
-    _name = 'unicore.fee.accounting.config'
+class OacisFeeAccountingConfig(models.Model):
+    _name = 'oacis.fee.accounting.config'
     _description = 'Fee Accounting Configuration'
     _rec_name = 'company_id'
     _check_company_auto = True
@@ -50,7 +50,7 @@ class UniCoreFeeAccountingConfig(models.Model):
 
     tax_ids = fields.Many2many(
         comodel_name='account.tax',
-        relation='unicore_fee_config_tax_rel',
+        relation='oacis_fee_config_tax_rel',
         column1='config_id',
         column2='tax_id',
         string='Default Taxes',
@@ -144,7 +144,7 @@ class UniCoreFeeAccountingConfig(models.Model):
             company_id: res.company ID (defaults to current company)
 
         Returns:
-            unicore.fee.accounting.config record or False
+            oacis.fee.accounting.config record or False
         """
         if not company_id:
             company_id = self.env.company.id

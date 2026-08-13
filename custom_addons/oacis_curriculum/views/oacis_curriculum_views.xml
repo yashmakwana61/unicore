@@ -4,9 +4,9 @@
     <!-- ============================================= -->
     <!-- FORM VIEW                                     -->
     <!-- ============================================= -->
-    <record id="view_unicore_curriculum_form" model="ir.ui.view">
-      <field name="name">unicore.curriculum.form</field>
-      <field name="model">unicore.curriculum</field>
+    <record id="view_oacis_curriculum_form" model="ir.ui.view">
+      <field name="name">oacis.curriculum.form</field>
+      <field name="model">oacis.curriculum</field>
       <field name="arch" type="xml">
         <form>
           <header>
@@ -14,8 +14,8 @@
             <button name="action_submit_review" type="object" string="Submit for Review" invisible="curriculum_state != 'draft'"/>
             <button name="action_approve" type="object" string="Approve" invisible="curriculum_state != 'review'"/>
             <button name="action_activate" type="object" string="Activate" invisible="curriculum_state != 'approved'" class="btn-primary"/>
-            <button name="action_retire" type="object" string="Retire" invisible="curriculum_state != 'active'" groups="unicore_base.group_unicore_admin"/>
-            <button name="action_reset_draft" type="object" string="Reset to Draft" invisible="curriculum_state == 'draft'" groups="unicore_base.group_unicore_admin"/>
+            <button name="action_retire" type="object" string="Retire" invisible="curriculum_state != 'active'" groups="oacis_base.group_oacis_admin"/>
+            <button name="action_reset_draft" type="object" string="Reset to Draft" invisible="curriculum_state == 'draft'" groups="oacis_base.group_oacis_admin"/>
           </header>
           <sheet>
             <div class="oe_button_box" name="button_box">
@@ -82,9 +82,9 @@
     <!-- ============================================= -->
     <!-- LIST VIEW                                     -->
     <!-- ============================================= -->
-    <record id="view_unicore_curriculum_list" model="ir.ui.view">
-      <field name="name">unicore.curriculum.list</field>
-      <field name="model">unicore.curriculum</field>
+    <record id="view_oacis_curriculum_list" model="ir.ui.view">
+      <field name="name">oacis.curriculum.list</field>
+      <field name="model">oacis.curriculum</field>
       <field name="arch" type="xml">
         <list decoration-success="curriculum_state == 'active'" decoration-muted="curriculum_state == 'retired'" decoration-bf="is_current == True">
           <field name="name"/>
@@ -100,9 +100,9 @@
     <!-- ============================================= -->
     <!-- SEARCH VIEW                                   -->
     <!-- ============================================= -->
-    <record id="view_unicore_curriculum_search" model="ir.ui.view">
-      <field name="name">unicore.curriculum.search</field>
-      <field name="model">unicore.curriculum</field>
+    <record id="view_oacis_curriculum_search" model="ir.ui.view">
+      <field name="name">oacis.curriculum.search</field>
+      <field name="model">oacis.curriculum</field>
       <field name="arch" type="xml">
         <search>
           <field name="name"/>
@@ -121,9 +121,9 @@
     <!-- ============================================= -->
     <!-- WINDOW ACTION                                 -->
     <!-- ============================================= -->
-    <record id="action_unicore_curriculum" model="ir.actions.act_window">
+    <record id="action_oacis_curriculum" model="ir.actions.act_window">
       <field name="name">Curricula</field>
-      <field name="res_model">unicore.curriculum</field>
+      <field name="res_model">oacis.curriculum</field>
       <field name="view_mode">list,form</field>
     </record>
   </data>

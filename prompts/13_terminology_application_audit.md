@@ -1,6 +1,6 @@
-# UniCore Terminology Application Audit — "changing the profile relabels EVERYTHING"
+# Oacis Terminology Application Audit — "changing the profile relabels EVERYTHING"
 
-Date: 2026-08-09 · Module touched: unicore_institution_profile · DBs: odoo_p0_baseline (migration
+Date: 2026-08-09 · Module touched: oacis_institution_profile · DBs: odoo_p0_baseline (migration
 bed) + odoo (live)
 
 ## TL;DR
@@ -14,7 +14,7 @@ surface the user looks at; detaching restores them. Live upgrade installed v19.0
 
 ## What was done
 
-### Terminology application layer (`unicore_institution_profile`)
+### Terminology application layer (`oacis_institution_profile`)
 - **`models/base.py`** — `TerminologyBase(models.AbstractModel): _inherit = 'base'`; overrides
   `fields_get` → rewrites `fdef['string']` for every matching label, GLOBALLY across all models
   (this is what makes a K-12 school see `Learner`/`Class/Section` on every model's field labels).
@@ -36,25 +36,25 @@ surface the user looks at; detaching restores them. Live upgrade installed v19.0
 - Manifest version → `19.0.1.3.0`.
 
 ### Tests
-- **`tests/test_terminology_application.py`** (6, tagged unicore/unit): 01 no-profile stays generic;
-  02 TRN relabels fields everywhere (incl. cross-module `unicore.enrollment`/`unicore.program` in the
+- **`tests/test_terminology_application.py`** (6, tagged oacis/unit): 01 no-profile stays generic;
+  02 TRN relabels fields everywhere (incl. cross-module `oacis.enrollment`/`oacis.program` in the
   full-suite run, `_relabel` helper skips when the model is not in the registry); 03 view arch
   (Module/Course Type/Active Courses); 04 K-12 fields (Grade Level/Class-Section); 05 menus via a
-  real Staff user — **root matched by xmlid, not by name** (name is 'UniCore' on fresh DBs, 'SIS' on
+  real Staff user — **root matched by xmlid, not by name** (name is 'Oacis' on fresh DBs, 'SIS' on
   the migrated live DB); 06 action title.
-- **`unicore_enrollment/tests/test_terminology_views.py`** — `test_04` EVOLVED from
-  "non-whitelisted model untouched" to "token-driven relabeling on ANY model" (`unicore.course.
+- **`oacis_enrollment/tests/test_terminology_views.py`** — `test_04` EVOLVED from
+  "non-whitelisted model untouched" to "token-driven relabeling on ANY model" (`oacis.course.
   offering` Program → Class/Section under K-12), with a negative check that non-term strings survive.
   This is a deliberate behavior evolution: the old 8-model Gap-2 whitelist left `Program` visible on
   non-core models — exactly the user's complaint.
 
 ## Verification results
-- Isolated on live `odoo` (`/unicore_institution_profile,/unicore_enrollment`): **0 failed, 0 error(s)
+- Isolated on live `odoo` (`/oacis_institution_profile,/oacis_enrollment`): **0 failed, 0 error(s)
   of 52 tests** (39 + 13).
-- E2E diagnostics (baseline staff user + live admin uid=2 who has unicore Admin→Staff + website
+- E2E diagnostics (baseline staff user + live admin uid=2 who has oacis Admin→Staff + website
   designer): TRN and K-12 relabel `fields_get` (program/student/semester), view arch, menu names and
   action titles; detach restores `Programs`/`Departments`.
-- Live upgrade (`-u unicore_institution_profile`): EXIT=0, module now `19.0.1.3.0`, log tracebacks all
+- Live upgrade (`-u oacis_institution_profile`): EXIT=0, module now `19.0.1.3.0`, log tracebacks all
   benign cleanup noise.
 - **FULL 20-module suite on live odoo → `6 failed, 3 error(s) of 207 tests`** = EXACTLY the
   pre-existing set (fees 04/05/06/08err/09, api 14, admission 14 + 12err, website setUpClass),
@@ -67,10 +67,10 @@ surface the user looks at; detaching restores them. Live upgrade installed v19.0
 - **`ir.ui.view` read ACL**: plain Staff cannot read views (pre-existing: view read is limited to
   `base.group_system` + `website.group_website_restricted_editor` + `website.group_website_designer`);
   a functional admin needs `website.group_website_designer`.
-- **App root menu name differs by DB** ('UniCore' id 168 on fresh DBs, 'SIS' id 123 on the live
+- **App root menu name differs by DB** ('Oacis' id 168 on fresh DBs, 'SIS' id 123 on the live
   migrated DB) → tests must assert by record id, not name.
 - **Live upgrade blocked twice**:
-  1. `unicore_demo/data/03_academic_calendar.xml` writes a `semester`-type academic year for
+  1. `oacis_demo/data/03_academic_calendar.xml` writes a `semester`-type academic year for
      `base.main_company`; with K12 (term) attached this fires `_check_calendar_mode` → ParseError.
      Workaround: temporarily attach UNI_LEGACY (semester) during `-u`, restore K12 after.
   2. Empty `orm_signaling_registry` → `get_sequences()` returns `max(id)=NULL` →

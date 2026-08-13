@@ -2,18 +2,18 @@ from odoo import _, api, fields, models
 
 
 class AlumniExt(models.Model):
-    _inherit = 'unicore.student'
+    _inherit = 'oacis.student'
 
     alumni_mailing_list_ids = fields.Many2many(
         'mailing.list',
-        'unicore_alumni_mailing_list_rel',
+        'oacis_alumni_mailing_list_rel',
         'student_id', 'list_id',
         string='Alumni Mailing Lists',
         help='Mass mailing lists this alumni contact belongs to.',
     )
     alumni_event_ids = fields.Many2many(
         'event.event',
-        'unicore_alumni_event_rel',
+        'oacis_alumni_event_rel',
         'student_id', 'event_id',
         string='Alumni Events',
         help='Alumni events this student is registered for.',

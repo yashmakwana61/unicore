@@ -1,5 +1,5 @@
 """
-UniCore Scholarship Application Model
+Oacis Scholarship Application Model
 A student's application for a scholarship.
 Auto-checks eligibility on submission.
 Goes through review workflow before approval.
@@ -14,10 +14,10 @@ from odoo.exceptions import UserError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreScholarshipApplication(models.Model):
-    _name = 'unicore.scholarship.application'
+class OacisScholarshipApplication(models.Model):
+    _name = 'oacis.scholarship.application'
     _description = 'Scholarship Application'
-    _inherit = ['unicore.mixin', 'mail.thread',
+    _inherit = ['oacis.mixin', 'mail.thread',
                 'mail.activity.mixin']
     _order = 'application_date desc, student_id'
     _check_company_auto = True
@@ -50,7 +50,7 @@ class UniCoreScholarshipApplication(models.Model):
         index=True,
     )
     scholarship_program_id = fields.Many2one(
-        comodel_name='unicore.scholarship.program',
+        comodel_name='oacis.scholarship.program',
         string='Scholarship Program',
         required=True,
         ondelete='restrict',
@@ -60,7 +60,7 @@ class UniCoreScholarshipApplication(models.Model):
                "('company_id','=',company_id)]",
     )
     student_id = fields.Many2one(
-        comodel_name='unicore.student',
+        comodel_name='oacis.student',
         string='Student',
         required=True,
         ondelete='restrict',
@@ -78,7 +78,7 @@ class UniCoreScholarshipApplication(models.Model):
         ondelete='restrict',
     )
     academic_year_id = fields.Many2one(
-        comodel_name='unicore.academic.year',
+        comodel_name='oacis.academic.year',
         string='Academic Year',
         related='scholarship_program_id.academic_year_id',
         store=True,
@@ -99,7 +99,7 @@ class UniCoreScholarshipApplication(models.Model):
         digits=(4, 2),
     )
     student_program_id = fields.Many2one(
-        comodel_name='unicore.program',
+        comodel_name='oacis.program',
         string='Program at Application',
         readonly=True,
     )
@@ -178,7 +178,7 @@ class UniCoreScholarshipApplication(models.Model):
     # --- AWARD LINK ---
 
     award_ids = fields.One2many(
-        comodel_name='unicore.scholarship.award',
+        comodel_name='oacis.scholarship.award',
         inverse_name='application_id',
         string='Awards',
     )
@@ -222,7 +222,7 @@ class UniCoreScholarshipApplication(models.Model):
             if not vals.get('application_number'):
                 vals['application_number'] = (
                     self.env['ir.sequence'].next_by_code(
-                        'unicore.scholarship.application',
+                        'oacis.scholarship.application',
                     ) or '/'
                 )
         return super().create(vals_list)
@@ -347,7 +347,7 @@ class UniCoreScholarshipApplication(models.Model):
 
         # Snapshot student data at submission
         att_records = self.env[
-            'unicore.attendance.record'
+            'oacis.attendance.record'
         ].search([
             ('student_id', '=', student.id),
         ])

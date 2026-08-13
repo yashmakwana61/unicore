@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-  <template id="portal_my_home_unicore_guardian"
-            name="UniCore Guardian Portal Home"
+  <template id="portal_my_home_oacis_guardian"
+            name="Oacis Guardian Portal Home"
             inherit_id="portal.portal_my_home"
             priority="25">
     <xpath expr="//div[hasclass('o_portal_docs')]"
            position="inside">
       <t t-call="portal.portal_docs_entry">
         <t t-set="title">Guardian Portal</t>
-        <t t-set="url">/my/unicore/guardian</t>
-        <t t-set="placeholder_count">unicore_wards</t>
+        <t t-set="url">/my/oacis/guardian</t>
+        <t t-set="placeholder_count">oacis_wards</t>
         <t t-set="count"
-           t-value="unicore_wards or 0"/>
+           t-value="oacis_wards or 0"/>
         <t t-set="text">My Wards</t>
       </t>
     </xpath>
@@ -30,11 +30,11 @@
           <div class="col-12">
             <nav class="nav nav-pills flex-wrap">
               <a t-att-class="'nav-link' + (' active' if page_name == 'guardian_dashboard' else '')"
-                 href="/my/unicore/guardian">
+                 href="/my/oacis/guardian">
                 Dashboard
               </a>
               <a t-att-class="'nav-link' + (' active' if page_name == 'guardian_exams' else '')"
-                 href="/my/unicore/guardian/exams">
+                 href="/my/oacis/guardian/exams">
                 Exams
               </a>
             </nav>
@@ -47,7 +47,7 @@
 
   <template id="portal_guardian_no_permission"
             name="Guardian No Permission">
-    <t t-call="unicore_portal_guardian.portal_guardian_layout">
+    <t t-call="oacis_portal_guardian.portal_guardian_layout">
       <div class="container">
         <div class="alert alert-warning mt-3"
              role="alert">
@@ -59,7 +59,7 @@
             </strong>
             's records in this section.
           </p>
-          <a href="/my/unicore/guardian"
+          <a href="/my/oacis/guardian"
              class="btn btn-primary">
             Back to Dashboard
           </a>
@@ -70,7 +70,7 @@
 
   <template id="portal_guardian_dashboard"
             name="Guardian Dashboard">
-    <t t-call="unicore_portal_guardian.portal_guardian_layout">
+    <t t-call="oacis_portal_guardian.portal_guardian_layout">
       <div class="container">
 
         <div class="row mb-4">
@@ -172,17 +172,17 @@
 
               <div class="d-flex gap-2 flex-wrap">
                 <t t-if="wd['can_view_academic']">
-                  <a t-att-href="'/my/unicore/guardian/attendance/%d' % student.id"
+                  <a t-att-href="'/my/oacis/guardian/attendance/%d' % student.id"
                      class="btn btn-sm btn-outline-primary">
                     <i class="fa fa-calendar-check-o"/> Attendance
                   </a>
-                  <a t-att-href="'/my/unicore/guardian/academic/%d' % student.id"
+                  <a t-att-href="'/my/oacis/guardian/academic/%d' % student.id"
                      class="btn btn-sm btn-outline-success">
                     <i class="fa fa-graduation-cap"/> Academic
                   </a>
                 </t>
                 <t t-if="wd['can_view_fees']">
-                  <a t-att-href="'/my/unicore/guardian/fees/%d' % student.id"
+                  <a t-att-href="'/my/oacis/guardian/fees/%d' % student.id"
                      class="btn btn-sm btn-outline-warning">
                     <i class="fa fa-money"/> Fees
                   </a>
@@ -199,13 +199,13 @@
 
   <template id="portal_guardian_ward_attendance"
             name="Guardian Ward Attendance">
-    <t t-call="unicore_portal_guardian.portal_guardian_layout">
+    <t t-call="oacis_portal_guardian.portal_guardian_layout">
       <div class="container">
 
         <nav aria-label="breadcrumb" class="mb-3">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="/my/unicore/guardian">Dashboard</a>
+              <a href="/my/oacis/guardian">Dashboard</a>
             </li>
             <li class="breadcrumb-item active">
               Attendance: <t t-esc="student.display_name"/>
@@ -293,7 +293,7 @@
           </tbody>
         </table>
 
-        <a href="/my/unicore/guardian"
+        <a href="/my/oacis/guardian"
            class="btn btn-outline-secondary mt-2">
           Back to Dashboard
         </a>
@@ -304,13 +304,13 @@
 
   <template id="portal_guardian_ward_academic"
             name="Guardian Ward Academic">
-    <t t-call="unicore_portal_guardian.portal_guardian_layout">
+    <t t-call="oacis_portal_guardian.portal_guardian_layout">
       <div class="container">
 
         <nav aria-label="breadcrumb" class="mb-3">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="/my/unicore/guardian">Dashboard</a>
+              <a href="/my/oacis/guardian">Dashboard</a>
             </li>
             <li class="breadcrumb-item active">
               Academic:
@@ -446,7 +446,7 @@
           </div>
         </t>
 
-        <a href="/my/unicore/guardian"
+        <a href="/my/oacis/guardian"
            class="btn btn-outline-secondary mt-2">
           Back to Dashboard
         </a>
@@ -457,13 +457,13 @@
 
   <template id="portal_guardian_ward_fees"
             name="Guardian Ward Fee Invoices">
-    <t t-call="unicore_portal_guardian.portal_guardian_layout">
+    <t t-call="oacis_portal_guardian.portal_guardian_layout">
       <div class="container">
 
         <nav aria-label="breadcrumb" class="mb-3">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="/my/unicore/guardian">Dashboard</a>
+              <a href="/my/oacis/guardian">Dashboard</a>
             </li>
             <li class="breadcrumb-item active">
               Fees: <t t-esc="student.display_name"/>
@@ -599,7 +599,7 @@
           </div>
         </t>
 
-        <a href="/my/unicore/guardian"
+        <a href="/my/oacis/guardian"
            class="btn btn-outline-secondary mt-2">
           Back to Dashboard
         </a>
@@ -610,7 +610,7 @@
 
   <template id="portal_guardian_exams"
             name="Guardian Exam Schedule">
-    <t t-call="unicore_portal_guardian.portal_guardian_layout">
+    <t t-call="oacis_portal_guardian.portal_guardian_layout">
       <div class="container">
         <h4 class="mb-3">Exam Schedules &amp; Hall Tickets</h4>
 

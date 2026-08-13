@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="view_unicore_document_search_phase1_filters" model="ir.ui.view">
-        <field name="name">unicore.document.search.phase1</field>
-        <field name="model">unicore.document</field>
-        <field name="inherit_id" ref="unicore_documents.view_unicore_document_search"/>
+    <record id="view_oacis_document_search_phase1_filters" model="ir.ui.view">
+        <field name="name">oacis.document.search.phase1</field>
+        <field name="model">oacis.document</field>
+        <field name="inherit_id" ref="oacis_documents.view_oacis_document_search"/>
         <field name="arch" type="xml">
 
             <xpath expr="//filter[@name='student_visible']" position="after">

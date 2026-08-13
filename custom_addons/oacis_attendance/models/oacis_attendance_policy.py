@@ -1,5 +1,5 @@
 """
-UniCore Attendance Policy Model
+Oacis Attendance Policy Model
 Defines institutional attendance requirements
 per course type or per specific course offering.
 Policies set the minimum attendance percentage
@@ -15,10 +15,10 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreAttendancePolicy(models.Model):
-    _name = 'unicore.attendance.policy'
+class OacisAttendancePolicy(models.Model):
+    _name = 'oacis.attendance.policy'
     _description = 'Attendance Policy'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
     _order = 'company_id, sequence'
     _check_company_auto = True
 
@@ -70,7 +70,7 @@ class UniCoreAttendancePolicy(models.Model):
     )
 
     course_id = fields.Many2one(
-        comodel_name='unicore.course',
+        comodel_name='oacis.course',
         string='Course',
         ondelete='restrict',
         domain="[('company_id', '=', company_id)]",
@@ -78,7 +78,7 @@ class UniCoreAttendancePolicy(models.Model):
     )
 
     course_offering_id = fields.Many2one(
-        comodel_name='unicore.course.offering',
+        comodel_name='oacis.course.offering',
         string='Course Offering',
         ondelete='restrict',
         domain="[('company_id', '=', company_id)]",
@@ -104,7 +104,7 @@ class UniCoreAttendancePolicy(models.Model):
     is_exam_eligibility_linked = fields.Boolean(
         string='Linked to Exam Eligibility',
         default=True,
-        help='If True students below minimum cannot sit for exams (enforced by unicore_exam)',
+        help='If True students below minimum cannot sit for exams (enforced by oacis_exam)',
     )
 
     description = fields.Text(

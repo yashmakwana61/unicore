@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_admission_cycle_calendar_view" model="ir.ui.view">
-        <field name="name">unicore.admission.cycle.calendar</field>
-        <field name="model">unicore.admission.cycle</field>
+    <record id="oacis_admission_cycle_calendar_view" model="ir.ui.view">
+        <field name="name">oacis.admission.cycle.calendar</field>
+        <field name="model">oacis.admission.cycle</field>
         <field name="type">calendar</field>
         <field name="arch" type="xml">
             <calendar date_start="start_date" date_stop="end_date" color="color" string="Admission Cycle Calendar">
@@ -24,9 +24,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_entrance_test_calendar_view" model="ir.ui.view">
-        <field name="name">unicore.admission.entrance.test.calendar</field>
-        <field name="model">unicore.admission.entrance.test</field>
+    <record id="oacis_entrance_test_calendar_view" model="ir.ui.view">
+        <field name="name">oacis.admission.entrance.test.calendar</field>
+        <field name="model">oacis.admission.entrance.test</field>
         <field name="type">calendar</field>
         <field name="arch" type="xml">
             <calendar date_start="test_date" color="color" string="Entrance Test Calendar">
@@ -42,9 +42,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_offer_letter_calendar_view" model="ir.ui.view">
-        <field name="name">unicore.admission.offer.letter.calendar</field>
-        <field name="model">unicore.admission.offer.letter</field>
+    <record id="oacis_offer_letter_calendar_view" model="ir.ui.view">
+        <field name="name">oacis.admission.offer.letter.calendar</field>
+        <field name="model">oacis.admission.offer.letter</field>
         <field name="type">calendar</field>
         <field name="arch" type="xml">
             <calendar date_start="offer_date" date_stop="valid_until" color="color" string="Offer Letter Calendar">

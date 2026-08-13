@@ -2,9 +2,9 @@
 <odoo>
     <data>
 
-        <record id="view_unicore_attendance_policy_form" model="ir.ui.view">
-            <field name="name">unicore.attendance.policy.form</field>
-            <field name="model">unicore.attendance.policy</field>
+        <record id="view_oacis_attendance_policy_form" model="ir.ui.view">
+            <field name="name">oacis.attendance.policy.form</field>
+            <field name="model">oacis.attendance.policy</field>
             <field name="arch" type="xml">
                 <form>
                     <sheet>
@@ -36,9 +36,9 @@
             </field>
         </record>
 
-        <record id="view_unicore_attendance_policy_list" model="ir.ui.view">
-            <field name="name">unicore.attendance.policy.list</field>
-            <field name="model">unicore.attendance.policy</field>
+        <record id="view_oacis_attendance_policy_list" model="ir.ui.view">
+            <field name="name">oacis.attendance.policy.list</field>
+            <field name="model">oacis.attendance.policy</field>
             <field name="arch" type="xml">
                 <list decoration-info="policy_scope == 'global'" decoration-success="policy_scope == 'offering'">
                     <field name="sequence" widget="handle"/>
@@ -52,9 +52,9 @@
             </field>
         </record>
 
-        <record id="view_unicore_attendance_policy_search" model="ir.ui.view">
-            <field name="name">unicore.attendance.policy.search</field>
-            <field name="model">unicore.attendance.policy</field>
+        <record id="view_oacis_attendance_policy_search" model="ir.ui.view">
+            <field name="name">oacis.attendance.policy.search</field>
+            <field name="model">oacis.attendance.policy</field>
             <field name="arch" type="xml">
                 <search>
                     <field name="name"/>
@@ -67,9 +67,9 @@
             </field>
         </record>
 
-        <record id="action_unicore_attendance_policy" model="ir.actions.act_window">
+        <record id="action_oacis_attendance_policy" model="ir.actions.act_window">
             <field name="name">Attendance Policies</field>
-            <field name="res_model">unicore.attendance.policy</field>
+            <field name="res_model">oacis.attendance.policy</field>
             <field name="view_mode">list,form</field>
         </record>
 

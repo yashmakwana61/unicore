@@ -1,84 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data noupdate="0">
-    <record id="uc_demo_enr_arav_cs101" model="unicore.enrollment" context="{'force_enrollment_override': True, 'auto_waitlist': False}">
+    <record id="uc_demo_enr_arav_cs101" model="oacis.enrollment" context="{'force_enrollment_override': True, 'auto_waitlist': False}">
       <field name="student_id" ref="uc_demo_student_arav"/>
       <field name="course_offering_id" ref="uc_demo_offering_cs101"/>
       <field name="enrollment_state">registered</field>
       <field name="registration_type">self</field>
     </record>
 
-    <record id="uc_demo_enr_arav_math101" model="unicore.enrollment" context="{'force_enrollment_override': True, 'auto_waitlist': False}">
+    <record id="uc_demo_enr_arav_math101" model="oacis.enrollment" context="{'force_enrollment_override': True, 'auto_waitlist': False}">
       <field name="student_id" ref="uc_demo_student_arav"/>
       <field name="course_offering_id" ref="uc_demo_offering_math101"/>
       <field name="enrollment_state">registered</field>
       <field name="registration_type">self</field>
     </record>
 
-    <record id="uc_demo_enr_diya_cs101" model="unicore.enrollment" context="{'force_enrollment_override': True, 'auto_waitlist': False}">
+    <record id="uc_demo_enr_diya_cs101" model="oacis.enrollment" context="{'force_enrollment_override': True, 'auto_waitlist': False}">
       <field name="student_id" ref="uc_demo_student_diya"/>
       <field name="course_offering_id" ref="uc_demo_offering_cs101"/>
       <field name="enrollment_state">registered</field>
       <field name="registration_type">self</field>
     </record>
 
-    <record id="uc_demo_enr_diya_math101" model="unicore.enrollment" context="{'force_enrollment_override': True, 'auto_waitlist': False}">
+    <record id="uc_demo_enr_diya_math101" model="oacis.enrollment" context="{'force_enrollment_override': True, 'auto_waitlist': False}">
       <field name="student_id" ref="uc_demo_student_diya"/>
       <field name="course_offering_id" ref="uc_demo_offering_math101"/>
       <field name="enrollment_state">registered</field>
       <field name="registration_type">self</field>
     </record>
 
-    <record id="uc_demo_enr_kabir_cs101" model="unicore.enrollment" context="{'force_enrollment_override': True, 'auto_waitlist': False}">
+    <record id="uc_demo_enr_kabir_cs101" model="oacis.enrollment" context="{'force_enrollment_override': True, 'auto_waitlist': False}">
       <field name="student_id" ref="uc_demo_student_kabir"/>
       <field name="course_offering_id" ref="uc_demo_offering_cs101"/>
       <field name="enrollment_state">registered</field>
       <field name="registration_type">self</field>
     </record>
 
-    <record id="uc_demo_enr_kabir_math101" model="unicore.enrollment" context="{'force_enrollment_override': True, 'auto_waitlist': False}">
+    <record id="uc_demo_enr_kabir_math101" model="oacis.enrollment" context="{'force_enrollment_override': True, 'auto_waitlist': False}">
       <field name="student_id" ref="uc_demo_student_kabir"/>
       <field name="course_offering_id" ref="uc_demo_offering_math101"/>
       <field name="enrollment_state">registered</field>
       <field name="registration_type">self</field>
     </record>
 
-    <record id="uc_demo_enr_myra_cs101" model="unicore.enrollment" context="{'force_enrollment_override': True, 'auto_waitlist': False}">
+    <record id="uc_demo_enr_myra_cs101" model="oacis.enrollment" context="{'force_enrollment_override': True, 'auto_waitlist': False}">
       <field name="student_id" ref="uc_demo_student_myra"/>
       <field name="course_offering_id" ref="uc_demo_offering_cs101"/>
       <field name="enrollment_state">registered</field>
       <field name="registration_type">self</field>
     </record>
 
-    <record id="uc_demo_enr_aryan_cs101" model="unicore.enrollment" context="{'force_enrollment_override': True, 'auto_waitlist': False}">
+    <record id="uc_demo_enr_aryan_cs101" model="oacis.enrollment" context="{'force_enrollment_override': True, 'auto_waitlist': False}">
       <field name="student_id" ref="uc_demo_student_aryan"/>
       <field name="course_offering_id" ref="uc_demo_offering_cs101"/>
       <field name="enrollment_state">registered</field>
       <field name="registration_type">self</field>
     </record>
 
-    <record id="uc_demo_enr_rohan_mba101" model="unicore.enrollment" context="{'force_enrollment_override': True, 'auto_waitlist': False}">
+    <record id="uc_demo_enr_rohan_mba101" model="oacis.enrollment" context="{'force_enrollment_override': True, 'auto_waitlist': False}">
       <field name="student_id" ref="uc_demo_student_rohan"/>
       <field name="course_offering_id" ref="uc_demo_offering_mba101"/>
       <field name="enrollment_state">registered</field>
       <field name="registration_type">self</field>
     </record>
 
-    <record id="uc_demo_enr_rohan_mba102" model="unicore.enrollment" context="{'force_enrollment_override': True, 'auto_waitlist': False}">
+    <record id="uc_demo_enr_rohan_mba102" model="oacis.enrollment" context="{'force_enrollment_override': True, 'auto_waitlist': False}">
       <field name="student_id" ref="uc_demo_student_rohan"/>
       <field name="course_offering_id" ref="uc_demo_offering_mba102"/>
       <field name="enrollment_state">registered</field>
       <field name="registration_type">self</field>
     </record>
 
-    <record id="uc_demo_enr_nisha_mba101" model="unicore.enrollment" context="{'force_enrollment_override': True, 'auto_waitlist': False}">
+    <record id="uc_demo_enr_nisha_mba101" model="oacis.enrollment" context="{'force_enrollment_override': True, 'auto_waitlist': False}">
       <field name="student_id" ref="uc_demo_student_nisha"/>
       <field name="course_offering_id" ref="uc_demo_offering_mba101"/>
       <field name="enrollment_state">registered</field>
       <field name="registration_type">self</field>
     </record>
 
-    <record id="uc_demo_enr_arjun_mba101" model="unicore.enrollment" context="{'force_enrollment_override': True, 'auto_waitlist': False}">
+    <record id="uc_demo_enr_arjun_mba101" model="oacis.enrollment" context="{'force_enrollment_override': True, 'auto_waitlist': False}">
       <field name="student_id" ref="uc_demo_student_arjun"/>
       <field name="course_offering_id" ref="uc_demo_offering_mba101"/>
       <field name="enrollment_state">registered</field>

@@ -1,5 +1,5 @@
 """
-UniCore Guardian Student Relationship Model
+Oacis Guardian Student Relationship Model
 Stores metadata about the relationship between
 a guardian and a student. This is a proper relation
 model — NOT a simple Many2many — because it holds
@@ -13,21 +13,21 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreGuardianStudentRel(models.Model):
-    _name = 'unicore.guardian.student.rel'
+class OacisGuardianStudentRel(models.Model):
+    _name = 'oacis.guardian.student.rel'
     _description = 'Guardian to Student Relationship'
     _order = 'guardian_id, student_id'
     _check_company_auto = True
 
     guardian_id = fields.Many2one(
-        'unicore.guardian',
+        'oacis.guardian',
         string='Guardian',
         required=True,
         ondelete='cascade',
         index=True,
     )
     student_id = fields.Many2one(
-        'unicore.student',
+        'oacis.student',
         string='Student',
         required=True,
         ondelete='cascade',

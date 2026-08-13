@@ -5,10 +5,10 @@ from odoo import _, api, fields, models
 from odoo.exceptions import AccessDenied
 
 
-class UniCoreApiKey(models.Model):
-    _name = 'unicore.api.key'
+class OacisApiKey(models.Model):
+    _name = 'oacis.api.key'
     _description = 'API Key'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _check_company_auto = True
     _order = 'name'
     _rec_name = 'name'
@@ -29,7 +29,7 @@ class UniCoreApiKey(models.Model):
         string='API Token',
         readonly=True,
         copy=False,
-        groups='unicore_api.group_unicore_api_admin',
+        groups='oacis_api.group_oacis_api_admin',
     )
     scope = fields.Selection(
         string='Access Scope',

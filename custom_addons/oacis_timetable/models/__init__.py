@@ -1,4 +1,4 @@
 """
-UniCore Timetable — Models Package
+Oacis Timetable — Models Package
 """
-from . import unicore_room_booking, unicore_time_slot, unicore_timetable_entry
+from . import oacis_room_booking, oacis_time_slot, oacis_timetable_entry

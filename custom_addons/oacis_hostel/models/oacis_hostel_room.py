@@ -1,5 +1,5 @@
 """
-UniCore Hostel Room Model
+Oacis Hostel Room Model
 Individual room within a hostel block with
 capacity, room type, amenities and current
 occupancy tracking.
@@ -13,11 +13,11 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreHostelRoom(models.Model):
-    _name = 'unicore.hostel.room'
+class OacisHostelRoom(models.Model):
+    _name = 'oacis.hostel.room'
     _description = 'Hostel Room'
     _rec_name = 'display_name'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
 
     display_name = fields.Char(
         string='Display Name',
@@ -47,7 +47,7 @@ class UniCoreHostelRoom(models.Model):
         index=True,
     )
     block_id = fields.Many2one(
-        comodel_name='unicore.hostel.block',
+        comodel_name='oacis.hostel.block',
         string='Block',
         required=True,
         ondelete='restrict',
@@ -118,7 +118,7 @@ class UniCoreHostelRoom(models.Model):
             )
 
     allocation_ids = fields.One2many(
-        comodel_name='unicore.hostel.allocation',
+        comodel_name='oacis.hostel.allocation',
         inverse_name='room_id',
         string='Allocations',
     )

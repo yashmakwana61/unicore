@@ -4,7 +4,7 @@
     <record id="website_admissions" model="website">
         <field name="name">Admissions Portal</field>
         <field name="domain">admissions.example.com</field>
-        <field name="unicore_admissions_page">True</field>
+        <field name="oacis_admissions_page">True</field>
         <field name="company_id" eval="ref('base.main_company')"/>
     </record>
 

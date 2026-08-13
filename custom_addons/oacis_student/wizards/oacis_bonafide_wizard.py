@@ -1,12 +1,12 @@
 from odoo import fields, models
 
 
-class UniCoreBonafideWizard(models.TransientModel):
-    _name = 'unicore.bonafide.wizard'
+class OacisBonafideWizard(models.TransientModel):
+    _name = 'oacis.bonafide.wizard'
     _description = 'Bonafide Certificate Wizard'
 
     student_id = fields.Many2one(
-        comodel_name='unicore.student',
+        comodel_name='oacis.student',
         string='Student',
         required=True,
         readonly=True,
@@ -50,7 +50,7 @@ class UniCoreBonafideWizard(models.TransientModel):
         self.ensure_one()
         if not self.certificate_number:
             self.certificate_number = (
-                self.env['ir.sequence'].next_by_code('unicore.bonafide.certificate') or '/'
+                self.env['ir.sequence'].next_by_code('oacis.bonafide.certificate') or '/'
             )
 
         student = self.student_id
@@ -64,6 +64,6 @@ class UniCoreBonafideWizard(models.TransientModel):
             'certificate_number': self.certificate_number,
             'graduation_year': graduation_year,
         }
-        return self.env.ref('unicore_student.action_report_bonafide').report_action(
+        return self.env.ref('oacis_student.action_report_bonafide').report_action(
             self.student_id, data=data,
         )

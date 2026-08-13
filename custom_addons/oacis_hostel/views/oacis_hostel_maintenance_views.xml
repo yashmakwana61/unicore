@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-  <record id="view_unicore_hostel_maintenance_form" model="ir.ui.view">
-    <field name="name">unicore.hostel.maintenance.form</field>
-    <field name="model">unicore.hostel.maintenance</field>
+  <record id="view_oacis_hostel_maintenance_form" model="ir.ui.view">
+    <field name="name">oacis.hostel.maintenance.form</field>
+    <field name="model">oacis.hostel.maintenance</field>
     <field name="arch" type="xml">
       <form>
         <header>
-          <button name="action_start" string="Start Work" type="object" invisible="maintenance_state != 'open'" class="btn-primary" groups="unicore_base.group_unicore_staff"/>
-          <button name="action_resolve" string="Mark Resolved" type="object" invisible="maintenance_state !=               'in_progress'" class="btn-success" groups="unicore_base.group_unicore_staff"/>
-          <button name="action_reopen" string="Reopen" type="object" invisible="maintenance_state !=               'resolved'" groups="unicore_base.group_unicore_admin"/>
-          <button name="action_cancel" string="Cancel" type="object" invisible="maintenance_state in               ('resolved','cancelled')" groups="unicore_base.group_unicore_admin"/>
+          <button name="action_start" string="Start Work" type="object" invisible="maintenance_state != 'open'" class="btn-primary" groups="oacis_base.group_oacis_staff"/>
+          <button name="action_resolve" string="Mark Resolved" type="object" invisible="maintenance_state !=               'in_progress'" class="btn-success" groups="oacis_base.group_oacis_staff"/>
+          <button name="action_reopen" string="Reopen" type="object" invisible="maintenance_state !=               'resolved'" groups="oacis_base.group_oacis_admin"/>
+          <button name="action_cancel" string="Cancel" type="object" invisible="maintenance_state in               ('resolved','cancelled')" groups="oacis_base.group_oacis_admin"/>
           <field name="maintenance_state" widget="statusbar" statusbar_visible="open,in_progress,               resolved"/>
         </header>
         <sheet>
@@ -42,9 +42,9 @@
       </form>
     </field>
   </record>
-  <record id="view_unicore_hostel_maintenance_list" model="ir.ui.view">
-    <field name="name">unicore.hostel.maintenance.list</field>
-    <field name="model">unicore.hostel.maintenance</field>
+  <record id="view_oacis_hostel_maintenance_list" model="ir.ui.view">
+    <field name="name">oacis.hostel.maintenance.list</field>
+    <field name="model">oacis.hostel.maintenance</field>
     <field name="arch" type="xml">
       <list decoration-danger="priority == 'urgent' and                maintenance_state != 'resolved'" decoration-warning="priority == 'high' and                maintenance_state != 'resolved'" decoration-success="maintenance_state == 'resolved'" decoration-muted="maintenance_state == 'cancelled'">
         <field name="request_number"/>
@@ -60,9 +60,9 @@
       </list>
     </field>
   </record>
-  <record id="view_unicore_hostel_maintenance_search" model="ir.ui.view">
-    <field name="name">unicore.hostel.maintenance.search</field>
-    <field name="model">unicore.hostel.maintenance</field>
+  <record id="view_oacis_hostel_maintenance_search" model="ir.ui.view">
+    <field name="name">oacis.hostel.maintenance.search</field>
+    <field name="model">oacis.hostel.maintenance</field>
     <field name="arch" type="xml">
       <search>
         <field name="request_number"/>
@@ -81,15 +81,15 @@
       </search>
     </field>
   </record>
-  <record id="action_unicore_hostel_maintenance" model="ir.actions.act_window">
+  <record id="action_oacis_hostel_maintenance" model="ir.actions.act_window">
     <field name="name">Maintenance Requests</field>
-    <field name="res_model">unicore.hostel.maintenance</field>
+    <field name="res_model">oacis.hostel.maintenance</field>
     <field name="view_mode">list,form</field>
     <field name="context">{'search_default_open': 1}</field>
   </record>
-  <record id="action_unicore_hostel_maintenance_urgent" model="ir.actions.act_window">
+  <record id="action_oacis_hostel_maintenance_urgent" model="ir.actions.act_window">
     <field name="name">Urgent Maintenance</field>
-    <field name="res_model">unicore.hostel.maintenance</field>
+    <field name="res_model">oacis.hostel.maintenance</field>
     <field name="view_mode">list,form</field>
     <field name="domain">[('priority','in',['urgent','high']),
        ('maintenance_state','in',

@@ -1,6 +1,6 @@
 """Phase 7 regression suite: enrollment cohort rollup.
 
-Verifies that `unicore.enrollment` carries the cohort context of its student:
+Verifies that `oacis.enrollment` carries the cohort context of its student:
 
 * Legacy (academic_year) -> enrollment.batch_year + 'Batch YYYY' label.
 * K-12 grade_batch      -> enrollment.grade_level_id + label = grade.
@@ -15,8 +15,8 @@ import odoo
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'unit')
-class UniCoreEnrollmentCohortTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'unit')
+class OacisEnrollmentCohortTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
@@ -26,17 +26,17 @@ class UniCoreEnrollmentCohortTest(TransactionCase):
         # Deterministic legacy baseline: main company starts with NO profile.
         cls.company.institution_profile_id = False
 
-        cls.faculty = cls.env['unicore.faculty'].create({
+        cls.faculty = cls.env['oacis.faculty'].create({
             'name': 'P7 Faculty of Science',
             'code': 'PFSCI',
             'company_id': cls.company.id,
         })
-        cls.department = cls.env['unicore.department'].create({
+        cls.department = cls.env['oacis.department'].create({
             'name': 'P7 Mathematics',
             'code': 'P7MATH',
             'faculty_id': cls.faculty.id,
         })
-        cls.program = cls.env['unicore.program'].create({
+        cls.program = cls.env['oacis.program'].create({
             'name': 'P7 B.Sc. Maths',
             'code': 'P7BSCMATH',
             'program_type': 'undergraduate',
@@ -47,12 +47,12 @@ class UniCoreEnrollmentCohortTest(TransactionCase):
             'department_id': cls.department.id,
             'company_id': cls.company.id,
         })
-        cls.campus = cls.env['unicore.campus'].create({
+        cls.campus = cls.env['oacis.campus'].create({
             'name': 'P7 Campus',
             'code': 'P7CAMPUS',
             'company_id': cls.company.id,
         })
-        cls.academic_year = cls.env['unicore.academic.year'].create({
+        cls.academic_year = cls.env['oacis.academic.year'].create({
             'name': 'P7 AY 2026-27',
             'code': 'P7AY2627',
             'date_start': '2026-07-01',
@@ -61,7 +61,7 @@ class UniCoreEnrollmentCohortTest(TransactionCase):
             'is_current': False,
             'company_id': cls.company.id,
         })
-        cls.semester = cls.env['unicore.semester'].create({
+        cls.semester = cls.env['oacis.semester'].create({
             'name': 'P7 EVEN 2026-27',
             'code': 'P7EVEN',
             'semester_type': 'even',
@@ -71,14 +71,14 @@ class UniCoreEnrollmentCohortTest(TransactionCase):
             'semester_state': 'ongoing',
             'company_id': cls.company.id,
         })
-        cls.course = cls.env['unicore.course'].create({
+        cls.course = cls.env['oacis.course'].create({
             'name': 'P7 Linear Algebra',
             'code': 'P7LA301',
             'credit_hours': 4.0,
             'department_id': cls.department.id,
             'company_id': cls.company.id,
         })
-        cls.offering = cls.env['unicore.course.offering'].create({
+        cls.offering = cls.env['oacis.course.offering'].create({
             'course_id': cls.course.id,
             'semester_id': cls.semester.id,
             'academic_year_id': cls.academic_year.id,
@@ -89,7 +89,7 @@ class UniCoreEnrollmentCohortTest(TransactionCase):
             'company_id': cls.company.id,
         })
         cls.grade_type = cls.env.ref(
-            'unicore_academic_generic.unit_type_grade_level')
+            'oacis_academic_generic.unit_type_grade_level')
 
     def _student(self, program_id, email, **kw):
         vals = {
@@ -105,26 +105,26 @@ class UniCoreEnrollmentCohortTest(TransactionCase):
             'admission_date': '2025-06-01',
         }
         vals.update(kw)
-        student = self.env['unicore.student'].create(vals)
+        student = self.env['oacis.student'].create(vals)
         student.action_enroll()
         return student
 
     def _enroll(self, student):
-        return self.env['unicore.enrollment'].create({
+        return self.env['oacis.enrollment'].create({
             'student_id': student.id,
             'course_offering_id': self.offering.id,
         })
 
     def _school_kit(self, tag):
         self.company.institution_profile_id = self.env[
-            'unicore.institution.profile'
+            'oacis.institution.profile'
         ].create({
             'name': 'P7 School %s' % tag,
             'code': 'P7SCH%s' % tag,
             'institution_type': 'school',
             'is_legacy_university': False,
         }).id
-        return self.env['unicore.academic.unit'].create({
+        return self.env['oacis.academic.unit'].create({
             'name': 'Grade 5',
             'code': 'P7G5',
             'unit_type_id': self.grade_type.id,
@@ -132,7 +132,7 @@ class UniCoreEnrollmentCohortTest(TransactionCase):
         })
 
     def _school_program(self, code, cohort_kind, unit):
-        return self.env['unicore.program'].create({
+        return self.env['oacis.program'].create({
             'name': 'P7 School Program %s' % code,
             'code': code,
             'program_type': 'undergraduate',
@@ -189,17 +189,17 @@ class UniCoreEnrollmentCohortTest(TransactionCase):
         er = self._enroll(r)
         eg = self._enroll(g)
         self.assertEqual(
-            self.env['unicore.enrollment'].search(
+            self.env['oacis.enrollment'].search(
                 [('cohort_kind', '=', 'rolling')]),
             er,
         )
         self.assertEqual(
-            self.env['unicore.enrollment'].search(
+            self.env['oacis.enrollment'].search(
                 [('grade_level_id', '=', unit.id)]),
             eg,
         )
         self.assertEqual(
-            self.env['unicore.enrollment'].search(
+            self.env['oacis.enrollment'].search(
                 [('cohort_start_date', '=', '2025-06-01')]),
             er,
         )

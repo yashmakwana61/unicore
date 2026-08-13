@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_scholarship_application_pivot_view" model="ir.ui.view">
-        <field name="name">unicore.scholarship.application.pivot</field>
-        <field name="model">unicore.scholarship.application</field>
+    <record id="oacis_scholarship_application_pivot_view" model="ir.ui.view">
+        <field name="name">oacis.scholarship.application.pivot</field>
+        <field name="model">oacis.scholarship.application</field>
         <field name="arch" type="xml">
             <pivot string="Scholarship Application Analysis">
                 <field name="scholarship_program_id" type="row"/>
@@ -19,9 +19,9 @@
         </field>
     </record>
 
-    <record id="unicore_scholarship_application_graph_view" model="ir.ui.view">
-        <field name="name">unicore.scholarship.application.graph</field>
-        <field name="model">unicore.scholarship.application</field>
+    <record id="oacis_scholarship_application_graph_view" model="ir.ui.view">
+        <field name="name">oacis.scholarship.application.graph</field>
+        <field name="model">oacis.scholarship.application</field>
         <field name="arch" type="xml">
             <graph string="Scholarship Application Analysis" type="bar">
                 <field name="scholarship_program_id" type="row"/>
@@ -35,9 +35,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_scholarship_award_pivot_view" model="ir.ui.view">
-        <field name="name">unicore.scholarship.award.pivot</field>
-        <field name="model">unicore.scholarship.award</field>
+    <record id="oacis_scholarship_award_pivot_view" model="ir.ui.view">
+        <field name="name">oacis.scholarship.award.pivot</field>
+        <field name="model">oacis.scholarship.award</field>
         <field name="arch" type="xml">
             <pivot string="Scholarship Award Analysis">
                 <field name="award_state" type="row"/>
@@ -47,9 +47,9 @@
         </field>
     </record>
 
-    <record id="unicore_scholarship_award_graph_view" model="ir.ui.view">
-        <field name="name">unicore.scholarship.award.graph</field>
-        <field name="model">unicore.scholarship.award</field>
+    <record id="oacis_scholarship_award_graph_view" model="ir.ui.view">
+        <field name="name">oacis.scholarship.award.graph</field>
+        <field name="model">oacis.scholarship.award</field>
         <field name="arch" type="xml">
             <graph string="Scholarship Award Analysis" type="bar">
                 <field name="scholarship_program_id" type="row"/>

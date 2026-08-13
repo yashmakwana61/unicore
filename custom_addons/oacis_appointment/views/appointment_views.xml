@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <data>
-    <record id="view_unicore_appointment_slot_tree" model="ir.ui.view">
-      <field name="name">unicore.appointment.slot.tree</field>
-      <field name="model">unicore.appointment.slot</field>
+    <record id="view_oacis_appointment_slot_tree" model="ir.ui.view">
+      <field name="name">oacis.appointment.slot.tree</field>
+      <field name="model">oacis.appointment.slot</field>
       <field name="arch" type="xml">
         <list string="Appointment Slots">
           <field name="faculty_id" widget="many2one_avatar"/>
@@ -16,9 +16,9 @@
         </list>
       </field>
     </record>
-    <record id="view_unicore_appointment_slot_form" model="ir.ui.view">
-      <field name="name">unicore.appointment.slot.form</field>
-      <field name="model">unicore.appointment.slot</field>
+    <record id="view_oacis_appointment_slot_form" model="ir.ui.view">
+      <field name="name">oacis.appointment.slot.form</field>
+      <field name="model">oacis.appointment.slot</field>
       <field name="arch" type="xml">
         <form string="Appointment Slot">
           <sheet>
@@ -56,9 +56,9 @@
         </form>
       </field>
     </record>
-    <record id="view_unicore_appointment_booking_tree" model="ir.ui.view">
-      <field name="name">unicore.appointment.booking.tree</field>
-      <field name="model">unicore.appointment.booking</field>
+    <record id="view_oacis_appointment_booking_tree" model="ir.ui.view">
+      <field name="name">oacis.appointment.booking.tree</field>
+      <field name="model">oacis.appointment.booking</field>
       <field name="arch" type="xml">
         <list string="Appointment Bookings">
           <field name="student_id" widget="many2one_avatar"/>
@@ -68,9 +68,9 @@
         </list>
       </field>
     </record>
-    <record id="view_unicore_appointment_booking_form" model="ir.ui.view">
-      <field name="name">unicore.appointment.booking.form</field>
-      <field name="model">unicore.appointment.booking</field>
+    <record id="view_oacis_appointment_booking_form" model="ir.ui.view">
+      <field name="name">oacis.appointment.booking.form</field>
+      <field name="model">oacis.appointment.booking</field>
       <field name="arch" type="xml">
         <form string="Appointment Booking">
           <header>
@@ -103,14 +103,14 @@
         </form>
       </field>
     </record>
-    <record id="action_unicore_appointment_slot" model="ir.actions.act_window">
+    <record id="action_oacis_appointment_slot" model="ir.actions.act_window">
       <field name="name">Appointment Slots</field>
-      <field name="res_model">unicore.appointment.slot</field>
+      <field name="res_model">oacis.appointment.slot</field>
       <field name="view_mode">list,form</field>
     </record>
-    <record id="action_unicore_appointment_booking" model="ir.actions.act_window">
+    <record id="action_oacis_appointment_booking" model="ir.actions.act_window">
       <field name="name">Appointment Bookings</field>
-      <field name="res_model">unicore.appointment.booking</field>
+      <field name="res_model">oacis.appointment.booking</field>
       <field name="view_mode">list,form</field>
     </record>
   </data>

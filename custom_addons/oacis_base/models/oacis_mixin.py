@@ -1,9 +1,9 @@
 from odoo import fields, models
 
 
-class UnicoreMixin(models.AbstractModel):
-    _name = 'unicore.mixin'
-    _description = 'UniCore Mixin'
+class OacisMixin(models.AbstractModel):
+    _name = 'oacis.mixin'
+    _description = 'Oacis Mixin'
 
     active = fields.Boolean(
         string='Active',

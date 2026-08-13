@@ -1,5 +1,5 @@
 """
-UniCore Hostel Block Model
+Oacis Hostel Block Model
 Represents a hostel building or residential wing.
 Has a warden, gender restriction, and contains
 multiple rooms.
@@ -12,10 +12,10 @@ from odoo import _, api, fields, models
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreHostelBlock(models.Model):
-    _name = 'unicore.hostel.block'
+class OacisHostelBlock(models.Model):
+    _name = 'oacis.hostel.block'
     _description = 'Hostel Block'
-    _inherit = ['unicore.mixin', 'mail.thread',
+    _inherit = ['oacis.mixin', 'mail.thread',
                 'mail.activity.mixin']
     _order = 'name'
     _check_company_auto = True
@@ -42,7 +42,7 @@ class UniCoreHostelBlock(models.Model):
         tracking=True,
     )
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus',
+        comodel_name='oacis.campus',
         string='Campus',
         required=True,
         ondelete='restrict',
@@ -139,7 +139,7 @@ class UniCoreHostelBlock(models.Model):
     # --- ROOM STATS ---
 
     room_ids = fields.One2many(
-        comodel_name='unicore.hostel.room',
+        comodel_name='oacis.hostel.room',
         inverse_name='block_id',
         string='Rooms',
     )
@@ -232,7 +232,7 @@ class UniCoreHostelBlock(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('%s Rooms') % self.name,
-            'res_model': 'unicore.hostel.room',
+            'res_model': 'oacis.hostel.room',
             'view_mode': 'list,form',
             'domain': [('block_id', '=', self.id)],
             'context': {

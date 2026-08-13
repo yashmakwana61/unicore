@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="view_unicore_library_issue_search_phase1_filters" model="ir.ui.view">
-        <field name="name">unicore.library.issue.search.phase1</field>
-        <field name="model">unicore.library.issue</field>
-        <field name="inherit_id" ref="unicore_library.view_unicore_library_issue_search"/>
+    <record id="view_oacis_library_issue_search_phase1_filters" model="ir.ui.view">
+        <field name="name">oacis.library.issue.search.phase1</field>
+        <field name="model">oacis.library.issue</field>
+        <field name="inherit_id" ref="oacis_library.view_oacis_library_issue_search"/>
         <field name="arch" type="xml">
 
             <xpath expr="//filter[@name='issued']" position="after">

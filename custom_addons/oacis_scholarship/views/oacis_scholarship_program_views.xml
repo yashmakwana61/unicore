@@ -2,9 +2,9 @@
 <odoo>
 
     <!-- Scholarship Program List View -->
-    <record id="view_unicore_scholarship_program_list" model="ir.ui.view">
-        <field name="name">unicore.scholarship.program.list</field>
-        <field name="model">unicore.scholarship.program</field>
+    <record id="view_oacis_scholarship_program_list" model="ir.ui.view">
+        <field name="name">oacis.scholarship.program.list</field>
+        <field name="model">oacis.scholarship.program</field>
         <field name="arch" type="xml">
             <list string="Scholarship Programs">
                 <field name="name"/>
@@ -26,9 +26,9 @@
     </record>
 
     <!-- Scholarship Program Form View -->
-    <record id="view_unicore_scholarship_program_form" model="ir.ui.view">
-        <field name="name">unicore.scholarship.program.form</field>
-        <field name="model">unicore.scholarship.program</field>
+    <record id="view_oacis_scholarship_program_form" model="ir.ui.view">
+        <field name="name">oacis.scholarship.program.form</field>
+        <field name="model">oacis.scholarship.program</field>
         <field name="arch" type="xml">
             <form string="Scholarship Program">
                 <header>
@@ -40,7 +40,7 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="%(unicore_scholarship.action_unicore_scholarship_application)d" 
+                        <button name="%(oacis_scholarship.action_oacis_scholarship_application)d" 
                                 type="action" 
                                 class="oe_stat_button" 
                                 icon="fa-file-text-o"
@@ -112,9 +112,9 @@
     </record>
 
     <!-- Scholarship Program Action -->
-    <record id="action_unicore_scholarship_program" model="ir.actions.act_window">
+    <record id="action_oacis_scholarship_program" model="ir.actions.act_window">
         <field name="name">Scholarship Programs</field>
-        <field name="res_model">unicore.scholarship.program</field>
+        <field name="res_model">oacis.scholarship.program</field>
         <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

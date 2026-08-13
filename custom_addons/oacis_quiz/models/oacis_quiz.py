@@ -3,9 +3,9 @@ from odoo.exceptions import ValidationError
 
 
 class QuestionBank(models.Model):
-    _name = 'unicore.question.bank'
+    _name = 'oacis.question.bank'
     _description = 'Question Bank'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
     _check_company_auto = True
 
     question_text = fields.Text(string='Question', required=True)
@@ -23,16 +23,16 @@ class QuestionBank(models.Model):
 
 
 class Quiz(models.Model):
-    _name = 'unicore.quiz'
+    _name = 'oacis.quiz'
     _description = 'Quiz'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _check_company_auto = True
 
     title = fields.Char(string='Quiz Title', required=True, tracking=True)
     company_id = fields.Many2one('res.company', string='Institution', default=lambda self: self.env.company)
     question_ids = fields.Many2many(
-        'unicore.question.bank',
-        'unicore_quiz_question_rel',
+        'oacis.question.bank',
+        'oacis_quiz_question_rel',
         'quiz_id', 'question_id',
         string='Questions',
         domain="[('company_id', 'in', [company_id, False])]",
@@ -54,14 +54,14 @@ class Quiz(models.Model):
 
 
 class QuizAttempt(models.Model):
-    _name = 'unicore.quiz.attempt'
+    _name = 'oacis.quiz.attempt'
     _description = 'Quiz Attempt'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
     _order = 'create_date desc'
     _check_company_auto = True
 
     student_id = fields.Many2one(
-        'unicore.student',
+        'oacis.student',
         string='Student',
         required=True,
         ondelete='cascade',
@@ -73,7 +73,7 @@ class QuizAttempt(models.Model):
         store=True,
     )
     quiz_id = fields.Many2one(
-        'unicore.quiz',
+        'oacis.quiz',
         string='Quiz',
         required=True,
         domain="[('company_id', 'in', [company_id, False])]",

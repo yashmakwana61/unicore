@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-  <record id="view_unicore_fee_invoice_form" model="ir.ui.view">
-    <field name="name">unicore.fee.invoice.form</field>
-    <field name="model">unicore.fee.invoice</field>
+  <record id="view_oacis_fee_invoice_form" model="ir.ui.view">
+    <field name="name">oacis.fee.invoice.form</field>
+    <field name="model">oacis.fee.invoice</field>
     <field name="arch" type="xml">
       <form>
         <header>
           <button name="action_send" string="Send to Student" type="object" invisible="invoice_state != 'draft'" class="btn-primary"/>
-          <button name="action_record_payment" string="Record Payment" type="object" class="btn-success" invisible="invoice_state == 'paid' or not account_move_id or gl_status != 'posted'" groups="unicore_base.group_unicore_admin,unicore_base.group_unicore_finance"/>
-          <button name="action_cancel" string="Cancel" type="object" invisible="invoice_state in ('paid','cancelled')" groups="unicore_base.group_unicore_admin"/>
-          <button name="action_reset_draft" string="Reset to Draft" type="object" invisible="invoice_state in ('draft','paid','cancelled')" groups="unicore_base.group_unicore_admin"/>
+          <button name="action_record_payment" string="Record Payment" type="object" class="btn-success" invisible="invoice_state == 'paid' or not account_move_id or gl_status != 'posted'" groups="oacis_base.group_oacis_admin,oacis_base.group_oacis_finance"/>
+          <button name="action_cancel" string="Cancel" type="object" invisible="invoice_state in ('paid','cancelled')" groups="oacis_base.group_oacis_admin"/>
+          <button name="action_reset_draft" string="Reset to Draft" type="object" invisible="invoice_state in ('draft','paid','cancelled')" groups="oacis_base.group_oacis_admin"/>
           <field name="invoice_state" widget="statusbar" statusbar_visible="draft,sent,partial,paid"/>
         </header>
         <sheet>
@@ -58,9 +58,9 @@
       </form>
     </field>
   </record>
-  <record id="view_unicore_fee_invoice_list" model="ir.ui.view">
-    <field name="name">unicore.fee.invoice.list</field>
-    <field name="model">unicore.fee.invoice</field>
+  <record id="view_oacis_fee_invoice_list" model="ir.ui.view">
+    <field name="name">oacis.fee.invoice.list</field>
+    <field name="model">oacis.fee.invoice</field>
     <field name="arch" type="xml">
       <list decoration-success="invoice_state == 'paid'" decoration-danger="invoice_state == 'overdue'" decoration-warning="invoice_state == 'partial'" decoration-muted="invoice_state == 'cancelled'">
         <field name="invoice_number"/>
@@ -75,9 +75,9 @@
       </list>
     </field>
   </record>
-  <record id="view_unicore_fee_invoice_search" model="ir.ui.view">
-    <field name="name">unicore.fee.invoice.search</field>
-    <field name="model">unicore.fee.invoice</field>
+  <record id="view_oacis_fee_invoice_search" model="ir.ui.view">
+    <field name="name">oacis.fee.invoice.search</field>
+    <field name="model">oacis.fee.invoice</field>
     <field name="arch" type="xml">
       <search>
         <field name="invoice_number"/>
@@ -93,26 +93,26 @@
       </search>
     </field>
   </record>
-  <record id="action_unicore_fee_invoice" model="ir.actions.act_window">
+  <record id="action_oacis_fee_invoice" model="ir.actions.act_window">
     <field name="name">Fee Invoices</field>
-    <field name="res_model">unicore.fee.invoice</field>
+    <field name="res_model">oacis.fee.invoice</field>
     <field name="view_mode">list,form</field>
     <field name="context">{'search_default_outstanding': 1}</field>
   </record>
-  <record id="action_unicore_fee_invoice_all" model="ir.actions.act_window">
+  <record id="action_oacis_fee_invoice_all" model="ir.actions.act_window">
     <field name="name">All Fee Invoices</field>
-    <field name="res_model">unicore.fee.invoice</field>
+    <field name="res_model">oacis.fee.invoice</field>
     <field name="view_mode">list,form</field>
   </record>
-  <record id="action_unicore_fee_invoice_my" model="ir.actions.act_window">
+  <record id="action_oacis_fee_invoice_my" model="ir.actions.act_window">
     <field name="name">My Fee Invoice</field>
-    <field name="res_model">unicore.fee.invoice</field>
+    <field name="res_model">oacis.fee.invoice</field>
     <field name="view_mode">list,form</field>
     <field name="domain">[('student_id.partner_id.user_ids','in',[uid])]</field>
   </record>
-  <record id="action_unicore_fee_overdue" model="ir.actions.act_window">
+  <record id="action_oacis_fee_overdue" model="ir.actions.act_window">
     <field name="name">Overdue Fees</field>
-    <field name="res_model">unicore.fee.invoice</field>
+    <field name="res_model">oacis.fee.invoice</field>
     <field name="view_mode">list,form</field>
     <field name="domain">[('invoice_state','in',['overdue','sent','partial']),('amount_outstanding','&gt;',0)]</field>
   </record>

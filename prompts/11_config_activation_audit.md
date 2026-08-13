@@ -1,7 +1,7 @@
-# UniCore Config Activation Audit (post-migration "config does nothing" fix)
+# Oacis Config Activation Audit (post-migration "config does nothing" fix)
 
-Date: 2026-08-07 · Modules touched: unicore_institution_profile, unicore_academic_generic,
-unicore_calendar · DBs: odoo_p0_baseline (migration bed) + odoo (live)
+Date: 2026-08-07 · Modules touched: oacis_institution_profile, oacis_academic_generic,
+oacis_calendar · DBs: odoo_p0_baseline (migration bed) + odoo (live)
 
 ## TL;DR
 Root cause of "institution profile / terminology / grading scheme / academic units / unit types
@@ -18,7 +18,7 @@ enforce/drive behavior. **ZERO REGRESSION on the full 20-module suite.**
 
 ### Phase 1 — Activate the driver (backfill)
 - `__manifest__.py` version → `19.0.1.1.0`; `post_init_hook: post_init_hook`.
-- NEW `hooks.py` `_backfill_legacy_profile(env)`: `env.ref('unicore_institution_profile
+- NEW `hooks.py` `_backfill_legacy_profile(env)`: `env.ref('oacis_institution_profile
   .profile_university_legacy', raise_if_not_found=False)` → `env['res.company'].search(
   [('institution_profile_id','=',False)]).write({'institution_profile_id': legacy.id})`.
   Re-runnable (only fills empty).
@@ -27,22 +27,22 @@ enforce/drive behavior. **ZERO REGRESSION on the full 20-module suite.**
   reattach still works. Documented, deliberate behavior change.
 
 ### Phase 2 — Wire `academic_unit_level_ids` (enforce allowed unit types)
-- Enforcement MOVED into `unicore_institution_profile/models/unicore_academic_unit.py`
-  (`_inherit='unicore.academic.unit'` + `@api.constrains('company_id','unit_type_id')
+- Enforcement MOVED into `oacis_institution_profile/models/oacis_academic_unit.py`
+  (`_inherit='oacis.academic.unit'` + `@api.constrains('company_id','unit_type_id')
   _check_unit_type_allowed`): strict only when profile present AND allow-list non-empty. UNI_LEGACY
   lists all 8 types → never fires. Empty list / no profile → unrestricted.
-- **ARCHITECTURE GOTCHA**: cannot live in unicore_academic_generic — that module loads BEFORE
+- **ARCHITECTURE GOTCHA**: cannot live in oacis_academic_generic — that module loads BEFORE
   institution_profile (which depends on it), so `res.company.institution_profile_id` doesn't exist
   there → AttributeError. `@api.constrains` on an `_inherit` model IS registered (constraint methods
   collected via `getmembers(cls, is_constraint)` walking the MRO).
-- Tests: `unicore_institution_profile/tests/test_academic_unit_levels.py` (4) — school rejects
+- Tests: `oacis_institution_profile/tests/test_academic_unit_levels.py` (4) — school rejects
   Faculty / accepts Grade, no-profile+empty unrestricted, UNI_LEGACY accepts all.
 
 ### Phase 3 — Wire `calendar_mode` (gate academic-year structure)
-- `unicore_calendar/models/unicore_academic_year.py`: create() defaults `year_type='term'` when
+- `oacis_calendar/models/oacis_academic_year.py`: create() defaults `year_type='term'` when
   company profile.calendar_mode=='term' and year_type absent; create+write call `_check_term_structure()`
   AND new `_check_calendar_mode()` (one-directional: term profile ⇒ term years; semester/other = flexible).
-- Tests: `unicore_calendar/tests/test_calendar_mode_wiring.py` (3).
+- Tests: `oacis_calendar/tests/test_calendar_mode_wiring.py` (3).
 
 ### Phase 4 — Wire `feature_toggle_ids` (per-company menu gating)
 - `res_company.py`: NEW `has_feature(code)`, `_enabled_feature_codes()` (no profile → all seeded
@@ -56,14 +56,14 @@ enforce/drive behavior. **ZERO REGRESSION on the full 20-module suite.**
   `'ir.actions.act_window,%d' % action.id`, NOT `action.id`.
 
 ## Verification results
-- Isolated (odoo_p0_baseline): `/unicore_institution_profile,/unicore_academic_generic,
-  /unicore_calendar` → **0 failed, 0 errors** (authoritative result line; per-module stats 10+11+38).
+- Isolated (odoo_p0_baseline): `/oacis_institution_profile,/oacis_academic_generic,
+  /oacis_calendar` → **0 failed, 0 errors** (authoritative result line; per-module stats 10+11+38).
   First run had 9 errors (3 real bugs, fixed): (1) constrains in wrong module (circular dep),
   (2) Phase 2 test in wrong module (profile model not loaded), (3) Reference field format.
-- Downstream (odoo_p0_baseline): `/unicore_curriculum,/unicore_student,/unicore_enrollment,
-  /unicore_grading,/unicore_admission,/unicore_academic` → **1 failed, 1 error** = ONLY the
+- Downstream (odoo_p0_baseline): `/oacis_curriculum,/oacis_student,/oacis_enrollment,
+  /oacis_grading,/oacis_admission,/oacis_academic` → **1 failed, 1 error** = ONLY the
   pre-existing admission pair (test_12 ERROR + test_14 FAIL). All others pass.
-- Migration path: `-u unicore_institution_profile,unicore_academic_generic,unicore_calendar` on
+- Migration path: `-u oacis_institution_profile,oacis_academic_generic,oacis_calendar` on
   odoo_p0_baseline THEN live odoo → EXIT=0. psql confirms on BOTH DBs:
   `res_company.institution_profile_id` = UNI_LEGACY attached to PreciseFect University.
 - **FULL 20-module suite on live odoo → `6 failed, 3 error(s) of 196 tests`** = EXACTLY the
@@ -76,7 +76,7 @@ enforce/drive behavior. **ZERO REGRESSION on the full 20-module suite.**
   59 vs 43; full 264 vs 196). This is Odoo's `log_stats` counting unique stopped-test IDs across
   merged at_install+post_install reports vs `testsRun`. Pre-existing reporting quirk — use the
   result line as authoritative (matches the 186→196 trajectory exactly).
-- Cleanup-XML `<delete>` of already-missing action IDs (unicore_academic / unicore_calendar cleanup
+- Cleanup-XML `<delete>` of already-missing action IDs (oacis_academic / oacis_calendar cleanup
   files) produce "External ID not found" tracebacks — benign noise.
 - `@api.constrains` referencing profile fields must live in the profile module (circular-dep rule):
   a module can NEVER reference a field/model defined in a module that DEPENDS on it.

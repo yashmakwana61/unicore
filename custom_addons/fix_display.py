@@ -2,10 +2,10 @@ import glob
 import re
 
 modules = [
-    "unicore_progression", "unicore_discipline", "unicore_grievance",
-    "unicore_mentor", "unicore_skill_assessment", "unicore_appointment",
-    "unicore_secure_transcript", "unicore_digital_library", "unicore_quiz",
-    "unicore_placement", "unicore_thesis",
+    "oacis_progression", "oacis_discipline", "oacis_grievance",
+    "oacis_mentor", "oacis_skill_assessment", "oacis_appointment",
+    "oacis_secure_transcript", "oacis_digital_library", "oacis_quiz",
+    "oacis_placement", "oacis_thesis",
 ]
 
 for mod in modules:

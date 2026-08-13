@@ -4,9 +4,9 @@
     <!-- ============================================================
          Hostel Allocation Analysis
          ============================================================ -->
-    <record id="unicore_hostel_allocation_pivot_view" model="ir.ui.view">
-        <field name="name">unicore.hostel.allocation.pivot</field>
-        <field name="model">unicore.hostel.allocation</field>
+    <record id="oacis_hostel_allocation_pivot_view" model="ir.ui.view">
+        <field name="name">oacis.hostel.allocation.pivot</field>
+        <field name="model">oacis.hostel.allocation</field>
         <field name="arch" type="xml">
             <pivot string="Hostel Allocation Analysis">
                 <field name="allocation_state" type="row"/>
@@ -15,9 +15,9 @@
         </field>
     </record>
 
-    <record id="unicore_hostel_allocation_graph_view" model="ir.ui.view">
-        <field name="name">unicore.hostel.allocation.graph</field>
-        <field name="model">unicore.hostel.allocation</field>
+    <record id="oacis_hostel_allocation_graph_view" model="ir.ui.view">
+        <field name="name">oacis.hostel.allocation.graph</field>
+        <field name="model">oacis.hostel.allocation</field>
         <field name="arch" type="xml">
             <graph string="Hostel Allocation Analysis" type="bar">
                 <field name="block_id" type="row"/>
@@ -31,9 +31,9 @@
     <!-- ============================================================
          Hostel Maintenance Analysis
          ============================================================ -->
-    <record id="unicore_hostel_maintenance_pivot_view" model="ir.ui.view">
-        <field name="name">unicore.hostel.maintenance.pivot</field>
-        <field name="model">unicore.hostel.maintenance</field>
+    <record id="oacis_hostel_maintenance_pivot_view" model="ir.ui.view">
+        <field name="name">oacis.hostel.maintenance.pivot</field>
+        <field name="model">oacis.hostel.maintenance</field>
         <field name="arch" type="xml">
             <pivot string="Hostel Maintenance Analysis">
                 <field name="maintenance_state" type="row"/>
@@ -42,9 +42,9 @@
         </field>
     </record>
 
-    <record id="unicore_hostel_maintenance_graph_view" model="ir.ui.view">
-        <field name="name">unicore.hostel.maintenance.graph</field>
-        <field name="model">unicore.hostel.maintenance</field>
+    <record id="oacis_hostel_maintenance_graph_view" model="ir.ui.view">
+        <field name="name">oacis.hostel.maintenance.graph</field>
+        <field name="model">oacis.hostel.maintenance</field>
         <field name="arch" type="xml">
             <graph string="Hostel Maintenance Analysis" type="bar">
                 <field name="issue_type" type="row"/>
@@ -57,9 +57,9 @@
     <!-- ============================================================
          Hostel Block Analysis
          ============================================================ -->
-    <record id="unicore_hostel_block_pivot_view" model="ir.ui.view">
-        <field name="name">unicore.hostel.block.pivot</field>
-        <field name="model">unicore.hostel.block</field>
+    <record id="oacis_hostel_block_pivot_view" model="ir.ui.view">
+        <field name="name">oacis.hostel.block.pivot</field>
+        <field name="model">oacis.hostel.block</field>
         <field name="arch" type="xml">
             <pivot string="Hostel Block Analysis">
                 <field name="campus_id" type="row"/>
@@ -69,9 +69,9 @@
         </field>
     </record>
 
-    <record id="unicore_hostel_block_graph_view" model="ir.ui.view">
-        <field name="name">unicore.hostel.block.graph</field>
-        <field name="model">unicore.hostel.block</field>
+    <record id="oacis_hostel_block_graph_view" model="ir.ui.view">
+        <field name="name">oacis.hostel.block.graph</field>
+        <field name="model">oacis.hostel.block</field>
         <field name="arch" type="xml">
             <graph string="Hostel Block Analysis" type="bar">
                 <field name="campus_id" type="row"/>
@@ -85,9 +85,9 @@
     <!-- ============================================================
          Hostel Room Analysis
          ============================================================ -->
-    <record id="unicore_hostel_room_pivot_view" model="ir.ui.view">
-        <field name="name">unicore.hostel.room.pivot</field>
-        <field name="model">unicore.hostel.room</field>
+    <record id="oacis_hostel_room_pivot_view" model="ir.ui.view">
+        <field name="name">oacis.hostel.room.pivot</field>
+        <field name="model">oacis.hostel.room</field>
         <field name="arch" type="xml">
             <pivot string="Hostel Room Analysis">
                 <field name="block_id" type="row"/>
@@ -96,9 +96,9 @@
         </field>
     </record>
 
-    <record id="unicore_hostel_room_graph_view" model="ir.ui.view">
-        <field name="name">unicore.hostel.room.graph</field>
-        <field name="model">unicore.hostel.room</field>
+    <record id="oacis_hostel_room_graph_view" model="ir.ui.view">
+        <field name="name">oacis.hostel.room.graph</field>
+        <field name="model">oacis.hostel.room</field>
         <field name="arch" type="xml">
             <graph string="Hostel Room Analysis" type="bar">
                 <field name="block_id" type="row"/>

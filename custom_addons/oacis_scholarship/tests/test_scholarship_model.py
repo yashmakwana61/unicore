@@ -4,8 +4,8 @@ import odoo
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'financial')
-class UniCoreScholarshipTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'financial')
+class OacisScholarshipTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
@@ -14,18 +14,18 @@ class UniCoreScholarshipTest(TransactionCase):
         cls.company = cls.env.company
         cls.currency = cls.company.currency_id
 
-        cls.faculty = cls.env['unicore.faculty'].create({
+        cls.faculty = cls.env['oacis.faculty'].create({
             'name': 'Test Faculty of Science',
             'code': 'TFS',
             'company_id': cls.company.id,
         })
-        cls.department = cls.env['unicore.department'].create({
+        cls.department = cls.env['oacis.department'].create({
             'name': 'Test Physics',
             'code': 'TPHY',
             'faculty_id': cls.faculty.id,
             'company_id': cls.company.id,
         })
-        cls.program = cls.env['unicore.program'].create({
+        cls.program = cls.env['oacis.program'].create({
             'name': 'Test B.Sc. Physics',
             'code': 'TEST-BSC-PHY',
             'program_type': 'undergraduate',
@@ -36,12 +36,12 @@ class UniCoreScholarshipTest(TransactionCase):
             'department_id': cls.department.id,
             'company_id': cls.company.id,
         })
-        cls.campus = cls.env['unicore.campus'].create({
+        cls.campus = cls.env['oacis.campus'].create({
             'name': 'Test Science Campus',
             'code': 'TSCICAMP2',
             'company_id': cls.company.id,
         })
-        cls.academic_year = cls.env['unicore.academic.year'].create({
+        cls.academic_year = cls.env['oacis.academic.year'].create({
             'name': 'Test AY 2025-26 SCH',
             'code': 'TAY2526SCH',
             'date_start': '2025-07-01',
@@ -50,7 +50,7 @@ class UniCoreScholarshipTest(TransactionCase):
             'is_current': False,
             'company_id': cls.company.id,
         })
-        cls.semester = cls.env['unicore.semester'].create({
+        cls.semester = cls.env['oacis.semester'].create({
             'name': 'Test ODD 2025-26 SCH',
             'code': 'TODD-2526-SCH',
             'semester_type': 'odd',
@@ -61,7 +61,7 @@ class UniCoreScholarshipTest(TransactionCase):
             'company_id': cls.company.id,
         })
 
-        cls.scholarship_program = cls.env['unicore.scholarship.program'].create({
+        cls.scholarship_program = cls.env['oacis.scholarship.program'].create({
             'name': 'Test Merit Scholarship',
             'code': 'MERIT-TEST',
             'company_id': cls.company.id,
@@ -77,7 +77,7 @@ class UniCoreScholarshipTest(TransactionCase):
         })
         cls.scholarship_program.action_open()
 
-        cls.eligible_student = cls.env['unicore.student'].create({
+        cls.eligible_student = cls.env['oacis.student'].create({
             'name': 'Scholar',
             'last_name': 'Eligible',
             'gender': 'male',
@@ -92,7 +92,7 @@ class UniCoreScholarshipTest(TransactionCase):
             'cgpa': 9.0,
         })
 
-        cls.ineligible_student = cls.env['unicore.student'].create({
+        cls.ineligible_student = cls.env['oacis.student'].create({
             'name': 'Scholar',
             'last_name': 'Ineligible',
             'gender': 'female',
@@ -116,7 +116,7 @@ class UniCoreScholarshipTest(TransactionCase):
 
     def test_02_scholarship_application_eligibility(self):
         """Eligible student must get is_eligible = True after submission."""
-        application = self.env['unicore.scholarship.application'].create({
+        application = self.env['oacis.scholarship.application'].create({
             'scholarship_program_id': self.scholarship_program.id,
             'student_id': self.eligible_student.id,
         })
@@ -125,7 +125,7 @@ class UniCoreScholarshipTest(TransactionCase):
 
     def test_03_ineligible_student(self):
         """Ineligible student must get is_eligible = False after submission."""
-        application = self.env['unicore.scholarship.application'].create({
+        application = self.env['oacis.scholarship.application'].create({
             'scholarship_program_id': self.scholarship_program.id,
             'student_id': self.ineligible_student.id,
         })
@@ -134,7 +134,7 @@ class UniCoreScholarshipTest(TransactionCase):
 
     def test_04_scholarship_award_adjusts_fees(self):
         """Scholarship award disbursement must reduce invoice outstanding."""
-        invoice = self.env['unicore.fee.invoice'].create({
+        invoice = self.env['oacis.fee.invoice'].create({
             'student_id': self.eligible_student.id,
             'company_id': self.company.id,
             'academic_year_id': self.academic_year.id,
@@ -153,7 +153,7 @@ class UniCoreScholarshipTest(TransactionCase):
         self.assertEqual(invoice.total_amount, 30000.0)
         self.assertEqual(invoice.discount_amount, 0.0)
 
-        application = self.env['unicore.scholarship.application'].create({
+        application = self.env['oacis.scholarship.application'].create({
             'scholarship_program_id': self.scholarship_program.id,
             'student_id': self.eligible_student.id,
         })
@@ -162,7 +162,7 @@ class UniCoreScholarshipTest(TransactionCase):
         application.action_shortlist()
         application.action_approve()
 
-        award = self.env['unicore.scholarship.award'].create({
+        award = self.env['oacis.scholarship.award'].create({
             'application_id': application.id,
             'semester_id': self.semester.id,
             'award_amount': 5000.0,

@@ -6,10 +6,10 @@
         <!-- GRADE BOOK ASSIGNMENT SCORE LIST                             -->
         <!-- ============================================================ -->
 
-        <record id="view_unicore_gradebook_assignment_line_list"
+        <record id="view_oacis_gradebook_assignment_line_list"
                 model="ir.ui.view">
-            <field name="name">unicore.gradebook.assignment.line.list</field>
-            <field name="model">unicore.gradebook.assignment.line</field>
+            <field name="name">oacis.gradebook.assignment.line.list</field>
+            <field name="model">oacis.gradebook.assignment.line</field>
             <field name="arch" type="xml">
                 <list string="Assignment Scores"
                       decoration-success="percentage >= 60.0"
@@ -33,10 +33,10 @@
         <!-- GRADE BOOK ASSIGNMENT SCORE SEARCH                           -->
         <!-- ============================================================ -->
 
-        <record id="view_unicore_gradebook_assignment_line_search"
+        <record id="view_oacis_gradebook_assignment_line_search"
                 model="ir.ui.view">
-            <field name="name">unicore.gradebook.assignment.line.search</field>
-            <field name="model">unicore.gradebook.assignment.line</field>
+            <field name="name">oacis.gradebook.assignment.line.search</field>
+            <field name="model">oacis.gradebook.assignment.line</field>
             <field name="arch" type="xml">
                 <search string="Assignment Scores">
                     <field name="student_id"/>
@@ -62,17 +62,17 @@
         <!-- GRADE BOOK ASSIGNMENT SCORE ACTIONS                          -->
         <!-- ============================================================ -->
 
-        <record id="action_unicore_gradebook_assignment_line_all"
+        <record id="action_oacis_gradebook_assignment_line_all"
                 model="ir.actions.act_window">
             <field name="name">Assignment Scores</field>
-            <field name="res_model">unicore.gradebook.assignment.line</field>
+            <field name="res_model">oacis.gradebook.assignment.line</field>
             <field name="view_mode">list</field>
         </record>
 
-        <record id="action_unicore_gradebook_assignment_line_my"
+        <record id="action_oacis_gradebook_assignment_line_my"
                 model="ir.actions.act_window">
             <field name="name">My Assignment Scores</field>
-            <field name="res_model">unicore.gradebook.assignment.line</field>
+            <field name="res_model">oacis.gradebook.assignment.line</field>
             <field name="view_mode">list</field>
             <field name="domain">[('student_id.partner_id.user_ids', 'in', [uid])]</field>
             <field name="help" type="html">

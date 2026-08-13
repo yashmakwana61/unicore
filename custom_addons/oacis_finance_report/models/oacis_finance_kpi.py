@@ -1,5 +1,5 @@
 """
-UniCore Finance KPI Model
+Oacis Finance KPI Model
 Stores computed Key Performance Indicators for
 financial reporting. Provides the data layer for
 the dashboard view. KPIs are computed on-demand
@@ -14,11 +14,11 @@ from odoo import api, fields, models
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreFinanceKPI(models.Model):
-    _name = 'unicore.finance.kpi'
+class OacisFinanceKPI(models.Model):
+    _name = 'oacis.finance.kpi'
     _description = 'Financial KPI Record'
     _rec_name = 'display_name'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
 
     display_name = fields.Char(
         string='Display Name',
@@ -61,7 +61,7 @@ class UniCoreFinanceKPI(models.Model):
         ondelete='restrict',
     )
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         ondelete='set null',
     )
@@ -145,9 +145,9 @@ class UniCoreFinanceKPI(models.Model):
         refresh button and cron job.
         """
         today = date.today()
-        Invoice = self.env['unicore.fee.invoice']
-        Payment = self.env['unicore.fee.payment']
-        Award = self.env['unicore.scholarship.award']
+        Invoice = self.env['oacis.fee.invoice']
+        Payment = self.env['oacis.fee.payment']
+        Award = self.env['oacis.scholarship.award']
 
         inv_domain = [
             ('company_id', '=', company_id),

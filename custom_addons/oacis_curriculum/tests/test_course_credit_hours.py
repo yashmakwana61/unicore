@@ -3,8 +3,8 @@ from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'unit')
-class UniCoreCourseCreditHoursTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'unit')
+class OacisCourseCreditHoursTest(TransactionCase):
     """Phase 2: course.credit_hours is conditionally required.
 
     - Legacy university (or unset profile) -> credit_hours > 0 required
@@ -18,12 +18,12 @@ class UniCoreCourseCreditHoursTest(TransactionCase):
         cls.company = cls.env.company
         # Legacy baseline: no profile set.
         cls.company.institution_profile_id = False
-        cls.faculty = cls.env['unicore.faculty'].create({
+        cls.faculty = cls.env['oacis.faculty'].create({
             'name': 'Test Faculty of Science',
             'code': 'TFSC',
             'company_id': cls.company.id,
         })
-        cls.department = cls.env['unicore.department'].create({
+        cls.department = cls.env['oacis.department'].create({
             'name': 'Test Physics',
             'code': 'TPHY',
             'faculty_id': cls.faculty.id,
@@ -33,7 +33,7 @@ class UniCoreCourseCreditHoursTest(TransactionCase):
     def test_01_legacy_course_requires_credit_hours(self):
         self.company.institution_profile_id = False
         with self.assertRaises(ValidationError):
-            self.env['unicore.course'].create({
+            self.env['oacis.course'].create({
                 'name': 'Legacy Zero Credits',
                 'code': 'TLCZERO',
                 'credit_hours': 0.0,
@@ -43,7 +43,7 @@ class UniCoreCourseCreditHoursTest(TransactionCase):
 
     def test_02_legacy_course_default_credit_hours(self):
         self.company.institution_profile_id = False
-        course = self.env['unicore.course'].create({
+        course = self.env['oacis.course'].create({
             'name': 'Legacy Default',
             'code': 'TLCDEF',
             'department_id': self.department.id,
@@ -53,7 +53,7 @@ class UniCoreCourseCreditHoursTest(TransactionCase):
         self.assertTrue(course.is_legacy_institution)
 
     def test_03_non_legacy_course_allows_zero_credit_hours(self):
-        profile = self.env['unicore.institution.profile'].create({
+        profile = self.env['oacis.institution.profile'].create({
             'name': 'Test School',
             'code': 'TEST-SCHOOL-CH',
             'institution_type': 'school',
@@ -61,7 +61,7 @@ class UniCoreCourseCreditHoursTest(TransactionCase):
             'grading_scheme': 'simple_percentage',
         })
         self.company.institution_profile_id = profile.id
-        course = self.env['unicore.course'].create({
+        course = self.env['oacis.course'].create({
             'name': 'School Zero Credits',
             'code': 'TSCZERO',
             'credit_hours': 0.0,
@@ -74,7 +74,7 @@ class UniCoreCourseCreditHoursTest(TransactionCase):
     def test_04_credit_hours_cap_applies_to_all(self):
         self.company.institution_profile_id = False
         with self.assertRaises(ValidationError):
-            self.env['unicore.course'].create({
+            self.env['oacis.course'].create({
                 'name': 'Too Many Credits',
                 'code': 'TLCHIGH',
                 'credit_hours': 21.0,

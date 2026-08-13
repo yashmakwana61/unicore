@@ -5,9 +5,9 @@
     <!-- Phase 1: Session search view - missing field + group-by   -->
     <!-- ========================================================= -->
     <record id="view_attendance_session_search_phase1" model="ir.ui.view">
-        <field name="name">unicore.attendance.session.search.phase1</field>
-        <field name="model">unicore.attendance.session</field>
-        <field name="inherit_id" ref="unicore_attendance.view_unicore_attendance_session_search"/>
+        <field name="name">oacis.attendance.session.search.phase1</field>
+        <field name="model">oacis.attendance.session</field>
+        <field name="inherit_id" ref="oacis_attendance.view_oacis_attendance_session_search"/>
         <field name="arch" type="xml">
 
             <xpath expr="//field[@name='course_id']" position="after">

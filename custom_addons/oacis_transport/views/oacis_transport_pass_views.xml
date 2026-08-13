@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-  <record id="view_unicore_transport_pass_form" model="ir.ui.view">
-    <field name="name">unicore.transport.pass.form</field>
-    <field name="model">unicore.transport.pass</field>
+  <record id="view_oacis_transport_pass_form" model="ir.ui.view">
+    <field name="name">oacis.transport.pass.form</field>
+    <field name="model">oacis.transport.pass</field>
     <field name="arch" type="xml">
       <form>
         <header>
-          <button name="action_suspend" string="Suspend Pass" type="object" invisible="pass_state != 'active'" groups="unicore_base.group_unicore_admin"/>
+          <button name="action_suspend" string="Suspend Pass" type="object" invisible="pass_state != 'active'" groups="oacis_base.group_oacis_admin"/>
           <button name="action_reactivate" string="Reactivate" type="object" invisible="pass_state != 'suspended'" class="btn-primary"/>
-          <button name="action_cancel" string="Cancel Pass" type="object" invisible="pass_state in               ('cancelled','expired')" groups="unicore_base.group_unicore_admin"/>
-          <button name="action_mark_fee_paid" string="Mark Fee Paid" type="object" invisible="fee_paid" class="btn-success" groups="unicore_base.group_unicore_staff"/>
+          <button name="action_cancel" string="Cancel Pass" type="object" invisible="pass_state in               ('cancelled','expired')" groups="oacis_base.group_oacis_admin"/>
+          <button name="action_mark_fee_paid" string="Mark Fee Paid" type="object" invisible="fee_paid" class="btn-success" groups="oacis_base.group_oacis_staff"/>
           <field name="pass_state" widget="statusbar" statusbar_visible="active,suspended,               cancelled"/>
         </header>
         <sheet>
@@ -51,9 +51,9 @@
       </form>
     </field>
   </record>
-  <record id="view_unicore_transport_pass_list" model="ir.ui.view">
-    <field name="name">unicore.transport.pass.list</field>
-    <field name="model">unicore.transport.pass</field>
+  <record id="view_oacis_transport_pass_list" model="ir.ui.view">
+    <field name="name">oacis.transport.pass.list</field>
+    <field name="model">oacis.transport.pass</field>
     <field name="arch" type="xml">
       <list decoration-success="pass_state == 'active' and fee_paid" decoration-warning="pass_state == 'active' and                not fee_paid" decoration-muted="pass_state in               ('cancelled','expired')">
         <field name="pass_number"/>
@@ -69,9 +69,9 @@
       </list>
     </field>
   </record>
-  <record id="view_unicore_transport_pass_search" model="ir.ui.view">
-    <field name="name">unicore.transport.pass.search</field>
-    <field name="model">unicore.transport.pass</field>
+  <record id="view_oacis_transport_pass_search" model="ir.ui.view">
+    <field name="name">oacis.transport.pass.search</field>
+    <field name="model">oacis.transport.pass</field>
     <field name="arch" type="xml">
       <search>
         <field name="pass_number"/>
@@ -88,15 +88,15 @@
       </search>
     </field>
   </record>
-  <record id="action_unicore_transport_pass" model="ir.actions.act_window">
+  <record id="action_oacis_transport_pass" model="ir.actions.act_window">
     <field name="name">Transport Passes</field>
-    <field name="res_model">unicore.transport.pass</field>
+    <field name="res_model">oacis.transport.pass</field>
     <field name="view_mode">list,form</field>
     <field name="context">{'search_default_active': 1}</field>
   </record>
-  <record id="action_unicore_transport_fee_pending" model="ir.actions.act_window">
+  <record id="action_oacis_transport_fee_pending" model="ir.actions.act_window">
     <field name="name">Fee Pending Passes</field>
-    <field name="res_model">unicore.transport.pass</field>
+    <field name="res_model">oacis.transport.pass</field>
     <field name="view_mode">list,form</field>
     <field name="domain">[('fee_paid','=',False),
        ('pass_state','=','active')]</field>

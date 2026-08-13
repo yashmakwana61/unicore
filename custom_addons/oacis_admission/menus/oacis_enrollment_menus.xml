@@ -6,50 +6,50 @@
         <!-- LEVEL 2: Enrollments sub-menu under Admission root            -->
         <!-- ============================================================ -->
 
-        <menuitem id="menu_unicore_enrollment"
+        <menuitem id="menu_oacis_enrollment"
                   name="Enrollments"
-                  parent="menu_unicore_admission_root"
+                  parent="menu_oacis_admission_root"
                   sequence="50"
-                  groups="unicore_base.group_unicore_admin,unicore_base.group_unicore_manager,unicore_base.group_unicore_registrar,unicore_base.group_unicore_staff"/>
+                  groups="oacis_base.group_oacis_admin,oacis_base.group_oacis_manager,oacis_base.group_oacis_registrar,oacis_base.group_oacis_staff"/>
 
         <!-- ============================================================ -->
         <!-- LEVEL 3: Sub-menus under Enrollments                          -->
         <!-- ============================================================ -->
 
-        <menuitem id="menu_unicore_enrollment_my"
+        <menuitem id="menu_oacis_enrollment_my"
                   name="My Registrations"
-                  parent="menu_unicore_enrollment"
-                  action="action_unicore_enrollment_my"
+                  parent="menu_oacis_enrollment"
+                  action="action_oacis_enrollment_my"
                   sequence="10"
-                  groups="unicore_base.group_unicore_student"/>
+                  groups="oacis_base.group_oacis_student"/>
 
-        <menuitem id="menu_unicore_enrollment_active"
+        <menuitem id="menu_oacis_enrollment_active"
                   name="Active Enrollments"
-                  parent="menu_unicore_enrollment"
-                  action="action_unicore_enrollment_active"
+                  parent="menu_oacis_enrollment"
+                  action="action_oacis_enrollment_active"
                   sequence="20"
-                  groups="unicore_base.group_unicore_staff"/>
+                  groups="oacis_base.group_oacis_staff"/>
 
-        <menuitem id="menu_unicore_enrollment_all"
+        <menuitem id="menu_oacis_enrollment_all"
                   name="All Enrollments"
-                  parent="menu_unicore_enrollment"
-                  action="action_unicore_enrollment_all"
+                  parent="menu_oacis_enrollment"
+                  action="action_oacis_enrollment_all"
                   sequence="30"
-                  groups="unicore_base.group_unicore_registrar"/>
+                  groups="oacis_base.group_oacis_registrar"/>
 
-        <menuitem id="menu_unicore_enrollment_waitlist"
+        <menuitem id="menu_oacis_enrollment_waitlist"
                   name="Waitlist Management"
-                  parent="menu_unicore_enrollment"
-                  action="action_unicore_enrollment_waitlist"
+                  parent="menu_oacis_enrollment"
+                  action="action_oacis_enrollment_waitlist"
                   sequence="40"
-                  groups="unicore_base.group_unicore_registrar"/>
+                  groups="oacis_base.group_oacis_registrar"/>
 
-        <menuitem id="menu_unicore_enrollment_log"
+        <menuitem id="menu_oacis_enrollment_log"
                   name="Enrollment Audit Log"
-                  parent="menu_unicore_enrollment"
-                  action="action_unicore_enrollment_log"
+                  parent="menu_oacis_enrollment"
+                  action="action_oacis_enrollment_log"
                   sequence="50"
-                  groups="unicore_base.group_unicore_manager"/>
+                  groups="oacis_base.group_oacis_manager"/>
 
     </data>
 </odoo>

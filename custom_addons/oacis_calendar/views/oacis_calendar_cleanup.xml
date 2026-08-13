@@ -4,18 +4,18 @@
     <!-- Remove the separate board/calendar/analysis/activity actions and menus.
          The underlying views are kept and exposed via view_mode on the main actions. -->
 
-    <delete model="ir.actions.act_window" id="action_unicore_academic_week_calendar"/>
-    <delete model="ir.actions.act_window" id="action_unicore_academic_year_calendar"/>
-    <delete model="ir.actions.act_window" id="action_unicore_academic_year_kanban"/>
-    <delete model="ir.actions.act_window" id="action_unicore_holiday_calendar"/>
-    <delete model="ir.actions.act_window" id="action_unicore_semester_calendar"/>
-    <delete model="ir.actions.act_window" id="action_unicore_semester_kanban"/>
+    <delete model="ir.actions.act_window" id="action_oacis_academic_week_calendar"/>
+    <delete model="ir.actions.act_window" id="action_oacis_academic_year_calendar"/>
+    <delete model="ir.actions.act_window" id="action_oacis_academic_year_kanban"/>
+    <delete model="ir.actions.act_window" id="action_oacis_holiday_calendar"/>
+    <delete model="ir.actions.act_window" id="action_oacis_semester_calendar"/>
+    <delete model="ir.actions.act_window" id="action_oacis_semester_kanban"/>
 
-    <delete model="ir.ui.menu" id="menu_unicore_academic_week_calendar"/>
-    <delete model="ir.ui.menu" id="menu_unicore_academic_year_board"/>
-    <delete model="ir.ui.menu" id="menu_unicore_academic_year_calendar"/>
-    <delete model="ir.ui.menu" id="menu_unicore_holiday_calendar"/>
-    <delete model="ir.ui.menu" id="menu_unicore_semester_board"/>
-    <delete model="ir.ui.menu" id="menu_unicore_semester_calendar"/>
+    <delete model="ir.ui.menu" id="menu_oacis_academic_week_calendar"/>
+    <delete model="ir.ui.menu" id="menu_oacis_academic_year_board"/>
+    <delete model="ir.ui.menu" id="menu_oacis_academic_year_calendar"/>
+    <delete model="ir.ui.menu" id="menu_oacis_holiday_calendar"/>
+    <delete model="ir.ui.menu" id="menu_oacis_semester_board"/>
+    <delete model="ir.ui.menu" id="menu_oacis_semester_calendar"/>
 
 </odoo>

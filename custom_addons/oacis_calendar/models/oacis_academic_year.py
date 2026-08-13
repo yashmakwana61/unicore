@@ -7,12 +7,12 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UnicoreAcademicYear(models.Model):
+class OacisAcademicYear(models.Model):
     """Academic Year representing the annual academic calendar."""
 
-    _name = 'unicore.academic.year'
+    _name = 'oacis.academic.year'
     _description = 'Academic Year'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'date_start desc'
     _check_company_auto = True
 
@@ -37,8 +37,8 @@ class UnicoreAcademicYear(models.Model):
         tracking=True,
     )
     campus_ids = fields.Many2many(
-        comodel_name='unicore.campus',
-        relation='unicore_academic_year_campus_rel',
+        comodel_name='oacis.campus',
+        relation='oacis_academic_year_campus_rel',
         column1='academic_year_id',
         column2='campus_id',
         string='Applicable Campuses',
@@ -68,12 +68,12 @@ class UnicoreAcademicYear(models.Model):
         tracking=True,
     )
     semester_ids = fields.One2many(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         inverse_name='academic_year_id',
         string='Semesters / Terms',
     )
     holiday_ids = fields.One2many(
-        comodel_name='unicore.holiday',
+        comodel_name='oacis.holiday',
         inverse_name='academic_year_id',
         string='Holidays',
     )
@@ -116,13 +116,13 @@ class UnicoreAcademicYear(models.Model):
         store=True,
     )
     previous_year_id = fields.Many2one(
-        comodel_name='unicore.academic.year',
+        comodel_name='oacis.academic.year',
         string='Previous Academic Year',
         domain="[('company_id', '=', company_id)]",
         help='Link to the preceding academic year',
     )
     next_year_id = fields.Many2one(
-        comodel_name='unicore.academic.year',
+        comodel_name='oacis.academic.year',
         string='Next Academic Year',
         domain="[('company_id', '=', company_id)]",
         help='Link to the following academic year',
@@ -147,14 +147,14 @@ class UnicoreAcademicYear(models.Model):
             record.holiday_count = len(record.holiday_ids)
 
     def _compute_week_count(self):
-        week_model = self.env['unicore.academic.week']
+        week_model = self.env['oacis.academic.week']
         for record in self:
             record.week_count = week_model.search_count(
                 [('academic_year_id', '=', record.id)],
             )
 
     def _compute_total_working_days(self):
-        holiday_model = self.env['unicore.holiday']
+        holiday_model = self.env['oacis.holiday']
         for record in self:
             if record.date_start and record.date_end:
                 total = (record.date_end - record.date_start).days + 1
@@ -316,7 +316,7 @@ class UnicoreAcademicYear(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Semesters'),
-            'res_model': 'unicore.semester',
+            'res_model': 'oacis.semester',
             'view_mode': 'list,form',
             'domain': [('academic_year_id', '=', self.id)],
             'context': {'default_academic_year_id': self.id},
@@ -327,7 +327,7 @@ class UnicoreAcademicYear(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Academic Weeks'),
-            'res_model': 'unicore.academic.week',
+            'res_model': 'oacis.academic.week',
             'view_mode': 'list,form',
             'domain': [('academic_year_id', '=', self.id)],
             'context': {'default_academic_year_id': self.id},
@@ -338,7 +338,7 @@ class UnicoreAcademicYear(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Holidays'),
-            'res_model': 'unicore.holiday',
+            'res_model': 'oacis.holiday',
             'view_mode': 'list,form',
             'domain': [('academic_year_id', '=', self.id)],
             'context': {'default_academic_year_id': self.id},

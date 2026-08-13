@@ -14,8 +14,8 @@ from odoo import SUPERUSER_ID, api
 
 def migrate(cr, version):
     env = api.Environment(cr, SUPERUSER_ID, {})
-    Stage = env['unicore.admission.stage']
-    Applicant = env['unicore.admission.applicant']
+    Stage = env['oacis.admission.stage']
+    Applicant = env['oacis.admission.applicant']
 
     applicants = Applicant.search([])
     company_ids = applicants.company_id.ids

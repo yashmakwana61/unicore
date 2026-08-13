@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_curriculum_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.curriculum.kanban</field>
-        <field name="model">unicore.curriculum</field>
+    <record id="oacis_curriculum_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.curriculum.kanban</field>
+        <field name="model">oacis.curriculum</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="curriculum_state">
                 <field name="name"/>

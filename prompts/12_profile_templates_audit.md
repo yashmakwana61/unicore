@@ -1,6 +1,6 @@
-# UniCore Institution Profile Templates Audit (Phase 5)
+# Oacis Institution Profile Templates Audit (Phase 5)
 
-Date: 2026-08-07 · Module touched: unicore_institution_profile · DBs: odoo_p0_baseline (migration
+Date: 2026-08-07 · Module touched: oacis_institution_profile · DBs: odoo_p0_baseline (migration
 bed) + odoo (live)
 
 ## TL;DR
@@ -11,9 +11,9 @@ customize freely; upgrades only add missing records. **ZERO REGRESSION on the fu
 
 ## What was done
 
-### Seed catalog (NEW `data/unicore_institution_profile_templates.xml`, noupdate=1)
+### Seed catalog (NEW `data/oacis_institution_profile_templates.xml`, noupdate=1)
 Four new terminology profiles + four new institution profiles (UNI_LEGACY + K12_SCHOOL already
-shipped in `unicore_institution_profile_data.xml`). All new profiles: `is_legacy_university=False`.
+shipped in `oacis_institution_profile_data.xml`). All new profiles: `is_legacy_university=False`.
 
 | XML ID | Code | type | calendar | grading scheme_id | unit levels | terminology (labels) | features |
 |---|---|---|---|---|---|---|---|
@@ -23,11 +23,11 @@ shipped in `unicore_institution_profile_data.xml`). All new profiles: `is_legacy
 | profile_coaching_center | COA | coaching | rolling_batch | CERT_ONLY | BATCH, OTHER | COA: faculty hidden, Subject, Batch, Student, Coach, Cycle, Year | 7 (ACA minus SCHOLARSHIP) |
 
 References same-module `feature_*` / `grading_scheme_*` (loaded earlier in
-`unicore_institution_profile_data.xml`) and `unicore_academic_generic.unit_type_*`.
+`oacis_institution_profile_data.xml`) and `oacis_academic_generic.unit_type_*`.
 - `__manifest__.py` version → `19.0.1.2.0`; data list now also includes
-  `data/unicore_institution_profile_templates.xml` (after the base data file, before views/menus).
+  `data/oacis_institution_profile_templates.xml` (after the base data file, before views/menus).
 
-### Tests (NEW `tests/test_profile_templates.py`, tagged `('unicore','unit')`, 5 tests)
+### Tests (NEW `tests/test_profile_templates.py`, tagged `('oacis','unit')`, 5 tests)
 - `test_01_college_profile_wiring` / `test_02_training_profile_wiring` / `test_03_academy_profile_wiring`
   / `test_04_coaching_profile_wiring`: assert code, type, calendar_mode, effective_grading_scheme,
   unit-type codes (sorted), feature toggles, and terminology labels.
@@ -39,19 +39,19 @@ References same-module `feature_*` / `grading_scheme_*` (loaded earlier in
 - **XML comments cannot contain `--`** (XML spec). The ASCII-art separator comments built from `-`
   runs (`<!-- -----... -->`) blew up with `XMLSyntaxError: Double hyphen within comment` at load
   (EXIT=255). Fixed by using `=` runs for all comment separators. First `=`, others were `-`.
-- M2M rel tables are `unicore_institution_profile_unit_type_rel` (cols `profile_id`,`unit_type_id`)
-  and `unicore_institution_profile_feature_rel` (cols `profile_id`,`feature_id`); feature model is
-  `unicore_institution_feature`.
+- M2M rel tables are `oacis_institution_profile_unit_type_rel` (cols `profile_id`,`unit_type_id`)
+  and `oacis_institution_profile_feature_rel` (cols `profile_id`,`feature_id`); feature model is
+  `oacis_institution_feature`.
 
 ## Verification results
-- Isolated (odoo_p0_baseline): `/unicore_institution_profile` with `-u unicore_institution_profile`
+- Isolated (odoo_p0_baseline): `/oacis_institution_profile` with `-u oacis_institution_profile`
   → **0 failed, 0 error(s) of 33 tests** (single-module result line; includes the 5 new tests).
   First run EXIT=255 due to the XML comment bug above; fixed, re-run clean.
 - psql (odoo_p0_baseline): all 6 profiles present (UNI_LEGACY/K12_SCHOOL/COL/TRN/ACA/COA) with
   correct type + calendar_mode + grading_scheme_id + terminology; terminology table has all 6 with
   correct labels (faculty blank on TRN/ACA/COA/K12 = hidden concept). M2M wiring verified:
   COL=DEP,FAC,STREAM + 13 features; TRN=BATCH,OTHER + 9; ACA=BATCH,GRADE,OTHER + 8; COA=BATCH,OTHER + 7.
-- Live upgrade (odoo): `-u unicore_institution_profile` → EXIT=0; all 6 profiles present. Log
+- Live upgrade (odoo): `-u oacis_institution_profile` → EXIT=0; all 6 profiles present. Log
   tracebacks are the known benign "Skipping deletion for missing XML ID" noise from cleanup files.
 - **FULL 20-module suite on live odoo → `6 failed, 3 error(s) of 201 tests`** = EXACTLY the
   pre-existing set (fees 04/05/06/08err/09, api 14, admission 14 + 12err, website setUpClass),

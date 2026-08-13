@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <menuitem id="menu_unicore_skill_root"
+        <menuitem id="menu_oacis_skill_root"
                   name="Skill Assessment"
                   
                   sequence="80"/>
 
-        <menuitem id="menu_unicore_skill_assessments"
+        <menuitem id="menu_oacis_skill_assessments"
                   name="Assessments"
-                  parent="menu_unicore_skill_root"
-                  action="action_unicore_skill_assessment"
+                  parent="menu_oacis_skill_root"
+                  action="action_oacis_skill_assessment"
                   sequence="10"/>
 
-        <menuitem id="menu_unicore_skill_config"
+        <menuitem id="menu_oacis_skill_config"
                   name="Configuration"
-                  parent="menu_unicore_skill_root"
+                  parent="menu_oacis_skill_root"
                   sequence="100"/>
 
-        <menuitem id="menu_unicore_skill_list"
+        <menuitem id="menu_oacis_skill_list"
                   name="Skills"
-                  parent="menu_unicore_skill_config"
-                  action="action_unicore_skill"
+                  parent="menu_oacis_skill_config"
+                  action="action_oacis_skill"
                   sequence="10"/>
     </data>
 </odoo>

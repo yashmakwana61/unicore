@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_hostel_allocation_activity_view" model="ir.ui.view">
-        <field name="name">unicore.hostel.allocation.activity</field>
-        <field name="model">unicore.hostel.allocation</field>
+    <record id="oacis_hostel_allocation_activity_view" model="ir.ui.view">
+        <field name="name">oacis.hostel.allocation.activity</field>
+        <field name="model">oacis.hostel.allocation</field>
         <field name="arch" type="xml">
             <activity string="Hostel Allocation Activities"/>
         </field>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="unicore_fee_receipt_template">
+    <template id="oacis_fee_receipt_template">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="payment">
                 <t t-call="web.external_layout">
@@ -126,7 +126,7 @@
         </t>
     </template>
 
-    <template id="unicore_fee_receipt_styles">
+    <template id="oacis_fee_receipt_styles">
         <style>
             .receipt-container {
                 font-family: Arial, sans-serif;

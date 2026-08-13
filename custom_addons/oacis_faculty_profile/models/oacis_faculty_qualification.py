@@ -8,12 +8,12 @@ _logger = logging.getLogger(__name__)
 
 
 class FacultyQualification(models.Model):
-    _name = 'unicore.faculty.qualification'
+    _name = 'oacis.faculty.qualification'
     _description = 'Faculty Academic Qualification'
     _order = 'faculty_member_id, qualification_level desc'
 
     faculty_member_id = fields.Many2one(
-        'unicore.faculty.member',
+        'oacis.faculty.member',
         string='Faculty Member',
         required=True,
         ondelete='cascade',

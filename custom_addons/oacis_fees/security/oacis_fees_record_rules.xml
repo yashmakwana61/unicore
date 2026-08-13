@@ -5,9 +5,9 @@
         <!-- ============================================================ -->
         <!-- Fee Structure                                                 -->
         <!-- ============================================================ -->
-        <record id="rule_unicore_fee_structure_company" model="ir.rule">
+        <record id="rule_oacis_fee_structure_company" model="ir.rule">
             <field name="name">Fee Structure: Company Isolation</field>
-            <field name="model_id" ref="unicore_fees.model_unicore_fee_structure"/>
+            <field name="model_id" ref="oacis_fees.model_oacis_fee_structure"/>
             <field name="domain_force">['|',('company_id','=',False),('company_id','in',company_ids)]</field>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
             <field name="perm_read" eval="True"/>
@@ -16,11 +16,11 @@
             <field name="perm_unlink" eval="True"/>
         </record>
 
-        <record id="rule_unicore_fee_structure_admin" model="ir.rule">
+        <record id="rule_oacis_fee_structure_admin" model="ir.rule">
             <field name="name">Fee Structure: Admin Bypass</field>
-            <field name="model_id" ref="unicore_fees.model_unicore_fee_structure"/>
+            <field name="model_id" ref="oacis_fees.model_oacis_fee_structure"/>
             <field name="domain_force">[(1,'=',1)]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_admin'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_admin'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
@@ -30,9 +30,9 @@
         <!-- ============================================================ -->
         <!-- Fee Invoice                                                   -->
         <!-- ============================================================ -->
-        <record id="rule_unicore_fee_invoice_company" model="ir.rule">
+        <record id="rule_oacis_fee_invoice_company" model="ir.rule">
             <field name="name">Fee Invoice: Company Isolation</field>
-            <field name="model_id" ref="unicore_fees.model_unicore_fee_invoice"/>
+            <field name="model_id" ref="oacis_fees.model_oacis_fee_invoice"/>
             <field name="domain_force">['|',('company_id','=',False),('company_id','in',company_ids)]</field>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
             <field name="perm_read" eval="True"/>
@@ -41,22 +41,22 @@
             <field name="perm_unlink" eval="True"/>
         </record>
 
-        <record id="rule_unicore_fee_invoice_student" model="ir.rule">
+        <record id="rule_oacis_fee_invoice_student" model="ir.rule">
             <field name="name">Fee Invoice: Student Own Invoices</field>
-            <field name="model_id" ref="unicore_fees.model_unicore_fee_invoice"/>
+            <field name="model_id" ref="oacis_fees.model_oacis_fee_invoice"/>
             <field name="domain_force">[('student_id.partner_id.user_ids','in',[user.id])]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_student'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_student'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="False"/>
             <field name="perm_create" eval="False"/>
             <field name="perm_unlink" eval="False"/>
         </record>
 
-        <record id="rule_unicore_fee_invoice_admin" model="ir.rule">
+        <record id="rule_oacis_fee_invoice_admin" model="ir.rule">
             <field name="name">Fee Invoice: Admin Bypass</field>
-            <field name="model_id" ref="unicore_fees.model_unicore_fee_invoice"/>
+            <field name="model_id" ref="oacis_fees.model_oacis_fee_invoice"/>
             <field name="domain_force">[(1,'=',1)]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_admin'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_admin'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
@@ -67,9 +67,9 @@
         <!-- ============================================================ -->
         <!-- Fee Payment                                                   -->
         <!-- ============================================================ -->
-        <record id="rule_unicore_fee_payment_company" model="ir.rule">
+        <record id="rule_oacis_fee_payment_company" model="ir.rule">
             <field name="name">Fee Payment: Company Isolation</field>
-            <field name="model_id" ref="unicore_fees.model_unicore_fee_payment"/>
+            <field name="model_id" ref="oacis_fees.model_oacis_fee_payment"/>
             <field name="domain_force">['|',('company_id','=',False),('company_id','in',company_ids)]</field>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
             <field name="perm_read" eval="True"/>
@@ -78,22 +78,22 @@
             <field name="perm_unlink" eval="True"/>
         </record>
 
-        <record id="rule_unicore_fee_payment_student" model="ir.rule">
+        <record id="rule_oacis_fee_payment_student" model="ir.rule">
             <field name="name">Fee Payment: Student Own Payments</field>
-            <field name="model_id" ref="unicore_fees.model_unicore_fee_payment"/>
+            <field name="model_id" ref="oacis_fees.model_oacis_fee_payment"/>
             <field name="domain_force">[('invoice_id.student_id.partner_id.user_ids','in',[user.id])]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_student'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_student'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="False"/>
             <field name="perm_create" eval="False"/>
             <field name="perm_unlink" eval="False"/>
         </record>
 
-        <record id="rule_unicore_fee_payment_admin" model="ir.rule">
+        <record id="rule_oacis_fee_payment_admin" model="ir.rule">
             <field name="name">Fee Payment: Admin Bypass</field>
-            <field name="model_id" ref="unicore_fees.model_unicore_fee_payment"/>
+            <field name="model_id" ref="oacis_fees.model_oacis_fee_payment"/>
             <field name="domain_force">[(1,'=',1)]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_admin'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_admin'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>

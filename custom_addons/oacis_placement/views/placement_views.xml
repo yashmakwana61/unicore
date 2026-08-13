@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <data>
-    <record id="view_unicore_placement_company_tree" model="ir.ui.view">
-      <field name="name">unicore.placement.company.tree</field>
-      <field name="model">unicore.placement.company</field>
+    <record id="view_oacis_placement_company_tree" model="ir.ui.view">
+      <field name="name">oacis.placement.company.tree</field>
+      <field name="model">oacis.placement.company</field>
       <field name="arch" type="xml">
         <list string="Placement Companies">
           <field name="name"/>
@@ -11,9 +11,9 @@
         </list>
       </field>
     </record>
-    <record id="view_unicore_placement_company_form" model="ir.ui.view">
-      <field name="name">unicore.placement.company.form</field>
-      <field name="model">unicore.placement.company</field>
+    <record id="view_oacis_placement_company_form" model="ir.ui.view">
+      <field name="name">oacis.placement.company.form</field>
+      <field name="model">oacis.placement.company</field>
       <field name="arch" type="xml">
         <form string="Placement Company">
           <sheet>
@@ -36,9 +36,9 @@
         </form>
       </field>
     </record>
-    <record id="view_unicore_placement_drive_tree" model="ir.ui.view">
-      <field name="name">unicore.placement.drive.tree</field>
-      <field name="model">unicore.placement.drive</field>
+    <record id="view_oacis_placement_drive_tree" model="ir.ui.view">
+      <field name="name">oacis.placement.drive.tree</field>
+      <field name="model">oacis.placement.drive</field>
       <field name="arch" type="xml">
         <list string="Placement Drives">
           <field name="company_id"/>
@@ -47,9 +47,9 @@
         </list>
       </field>
     </record>
-    <record id="view_unicore_placement_drive_form" model="ir.ui.view">
-      <field name="name">unicore.placement.drive.form</field>
-      <field name="model">unicore.placement.drive</field>
+    <record id="view_oacis_placement_drive_form" model="ir.ui.view">
+      <field name="name">oacis.placement.drive.form</field>
+      <field name="model">oacis.placement.drive</field>
       <field name="arch" type="xml">
         <form string="Placement Drive">
           <header>
@@ -85,9 +85,9 @@
         </form>
       </field>
     </record>
-    <record id="view_unicore_placement_application_tree" model="ir.ui.view">
-      <field name="name">unicore.placement.application.tree</field>
-      <field name="model">unicore.placement.application</field>
+    <record id="view_oacis_placement_application_tree" model="ir.ui.view">
+      <field name="name">oacis.placement.application.tree</field>
+      <field name="model">oacis.placement.application</field>
       <field name="arch" type="xml">
         <list string="Placement Applications">
           <field name="student_id" widget="many2one_avatar"/>
@@ -97,9 +97,9 @@
         </list>
       </field>
     </record>
-    <record id="view_unicore_placement_application_form" model="ir.ui.view">
-      <field name="name">unicore.placement.application.form</field>
-      <field name="model">unicore.placement.application</field>
+    <record id="view_oacis_placement_application_form" model="ir.ui.view">
+      <field name="name">oacis.placement.application.form</field>
+      <field name="model">oacis.placement.application</field>
       <field name="arch" type="xml">
         <form string="Placement Application">
           <header>
@@ -129,19 +129,19 @@
         </form>
       </field>
     </record>
-    <record id="action_unicore_placement_company" model="ir.actions.act_window">
+    <record id="action_oacis_placement_company" model="ir.actions.act_window">
       <field name="name">Companies</field>
-      <field name="res_model">unicore.placement.company</field>
+      <field name="res_model">oacis.placement.company</field>
       <field name="view_mode">list,form</field>
     </record>
-    <record id="action_unicore_placement_drive" model="ir.actions.act_window">
+    <record id="action_oacis_placement_drive" model="ir.actions.act_window">
       <field name="name">Placement Drives</field>
-      <field name="res_model">unicore.placement.drive</field>
+      <field name="res_model">oacis.placement.drive</field>
       <field name="view_mode">list,form</field>
     </record>
-    <record id="action_unicore_placement_application" model="ir.actions.act_window">
+    <record id="action_oacis_placement_application" model="ir.actions.act_window">
       <field name="name">Applications</field>
-      <field name="res_model">unicore.placement.application</field>
+      <field name="res_model">oacis.placement.application</field>
       <field name="view_mode">list,form</field>
     </record>
   </data>

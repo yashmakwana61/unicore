@@ -1,8 +1,8 @@
 from odoo import _, fields, models
 
 
-class UniCoreFacultyDocumentExt(models.Model):
-    _inherit = 'unicore.faculty.member'
+class OacisFacultyDocumentExt(models.Model):
+    _inherit = 'oacis.faculty.member'
 
     document_count = fields.Integer(
         string='Documents',
@@ -11,7 +11,7 @@ class UniCoreFacultyDocumentExt(models.Model):
     )
 
     def _compute_faculty_doc_count(self):
-        Document = self.env['unicore.document']
+        Document = self.env['oacis.document']
         for rec in self:
             rec.document_count = Document.search_count([('faculty_member_id', '=', rec.id)])
 
@@ -20,7 +20,7 @@ class UniCoreFacultyDocumentExt(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Documents'),
-            'res_model': 'unicore.document',
+            'res_model': 'oacis.document',
             'view_mode': 'list,form',
             'domain': [('faculty_member_id', '=', self.id)],
             'context': {'default_faculty_member_id': self.id},

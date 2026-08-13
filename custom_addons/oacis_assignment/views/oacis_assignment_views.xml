@@ -4,9 +4,9 @@
     <!-- ============================================================ -->
     <!-- ASSIGNMENT FORM VIEW                                          -->
     <!-- ============================================================ -->
-    <record id="view_unicore_assignment_form" model="ir.ui.view">
-      <field name="name">unicore.assignment.form</field>
-      <field name="model">unicore.assignment</field>
+    <record id="view_oacis_assignment_form" model="ir.ui.view">
+      <field name="name">oacis.assignment.form</field>
+      <field name="model">oacis.assignment</field>
       <field name="arch" type="xml">
         <form string="Assignment">
           <header>
@@ -55,7 +55,7 @@
             <group name="files_group" string="Files" invisible="file_count == 0">
               <field name="attachment_ids" widget="many2many_binary" string="Assignment Files"/>
             </group>
-            <group name="company_group" groups="unicore_base.group_unicore_admin">
+            <group name="company_group" groups="oacis_base.group_oacis_admin">
               <field name="company_id" readonly="1"/>
               <field name="campus_id" readonly="1"/>
             </group>
@@ -83,9 +83,9 @@
     <!-- ============================================================ -->
     <!-- ASSIGNMENT LIST VIEW                                          -->
     <!-- ============================================================ -->
-    <record id="view_unicore_assignment_list" model="ir.ui.view">
-      <field name="name">unicore.assignment.list</field>
-      <field name="model">unicore.assignment</field>
+    <record id="view_oacis_assignment_list" model="ir.ui.view">
+      <field name="name">oacis.assignment.list</field>
+      <field name="model">oacis.assignment</field>
       <field name="arch" type="xml">
         <list string="Assignments">
           <field name="name" readonly="1"/>
@@ -99,16 +99,16 @@
           <field name="submitted_count" optional="show"/>
           <field name="graded_count" optional="show"/>
           <field name="pending_count" optional="hide" string="Pending"/>
-          <field name="company_id" optional="hide" groups="unicore_base.group_unicore_admin"/>
+          <field name="company_id" optional="hide" groups="oacis_base.group_oacis_admin"/>
         </list>
       </field>
     </record>
     <!-- ============================================================ -->
     <!-- ASSIGNMENT SEARCH VIEW                                        -->
     <!-- ============================================================ -->
-    <record id="view_unicore_assignment_search" model="ir.ui.view">
-      <field name="name">unicore.assignment.search</field>
-      <field name="model">unicore.assignment</field>
+    <record id="view_oacis_assignment_search" model="ir.ui.view">
+      <field name="name">oacis.assignment.search</field>
+      <field name="model">oacis.assignment</field>
       <field name="arch" type="xml">
         <search string="Assignments">
           <field name="title"/>
@@ -135,9 +135,9 @@
     <!-- ============================================================ -->
     <!-- ASSIGNMENT ACTIONS                                            -->
     <!-- ============================================================ -->
-    <record id="action_unicore_assignment_all" model="ir.actions.act_window">
+    <record id="action_oacis_assignment_all" model="ir.actions.act_window">
       <field name="name">All Assignments</field>
-      <field name="res_model">unicore.assignment</field>
+      <field name="res_model">oacis.assignment</field>
       <field name="view_mode">list,form</field>
       <field name="help" type="html">
         <p class="o_view_nocontent_smiling_face">
@@ -149,15 +149,15 @@
                 </p>
       </field>
     </record>
-    <record id="action_unicore_assignment_my" model="ir.actions.act_window">
+    <record id="action_oacis_assignment_my" model="ir.actions.act_window">
       <field name="name">My Assignments</field>
-      <field name="res_model">unicore.assignment</field>
+      <field name="res_model">oacis.assignment</field>
       <field name="view_mode">list,form</field>
       <field name="domain">[('faculty_member_id.partner_id.user_ids', 'in', [uid])]</field>
     </record>
-    <record id="action_unicore_assignment_published" model="ir.actions.act_window">
+    <record id="action_oacis_assignment_published" model="ir.actions.act_window">
       <field name="name">Published Assignments</field>
-      <field name="res_model">unicore.assignment</field>
+      <field name="res_model">oacis.assignment</field>
       <field name="view_mode">list,form</field>
       <field name="domain">[('assignment_state', '=', 'published')]</field>
     </record>

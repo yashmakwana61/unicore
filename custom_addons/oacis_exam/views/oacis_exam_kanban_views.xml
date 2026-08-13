@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_exam_hall_ticket_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.exam.hall.ticket.kanban</field>
-        <field name="model">unicore.exam.hall.ticket</field>
+    <record id="oacis_exam_hall_ticket_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.exam.hall.ticket.kanban</field>
+        <field name="model">oacis.exam.hall.ticket</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="ticket_state">
                 <field name="display_name"/>
@@ -50,9 +50,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_exam_seating_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.exam.seating.kanban</field>
-        <field name="model">unicore.exam.seating</field>
+    <record id="oacis_exam_seating_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.exam.seating.kanban</field>
+        <field name="model">oacis.exam.seating</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color">
                 <field name="display_name"/>

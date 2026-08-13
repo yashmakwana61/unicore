@@ -1,3 +1,3 @@
-from . import unicore_mixin
+from . import oacis_mixin
 from . import res_company
-from . import unicore_campus
+from . import oacis_campus

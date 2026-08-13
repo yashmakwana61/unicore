@@ -2,38 +2,38 @@
 <odoo>
 
     <!-- Academic Calendar Top Menu -->
-    <menuitem id="menu_unicore_calendar"
+    <menuitem id="menu_oacis_calendar"
               name="Academic Calendar"
-              parent="unicore_base.menu_unicore_root"
+              parent="oacis_base.menu_oacis_root"
               sequence="20"
-              groups="unicore_base.group_unicore_staff"/>
+              groups="oacis_base.group_oacis_staff"/>
 
     <!-- Academic Years -->
-    <menuitem id="menu_unicore_academic_year_list"
+    <menuitem id="menu_oacis_academic_year_list"
               name="Academic Years"
-              parent="menu_unicore_calendar"
-              action="action_unicore_academic_year"
+              parent="menu_oacis_calendar"
+              action="action_oacis_academic_year"
               sequence="10"/>
 
     <!-- Semesters -->
-    <menuitem id="menu_unicore_semester_list"
+    <menuitem id="menu_oacis_semester_list"
               name="Semesters"
-              parent="menu_unicore_calendar"
-              action="action_unicore_semester"
+              parent="menu_oacis_calendar"
+              action="action_oacis_semester"
               sequence="20"/>
 
     <!-- Academic Weeks -->
-    <menuitem id="menu_unicore_academic_week_list"
+    <menuitem id="menu_oacis_academic_week_list"
               name="Academic Weeks"
-              parent="menu_unicore_calendar"
-              action="action_unicore_academic_week"
+              parent="menu_oacis_calendar"
+              action="action_oacis_academic_week"
               sequence="30"/>
 
     <!-- Holidays & Events -->
-    <menuitem id="menu_unicore_holiday_list"
+    <menuitem id="menu_oacis_holiday_list"
               name="Holidays &amp; Events"
-              parent="menu_unicore_calendar"
-              action="action_unicore_holiday"
+              parent="menu_oacis_calendar"
+              action="action_oacis_holiday"
               sequence="40"/>
 
 </odoo>

@@ -17,7 +17,7 @@ from odoo import SUPERUSER_ID, api
 
 def _backfill_legacy_profile(cr, env):
     legacy = env.ref(
-        'unicore_institution_profile.profile_university_legacy',
+        'oacis_institution_profile.profile_university_legacy',
         raise_if_not_found=False,
     )
     if not legacy:

@@ -1,47 +1,47 @@
 // ---------------------------------------------------------------------------
-// UniCore dual-tier navigation sidebar
+// Oacis dual-tier navigation sidebar
 //
 // Layout states:
 //   * standard  – icon rail (64px) + submenu panel (216px) side by side
 //   * mini      – only the icon rail; the panel becomes a hover fly-out
 //   * mobile    – off-canvas drawer toggled from the navbar burger
 //
-// The webclient is pushed right by --unicore-sidebar-w (a CSS variable that is
-// switched through a `data-unicore-sidebar` attribute set on <html> by the
-// UnicoreSidebar component), so the fixed sidebar never overlaps the content.
+// The webclient is pushed right by --oacis-sidebar-w (a CSS variable that is
+// switched through a `data-oacis-sidebar` attribute set on <html> by the
+// OacisSidebar component), so the fixed sidebar never overlaps the content.
 // ---------------------------------------------------------------------------
 
 :root {
-    --unicore-sidebar-rail-w: 0px;
-    --unicore-sidebar-panel-w: 0px;
-    --unicore-sidebar-w: 0px;
+    --oacis-sidebar-rail-w: 0px;
+    --oacis-sidebar-panel-w: 0px;
+    --oacis-sidebar-w: 0px;
 
-    --unicore-sidebar-bg: #1e2330;
-    --unicore-sidebar-bg-2: #252b3c;
-    --unicore-sidebar-fg: #e9ecf4;
-    --unicore-sidebar-muted: #9aa4bd;
-    --unicore-sidebar-accent: #4c6ef5;
-    --unicore-sidebar-accent-soft: rgba(76, 110, 245, 0.18);
-    --unicore-sidebar-hover: rgba(255, 255, 255, 0.07);
-    --unicore-sidebar-border: rgba(255, 255, 255, 0.09);
+    --oacis-sidebar-bg: #1e2330;
+    --oacis-sidebar-bg-2: #252b3c;
+    --oacis-sidebar-fg: #e9ecf4;
+    --oacis-sidebar-muted: #9aa4bd;
+    --oacis-sidebar-accent: #4c6ef5;
+    --oacis-sidebar-accent-soft: rgba(76, 110, 245, 0.18);
+    --oacis-sidebar-hover: rgba(255, 255, 255, 0.07);
+    --oacis-sidebar-border: rgba(255, 255, 255, 0.09);
 }
 
 // Mini mode: only the rail column remains.
-:root[data-unicore-sidebar="mini"] {
-    --unicore-sidebar-panel-w: 0px;
+:root[data-oacis-sidebar="mini"] {
+    --oacis-sidebar-panel-w: 0px;
 }
 
 // The whole webclient (navbar included) slides right to make room for the
 // fixed sidebar; the variable transitions give the collapse a smooth feel.
 .o_web_client {
-    padding-left: var(--unicore-sidebar-w);
+    padding-left: var(--oacis-sidebar-w);
     transition: padding-left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 // ---------------------------------------------------------------------------
 // Sidebar trigger button in the NavBar (replaces the apps dropdown)
 // ---------------------------------------------------------------------------
-.o_unicore_sidebar_toggle {
+.o_oacis_sidebar_toggle {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -66,11 +66,11 @@
 }
 
 // Top navbar logo/brand styling
-.o_unicore_navbar_brand_container {
+.o_oacis_navbar_brand_container {
     height: 100%;
     padding-left: 10px;
 
-    .o_unicore_navbar_logo {
+    .o_oacis_navbar_logo {
         height: 30px;
         width: 30px;
         border-radius: 50%; // Match the green circle L design in mockup
@@ -79,7 +79,7 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    .o_unicore_navbar_brand {
+    .o_oacis_navbar_brand {
         font-size: 1.15rem;
         font-weight: 700;
         color: #ffffff;
@@ -96,7 +96,7 @@
 // ---------------------------------------------------------------------------
 // Sidebar shell
 // ---------------------------------------------------------------------------
-.o_unicore_sidebar {
+.o_oacis_sidebar {
     display: none !important;
     position: fixed;
     top: 0;
@@ -105,15 +105,15 @@
     z-index: 1030;
     display: flex;
     flex-direction: column;
-    width: var(--unicore-sidebar-w);
-    color: var(--unicore-sidebar-fg);
-    background: linear-gradient(180deg, var(--unicore-sidebar-bg) 0%, var(--unicore-sidebar-bg-2) 100%);
+    width: var(--oacis-sidebar-w);
+    color: var(--oacis-sidebar-fg);
+    background: linear-gradient(180deg, var(--oacis-sidebar-bg) 0%, var(--oacis-sidebar-bg-2) 100%);
     box-shadow: 2px 0 14px rgba(0, 0, 0, 0.25);
     transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: visible;
 }
 
-.o_unicore_sidebar_inner {
+.o_oacis_sidebar_inner {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -123,14 +123,14 @@
 // ---------------------------------------------------------------------------
 // Header: logo (opens the Start Menu), "App & Menu Finder", close button
 // ---------------------------------------------------------------------------
-.o_unicore_sidebar_header {
+.o_oacis_sidebar_header {
     display: flex;
     align-items: center;
     gap: 4px;
     padding: 10px 10px 8px;
     flex: 0 0 auto;
 
-    .o_unicore_sidebar_logo {
+    .o_oacis_sidebar_logo {
         flex: 0 0 44px;
         width: 44px;
         height: 44px;
@@ -139,7 +139,7 @@
         justify-content: center;
         border: 0;
         border-radius: 12px;
-        background: var(--unicore-sidebar-accent-soft);
+        background: var(--oacis-sidebar-accent-soft);
         color: #a5b4fc;
         cursor: pointer;
         transition: background-color 0.15s ease, transform 0.15s ease;
@@ -156,7 +156,7 @@
 
     // Mini-mode search trigger: the input is hidden when collapsed, so a
     // search button re-opens the "App & Menu Finder" as a fly-out.
-    .o_unicore_sidebar_search_mini {
+    .o_oacis_sidebar_search_mini {
         display: none;
         flex: 0 0 44px;
         width: 44px;
@@ -166,13 +166,13 @@
         border: 0;
         border-radius: 12px;
         background: transparent;
-        color: var(--unicore-sidebar-muted);
+        color: var(--oacis-sidebar-muted);
         cursor: pointer;
         transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
 
         &:hover {
-            background: var(--unicore-sidebar-hover);
-            color: var(--unicore-sidebar-fg);
+            background: var(--oacis-sidebar-hover);
+            color: var(--oacis-sidebar-fg);
         }
 
         &:active {
@@ -184,7 +184,7 @@
         }
     }
 
-    .o_unicore_sidebar_head_content {
+    .o_oacis_sidebar_head_content {
         flex: 1 1 auto;
         min-width: 0;
         display: flex;
@@ -193,39 +193,39 @@
         margin-left: 6px;
     }
 
-    .o_unicore_sidebar_brand {
+    .o_oacis_sidebar_brand {
         font-size: 0.62rem;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 1.6px;
-        color: var(--unicore-sidebar-muted);
+        color: var(--oacis-sidebar-muted);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
 
-    .o_unicore_sidebar_search {
+    .o_oacis_sidebar_search {
         width: 100%;
         padding: 7px 10px;
-        border: 1px solid var(--unicore-sidebar-border);
+        border: 1px solid var(--oacis-sidebar-border);
         border-radius: 9px;
         background: rgba(0, 0, 0, 0.22);
-        color: var(--unicore-sidebar-fg);
+        color: var(--oacis-sidebar-fg);
         font-size: 0.82rem;
         outline: none;
         transition: border-color 0.15s ease, background-color 0.15s ease;
 
         &::placeholder {
-            color: var(--unicore-sidebar-muted);
+            color: var(--oacis-sidebar-muted);
         }
 
         &:focus {
-            border-color: var(--unicore-sidebar-accent);
+            border-color: var(--oacis-sidebar-accent);
             background: rgba(0, 0, 0, 0.32);
         }
     }
 
-    .o_unicore_sidebar_close {
+    .o_oacis_sidebar_close {
         display: none;
         flex: 0 0 34px;
         width: 34px;
@@ -235,12 +235,12 @@
         border: 0;
         border-radius: 8px;
         background: transparent;
-        color: var(--unicore-sidebar-muted);
+        color: var(--oacis-sidebar-muted);
         cursor: pointer;
 
         &:hover {
-            background: var(--unicore-sidebar-hover);
-            color: var(--unicore-sidebar-fg);
+            background: var(--oacis-sidebar-hover);
+            color: var(--oacis-sidebar-fg);
         }
     }
 }
@@ -248,16 +248,16 @@
 // ---------------------------------------------------------------------------
 // Body: rail (tier 1) + panel (tier 2)
 // ---------------------------------------------------------------------------
-.o_unicore_sidebar_body {
+.o_oacis_sidebar_body {
     position: relative;
     flex: 1 1 auto;
     min-height: 0;
     display: flex;
 }
 
-.o_unicore_sidebar_rail {
-    flex: 0 0 var(--unicore-sidebar-rail-w);
-    width: var(--unicore-sidebar-rail-w);
+.o_oacis_sidebar_rail {
+    flex: 0 0 var(--oacis-sidebar-rail-w);
+    width: var(--oacis-sidebar-rail-w);
     min-width: 0;
     display: flex;
     flex-direction: column;
@@ -268,7 +268,7 @@
     overflow-y: auto;
 }
 
-.o_unicore_sidebar_app {
+.o_oacis_sidebar_app {
     position: relative;
     display: flex;
     align-items: center;
@@ -278,7 +278,7 @@
     border: 0;
     border-radius: 12px;
     background: transparent;
-    color: var(--unicore-sidebar-muted);
+    color: var(--oacis-sidebar-muted);
     cursor: pointer;
     transition: background-color 0.15s ease, transform 0.15s ease;
 
@@ -291,18 +291,18 @@
         width: 3px;
         height: 22px;
         border-radius: 2px;
-        background: var(--unicore-sidebar-accent);
+        background: var(--oacis-sidebar-accent);
         transform: translateY(-50%) scaleY(0);
         transition: transform 0.18s ease;
     }
 
     &:hover {
-        background: var(--unicore-sidebar-hover);
-        color: var(--unicore-sidebar-fg);
+        background: var(--oacis-sidebar-hover);
+        color: var(--oacis-sidebar-fg);
     }
 
     &[data-active] {
-        background: var(--unicore-sidebar-accent-soft);
+        background: var(--oacis-sidebar-accent-soft);
         color: #fff;
 
         &::before {
@@ -310,14 +310,14 @@
         }
     }
 
-    .o_unicore_sidebar_app_icon {
+    .o_oacis_sidebar_app_icon {
         width: 26px;
         height: 26px;
         object-fit: contain;
         border-radius: 6px;
     }
 
-    .o_unicore_sidebar_app_letter {
+    .o_oacis_sidebar_app_letter {
         width: 26px;
         height: 26px;
         display: inline-flex;
@@ -330,47 +330,47 @@
     }
 }
 
-.o_unicore_sidebar_rail_empty {
+.o_oacis_sidebar_rail_empty {
     padding: 14px 4px;
     font-size: 0.72rem;
     text-align: center;
-    color: var(--unicore-sidebar-muted);
+    color: var(--oacis-sidebar-muted);
 }
 
 // Panel (tier 2)
-.o_unicore_sidebar_panel {
+.o_oacis_sidebar_panel {
     flex: 1 1 auto;
     min-width: 0;
-    width: var(--unicore-sidebar-panel-w);
+    width: var(--oacis-sidebar-panel-w);
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    border-left: 1px solid var(--unicore-sidebar-border);
+    border-left: 1px solid var(--oacis-sidebar-border);
     background: rgba(0, 0, 0, 0.14);
 }
 
-.o_unicore_sidebar_panel_header {
+.o_oacis_sidebar_panel_header {
     flex: 0 0 auto;
     display: flex;
     align-items: center;
     gap: 10px;
     padding: 12px 14px;
-    border-bottom: 1px solid var(--unicore-sidebar-border);
+    border-bottom: 1px solid var(--oacis-sidebar-border);
     cursor: pointer;
     transition: background-color 0.15s ease;
 
     &:hover {
-        background: var(--unicore-sidebar-hover);
+        background: var(--oacis-sidebar-hover);
     }
 
-    .o_unicore_sidebar_panel_icon {
+    .o_oacis_sidebar_panel_icon {
         width: 22px;
         height: 22px;
         object-fit: contain;
         border-radius: 5px;
     }
 
-    .o_unicore_sidebar_panel_letter {
+    .o_oacis_sidebar_panel_letter {
         width: 22px;
         height: 22px;
         display: inline-flex;
@@ -382,7 +382,7 @@
         color: #fff;
     }
 
-    .o_unicore_sidebar_panel_title {
+    .o_oacis_sidebar_panel_title {
         font-size: 0.92rem;
         font-weight: 700;
         white-space: nowrap;
@@ -391,25 +391,25 @@
     }
 }
 
-.o_unicore_sidebar_panel_scroll {
+.o_oacis_sidebar_panel_scroll {
     flex: 1 1 auto;
     min-height: 0;
     overflow-y: auto;
     padding: 8px 0 12px;
 }
 
-.o_unicore_sidebar_group {
+.o_oacis_sidebar_group {
     margin-bottom: 4px;
 }
 
-.o_unicore_sidebar_group_title {
+.o_oacis_sidebar_group_title {
     margin: 10px 14px 4px;
     padding: 3px 8px;
     font-size: 0.64rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1.2px;
-    color: var(--unicore-sidebar-muted);
+    color: var(--oacis-sidebar-muted);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -418,24 +418,24 @@
     transition: background-color 0.13s ease, color 0.13s ease;
 
     &:hover {
-        background: var(--unicore-sidebar-hover);
-        color: var(--unicore-sidebar-fg);
+        background: var(--oacis-sidebar-hover);
+        color: var(--oacis-sidebar-fg);
     }
 }
 
-.o_unicore_sidebar_list {
+.o_oacis_sidebar_list {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.o_unicore_sidebar_item {
+.o_oacis_sidebar_item {
     display: flex;
     align-items: center;
     margin: 1px 6px;
     padding: 7px 14px;
     border-radius: 8px;
-    color: var(--unicore-sidebar-fg);
+    color: var(--oacis-sidebar-fg);
     font-size: 0.84rem;
     cursor: pointer;
     white-space: nowrap;
@@ -444,46 +444,46 @@
     transition: background-color 0.13s ease, color 0.13s ease;
 
     &:hover {
-        background: var(--unicore-sidebar-hover);
+        background: var(--oacis-sidebar-hover);
     }
 
     &[data-active] {
-        background: var(--unicore-sidebar-accent-soft);
+        background: var(--oacis-sidebar-accent-soft);
         color: #fff;
     }
 }
 
-.o_unicore_sidebar_item_parent {
+.o_oacis_sidebar_item_parent {
     flex-direction: column;
     align-items: stretch;
 }
 
-.o_unicore_sidebar_item_name {
+.o_oacis_sidebar_item_name {
     font-weight: 600;
 }
 
-.o_unicore_sidebar_sub {
+.o_oacis_sidebar_sub {
     list-style: none;
     margin: 4px 0 0;
     padding: 0;
 }
 
-.o_unicore_sidebar_empty {
+.o_oacis_sidebar_empty {
     padding: 14px;
     font-size: 0.82rem;
     font-style: italic;
-    color: var(--unicore-sidebar-muted);
+    color: var(--oacis-sidebar-muted);
 }
 
 // ---------------------------------------------------------------------------
 // Footer: mini-mode toggle
 // ---------------------------------------------------------------------------
-.o_unicore_sidebar_footer {
+.o_oacis_sidebar_footer {
     flex: 0 0 auto;
     padding: 8px 10px;
-    border-top: 1px solid var(--unicore-sidebar-border);
+    border-top: 1px solid var(--oacis-sidebar-border);
 
-    .o_unicore_sidebar_mini {
+    .o_oacis_sidebar_mini {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -493,13 +493,13 @@
         border: 0;
         border-radius: 10px;
         background: transparent;
-        color: var(--unicore-sidebar-muted);
+        color: var(--oacis-sidebar-muted);
         cursor: pointer;
         transition: background-color 0.15s ease, color 0.15s ease;
 
         &:hover {
-            background: var(--unicore-sidebar-hover);
-            color: var(--unicore-sidebar-fg);
+            background: var(--oacis-sidebar-hover);
+            color: var(--oacis-sidebar-fg);
         }
 
         .fa {
@@ -507,7 +507,7 @@
         }
     }
 
-    .o_unicore_sidebar_footer_label {
+    .o_oacis_sidebar_footer_label {
         font-size: 0.8rem;
     }
 }
@@ -515,40 +515,40 @@
 // ---------------------------------------------------------------------------
 // Mini mode: icons only; the submenu panel becomes a hover fly-out
 // ---------------------------------------------------------------------------
-.o_unicore_sidebar[data-mini] {
-    .o_unicore_sidebar_head_content,
-    .o_unicore_sidebar_close {
+.o_oacis_sidebar[data-mini] {
+    .o_oacis_sidebar_head_content,
+    .o_oacis_sidebar_close {
         display: none;
     }
 
-    .o_unicore_sidebar_search_mini {
+    .o_oacis_sidebar_search_mini {
         display: inline-flex;
     }
 
     // The rail is only 64px wide: stack the logo and the search button.
-    .o_unicore_sidebar_header {
+    .o_oacis_sidebar_header {
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
         gap: 6px;
     }
 
-    .o_unicore_sidebar_logo {
+    .o_oacis_sidebar_logo {
         flex: 0 0 44px;
         width: 44px;
         height: 44px;
     }
 
-    .o_unicore_sidebar_search_mini {
+    .o_oacis_sidebar_search_mini {
         flex: 0 0 40px;
         width: 40px;
         height: 40px;
     }
 
-    .o_unicore_sidebar_panel {
+    .o_oacis_sidebar_panel {
         position: absolute;
         top: 0;
-        left: var(--unicore-sidebar-rail-w);
+        left: var(--oacis-sidebar-rail-w);
         bottom: 0;
         width: 216px;
         visibility: hidden;
@@ -559,22 +559,22 @@
     }
 
     // Hover anywhere on the rail (or an active search) reveals the panel.
-    :hover .o_unicore_sidebar_panel,
-    &[data-search] .o_unicore_sidebar_panel {
+    :hover .o_oacis_sidebar_panel,
+    &[data-search] .o_oacis_sidebar_panel {
         visibility: visible;
         opacity: 1;
         transform: translateX(0);
     }
 
-    .o_unicore_sidebar_footer_label {
+    .o_oacis_sidebar_footer_label {
         display: none;
     }
 
-    .o_unicore_sidebar_mini {
+    .o_oacis_sidebar_mini {
         gap: 0;
     }
 
-    .o_unicore_sidebar_rail_empty {
+    .o_oacis_sidebar_rail_empty {
         display: none;
     }
 }
@@ -584,46 +584,46 @@
 // ---------------------------------------------------------------------------
 @media (max-width: 767.98px) {
     :root {
-        --unicore-sidebar-w: 0px;
+        --oacis-sidebar-w: 0px;
     }
 
-    :root[data-unicore-sidebar="open"] {
-        --unicore-sidebar-w: calc(var(--unicore-sidebar-rail-w) + var(--unicore-sidebar-panel-w));
+    :root[data-oacis-sidebar="open"] {
+        --oacis-sidebar-w: calc(var(--oacis-sidebar-rail-w) + var(--oacis-sidebar-panel-w));
     }
 
-    .o_unicore_sidebar {
-        width: calc(var(--unicore-sidebar-rail-w) + var(--unicore-sidebar-panel-w));
+    .o_oacis_sidebar {
+        width: calc(var(--oacis-sidebar-rail-w) + var(--oacis-sidebar-panel-w));
         box-shadow: none;
         transform: translateX(-102%);
         transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .o_unicore_sidebar[data-open] {
+    .o_oacis_sidebar[data-open] {
         transform: translateX(0);
         box-shadow: 4px 0 24px rgba(0, 0, 0, 0.4);
     }
 
-    .o_unicore_sidebar_close {
+    .o_oacis_sidebar_close {
         display: inline-flex;
     }
 
     // data-mini is only set on desktop, but if a persisted mini state leaks in,
     // keep the drawer in the full two-tier layout.
-    .o_unicore_sidebar[data-mini] {
-        .o_unicore_sidebar_head_content {
+    .o_oacis_sidebar[data-mini] {
+        .o_oacis_sidebar_head_content {
             display: flex;
         }
 
-        .o_unicore_sidebar_search_mini {
+        .o_oacis_sidebar_search_mini {
             display: none;
         }
 
-        .o_unicore_sidebar_header {
+        .o_oacis_sidebar_header {
             flex-direction: row;
             justify-content: flex-start;
         }
 
-        .o_unicore_sidebar_panel {
+        .o_oacis_sidebar_panel {
             position: static;
             width: auto;
             visibility: visible;
@@ -636,15 +636,15 @@
 
 // Full-screen backdrop behind the mobile drawer (portaled to <body> so it is
 // not affected by the sidebar's own transform).
-.o_unicore_sidebar_backdrop {
+.o_oacis_sidebar_backdrop {
     position: fixed;
     inset: 0;
     z-index: 1029;
     background: rgba(0, 0, 0, 0.45);
-    animation: o_unicore_sidebar_fade_in 0.2s ease;
+    animation: o_oacis_sidebar_fade_in 0.2s ease;
 }
 
-@keyframes o_unicore_sidebar_fade_in {
+@keyframes o_oacis_sidebar_fade_in {
     from {
         opacity: 0;
     }

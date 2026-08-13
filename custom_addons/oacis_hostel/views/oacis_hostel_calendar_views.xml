@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_hostel_allocation_calendar_view" model="ir.ui.view">
-        <field name="name">unicore.hostel.allocation.calendar</field>
-        <field name="model">unicore.hostel.allocation</field>
+    <record id="oacis_hostel_allocation_calendar_view" model="ir.ui.view">
+        <field name="name">oacis.hostel.allocation.calendar</field>
+        <field name="model">oacis.hostel.allocation</field>
         <field name="type">calendar</field>
         <field name="arch" type="xml">
             <calendar date_start="allocation_date" color="color" string="Hostel Allocation Calendar">
@@ -25,9 +25,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_hostel_maintenance_calendar_view" model="ir.ui.view">
-        <field name="name">unicore.hostel.maintenance.calendar</field>
-        <field name="model">unicore.hostel.maintenance</field>
+    <record id="oacis_hostel_maintenance_calendar_view" model="ir.ui.view">
+        <field name="name">oacis.hostel.maintenance.calendar</field>
+        <field name="model">oacis.hostel.maintenance</field>
         <field name="type">calendar</field>
         <field name="arch" type="xml">
             <calendar date_start="request_date" date_stop="resolved_date" color="color" string="Hostel Maintenance Calendar">

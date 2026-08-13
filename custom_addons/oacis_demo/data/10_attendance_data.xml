@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data noupdate="0">
-    <record id="uc_demo_att_policy" model="unicore.attendance.policy">
+    <record id="uc_demo_att_policy" model="oacis.attendance.policy">
       <field name="name">Standard 75% Policy</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="policy_scope">global</field>
@@ -10,123 +10,123 @@
       <field name="is_exam_eligibility_linked">True</field>
     </record>
 
-    <record id="uc_demo_att_session_1" model="unicore.attendance.session">
+    <record id="uc_demo_att_session_1" model="oacis.attendance.session">
       <field name="timetable_entry_id" ref="uc_demo_tt_cs101_mon"/>
       <field name="session_date">2026-08-03</field>
       <field name="session_state">closed</field>
     </record>
 
-    <record id="uc_demo_att_session_2" model="unicore.attendance.session">
+    <record id="uc_demo_att_session_2" model="oacis.attendance.session">
       <field name="timetable_entry_id" ref="uc_demo_tt_cs101_mon"/>
       <field name="session_date">2026-08-10</field>
       <field name="session_state">closed</field>
     </record>
 
-    <record id="uc_demo_att_session_3" model="unicore.attendance.session">
+    <record id="uc_demo_att_session_3" model="oacis.attendance.session">
       <field name="timetable_entry_id" ref="uc_demo_tt_math101_tue"/>
       <field name="session_date">2026-08-04</field>
       <field name="session_state">closed</field>
     </record>
 
-    <record id="uc_demo_att_session_4" model="unicore.attendance.session">
+    <record id="uc_demo_att_session_4" model="oacis.attendance.session">
       <field name="timetable_entry_id" ref="uc_demo_tt_math101_tue"/>
       <field name="session_date">2026-08-11</field>
       <field name="session_state">closed</field>
     </record>
 
-    <record id="uc_demo_att_rec_arav_s1" model="unicore.attendance.record">
+    <record id="uc_demo_att_rec_arav_s1" model="oacis.attendance.record">
       <field name="session_id" ref="uc_demo_att_session_1"/>
       <field name="student_id" ref="uc_demo_student_arav"/>
       <field name="status">present</field>
     </record>
 
-    <record id="uc_demo_att_rec_diya_s1" model="unicore.attendance.record">
+    <record id="uc_demo_att_rec_diya_s1" model="oacis.attendance.record">
       <field name="session_id" ref="uc_demo_att_session_1"/>
       <field name="student_id" ref="uc_demo_student_diya"/>
       <field name="status">present</field>
     </record>
 
-    <record id="uc_demo_att_rec_kabir_s1" model="unicore.attendance.record">
+    <record id="uc_demo_att_rec_kabir_s1" model="oacis.attendance.record">
       <field name="session_id" ref="uc_demo_att_session_1"/>
       <field name="student_id" ref="uc_demo_student_kabir"/>
       <field name="status">absent</field>
     </record>
 
-    <record id="uc_demo_att_rec_myra_s1" model="unicore.attendance.record">
+    <record id="uc_demo_att_rec_myra_s1" model="oacis.attendance.record">
       <field name="session_id" ref="uc_demo_att_session_1"/>
       <field name="student_id" ref="uc_demo_student_myra"/>
       <field name="status">present</field>
     </record>
 
-    <record id="uc_demo_att_rec_aryan_s1" model="unicore.attendance.record">
+    <record id="uc_demo_att_rec_aryan_s1" model="oacis.attendance.record">
       <field name="session_id" ref="uc_demo_att_session_1"/>
       <field name="student_id" ref="uc_demo_student_aryan"/>
       <field name="status">late</field>
       <field name="late_minutes">10</field>
     </record>
 
-    <record id="uc_demo_att_rec_arav_s2" model="unicore.attendance.record">
+    <record id="uc_demo_att_rec_arav_s2" model="oacis.attendance.record">
       <field name="session_id" ref="uc_demo_att_session_2"/>
       <field name="student_id" ref="uc_demo_student_arav"/>
       <field name="status">present</field>
     </record>
 
-    <record id="uc_demo_att_rec_diya_s2" model="unicore.attendance.record">
+    <record id="uc_demo_att_rec_diya_s2" model="oacis.attendance.record">
       <field name="session_id" ref="uc_demo_att_session_2"/>
       <field name="student_id" ref="uc_demo_student_diya"/>
       <field name="status">present</field>
     </record>
 
-    <record id="uc_demo_att_rec_kabir_s2" model="unicore.attendance.record">
+    <record id="uc_demo_att_rec_kabir_s2" model="oacis.attendance.record">
       <field name="session_id" ref="uc_demo_att_session_2"/>
       <field name="student_id" ref="uc_demo_student_kabir"/>
       <field name="status">present</field>
     </record>
 
-    <record id="uc_demo_att_rec_myra_s2" model="unicore.attendance.record">
+    <record id="uc_demo_att_rec_myra_s2" model="oacis.attendance.record">
       <field name="session_id" ref="uc_demo_att_session_2"/>
       <field name="student_id" ref="uc_demo_student_myra"/>
       <field name="status">late</field>
       <field name="late_minutes">5</field>
     </record>
 
-    <record id="uc_demo_att_rec_aryan_s2" model="unicore.attendance.record">
+    <record id="uc_demo_att_rec_aryan_s2" model="oacis.attendance.record">
       <field name="session_id" ref="uc_demo_att_session_2"/>
       <field name="student_id" ref="uc_demo_student_aryan"/>
       <field name="status">present</field>
     </record>
 
-    <record id="uc_demo_att_rec_arav_s3" model="unicore.attendance.record">
+    <record id="uc_demo_att_rec_arav_s3" model="oacis.attendance.record">
       <field name="session_id" ref="uc_demo_att_session_3"/>
       <field name="student_id" ref="uc_demo_student_arav"/>
       <field name="status">present</field>
     </record>
 
-    <record id="uc_demo_att_rec_diya_s3" model="unicore.attendance.record">
+    <record id="uc_demo_att_rec_diya_s3" model="oacis.attendance.record">
       <field name="session_id" ref="uc_demo_att_session_3"/>
       <field name="student_id" ref="uc_demo_student_diya"/>
       <field name="status">absent</field>
     </record>
 
-    <record id="uc_demo_att_rec_kabir_s3" model="unicore.attendance.record">
+    <record id="uc_demo_att_rec_kabir_s3" model="oacis.attendance.record">
       <field name="session_id" ref="uc_demo_att_session_3"/>
       <field name="student_id" ref="uc_demo_student_kabir"/>
       <field name="status">present</field>
     </record>
 
-    <record id="uc_demo_att_rec_arav_s4" model="unicore.attendance.record">
+    <record id="uc_demo_att_rec_arav_s4" model="oacis.attendance.record">
       <field name="session_id" ref="uc_demo_att_session_4"/>
       <field name="student_id" ref="uc_demo_student_arav"/>
       <field name="status">present</field>
     </record>
 
-    <record id="uc_demo_att_rec_diya_s4" model="unicore.attendance.record">
+    <record id="uc_demo_att_rec_diya_s4" model="oacis.attendance.record">
       <field name="session_id" ref="uc_demo_att_session_4"/>
       <field name="student_id" ref="uc_demo_student_diya"/>
       <field name="status">present</field>
     </record>
 
-    <record id="uc_demo_att_rec_kabir_s4" model="unicore.attendance.record">
+    <record id="uc_demo_att_rec_kabir_s4" model="oacis.attendance.record">
       <field name="session_id" ref="uc_demo_att_session_4"/>
       <field name="student_id" ref="uc_demo_student_kabir"/>
       <field name="status">present</field>

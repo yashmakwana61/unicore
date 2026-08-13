@@ -1,5 +1,5 @@
 """
-UniCore Transport Trip Log Model
+Oacis Transport Trip Log Model
 Daily trip records for tracking route operations,
 attendance and incidents. One record per route
 per trip per day.
@@ -12,10 +12,10 @@ from odoo import _, api, fields, models
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreTransportTrip(models.Model):
-    _name = 'unicore.transport.trip'
+class OacisTransportTrip(models.Model):
+    _name = 'oacis.transport.trip'
     _description = 'Transport Trip Log'
-    _inherit = ['unicore.mixin', 'mail.thread']
+    _inherit = ['oacis.mixin', 'mail.thread']
     _order = 'trip_date desc, route_id'
     _check_company_auto = True
     _rec_name = 'display_name'
@@ -54,7 +54,7 @@ class UniCoreTransportTrip(models.Model):
         ondelete='restrict',
     )
     route_id = fields.Many2one(
-        comodel_name='unicore.transport.route',
+        comodel_name='oacis.transport.route',
         string='Route',
         required=True,
         ondelete='restrict',
@@ -62,7 +62,7 @@ class UniCoreTransportTrip(models.Model):
         domain="[('company_id','=',company_id)]",
     )
     vehicle_id = fields.Many2one(
-        comodel_name='unicore.transport.vehicle',
+        comodel_name='oacis.transport.vehicle',
         string='Vehicle',
         related='route_id.vehicle_id',
         store=True,
@@ -144,7 +144,7 @@ class UniCoreTransportTrip(models.Model):
     )
 
     def _compute_expected_passengers(self):
-        Pass = self.env['unicore.transport.pass']
+        Pass = self.env['oacis.transport.pass']
         for rec in self:
             rec.expected_passengers = Pass.search_count([
                 ('route_id', '=', rec.route_id.id),
@@ -215,7 +215,7 @@ class UniCoreTransportTrip(models.Model):
             if not vals.get('trip_number'):
                 vals['trip_number'] = (
                     self.env['ir.sequence'].next_by_code(
-                        'unicore.transport.trip',
+                        'oacis.transport.trip',
                     ) or '/'
                 )
         return super().create(vals_list)

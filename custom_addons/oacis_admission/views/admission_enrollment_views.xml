@@ -1,18 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <!-- ============================================================ -->
-  <!-- unicore.admission.enrollment — FORM                          -->
+  <!-- oacis.admission.enrollment — FORM                          -->
   <!-- ============================================================ -->
   <record id="admission_enrollment_form_view" model="ir.ui.view">
-    <field name="name">unicore.admission.enrollment.form</field>
-    <field name="model">unicore.admission.enrollment</field>
+    <field name="name">oacis.admission.enrollment.form</field>
+    <field name="model">oacis.admission.enrollment</field>
     <field name="arch" type="xml">
       <form>
         <header>
           <field name="enrollment_state" widget="statusbar" statusbar_visible="pending,enrolled,completed" clickable="False"/>
           <button name="action_mark_enrolled" type="object" string="Mark Enrolled" class="btn-primary" invisible="enrollment_state != 'pending'"/>
-          <button name="action_mark_completed" type="object" string="Mark Completed" class="btn-secondary" invisible="enrollment_state not in ('pending', 'enrolled')" groups="unicore_base.group_unicore_registrar"/>
-          <button name="action_cancel" type="object" string="Cancel (Admin)" class="btn-danger" invisible="enrollment_state == 'cancelled'" groups="unicore_base.group_unicore_admin"/>
+          <button name="action_mark_completed" type="object" string="Mark Completed" class="btn-secondary" invisible="enrollment_state not in ('pending', 'enrolled')" groups="oacis_base.group_oacis_registrar"/>
+          <button name="action_cancel" type="object" string="Cancel (Admin)" class="btn-danger" invisible="enrollment_state == 'cancelled'" groups="oacis_base.group_oacis_admin"/>
         </header>
         <sheet>
           <div class="oe_title">
@@ -40,7 +40,7 @@
           <notebook>
             <page name="courses" string="Course Enrollments">
               <group>
-                <field name="course_enrollment_ids" context="{'list_view_ref': 'unicore_admission.view_unicore_enrollment_list'}"/>
+                <field name="course_enrollment_ids" context="{'list_view_ref': 'oacis_admission.view_oacis_enrollment_list'}"/>
               </group>
             </page>
           </notebook>
@@ -50,11 +50,11 @@
     </field>
   </record>
   <!-- ============================================================ -->
-  <!-- unicore.admission.enrollment — LIST                          -->
+  <!-- oacis.admission.enrollment — LIST                          -->
   <!-- ============================================================ -->
   <record id="admission_enrollment_list_view" model="ir.ui.view">
-    <field name="name">unicore.admission.enrollment.list</field>
-    <field name="model">unicore.admission.enrollment</field>
+    <field name="name">oacis.admission.enrollment.list</field>
+    <field name="model">oacis.admission.enrollment</field>
     <field name="arch" type="xml">
       <list>
         <field name="name"/>
@@ -70,11 +70,11 @@
     </field>
   </record>
   <!-- ============================================================ -->
-  <!-- unicore.admission.enrollment — SEARCH                       -->
+  <!-- oacis.admission.enrollment — SEARCH                       -->
   <!-- ============================================================ -->
   <record id="admission_enrollment_search_view" model="ir.ui.view">
-    <field name="name">unicore.admission.enrollment.search</field>
-    <field name="model">unicore.admission.enrollment</field>
+    <field name="name">oacis.admission.enrollment.search</field>
+    <field name="model">oacis.admission.enrollment</field>
     <field name="arch" type="xml">
       <search>
         <field name="name"/>
@@ -92,11 +92,11 @@
     </field>
   </record>
   <!-- ============================================================ -->
-  <!-- unicore.admission.enrollment — ACTION                       -->
+  <!-- oacis.admission.enrollment — ACTION                       -->
   <!-- ============================================================ -->
-  <record id="action_unicore_admission_enrollment" model="ir.actions.act_window">
+  <record id="action_oacis_admission_enrollment" model="ir.actions.act_window">
     <field name="name">Admission Enrollments</field>
-    <field name="res_model">unicore.admission.enrollment</field>
+    <field name="res_model">oacis.admission.enrollment</field>
     <field name="view_mode">list,form</field>
     <field name="search_view_id" ref="admission_enrollment_search_view"/>
     <field name="help" type="html">
@@ -109,8 +109,8 @@
   <!-- Enroll in Program — WIZARD                                  -->
   <!-- ============================================================ -->
   <record id="admission_enrollment_wizard_view" model="ir.ui.view">
-    <field name="name">unicore.admission.enrollment.wizard.form</field>
-    <field name="model">unicore.admission.enrollment.wizard</field>
+    <field name="name">oacis.admission.enrollment.wizard.form</field>
+    <field name="model">oacis.admission.enrollment.wizard</field>
     <field name="arch" type="xml">
       <form string="Enroll in Program">
         <group>

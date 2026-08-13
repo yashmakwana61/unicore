@@ -2,10 +2,10 @@ from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
-class UnicoreCampus(models.Model):
-    _name = 'unicore.campus'
-    _description = 'UniCore Campus'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+class OacisCampus(models.Model):
+    _name = 'oacis.campus'
+    _description = 'Oacis Campus'
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'sequence, name'
     _rec_name = 'campus_display_name'
 

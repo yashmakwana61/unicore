@@ -5,18 +5,18 @@
   <!-- PORTAL HOME — Add Leave Requests link to /my/ page     -->
   <!-- ===================================================== -->
 
-  <template id="portal_my_home_unicore_leave"
-            name="UniCore Leave Portal Home"
+  <template id="portal_my_home_oacis_leave"
+            name="Oacis Leave Portal Home"
             inherit_id="portal.portal_my_home"
             priority="31">
     <xpath expr="//div[hasclass('o_portal_docs')]"
            position="inside">
       <t t-call="portal.portal_docs_entry">
-        <t t-set="icon">/web/image/unicore_portal_student/static/src/img/icon_portal.png</t>
+        <t t-set="icon">/web/image/oacis_portal_student/static/src/img/icon_portal.png</t>
         <t t-set="title">Leave Requests</t>
-        <t t-set="url">/my/unicore/student/leave</t>
-        <t t-set="placeholder_count">unicore_leave_requests</t>
-        <t t-set="count" t-value="unicore_leave_requests or 0"/>
+        <t t-set="url">/my/oacis/student/leave</t>
+        <t t-set="placeholder_count">oacis_leave_requests</t>
+        <t t-set="count" t-value="oacis_leave_requests or 0"/>
         <t t-set="text">Leave Requests</t>
       </t>
     </xpath>
@@ -28,12 +28,12 @@
 
   <template id="portal_student_layout_leave_nav"
             name="Student Portal Leave Nav"
-            inherit_id="unicore_portal_student.portal_student_layout">
-    <xpath expr="//a[@href='/my/unicore/student/results']"
+            inherit_id="oacis_portal_student.portal_student_layout">
+    <xpath expr="//a[@href='/my/oacis/student/results']"
            position="after">
-      <a class="nav-link unicore-nav-item"
+      <a class="nav-link oacis-nav-item"
          t-att-class="'active' if page_name in ('student_leave_requests', 'student_leave_request_new', 'student_leave_request_detail') else ''"
-         href="/my/unicore/student/leave">
+         href="/my/oacis/student/leave">
         <i class="fa fa-calendar-times-o fa-fw"></i>
         <span>Leave Requests</span>
       </a>
@@ -55,7 +55,7 @@
             <i class="fa fa-calendar-times-o me-2"/>
             Leave Requests
           </h3>
-          <a href="/my/unicore/student/leave/new"
+          <a href="/my/oacis/student/leave/new"
              class="btn btn-primary">
             <i class="fa fa-plus me-1"/>
             New Leave Request
@@ -81,7 +81,7 @@
                   <div class="d-flex justify-content-between align-items-start">
                     <div>
                       <h5 class="card-title mb-1">
-                        <a t-attf-href="/my/unicore/student/leave/{{ lr.id }}"
+                        <a t-attf-href="/my/oacis/student/leave/{{ lr.id }}"
                            class="text-decoration-none">
                           <span t-esc="lr.name"/>
                         </a>
@@ -165,7 +165,7 @@
             <div class="card">
               <div class="card-body">
                 <form method="post"
-                      action="/my/unicore/student/leave/submit"
+                      action="/my/oacis/student/leave/submit"
                       enctype="multipart/form-data">
 
                   <input type="hidden" name="csrf_token"
@@ -250,7 +250,7 @@
 
                   <!-- Submit -->
                   <div class="d-flex justify-content-end">
-                    <a href="/my/unicore/student/leave"
+                    <a href="/my/oacis/student/leave"
                        class="btn btn-secondary me-2">
                       Cancel
                     </a>
@@ -281,7 +281,7 @@
           <div class="col-lg-8">
 
             <!-- Back Link -->
-            <a href="/my/unicore/student/leave"
+            <a href="/my/oacis/student/leave"
                class="text-decoration-none mb-3 d-inline-block">
               <i class="fa fa-arrow-left me-1"/>
               Back to Leave Requests

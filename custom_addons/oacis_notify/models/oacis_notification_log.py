@@ -1,5 +1,5 @@
 """
-UniCore Notification Log Model
+Oacis Notification Log Model
 Immutable audit log of every notification sent
 or attempted. Records channel, recipient, status,
 error message and timestamp.
@@ -13,8 +13,8 @@ from odoo.exceptions import UserError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreNotificationLog(models.Model):
-    _name = 'unicore.notification.log'
+class OacisNotificationLog(models.Model):
+    _name = 'oacis.notification.log'
     _description = 'Notification Log'
     _rec_name = 'display_name'
 
@@ -60,7 +60,7 @@ class UniCoreNotificationLog(models.Model):
         index=True,
     )
     template_id = fields.Many2one(
-        comodel_name='unicore.notification.template',
+        comodel_name='oacis.notification.template',
         string='Template Used',
         ondelete='set null',
     )
@@ -88,18 +88,18 @@ class UniCoreNotificationLog(models.Model):
         ],
     )
     student_id = fields.Many2one(
-        comodel_name='unicore.student',
+        comodel_name='oacis.student',
         string='Student',
         ondelete='set null',
         index=True,
     )
     guardian_id = fields.Many2one(
-        comodel_name='unicore.guardian',
+        comodel_name='oacis.guardian',
         string='Guardian',
         ondelete='set null',
     )
     faculty_member_id = fields.Many2one(
-        comodel_name='unicore.faculty.member',
+        comodel_name='oacis.faculty.member',
         string='Faculty Member',
         ondelete='set null',
     )

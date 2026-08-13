@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data noupdate="0">
-    <record id="uc_demo_course_cs101" model="unicore.course">
+    <record id="uc_demo_course_cs101" model="oacis.course">
       <field name="name">Introduction to Programming</field>
       <field name="code">CS101</field>
       <field name="company_id" ref="base.main_company"/>
@@ -17,7 +17,7 @@
       <field name="course_state">active</field>
     </record>
 
-    <record id="uc_demo_course_math101" model="unicore.course">
+    <record id="uc_demo_course_math101" model="oacis.course">
       <field name="name">Discrete Mathematics</field>
       <field name="code">MATH101</field>
       <field name="company_id" ref="base.main_company"/>
@@ -32,7 +32,7 @@
       <field name="course_state">active</field>
     </record>
 
-    <record id="uc_demo_course_cs102" model="unicore.course">
+    <record id="uc_demo_course_cs102" model="oacis.course">
       <field name="name">Digital Logic Design</field>
       <field name="code">CS102</field>
       <field name="company_id" ref="base.main_company"/>
@@ -48,7 +48,7 @@
       <field name="course_state">active</field>
     </record>
 
-    <record id="uc_demo_course_eng101" model="unicore.course">
+    <record id="uc_demo_course_eng101" model="oacis.course">
       <field name="name">Communication Skills</field>
       <field name="code">ENG101</field>
       <field name="company_id" ref="base.main_company"/>
@@ -63,7 +63,7 @@
       <field name="course_state">active</field>
     </record>
 
-    <record id="uc_demo_course_cs201" model="unicore.course">
+    <record id="uc_demo_course_cs201" model="oacis.course">
       <field name="name">Data Structures and Algorithms</field>
       <field name="code">CS201</field>
       <field name="company_id" ref="base.main_company"/>
@@ -79,7 +79,7 @@
       <field name="course_state">active</field>
     </record>
 
-    <record id="uc_demo_course_mba101" model="unicore.course">
+    <record id="uc_demo_course_mba101" model="oacis.course">
       <field name="name">Principles of Management</field>
       <field name="code">MBA101</field>
       <field name="company_id" ref="base.main_company"/>
@@ -94,7 +94,7 @@
       <field name="course_state">active</field>
     </record>
 
-    <record id="uc_demo_course_mba102" model="unicore.course">
+    <record id="uc_demo_course_mba102" model="oacis.course">
       <field name="name">Business Statistics</field>
       <field name="code">MBA102</field>
       <field name="company_id" ref="base.main_company"/>
@@ -109,7 +109,7 @@
       <field name="course_state">active</field>
     </record>
 
-    <record id="uc_demo_course_elect1" model="unicore.course">
+    <record id="uc_demo_course_elect1" model="oacis.course">
       <field name="name">Web Development Fundamentals</field>
       <field name="code">CS104</field>
       <field name="company_id" ref="base.main_company"/>
@@ -125,13 +125,13 @@
       <field name="course_state">active</field>
     </record>
 
-    <record id="uc_demo_prereq_cs201" model="unicore.course.prerequisite">
+    <record id="uc_demo_prereq_cs201" model="oacis.course.prerequisite">
       <field name="course_id" ref="uc_demo_course_cs201"/>
       <field name="prerequisite_course_id" ref="uc_demo_course_cs101"/>
       <field name="prerequisite_type">mandatory</field>
     </record>
 
-    <record id="uc_demo_curriculum_btech_cs" model="unicore.curriculum">
+    <record id="uc_demo_curriculum_btech_cs" model="oacis.curriculum">
       <field name="name">BTECH-CS Curriculum 2026</field>
       <field name="program_id" ref="uc_demo_program_btech_cs"/>
       <field name="version">1.0</field>
@@ -140,7 +140,7 @@
       <field name="curriculum_state">active</field>
     </record>
 
-    <record id="uc_demo_curline_cs101" model="unicore.curriculum.line">
+    <record id="uc_demo_curline_cs101" model="oacis.curriculum.line">
       <field name="curriculum_id" ref="uc_demo_curriculum_btech_cs"/>
       <field name="course_id" ref="uc_demo_course_cs101"/>
       <field name="semester_number">1</field>
@@ -148,7 +148,7 @@
       <field name="is_mandatory">True</field>
     </record>
 
-    <record id="uc_demo_curline_math101" model="unicore.curriculum.line">
+    <record id="uc_demo_curline_math101" model="oacis.curriculum.line">
       <field name="curriculum_id" ref="uc_demo_curriculum_btech_cs"/>
       <field name="course_id" ref="uc_demo_course_math101"/>
       <field name="semester_number">1</field>
@@ -156,7 +156,7 @@
       <field name="is_mandatory">True</field>
     </record>
 
-    <record id="uc_demo_curline_cs102" model="unicore.curriculum.line">
+    <record id="uc_demo_curline_cs102" model="oacis.curriculum.line">
       <field name="curriculum_id" ref="uc_demo_curriculum_btech_cs"/>
       <field name="course_id" ref="uc_demo_course_cs102"/>
       <field name="semester_number">1</field>
@@ -164,7 +164,7 @@
       <field name="is_mandatory">True</field>
     </record>
 
-    <record id="uc_demo_curline_eng101" model="unicore.curriculum.line">
+    <record id="uc_demo_curline_eng101" model="oacis.curriculum.line">
       <field name="curriculum_id" ref="uc_demo_curriculum_btech_cs"/>
       <field name="course_id" ref="uc_demo_course_eng101"/>
       <field name="semester_number">1</field>
@@ -172,7 +172,7 @@
       <field name="is_mandatory">True</field>
     </record>
 
-    <record id="uc_demo_offering_cs101" model="unicore.course.offering">
+    <record id="uc_demo_offering_cs101" model="oacis.course.offering">
       <field name="course_id" ref="uc_demo_course_cs101"/>
       <field name="program_id" ref="uc_demo_program_btech_cs"/>
       <field name="semester_number">1</field>
@@ -186,7 +186,7 @@
       <field name="offering_state">open</field>
     </record>
 
-    <record id="uc_demo_offering_math101" model="unicore.course.offering">
+    <record id="uc_demo_offering_math101" model="oacis.course.offering">
       <field name="course_id" ref="uc_demo_course_math101"/>
       <field name="program_id" ref="uc_demo_program_btech_cs"/>
       <field name="semester_number">1</field>
@@ -200,7 +200,7 @@
       <field name="offering_state">open</field>
     </record>
 
-    <record id="uc_demo_offering_mba101" model="unicore.course.offering">
+    <record id="uc_demo_offering_mba101" model="oacis.course.offering">
       <field name="course_id" ref="uc_demo_course_mba101"/>
       <field name="program_id" ref="uc_demo_program_mba"/>
       <field name="semester_number">1</field>
@@ -214,7 +214,7 @@
       <field name="offering_state">open</field>
     </record>
 
-    <record id="uc_demo_offering_mba102" model="unicore.course.offering">
+    <record id="uc_demo_offering_mba102" model="oacis.course.offering">
       <field name="course_id" ref="uc_demo_course_mba102"/>
       <field name="program_id" ref="uc_demo_program_mba"/>
       <field name="semester_number">1</field>

@@ -1,12 +1,12 @@
 """
-UniCore Course Offering Model
+Oacis Course Offering Model
 A course offering is a specific instance of a course
 being delivered in a real calendar semester at a
 specific campus by a specific faculty member.
 This is the bridge between curriculum planning
 and actual teaching operations.
 Students enroll into course offerings
-(handled by unicore_enrollment module).
+(handled by oacis_enrollment module).
 """
 
 import logging
@@ -17,10 +17,10 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreCourseOffering(models.Model):
-    _name = 'unicore.course.offering'
+class OacisCourseOffering(models.Model):
+    _name = 'oacis.course.offering'
     _description = 'Course Offering'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'semester_id, course_id'
     _check_company_auto = True
 
@@ -59,7 +59,7 @@ class UniCoreCourseOffering(models.Model):
     # ------- COURSE & PROGRAM -------
 
     course_id = fields.Many2one(
-        comodel_name='unicore.course',
+        comodel_name='oacis.course',
         string='Course',
         required=True,
         ondelete='restrict',
@@ -67,13 +67,13 @@ class UniCoreCourseOffering(models.Model):
         domain="[('course_state', 'in', ['approved','active']), ('company_id', '=', company_id)]",
     )
     curriculum_line_id = fields.Many2one(
-        comodel_name='unicore.curriculum.line',
+        comodel_name='oacis.curriculum.line',
         string='Curriculum Line',
         ondelete='set null',
         help='Optional link to curriculum plan line',
     )
     program_id = fields.Many2one(
-        comodel_name='unicore.program',
+        comodel_name='oacis.program',
         string='Program',
         required=True,
         ondelete='restrict',
@@ -87,14 +87,14 @@ class UniCoreCourseOffering(models.Model):
     # ------- CALENDAR -------
 
     academic_year_id = fields.Many2one(
-        comodel_name='unicore.academic.year',
+        comodel_name='oacis.academic.year',
         string='Academic Year',
         required=True,
         ondelete='restrict',
         tracking=True,
     )
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         required=True,
         ondelete='restrict',
@@ -112,7 +112,7 @@ class UniCoreCourseOffering(models.Model):
         ondelete='restrict',
     )
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus',
+        comodel_name='oacis.campus',
         string='Campus',
         required=True,
         ondelete='restrict',
@@ -123,15 +123,15 @@ class UniCoreCourseOffering(models.Model):
     # ------- FACULTY -------
 
     faculty_member_id = fields.Many2one(
-        comodel_name='unicore.faculty.member',
+        comodel_name='oacis.faculty.member',
         string='Primary Instructor',
         ondelete='set null',
         tracking=True,
         domain="[('company_id', '=', company_id), ('member_state', '=', 'active')]",
     )
     co_instructor_ids = fields.Many2many(
-        comodel_name='unicore.faculty.member',
-        relation='unicore_course_offering_co_instructor_rel',
+        comodel_name='oacis.faculty.member',
+        relation='oacis_course_offering_co_instructor_rel',
         column1='offering_id',
         column2='faculty_member_id',
         string='Co-Instructors',
@@ -152,7 +152,7 @@ class UniCoreCourseOffering(models.Model):
     enrolled_count = fields.Integer(
         string='Enrolled Students',
         default=0,
-        help='Updated by unicore_enrollment module',
+        help='Updated by oacis_enrollment module',
     )
     available_seats = fields.Integer(
         string='Available Seats',
@@ -261,7 +261,7 @@ class UniCoreCourseOffering(models.Model):
             if not vals.get('offering_code'):
                 vals['offering_code'] = (
                     self.env['ir.sequence'].next_by_code(
-                        'unicore.course.offering',
+                        'oacis.course.offering',
                     ) or '/'
                 )
         return super().create(vals_list)

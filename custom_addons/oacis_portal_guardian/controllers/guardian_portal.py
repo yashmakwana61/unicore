@@ -9,7 +9,7 @@ from odoo.addons.portal.controllers.portal import CustomerPortal
 from odoo.addons.portal.controllers.portal import pager as portal_pager
 
 
-class UniCoreGuardianPortal(CustomerPortal):
+class OacisGuardianPortal(CustomerPortal):
 
     def _prepare_home_portal_values(self, counters):
         values = super()._prepare_home_portal_values(
@@ -18,14 +18,14 @@ class UniCoreGuardianPortal(CustomerPortal):
         guardian = self._get_current_guardian()
         if guardian:
             wards = self._get_ward_relations(guardian)
-            if 'unicore_wards' in counters:
-                values['unicore_wards'] = len(wards)
+            if 'oacis_wards' in counters:
+                values['oacis_wards'] = len(wards)
         return values
 
     def _get_current_guardian(self):
         partner = request.env.user.partner_id
         guardian = (
-            request.env['unicore.guardian']
+            request.env['oacis.guardian']
             .sudo()
             .search([
                 ('partner_id', '=', partner.id),
@@ -46,7 +46,7 @@ class UniCoreGuardianPortal(CustomerPortal):
 
     def _get_ward_relations(self, guardian):
         return request.env[
-            'unicore.guardian.student.rel'
+            'oacis.guardian.student.rel'
         ].sudo().search([
             ('guardian_id', '=', guardian.id),
             ('is_active_relationship', '=', True),
@@ -58,7 +58,7 @@ class UniCoreGuardianPortal(CustomerPortal):
         return bool(getattr(relation, perm_field, False))
 
     @http.route(
-        '/my/unicore/guardian',
+        '/my/oacis/guardian',
         type='http',
         auth='user',
         website=True,
@@ -67,7 +67,7 @@ class UniCoreGuardianPortal(CustomerPortal):
         guardian = self._guardian_required()
         if not isinstance(
             guardian,
-            request.env['unicore.guardian'].__class__,
+            request.env['oacis.guardian'].__class__,
         ):
             return guardian
 
@@ -83,7 +83,7 @@ class UniCoreGuardianPortal(CustomerPortal):
             pending_fees = 0.0
             if acr:
                 shortage_records = request.env[
-                    'unicore.attendance.record'
+                    'oacis.attendance.record'
                 ].sudo().search([
                     ('student_id', '=', student.id),
                     ('shortage_alert', '=', True),
@@ -91,7 +91,7 @@ class UniCoreGuardianPortal(CustomerPortal):
                 shortage_count = len(shortage_records)
             if fee:
                 fee_invoices = request.env[
-                    'unicore.fee.invoice'
+                    'oacis.fee.invoice'
                 ].sudo().search([
                     ('student_id', '=', student.id),
                     ('amount_outstanding', '>', 0),
@@ -119,13 +119,13 @@ class UniCoreGuardianPortal(CustomerPortal):
             'page_name': 'guardian_dashboard',
         }
         return request.render(
-            'unicore_portal_guardian'
+            'oacis_portal_guardian'
             '.portal_guardian_dashboard',
             values,
         )
 
     @http.route(
-        '/my/unicore/guardian/attendance/<int:student_id>',
+        '/my/oacis/guardian/attendance/<int:student_id>',
         type='http',
         auth='user',
         website=True,
@@ -135,17 +135,17 @@ class UniCoreGuardianPortal(CustomerPortal):
         guardian = self._guardian_required()
         if not isinstance(
             guardian,
-            request.env['unicore.guardian'].__class__,
+            request.env['oacis.guardian'].__class__,
         ):
             return guardian
 
-        Student = request.env['unicore.student'].sudo()
+        Student = request.env['oacis.student'].sudo()
         student = Student.browse(student_id)
         if not student.exists():
             raise NotFound(_('Student not found.'))
 
         relation = request.env[
-            'unicore.guardian.student.rel'
+            'oacis.guardian.student.rel'
         ].sudo().search([
             ('guardian_id', '=', guardian.id),
             ('student_id', '=', student.id),
@@ -159,7 +159,7 @@ class UniCoreGuardianPortal(CustomerPortal):
             relation, 'can_view_academic_records',
         ):
             return request.render(
-                'unicore_portal_guardian'
+                'oacis_portal_guardian'
                 '.portal_guardian_no_permission',
                 {
                     'guardian': guardian,
@@ -169,7 +169,7 @@ class UniCoreGuardianPortal(CustomerPortal):
             )
 
         AttRecord = request.env[
-            'unicore.attendance.record'
+            'oacis.attendance.record'
         ].sudo()
         att_records = AttRecord.search([
             ('student_id', '=', student.id),
@@ -194,13 +194,13 @@ class UniCoreGuardianPortal(CustomerPortal):
             'page_name': 'guardian_attendance',
         }
         return request.render(
-            'unicore_portal_guardian'
+            'oacis_portal_guardian'
             '.portal_guardian_ward_attendance',
             values,
         )
 
     @http.route(
-        '/my/unicore/guardian/academic/<int:student_id>',
+        '/my/oacis/guardian/academic/<int:student_id>',
         type='http',
         auth='user',
         website=True,
@@ -210,17 +210,17 @@ class UniCoreGuardianPortal(CustomerPortal):
         guardian = self._guardian_required()
         if not isinstance(
             guardian,
-            request.env['unicore.guardian'].__class__,
+            request.env['oacis.guardian'].__class__,
         ):
             return guardian
 
-        Student = request.env['unicore.student'].sudo()
+        Student = request.env['oacis.student'].sudo()
         student = Student.browse(student_id)
         if not student.exists():
             raise NotFound(_('Student not found.'))
 
         relation = request.env[
-            'unicore.guardian.student.rel'
+            'oacis.guardian.student.rel'
         ].sudo().search([
             ('guardian_id', '=', guardian.id),
             ('student_id', '=', student.id),
@@ -234,7 +234,7 @@ class UniCoreGuardianPortal(CustomerPortal):
             relation, 'can_view_academic_records',
         ):
             return request.render(
-                'unicore_portal_guardian'
+                'oacis_portal_guardian'
                 '.portal_guardian_no_permission',
                 {
                     'guardian': guardian,
@@ -244,10 +244,10 @@ class UniCoreGuardianPortal(CustomerPortal):
             )
 
         GradeEntry = request.env[
-            'unicore.grade.entry'
+            'oacis.grade.entry'
         ].sudo()
         SemesterResult = request.env[
-            'unicore.semester.result'
+            'oacis.semester.result'
         ].sudo()
 
         grade_entries = GradeEntry.search([
@@ -269,13 +269,13 @@ class UniCoreGuardianPortal(CustomerPortal):
             'page_name': 'guardian_academic',
         }
         return request.render(
-            'unicore_portal_guardian'
+            'oacis_portal_guardian'
             '.portal_guardian_ward_academic',
             values,
         )
 
     @http.route(
-        '/my/unicore/guardian/fees/<int:student_id>',
+        '/my/oacis/guardian/fees/<int:student_id>',
         type='http',
         auth='user',
         website=True,
@@ -284,17 +284,17 @@ class UniCoreGuardianPortal(CustomerPortal):
         guardian = self._guardian_required()
         if not isinstance(
             guardian,
-            request.env['unicore.guardian'].__class__,
+            request.env['oacis.guardian'].__class__,
         ):
             return guardian
 
-        Student = request.env['unicore.student'].sudo()
+        Student = request.env['oacis.student'].sudo()
         student = Student.browse(student_id)
         if not student.exists():
             raise NotFound(_('Student not found.'))
 
         relation = request.env[
-            'unicore.guardian.student.rel'
+            'oacis.guardian.student.rel'
         ].sudo().search([
             ('guardian_id', '=', guardian.id),
             ('student_id', '=', student.id),
@@ -308,7 +308,7 @@ class UniCoreGuardianPortal(CustomerPortal):
             relation, 'can_view_fee_records',
         ):
             return request.render(
-                'unicore_portal_guardian'
+                'oacis_portal_guardian'
                 '.portal_guardian_no_permission',
                 {
                     'guardian': guardian,
@@ -317,7 +317,7 @@ class UniCoreGuardianPortal(CustomerPortal):
                 },
             )
 
-        Invoice = request.env['unicore.fee.invoice'].sudo()
+        Invoice = request.env['oacis.fee.invoice'].sudo()
         invoices = Invoice.search([
             ('student_id', '=', student.id),
             ('invoice_state', '!=', 'cancelled'),
@@ -336,13 +336,13 @@ class UniCoreGuardianPortal(CustomerPortal):
             'page_name': 'guardian_fees',
         }
         return request.render(
-            'unicore_portal_guardian'
+            'oacis_portal_guardian'
             '.portal_guardian_ward_fees',
             values,
         )
 
     @http.route(
-        '/my/unicore/guardian/exams',
+        '/my/oacis/guardian/exams',
         type='http',
         auth='user',
         website=True,
@@ -351,7 +351,7 @@ class UniCoreGuardianPortal(CustomerPortal):
         guardian = self._guardian_required()
         if not isinstance(
             guardian,
-            request.env['unicore.guardian'].__class__,
+            request.env['oacis.guardian'].__class__,
         ):
             return guardian
 
@@ -366,7 +366,7 @@ class UniCoreGuardianPortal(CustomerPortal):
 
             student = rel.student_id
             HallTicket = request.env[
-                'unicore.exam.hall.ticket'
+                'oacis.exam.hall.ticket'
             ].sudo()
             tickets = HallTicket.search([
                 ('student_id', '=', student.id),
@@ -374,11 +374,11 @@ class UniCoreGuardianPortal(CustomerPortal):
             ], order='exam_date desc')
 
             ExamSchedule = request.env[
-                'unicore.exam.schedule'
+                'oacis.exam.schedule'
             ].sudo()
             upcoming_schedules = ExamSchedule.search([
                 ('course_id', 'in', (
-                    request.env['unicore.enrollment']
+                    request.env['oacis.enrollment']
                     .sudo()
                     .search([
                         ('student_id', '=', student.id),
@@ -404,7 +404,7 @@ class UniCoreGuardianPortal(CustomerPortal):
             'page_name': 'guardian_exams',
         }
         return request.render(
-            'unicore_portal_guardian'
+            'oacis_portal_guardian'
             '.portal_guardian_exams',
             values,
         )
@@ -414,7 +414,7 @@ class UniCoreGuardianPortal(CustomerPortal):
     # ===================================================
 
     @http.route(
-        '/my/unicore/guardian/notices',
+        '/my/oacis/guardian/notices',
         type='http',
         auth='user',
         website=True,
@@ -423,11 +423,11 @@ class UniCoreGuardianPortal(CustomerPortal):
         guardian = self._guardian_required()
         if not isinstance(
             guardian,
-            request.env['unicore.guardian'].__class__,
+            request.env['oacis.guardian'].__class__,
         ):
             return guardian
 
-        Notice = request.env['unicore.notice'].sudo()
+        Notice = request.env['oacis.notice'].sudo()
         notices = Notice.search([
             ('publisher_id', '!=', False),
         ], order='pinned desc, publish_date desc')
@@ -452,7 +452,7 @@ class UniCoreGuardianPortal(CustomerPortal):
 
         notice_count = len(notices)
         pager = portal_pager(
-            url='/my/unicore/guardian/notices',
+            url='/my/oacis/guardian/notices',
             total=notice_count,
             page=page,
             step=20,
@@ -468,6 +468,6 @@ class UniCoreGuardianPortal(CustomerPortal):
             'date_end': date_end,
         }
         return request.render(
-            'unicore_notice_board.portal_guardian_notices',
+            'oacis_notice_board.portal_guardian_notices',
             values,
         )

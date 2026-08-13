@@ -3,12 +3,12 @@
     <data noupdate="1">
 
         <!-- ============================================================ -->
-        <!-- RECORD RULES: unicore.gradebook.config                       -->
+        <!-- RECORD RULES: oacis.gradebook.config                       -->
         <!-- ============================================================ -->
 
-        <record id="rule_unicore_gradebook_config_company" model="ir.rule">
+        <record id="rule_oacis_gradebook_config_company" model="ir.rule">
             <field name="name">Grade Book: Company Isolation</field>
-            <field name="model_id" ref="model_unicore_gradebook_config"/>
+            <field name="model_id" ref="model_oacis_gradebook_config"/>
             <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
             <field name="perm_read" eval="True"/>
@@ -17,33 +17,33 @@
             <field name="perm_unlink" eval="True"/>
         </record>
 
-        <record id="rule_unicore_gradebook_config_student_self" model="ir.rule">
+        <record id="rule_oacis_gradebook_config_student_self" model="ir.rule">
             <field name="name">Grade Book: Student Enrolled Offering Only</field>
-            <field name="model_id" ref="model_unicore_gradebook_config"/>
+            <field name="model_id" ref="model_oacis_gradebook_config"/>
             <field name="domain_force">[('course_offering_id.enrollment_ids', 'any', [('student_id.partner_id.user_ids', 'in', [user.id])])]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_student'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_student'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="False"/>
             <field name="perm_create" eval="False"/>
             <field name="perm_unlink" eval="False"/>
         </record>
 
-        <record id="rule_unicore_gradebook_config_faculty_own" model="ir.rule">
+        <record id="rule_oacis_gradebook_config_faculty_own" model="ir.rule">
             <field name="name">Grade Book: Faculty Own Offering</field>
-            <field name="model_id" ref="model_unicore_gradebook_config"/>
+            <field name="model_id" ref="model_oacis_gradebook_config"/>
             <field name="domain_force">[('course_offering_id.faculty_member_id.partner_id.user_ids', 'in', [user.id])]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_faculty'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_faculty'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
             <field name="perm_unlink" eval="False"/>
         </record>
 
-        <record id="rule_unicore_gradebook_config_admin" model="ir.rule">
+        <record id="rule_oacis_gradebook_config_admin" model="ir.rule">
             <field name="name">Grade Book: Admin Bypass</field>
-            <field name="model_id" ref="model_unicore_gradebook_config"/>
+            <field name="model_id" ref="model_oacis_gradebook_config"/>
             <field name="domain_force">[(1, '=', 1)]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_admin'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_admin'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
@@ -51,12 +51,12 @@
         </record>
 
         <!-- ============================================================ -->
-        <!-- RECORD RULES: unicore.gradebook.student.line                 -->
+        <!-- RECORD RULES: oacis.gradebook.student.line                 -->
         <!-- ============================================================ -->
 
-        <record id="rule_unicore_gradebook_student_line_company" model="ir.rule">
+        <record id="rule_oacis_gradebook_student_line_company" model="ir.rule">
             <field name="name">Grade Book Line: Company Isolation</field>
-            <field name="model_id" ref="model_unicore_gradebook_student_line"/>
+            <field name="model_id" ref="model_oacis_gradebook_student_line"/>
             <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
             <field name="perm_read" eval="True"/>
@@ -65,33 +65,33 @@
             <field name="perm_unlink" eval="True"/>
         </record>
 
-        <record id="rule_unicore_gradebook_student_line_self" model="ir.rule">
+        <record id="rule_oacis_gradebook_student_line_self" model="ir.rule">
             <field name="name">Grade Book Line: Student Own Only</field>
-            <field name="model_id" ref="model_unicore_gradebook_student_line"/>
+            <field name="model_id" ref="model_oacis_gradebook_student_line"/>
             <field name="domain_force">[('enrollment_id.student_id.partner_id.user_ids', 'in', [user.id])]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_student'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_student'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="False"/>
             <field name="perm_create" eval="False"/>
             <field name="perm_unlink" eval="False"/>
         </record>
 
-        <record id="rule_unicore_gradebook_student_line_faculty_own" model="ir.rule">
+        <record id="rule_oacis_gradebook_student_line_faculty_own" model="ir.rule">
             <field name="name">Grade Book Line: Faculty Own Offering</field>
-            <field name="model_id" ref="model_unicore_gradebook_student_line"/>
+            <field name="model_id" ref="model_oacis_gradebook_student_line"/>
             <field name="domain_force">[('course_offering_id.faculty_member_id.partner_id.user_ids', 'in', [user.id])]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_faculty'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_faculty'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
             <field name="perm_unlink" eval="False"/>
         </record>
 
-        <record id="rule_unicore_gradebook_student_line_admin" model="ir.rule">
+        <record id="rule_oacis_gradebook_student_line_admin" model="ir.rule">
             <field name="name">Grade Book Line: Admin Bypass</field>
-            <field name="model_id" ref="model_unicore_gradebook_student_line"/>
+            <field name="model_id" ref="model_oacis_gradebook_student_line"/>
             <field name="domain_force">[(1, '=', 1)]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_admin'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_admin'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
@@ -99,12 +99,12 @@
         </record>
 
         <!-- ============================================================ -->
-        <!-- RECORD RULES: unicore.gradebook.assignment.line              -->
+        <!-- RECORD RULES: oacis.gradebook.assignment.line              -->
         <!-- ============================================================ -->
 
-        <record id="rule_unicore_gradebook_assignment_line_company" model="ir.rule">
+        <record id="rule_oacis_gradebook_assignment_line_company" model="ir.rule">
             <field name="name">Grade Book Score: Company Isolation</field>
-            <field name="model_id" ref="model_unicore_gradebook_assignment_line"/>
+            <field name="model_id" ref="model_oacis_gradebook_assignment_line"/>
             <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
             <field name="perm_read" eval="True"/>
@@ -113,33 +113,33 @@
             <field name="perm_unlink" eval="True"/>
         </record>
 
-        <record id="rule_unicore_gradebook_assignment_line_self" model="ir.rule">
+        <record id="rule_oacis_gradebook_assignment_line_self" model="ir.rule">
             <field name="name">Grade Book Score: Student Own Only</field>
-            <field name="model_id" ref="model_unicore_gradebook_assignment_line"/>
+            <field name="model_id" ref="model_oacis_gradebook_assignment_line"/>
             <field name="domain_force">[('student_line_id.enrollment_id.student_id.partner_id.user_ids', 'in', [user.id])]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_student'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_student'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="False"/>
             <field name="perm_create" eval="False"/>
             <field name="perm_unlink" eval="False"/>
         </record>
 
-        <record id="rule_unicore_gradebook_assignment_line_faculty_own" model="ir.rule">
+        <record id="rule_oacis_gradebook_assignment_line_faculty_own" model="ir.rule">
             <field name="name">Grade Book Score: Faculty Own Offering</field>
-            <field name="model_id" ref="model_unicore_gradebook_assignment_line"/>
+            <field name="model_id" ref="model_oacis_gradebook_assignment_line"/>
             <field name="domain_force">[('course_offering_id.faculty_member_id.partner_id.user_ids', 'in', [user.id])]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_faculty'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_faculty'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
             <field name="perm_unlink" eval="False"/>
         </record>
 
-        <record id="rule_unicore_gradebook_assignment_line_admin" model="ir.rule">
+        <record id="rule_oacis_gradebook_assignment_line_admin" model="ir.rule">
             <field name="name">Grade Book Score: Admin Bypass</field>
-            <field name="model_id" ref="model_unicore_gradebook_assignment_line"/>
+            <field name="model_id" ref="model_oacis_gradebook_assignment_line"/>
             <field name="domain_force">[(1, '=', 1)]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_admin'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_admin'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>

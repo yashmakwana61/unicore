@@ -2,18 +2,18 @@
 <odoo>
 
     <!-- Window Action -->
-    <record id="action_unicore_specialisation" model="ir.actions.act_window">
+    <record id="action_oacis_specialisation" model="ir.actions.act_window">
         <field name="name">Specialisations</field>
-        <field name="res_model">unicore.specialisation</field>
+        <field name="res_model">oacis.specialisation</field>
         <field name="view_mode">list,form</field>
         <field name="domain">[]</field>
         <field name="context">{}</field>
     </record>
 
     <!-- Form View -->
-    <record id="unicore_specialisation_form_view" model="ir.ui.view">
-        <field name="name">unicore.specialisation.form</field>
-        <field name="model">unicore.specialisation</field>
+    <record id="oacis_specialisation_form_view" model="ir.ui.view">
+        <field name="name">oacis.specialisation.form</field>
+        <field name="model">oacis.specialisation</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
@@ -42,9 +42,9 @@
     </record>
 
     <!-- List View -->
-    <record id="unicore_specialisation_list_view" model="ir.ui.view">
-        <field name="name">unicore.specialisation.list</field>
-        <field name="model">unicore.specialisation</field>
+    <record id="oacis_specialisation_list_view" model="ir.ui.view">
+        <field name="name">oacis.specialisation.list</field>
+        <field name="model">oacis.specialisation</field>
         <field name="arch" type="xml">
             <list>
                 <field name="code"/>
@@ -59,9 +59,9 @@
     </record>
 
     <!-- Search View -->
-    <record id="unicore_specialisation_search_view" model="ir.ui.view">
-        <field name="name">unicore.specialisation.search</field>
-        <field name="model">unicore.specialisation</field>
+    <record id="oacis_specialisation_search_view" model="ir.ui.view">
+        <field name="name">oacis.specialisation.search</field>
+        <field name="model">oacis.specialisation</field>
         <field name="arch" type="xml">
             <search>
                 <field name="name"/>

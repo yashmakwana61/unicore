@@ -18,8 +18,8 @@ from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'unit')
-class UniCoreStudentCohortTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'unit')
+class OacisStudentCohortTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
@@ -29,23 +29,23 @@ class UniCoreStudentCohortTest(TransactionCase):
         # Deterministic legacy baseline: main company starts with NO profile.
         cls.company.institution_profile_id = False
 
-        cls.faculty = cls.env['unicore.faculty'].create({
+        cls.faculty = cls.env['oacis.faculty'].create({
             'name': 'P4 Faculty of Arts',
             'code': 'PFAC',  # faculty codes must be letters only
             'company_id': cls.company.id,
         })
-        cls.department = cls.env['unicore.department'].create({
+        cls.department = cls.env['oacis.department'].create({
             'name': 'P4 English',
             'code': 'P4ENG',
             'faculty_id': cls.faculty.id,
         })
-        cls.campus = cls.env['unicore.campus'].create({
+        cls.campus = cls.env['oacis.campus'].create({
             'name': 'P4 Main Campus',
             'code': 'P4CAMPUS',
             'company_id': cls.company.id,
         })
         cls.grade_type = cls.env.ref(
-            'unicore_academic_generic.unit_type_grade_level')
+            'oacis_academic_generic.unit_type_grade_level')
 
     def _student_vals(self, **kw):
         vals = {
@@ -63,7 +63,7 @@ class UniCoreStudentCohortTest(TransactionCase):
         return vals
 
     def _legacy_program(self, code='P4LEG'):
-        return self.env['unicore.program'].create({
+        return self.env['oacis.program'].create({
             'name': 'P4 Legacy B.A.',
             'code': code,
             'program_type': 'undergraduate',
@@ -78,14 +78,14 @@ class UniCoreStudentCohortTest(TransactionCase):
     def _school_kit(self, tag):
         """Switch the company to a K-12 school profile and return a grade unit."""
         self.company.institution_profile_id = self.env[
-            'unicore.institution.profile'
+            'oacis.institution.profile'
         ].create({
             'name': 'P4 School %s' % tag,
             'code': 'P4SCH%s' % tag,
             'institution_type': 'school',
             'is_legacy_university': False,
         }).id
-        return self.env['unicore.academic.unit'].create({
+        return self.env['oacis.academic.unit'].create({
             'name': 'Grade 5',
             'code': 'P4G5',
             'unit_type_id': self.grade_type.id,
@@ -93,7 +93,7 @@ class UniCoreStudentCohortTest(TransactionCase):
         })
 
     def _school_program(self, code, cohort_kind, unit):
-        return self.env['unicore.program'].create({
+        return self.env['oacis.program'].create({
             'name': 'P4 School Program %s' % code,
             'code': code,
             'program_type': 'undergraduate',
@@ -109,7 +109,7 @@ class UniCoreStudentCohortTest(TransactionCase):
         """A legacy-university student needs no grade level / start date."""
         self.company.institution_profile_id = False
         program = self._legacy_program()
-        student = self.env['unicore.student'].create(
+        student = self.env['oacis.student'].create(
             self._student_vals(program_id=program.id))
         self.assertEqual(student.cohort_kind, 'academic_year')
         self.assertFalse(student.grade_level_id)
@@ -122,10 +122,10 @@ class UniCoreStudentCohortTest(TransactionCase):
         unit = self._school_kit('A')
         program = self._school_program('P4GB1', 'grade_batch', unit)
         with self.assertRaises(ValidationError):
-            self.env['unicore.student'].create(
+            self.env['oacis.student'].create(
                 self._student_vals(program_id=program.id,
                                    email='p4.gb.no@example.com'))
-        student = self.env['unicore.student'].create(
+        student = self.env['oacis.student'].create(
             self._student_vals(program_id=program.id,
                                grade_level_id=unit.id,
                                email='p4.gb.yes@example.com'))
@@ -137,7 +137,7 @@ class UniCoreStudentCohortTest(TransactionCase):
         """Phase 5: rolling intake auto-fills cohort_start_date from admission_date."""
         unit = self._school_kit('B')
         program = self._school_program('P4ROLL1', 'rolling', unit)
-        student = self.env['unicore.student'].create(
+        student = self.env['oacis.student'].create(
             self._student_vals(program_id=program.id,
                                email='p4.roll.auto@example.com'))
         self.assertEqual(student.cohort_kind, 'rolling')
@@ -147,7 +147,7 @@ class UniCoreStudentCohortTest(TransactionCase):
     def test_04_write_requires_grade_level(self):
         """Moving a student onto a grade-batch program enforces the grade."""
         legacy = self._legacy_program('P4LEGB')
-        student = self.env['unicore.student'].create(
+        student = self.env['oacis.student'].create(
             self._student_vals(program_id=legacy.id,
                                email='p4.write@example.com'))
         unit = self._school_kit('C')
@@ -165,7 +165,7 @@ class UniCoreStudentCohortTest(TransactionCase):
         """cohort_label follows the program's cohort kind."""
         unit = self._school_kit('D')
         gb = self._school_program('P4GB3', 'grade_batch', unit)
-        student = self.env['unicore.student'].create(
+        student = self.env['oacis.student'].create(
             self._student_vals(program_id=gb.id, grade_level_id=unit.id,
                                email='p4.switch@example.com'))
         self.assertEqual(student.cohort_label, unit.display_name)
@@ -179,7 +179,7 @@ class UniCoreStudentCohortTest(TransactionCase):
         """An explicitly provided cohort start date is never overwritten."""
         unit = self._school_kit('E')
         program = self._school_program('P4ROLL3', 'rolling', unit)
-        student = self.env['unicore.student'].create(
+        student = self.env['oacis.student'].create(
             self._student_vals(program_id=program.id,
                                cohort_start_date='2025-01-15',
                                email='p4.roll.explicit@example.com'))
@@ -191,7 +191,7 @@ class UniCoreStudentCohortTest(TransactionCase):
         unit = self._school_kit('F')
         program = self._school_program('P4GB4', 'grade_batch', unit)
         with self.assertRaises(ValidationError):
-            self.env['unicore.student'].create(
+            self.env['oacis.student'].create(
                 self._student_vals(program_id=program.id,
                                    email='p4.gb4.no@example.com'))
 
@@ -199,7 +199,7 @@ class UniCoreStudentCohortTest(TransactionCase):
         """Enrolling an auto-filled rolling student succeeds and carries the cohort."""
         unit = self._school_kit('G')
         program = self._school_program('P4ROLL4', 'rolling', unit)
-        student = self.env['unicore.student'].create(
+        student = self.env['oacis.student'].create(
             self._student_vals(program_id=program.id,
                                email='p4.roll.enroll@example.com'))
         self.assertEqual(str(student.cohort_start_date), '2025-06-01')

@@ -2,37 +2,37 @@
 <odoo>
 
     <!-- Root Menu -->
-    <menuitem id="menu_unicore_scholarship_root"
+    <menuitem id="menu_oacis_scholarship_root"
               name="Scholarships"
               sequence="55"
-              web_icon="unicore_scholarship,static/description/icon.png"/>
+              web_icon="oacis_scholarship,static/description/icon.png"/>
 
     <!-- Main Menus -->
-    <menuitem id="menu_unicore_scholarship_programs"
+    <menuitem id="menu_oacis_scholarship_programs"
               name="Scholarship Programs"
-              parent="menu_unicore_scholarship_root"
-              action="action_unicore_scholarship_program"
+              parent="menu_oacis_scholarship_root"
+              action="action_oacis_scholarship_program"
               sequence="10"/>
 
-    <menuitem id="menu_unicore_scholarship_applications"
+    <menuitem id="menu_oacis_scholarship_applications"
               name="Applications"
-              parent="menu_unicore_scholarship_root"
-              action="action_unicore_scholarship_application"
+              parent="menu_oacis_scholarship_root"
+              action="action_oacis_scholarship_application"
               sequence="20"/>
 
-    <menuitem id="menu_unicore_scholarship_awards"
+    <menuitem id="menu_oacis_scholarship_awards"
               name="Awards"
-              parent="menu_unicore_scholarship_root"
-              action="action_unicore_scholarship_award"
+              parent="menu_oacis_scholarship_root"
+              action="action_oacis_scholarship_award"
               sequence="30"/>
 
     <!-- Board Menus -->
 
     <!-- Configuration Menu -->
-    <menuitem id="menu_unicore_scholarship_config"
+    <menuitem id="menu_oacis_scholarship_config"
               name="Configuration"
-              parent="menu_unicore_scholarship_root"
-              groups="unicore_base.group_unicore_admin,unicore_base.group_unicore_manager"
+              parent="menu_oacis_scholarship_root"
+              groups="oacis_base.group_oacis_admin,oacis_base.group_oacis_manager"
               sequence="100"/>
 
 </odoo>

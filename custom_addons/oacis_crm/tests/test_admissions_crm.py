@@ -3,8 +3,8 @@ import odoo
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'crm')
-class UniCoreAdmissionsCrmTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'crm')
+class OacisAdmissionsCrmTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
@@ -13,18 +13,18 @@ class UniCoreAdmissionsCrmTest(TransactionCase):
         cls.company = cls.env.company
         cls.currency = cls.company.currency_id
 
-        cls.faculty = cls.env['unicore.faculty'].create({
+        cls.faculty = cls.env['oacis.faculty'].create({
             'name': 'Test Faculty of Admissions',
             'code': 'TFA',
             'company_id': cls.company.id,
         })
-        cls.department = cls.env['unicore.department'].create({
+        cls.department = cls.env['oacis.department'].create({
             'name': 'Test Admissions Office',
             'code': 'TADM',
             'faculty_id': cls.faculty.id,
             'company_id': cls.company.id,
         })
-        cls.program = cls.env['unicore.program'].create({
+        cls.program = cls.env['oacis.program'].create({
             'name': 'Test B.A. Admissions',
             'code': 'TEST-BA',
             'program_type': 'undergraduate',
@@ -35,12 +35,12 @@ class UniCoreAdmissionsCrmTest(TransactionCase):
             'department_id': cls.department.id,
             'company_id': cls.company.id,
         })
-        cls.campus = cls.env['unicore.campus'].create({
+        cls.campus = cls.env['oacis.campus'].create({
             'name': 'Test Admissions Campus',
             'code': 'TACAMP',
             'company_id': cls.company.id,
         })
-        cls.academic_year = cls.env['unicore.academic.year'].create({
+        cls.academic_year = cls.env['oacis.academic.year'].create({
             'name': 'Test AY 2025-26',
             'code': 'TAY2526',
             'date_start': '2025-07-01',
@@ -49,7 +49,7 @@ class UniCoreAdmissionsCrmTest(TransactionCase):
             'is_current': False,
             'company_id': cls.company.id,
         })
-        cls.semester = cls.env['unicore.semester'].create({
+        cls.semester = cls.env['oacis.semester'].create({
             'name': 'Test ODD 2025-26',
             'code': 'TODD-2526',
             'semester_type': 'odd',
@@ -59,7 +59,7 @@ class UniCoreAdmissionsCrmTest(TransactionCase):
             'semester_state': 'ongoing',
             'company_id': cls.company.id,
         })
-        cls.cycle = cls.env['unicore.admission.cycle'].create({
+        cls.cycle = cls.env['oacis.admission.cycle'].create({
             'name': 'Test Cycle 2025',
             'code': 'TCYC25',
             'campus_id': cls.campus.id,
@@ -68,14 +68,14 @@ class UniCoreAdmissionsCrmTest(TransactionCase):
             'end_date': '2025-08-31',
             'company_id': cls.company.id,
         })
-        cls.env['unicore.admission.cycle.seat'].create({
+        cls.env['oacis.admission.cycle.seat'].create({
             'cycle_id': cls.cycle.id,
             'program_id': cls.program.id,
             'total_seats': 50,
         })
         cls.cycle.action_activate()
 
-        cls.applicant = cls.env['unicore.admission.applicant'].create({
+        cls.applicant = cls.env['oacis.admission.applicant'].create({
             'name': 'Jane Applicant',
             'last_name': 'Doe',
             'email': 'jane.applicant@example.com',

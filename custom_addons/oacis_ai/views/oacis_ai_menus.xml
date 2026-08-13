@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Top-level Unicore AI menu -->
+    <!-- Top-level Oacis AI menu -->
     <menuitem
-        id="menu_unicore_ai_root"
-        name="Unicore AI"
-        web_icon="unicore_ai,static/description/icon.png"
+        id="menu_oacis_ai_root"
+        name="Oacis AI"
+        web_icon="oacis_ai,static/description/icon.png"
         sequence="95"
     />
 
     <!-- Sub-menus -->
     <menuitem
-        id="menu_unicore_ai_chatbot"
+        id="menu_oacis_ai_chatbot"
         name="Chat History"
-        parent="menu_unicore_ai_root"
-        action="action_unicore_ai_chat_sessions"
+        parent="menu_oacis_ai_root"
+        action="action_oacis_ai_chat_sessions"
         sequence="10"
     />
 
     <menuitem
-        id="menu_unicore_ai_generate"
+        id="menu_oacis_ai_generate"
         name="AI Text Generator"
-        parent="menu_unicore_ai_root"
-        action="action_unicore_ai_generate_wizard"
+        parent="menu_oacis_ai_root"
+        action="action_oacis_ai_generate_wizard"
         sequence="20"
     />
 
     <menuitem
-        id="menu_unicore_ai_config"
+        id="menu_oacis_ai_config"
         name="Configuration"
-        parent="menu_unicore_ai_root"
+        parent="menu_oacis_ai_root"
         sequence="100"
-        groups="unicore_ai.group_unicore_ai_manager"
+        groups="oacis_ai.group_oacis_ai_manager"
     />
 
     <menuitem
-        id="menu_unicore_ai_settings"
+        id="menu_oacis_ai_settings"
         name="Settings"
-        parent="menu_unicore_ai_config"
+        parent="menu_oacis_ai_config"
         action="base_setup.action_general_configuration"
         sequence="10"
-        groups="unicore_ai.group_unicore_ai_manager"
+        groups="oacis_ai.group_oacis_ai_manager"
     />
 
 </odoo>

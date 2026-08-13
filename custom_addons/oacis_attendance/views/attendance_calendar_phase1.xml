@@ -8,9 +8,9 @@
         <!-- instructor_id, room_id are stored related fields.         -->
         <!-- Exposed via view_mode=calendar on the main session action. -->
         <!-- ========================================================= -->
-        <record id="view_unicore_attendance_session_calendar" model="ir.ui.view">
-            <field name="name">unicore.attendance.session.calendar</field>
-            <field name="model">unicore.attendance.session</field>
+        <record id="view_oacis_attendance_session_calendar" model="ir.ui.view">
+            <field name="name">oacis.attendance.session.calendar</field>
+            <field name="model">oacis.attendance.session</field>
             <field name="type">calendar</field>
             <field name="arch" type="xml">
                 <calendar date_start="session_date" string="Session Calendar" color="course_offering_id">

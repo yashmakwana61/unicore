@@ -2,56 +2,56 @@
 <odoo>
 
   <!-- Level 2: Grading top menu -->
-  <menuitem id="menu_unicore_grading"
+  <menuitem id="menu_oacis_grading"
     name="Grading"
     sequence="100"
-    web_icon="unicore_grading,static/description/icon.png"
-    groups="unicore_base.group_unicore_faculty,unicore_base.group_unicore_admin"/>
+    web_icon="oacis_grading,static/description/icon.png"
+    groups="oacis_base.group_oacis_faculty,oacis_base.group_oacis_admin"/>
 
   <!-- Level 3: Student self-service -->
-  <menuitem id="menu_unicore_my_results"
+  <menuitem id="menu_oacis_my_results"
     name="My Results"
-    parent="menu_unicore_grading"
-    action="action_unicore_grade_entry_my"
+    parent="menu_oacis_grading"
+    action="action_oacis_grade_entry_my"
     sequence="10"
-    groups="unicore_base.group_unicore_student"/>
+    groups="oacis_base.group_oacis_student"/>
 
-  <menuitem id="menu_unicore_my_semester_results"
+  <menuitem id="menu_oacis_my_semester_results"
     name="My Semester Results"
-    parent="menu_unicore_grading"
-    action="action_unicore_semester_result_my"
+    parent="menu_oacis_grading"
+    action="action_oacis_semester_result_my"
     sequence="20"
-    groups="unicore_base.group_unicore_student"/>
+    groups="oacis_base.group_oacis_student"/>
 
   <!-- Level 3: Faculty -->
-  <menuitem id="menu_unicore_grade_entry_all"
+  <menuitem id="menu_oacis_grade_entry_all"
     name="Grade Entry"
-    parent="menu_unicore_grading"
-    action="action_unicore_grade_entry"
+    parent="menu_oacis_grading"
+    action="action_oacis_grade_entry"
     sequence="30"
-    groups="unicore_base.group_unicore_faculty,unicore_base.group_unicore_admin"/>
+    groups="oacis_base.group_oacis_faculty,oacis_base.group_oacis_admin"/>
 
   <!-- Level 3: Registrar -->
-  <menuitem id="menu_unicore_grade_pending"
+  <menuitem id="menu_oacis_grade_pending"
     name="Pending Verification"
-    parent="menu_unicore_grading"
-    action="action_unicore_grade_entry_pending"
+    parent="menu_oacis_grading"
+    action="action_oacis_grade_entry_pending"
     sequence="40"
-    groups="unicore_base.group_unicore_registrar"/>
+    groups="oacis_base.group_oacis_registrar"/>
 
-  <menuitem id="menu_unicore_semester_results"
+  <menuitem id="menu_oacis_semester_results"
     name="Semester Results"
-    parent="menu_unicore_grading"
-    action="action_unicore_semester_result"
+    parent="menu_oacis_grading"
+    action="action_oacis_semester_result"
     sequence="50"
-    groups="unicore_base.group_unicore_registrar"/>
+    groups="oacis_base.group_oacis_registrar"/>
 
   <!-- Level 3: Manager -->
-  <menuitem id="menu_unicore_grade_scale"
+  <menuitem id="menu_oacis_grade_scale"
     name="Grade Scales"
-    parent="menu_unicore_grading"
-    action="action_unicore_grade_scale"
+    parent="menu_oacis_grading"
+    action="action_oacis_grade_scale"
     sequence="60"
-    groups="unicore_base.group_unicore_manager"/>
+    groups="oacis_base.group_oacis_manager"/>
 
 </odoo>

@@ -14,9 +14,9 @@ import { session } from "@web/session";
 import { browser } from "@web/core/browser/browser";
 import { Chatter } from "@mail/chatter/web_portal/chatter";
 
-// Make unicore_theme_config reactive so layout changes trigger updates reactively in OWL
-if (session.unicore_theme_config && !session.unicore_theme_config.__owl_reactive__) {
-    session.unicore_theme_config = reactive(session.unicore_theme_config);
+// Make oacis_theme_config reactive so layout changes trigger updates reactively in OWL
+if (session.oacis_theme_config && !session.oacis_theme_config.__owl_reactive__) {
+    session.oacis_theme_config = reactive(session.oacis_theme_config);
 }
 
 /**
@@ -24,7 +24,7 @@ if (session.unicore_theme_config && !session.unicore_theme_config.__owl_reactive
  * A sliding side-panel overlaid on the right side of the screen loading a quick-read version of form view.
  */
 export class KanbanFlyout extends Component {
-    static template = "unicore_design.KanbanFlyout";
+    static template = "oacis_design.KanbanFlyout";
     static components = { View };
     static props = {
         resModel: String,
@@ -44,7 +44,7 @@ KanbanRenderer.components = {
 patch(ListRenderer.prototype, {
     get className() {
         const result = super.className || "";
-        const density = session.unicore_theme_config?.theme_list_density || "default";
+        const density = session.oacis_theme_config?.theme_list_density || "default";
         return `${result} o_theme_density_${density}`;
     },
 
@@ -90,23 +90,23 @@ patch(KanbanRecord.prototype, {
 patch(KanbanRenderer.prototype, {
     setup() {
         super.setup();
-        this.unicoreState = useState({
+        this.oacisState = useState({
             flyoutData: null,
         });
         useBus(this.env.bus, "open-kanban-flyout", (ev) => {
-            this.unicoreState.flyoutData = ev.detail;
+            this.oacisState.flyoutData = ev.detail;
         });
     },
 
     closeKanbanFlyout() {
-        this.unicoreState.flyoutData = null;
+        this.oacisState.flyoutData = null;
     },
 });
 
 // Patch FormRenderer to force chatter at the bottom inside Kanban Flyout
 patch(FormRenderer.prototype, {
     mailLayout(hasAttachmentContainer) {
-        if (this.rootRef?.el?.closest(".o_unicore_flyout_panel")) {
+        if (this.rootRef?.el?.closest(".o_oacis_flyout_panel")) {
             return "BOTTOM_CHATTER";
         }
         return super.mailLayout(hasAttachmentContainer);
@@ -117,13 +117,13 @@ patch(FormRenderer.prototype, {
 patch(ControlPanel.prototype, {
     setup() {
         super.setup();
-        this.unicoreRefresherState = useState({
+        this.oacisRefresherState = useState({
             isRefreshing: false,
         });
     },
 
     async onSmartRefresh() {
-        this.unicoreRefresherState.isRefreshing = true;
+        this.oacisRefresherState.isRefreshing = true;
         try {
             if (typeof this.env.config?.reload === "function") {
                 await this.env.config.reload();
@@ -134,7 +134,7 @@ patch(ControlPanel.prototype, {
             }
         } finally {
             setTimeout(() => {
-                this.unicoreRefresherState.isRefreshing = false;
+                this.oacisRefresherState.isRefreshing = false;
             }, 300);
         }
     },
@@ -144,20 +144,20 @@ patch(ControlPanel.prototype, {
 patch(FormController.prototype, {
     setup() {
         super.setup();
-        this.unicoreFormState = useState({
+        this.oacisFormState = useState({
             isFullscreen: false,
         });
         onWillUnmount(() => {
-            document.body.classList.remove("o_unicore_fullscreen");
+            document.body.classList.remove("o_oacis_fullscreen");
         });
     },
 
     toggleFullscreen() {
-        this.unicoreFormState.isFullscreen = !this.unicoreFormState.isFullscreen;
-        if (this.unicoreFormState.isFullscreen) {
-            document.body.classList.add("o_unicore_fullscreen");
+        this.oacisFormState.isFullscreen = !this.oacisFormState.isFullscreen;
+        if (this.oacisFormState.isFullscreen) {
+            document.body.classList.add("o_oacis_fullscreen");
         } else {
-            document.body.classList.remove("o_unicore_fullscreen");
+            document.body.classList.remove("o_oacis_fullscreen");
         }
     },
 
@@ -166,23 +166,23 @@ patch(FormController.prototype, {
     },
 
     get chatterToggleIcon() {
-        const position = session.unicore_theme_config?.theme_chatter_position || "bottom";
+        const position = session.oacis_theme_config?.theme_chatter_position || "bottom";
         return position === "side" ? "fa-align-justify" : "fa-columns";
     },
 
     get chatterToggleTitle() {
-        const position = session.unicore_theme_config?.theme_chatter_position || "bottom";
+        const position = session.oacis_theme_config?.theme_chatter_position || "bottom";
         return position === "side" ? "Move Chatter to Bottom" : "Move Chatter to Side";
     },
 
     async toggleChatterPosition() {
-        const config = session.unicore_theme_config;
+        const config = session.oacis_theme_config;
         if (!config) return;
         const current = config.theme_chatter_position || "bottom";
         const next = current === "side" ? "bottom" : "side";
         
         config.theme_chatter_position = next;
-        document.documentElement.dataset.unicoreChatter = next;
+        document.documentElement.dataset.oacisChatter = next;
         
         const userId = this.env.services.user?.userId || session.uid;
         if (userId) {
@@ -206,7 +206,7 @@ patch(Chatter.prototype, {
         useEffect(
             () => {
                 if (this.props.isChatterAside) {
-                    const savedWidth = browser.localStorage.getItem("unicore_chatter_width");
+                    const savedWidth = browser.localStorage.getItem("oacis_chatter_width");
                     const parentEl = this.rootRef.el?.parentElement;
                     if (savedWidth && parentEl) {
                         const width = parseInt(savedWidth, 10);
@@ -239,7 +239,7 @@ patch(Chatter.prototype, {
         if (!parentEl) return;
         const startWidth = parentEl.getBoundingClientRect().width;
         
-        document.body.classList.add("o_unicore_chatter_dragging");
+        document.body.classList.add("o_oacis_chatter_dragging");
         const dragHandle = ev.target;
         if (dragHandle) {
             dragHandle.classList.add("dragging");
@@ -257,7 +257,7 @@ patch(Chatter.prototype, {
         };
 
         const onMouseUp = () => {
-            document.body.classList.remove("o_unicore_chatter_dragging");
+            document.body.classList.remove("o_oacis_chatter_dragging");
             if (dragHandle) {
                 dragHandle.classList.remove("dragging");
             }
@@ -265,7 +265,7 @@ patch(Chatter.prototype, {
             window.removeEventListener("mouseup", onMouseUp);
             
             const finalWidth = parentEl.getBoundingClientRect().width;
-            browser.localStorage.setItem("unicore_chatter_width", finalWidth);
+            browser.localStorage.setItem("oacis_chatter_width", finalWidth);
         };
 
         window.addEventListener("mousemove", onMouseMove);

@@ -5,9 +5,9 @@ from odoo import api, fields, models
 _logger = logging.getLogger(__name__)
 
 
-class UnicoreAIChatSession(models.Model):
+class OacisAIChatSession(models.Model):
     """Persistent chat session so users can revisit past conversations."""
-    _name = 'unicore.ai.chat.session'
+    _name = 'oacis.ai.chat.session'
     _description = 'AI Chat Session'
     _order = 'write_date desc'
     _rec_name = 'title'
@@ -26,7 +26,7 @@ class UnicoreAIChatSession(models.Model):
         index=True,
     )
     message_ids = fields.One2many(
-        'unicore.ai.chat.message',
+        'oacis.ai.chat.message',
         'session_id',
         string='Messages',
     )
@@ -43,14 +43,14 @@ class UnicoreAIChatSession(models.Model):
             session.write({'title': title})
 
 
-class UnicoreAIChatMessage(models.Model):
+class OacisAIChatMessage(models.Model):
     """Individual message inside a chat session."""
-    _name = 'unicore.ai.chat.message'
+    _name = 'oacis.ai.chat.message'
     _description = 'AI Chat Message'
     _order = 'sequence, id'
 
     session_id = fields.Many2one(
-        'unicore.ai.chat.session',
+        'oacis.ai.chat.session',
         string='Session',
         required=True,
         ondelete='cascade',

@@ -1,5 +1,5 @@
 """
-UniCore Asset Model
+Oacis Asset Model
 Catalog of physical equipment and assets that can be requested
 by faculty and staff — e.g. projectors, lab equipment, computers,
 furniture, audio/video gear, vehicles.
@@ -12,10 +12,10 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreAsset(models.Model):
-    _name = 'unicore.asset'
+class OacisAsset(models.Model):
+    _name = 'oacis.asset'
     _description = 'Asset'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'asset_type, name'
     _check_company_auto = True
 
@@ -54,7 +54,7 @@ class UniCoreAsset(models.Model):
     )
 
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus',
+        comodel_name='oacis.campus',
         string='Campus',
         required=True,
         ondelete='restrict',
@@ -63,7 +63,7 @@ class UniCoreAsset(models.Model):
     )
 
     building_id = fields.Many2one(
-        comodel_name='unicore.building',
+        comodel_name='oacis.building',
         string='Building',
         ondelete='restrict',
         tracking=True,
@@ -71,7 +71,7 @@ class UniCoreAsset(models.Model):
     )
 
     room_id = fields.Many2one(
-        comodel_name='unicore.room',
+        comodel_name='oacis.room',
         string='Room / Location',
         ondelete='restrict',
         tracking=True,
@@ -117,7 +117,7 @@ class UniCoreAsset(models.Model):
     )
 
     current_request_ids = fields.One2many(
-        comodel_name='unicore.asset.request',
+        comodel_name='oacis.asset.request',
         inverse_name='asset_id',
         string='Active Requests',
         domain="[('state', '=', 'approved')]",
@@ -137,7 +137,7 @@ class UniCoreAsset(models.Model):
             record.quantity_available = max(0, record.quantity_total - active_qty)
 
     def _compute_request_count(self):
-        AssetRequest = self.env['unicore.asset.request']
+        AssetRequest = self.env['oacis.asset.request']
         for record in self:
             record.request_count = AssetRequest.search_count([
                 ('asset_id', '=', record.id),
@@ -159,7 +159,7 @@ class UniCoreAsset(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Asset Requests'),
-            'res_model': 'unicore.asset.request',
+            'res_model': 'oacis.asset.request',
             'view_mode': 'list,form',
             'domain': [('asset_id', '=', self.id)],
             'context': {'default_asset_id': self.id},

@@ -4,15 +4,15 @@
 
         <!-- Server Action: Batch Create GL Invoices -->
         <record id="action_batch_create_gl_invoices" model="ir.actions.server">
-            <field name="name">UniCore Fees: Batch Create GL Invoices</field>
-            <field name="model_id" ref="unicore_fees.model_unicore_fee_invoice"/>
+            <field name="name">Oacis Fees: Batch Create GL Invoices</field>
+            <field name="model_id" ref="oacis_fees.model_oacis_fee_invoice"/>
             <field name="state">code</field>
-            <field name="code">env['unicore.fee.invoice'].action_batch_create_gl_invoices()</field>
+            <field name="code">env['oacis.fee.invoice'].action_batch_create_gl_invoices()</field>
         </record>
 
         <!-- Cron Job: Batch Create GL Invoices -->
         <record id="cron_batch_create_gl_invoices" model="ir.cron">
-            <field name="name">UniCore Fees: Batch Create GL Invoices</field>
+            <field name="name">Oacis Fees: Batch Create GL Invoices</field>
             <field name="ir_actions_server_id" ref="action_batch_create_gl_invoices"/>
             <field name="user_id" ref="base.user_root"/>
             <field name="interval_number">1</field>

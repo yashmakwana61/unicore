@@ -1,11 +1,11 @@
 """
-UniCore Notification Engine
+Oacis Notification Engine
 The core service class providing methods for sending
 notifications across all channels. All other modules
 import and call these methods.
 
 Usage from other modules:
-    Engine = self.env['unicore.notification.engine']
+    Engine = self.env['oacis.notification.engine']
     Engine.send_to_student(
         student=student_record,
         trigger_event='fee_due',
@@ -37,13 +37,13 @@ except ImportError:
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreNotificationEngine(models.AbstractModel):
+class OacisNotificationEngine(models.AbstractModel):
     """
     Abstract model providing notification sending
-    methods. Use self.env['unicore.notification.engine']
+    methods. Use self.env['oacis.notification.engine']
     to access these methods from any model.
     """
-    _name = 'unicore.notification.engine'
+    _name = 'oacis.notification.engine'
     _description = 'Notification Engine'
 
     @api.model
@@ -55,7 +55,7 @@ class UniCoreNotificationEngine(models.AbstractModel):
         'all' channel template if no exact match.
         """
         Template = self.env[
-            'unicore.notification.template'
+            'oacis.notification.template'
         ]
         template = Template.search([
             ('trigger_event', '=', trigger_event),
@@ -89,7 +89,7 @@ class UniCoreNotificationEngine(models.AbstractModel):
                            whatsapp_message_id=None,
                            recipient_type=None):
         """Create an immutable notification log entry."""
-        self.env['unicore.notification.log'].sudo().create({
+        self.env['oacis.notification.log'].sudo().create({
             'company_id': company_id,
             'channel': channel,
             'trigger_event': trigger_event,
@@ -125,8 +125,8 @@ class UniCoreNotificationEngine(models.AbstractModel):
             )
             email_from = (
                 '%s <%s>' % (
-                    from_name or 'UniCore ERP',
-                    company.email or 'noreply@unicore.edu',
+                    from_name or 'Oacis ERP',
+                    company.email or 'noreply@oacis.edu',
                 )
             )
             mail = self.env['mail.mail'].sudo().create({
@@ -158,7 +158,7 @@ class UniCoreNotificationEngine(models.AbstractModel):
             return False, 'No mobile number provided'
 
         Config = self.env[
-            'unicore.notification.config'
+            'oacis.notification.config'
         ]
         config = Config.get_config_for_company(company_id)
 
@@ -258,7 +258,7 @@ class UniCoreNotificationEngine(models.AbstractModel):
         Logs the notification result.
 
         Args:
-            student: unicore.student record
+            student: oacis.student record
             trigger_event: str (matches template trigger)
             variables: dict of template variables
 
@@ -270,7 +270,7 @@ class UniCoreNotificationEngine(models.AbstractModel):
             variables = {}
 
         company_id = student.company_id.id
-        Config = self.env['unicore.notification.config']
+        Config = self.env['oacis.notification.config']
         config = Config.get_config_for_company(company_id)
 
         # Default variables always available
@@ -416,7 +416,7 @@ class UniCoreNotificationEngine(models.AbstractModel):
             variables = {}
 
         company_id = guardian.company_id.id
-        Config = self.env['unicore.notification.config']
+        Config = self.env['oacis.notification.config']
         config = Config.get_config_for_company(company_id)
 
         variables.setdefault(
@@ -516,7 +516,7 @@ class UniCoreNotificationEngine(models.AbstractModel):
         Called by cron or manually by finance staff.
         """
         from datetime import date, timedelta
-        Invoice = self.env['unicore.fee.invoice']
+        Invoice = self.env['oacis.fee.invoice']
         target_date = date.today() + timedelta(
             days=days_before,
         )
@@ -565,7 +565,7 @@ class UniCoreNotificationEngine(models.AbstractModel):
         Send attendance shortage alerts to all students
         with shortage_alert = True. Called by cron.
         """
-        AttRecord = self.env['unicore.attendance.record']
+        AttRecord = self.env['oacis.attendance.record']
         shortage_records = AttRecord.search([
             ('company_id', '=', company_id),
             ('shortage_alert', '=', True),

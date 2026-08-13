@@ -2,16 +2,16 @@ from odoo import fields, models
 
 
 class DigitalMaterial(models.Model):
-    _name = 'unicore.digital.material'
+    _name = 'oacis.digital.material'
     _description = 'Digital Library Material'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
     _order = 'title'
     _check_company_auto = True
 
     title = fields.Char(string='Title', required=True)
     author = fields.Char(string='Author/Creator')
     subject_id = fields.Many2one(
-        'unicore.library.subject',
+        'oacis.library.subject',
         string='Subject',
     )
     company_id = fields.Many2one('res.company', string='Institution', default=lambda self: self.env.company)

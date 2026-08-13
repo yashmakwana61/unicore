@@ -2,15 +2,15 @@ from odoo import api, fields, models
 
 
 class Thesis(models.Model):
-    _name = 'unicore.thesis'
+    _name = 'oacis.thesis'
     _description = 'Thesis'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'create_date desc'
     _check_company_auto = True
 
     title = fields.Char(string='Thesis Title', required=True, tracking=True)
     student_id = fields.Many2one(
-        'unicore.student',
+        'oacis.student',
         string='Student',
         required=True,
         ondelete='cascade',
@@ -23,7 +23,7 @@ class Thesis(models.Model):
         store=True,
     )
     supervisor_id = fields.Many2one(
-        'unicore.faculty.member',
+        'oacis.faculty.member',
         string='Supervisor',
         required=True,
         domain="[('company_id', 'in', [company_id, False])]",
@@ -40,7 +40,7 @@ class Thesis(models.Model):
         ('rejected', 'Rejected'),
     ], string='Status', default='proposal', required=True, tracking=True)
     review_ids = fields.One2many(
-        'unicore.thesis.review',
+        'oacis.thesis.review',
         'thesis_id',
         string='Reviews',
     )
@@ -55,15 +55,15 @@ class Thesis(models.Model):
 
 
 class ThesisReview(models.Model):
-    _name = 'unicore.thesis.review'
+    _name = 'oacis.thesis.review'
     _description = 'Thesis Review'
-    _inherit = ['unicore.mixin', 'mail.thread']
+    _inherit = ['oacis.mixin', 'mail.thread']
     _order = 'create_date desc'
     _check_company_auto = True
     _rec_name = 'name'
 
     thesis_id = fields.Many2one(
-        'unicore.thesis',
+        'oacis.thesis',
         string='Thesis',
         required=True,
         ondelete='cascade',
@@ -75,7 +75,7 @@ class ThesisReview(models.Model):
         store=True,
     )
     reviewer_id = fields.Many2one(
-        'unicore.faculty.member',
+        'oacis.faculty.member',
         string='Reviewer',
         required=True,
         domain="[('company_id', 'in', [company_id, False])]",

@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_hostel_block_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.hostel.block.kanban</field>
-        <field name="model">unicore.hostel.block</field>
+    <record id="oacis_hostel_block_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.hostel.block.kanban</field>
+        <field name="model">oacis.hostel.block</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="block_state">
                 <field name="display_name"/>
@@ -60,9 +60,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_hostel_room_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.hostel.room.kanban</field>
-        <field name="model">unicore.hostel.room</field>
+    <record id="oacis_hostel_room_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.hostel.room.kanban</field>
+        <field name="model">oacis.hostel.room</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="room_state">
                 <field name="display_name"/>
@@ -114,9 +114,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_hostel_allocation_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.hostel.allocation.kanban</field>
-        <field name="model">unicore.hostel.allocation</field>
+    <record id="oacis_hostel_allocation_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.hostel.allocation.kanban</field>
+        <field name="model">oacis.hostel.allocation</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="allocation_state">
                 <field name="display_name"/>
@@ -153,9 +153,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_hostel_maintenance_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.hostel.maintenance.kanban</field>
-        <field name="model">unicore.hostel.maintenance</field>
+    <record id="oacis_hostel_maintenance_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.hostel.maintenance.kanban</field>
+        <field name="model">oacis.hostel.maintenance</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="maintenance_state">
                 <field name="display_name"/>

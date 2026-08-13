@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!--
-    PATCH REQUIRED — Add this method to unicore_exam/models/unicore_exam_schedule.py
+    PATCH REQUIRED — Add this method to oacis_exam/models/oacis_exam_schedule.py
     ==============================================================================
-    Insert the following method into the UniCoreExamSchedule class (after existing
+    Insert the following method into the OacisExamSchedule class (after existing
     state methods, before the class end):
 
         def action_approve_all_eligible_tickets(self):
@@ -23,9 +23,9 @@
     <!-- ============================================================ -->
     <!-- EXAM SCHEDULE — FORM VIEW                                     -->
     <!-- ============================================================ -->
-    <record id="view_unicore_exam_schedule_form" model="ir.ui.view">
-      <field name="name">unicore.exam.schedule.form</field>
-      <field name="model">unicore.exam.schedule</field>
+    <record id="view_oacis_exam_schedule_form" model="ir.ui.view">
+      <field name="name">oacis.exam.schedule.form</field>
+      <field name="model">oacis.exam.schedule</field>
       <field name="arch" type="xml">
         <form>
           <header>
@@ -35,31 +35,31 @@
             <button name="action_generate_seating" type="object" string="Generate Seating Plan" invisible="exam_state not in ('hall_tickets_generated', 'seating_generated')"/>
             <button name="action_mark_ongoing" type="object" string="Mark Ongoing" invisible="exam_state != 'seating_generated'"/>
             <button name="action_complete" type="object" string="Complete" invisible="exam_state != 'ongoing'"/>
-            <button name="action_cancel" type="object" string="Cancel" invisible="exam_state in ('completed', 'cancelled')" groups="unicore_base.group_unicore_admin"/>
-            <button name="action_reset_draft" type="object" string="Reset to Draft" invisible="exam_state == 'draft'" groups="unicore_base.group_unicore_admin"/>
+            <button name="action_cancel" type="object" string="Cancel" invisible="exam_state in ('completed', 'cancelled')" groups="oacis_base.group_oacis_admin"/>
+            <button name="action_reset_draft" type="object" string="Reset to Draft" invisible="exam_state == 'draft'" groups="oacis_base.group_oacis_admin"/>
             <widget name="web_ribbon" title="Cancelled" invisible="exam_state != 'cancelled'" bg_color="text-bg-danger"/>
             <widget name="web_ribbon" title="Completed" invisible="exam_state != 'completed'" bg_color="text-bg-success"/>
           </header>
           <div class="button_box" name="button_box">
-            <button name="%(action_unicore_exam_hall_ticket)d" type="action" icon="fa-ticket" groups="unicore_base.group_unicore_staff">
+            <button name="%(action_oacis_exam_hall_ticket)d" type="action" icon="fa-ticket" groups="oacis_base.group_oacis_staff">
               <div class="o_stat_info">
                 <field name="hall_ticket_count" widget="statinfo"/>
                 <span class="o_stat_text">Hall Tickets</span>
               </div>
             </button>
-            <button type="object" icon="fa-check-circle" disabled="1" groups="unicore_base.group_unicore_registrar">
+            <button type="object" icon="fa-check-circle" disabled="1" groups="oacis_base.group_oacis_registrar">
               <div class="o_stat_info">
                 <field name="eligible_count" widget="statinfo" class="text-success"/>
                 <span class="o_stat_text">Eligible</span>
               </div>
             </button>
-            <button type="object" icon="fa-times-circle" disabled="1" invisible="ineligible_count == 0" groups="unicore_base.group_unicore_registrar">
+            <button type="object" icon="fa-times-circle" disabled="1" invisible="ineligible_count == 0" groups="oacis_base.group_oacis_registrar">
               <div class="o_stat_info">
                 <field name="ineligible_count" widget="statinfo" class="text-danger"/>
                 <span class="o_stat_text">Ineligible</span>
               </div>
             </button>
-            <button name="%(action_unicore_exam_seating)d" type="action" icon="fa-th" groups="unicore_base.group_unicore_staff">
+            <button name="%(action_oacis_exam_seating)d" type="action" icon="fa-th" groups="oacis_base.group_oacis_staff">
               <div class="o_stat_info">
                 <field name="seating_count" widget="statinfo"/>
                 <span class="o_stat_text">Seats Assigned</span>
@@ -104,7 +104,7 @@
               </group>
             </group>
             <notebook>
-              <page string="Hall Tickets" groups="unicore_base.group_unicore_registrar">
+              <page string="Hall Tickets" groups="oacis_base.group_oacis_registrar">
                 <button name="action_approve_all_eligible_tickets" type="object" string="Approve All Eligible" class="btn-success mb-2" invisible="exam_state not in ('hall_tickets_generated', 'seating_generated')"/>
                 <field name="hall_ticket_ids" nolabel="1">
                   <list>
@@ -116,7 +116,7 @@
                   </list>
                 </field>
               </page>
-              <page string="Seating Plan" groups="unicore_base.group_unicore_staff">
+              <page string="Seating Plan" groups="oacis_base.group_oacis_staff">
                 <field name="seating_ids" nolabel="1">
                   <list>
                     <field name="room_id"/>
@@ -139,9 +139,9 @@
     <!-- ============================================================ -->
     <!-- EXAM SCHEDULE — LIST VIEW                                     -->
     <!-- ============================================================ -->
-    <record id="view_unicore_exam_schedule_list" model="ir.ui.view">
-      <field name="name">unicore.exam.schedule.list</field>
-      <field name="model">unicore.exam.schedule</field>
+    <record id="view_oacis_exam_schedule_list" model="ir.ui.view">
+      <field name="name">oacis.exam.schedule.list</field>
+      <field name="model">oacis.exam.schedule</field>
       <field name="arch" type="xml">
         <list decoration-success="exam_state == 'completed'" decoration-warning="exam_state == 'ongoing'" decoration-info="exam_state == 'published'" decoration-muted="exam_state == 'cancelled'" decoration-bf="exam_state == 'seating_generated'">
           <field name="exam_date"/>
@@ -159,9 +159,9 @@
     <!-- ============================================================ -->
     <!-- EXAM SCHEDULE — SEARCH VIEW                                   -->
     <!-- ============================================================ -->
-    <record id="view_unicore_exam_schedule_search" model="ir.ui.view">
-      <field name="name">unicore.exam.schedule.search</field>
-      <field name="model">unicore.exam.schedule</field>
+    <record id="view_oacis_exam_schedule_search" model="ir.ui.view">
+      <field name="name">oacis.exam.schedule.search</field>
+      <field name="model">oacis.exam.schedule</field>
       <field name="arch" type="xml">
         <search>
           <field name="name"/>
@@ -189,9 +189,9 @@
     <!-- ============================================================ -->
     <!-- EXAM SCHEDULE — KANBAN VIEW                                   -->
     <!-- ============================================================ -->
-    <record id="view_unicore_exam_schedule_kanban" model="ir.ui.view">
-      <field name="name">unicore.exam.schedule.kanban</field>
-      <field name="model">unicore.exam.schedule</field>
+    <record id="view_oacis_exam_schedule_kanban" model="ir.ui.view">
+      <field name="name">oacis.exam.schedule.kanban</field>
+      <field name="model">oacis.exam.schedule</field>
       <field name="arch" type="xml">
         <kanban default_group_by="exam_state">
           <templates>
@@ -227,21 +227,21 @@
     <!-- ============================================================ -->
     <!-- WINDOW ACTIONS                                                -->
     <!-- ============================================================ -->
-    <record id="action_unicore_exam_schedule" model="ir.actions.act_window">
+    <record id="action_oacis_exam_schedule" model="ir.actions.act_window">
       <field name="name">Exam Schedules</field>
-      <field name="res_model">unicore.exam.schedule</field>
+      <field name="res_model">oacis.exam.schedule</field>
       <field name="view_mode">list,kanban,form</field>
       <field name="context">{'search_default_group_by_semester': 1}</field>
     </record>
-    <record id="action_unicore_exam_upcoming" model="ir.actions.act_window">
+    <record id="action_oacis_exam_upcoming" model="ir.actions.act_window">
       <field name="name">Upcoming Exams</field>
-      <field name="res_model">unicore.exam.schedule</field>
+      <field name="res_model">oacis.exam.schedule</field>
       <field name="view_mode">list,form</field>
       <field name="domain">[('exam_date','&gt;=',context_today().strftime('%Y-%m-%d')),('exam_state','not in',['cancelled','completed'])]</field>
     </record>
-    <record id="action_unicore_exam_ongoing" model="ir.actions.act_window">
+    <record id="action_oacis_exam_ongoing" model="ir.actions.act_window">
       <field name="name">Ongoing Exams</field>
-      <field name="res_model">unicore.exam.schedule</field>
+      <field name="res_model">oacis.exam.schedule</field>
       <field name="view_mode">list,form</field>
       <field name="domain">[('exam_state','=','ongoing')]</field>
     </record>

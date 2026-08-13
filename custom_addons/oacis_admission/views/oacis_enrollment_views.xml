@@ -6,9 +6,9 @@
         <!-- FORM VIEW                                                     -->
         <!-- ============================================================ -->
 
-        <record id="view_unicore_enrollment_form" model="ir.ui.view">
-            <field name="name">unicore.enrollment.form</field>
-            <field name="model">unicore.enrollment</field>
+        <record id="view_oacis_enrollment_form" model="ir.ui.view">
+            <field name="name">oacis.enrollment.form</field>
+            <field name="model">oacis.enrollment</field>
             <field name="arch" type="xml">
                 <form>
                     <header>
@@ -20,15 +20,15 @@
                         <button name="action_withdraw" type="object"
                                 string="Withdraw"
                                 invisible="enrollment_state != 'registered'"
-                                groups="unicore_base.group_unicore_registrar"/>
+                                groups="oacis_base.group_oacis_registrar"/>
                         <button name="action_complete" type="object"
                                 string="Mark Completed"
                                 invisible="enrollment_state != 'registered'"
-                                groups="unicore_base.group_unicore_registrar"/>
+                                groups="oacis_base.group_oacis_registrar"/>
                         <button name="action_cancel" type="object"
                                 string="Cancel (Admin)"
                                 invisible="enrollment_state in ('dropped','withdrawn','completed','cancelled')"
-                                groups="unicore_base.group_unicore_admin"/>
+                                groups="oacis_base.group_oacis_admin"/>
                     </header>
                     <sheet>
                         <group name="enrollment_details" string="Enrollment Details">
@@ -105,9 +105,9 @@
         <!-- LIST VIEW                                                     -->
         <!-- ============================================================ -->
 
-        <record id="view_unicore_enrollment_list" model="ir.ui.view">
-            <field name="name">unicore.enrollment.list</field>
-            <field name="model">unicore.enrollment</field>
+        <record id="view_oacis_enrollment_list" model="ir.ui.view">
+            <field name="name">oacis.enrollment.list</field>
+            <field name="model">oacis.enrollment</field>
             <field name="arch" type="xml">
                 <list decoration-success="enrollment_state == 'registered'"
                       decoration-muted="enrollment_state in ('dropped','withdrawn','cancelled')"
@@ -130,9 +130,9 @@
         <!-- SEARCH VIEW                                                   -->
         <!-- ============================================================ -->
 
-        <record id="view_unicore_enrollment_search" model="ir.ui.view">
-            <field name="name">unicore.enrollment.search</field>
-            <field name="model">unicore.enrollment</field>
+        <record id="view_oacis_enrollment_search" model="ir.ui.view">
+            <field name="name">oacis.enrollment.search</field>
+            <field name="model">oacis.enrollment</field>
             <field name="arch" type="xml">
                 <search>
                     <field name="student_id"/>
@@ -178,9 +178,9 @@
         <!-- KANBAN VIEW                                                   -->
         <!-- ============================================================ -->
 
-        <record id="view_unicore_enrollment_kanban" model="ir.ui.view">
-            <field name="name">unicore.enrollment.kanban</field>
-            <field name="model">unicore.enrollment</field>
+        <record id="view_oacis_enrollment_kanban" model="ir.ui.view">
+            <field name="name">oacis.enrollment.kanban</field>
+            <field name="model">oacis.enrollment</field>
             <field name="arch" type="xml">
                 <kanban default_group_by="enrollment_state">
                     <templates>
@@ -213,24 +213,24 @@
         <!-- WINDOW ACTIONS                                                -->
         <!-- ============================================================ -->
 
-        <record id="action_unicore_enrollment_all" model="ir.actions.act_window">
+        <record id="action_oacis_enrollment_all" model="ir.actions.act_window">
             <field name="name">All Enrollments</field>
-            <field name="res_model">unicore.enrollment</field>
+            <field name="res_model">oacis.enrollment</field>
             <field name="view_mode">list,kanban,form</field>
             <field name="domain">[]</field>
         </record>
 
-        <record id="action_unicore_enrollment_active" model="ir.actions.act_window">
+        <record id="action_oacis_enrollment_active" model="ir.actions.act_window">
             <field name="name">Active Enrollments</field>
-            <field name="res_model">unicore.enrollment</field>
+            <field name="res_model">oacis.enrollment</field>
             <field name="view_mode">list,form</field>
             <field name="domain">[('enrollment_state','=','registered')]</field>
             <field name="context">{'search_default_group_by_semester': 1}</field>
         </record>
 
-        <record id="action_unicore_enrollment_my" model="ir.actions.act_window">
+        <record id="action_oacis_enrollment_my" model="ir.actions.act_window">
             <field name="name">My Enrollments</field>
-            <field name="res_model">unicore.enrollment</field>
+            <field name="res_model">oacis.enrollment</field>
             <field name="view_mode">list,form</field>
             <field name="domain">[('student_id.partner_id.user_ids', 'in', [uid])]</field>
         </record>

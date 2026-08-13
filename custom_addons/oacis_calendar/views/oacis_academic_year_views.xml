@@ -1,17 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <!-- Window Action -->
-  <record id="action_unicore_academic_year" model="ir.actions.act_window">
+  <record id="action_oacis_academic_year" model="ir.actions.act_window">
     <field name="name">Academic Years</field>
-    <field name="res_model">unicore.academic.year</field>
+    <field name="res_model">oacis.academic.year</field>
     <field name="view_mode">list,form</field>
     <field name="domain">[]</field>
     <field name="context">{}</field>
   </record>
   <!-- Form View -->
-  <record id="unicore_academic_year_form_view" model="ir.ui.view">
-    <field name="name">unicore.academic.year.form</field>
-    <field name="model">unicore.academic.year</field>
+  <record id="oacis_academic_year_form_view" model="ir.ui.view">
+    <field name="name">oacis.academic.year.form</field>
+    <field name="model">oacis.academic.year</field>
     <field name="arch" type="xml">
       <form>
         <header>
@@ -19,8 +19,8 @@
           <button name="action_confirm" type="object" string="Confirm" class="btn-primary" invisible="year_state != 'draft'"/>
           <button name="action_activate" type="object" string="Activate" invisible="year_state != 'confirmed'"/>
           <button name="action_complete" type="object" string="Complete" invisible="year_state != 'active'"/>
-          <button name="action_cancel" type="object" string="Cancel" groups="unicore_base.group_unicore_admin" invisible="year_state in ('completed', 'cancelled')"/>
-          <button name="action_reset_draft" type="object" string="Reset to Draft" groups="unicore_base.group_unicore_admin" invisible="year_state != 'cancelled'"/>
+          <button name="action_cancel" type="object" string="Cancel" groups="oacis_base.group_oacis_admin" invisible="year_state in ('completed', 'cancelled')"/>
+          <button name="action_reset_draft" type="object" string="Reset to Draft" groups="oacis_base.group_oacis_admin" invisible="year_state != 'cancelled'"/>
         </header>
         <sheet>
           <div class="oe_button_box" name="button_box">
@@ -84,9 +84,9 @@
     </field>
   </record>
   <!-- List View -->
-  <record id="unicore_academic_year_list_view" model="ir.ui.view">
-    <field name="name">unicore.academic.year.list</field>
-    <field name="model">unicore.academic.year</field>
+  <record id="oacis_academic_year_list_view" model="ir.ui.view">
+    <field name="name">oacis.academic.year.list</field>
+    <field name="model">oacis.academic.year</field>
     <field name="arch" type="xml">
       <list>
         <field name="code"/>
@@ -102,9 +102,9 @@
     </field>
   </record>
   <!-- Search View -->
-  <record id="unicore_academic_year_search_view" model="ir.ui.view">
-    <field name="name">unicore.academic.year.search</field>
-    <field name="model">unicore.academic.year</field>
+  <record id="oacis_academic_year_search_view" model="ir.ui.view">
+    <field name="name">oacis.academic.year.search</field>
+    <field name="model">oacis.academic.year</field>
     <field name="arch" type="xml">
       <search>
         <field name="name"/>

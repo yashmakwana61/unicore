@@ -6,13 +6,13 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UnicoreAcademicUnit(models.Model):
+class OacisAcademicUnit(models.Model):
     """Generic self-referencing academic unit tree.
 
     Replaces the rigid Faculty -> Department -> Program chain for non-university
     institution types. Depth-unlimited and type-configurable:
 
-        unicore.academic.unit
+        oacis.academic.unit
           - name, code
           - unit_type_id  (configurable taxonomy, e.g. faculty | department |
                            grade_level | stream | wing | division | batch_group)
@@ -22,12 +22,12 @@ class UnicoreAcademicUnit(models.Model):
 
     The terminal node that students actually enroll into (program / cohort /
     batch) is a separate concept and attaches to this tree in Phase 1 via
-    unicore.program.academic_unit_id.
+    oacis.program.academic_unit_id.
     """
 
-    _name = 'unicore.academic.unit'
+    _name = 'oacis.academic.unit'
     _description = 'Academic Unit'
-    _inherit = ['unicore.mixin', 'mail.thread']
+    _inherit = ['oacis.mixin', 'mail.thread']
     _order = 'parent_id, sequence, name'
     _check_company_auto = True
     _rec_name = 'display_name'
@@ -47,14 +47,14 @@ class UnicoreAcademicUnit(models.Model):
         help='Short unique code e.g. ENG, G5, WING-M',
     )
     unit_type_id = fields.Many2one(
-        comodel_name='unicore.academic.unit.type',
+        comodel_name='oacis.academic.unit.type',
         string='Unit Type',
         required=True,
         ondelete='restrict',
         tracking=True,
     )
     parent_id = fields.Many2one(
-        comodel_name='unicore.academic.unit',
+        comodel_name='oacis.academic.unit',
         string='Parent Unit',
         ondelete='cascade',
         index=True,
@@ -62,7 +62,7 @@ class UnicoreAcademicUnit(models.Model):
         domain="[('company_id', '=', company_id)]",
     )
     child_ids = fields.One2many(
-        comodel_name='unicore.academic.unit',
+        comodel_name='oacis.academic.unit',
         inverse_name='parent_id',
         string='Child Units',
     )
@@ -85,7 +85,7 @@ class UnicoreAcademicUnit(models.Model):
         default=10,
     )
     allowed_child_type_ids = fields.Many2many(
-        comodel_name='unicore.academic.unit.type',
+        comodel_name='oacis.academic.unit.type',
         related='unit_type_id.allowed_child_type_ids',
         string='Allowed Child Types',
         readonly=True,
@@ -181,7 +181,7 @@ class UnicoreAcademicUnit(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Child Units'),
-            'res_model': 'unicore.academic.unit',
+            'res_model': 'oacis.academic.unit',
             'view_mode': 'list,form,kanban',
             'domain': [('parent_id', '=', self.id)],
             'context': {

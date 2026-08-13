@@ -2,9 +2,9 @@
 <odoo>
 
     <record id="view_hostel_allocation_search_phase1_filters" model="ir.ui.view">
-        <field name="name">unicore.hostel.allocation.search.phase1</field>
-        <field name="model">unicore.hostel.allocation</field>
-        <field name="inherit_id" ref="unicore_hostel.view_unicore_hostel_allocation_search"/>
+        <field name="name">oacis.hostel.allocation.search.phase1</field>
+        <field name="model">oacis.hostel.allocation</field>
+        <field name="inherit_id" ref="oacis_hostel.view_oacis_hostel_allocation_search"/>
         <field name="arch" type="xml">
 
             <xpath expr="//filter[@name='no_deposit']" position="after">
@@ -20,9 +20,9 @@
     </record>
 
     <record id="view_hostel_maintenance_search_phase1_filters" model="ir.ui.view">
-        <field name="name">unicore.hostel.maintenance.search.phase1</field>
-        <field name="model">unicore.hostel.maintenance</field>
-        <field name="inherit_id" ref="unicore_hostel.view_unicore_hostel_maintenance_search"/>
+        <field name="name">oacis.hostel.maintenance.search.phase1</field>
+        <field name="model">oacis.hostel.maintenance</field>
+        <field name="inherit_id" ref="oacis_hostel.view_oacis_hostel_maintenance_search"/>
         <field name="arch" type="xml">
 
             <xpath expr="//filter[@name='resolved']" position="after">

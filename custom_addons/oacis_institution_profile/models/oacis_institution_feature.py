@@ -1,17 +1,17 @@
 from odoo import fields, models
 
 
-class UnicoreInstitutionFeature(models.Model):
+class OacisInstitutionFeature(models.Model):
     """Optional product features/domains an institution profile can toggle.
 
-    Seeded with the optional UniCore modules (hostel, transport, library, alumni,
+    Seeded with the optional Oacis modules (hostel, transport, library, alumni,
     convocation, scholarship, thesis, crm, admission, website, ...). Institution-type
     templates pre-select sensible defaults; an admin can override per profile.
     """
 
-    _name = 'unicore.institution.feature'
+    _name = 'oacis.institution.feature'
     _description = 'Institution Feature'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
     _order = 'sequence, name'
 
     name = fields.Char(

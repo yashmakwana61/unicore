@@ -2,7 +2,7 @@
 <odoo>
     <data noupdate="1">
 
-        <record id="unicore_attendance_policy_theory_default" model="unicore.attendance.policy">
+        <record id="oacis_attendance_policy_theory_default" model="oacis.attendance.policy">
             <field name="name">Standard Theory Attendance Policy</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="policy_scope">global</field>
@@ -13,7 +13,7 @@
             <field name="description">Default policy for all theory-based courses. Minimum 75% attendance required for exam eligibility. Warning issued below 80%.</field>
         </record>
 
-        <record id="unicore_attendance_policy_lab_default" model="unicore.attendance.policy">
+        <record id="oacis_attendance_policy_lab_default" model="oacis.attendance.policy">
             <field name="name">Lab and Practical Attendance Policy</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="policy_scope">course_type</field>
@@ -25,7 +25,7 @@
             <field name="description">Lab and practical sessions require 80% minimum attendance. Stricter than theory due to hands-on skill development requirements.</field>
         </record>
 
-        <record id="unicore_attendance_policy_online_default" model="unicore.attendance.policy">
+        <record id="oacis_attendance_policy_online_default" model="oacis.attendance.policy">
             <field name="name">Online Course Attendance Policy</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="policy_scope">course_type</field>
@@ -37,7 +37,7 @@
             <field name="description">Online courses have a relaxed attendance threshold of 60%. Exam eligibility is not linked to attendance for online courses as engagement is measured differently.</field>
         </record>
 
-        <record id="unicore_attendance_policy_global_default" model="unicore.attendance.policy">
+        <record id="oacis_attendance_policy_global_default" model="oacis.attendance.policy">
             <field name="name">Global Attendance Policy (Fallback)</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="policy_scope">global</field>

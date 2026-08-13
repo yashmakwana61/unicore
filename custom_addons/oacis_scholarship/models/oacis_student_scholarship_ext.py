@@ -1,5 +1,5 @@
 """
-UniCore Student Extension — Scholarship Module
+Oacis Student Extension — Scholarship Module
 Adds scholarship summary to student record.
 """
 
@@ -10,11 +10,11 @@ from odoo import _, fields, models
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreStudentScholarshipExt(models.Model):
-    _inherit = 'unicore.student'
+class OacisStudentScholarshipExt(models.Model):
+    _inherit = 'oacis.student'
 
     scholarship_application_ids = fields.One2many(
-        comodel_name='unicore.scholarship.application',
+        comodel_name='oacis.scholarship.application',
         inverse_name='student_id',
         string='Scholarship Applications',
         readonly=True,
@@ -42,7 +42,7 @@ class UniCoreStudentScholarshipExt(models.Model):
     )
 
     def _compute_scholarship_summary(self):
-        Award = self.env['unicore.scholarship.award']
+        Award = self.env['oacis.scholarship.award']
         for rec in self:
             apps = rec.scholarship_application_ids
             rec.scholarship_count = len(apps)
@@ -64,7 +64,7 @@ class UniCoreStudentScholarshipExt(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Scholarship Applications'),
-            'res_model': 'unicore.scholarship.application',
+            'res_model': 'oacis.scholarship.application',
             'view_mode': 'list,form',
             'domain': [('student_id', '=', self.id)],
             'context': {

@@ -1,5 +1,5 @@
 """
-UniCore Fee Invoice — GL Integration Extension
+Oacis Fee Invoice — GL Integration Extension
 Handles automatic creation and posting of account.move from fee invoices.
 """
 
@@ -7,8 +7,8 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
-class UniCoreFeeInvoiceGLExt(models.Model):
-    _inherit = 'unicore.fee.invoice'
+class OacisFeeInvoiceGLExt(models.Model):
+    _inherit = 'oacis.fee.invoice'
 
     account_move_id = fields.Many2one(
         comodel_name='account.move',
@@ -72,7 +72,7 @@ class UniCoreFeeInvoiceGLExt(models.Model):
 
         # Get accounting config
         try:
-            config = self.env['unicore.fee.accounting.config']._get_active_config(
+            config = self.env['oacis.fee.accounting.config']._get_active_config(
                 company_id=self.company_id.id,
             )
         except UserError as e:

@@ -1,1 +1,1 @@
-from . import unicore_gradebook_report
+from . import oacis_gradebook_report

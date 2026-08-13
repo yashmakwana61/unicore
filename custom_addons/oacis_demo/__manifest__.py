@@ -1,12 +1,12 @@
 {
-    'name': 'UniCore Demo Data',
+    'name': 'Oacis Demo Data',
     'version': '19.0.1.0.0',
     'category': 'Education',
-    'summary': 'Realistic demo data for UniCore ERP '
+    'summary': 'Realistic demo data for Oacis ERP '
                '— PreciseFect University',
     'description': """
         Injects complete demo data into a fresh
-        UniCore installation.
+        Oacis installation.
 
         Includes:
         - PreciseFect University company setup
@@ -31,7 +31,7 @@
         - Transport vehicles, routes and passes
         - Notification templates
 
-        Covers ALL unicore custom addon modules.
+        Covers ALL oacis custom addon modules.
         Uses search-or-create patterns.
         Re-runnable via module upgrade.
     """,
@@ -39,30 +39,30 @@
     'website': 'https://precisefect.com',
     'license': 'OPL-1',
     'depends': [
-        'unicore_base',
-        'unicore_security',
-        'unicore_campus',
-        'unicore_academic',
-        'unicore_calendar',
-        'unicore_student',
-        'unicore_faculty_profile',
-        'unicore_guardian',
-        'unicore_curriculum',
-        'unicore_timetable',
-        'unicore_attendance',
-        'unicore_exam',
-        'unicore_grading',
-        'unicore_fees',
-        'unicore_scholarship',
-        'unicore_admission',
-        'unicore_documents',
-        'unicore_hostel',
-        'unicore_library',
-        'unicore_transport',
-        'unicore_notify',
-        'unicore_assignment',
-        'unicore_api',
-        'unicore_analytics',
+        'oacis_base',
+        'oacis_security',
+        'oacis_campus',
+        'oacis_academic',
+        'oacis_calendar',
+        'oacis_student',
+        'oacis_faculty_profile',
+        'oacis_guardian',
+        'oacis_curriculum',
+        'oacis_timetable',
+        'oacis_attendance',
+        'oacis_exam',
+        'oacis_grading',
+        'oacis_fees',
+        'oacis_scholarship',
+        'oacis_admission',
+        'oacis_documents',
+        'oacis_hostel',
+        'oacis_library',
+        'oacis_transport',
+        'oacis_notify',
+        'oacis_assignment',
+        'oacis_api',
+        'oacis_analytics',
     ],
     'data': [
         'data/00_company_setup.xml',

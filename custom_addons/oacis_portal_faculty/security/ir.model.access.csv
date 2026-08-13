@@ -1,10 +1,10 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_unicore_faculty_member_portal,Faculty Member Portal,unicore_faculty_profile.model_unicore_faculty_member,base.group_portal,1,0,0,0
-access_unicore_course_offering_portal_fac,Course Offering Portal Faculty,unicore_curriculum.model_unicore_course_offering,base.group_portal,1,0,0,0
-access_unicore_timetable_entry_portal_fac,Timetable Entry Portal Faculty,unicore_timetable.model_unicore_timetable_entry,base.group_portal,1,0,0,0
-access_unicore_att_session_portal_fac,Attendance Session Portal Faculty,unicore_attendance.model_unicore_attendance_session,base.group_portal,1,1,1,0
-access_unicore_att_record_portal_fac,Attendance Record Portal Faculty,unicore_attendance.model_unicore_attendance_record,base.group_portal,1,1,1,0
-access_unicore_grade_entry_portal_fac,Grade Entry Portal Faculty,unicore_grading.model_unicore_grade_entry,base.group_portal,1,1,1,0
-access_unicore_exam_schedule_portal_fac,Exam Schedule Portal Faculty,unicore_exam.model_unicore_exam_schedule,base.group_portal,1,0,0,0
-access_unicore_faculty_workload_portal,Faculty Workload Portal,unicore_faculty_profile.model_unicore_faculty_workload,base.group_portal,1,0,0,0
-access_unicore_faculty_qual_portal,Faculty Qualification Portal,unicore_faculty_profile.model_unicore_faculty_qualification,base.group_portal,1,0,0,0
+access_oacis_faculty_member_portal,Faculty Member Portal,oacis_faculty_profile.model_oacis_faculty_member,base.group_portal,1,0,0,0
+access_oacis_course_offering_portal_fac,Course Offering Portal Faculty,oacis_curriculum.model_oacis_course_offering,base.group_portal,1,0,0,0
+access_oacis_timetable_entry_portal_fac,Timetable Entry Portal Faculty,oacis_timetable.model_oacis_timetable_entry,base.group_portal,1,0,0,0
+access_oacis_att_session_portal_fac,Attendance Session Portal Faculty,oacis_attendance.model_oacis_attendance_session,base.group_portal,1,1,1,0
+access_oacis_att_record_portal_fac,Attendance Record Portal Faculty,oacis_attendance.model_oacis_attendance_record,base.group_portal,1,1,1,0
+access_oacis_grade_entry_portal_fac,Grade Entry Portal Faculty,oacis_grading.model_oacis_grade_entry,base.group_portal,1,1,1,0
+access_oacis_exam_schedule_portal_fac,Exam Schedule Portal Faculty,oacis_exam.model_oacis_exam_schedule,base.group_portal,1,0,0,0
+access_oacis_faculty_workload_portal,Faculty Workload Portal,oacis_faculty_profile.model_oacis_faculty_workload,base.group_portal,1,0,0,0
+access_oacis_faculty_qual_portal,Faculty Qualification Portal,oacis_faculty_profile.model_oacis_faculty_qualification,base.group_portal,1,0,0,0

@@ -1,17 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <!-- Window Action -->
-  <record id="action_unicore_faculty" model="ir.actions.act_window">
+  <record id="action_oacis_faculty" model="ir.actions.act_window">
     <field name="name">Faculties</field>
-    <field name="res_model">unicore.faculty</field>
+    <field name="res_model">oacis.faculty</field>
     <field name="view_mode">kanban,list,form</field>
     <field name="domain">[]</field>
     <field name="context">{}</field>
   </record>
   <!-- Form View -->
-  <record id="unicore_faculty_form_view" model="ir.ui.view">
-    <field name="name">unicore.faculty.form</field>
-    <field name="model">unicore.faculty</field>
+  <record id="oacis_faculty_form_view" model="ir.ui.view">
+    <field name="name">oacis.faculty.form</field>
+    <field name="model">oacis.faculty</field>
     <field name="arch" type="xml">
       <form>
         <header>
@@ -19,7 +19,7 @@
           <button name="action_set_operational" type="object" string="Set Operational" class="btn-primary" invisible="faculty_state != 'draft'"/>
           <button name="action_suspend" type="object" string="Suspend" invisible="faculty_state != 'active'"/>
           <button name="action_close" type="object" string="Close" invisible="faculty_state not in ('active', 'suspended')"/>
-          <button name="action_reset_draft" type="object" string="Reset to Draft" groups="unicore_base.group_unicore_admin" invisible="faculty_state not in ('suspended', 'closed')"/>
+          <button name="action_reset_draft" type="object" string="Reset to Draft" groups="oacis_base.group_oacis_admin" invisible="faculty_state not in ('suspended', 'closed')"/>
         </header>
         <sheet>
           <div class="oe_button_box" name="button_box">
@@ -67,9 +67,9 @@
     </field>
   </record>
   <!-- List View -->
-  <record id="unicore_faculty_list_view" model="ir.ui.view">
-    <field name="name">unicore.faculty.list</field>
-    <field name="model">unicore.faculty</field>
+  <record id="oacis_faculty_list_view" model="ir.ui.view">
+    <field name="name">oacis.faculty.list</field>
+    <field name="model">oacis.faculty</field>
     <field name="arch" type="xml">
       <list>
         <field name="code"/>
@@ -83,9 +83,9 @@
     </field>
   </record>
   <!-- Search View -->
-  <record id="unicore_faculty_search_view" model="ir.ui.view">
-    <field name="name">unicore.faculty.search</field>
-    <field name="model">unicore.faculty</field>
+  <record id="oacis_faculty_search_view" model="ir.ui.view">
+    <field name="name">oacis.faculty.search</field>
+    <field name="model">oacis.faculty</field>
     <field name="arch" type="xml">
       <search>
         <field name="name"/>
@@ -102,9 +102,9 @@
     </field>
   </record>
   <!-- Kanban View -->
-  <record id="unicore_faculty_kanban_view" model="ir.ui.view">
-    <field name="name">unicore.faculty.kanban</field>
-    <field name="model">unicore.faculty</field>
+  <record id="oacis_faculty_kanban_view" model="ir.ui.view">
+    <field name="name">oacis.faculty.kanban</field>
+    <field name="model">oacis.faculty</field>
     <field name="arch" type="xml">
       <kanban class="o_kanban_mobile" highlight_color="color">
         <field name="code"/>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
-        <record id="seq_unicore_guardian" model="ir.sequence">
-            <field name="name">UniCore Guardian ID</field>
-            <field name="code">unicore.guardian</field>
+        <record id="seq_oacis_guardian" model="ir.sequence">
+            <field name="name">Oacis Guardian ID</field>
+            <field name="code">oacis.guardian</field>
             <field name="prefix">GRD/%(year)s/</field>
             <field name="padding">4</field>
             <field name="number_next">1</field>

@@ -1,1 +1,1 @@
-from . import unicore_asset, unicore_asset_request
+from . import oacis_asset, oacis_asset_request

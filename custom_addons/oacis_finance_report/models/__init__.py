@@ -1,2 +1,2 @@
-"""UniCore Finance Report — Models Package"""
-from . import unicore_finance_kpi, unicore_finance_snapshot
+"""Oacis Finance Report — Models Package"""
+from . import oacis_finance_kpi, oacis_finance_snapshot

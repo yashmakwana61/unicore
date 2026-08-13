@@ -1,5 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_unicore_notice_admin,access.unicore.notice.admin,model_unicore_notice,unicore_base.group_unicore_admin,1,1,1,1
-access_unicore_notice_manager,access.unicore.notice.manager,model_unicore_notice,unicore_base.group_unicore_manager,1,1,1,1
-access_unicore_notice_registrar,access.unicore.notice.registrar,model_unicore_notice,unicore_base.group_unicore_registrar,1,1,1,1
-access_unicore_notice_staff,access.unicore.notice.staff,model_unicore_notice,unicore_base.group_unicore_staff,1,0,0,0
+access_oacis_notice_admin,access.oacis.notice.admin,model_oacis_notice,oacis_base.group_oacis_admin,1,1,1,1
+access_oacis_notice_manager,access.oacis.notice.manager,model_oacis_notice,oacis_base.group_oacis_manager,1,1,1,1
+access_oacis_notice_registrar,access.oacis.notice.registrar,model_oacis_notice,oacis_base.group_oacis_registrar,1,1,1,1
+access_oacis_notice_staff,access.oacis.notice.staff,model_oacis_notice,oacis_base.group_oacis_staff,1,0,0,0

@@ -8,16 +8,16 @@ import { user } from "@web/core/user";
 import { session } from "@web/session";
 import { NavBar } from "@web/webclient/navbar/navbar";
 
-const TOGGLE_EVENT = "UNICORE_TOGGLE_START_MENU";
-const CLOSE_EVENT = "UNICORE_CLOSE_START_MENU";
+const TOGGLE_EVENT = "OACIS_TOGGLE_START_MENU";
+const CLOSE_EVENT = "OACIS_CLOSE_START_MENU";
 
 /**
  * Redesigned Start Menu with Apps grid, Workspace list, context menus,
  * search bar, and fullscreen toggle. Matches the design mockups with a
  * floating panel layout and two main tabs (Apps / Workspace).
  */
-export class UnicoreStartMenu extends Component {
-    static template = "unicore_design.StartMenu";
+export class OacisStartMenu extends Component {
+    static template = "oacis_design.StartMenu";
     static props = {};
 
     setup() {
@@ -32,7 +32,7 @@ export class UnicoreStartMenu extends Component {
             activeTab: "apps",       // "apps" | "workspace"
             appFilter: "all",     // "pinned" | "all"
             search: "",
-            pinned: [...(session.unicore_theme_pinned_apps || [])],
+            pinned: [...(session.oacis_theme_pinned_apps || [])],
             fullscreen: true,
             // Context menu state
             contextMenu: {
@@ -49,7 +49,7 @@ export class UnicoreStartMenu extends Component {
         });
 
         // Load workspace data from session
-        const wsData = session.unicore_workspace_data || {};
+        const wsData = session.oacis_workspace_data || {};
         this.state.workspaceItems = wsData.workspace_items || [];
         this.state.recentMenus = wsData.recents || [];
 
@@ -89,7 +89,7 @@ export class UnicoreStartMenu extends Component {
     }
 
     _onGlobalClick(ev) {
-        if (this.state.contextMenu.visible && !ev.target.closest(".o_unicore_ctx_menu")) {
+        if (this.state.contextMenu.visible && !ev.target.closest(".o_oacis_ctx_menu")) {
             this._closeContextMenu();
         }
     }
@@ -313,7 +313,7 @@ export class UnicoreStartMenu extends Component {
 
     _showContextMenu(ev, type, target, targetIndex = -1) {
         // Compute position within the start menu panel
-        const rect = ev.currentTarget?.closest?.(".o_unicore_start_panel")?.getBoundingClientRect();
+        const rect = ev.currentTarget?.closest?.(".o_oacis_start_panel")?.getBoundingClientRect();
         const x = rect ? ev.clientX - rect.left : ev.clientX;
         const y = rect ? ev.clientY - rect.top : ev.clientY;
         this.state.contextMenu = {
@@ -424,12 +424,12 @@ export class UnicoreStartMenu extends Component {
     }
 }
 
-registry.category("main_components").add("UnicoreStartMenu", {
-    Component: UnicoreStartMenu,
+registry.category("main_components").add("OacisStartMenu", {
+    Component: OacisStartMenu,
 });
 
 patch(NavBar.prototype, {
-    _toggleUnicoreStartMenu() {
+    _toggleOacisStartMenu() {
         this.env.bus.trigger(TOGGLE_EVENT);
     },
 });

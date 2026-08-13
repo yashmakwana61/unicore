@@ -4,8 +4,8 @@ import odoo
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'alumni')
-class UniCoreAlumniTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'alumni')
+class OacisAlumniTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
@@ -14,18 +14,18 @@ class UniCoreAlumniTest(TransactionCase):
         cls.company = cls.env.company
         cls.currency = cls.company.currency_id
 
-        cls.faculty = cls.env['unicore.faculty'].create({
+        cls.faculty = cls.env['oacis.faculty'].create({
             'name': 'Test Faculty of Alumni',
             'code': 'TFA',
             'company_id': cls.company.id,
         })
-        cls.department = cls.env['unicore.department'].create({
+        cls.department = cls.env['oacis.department'].create({
             'name': 'Test Alumni Office',
             'code': 'TALM',
             'faculty_id': cls.faculty.id,
             'company_id': cls.company.id,
         })
-        cls.program = cls.env['unicore.program'].create({
+        cls.program = cls.env['oacis.program'].create({
             'name': 'Test B.A. Alumni',
             'code': 'TEST-BA-ALUM',
             'program_type': 'undergraduate',
@@ -36,12 +36,12 @@ class UniCoreAlumniTest(TransactionCase):
             'department_id': cls.department.id,
             'company_id': cls.company.id,
         })
-        cls.campus = cls.env['unicore.campus'].create({
+        cls.campus = cls.env['oacis.campus'].create({
             'name': 'Test Alumni Campus',
             'code': 'TALCAMP',
             'company_id': cls.company.id,
         })
-        cls.academic_year = cls.env['unicore.academic.year'].create({
+        cls.academic_year = cls.env['oacis.academic.year'].create({
             'name': 'Test AY 2024-25',
             'code': 'TAY2425',
             'date_start': '2024-07-01',
@@ -50,7 +50,7 @@ class UniCoreAlumniTest(TransactionCase):
             'is_current': False,
             'company_id': cls.company.id,
         })
-        cls.semester = cls.env['unicore.semester'].create({
+        cls.semester = cls.env['oacis.semester'].create({
             'name': 'Test ODD 2024-25',
             'code': 'TODD-2425',
             'semester_type': 'odd',
@@ -60,7 +60,7 @@ class UniCoreAlumniTest(TransactionCase):
             'semester_state': 'ongoing',
             'company_id': cls.company.id,
         })
-        cls.student = cls.env['unicore.student'].create({
+        cls.student = cls.env['oacis.student'].create({
             'name': 'John Alumni',
             'last_name': 'Doe',
             'gender': 'male',
@@ -79,7 +79,7 @@ class UniCoreAlumniTest(TransactionCase):
     def test_01_alumni_mailing_list_contact(self):
         """Alumni student should be linked to the alumni mailing list."""
         mailing_list = self.env.ref(
-            'unicore_alumni.mass_mailing_list_alumni')
+            'oacis_alumni.mass_mailing_list_alumni')
         self.student.alumni_mailing_list_ids = [
             (4, mailing_list.id)]
         self.assertIn(
@@ -88,8 +88,8 @@ class UniCoreAlumniTest(TransactionCase):
     def test_02_mailing_list_alumni_flag(self):
         """The alumni mailing list should have the alumni flag set."""
         mailing_list = self.env.ref(
-            'unicore_alumni.mass_mailing_list_alumni')
-        self.assertTrue(mailing_list.unicore_alumni_list)
+            'oacis_alumni.mass_mailing_list_alumni')
+        self.assertTrue(mailing_list.oacis_alumni_list)
 
     # -------------------- EVENT REGISTRATION --------------------
 
@@ -99,7 +99,7 @@ class UniCoreAlumniTest(TransactionCase):
             'name': 'Test Alumni Reunion',
             'date_begin': date.today(),
             'date_end': date.today(),
-            'unicore_alumni_event': True,
+            'oacis_alumni_event': True,
             'company_id': self.company.id,
         })
         self.student.alumni_event_ids = [(4, event.id)]
@@ -111,17 +111,17 @@ class UniCoreAlumniTest(TransactionCase):
             'name': 'Test Alumni Event Flag',
             'date_begin': date.today(),
             'date_end': date.today(),
-            'unicore_alumni_event': True,
+            'oacis_alumni_event': True,
             'company_id': self.company.id,
         })
-        self.assertTrue(event.unicore_alumni_event)
+        self.assertTrue(event.oacis_alumni_event)
 
     # -------------------- SMART BUTTONS --------------------
 
     def test_05_view_mailing_lists_action(self):
         """Smart button action opens mailing lists."""
         mailing_list = self.env.ref(
-            'unicore_alumni.mass_mailing_list_alumni')
+            'oacis_alumni.mass_mailing_list_alumni')
         self.student.alumni_mailing_list_ids = [
             (4, mailing_list.id)]
         action = self.student.action_view_alumni_mailing_lists()
@@ -134,7 +134,7 @@ class UniCoreAlumniTest(TransactionCase):
             'name': 'Test Alumni Event Action',
             'date_begin': date.today(),
             'date_end': date.today(),
-            'unicore_alumni_event': True,
+            'oacis_alumni_event': True,
             'company_id': self.company.id,
         })
         self.student.alumni_event_ids = [(4, event.id)]
@@ -150,7 +150,7 @@ class UniCoreAlumniTest(TransactionCase):
             'name': 'Test Alumni Count Event',
             'date_begin': date.today(),
             'date_end': date.today(),
-            'unicore_alumni_event': True,
+            'oacis_alumni_event': True,
             'company_id': self.company.id,
         })
         self.student.alumni_event_ids = [(4, event.id)]

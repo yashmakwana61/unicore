@@ -1,5 +1,5 @@
 """
-UniCore Fee Invoice — GL Migration & Batch Processing
+Oacis Fee Invoice — GL Migration & Batch Processing
 Handles one-time migration of existing invoices and continuous processing.
 """
 
@@ -11,8 +11,8 @@ from odoo.exceptions import UserError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreFeeInvoiceMigration(models.Model):
-    _inherit = 'unicore.fee.invoice'
+class OacisFeeInvoiceMigration(models.Model):
+    _inherit = 'oacis.fee.invoice'
 
     gl_migrated = fields.Boolean(
         string='GL Migrated',
@@ -122,8 +122,8 @@ class UniCoreFeeInvoiceMigration(models.Model):
         return 0
 
 
-class UniCoreFeeInvoiceBatchWizard(models.TransientModel):
-    _name = 'unicore.fee.invoice.batch.wizard'
+class OacisFeeInvoiceBatchWizard(models.TransientModel):
+    _name = 'oacis.fee.invoice.batch.wizard'
     _description = 'Fee Invoice GL Batch Migration Wizard'
 
     migration_type = fields.Selection(
@@ -160,7 +160,7 @@ class UniCoreFeeInvoiceBatchWizard(models.TransientModel):
         """Execute batch migration."""
         self.ensure_one()
 
-        Invoice = self.env['unicore.fee.invoice']
+        Invoice = self.env['oacis.fee.invoice']
 
         # Build query based on migration type
         if self.migration_type == 'all':
@@ -244,7 +244,7 @@ class UniCoreFeeInvoiceBatchWizard(models.TransientModel):
 
     def _action_reconcile_payments(self):
         """Reconcile pending payments."""
-        Payment = self.env['unicore.fee.payment']
+        Payment = self.env['oacis.fee.payment']
 
         pending_payments = Payment.search([
             ('payment_state', '=', 'confirmed'),

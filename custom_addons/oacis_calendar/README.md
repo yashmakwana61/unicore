@@ -1,7 +1,7 @@
-UniCore Academic Calendar
+Oacis Academic Calendar
 =========================
 
-Manages the complete academic time structure for UniCore ERP.
+Manages the complete academic time structure for Oacis ERP.
 
 Time Hierarchy
 --------------
@@ -12,10 +12,10 @@ Academic Year
 
 Model Details
 -------------
-- unicore.academic.year: Annual academic calendar with semester/trimester structure
-- unicore.semester: Individual semester/term with key academic dates
-- unicore.academic.week: Weekly breakdown within a semester
-- unicore.holiday: Holiday and event tracking within academic years
+- oacis.academic.year: Annual academic calendar with semester/trimester structure
+- oacis.semester: Individual semester/term with key academic dates
+- oacis.academic.week: Weekly breakdown within a semester
+- oacis.holiday: Holiday and event tracking within academic years
 
 State Workflows
 ---------------
@@ -37,10 +37,10 @@ Key Features
 
 Dependencies
 ------------
-- unicore_base: Base models, security groups, mixins
-- unicore_security: Record rules and data isolation
-- unicore_campus: Campus model for multi-campus calendar
-- unicore_academic: Program model for semester-program linkage
+- oacis_base: Base models, security groups, mixins
+- oacis_security: Record rules and data isolation
+- oacis_campus: Campus model for multi-campus calendar
+- oacis_academic: Program model for semester-program linkage
 
 Author: Precisefect Solutions Pvt. Ltd.
 Website: https://precisefect.com

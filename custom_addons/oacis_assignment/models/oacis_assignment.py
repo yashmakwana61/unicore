@@ -1,5 +1,5 @@
 """
-UniCore Assignment Model
+Oacis Assignment Model
 Faculty create assignments against a specific course offering.
 Each assignment carries a title, description, type, maximum
 marks, due date and an optional reusable rubric. Published
@@ -16,10 +16,10 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreAssignment(models.Model):
-    _name = 'unicore.assignment'
+class OacisAssignment(models.Model):
+    _name = 'oacis.assignment'
     _description = 'Course Assignment'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'due_date desc, id desc'
     _check_company_auto = True
     _rec_name = 'title'
@@ -103,7 +103,7 @@ class UniCoreAssignment(models.Model):
     # ------- RUBRIC -------
 
     rubric_id = fields.Many2one(
-        comodel_name='unicore.assignment.rubric',
+        comodel_name='oacis.assignment.rubric',
         string='Rubric',
         ondelete='set null',
         index=True,
@@ -115,7 +115,7 @@ class UniCoreAssignment(models.Model):
     # ------- OFFERING / COURSE -------
 
     course_offering_id = fields.Many2one(
-        comodel_name='unicore.course.offering',
+        comodel_name='oacis.course.offering',
         string='Course Offering',
         required=True,
         ondelete='restrict',
@@ -125,21 +125,21 @@ class UniCoreAssignment(models.Model):
                "('offering_state', 'in', ['open','ongoing'])]",
     )
     course_id = fields.Many2one(
-        comodel_name='unicore.course',
+        comodel_name='oacis.course',
         string='Course',
         related='course_offering_id.course_id',
         store=True,
         readonly=True,
     )
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         related='course_offering_id.semester_id',
         store=True,
         readonly=True,
     )
     faculty_member_id = fields.Many2one(
-        comodel_name='unicore.faculty.member',
+        comodel_name='oacis.faculty.member',
         string='Instructor',
         related='course_offering_id.faculty_member_id',
         store=True,
@@ -154,7 +154,7 @@ class UniCoreAssignment(models.Model):
         readonly=True,
     )
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus',
+        comodel_name='oacis.campus',
         string='Campus',
         related='course_offering_id.campus_id',
         store=True,
@@ -165,7 +165,7 @@ class UniCoreAssignment(models.Model):
 
     attachment_ids = fields.Many2many(
         comodel_name='ir.attachment',
-        relation='unicore_assignment_attachment_rel',
+        relation='oacis_assignment_attachment_rel',
         column1='assignment_id',
         column2='attachment_id',
         string='Assignment Files',
@@ -195,7 +195,7 @@ class UniCoreAssignment(models.Model):
     # ------- SUBMISSIONS -------
 
     submission_ids = fields.One2many(
-        comodel_name='unicore.assignment.submission',
+        comodel_name='oacis.assignment.submission',
         inverse_name='assignment_id',
         string='Submissions',
     )
@@ -253,7 +253,7 @@ class UniCoreAssignment(models.Model):
 
     @api.depends('submission_ids.state')
     def _compute_submission_stats(self):
-        Submission = self.env['unicore.assignment.submission']
+        Submission = self.env['oacis.assignment.submission']
         for rec in self:
             subs = rec.submission_ids
             submitted = subs.filtered(
@@ -281,7 +281,7 @@ class UniCoreAssignment(models.Model):
 
     @api.depends('course_offering_id')
     def _compute_enrolled_count(self):
-        Enrollment = self.env['unicore.enrollment']
+        Enrollment = self.env['oacis.enrollment']
         for rec in self:
             if rec.course_offering_id:
                 rec.enrolled_count = Enrollment.search_count([
@@ -322,7 +322,7 @@ class UniCoreAssignment(models.Model):
             if not vals.get('name'):
                 vals['name'] = self.env[
                     'ir.sequence'
-                ].next_by_code('unicore.assignment')
+                ].next_by_code('oacis.assignment')
         return super().create(vals_list)
 
     # ------- STATE TRANSITIONS -------
@@ -353,8 +353,8 @@ class UniCoreAssignment(models.Model):
         """Send notifications to all enrolled students."""
         if not self.course_offering_id:
             return
-        Engine = self.env['unicore.notification.engine']
-        Enrollment = self.env['unicore.enrollment']
+        Engine = self.env['oacis.notification.engine']
+        Enrollment = self.env['oacis.enrollment']
         enrollments = Enrollment.search([
             ('course_offering_id', '=', self.course_offering_id.id),
             ('enrollment_state', '=', 'registered'),
@@ -392,7 +392,7 @@ class UniCoreAssignment(models.Model):
         if not self.faculty_member_id:
             return
         try:
-            Engine = self.env['unicore.notification.engine']
+            Engine = self.env['oacis.notification.engine']
             engine = Engine
             student = submission.student_id
             engine.send_to_faculty(
@@ -425,7 +425,7 @@ class UniCoreAssignment(models.Model):
         return {
             'name': _('Submissions'),
             'type': 'ir.actions.act_window',
-            'res_model': 'unicore.assignment.submission',
+            'res_model': 'oacis.assignment.submission',
             'view_mode': 'list,form',
             'domain': [('assignment_id', '=', self.id)],
             'context': {

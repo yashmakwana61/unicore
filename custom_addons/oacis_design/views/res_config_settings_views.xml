@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="res_config_settings_view_form" model="ir.ui.view">
-        <field name="name">res.config.settings.view.form.inherit.unicore_design</field>
+        <field name="name">res.config.settings.view.form.inherit.oacis_design</field>
         <field name="model">res.config.settings</field>
         <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//app[@name='general_settings']" position="inside">
-                <block title="UniCore Theme" string="UniCore Theme" name="unicore_theme_setting_container">
+                <block title="Oacis Theme" string="Oacis Theme" name="oacis_theme_setting_container">
                     <setting id="theme_font_family_setting" string="Font Family" help="Select default font family for the backend interface.">
                         <field name="theme_font_family"/>
                     </setting>

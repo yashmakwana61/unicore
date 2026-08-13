@@ -5,7 +5,7 @@ Verifies ``res.company.has_feature`` / ``enabled_feature_codes`` and the
 profile lacks a feature loses that module's menus; UNI_LEGACY (all 13
 features) and no-profile (legacy) hide nothing.
 
-The menu-gating test uses a synthetic menu wired to the ``unicore_hostel``
+The menu-gating test uses a synthetic menu wired to the ``oacis_hostel``
 module via ``ir.model.data`` so it stays self-contained (feature modules are
 not install dependencies of this module's isolated test run).
 """
@@ -14,17 +14,17 @@ import odoo
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'unit')
-class UniCoreFeatureGatingTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'unit')
+class OacisFeatureGatingTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.company = cls.env.company
         cls.profile_legacy = cls.env.ref(
-            'unicore_institution_profile.profile_university_legacy')
+            'oacis_institution_profile.profile_university_legacy')
         cls.profile_school = cls.env.ref(
-            'unicore_institution_profile.profile_school_k12')
+            'oacis_institution_profile.profile_school_k12')
 
     def test_01_has_feature_helper(self):
         """has_feature reflects the profile's toggles (legacy = all)."""
@@ -66,7 +66,7 @@ class UniCoreFeatureGatingTest(TransactionCase):
             'action': 'ir.actions.act_window,%d' % action.id,
         })
         self.env['ir.model.data'].create({
-            'module': 'unicore_hostel',
+            'module': 'oacis_hostel',
             'name': 'menu_hostel_test',
             'model': 'ir.ui.menu',
             'res_id': menu.id,

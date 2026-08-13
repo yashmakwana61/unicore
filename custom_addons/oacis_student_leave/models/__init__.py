@@ -1,1 +1,1 @@
-from . import unicore_notification_template_ext, unicore_student_leave_request
+from . import oacis_notification_template_ext, oacis_student_leave_request

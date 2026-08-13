@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <data noupdate="1">
-    <record id="rule_unicore_transport_vehicle_company" model="ir.rule">
+    <record id="rule_oacis_transport_vehicle_company" model="ir.rule">
       <field name="name">Transport Vehicle: Company Isolation</field>
-      <field name="model_id" ref="unicore_transport.model_unicore_transport_vehicle"/>
+      <field name="model_id" ref="oacis_transport.model_oacis_transport_vehicle"/>
       <field name="domain_force">['|',('company_id','=',False),
              ('company_id','in',company_ids)]</field>
       <field name="groups" eval="[(4,ref('base.group_user'))]"/>
@@ -12,9 +12,9 @@
       <field name="perm_create" eval="True"/>
       <field name="perm_unlink" eval="True"/>
     </record>
-    <record id="rule_unicore_transport_route_company" model="ir.rule">
+    <record id="rule_oacis_transport_route_company" model="ir.rule">
       <field name="name">Transport Route: Company Isolation</field>
-      <field name="model_id" ref="unicore_transport.model_unicore_transport_route"/>
+      <field name="model_id" ref="oacis_transport.model_oacis_transport_route"/>
       <field name="domain_force">['|',('company_id','=',False),
              ('company_id','in',company_ids)]</field>
       <field name="groups" eval="[(4,ref('base.group_user'))]"/>
@@ -23,9 +23,9 @@
       <field name="perm_create" eval="True"/>
       <field name="perm_unlink" eval="True"/>
     </record>
-    <record id="rule_unicore_transport_pass_company" model="ir.rule">
+    <record id="rule_oacis_transport_pass_company" model="ir.rule">
       <field name="name">Transport Pass: Company Isolation</field>
-      <field name="model_id" ref="unicore_transport.model_unicore_transport_pass"/>
+      <field name="model_id" ref="oacis_transport.model_oacis_transport_pass"/>
       <field name="domain_force">['|',('company_id','=',False),
              ('company_id','in',company_ids)]</field>
       <field name="groups" eval="[(4,ref('base.group_user'))]"/>
@@ -34,20 +34,20 @@
       <field name="perm_create" eval="True"/>
       <field name="perm_unlink" eval="True"/>
     </record>
-    <record id="rule_unicore_transport_pass_student" model="ir.rule">
+    <record id="rule_oacis_transport_pass_student" model="ir.rule">
       <field name="name">Transport Pass: Student Own Pass</field>
-      <field name="model_id" ref="unicore_transport.model_unicore_transport_pass"/>
+      <field name="model_id" ref="oacis_transport.model_oacis_transport_pass"/>
       <field name="domain_force">[('student_id.partner_id.user_ids',
           'in', [user.id])]</field>
-      <field name="groups" eval="[(4,ref('unicore_base.group_unicore_student'))]"/>
+      <field name="groups" eval="[(4,ref('oacis_base.group_oacis_student'))]"/>
       <field name="perm_read" eval="True"/>
       <field name="perm_write" eval="False"/>
       <field name="perm_create" eval="False"/>
       <field name="perm_unlink" eval="False"/>
     </record>
-    <record id="rule_unicore_transport_trip_company" model="ir.rule">
+    <record id="rule_oacis_transport_trip_company" model="ir.rule">
       <field name="name">Transport Trip: Company Isolation</field>
-      <field name="model_id" ref="unicore_transport.model_unicore_transport_trip"/>
+      <field name="model_id" ref="oacis_transport.model_oacis_transport_trip"/>
       <field name="domain_force">['|',('company_id','=',False),
              ('company_id','in',company_ids)]</field>
       <field name="groups" eval="[(4,ref('base.group_user'))]"/>
@@ -56,9 +56,9 @@
       <field name="perm_create" eval="True"/>
       <field name="perm_unlink" eval="True"/>
     </record>
-    <record id="rule_unicore_transport_stop_company" model="ir.rule">
+    <record id="rule_oacis_transport_stop_company" model="ir.rule">
       <field name="name">Transport Stop: Company Isolation</field>
-      <field name="model_id" ref="unicore_transport.model_unicore_transport_stop"/>
+      <field name="model_id" ref="oacis_transport.model_oacis_transport_stop"/>
       <field name="domain_force">['|',('company_id','=',False),
              ('company_id','in',company_ids)]</field>
       <field name="groups" eval="[(4,ref('base.group_user'))]"/>
@@ -67,11 +67,11 @@
       <field name="perm_create" eval="True"/>
       <field name="perm_unlink" eval="True"/>
     </record>
-    <record id="rule_unicore_transport_stop_admin" model="ir.rule">
+    <record id="rule_oacis_transport_stop_admin" model="ir.rule">
       <field name="name">Transport Stop: Admin Bypass</field>
-      <field name="model_id" ref="unicore_transport.model_unicore_transport_stop"/>
+      <field name="model_id" ref="oacis_transport.model_oacis_transport_stop"/>
       <field name="domain_force">[(1,'=',1)]</field>
-      <field name="groups" eval="[(4,ref('unicore_base.group_unicore_admin'))]"/>
+      <field name="groups" eval="[(4,ref('oacis_base.group_oacis_admin'))]"/>
       <field name="perm_read" eval="True"/>
       <field name="perm_write" eval="True"/>
       <field name="perm_create" eval="True"/>

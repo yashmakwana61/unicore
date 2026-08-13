@@ -7,9 +7,9 @@ _logger = logging.getLogger(__name__)
 
 
 class StaffMember(models.Model):
-    _name = 'unicore.staff.member'
+    _name = 'oacis.staff.member'
     _description = 'Administrative Staff Member'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'employee_id_number, name'
     _check_company_auto = True
     _rec_name = 'display_name'
@@ -53,13 +53,13 @@ class StaffMember(models.Model):
         tracking=True,
     )
     campus_id = fields.Many2one(
-        'unicore.campus',
+        'oacis.campus',
         string='Campus',
         required=True,
         domain="[('company_id', '=', company_id)]",
         tracking=True,
     )
-    department_id = fields.Many2one('unicore.department', string='Department', tracking=True)
+    department_id = fields.Many2one('oacis.department', string='Department', tracking=True)
     staff_role = fields.Selection([
         ('registrar', 'Registrar'),
         ('admin_officer', 'Admin Officer'),
@@ -88,10 +88,10 @@ class StaffMember(models.Model):
         tracking=True,
     )
     contract_end_date = fields.Date(string='Contract End Date')
-    unicore_group_id = fields.Many2one(
+    oacis_group_id = fields.Many2one(
         'res.groups',
-        string='UniCore Access Group',
-        help='UniCore security group assigned to this staff member',
+        string='Oacis Access Group',
+        help='Oacis security group assigned to this staff member',
     )
 
     # === STATUS ===
@@ -130,7 +130,7 @@ class StaffMember(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if not vals.get('employee_id_number'):
-                vals['employee_id_number'] = self.env['ir.sequence'].next_by_code('unicore.staff.member')
+                vals['employee_id_number'] = self.env['ir.sequence'].next_by_code('oacis.staff.member')
         records = super().create(vals_list)
         for record in records:
             try:

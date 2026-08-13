@@ -4,8 +4,8 @@ from odoo import _, api, fields, models
 class EventEventConvocationExt(models.Model):
     _inherit = 'event.event'
 
-    unicore_convocation_event = fields.Boolean(
-        string='UniCore Convocation Event',
+    oacis_convocation_event = fields.Boolean(
+        string='Oacis Convocation Event',
         help='Mark this event as a convocation ceremony.')
     convocation_registration_count = fields.Integer(
         string='Convocation Registrations',
@@ -24,7 +24,7 @@ class EventEventConvocationExt(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Graduates by Cohort'),
-            'res_model': 'unicore.student',
+            'res_model': 'oacis.student',
             'view_mode': 'list,form',
             'domain': [('convocation_event_id', '=', self.id)],
             'context': {'search_default_group_cohort_kind': 1},

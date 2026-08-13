@@ -1,7 +1,7 @@
 from odoo import fields, models
 
 
-class UnicoreAcademicUnitType(models.Model):
+class OacisAcademicUnitType(models.Model):
     """Configurable taxonomy of academic unit types.
 
     Seed values cover university vocabulary (Faculty, Department) and the
@@ -10,9 +10,9 @@ class UnicoreAcademicUnitType(models.Model):
     child-type matrix drives which levels may nest under one another.
     """
 
-    _name = 'unicore.academic.unit.type'
+    _name = 'oacis.academic.unit.type'
     _description = 'Academic Unit Type'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
     _order = 'sequence, name'
 
     name = fields.Char(
@@ -32,8 +32,8 @@ class UnicoreAcademicUnitType(models.Model):
         default=10,
     )
     allowed_child_type_ids = fields.Many2many(
-        comodel_name='unicore.academic.unit.type',
-        relation='unicore_academic_unit_type_allowed_rel',
+        comodel_name='oacis.academic.unit.type',
+        relation='oacis_academic_unit_type_allowed_rel',
         column1='parent_type_id',
         column2='child_type_id',
         string='Allowed Child Types',

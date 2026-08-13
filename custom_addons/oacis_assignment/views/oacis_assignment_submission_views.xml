@@ -4,17 +4,17 @@
     <!-- ============================================================ -->
     <!-- SUBMISSION FORM VIEW                                          -->
     <!-- ============================================================ -->
-    <record id="view_unicore_assignment_submission_form" model="ir.ui.view">
-      <field name="name">unicore.assignment.submission.form</field>
-      <field name="model">unicore.assignment.submission</field>
+    <record id="view_oacis_assignment_submission_form" model="ir.ui.view">
+      <field name="name">oacis.assignment.submission.form</field>
+      <field name="model">oacis.assignment.submission</field>
       <field name="arch" type="xml">
         <form string="Submission">
           <header>
             <field name="state" widget="statusbar" clickable="False"/>
             <button name="action_grade" type="object" string="Grade Now" class="btn-primary" invisible="state not in ('submitted','late','returned')"/>
             <button name="action_return" type="object" string="Return for Revision" invisible="state != 'graded'"/>
-            <button name="action_reopen" type="object" string="Reopen" invisible="state != 'graded'" groups="unicore_base.group_unicore_admin"/>
-            <button name="action_submit" type="object" string="Submit" invisible="state not in ('draft','returned')" groups="unicore_base.group_unicore_student"/>
+            <button name="action_reopen" type="object" string="Reopen" invisible="state != 'graded'" groups="oacis_base.group_oacis_admin"/>
+            <button name="action_submit" type="object" string="Submit" invisible="state not in ('draft','returned')" groups="oacis_base.group_oacis_student"/>
             <button name="action_reset_to_draft" type="object" string="Reset to Draft" invisible="state != 'returned'"/>
           </header>
           <sheet>
@@ -80,7 +80,7 @@
               <field name="annotations" nolabel="1"/>
               <field name="annotation_count" readonly="1"/>
             </group>
-            <group name="company_group" groups="unicore_base.group_unicore_admin">
+            <group name="company_group" groups="oacis_base.group_oacis_admin">
               <field name="company_id" readonly="1"/>
             </group>
           </sheet>
@@ -95,9 +95,9 @@
     <!-- ============================================================ -->
     <!-- SUBMISSION LIST VIEW                                          -->
     <!-- ============================================================ -->
-    <record id="view_unicore_assignment_submission_list" model="ir.ui.view">
-      <field name="name">unicore.assignment.submission.list</field>
-      <field name="model">unicore.assignment.submission</field>
+    <record id="view_oacis_assignment_submission_list" model="ir.ui.view">
+      <field name="name">oacis.assignment.submission.list</field>
+      <field name="model">oacis.assignment.submission</field>
       <field name="arch" type="xml">
         <list string="Submissions">
           <field name="student_id"/>
@@ -110,16 +110,16 @@
           <field name="marks_percentage" optional="hide"/>
           <field name="grade_letter" optional="hide"/>
           <field name="graded_by_id" optional="hide"/>
-          <field name="company_id" optional="hide" groups="unicore_base.group_unicore_admin"/>
+          <field name="company_id" optional="hide" groups="oacis_base.group_oacis_admin"/>
         </list>
       </field>
     </record>
     <!-- ============================================================ -->
     <!-- SUBMISSION SEARCH VIEW                                        -->
     <!-- ============================================================ -->
-    <record id="view_unicore_assignment_submission_search" model="ir.ui.view">
-      <field name="name">unicore.assignment.submission.search</field>
-      <field name="model">unicore.assignment.submission</field>
+    <record id="view_oacis_assignment_submission_search" model="ir.ui.view">
+      <field name="name">oacis.assignment.submission.search</field>
+      <field name="model">oacis.assignment.submission</field>
       <field name="arch" type="xml">
         <search string="Submissions">
           <field name="student_id"/>
@@ -138,9 +138,9 @@
     <!-- ============================================================ -->
     <!-- SUBMISSION ACTIONS                                            -->
     <!-- ============================================================ -->
-    <record id="action_unicore_assignment_submission_all" model="ir.actions.act_window">
+    <record id="action_oacis_assignment_submission_all" model="ir.actions.act_window">
       <field name="name">All Submissions</field>
-      <field name="res_model">unicore.assignment.submission</field>
+      <field name="res_model">oacis.assignment.submission</field>
       <field name="view_mode">list,form</field>
       <field name="help" type="html">
         <p class="o_view_nocontent_smiling_face">
@@ -152,15 +152,15 @@
                 </p>
       </field>
     </record>
-    <record id="action_unicore_assignment_submission_pending" model="ir.actions.act_window">
+    <record id="action_oacis_assignment_submission_pending" model="ir.actions.act_window">
       <field name="name">Pending Grading</field>
-      <field name="res_model">unicore.assignment.submission</field>
+      <field name="res_model">oacis.assignment.submission</field>
       <field name="view_mode">list,form</field>
       <field name="domain">[('state', 'in', ['submitted','late'])]</field>
     </record>
-    <record id="action_unicore_assignment_submission_my" model="ir.actions.act_window">
+    <record id="action_oacis_assignment_submission_my" model="ir.actions.act_window">
       <field name="name">My Submissions</field>
-      <field name="res_model">unicore.assignment.submission</field>
+      <field name="res_model">oacis.assignment.submission</field>
       <field name="view_mode">list,form</field>
       <field name="domain">[('student_id.partner_id.user_ids', 'in', [uid])]</field>
     </record>

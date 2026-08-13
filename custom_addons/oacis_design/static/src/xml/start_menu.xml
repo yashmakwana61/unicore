@@ -2,39 +2,39 @@
 <templates xml:space="preserve">
 
     <!-- ================================================================
-         UnicoreStartMenu — floating panel with Apps/Workspace tabs
+         OacisStartMenu — floating panel with Apps/Workspace tabs
          ================================================================ -->
-    <t t-name="unicore_design.StartMenu">
+    <t t-name="oacis_design.StartMenu">
         <!-- Backdrop overlay (click to close) -->
-        <div t-if="state.open" class="o_unicore_start_menu" t-on-click="close">
+        <div t-if="state.open" class="o_oacis_start_menu" t-on-click="close">
 
             <!-- Main floating panel -->
-            <div class="o_unicore_start_panel"
-                 t-att-class="state.fullscreen ? 'o_unicore_start_fullscreen' : ''"
+            <div class="o_oacis_start_panel"
+                 t-att-class="state.fullscreen ? 'o_oacis_start_fullscreen' : ''"
                  t-on-click.stop="">
 
                 <!-- ====== Top Bar ====== -->
-                <header class="o_unicore_start_topbar">
-                    <nav class="o_unicore_start_tabs">
-                        <button class="o_unicore_start_tab"
+                <header class="o_oacis_start_topbar">
+                    <nav class="o_oacis_start_tabs">
+                        <button class="o_oacis_start_tab"
                                 t-att-data-active="state.activeTab === 'apps'"
                                 t-on-click="() => this.setTab('apps')">
                             Apps
                         </button>
-                        <button class="o_unicore_start_tab"
+                        <button class="o_oacis_start_tab"
                                 t-att-data-active="state.activeTab === 'workspace'"
                                 t-on-click="() => this.setTab('workspace')">
                             Workspace
                         </button>
                     </nav>
-                    <div class="o_unicore_start_topbar_actions">
-                        <button class="o_unicore_start_topbar_btn" title="Settings">
+                    <div class="o_oacis_start_topbar_actions">
+                        <button class="o_oacis_start_topbar_btn" title="Settings">
                             <i class="fa fa-pencil"/>
                         </button>
-                        <button class="o_unicore_start_topbar_btn" title="Globe">
+                        <button class="o_oacis_start_topbar_btn" title="Globe">
                             <i class="fa fa-globe"/>
                         </button>
-                        <button class="o_unicore_start_topbar_btn"
+                        <button class="o_oacis_start_topbar_btn"
                                 t-att-title="state.fullscreen ? 'Exit Fullscreen' : 'Fullscreen'"
                                 t-on-click="toggleFullscreen">
                             <i t-att-class="'fa ' + (state.fullscreen ? 'fa-compress' : 'fa-expand')"/>
@@ -43,16 +43,16 @@
                 </header>
 
                 <!-- ====== Apps Tab Content ====== -->
-                <div t-if="state.activeTab === 'apps'" class="o_unicore_start_content">
+                <div t-if="state.activeTab === 'apps'" class="o_oacis_start_content">
                     <!-- Filter row -->
-                    <div class="o_unicore_start_filters">
-                        <button class="o_unicore_start_filter_pill"
+                    <div class="o_oacis_start_filters">
+                        <button class="o_oacis_start_filter_pill"
                                 t-att-data-active="state.appFilter === 'pinned'"
                                 t-on-click="() => this.setAppFilter('pinned')">
-                            <span class="o_unicore_filter_indicator"/>
+                            <span class="o_oacis_filter_indicator"/>
                             Pinned
                         </button>
-                        <button class="o_unicore_start_filter_all"
+                        <button class="o_oacis_start_filter_all"
                                 t-att-data-active="state.appFilter === 'all'"
                                 t-on-click="() => this.setAppFilter('all')">
                             All Apps <i class="fa fa-arrow-right"/>
@@ -60,24 +60,24 @@
                     </div>
 
                     <!-- App Grid -->
-                    <div class="o_unicore_start_grid_wrap">
-                        <div class="o_unicore_start_grid">
+                    <div class="o_oacis_start_grid_wrap">
+                        <div class="o_oacis_start_grid">
                             <t t-foreach="filteredApps" t-as="app" t-key="app.id">
-                                <div class="o_unicore_start_tile"
+                                <div class="o_oacis_start_tile"
                                      t-on-click="ev => this.onAppClick(ev, app)"
                                      t-on-contextmenu="ev => this.onAppContextMenu(ev, app)"
                                      t-att-data-menu-xmlid="app.xmlid">
-                                    <div class="o_unicore_start_tile_icon">
+                                    <div class="o_oacis_start_tile_icon">
                                         <img t-if="app.webIconData"
                                              t-attf-src="{{app.webIconData}}"
                                              alt="" loading="lazy"/>
-                                        <span t-else="" class="o_unicore_start_tile_letter"
+                                        <span t-else="" class="o_oacis_start_tile_letter"
                                               t-esc="app.name.charAt(0)"/>
                                     </div>
-                                    <span class="o_unicore_start_tile_name" t-esc="app.name"/>
+                                    <span class="o_oacis_start_tile_name" t-esc="app.name"/>
                                 </div>
                             </t>
-                            <div t-if="!filteredApps.length" class="o_unicore_start_empty">
+                            <div t-if="!filteredApps.length" class="o_oacis_start_empty">
                                 <i class="fa fa-search"/>
                                 <span t-if="state.appFilter === 'pinned' &amp;&amp; !state.search">
                                     No pinned apps yet. Right-click any app to pin it.
@@ -88,31 +88,31 @@
                     </div>
 
                     <!-- Bottom Search Bar -->
-                    <div class="o_unicore_start_search_bar">
-                        <input type="text" class="o_unicore_start_search_input"
+                    <div class="o_oacis_start_search_bar">
+                        <input type="text" class="o_oacis_start_search_input"
                                placeholder="Search..."
                                t-att-value="state.search"
                                t-on-input="onSearchInput"
                                t-ref="searchInput"/>
-                        <i class="fa fa-search o_unicore_start_search_icon"/>
+                        <i class="fa fa-search o_oacis_start_search_icon"/>
                     </div>
                 </div>
 
                 <!-- ====== Workspace Tab Content ====== -->
-                <div t-if="state.activeTab === 'workspace'" class="o_unicore_start_content o_unicore_start_workspace">
-                    <div class="o_unicore_start_workspace_scroll">
+                <div t-if="state.activeTab === 'workspace'" class="o_oacis_start_content o_oacis_start_workspace">
+                    <div class="o_oacis_start_workspace_scroll">
                         <t t-foreach="workspaceGroups" t-as="group" t-key="group.category">
-                            <div class="o_unicore_ws_group">
-                                <h3 class="o_unicore_ws_group_title" t-esc="group.category"/>
-                                <ul class="o_unicore_ws_list">
+                            <div class="o_oacis_ws_group">
+                                <h3 class="o_oacis_ws_group_title" t-esc="group.category"/>
+                                <ul class="o_oacis_ws_list">
                                     <t t-foreach="group.items" t-as="item" t-key="item_index">
-                                        <li class="o_unicore_ws_item"
+                                        <li class="o_oacis_ws_item"
                                             t-on-click="ev => this.onWorkspaceItemClick(ev, item)"
                                             t-on-contextmenu="ev => this.onWorkspaceContextMenu(ev, item, item_index)">
-                                            <i class="fa fa-file-text-o o_unicore_ws_item_icon"/>
-                                            <span class="o_unicore_ws_item_name"
+                                            <i class="fa fa-file-text-o o_oacis_ws_item_icon"/>
+                                            <span class="o_oacis_ws_item_name"
                                                   t-esc="item.full_name || item.name"/>
-                                            <button class="o_unicore_ws_item_dots"
+                                            <button class="o_oacis_ws_item_dots"
                                                     t-on-click.stop="ev => this.onWorkspaceContextMenu(ev, item, item_index)">
                                                 <i class="fa fa-ellipsis-v"/>
                                             </button>
@@ -121,41 +121,41 @@
                                 </ul>
                             </div>
                         </t>
-                        <div t-if="!workspaceGroups.length" class="o_unicore_start_empty">
+                        <div t-if="!workspaceGroups.length" class="o_oacis_start_empty">
                             <i class="fa fa-folder-open-o"/>
                             <span>No workspace items yet.</span>
                         </div>
                     </div>
 
                     <!-- Bottom Search Bar -->
-                    <div class="o_unicore_start_search_bar">
-                        <input type="text" class="o_unicore_start_search_input"
+                    <div class="o_oacis_start_search_bar">
+                        <input type="text" class="o_oacis_start_search_input"
                                placeholder="Search..."
                                t-att-value="state.search"
                                t-on-input="onSearchInput"/>
-                        <i class="fa fa-search o_unicore_start_search_icon"/>
+                        <i class="fa fa-search o_oacis_start_search_icon"/>
                     </div>
                 </div>
 
                 <!-- ====== Hidden compatibility layer for verification tests ====== -->
-                <div class="o_unicore_compat_test_layer" style="position: absolute; right: 10px; bottom: 10px; width: 100px; height: 100px; opacity: 0.001; z-index: 9999; overflow: hidden;">
-                    <div class="o_unicore_start_favs">
+                <div class="o_oacis_compat_test_layer" style="position: absolute; right: 10px; bottom: 10px; width: 100px; height: 100px; opacity: 0.001; z-index: 9999; overflow: hidden;">
+                    <div class="o_oacis_start_favs">
                         <t t-foreach="pinnedApps" t-as="app" t-key="'fav-' + app.id">
-                            <div class="o_unicore_app" t-on-click="ev => this.onAppClick(ev, app)" style="width: 80px; height: 30px; display: block; cursor: pointer;">
-                                <span class="o_unicore_app_name" t-esc="app.name"/>
-                                <button class="o_unicore_pin" t-on-click.stop="ev => this.togglePin(app)" style="width: 20px; height: 20px; display: inline-block; cursor: pointer;"/>
+                            <div class="o_oacis_app" t-on-click="ev => this.onAppClick(ev, app)" style="width: 80px; height: 30px; display: block; cursor: pointer;">
+                                <span class="o_oacis_app_name" t-esc="app.name"/>
+                                <button class="o_oacis_pin" t-on-click.stop="ev => this.togglePin(app)" style="width: 20px; height: 20px; display: inline-block; cursor: pointer;"/>
                             </div>
                         </t>
                     </div>
-                    <div class="o_unicore_start_all">
+                    <div class="o_oacis_start_all">
                         <t t-foreach="unpinnedApps" t-as="app" t-key="'all-' + app.id">
-                            <div class="o_unicore_app" t-on-click="ev => this.onAppClick(ev, app)" style="width: 80px; height: 30px; display: block; cursor: pointer;">
-                                <span class="o_unicore_app_name" t-esc="app.name"/>
-                                <button class="o_unicore_pin" t-on-click.stop="ev => this.togglePin(app)" style="width: 20px; height: 20px; display: inline-block; cursor: pointer;"/>
+                            <div class="o_oacis_app" t-on-click="ev => this.onAppClick(ev, app)" style="width: 80px; height: 30px; display: block; cursor: pointer;">
+                                <span class="o_oacis_app_name" t-esc="app.name"/>
+                                <button class="o_oacis_pin" t-on-click.stop="ev => this.togglePin(app)" style="width: 20px; height: 20px; display: inline-block; cursor: pointer;"/>
                             </div>
                         </t>
                     </div>
-                    <input class="o_unicore_start_search" t-model="state.search"/>
+                    <input class="o_oacis_start_search" t-model="state.search"/>
                 </div>
             </div>
         </div>
@@ -163,21 +163,21 @@
         <!-- ====== Context Menu (portaled to avoid clipping) ====== -->
         <t t-if="state.contextMenu.visible">
             <t t-portal="'body'">
-                <div class="o_unicore_ctx_menu" t-att-style="contextMenuStyle"
+                <div class="o_oacis_ctx_menu" t-att-style="contextMenuStyle"
                      t-on-click.stop="">
                     <!-- App context menu -->
                     <t t-if="state.contextMenu.type === 'app'">
-                        <button class="o_unicore_ctx_item"
+                        <button class="o_oacis_ctx_item"
                                 t-on-click="ev => this.onContextMenuAction(ev, 'new_tab')">
                             <i class="fa fa-external-link"/>
                             <span>Open in new tab</span>
                         </button>
-                        <button class="o_unicore_ctx_item"
+                        <button class="o_oacis_ctx_item"
                                 t-on-click="ev => this.onContextMenuAction(ev, 'toggle_pin')">
                             <i t-att-class="'fa ' + (isPinned(state.contextMenu.target) ? 'fa-times' : 'fa-thumb-tack')"/>
                             <span t-esc="isPinned(state.contextMenu.target) ? 'Unpin from start' : 'Pin to start'"/>
                         </button>
-                        <button class="o_unicore_ctx_item"
+                        <button class="o_oacis_ctx_item"
                                 t-on-click="ev => this.onContextMenuAction(ev, 'home_action')">
                             <i class="fa fa-home"/>
                             <span>Set as home action</span>
@@ -185,23 +185,23 @@
                     </t>
                     <!-- Workspace context menu -->
                     <t t-if="state.contextMenu.type === 'workspace'">
-                        <button class="o_unicore_ctx_item"
+                        <button class="o_oacis_ctx_item"
                                 t-on-click="ev => this.onContextMenuAction(ev, 'open_main')">
                             <i class="fa fa-window-maximize"/>
                             <span>Open in main view</span>
                         </button>
-                        <button class="o_unicore_ctx_item"
+                        <button class="o_oacis_ctx_item"
                                 t-on-click="ev => this.onContextMenuAction(ev, 'open_popup')">
                             <i class="fa fa-external-link-square"/>
                             <span>Open in popup view</span>
                         </button>
-                        <button class="o_unicore_ctx_item"
+                        <button class="o_oacis_ctx_item"
                                 t-on-click="ev => this.onContextMenuAction(ev, 'copy_info')">
                             <i class="fa fa-copy"/>
                             <span>Copy info</span>
                         </button>
-                        <hr class="o_unicore_ctx_divider"/>
-                        <button class="o_unicore_ctx_item o_unicore_ctx_danger"
+                        <hr class="o_oacis_ctx_divider"/>
+                        <button class="o_oacis_ctx_item o_oacis_ctx_danger"
                                 t-on-click="ev => this.onContextMenuAction(ev, 'delete')">
                             <i class="fa fa-trash"/>
                             <span>Delete</span>

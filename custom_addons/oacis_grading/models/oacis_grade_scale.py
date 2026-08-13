@@ -1,5 +1,5 @@
 """
-UniCore Grade Scale Model
+Oacis Grade Scale Model
 Defines the institutional grading system mapping
 percentage ranges to letter grades and grade points.
 """
@@ -12,10 +12,10 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreGradeScale(models.Model):
-    _name = 'unicore.grade.scale'
+class OacisGradeScale(models.Model):
+    _name = 'oacis.grade.scale'
     _description = 'Grade Scale'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
     _order = 'company_id, sequence'
     _check_company_auto = True
 
@@ -49,7 +49,7 @@ class UniCoreGradeScale(models.Model):
         help='Maximum possible GPA on this scale (e.g. 4.0 or 10.0)',
     )
     line_ids = fields.One2many(
-        comodel_name='unicore.grade.scale.line',
+        comodel_name='oacis.grade.scale.line',
         inverse_name='scale_id',
         string='Grade Lines',
     )
@@ -108,13 +108,13 @@ class UniCoreGradeScale(models.Model):
         return 'F', 0.0
 
 
-class UniCoreGradeScaleLine(models.Model):
-    _name = 'unicore.grade.scale.line'
+class OacisGradeScaleLine(models.Model):
+    _name = 'oacis.grade.scale.line'
     _description = 'Grade Scale Line'
     _order = 'scale_id, min_percentage desc'
 
     scale_id = fields.Many2one(
-        comodel_name='unicore.grade.scale',
+        comodel_name='oacis.grade.scale',
         string='Grade Scale',
         required=True,
         ondelete='cascade',

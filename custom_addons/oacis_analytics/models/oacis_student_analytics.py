@@ -1,5 +1,5 @@
 """
-UniCore Student Analytics
+Oacis Student Analytics
 PostgreSQL VIEW-based read-only models for
 student enrollment and demographic analytics.
 """
@@ -12,8 +12,8 @@ from odoo.orm.fields_misc import Id
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreStudentEnrollmentReport(models.Model):
-    _name = 'unicore.student.enrollment.report'
+class OacisStudentEnrollmentReport(models.Model):
+    _name = 'oacis.student.enrollment.report'
     _description = 'Student Enrollment Report'
     _auto = False
     _rec_name = 'program_id'
@@ -26,7 +26,7 @@ class UniCoreStudentEnrollmentReport(models.Model):
         readonly=True,
     )
     program_id = fields.Many2one(
-        comodel_name='unicore.program',
+        comodel_name='oacis.program',
         string='Program',
         readonly=True,
     )
@@ -46,7 +46,7 @@ class UniCoreStudentEnrollmentReport(models.Model):
         help='How students of the program are grouped into cohorts.',
     )
     grade_level_id = fields.Many2one(
-        comodel_name='unicore.academic.unit',
+        comodel_name='oacis.academic.unit',
         string='Grade Level',
         readonly=True,
     )
@@ -102,11 +102,11 @@ class UniCoreStudentEnrollmentReport(models.Model):
     def init(self):
         tools.drop_view_if_exists(
             self.env.cr,
-            'unicore_student_enrollment_report',
+            'oacis_student_enrollment_report',
         )
         self.env.cr.execute("""
             CREATE OR REPLACE VIEW
-            unicore_student_enrollment_report AS (
+            oacis_student_enrollment_report AS (
                 SELECT
                     ROW_NUMBER() OVER () AS id,
                     s.company_id,
@@ -131,7 +131,7 @@ class UniCoreStudentEnrollmentReport(models.Model):
                         AVG(s.total_credits_earned)
                         ::numeric, 1
                     ) AS avg_credits_earned
-                FROM unicore_student s
+                FROM oacis_student s
                 WHERE s.active = TRUE
                 GROUP BY
                     s.company_id,
@@ -146,8 +146,8 @@ class UniCoreStudentEnrollmentReport(models.Model):
         """)
 
 
-class UniCoreAttendanceReport(models.Model):
-    _name = 'unicore.attendance.report'
+class OacisAttendanceReport(models.Model):
+    _name = 'oacis.attendance.report'
     _description = 'Attendance Analytics Report'
     _auto = False
     _rec_name = 'course_offering_id'
@@ -160,17 +160,17 @@ class UniCoreAttendanceReport(models.Model):
         readonly=True,
     )
     course_offering_id = fields.Many2one(
-        comodel_name='unicore.course.offering',
+        comodel_name='oacis.course.offering',
         string='Course Offering',
         readonly=True,
     )
     course_id = fields.Many2one(
-        comodel_name='unicore.course',
+        comodel_name='oacis.course',
         string='Course',
         readonly=True,
     )
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         readonly=True,
     )
@@ -201,11 +201,11 @@ class UniCoreAttendanceReport(models.Model):
     def init(self):
         tools.drop_view_if_exists(
             self.env.cr,
-            'unicore_attendance_report',
+            'oacis_attendance_report',
         )
         self.env.cr.execute("""
             CREATE OR REPLACE VIEW
-            unicore_attendance_report AS (
+            oacis_attendance_report AS (
                 SELECT
                     ROW_NUMBER() OVER () AS id,
                     ar.company_id,
@@ -233,12 +233,12 @@ class UniCoreAttendanceReport(models.Model):
                         / NULLIF(COUNT(DISTINCT ar.student_id), 0)
                         * 100), 1
                     ) AS shortage_rate
-                FROM unicore_attendance_record ar
-                JOIN unicore_attendance_session ats
+                FROM oacis_attendance_record ar
+                JOIN oacis_attendance_session ats
                     ON ats.id = ar.session_id
-                JOIN unicore_timetable_entry tte
+                JOIN oacis_timetable_entry tte
                     ON tte.id = ats.timetable_entry_id
-                JOIN unicore_course_offering co
+                JOIN oacis_course_offering co
                     ON co.id = tte.course_offering_id
                 WHERE ar.active = TRUE
                 GROUP BY

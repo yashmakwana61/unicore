@@ -3,10 +3,10 @@
 
   <!-- ADMISSION FUNNEL REPORT -->
 
-  <record id="view_unicore_admission_funnel_pivot"
+  <record id="view_oacis_admission_funnel_pivot"
           model="ir.ui.view">
-    <field name="name">unicore.admission.funnel.report.pivot</field>
-    <field name="model">unicore.admission.funnel.report</field>
+    <field name="name">oacis.admission.funnel.report.pivot</field>
+    <field name="model">oacis.admission.funnel.report</field>
     <field name="arch" type="xml">
       <pivot string="Admission Funnel Analytics">
         <field name="program_id" type="row"/>
@@ -20,10 +20,10 @@
     </field>
   </record>
 
-  <record id="view_unicore_admission_funnel_graph"
+  <record id="view_oacis_admission_funnel_graph"
           model="ir.ui.view">
-    <field name="name">unicore.admission.funnel.report.graph</field>
-    <field name="model">unicore.admission.funnel.report</field>
+    <field name="name">oacis.admission.funnel.report.graph</field>
+    <field name="model">oacis.admission.funnel.report</field>
     <field name="arch" type="xml">
       <graph string="Admission Funnel"
              type="bar"
@@ -37,10 +37,10 @@
     </field>
   </record>
 
-  <record id="view_unicore_admission_funnel_list"
+  <record id="view_oacis_admission_funnel_list"
           model="ir.ui.view">
-    <field name="name">unicore.admission.funnel.report.list</field>
-    <field name="model">unicore.admission.funnel.report</field>
+    <field name="name">oacis.admission.funnel.report.list</field>
+    <field name="model">oacis.admission.funnel.report</field>
     <field name="arch" type="xml">
       <list>
         <field name="cycle_id"/>
@@ -60,19 +60,19 @@
     </field>
   </record>
 
-  <record id="action_unicore_admission_funnel_report"
+  <record id="action_oacis_admission_funnel_report"
           model="ir.actions.act_window">
     <field name="name">Admission Funnel Analytics</field>
-    <field name="res_model">unicore.admission.funnel.report</field>
+    <field name="res_model">oacis.admission.funnel.report</field>
     <field name="view_mode">graph,pivot,list</field>
   </record>
 
   <!-- APPLICANT CATEGORY REPORT -->
 
-  <record id="view_unicore_applicant_cat_pivot"
+  <record id="view_oacis_applicant_cat_pivot"
           model="ir.ui.view">
-    <field name="name">unicore.applicant.category.report.pivot</field>
-    <field name="model">unicore.applicant.category.report</field>
+    <field name="name">oacis.applicant.category.report.pivot</field>
+    <field name="model">oacis.applicant.category.report</field>
     <field name="arch" type="xml">
       <pivot string="Applicant Category Analytics">
         <field name="category" type="row"/>
@@ -84,10 +84,10 @@
     </field>
   </record>
 
-  <record id="view_unicore_applicant_cat_graph"
+  <record id="view_oacis_applicant_cat_graph"
           model="ir.ui.view">
-    <field name="name">unicore.applicant.category.report.graph</field>
-    <field name="model">unicore.applicant.category.report</field>
+    <field name="name">oacis.applicant.category.report.graph</field>
+    <field name="model">oacis.applicant.category.report</field>
     <field name="arch" type="xml">
       <graph string="Applicant Category Distribution"
              type="pie">
@@ -98,10 +98,10 @@
     </field>
   </record>
 
-  <record id="view_unicore_applicant_cat_list"
+  <record id="view_oacis_applicant_cat_list"
           model="ir.ui.view">
-    <field name="name">unicore.applicant.category.report.list</field>
-    <field name="model">unicore.applicant.category.report</field>
+    <field name="name">oacis.applicant.category.report.list</field>
+    <field name="model">oacis.applicant.category.report</field>
     <field name="arch" type="xml">
       <list>
         <field name="academic_year_id"/>
@@ -114,10 +114,10 @@
     </field>
   </record>
 
-  <record id="action_unicore_applicant_cat_report"
+  <record id="action_oacis_applicant_cat_report"
           model="ir.actions.act_window">
     <field name="name">Applicant Category Analytics</field>
-    <field name="res_model">unicore.applicant.category.report</field>
+    <field name="res_model">oacis.applicant.category.report</field>
     <field name="view_mode">graph,pivot,list</field>
   </record>
 

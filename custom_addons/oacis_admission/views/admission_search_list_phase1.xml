@@ -5,9 +5,9 @@
     <!-- Phase 1: Search view filters and group-bys                -->
     <!-- ========================================================= -->
     <record id="view_admission_search_phase1_filters" model="ir.ui.view">
-        <field name="name">unicore.admission.applicant.search.phase1</field>
-        <field name="model">unicore.admission.applicant</field>
-        <field name="inherit_id" ref="unicore_admission.admission_applicant_search_view"/>
+        <field name="name">oacis.admission.applicant.search.phase1</field>
+        <field name="model">oacis.admission.applicant</field>
+        <field name="inherit_id" ref="oacis_admission.admission_applicant_search_view"/>
         <field name="arch" type="xml">
 
             <xpath expr="//filter[@name='active_applications']" position="after">
@@ -44,9 +44,9 @@
     <!-- Phase 1: List view row decorations                        -->
     <!-- ========================================================= -->
     <record id="view_admission_list_phase1_decoration" model="ir.ui.view">
-        <field name="name">unicore.admission.applicant.list.phase1</field>
-        <field name="model">unicore.admission.applicant</field>
-        <field name="inherit_id" ref="unicore_admission.admission_applicant_list_view"/>
+        <field name="name">oacis.admission.applicant.list.phase1</field>
+        <field name="model">oacis.admission.applicant</field>
+        <field name="inherit_id" ref="oacis_admission.admission_applicant_list_view"/>
         <field name="arch" type="xml">
 
             <xpath expr="//list" position="attributes">

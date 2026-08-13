@@ -3,14 +3,14 @@
     <data>
 
         <!-- Extend Student Form to show Partner Link -->
-        <record id="unicore_student_form_partner_ext" model="ir.ui.view">
-            <field name="name">unicore.student.form.partner.ext</field>
-            <field name="model">unicore.student</field>
-            <field name="inherit_id" ref="unicore_student.unicore_student_form_view"/>
+        <record id="oacis_student_form_partner_ext" model="ir.ui.view">
+            <field name="name">oacis.student.form.partner.ext</field>
+            <field name="model">oacis.student</field>
+            <field name="inherit_id" ref="oacis_student.oacis_student_form_view"/>
             <field name="arch" type="xml">
                 <!-- Add partner_id in the contact section -->
                 <xpath expr="//field[@name='email']" position="after">
-                    <field name="partner_id" readonly="1" groups="unicore_base.group_unicore_admin,unicore_base.group_unicore_finance" />
+                    <field name="partner_id" readonly="1" groups="oacis_base.group_oacis_admin,oacis_base.group_oacis_finance" />
                 </xpath>
             </field>
         </record>

@@ -12,11 +12,11 @@ class CrmLeadExt(models.Model):
         string='Website Page URL',
         help='The URL of the page where the enquiry was submitted.')
     admission_applicant_id = fields.Many2one(
-        'unicore.admission.applicant',
+        'oacis.admission.applicant',
         string='Admission Applicant',
         ondelete='set null',
         copy=False,
-        help='Linked UniCore admission applicant if this enquiry is from an applicant.')
+        help='Linked Oacis admission applicant if this enquiry is from an applicant.')
 
     def action_view_website_page(self):
         self.ensure_one()

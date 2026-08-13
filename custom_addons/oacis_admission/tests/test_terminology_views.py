@@ -1,14 +1,14 @@
 """Gap-2: terminology-aware view labels (get_view rewrite).
 
-The ``ir.ui.view.get_view`` override lives in unicore_institution_profile;
-these tests verify the runtime label rewriting using real UniCore models
+The ``ir.ui.view.get_view`` override lives in oacis_institution_profile;
+these tests verify the runtime label rewriting using real Oacis models
 available in this module's dependency graph (student / enrollment / offering).
 """
 
 from odoo.tests import TransactionCase, tagged
 
 
-@tagged('unicore', 'unit')
+@tagged('oacis', 'unit')
 class TestTerminologyViews(TransactionCase):
     """Verify view field labels are rewritten per the terminology profile."""
 
@@ -19,7 +19,7 @@ class TestTerminologyViews(TransactionCase):
 
     def _make_school_profile(self):
         """Attach a K-12 school profile carrying a terminology profile."""
-        term = self.env['unicore.terminology.profile'].create({
+        term = self.env['oacis.terminology.profile'].create({
             'name': 'K12 Term Test',
             'code': 'K12TERM',
             'term_program': 'Class/Section',
@@ -28,7 +28,7 @@ class TestTerminologyViews(TransactionCase):
             'term_academic_year': 'Session',
         })
         self.company.institution_profile_id = self.env[
-            'unicore.institution.profile'
+            'oacis.institution.profile'
         ].create({
             'name': 'K12 School Test',
             'code': 'K12SCH',
@@ -51,7 +51,7 @@ class TestTerminologyViews(TransactionCase):
         """Legacy companies get a byte-identical architecture."""
         self.company.institution_profile_id = False
         arch = self._render(
-            'unicore.enrollment',
+            'oacis.enrollment',
             '<form>'
             '<field name="student_id" string="Student"/>'
             '<field name="semester_id" string="Semester"/>'
@@ -65,7 +65,7 @@ class TestTerminologyViews(TransactionCase):
         """K-12 rewrites Student -> Learner and Semester -> Term."""
         self._make_school_profile()
         arch = self._render(
-            'unicore.enrollment',
+            'oacis.enrollment',
             '<form>'
             '<field name="student_id" string="Student"/>'
             '<field name="semester_id" string="Semester"/>'
@@ -79,7 +79,7 @@ class TestTerminologyViews(TransactionCase):
         """K-12 rewrites Program -> Class/Section on core models."""
         self._make_school_profile()
         arch = self._render(
-            'unicore.student',
+            'oacis.student',
             '<form><field name="program_id" string="Program"/></form>')
         self.assertIn('string="Class/Section"', arch)
         self.assertNotIn('string="Program"', arch)
@@ -89,13 +89,13 @@ class TestTerminologyViews(TransactionCase):
 
         Relabeling is token-driven from the company's terminology profile, so
         even models outside the original Gap-2 concept whitelist (e.g.
-        ``unicore.course.offering``) get their ``Program`` -> ``Class/Section``
+        ``oacis.course.offering``) get their ``Program`` -> ``Class/Section``
         string rewritten — the terminology must apply everywhere. Non-term
         strings are never touched.
         """
         self._make_school_profile()
         arch = self._render(
-            'unicore.course.offering',
+            'oacis.course.offering',
             '<form>'
             '<field name="program_id" string="Program"/>'
             '<field name="name" string="Offering Name"/>'

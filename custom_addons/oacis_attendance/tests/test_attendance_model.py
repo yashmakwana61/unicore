@@ -2,8 +2,8 @@ import odoo
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'unit')
-class UniCoreAttendanceTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'unit')
+class OacisAttendanceTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
@@ -11,18 +11,18 @@ class UniCoreAttendanceTest(TransactionCase):
 
         cls.company = cls.env.company
 
-        cls.faculty = cls.env['unicore.faculty'].create({
+        cls.faculty = cls.env['oacis.faculty'].create({
             'name': 'Test Faculty of Business',
             'code': 'TFB',
             'company_id': cls.company.id,
         })
-        cls.department = cls.env['unicore.department'].create({
+        cls.department = cls.env['oacis.department'].create({
             'name': 'Test Management',
             'code': 'TMGMT',
             'faculty_id': cls.faculty.id,
             'company_id': cls.company.id,
         })
-        cls.program = cls.env['unicore.program'].create({
+        cls.program = cls.env['oacis.program'].create({
             'name': 'Test BBA',
             'code': 'TEST-BBA',
             'program_type': 'undergraduate',
@@ -33,12 +33,12 @@ class UniCoreAttendanceTest(TransactionCase):
             'department_id': cls.department.id,
             'company_id': cls.company.id,
         })
-        cls.campus = cls.env['unicore.campus'].create({
+        cls.campus = cls.env['oacis.campus'].create({
             'name': 'Test Business Campus',
             'code': 'TBIZCAMP',
             'company_id': cls.company.id,
         })
-        cls.academic_year = cls.env['unicore.academic.year'].create({
+        cls.academic_year = cls.env['oacis.academic.year'].create({
             'name': 'Test AY 2028-29',
             'code': 'TAY2829',
             'date_start': '2028-07-01',
@@ -47,7 +47,7 @@ class UniCoreAttendanceTest(TransactionCase):
             'is_current': False,
             'company_id': cls.company.id,
         })
-        cls.semester = cls.env['unicore.semester'].create({
+        cls.semester = cls.env['oacis.semester'].create({
             'name': 'Test SEM1 BBA',
             'code': 'TSEM1-BBA',
             'semester_type': 'odd',
@@ -57,14 +57,14 @@ class UniCoreAttendanceTest(TransactionCase):
             'semester_state': 'ongoing',
             'company_id': cls.company.id,
         })
-        cls.course = cls.env['unicore.course'].create({
+        cls.course = cls.env['oacis.course'].create({
             'name': 'Test Principles of Management',
             'code': 'TPM101',
             'credit_hours': 3.0,
             'department_id': cls.department.id,
             'company_id': cls.company.id,
         })
-        cls.offering = cls.env['unicore.course.offering'].create({
+        cls.offering = cls.env['oacis.course.offering'].create({
             'course_id': cls.course.id,
             'semester_id': cls.semester.id,
             'academic_year_id': cls.academic_year.id,
@@ -73,7 +73,7 @@ class UniCoreAttendanceTest(TransactionCase):
             'offering_state': 'open',
             'company_id': cls.company.id,
         })
-        cls.student = cls.env['unicore.student'].create({
+        cls.student = cls.env['oacis.student'].create({
             'name': 'Attendance',
             'last_name': 'Test Student',
             'gender': 'male',
@@ -87,7 +87,7 @@ class UniCoreAttendanceTest(TransactionCase):
             'admission_date': '2028-06-01',
         })
 
-        cls.policy = cls.env['unicore.attendance.policy'].create({
+        cls.policy = cls.env['oacis.attendance.policy'].create({
             'name': 'Test 75% Policy',
             'company_id': cls.company.id,
             'policy_scope': 'global',
@@ -96,7 +96,7 @@ class UniCoreAttendanceTest(TransactionCase):
             'is_exam_eligibility_linked': True,
         })
 
-        cls.time_slot = cls.env['unicore.time.slot'].create({
+        cls.time_slot = cls.env['oacis.time.slot'].create({
             'name': 'Test Night Slot',
             'company_id': cls.company.id,
             'start_time': 22.0,
@@ -104,20 +104,20 @@ class UniCoreAttendanceTest(TransactionCase):
             'slot_type': 'lecture',
         })
 
-        cls.building = cls.env['unicore.building'].create({
+        cls.building = cls.env['oacis.building'].create({
             'name': 'Test Main Building',
             'code': 'TMB',
             'campus_id': cls.campus.id,
             'building_type': 'academic',
             'company_id': cls.company.id,
         })
-        cls.floor = cls.env['unicore.floor'].create({
+        cls.floor = cls.env['oacis.floor'].create({
             'name': 'Test Ground Floor',
             'floor_number': 0,
             'building_id': cls.building.id,
             'company_id': cls.company.id,
         })
-        cls.room = cls.env['unicore.room'].create({
+        cls.room = cls.env['oacis.room'].create({
             'name': 'Test Room 101',
             'code': 'TR101',
             'floor_id': cls.floor.id,
@@ -127,7 +127,7 @@ class UniCoreAttendanceTest(TransactionCase):
             'company_id': cls.company.id,
         })
 
-        cls.faculty_member = cls.env['unicore.faculty.member'].create({
+        cls.faculty_member = cls.env['oacis.faculty.member'].create({
             'name': 'Test',
             'last_name': 'Professor',
             'gender': 'male',
@@ -141,7 +141,7 @@ class UniCoreAttendanceTest(TransactionCase):
             'member_state': 'active',
         })
 
-        cls.timetable_entry = cls.env['unicore.timetable.entry'].create({
+        cls.timetable_entry = cls.env['oacis.timetable.entry'].create({
             'course_offering_id': cls.offering.id,
             'day_of_week': '1',
             'time_slot_id': cls.time_slot.id,
@@ -153,18 +153,18 @@ class UniCoreAttendanceTest(TransactionCase):
     def setUp(self):
         super().setUp()
         self.student.action_enroll()
-        self.env['unicore.enrollment'].create({
+        self.env['oacis.enrollment'].create({
             'student_id': self.student.id,
             'course_offering_id': self.offering.id,
         })
 
     def test_01_attendance_record_create(self):
-        session = self.env['unicore.attendance.session'].create({
+        session = self.env['oacis.attendance.session'].create({
             'timetable_entry_id': self.timetable_entry.id,
             'session_date': '2028-08-01',
         })
         session.action_open_for_marking()
-        record = self.env['unicore.attendance.record'].search([
+        record = self.env['oacis.attendance.record'].search([
             ('student_id', '=', self.student.id),
             ('session_id', '=', session.id),
         ], limit=1)
@@ -173,12 +173,12 @@ class UniCoreAttendanceTest(TransactionCase):
 
     def test_02_attendance_percentage_computation(self):
         for i in range(8):
-            s = self.env['unicore.attendance.session'].create({
+            s = self.env['oacis.attendance.session'].create({
                 'timetable_entry_id': self.timetable_entry.id,
                 'session_date': f'2028-08-{i + 1:02d}',
             })
             s.action_open_for_marking()
-            rec = self.env['unicore.attendance.record'].search([
+            rec = self.env['oacis.attendance.record'].search([
                 ('student_id', '=', self.student.id),
                 ('session_id', '=', s.id),
             ], limit=1)
@@ -186,19 +186,19 @@ class UniCoreAttendanceTest(TransactionCase):
             s.with_context(force_write_closed_session=True).action_close_session()
 
         for i in range(2):
-            s = self.env['unicore.attendance.session'].create({
+            s = self.env['oacis.attendance.session'].create({
                 'timetable_entry_id': self.timetable_entry.id,
                 'session_date': f'2028-08-{i + 9:02d}',
             })
             s.action_open_for_marking()
-            rec = self.env['unicore.attendance.record'].search([
+            rec = self.env['oacis.attendance.record'].search([
                 ('student_id', '=', self.student.id),
                 ('session_id', '=', s.id),
             ], limit=1)
             rec.status = 'absent'
             s.with_context(force_write_closed_session=True).action_close_session()
 
-        last_record = self.env['unicore.attendance.record'].search([
+        last_record = self.env['oacis.attendance.record'].search([
             ('student_id', '=', self.student.id),
             ('course_offering_id', '=', self.offering.id),
         ], order='id desc', limit=1)
@@ -206,19 +206,19 @@ class UniCoreAttendanceTest(TransactionCase):
 
     def test_03_shortage_alert_triggers(self):
         for i in range(10):
-            s = self.env['unicore.attendance.session'].create({
+            s = self.env['oacis.attendance.session'].create({
                 'timetable_entry_id': self.timetable_entry.id,
                 'session_date': f'2028-09-{i + 1:02d}',
             })
             s.action_open_for_marking()
-            rec = self.env['unicore.attendance.record'].search([
+            rec = self.env['oacis.attendance.record'].search([
                 ('student_id', '=', self.student.id),
                 ('session_id', '=', s.id),
             ], limit=1)
             rec.status = 'absent'
             s.with_context(force_write_closed_session=True).action_close_session()
 
-        last_record = self.env['unicore.attendance.record'].search([
+        last_record = self.env['oacis.attendance.record'].search([
             ('student_id', '=', self.student.id),
             ('course_offering_id', '=', self.offering.id),
         ], order='id desc', limit=1)

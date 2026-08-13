@@ -1,12 +1,12 @@
 {
-    'name': 'UniCore Placement',
+    'name': 'Oacis Placement',
     'version': '19.0.1.0.0',
     'category': 'Education',
     'summary': 'Placement Management',
     'author': 'Precisefect Solutions Pvt. Ltd.',
     'website': 'https://www.precisefect.com',
     'license': 'OPL-1',
-    'depends': ['unicore_student'],
+    'depends': ['oacis_student'],
     'data': [
         'security/ir.model.access.csv',
         'security/security_rules.xml',

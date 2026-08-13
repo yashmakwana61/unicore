@@ -1,6 +1,6 @@
 """Phase 8 regression suite: academic calendar Term structure.
 
-Verifies K-12 Term support on unicore.academic.year / unicore.semester:
+Verifies K-12 Term support on oacis.academic.year / oacis.semester:
 
 * A Term-based year accepts only Term semesters (term_1..term_4).
 * Adding a non-Term semester to a Term year is rejected (via the year's
@@ -15,8 +15,8 @@ from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'unit')
-class UniCoreCalendarTermTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'unit')
+class OacisCalendarTermTest(TransactionCase):
 
     def _year(self, code, year_type='semester', semester_ids=None, **kw):
         vals = {
@@ -30,7 +30,7 @@ class UniCoreCalendarTermTest(TransactionCase):
         if semester_ids is not None:
             vals['semester_ids'] = semester_ids
         vals.update(kw)
-        return self.env['unicore.academic.year'].create(vals)
+        return self.env['oacis.academic.year'].create(vals)
 
     def _sem(self, code, semester_type, date_start, date_end):
         return {
@@ -65,7 +65,7 @@ class UniCoreCalendarTermTest(TransactionCase):
             ]})
         # Direct creation on the semester model is also rejected.
         with self.assertRaises(ValidationError):
-            self.env['unicore.semester'].create({
+            self.env['oacis.semester'].create({
                 'name': 'P8 Direct Odd',
                 'code': 'P8DO',
                 'semester_type': 'odd',

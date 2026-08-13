@@ -1,10 +1,10 @@
-"""UniCore Admission → Program Enrollment.
+"""Oacis Admission → Program Enrollment.
 
 A single, program-level record tying an admission applicant (and the student
 created on admission confirmation) to a concrete academic year + semester
 enrollment into the program.
 
-Course-level registrations are delegated to ``unicore.enrollment`` (one row
+Course-level registrations are delegated to ``oacis.enrollment`` (one row
 per course offering), linked back through ``admission_enrollment_id`` so the
 registrar can see everything created by one 'Enroll in Program' step.
 """
@@ -12,9 +12,9 @@ from odoo import _, api, fields, models
 
 
 class AdmissionEnrollment(models.Model):
-    _name = 'unicore.admission.enrollment'
+    _name = 'oacis.admission.enrollment'
     _description = 'Program Enrollment (Admission Pipeline)'
-    _inherit = ['unicore.mixin', 'unicore.sequence.mixin',
+    _inherit = ['oacis.mixin', 'oacis.sequence.mixin',
                 'mail.thread', 'mail.activity.mixin']
     _order = 'enrollment_date desc, id desc'
     _check_company_auto = True
@@ -25,34 +25,34 @@ class AdmissionEnrollment(models.Model):
         default=lambda self: _('New'), tracking=True,
     )
     applicant_id = fields.Many2one(
-        comodel_name='unicore.admission.applicant', string='Applicant',
+        comodel_name='oacis.admission.applicant', string='Applicant',
         required=True, ondelete='restrict', index=True, tracking=True,
     )
     student_id = fields.Many2one(
-        comodel_name='unicore.student', string='Student',
+        comodel_name='oacis.student', string='Student',
         required=True, ondelete='restrict', index=True, tracking=True,
         domain="[('company_id', '=', company_id)]",
     )
     cycle_id = fields.Many2one(
-        comodel_name='unicore.admission.cycle', string='Admission Cycle',
+        comodel_name='oacis.admission.cycle', string='Admission Cycle',
         required=True, ondelete='restrict', tracking=True,
     )
     program_id = fields.Many2one(
-        comodel_name='unicore.program', string='Program',
+        comodel_name='oacis.program', string='Program',
         required=True, ondelete='restrict', tracking=True,
         domain="[('company_id', '=', company_id)]",
     )
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus', string='Campus',
+        comodel_name='oacis.campus', string='Campus',
         required=True, ondelete='restrict', tracking=True,
         domain="[('company_id', '=', company_id)]",
     )
     academic_year_id = fields.Many2one(
-        comodel_name='unicore.academic.year', string='Academic Year',
+        comodel_name='oacis.academic.year', string='Academic Year',
         required=True, ondelete='restrict', tracking=True,
     )
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester', string='Semester / Term',
+        comodel_name='oacis.semester', string='Semester / Term',
         required=True, ondelete='restrict', tracking=True,
         domain="[('academic_year_id', '=', academic_year_id)]",
     )
@@ -74,7 +74,7 @@ class AdmissionEnrollment(models.Model):
         string='Enrollment Date', default=fields.Date.today, tracking=True,
     )
     course_enrollment_ids = fields.One2many(
-        comodel_name='unicore.enrollment',
+        comodel_name='oacis.enrollment',
         inverse_name='admission_enrollment_id',
         string='Course Enrollments',
     )
@@ -99,7 +99,7 @@ class AdmissionEnrollment(models.Model):
             if vals.get('name', _('New')) == _('New'):
                 company_id = vals.get('company_id') or self.env.company.id
                 seq = self._next_sequence(
-                    'unicore.admission.enrollment', company_id=company_id,
+                    'oacis.admission.enrollment', company_id=company_id,
                 ) or '/'
                 vals['name'] = seq
         return super().create(vals_list)
@@ -126,7 +126,7 @@ class AdmissionEnrollment(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Course Enrollments'),
-            'res_model': 'unicore.enrollment',
+            'res_model': 'oacis.enrollment',
             'view_mode': 'list,form',
             'domain': [('id', 'in', self.course_enrollment_ids.ids)],
             'context': {
@@ -140,7 +140,7 @@ class AdmissionEnrollment(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Applicant'),
-            'res_model': 'unicore.admission.applicant',
+            'res_model': 'oacis.admission.applicant',
             'view_mode': 'form',
             'res_id': self.applicant_id.id,
         }
@@ -150,7 +150,7 @@ class AdmissionEnrollment(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Student'),
-            'res_model': 'unicore.student',
+            'res_model': 'oacis.student',
             'view_mode': 'form',
             'res_id': self.student_id.id,
         }

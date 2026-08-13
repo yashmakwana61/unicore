@@ -1,10 +1,10 @@
 {
-    'name': 'UniCore Design',
+    'name': 'Oacis Design',
     'version': '19.0.1.0.0',
     'category': 'Themes/Backend',
-    'summary': 'Dynamic backend theme configuration engine for UniCore',
+    'summary': 'Dynamic backend theme configuration engine for Oacis',
     'description': """
-UniCore Design theme configuration engine for Odoo 19.
+Oacis Design theme configuration engine for Odoo 19.
 Allows company-wide default styling and per-user overrides for:
 - Font Family (System, Inter, Roboto, Outfit)
 - List Density (Default, Comfortable, Compact)
@@ -19,7 +19,7 @@ Allows company-wide default styling and per-user overrides for:
     ],
     'assets': {
         'web.assets_backend': [
-            'unicore_design/static/src/**/*',
+            'oacis_design/static/src/**/*',
         ],
     },
     'installable': True,

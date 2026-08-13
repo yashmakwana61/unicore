@@ -6,57 +6,57 @@
         <!-- LEVEL 2: Top-Level Standalone App (sequence 95)              -->
         <!-- ============================================================ -->
 
-        <menuitem id="menu_unicore_assignment"
+        <menuitem id="menu_oacis_assignment"
                   name="Assignments"
                   sequence="95"
-                  web_icon="unicore_assignment,static/description/icon.png"
-                  groups="unicore_base.group_unicore_faculty"/>
+                  web_icon="oacis_assignment,static/description/icon.png"
+                  groups="oacis_base.group_oacis_faculty"/>
 
         <!-- ============================================================ -->
         <!-- LEVEL 3: Sub-menus under Assignments                          -->
         <!-- ============================================================ -->
 
-        <menuitem id="menu_unicore_assignment_dashboard"
+        <menuitem id="menu_oacis_assignment_dashboard"
                   name="Assignment Overview"
-                  parent="menu_unicore_assignment"
-                  action="action_unicore_assignment_all"
+                  parent="menu_oacis_assignment"
+                  action="action_oacis_assignment_all"
                   sequence="10"
-                  groups="unicore_base.group_unicore_faculty"/>
+                  groups="oacis_base.group_oacis_faculty"/>
 
-        <menuitem id="menu_unicore_assignment_my"
+        <menuitem id="menu_oacis_assignment_my"
                   name="My Assignments"
-                  parent="menu_unicore_assignment"
-                  action="action_unicore_assignment_my"
+                  parent="menu_oacis_assignment"
+                  action="action_oacis_assignment_my"
                   sequence="20"
-                  groups="unicore_base.group_unicore_faculty"/>
+                  groups="oacis_base.group_oacis_faculty"/>
 
-        <menuitem id="menu_unicore_assignment_published"
+        <menuitem id="menu_oacis_assignment_published"
                   name="Published Assignments"
-                  parent="menu_unicore_assignment"
-                  action="action_unicore_assignment_published"
+                  parent="menu_oacis_assignment"
+                  action="action_oacis_assignment_published"
                   sequence="30"
-                  groups="unicore_base.group_unicore_staff"/>
+                  groups="oacis_base.group_oacis_staff"/>
 
-        <menuitem id="menu_unicore_assignment_submissions"
+        <menuitem id="menu_oacis_assignment_submissions"
                   name="Submissions"
-                  parent="menu_unicore_assignment"
-                  action="action_unicore_assignment_submission_all"
+                  parent="menu_oacis_assignment"
+                  action="action_oacis_assignment_submission_all"
                   sequence="40"
-                  groups="unicore_base.group_unicore_faculty"/>
+                  groups="oacis_base.group_oacis_faculty"/>
 
-        <menuitem id="menu_unicore_assignment_pending"
+        <menuitem id="menu_oacis_assignment_pending"
                   name="Pending Grading"
-                  parent="menu_unicore_assignment"
-                  action="action_unicore_assignment_submission_pending"
+                  parent="menu_oacis_assignment"
+                  action="action_oacis_assignment_submission_pending"
                   sequence="50"
-                  groups="unicore_base.group_unicore_faculty"/>
+                  groups="oacis_base.group_oacis_faculty"/>
 
-        <menuitem id="menu_unicore_assignment_rubrics"
+        <menuitem id="menu_oacis_assignment_rubrics"
                   name="Rubrics"
-                  parent="menu_unicore_assignment"
-                  action="action_unicore_assignment_rubric"
+                  parent="menu_oacis_assignment"
+                  action="action_oacis_assignment_rubric"
                   sequence="60"
-                  groups="unicore_base.group_unicore_faculty"/>
+                  groups="oacis_base.group_oacis_faculty"/>
 
     </data>
 </odoo>

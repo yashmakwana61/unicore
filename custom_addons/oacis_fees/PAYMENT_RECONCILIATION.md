@@ -1,4 +1,4 @@
-# UniCore Fees — Payment GL Reconciliation Guide
+# Oacis Fees — Payment GL Reconciliation Guide
 
 ## Overview
 Phase 3 implements automatic reconciliation of fee payments with GL receivable lines. When a payment is confirmed, it's automatically matched to the GL invoice's receivable lines and reconciled.
@@ -55,7 +55,7 @@ Phase 3 implements automatic reconciliation of fee payments with GL receivable l
 
 ## Components Implemented in Phase 3
 
-### 1. Payment GL Extension Model (`unicore_fee_payment_gl_ext.py`)
+### 1. Payment GL Extension Model (`oacis_fee_payment_gl_ext.py`)
 
 **New Fields:**
 - `gl_matching_line_ids` — Links payment to matched GL receivable lines
@@ -105,7 +105,7 @@ Phase 3 implements automatic reconciliation of fee payments with GL receivable l
 3. Create reversal for bank deposit move
 ```
 
-### 2. Invoice Status Extension (`unicore_fee_invoice_status_ext.py`)
+### 2. Invoice Status Extension (`oacis_fee_invoice_status_ext.py`)
 
 **New Fields:**
 - `gl_fully_reconciled` — Shows if all GL AR lines are reconciled
@@ -115,7 +115,7 @@ Phase 3 implements automatic reconciliation of fee payments with GL receivable l
 - `get_selection_value()` — Helper to display selection values
 - `action_view_gl_reconciliation_status()` — Opens GL reconciliation report
 
-### 3. Reconciliation Wizard (`unicore_fee_reconciliation_wizard.py`)
+### 3. Reconciliation Wizard (`oacis_fee_reconciliation_wizard.py`)
 
 **Purpose:** Manual reconciliation for cases where automatic matching needs review
 

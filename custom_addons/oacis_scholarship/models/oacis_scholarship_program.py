@@ -1,5 +1,5 @@
 """
-UniCore Scholarship Program Model
+Oacis Scholarship Program Model
 Defines a scholarship or financial aid scheme.
 Stores eligibility criteria, funding details,
 award amounts and application quota.
@@ -13,10 +13,10 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreScholarshipProgram(models.Model):
-    _name = 'unicore.scholarship.program'
+class OacisScholarshipProgram(models.Model):
+    _name = 'oacis.scholarship.program'
     _description = 'Scholarship Program'
-    _inherit = ['unicore.mixin', 'mail.thread',
+    _inherit = ['oacis.mixin', 'mail.thread',
                 'mail.activity.mixin']
     _order = 'name'
     _check_company_auto = True
@@ -42,7 +42,7 @@ class UniCoreScholarshipProgram(models.Model):
         tracking=True,
     )
     academic_year_id = fields.Many2one(
-        comodel_name='unicore.academic.year',
+        comodel_name='oacis.academic.year',
         string='Academic Year',
         required=True,
         ondelete='restrict',
@@ -115,8 +115,8 @@ class UniCoreScholarshipProgram(models.Model):
         default=lambda self: self.env.company.currency_id,
     )
     eligible_program_ids = fields.Many2many(
-        comodel_name='unicore.program',
-        relation='unicore_scholarship_program_rel',
+        comodel_name='oacis.program',
+        relation='oacis_scholarship_program_rel',
         column1='scholarship_id',
         column2='program_id',
         string='Eligible Programs',
@@ -179,7 +179,7 @@ class UniCoreScholarshipProgram(models.Model):
     # --- STATS ---
 
     application_ids = fields.One2many(
-        comodel_name='unicore.scholarship.application',
+        comodel_name='oacis.scholarship.application',
         inverse_name='scholarship_program_id',
         string='Applications',
     )
@@ -203,7 +203,7 @@ class UniCoreScholarshipProgram(models.Model):
     @api.depends('application_ids',
                  'application_ids.application_state')
     def _compute_stats(self):
-        Award = self.env['unicore.scholarship.award']
+        Award = self.env['oacis.scholarship.award']
         for rec in self:
             apps = rec.application_ids
             rec.application_count = len(apps)

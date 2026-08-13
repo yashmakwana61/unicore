@@ -2,12 +2,12 @@
 <odoo>
   <data noupdate="1">
     <!-- Default notification config for main company -->
-    <record id="unicore_notify_config_default" model="unicore.notification.config">
+    <record id="oacis_notify_config_default" model="oacis.notification.config">
       <field name="name">Default Notification Config</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="email_enabled" eval="True"/>
-      <field name="email_from_name">UniCore ERP</field>
-      <field name="email_footer_text">This email was sent by UniCore ERP.
+      <field name="email_from_name">Oacis ERP</field>
+      <field name="email_footer_text">This email was sent by Oacis ERP.
 If you believe you received this in error,
 please contact the university administration.</field>
       <field name="whatsapp_enabled" eval="False"/>

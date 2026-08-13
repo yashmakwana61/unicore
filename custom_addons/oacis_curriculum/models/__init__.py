@@ -1,10 +1,10 @@
 """
-UniCore Curriculum — Models Package
+Oacis Curriculum — Models Package
 """
 from . import (
-    unicore_course,
-    unicore_course_offering,
-    unicore_course_prerequisite,
-    unicore_curriculum,
-    unicore_curriculum_line,
+    oacis_course,
+    oacis_course_offering,
+    oacis_course_prerequisite,
+    oacis_curriculum,
+    oacis_curriculum_line,
 )

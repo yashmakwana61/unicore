@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <!-- Unicore LMS Root Menu -->
-        <menuitem id="menu_unicore_lms_root"
+        <!-- Oacis LMS Root Menu -->
+        <menuitem id="menu_oacis_lms_root"
                   name="Advanced LMS"
                   sequence="35"
                   web_icon="website_slides,static/description/icon.png"/>
 
         <!-- Main Courses Menu -->
-        <menuitem id="menu_unicore_lms_courses"
+        <menuitem id="menu_oacis_lms_courses"
                   name="Courses"
-                  parent="menu_unicore_lms_root"
+                  parent="menu_oacis_lms_root"
                   sequence="10"
                   action="website_slides.slide_channel_action_overview"/>
 
-        <menuitem id="menu_unicore_lms_contents"
+        <menuitem id="menu_oacis_lms_contents"
                   name="Contents (Slides)"
-                  parent="menu_unicore_lms_root"
+                  parent="menu_oacis_lms_root"
                   sequence="20"
                   action="website_slides.slide_slide_action"/>
                   
         <!-- Reporting Menu -->
-        <menuitem id="menu_unicore_lms_reporting"
+        <menuitem id="menu_oacis_lms_reporting"
                   name="Reporting"
-                  parent="menu_unicore_lms_root"
+                  parent="menu_oacis_lms_root"
                   sequence="30"/>
 
-        <menuitem id="menu_unicore_lms_report_courses"
+        <menuitem id="menu_oacis_lms_report_courses"
                   name="Course Analytics"
-                  parent="menu_unicore_lms_reporting"
+                  parent="menu_oacis_lms_reporting"
                   sequence="10"
                   action="website_slides.slide_channel_action_report"/>
                   
-        <menuitem id="menu_unicore_lms_report_reviews"
+        <menuitem id="menu_oacis_lms_report_reviews"
                   name="Reviews"
-                  parent="menu_unicore_lms_reporting"
+                  parent="menu_oacis_lms_reporting"
                   sequence="20"
                   action="website_slides.rating_rating_action_slide_channel"/>
                   
         <!-- Configuration Menu -->
-        <menuitem id="menu_unicore_lms_config"
+        <menuitem id="menu_oacis_lms_config"
                   name="Configuration"
-                  parent="menu_unicore_lms_root"
+                  parent="menu_oacis_lms_root"
                   sequence="100"/>
                   
-        <menuitem id="menu_unicore_lms_config_tags"
+        <menuitem id="menu_oacis_lms_config_tags"
                   name="Course Tags"
-                  parent="menu_unicore_lms_config"
+                  parent="menu_oacis_lms_config"
                   sequence="10"
                   action="website_slides.slide_channel_tag_group_action"/>
     </data>

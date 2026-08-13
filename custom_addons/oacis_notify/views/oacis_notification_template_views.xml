@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <!-- ==================== FORM VIEW ==================== -->
-  <record id="view_unicore_notification_template_form" model="ir.ui.view">
-    <field name="name">unicore.notification.template.form</field>
-    <field name="model">unicore.notification.template</field>
+  <record id="view_oacis_notification_template_form" model="ir.ui.view">
+    <field name="name">oacis.notification.template.form</field>
+    <field name="model">oacis.notification.template</field>
     <field name="arch" type="xml">
       <form>
         <sheet>
@@ -52,9 +52,9 @@
     </field>
   </record>
   <!-- ==================== LIST VIEW ==================== -->
-  <record id="view_unicore_notification_template_list" model="ir.ui.view">
-    <field name="name">unicore.notification.template.list</field>
-    <field name="model">unicore.notification.template</field>
+  <record id="view_oacis_notification_template_list" model="ir.ui.view">
+    <field name="name">oacis.notification.template.list</field>
+    <field name="model">oacis.notification.template</field>
     <field name="arch" type="xml">
       <list decoration-info="is_system_template" decoration-muted="not is_active_trigger">
         <field name="name"/>
@@ -70,9 +70,9 @@
     </field>
   </record>
   <!-- ==================== SEARCH VIEW ==================== -->
-  <record id="view_unicore_notification_template_search" model="ir.ui.view">
-    <field name="name">unicore.notification.template.search</field>
-    <field name="model">unicore.notification.template</field>
+  <record id="view_oacis_notification_template_search" model="ir.ui.view">
+    <field name="name">oacis.notification.template.search</field>
+    <field name="model">oacis.notification.template</field>
     <field name="arch" type="xml">
       <search>
         <field name="name"/>
@@ -95,9 +95,9 @@
     </field>
   </record>
   <!-- ==================== ACTION ==================== -->
-  <record id="action_unicore_notification_template" model="ir.actions.act_window">
+  <record id="action_oacis_notification_template" model="ir.actions.act_window">
     <field name="name">Notification Templates</field>
-    <field name="res_model">unicore.notification.template</field>
+    <field name="res_model">oacis.notification.template</field>
     <field name="view_mode">list,form</field>
     <field name="context">{'search_default_active_triggers': 1}</field>
   </record>

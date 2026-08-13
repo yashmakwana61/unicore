@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <data>
-    <record id="view_unicore_secure_transcript_tree" model="ir.ui.view">
-      <field name="name">unicore.secure.transcript.tree</field>
-      <field name="model">unicore.secure.transcript</field>
+    <record id="view_oacis_secure_transcript_tree" model="ir.ui.view">
+      <field name="name">oacis.secure.transcript.tree</field>
+      <field name="model">oacis.secure.transcript</field>
       <field name="arch" type="xml">
         <list string="Secure Transcripts">
           <field name="student_id" widget="many2one_avatar"/>
@@ -13,9 +13,9 @@
         </list>
       </field>
     </record>
-    <record id="view_unicore_secure_transcript_form" model="ir.ui.view">
-      <field name="name">unicore.secure.transcript.form</field>
-      <field name="model">unicore.secure.transcript</field>
+    <record id="view_oacis_secure_transcript_form" model="ir.ui.view">
+      <field name="name">oacis.secure.transcript.form</field>
+      <field name="model">oacis.secure.transcript</field>
       <field name="arch" type="xml">
         <form string="Secure Transcript">
           <header>
@@ -57,9 +57,9 @@
         </form>
       </field>
     </record>
-    <record id="action_unicore_secure_transcript" model="ir.actions.act_window">
+    <record id="action_oacis_secure_transcript" model="ir.actions.act_window">
       <field name="name">Secure Transcripts</field>
-      <field name="res_model">unicore.secure.transcript</field>
+      <field name="res_model">oacis.secure.transcript</field>
       <field name="view_mode">list,form</field>
     </record>
     <!-- Public verification page template -->

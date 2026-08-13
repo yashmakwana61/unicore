@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data noupdate="0">
-    <record id="uc_demo_hostel_block_boys" model="unicore.hostel.block">
+    <record id="uc_demo_hostel_block_boys" model="oacis.hostel.block">
       <field name="name">Boys Hostel Block A</field>
       <field name="code">BH-A</field>
       <field name="company_id" ref="base.main_company"/>
@@ -13,7 +13,7 @@
       <field name="block_state">active</field>
     </record>
 
-    <record id="uc_demo_hostel_block_girls" model="unicore.hostel.block">
+    <record id="uc_demo_hostel_block_girls" model="oacis.hostel.block">
       <field name="name">Girls Hostel Block B</field>
       <field name="code">GH-B</field>
       <field name="company_id" ref="base.main_company"/>
@@ -25,7 +25,7 @@
       <field name="block_state">active</field>
     </record>
 
-    <record id="uc_demo_hostel_room_101" model="unicore.hostel.room">
+    <record id="uc_demo_hostel_room_101" model="oacis.hostel.room">
       <field name="room_number">101</field>
       <field name="block_id" ref="uc_demo_hostel_block_boys"/>
       <field name="company_id" ref="base.main_company"/>
@@ -36,7 +36,7 @@
       <field name="room_state">occupied</field>
     </record>
 
-    <record id="uc_demo_hostel_room_102" model="unicore.hostel.room">
+    <record id="uc_demo_hostel_room_102" model="oacis.hostel.room">
       <field name="room_number">102</field>
       <field name="block_id" ref="uc_demo_hostel_block_boys"/>
       <field name="company_id" ref="base.main_company"/>
@@ -47,7 +47,7 @@
       <field name="room_state">available</field>
     </record>
 
-    <record id="uc_demo_hostel_room_g101" model="unicore.hostel.room">
+    <record id="uc_demo_hostel_room_g101" model="oacis.hostel.room">
       <field name="room_number">G101</field>
       <field name="block_id" ref="uc_demo_hostel_block_girls"/>
       <field name="company_id" ref="base.main_company"/>
@@ -58,7 +58,7 @@
       <field name="room_state">occupied</field>
     </record>
 
-    <record id="uc_demo_hostel_alloc_arav" model="unicore.hostel.allocation">
+    <record id="uc_demo_hostel_alloc_arav" model="oacis.hostel.allocation">
       <field name="student_id" ref="uc_demo_student_arav"/>
       <field name="room_id" ref="uc_demo_hostel_room_101"/>
       <field name="academic_year_id" ref="uc_demo_ay_2526"/>
@@ -68,7 +68,7 @@
       <field name="allocation_state">allocated</field>
     </record>
 
-    <record id="uc_demo_hostel_alloc_kabir" model="unicore.hostel.allocation">
+    <record id="uc_demo_hostel_alloc_kabir" model="oacis.hostel.allocation">
       <field name="student_id" ref="uc_demo_student_kabir"/>
       <field name="room_id" ref="uc_demo_hostel_room_101"/>
       <field name="academic_year_id" ref="uc_demo_ay_2526"/>
@@ -78,7 +78,7 @@
       <field name="allocation_state">allocated</field>
     </record>
 
-    <record id="uc_demo_hostel_alloc_diya" model="unicore.hostel.allocation">
+    <record id="uc_demo_hostel_alloc_diya" model="oacis.hostel.allocation">
       <field name="student_id" ref="uc_demo_student_diya"/>
       <field name="room_id" ref="uc_demo_hostel_room_g101"/>
       <field name="academic_year_id" ref="uc_demo_ay_2526"/>

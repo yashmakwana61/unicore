@@ -1,5 +1,5 @@
 """
-UniCore Assignment Submission Extension — Grade Book Auto-Refresh
+Oacis Assignment Submission Extension — Grade Book Auto-Refresh
 =================================================================
 
 Event bridge: when a submission is graded (or its marks change), the
@@ -9,14 +9,14 @@ stay current without faculty having to click "Regenerate Grade Book".
 
 Why does this live in its own module?
 -------------------------------------
-``unicore_assignment`` already depends on ``unicore_grading``
+``oacis_assignment`` already depends on ``oacis_grading``
 transitively (``assignment -> notify -> fees -> grading``), so
-``unicore_grading`` can NOT depend on ``unicore_assignment`` without
+``oacis_grading`` can NOT depend on ``oacis_assignment`` without
 creating a dependency cycle. This module sits ABOVE both and wires
 the assignment submission events into the grade book roll-up.
 
 Business rules are unchanged: the grade book still never pushes
-values into ``unicore.grade.entry`` on its own — that remains a
+values into ``oacis.grade.entry`` on its own — that remains a
 deliberate, manual "Apply CA Marks" action in the grade book config.
 """
 
@@ -27,8 +27,8 @@ from odoo import api, models
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreAssignmentSubmissionExt(models.Model):
-    _inherit = 'unicore.assignment.submission'
+class OacisAssignmentSubmissionExt(models.Model):
+    _inherit = 'oacis.assignment.submission'
 
     # ------- HOOKS -------
 
@@ -65,7 +65,7 @@ class UniCoreAssignmentSubmissionExt(models.Model):
 
     def _get_gradebook_student_lines(self):
         """Grade book student lines derived from these submissions."""
-        StudentLine = self.env['unicore.gradebook.student.line']
+        StudentLine = self.env['oacis.gradebook.student.line']
         if not self:
             return StudentLine
         student_ids = self.mapped('student_id').ids

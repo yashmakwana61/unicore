@@ -50,8 +50,8 @@ A **kanban view with drag-and-drop capability** has been added to the Admission 
 
 ```xml
 <record id="admission_applicant_kanban_view" model="ir.ui.view">
-    <field name="name">unicore.admission.applicant.kanban</field>
-    <field name="model">unicore.admission.applicant</field>
+    <field name="name">oacis.admission.applicant.kanban</field>
+    <field name="model">oacis.admission.applicant</field>
     <field name="arch" type="xml">
         <kanban default_group_by="state" quick_create="False">
             <!-- Fields, Templates, Card HTML -->
@@ -60,7 +60,7 @@ A **kanban view with drag-and-drop capability** has been added to the Admission 
 </record>
 ```
 
-**Updated:** Action `action_unicore_admission_applicant`
+**Updated:** Action `action_oacis_admission_applicant`
 - **Before:** `view_mode="list,form"`
 - **After:** `view_mode="kanban,list,form"` (kanban now the default view)
 - **Help text updated** to mention drag-drop capability
@@ -73,7 +73,7 @@ Comprehensive SCSS styling for the kanban view:
 - **Column styling:** Color-coded headers for each stage
 - **Interactive effects:** Hover transforms, shadow transitions
 - **Responsive breakpoints:** Mobile-optimized layout
-- **Design tokens:** Reuses UniCore theme colors (`--uc-primary`, etc.)
+- **Design tokens:** Reuses Oacis theme colors (`--uc-primary`, etc.)
 - **Dark mode support:** Via `@media (prefers-color-scheme: dark)`
 
 **Stage-Specific Colors:**
@@ -98,7 +98,7 @@ Comprehensive SCSS styling for the kanban view:
 ```python
 'assets': {
     'web.assets_backend': [
-        'unicore_admission/static/src/scss/admission_kanban.scss',
+        'oacis_admission/static/src/scss/admission_kanban.scss',
     ],
 },
 ```
@@ -189,7 +189,7 @@ Dragging an applicant to an invalid stage may fail if:
 The form view's action buttons provide guidance on valid transitions.
 
 ### 3. **Record Rules Respected**
-The kanban view respects record-level access rules defined in `security/unicore_admission_record_rules.xml`. Users can only see/move applicants they have access to.
+The kanban view respects record-level access rules defined in `security/oacis_admission_record_rules.xml`. Users can only see/move applicants they have access to.
 
 ### 4. **Chart.js Not Used**
 The kanban view is purely structural; it doesn't include charts. For analytics, use the **Admission Dashboard** (separate component).
@@ -201,7 +201,7 @@ The kanban view is purely structural; it doesn't include charts. For analytics, 
 ### Update the Module
 
 ```bash
-docker compose exec odoo odoo -d unicore_production -u unicore_admission --stop-after-init
+docker compose exec odoo odoo -d oacis_production -u oacis_admission --stop-after-init
 ```
 
 Then perform a hard browser refresh.
@@ -209,7 +209,7 @@ Then perform a hard browser refresh.
 ### If Styles Don't Load
 
 ```bash
-docker compose exec odoo odoo -d unicore_production --update-all-assets --stop-after-init
+docker compose exec odoo odoo -d oacis_production --update-all-assets --stop-after-init
 ```
 
 ---

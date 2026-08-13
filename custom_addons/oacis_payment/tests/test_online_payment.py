@@ -6,8 +6,8 @@ from odoo.fields import Command
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'financial')
-class UniCoreOnlinePaymentTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'financial')
+class OacisOnlinePaymentTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
@@ -16,18 +16,18 @@ class UniCoreOnlinePaymentTest(TransactionCase):
         cls.company = cls.env.company
         cls.currency = cls.company.currency_id
 
-        cls.faculty = cls.env['unicore.faculty'].create({
+        cls.faculty = cls.env['oacis.faculty'].create({
             'name': 'Test Faculty of Business',
             'code': 'TFB',
             'company_id': cls.company.id,
         })
-        cls.department = cls.env['unicore.department'].create({
+        cls.department = cls.env['oacis.department'].create({
             'name': 'Test Commerce',
             'code': 'TCOM',
             'faculty_id': cls.faculty.id,
             'company_id': cls.company.id,
         })
-        cls.program = cls.env['unicore.program'].create({
+        cls.program = cls.env['oacis.program'].create({
             'name': 'Test B.Com',
             'code': 'TEST-BCOM',
             'program_type': 'undergraduate',
@@ -38,12 +38,12 @@ class UniCoreOnlinePaymentTest(TransactionCase):
             'department_id': cls.department.id,
             'company_id': cls.company.id,
         })
-        cls.campus = cls.env['unicore.campus'].create({
+        cls.campus = cls.env['oacis.campus'].create({
             'name': 'Test Business Campus',
             'code': 'TBCAMP',
             'company_id': cls.company.id,
         })
-        cls.academic_year = cls.env['unicore.academic.year'].create({
+        cls.academic_year = cls.env['oacis.academic.year'].create({
             'name': 'Test AY 2025-26',
             'code': 'TAY2526',
             'date_start': '2025-07-01',
@@ -52,7 +52,7 @@ class UniCoreOnlinePaymentTest(TransactionCase):
             'is_current': False,
             'company_id': cls.company.id,
         })
-        cls.semester = cls.env['unicore.semester'].create({
+        cls.semester = cls.env['oacis.semester'].create({
             'name': 'Test ODD 2025-26',
             'code': 'TODD-2526',
             'semester_type': 'odd',
@@ -62,7 +62,7 @@ class UniCoreOnlinePaymentTest(TransactionCase):
             'semester_state': 'ongoing',
             'company_id': cls.company.id,
         })
-        cls.student = cls.env['unicore.student'].create({
+        cls.student = cls.env['oacis.student'].create({
             'name': 'Fee',
             'last_name': 'Online Student',
             'gender': 'male',
@@ -78,7 +78,7 @@ class UniCoreOnlinePaymentTest(TransactionCase):
         cls.config = None
 
     def _create_invoice(self, amount=10000.0):
-        return self.env['unicore.fee.invoice'].create({
+        return self.env['oacis.fee.invoice'].create({
             'student_id': self.student.id,
             'company_id': self.company.id,
             'academic_year_id': self.academic_year.id,
@@ -119,7 +119,7 @@ class UniCoreOnlinePaymentTest(TransactionCase):
             self.student.partner_id.with_company(company).write({
                 'property_account_receivable_id': receivable.id,
             })
-            self.config = self.env['unicore.fee.accounting.config'].create({
+            self.config = self.env['oacis.fee.accounting.config'].create({
                 'company_id': company.id,
                 'journal_id': sale_journal.id,
                 'revenue_account_id': revenue.id,
@@ -230,7 +230,7 @@ class UniCoreOnlinePaymentTest(TransactionCase):
         invoice.invalidate_recordset()
         tx._post_process()
 
-        fee_invoice_found = self.env['unicore.fee.invoice'].sudo().search([
+        fee_invoice_found = self.env['oacis.fee.invoice'].sudo().search([
             ('account_move_id', '=', move.id)])
         self.assertTrue(fee_invoice_found, 'Fee invoice must be found via GL invoice')
 

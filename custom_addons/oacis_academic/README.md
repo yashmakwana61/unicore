@@ -1,7 +1,7 @@
-UniCore Academic Structure
+Oacis Academic Structure
 ==========================
 
-Defines the complete academic hierarchy for UniCore ERP.
+Defines the complete academic hierarchy for Oacis ERP.
 
 Academic Hierarchy
 ------------------
@@ -12,10 +12,10 @@ Faculty (School/College)
 
 Model Details
 -------------
-- unicore.faculty: Academic school/college within the institution
-- unicore.department: Department within a faculty
-- unicore.program: Degree, diploma or certificate program
-- unicore.specialisation: Optional major or branch within a program
+- oacis.faculty: Academic school/college within the institution
+- oacis.department: Department within a faculty
+- oacis.program: Degree, diploma or certificate program
+- oacis.specialisation: Optional major or branch within a program
 
 State Workflows
 ---------------
@@ -34,9 +34,9 @@ Key Features
 
 Dependencies
 ------------
-- unicore_base: Base models, security groups, mixins
-- unicore_security: Record rules and data isolation
-- unicore_campus: Campus model for campus assignments
+- oacis_base: Base models, security groups, mixins
+- oacis_security: Record rules and data isolation
+- oacis_campus: Campus model for campus assignments
 
 Security Groups Access
 ----------------------

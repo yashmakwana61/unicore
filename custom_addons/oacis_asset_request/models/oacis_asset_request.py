@@ -1,5 +1,5 @@
 """
-UniCore Asset Request Model
+Oacis Asset Request Model
 Equipment/facility request and approval workflow.
 Faculty and staff submit requests for assets; administrators
 review and approve/reject; once approved, the request is
@@ -14,10 +14,10 @@ from odoo.exceptions import UserError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreAssetRequest(models.Model):
-    _name = 'unicore.asset.request'
+class OacisAssetRequest(models.Model):
+    _name = 'oacis.asset.request'
     _description = 'Asset Request'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'create_date desc'
     _check_company_auto = True
 
@@ -37,7 +37,7 @@ class UniCoreAssetRequest(models.Model):
     )
 
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus',
+        comodel_name='oacis.campus',
         string='Campus',
         required=True,
         ondelete='restrict',
@@ -56,7 +56,7 @@ class UniCoreAssetRequest(models.Model):
     )
 
     faculty_member_id = fields.Many2one(
-        comodel_name='unicore.faculty.member',
+        comodel_name='oacis.faculty.member',
         string='Faculty / Staff Member',
         ondelete='restrict',
         tracking=True,
@@ -64,7 +64,7 @@ class UniCoreAssetRequest(models.Model):
     )
 
     asset_id = fields.Many2one(
-        comodel_name='unicore.asset',
+        comodel_name='oacis.asset',
         string='Asset',
         ondelete='restrict',
         tracking=True,
@@ -168,7 +168,7 @@ class UniCoreAssetRequest(models.Model):
         for vals in vals_list:
             if vals.get('name', '/') == '/':
                 vals['name'] = self.env['ir.sequence'].next_by_code(
-                    'unicore.asset.request',
+                    'oacis.asset.request',
                 ) or '/'
         return super().create(vals_list)
 
@@ -259,7 +259,7 @@ class UniCoreAssetRequest(models.Model):
         Admin = self.env['res.users']
         admin = Admin.search([
             ('groups_id', 'in', [
-                self.env.ref('unicore_base.group_unicore_admin').id,
+                self.env.ref('oacis_base.group_oacis_admin').id,
             ]),
             ('share', '=', False),
         ], limit=1)

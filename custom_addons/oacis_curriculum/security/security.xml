@@ -2,8 +2,8 @@
 <odoo>
     <data>
         <!-- Module Category -->
-        <record id="module_category_unicore_curriculum" model="ir.module.category">
-            <field name="name">UniCore / Curriculum</field>
+        <record id="module_category_oacis_curriculum" model="ir.module.category">
+            <field name="name">Oacis / Curriculum</field>
             <field name="sequence">10</field>
         </record>
     </data>

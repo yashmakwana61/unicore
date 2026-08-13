@@ -1,5 +1,5 @@
 """
-UniCore Fee Invoice — Status Update Extension
+Oacis Fee Invoice — Status Update Extension
 Updates invoice status based on GL reconciliation and payments.
 """
 
@@ -9,8 +9,8 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
-class UniCoreFeeInvoiceStatusExt(models.Model):
-    _inherit = 'unicore.fee.invoice'
+class OacisFeeInvoiceStatusExt(models.Model):
+    _inherit = 'oacis.fee.invoice'
 
     gl_fully_reconciled = fields.Boolean(
         string='GL Fully Reconciled',

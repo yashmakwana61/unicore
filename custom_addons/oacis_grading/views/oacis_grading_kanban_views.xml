@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_grade_entry_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.grade.entry.kanban</field>
-        <field name="model">unicore.grade.entry</field>
+    <record id="oacis_grade_entry_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.grade.entry.kanban</field>
+        <field name="model">oacis.grade.entry</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="entry_state">
                 <field name="display_name"/>
@@ -60,9 +60,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_semester_result_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.semester.result.kanban</field>
-        <field name="model">unicore.semester.result</field>
+    <record id="oacis_semester_result_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.semester.result.kanban</field>
+        <field name="model">oacis.semester.result</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="result_status">
                 <field name="display_name"/>
@@ -109,9 +109,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_grade_scale_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.grade.scale.kanban</field>
-        <field name="model">unicore.grade.scale</field>
+    <record id="oacis_grade_scale_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.grade.scale.kanban</field>
+        <field name="model">oacis.grade.scale</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color">
                 <field name="name"/>

@@ -1,11 +1,11 @@
 """Institution-profile academic unit level enforcement (config wiring).
 
-Verifies that ``unicore.academic.unit`` honors the institution profile's
+Verifies that ``oacis.academic.unit`` honors the institution profile's
 ``academic_unit_level_ids`` allow-list: strict when the list is non-empty,
 unrestricted when the profile is absent or the list is empty. UNI_LEGACY lists
 all eight unit types so the backfilled default never blocks anything.
 
-Lives in this module (not unicore_academic_generic) because the enforcement is
+Lives in this module (not oacis_academic_generic) because the enforcement is
 wired from here — the generic module cannot reference the profile without a
 circular dependency.
 """
@@ -15,8 +15,8 @@ from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'unit')
-class UniCoreAcademicUnitLevelsTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'unit')
+class OacisAcademicUnitLevelsTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
@@ -24,16 +24,16 @@ class UniCoreAcademicUnitLevelsTest(TransactionCase):
 
         cls.company = cls.env.company
         cls.profile_school = cls.env.ref(
-            'unicore_institution_profile.profile_school_k12')
+            'oacis_institution_profile.profile_school_k12')
         cls.profile_legacy = cls.env.ref(
-            'unicore_institution_profile.profile_university_legacy')
+            'oacis_institution_profile.profile_university_legacy')
         cls.type_faculty = cls.env.ref(
-            'unicore_academic_generic.unit_type_faculty')
+            'oacis_academic_generic.unit_type_faculty')
         cls.type_grade_level = cls.env.ref(
-            'unicore_academic_generic.unit_type_grade_level')
+            'oacis_academic_generic.unit_type_grade_level')
 
     def _new_unit(self, name, code, unit_type):
-        return self.env['unicore.academic.unit'].create({
+        return self.env['oacis.academic.unit'].create({
             'name': name,
             'code': code,
             'unit_type_id': unit_type.id,
@@ -59,7 +59,7 @@ class UniCoreAcademicUnitLevelsTest(TransactionCase):
         self.assertEqual(faculty.unit_type_id, self.type_faculty)
 
         # An explicit profile with an empty allow-list is also unrestricted.
-        profile_empty = self.env['unicore.institution.profile'].create({
+        profile_empty = self.env['oacis.institution.profile'].create({
             'name': 'Empty Levels', 'code': 'EMPTY_LVL',
             'is_legacy_university': False,
         })

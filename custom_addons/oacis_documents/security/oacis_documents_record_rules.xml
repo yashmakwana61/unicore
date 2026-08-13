@@ -2,9 +2,9 @@
 <odoo>
   <data noupdate="1">
     <!-- Document Category: Company Isolation -->
-    <record id="rule_unicore_doc_category_company" model="ir.rule">
+    <record id="rule_oacis_doc_category_company" model="ir.rule">
       <field name="name">Document Category: Company Isolation</field>
-      <field name="model_id" ref="model_unicore_document_category"/>
+      <field name="model_id" ref="model_oacis_document_category"/>
       <field name="domain_force">['|',('company_id','=',False),('company_id','in',company_ids)]</field>
       <field name="groups" eval="[(4,ref('base.group_user'))]"/>
       <field name="perm_read" eval="True"/>
@@ -13,9 +13,9 @@
       <field name="perm_unlink" eval="True"/>
     </record>
     <!-- Document: Company Isolation -->
-    <record id="rule_unicore_document_company" model="ir.rule">
+    <record id="rule_oacis_document_company" model="ir.rule">
       <field name="name">Document: Company Isolation</field>
-      <field name="model_id" ref="model_unicore_document"/>
+      <field name="model_id" ref="model_oacis_document"/>
       <field name="domain_force">['|',('company_id','=',False),('company_id','in',company_ids)]</field>
       <field name="groups" eval="[(4,ref('base.group_user'))]"/>
       <field name="perm_read" eval="True"/>
@@ -24,22 +24,22 @@
       <field name="perm_unlink" eval="True"/>
     </record>
     <!-- Document: Student Own Records Only -->
-    <record id="rule_unicore_document_student" model="ir.rule">
+    <record id="rule_oacis_document_student" model="ir.rule">
       <field name="name">Document: Student Own Records Only</field>
-      <field name="model_id" ref="model_unicore_document"/>
+      <field name="model_id" ref="model_oacis_document"/>
       <field name="domain_force">[('student_id.partner_id.user_ids', 'in', [user.id]),
          ('is_student_visible', '=', True),
          ('document_state', '=', 'active')]</field>
-      <field name="groups" eval="[(4,ref('unicore_base.group_unicore_student'))]"/>
+      <field name="groups" eval="[(4,ref('oacis_base.group_oacis_student'))]"/>
       <field name="perm_read" eval="True"/>
       <field name="perm_write" eval="False"/>
       <field name="perm_create" eval="False"/>
       <field name="perm_unlink" eval="False"/>
     </record>
     <!-- Document: Confidential blocked from non-admin -->
-    <record id="rule_unicore_document_confidential" model="ir.rule">
+    <record id="rule_oacis_document_confidential" model="ir.rule">
       <field name="name">Document: Confidential -- Admin Only</field>
-      <field name="model_id" ref="model_unicore_document"/>
+      <field name="model_id" ref="model_oacis_document"/>
       <field name="domain_force">['|',
           ('is_confidential', '=', False),
           ('is_confidential', '=', True)]</field>
@@ -50,20 +50,20 @@
       <field name="perm_unlink" eval="True"/>
     </record>
     <!-- Document: Admin Bypass -->
-    <record id="rule_unicore_document_admin" model="ir.rule">
+    <record id="rule_oacis_document_admin" model="ir.rule">
       <field name="name">Document: Admin Bypass</field>
-      <field name="model_id" ref="model_unicore_document"/>
+      <field name="model_id" ref="model_oacis_document"/>
       <field name="domain_force">[(1,'=',1)]</field>
-      <field name="groups" eval="[(4,ref('unicore_base.group_unicore_admin'))]"/>
+      <field name="groups" eval="[(4,ref('oacis_base.group_oacis_admin'))]"/>
       <field name="perm_read" eval="True"/>
       <field name="perm_write" eval="True"/>
       <field name="perm_create" eval="True"/>
       <field name="perm_unlink" eval="True"/>
     </record>
     <!-- Document Template: Company Isolation -->
-    <record id="rule_unicore_doc_template_company" model="ir.rule">
+    <record id="rule_oacis_doc_template_company" model="ir.rule">
       <field name="name">Document Template: Company Isolation</field>
-      <field name="model_id" ref="model_unicore_document_template"/>
+      <field name="model_id" ref="model_oacis_document_template"/>
       <field name="domain_force">['|',('company_id','=',False),('company_id','in',company_ids)]</field>
       <field name="groups" eval="[(4,ref('base.group_user'))]"/>
       <field name="perm_read" eval="True"/>

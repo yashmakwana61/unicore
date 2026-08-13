@@ -4,8 +4,8 @@ import odoo
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'convocation')
-class UniCoreConvocationTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'convocation')
+class OacisConvocationTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
@@ -13,18 +13,18 @@ class UniCoreConvocationTest(TransactionCase):
 
         cls.company = cls.env.company
 
-        cls.faculty = cls.env['unicore.faculty'].create({
+        cls.faculty = cls.env['oacis.faculty'].create({
             'name': 'Test Faculty of Convocation',
             'code': 'TFC',
             'company_id': cls.company.id,
         })
-        cls.department = cls.env['unicore.department'].create({
+        cls.department = cls.env['oacis.department'].create({
             'name': 'Test Convocation Office',
             'code': 'TCONV',
             'faculty_id': cls.faculty.id,
             'company_id': cls.company.id,
         })
-        cls.program = cls.env['unicore.program'].create({
+        cls.program = cls.env['oacis.program'].create({
             'name': 'Test B.A. Convocation',
             'code': 'TEST-BA-CONV',
             'program_type': 'undergraduate',
@@ -35,12 +35,12 @@ class UniCoreConvocationTest(TransactionCase):
             'department_id': cls.department.id,
             'company_id': cls.company.id,
         })
-        cls.campus = cls.env['unicore.campus'].create({
+        cls.campus = cls.env['oacis.campus'].create({
             'name': 'Test Convocation Campus',
             'code': 'TCCAMP',
             'company_id': cls.company.id,
         })
-        cls.academic_year = cls.env['unicore.academic.year'].create({
+        cls.academic_year = cls.env['oacis.academic.year'].create({
             'name': 'Test AY 2024-25',
             'code': 'TAY2425C',
             'date_start': '2024-07-01',
@@ -49,7 +49,7 @@ class UniCoreConvocationTest(TransactionCase):
             'is_current': False,
             'company_id': cls.company.id,
         })
-        cls.semester = cls.env['unicore.semester'].create({
+        cls.semester = cls.env['oacis.semester'].create({
             'name': 'Test ODD 2024-25',
             'code': 'TODD-2425C',
             'semester_type': 'odd',
@@ -59,7 +59,7 @@ class UniCoreConvocationTest(TransactionCase):
             'semester_state': 'ongoing',
             'company_id': cls.company.id,
         })
-        cls.graduate = cls.env['unicore.student'].create({
+        cls.graduate = cls.env['oacis.student'].create({
             'name': 'Jane Graduate',
             'last_name': 'Smith',
             'gender': 'female',
@@ -79,7 +79,7 @@ class UniCoreConvocationTest(TransactionCase):
             'name': 'Test Convocation 2025',
             'date_begin': date.today(),
             'date_end': date.today(),
-            'unicore_convocation_event': True,
+            'oacis_convocation_event': True,
             'company_id': cls.company.id,
         })
 
@@ -93,7 +93,7 @@ class UniCoreConvocationTest(TransactionCase):
 
     def test_02_convocation_event_flag(self):
         """The convocation event should have the flag set."""
-        self.assertTrue(self.convocation_event.unicore_convocation_event)
+        self.assertTrue(self.convocation_event.oacis_convocation_event)
 
     # -------------------- SMART BUTTONS --------------------
 
@@ -107,7 +107,7 @@ class UniCoreConvocationTest(TransactionCase):
 
     def test_04_register_convocation_action(self):
         """action_register_convocation creates a registration."""
-        student_no_event = self.env['unicore.student'].create({
+        student_no_event = self.env['oacis.student'].create({
             'name': 'New Graduate',
             'last_name': 'Doe',
             'gender': 'male',

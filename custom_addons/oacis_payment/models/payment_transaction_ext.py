@@ -1,14 +1,14 @@
 """
-UniCore Online Payments — Transaction Post-Processing
+Oacis Online Payments — Transaction Post-Processing
 
-Keeps the UniCore fee invoice status in sync with Odoo's native online
+Keeps the Oacis fee invoice status in sync with Odoo's native online
 payment flow.
 
 When a `payment.transaction` linked to the fee invoice's GL invoice is
 confirmed (`done`), `account_payment` already creates and posts the
 `account.payment` and reconciles the GL invoice. This extension simply
-propagates that result back to the `unicore.fee.invoice` record so its
-`invoice_state` stays correct for the rest of the UniCore modules.
+propagates that result back to the `oacis.fee.invoice` record so its
+`invoice_state` stays correct for the rest of the Oacis modules.
 """
 
 from odoo import _, models
@@ -22,7 +22,7 @@ class PaymentTransaction(models.Model):
 
         Runs the native post-processing first (payment creation, posting and
         reconciliation of the linked invoices), then propagates the resulting
-        GL status to the linked UniCore fee invoices.
+        GL status to the linked Oacis fee invoices.
         """
         super()._post_process()
         done_txs = self.filtered(lambda tx: tx.state == 'done' and tx.invoice_ids)
@@ -30,7 +30,7 @@ class PaymentTransaction(models.Model):
             return
 
         invoices = done_txs.mapped('invoice_ids')
-        fee_invoices = self.env['unicore.fee.invoice'].sudo().search([
+        fee_invoices = self.env['oacis.fee.invoice'].sudo().search([
             ('account_move_id', 'in', invoices.ids),
         ])
         for fee_invoice in fee_invoices:

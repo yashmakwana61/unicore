@@ -1,9 +1,9 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_unicore_alumni_student_admin,unicore.student admin,model_unicore_student,unicore_base.group_unicore_admin,1,1,1,1
-access_unicore_alumni_student_manager,unicore.student manager,model_unicore_student,unicore_base.group_unicore_manager,1,1,1,0
-access_unicore_alumni_student_registrar,unicore.student registrar,model_unicore_student,unicore_base.group_unicore_registrar,1,1,1,0
-access_unicore_alumni_student_staff,unicore.student staff,model_unicore_student,unicore_base.group_unicore_staff,1,0,0,0
-access_unicore_alumni_mailing_list_admin,mailing.list admin,model_mailing_list,unicore_base.group_unicore_admin,1,1,1,1
-access_unicore_alumni_mailing_list_manager,mailing.list manager,model_mailing_list,unicore_base.group_unicore_manager,1,1,1,0
-access_unicore_alumni_event_event_admin,event.event admin,model_event_event,unicore_base.group_unicore_admin,1,1,1,1
-access_unicore_alumni_event_event_manager,event.event manager,model_event_event,unicore_base.group_unicore_manager,1,1,1,0
+access_oacis_alumni_student_admin,oacis.student admin,model_oacis_student,oacis_base.group_oacis_admin,1,1,1,1
+access_oacis_alumni_student_manager,oacis.student manager,model_oacis_student,oacis_base.group_oacis_manager,1,1,1,0
+access_oacis_alumni_student_registrar,oacis.student registrar,model_oacis_student,oacis_base.group_oacis_registrar,1,1,1,0
+access_oacis_alumni_student_staff,oacis.student staff,model_oacis_student,oacis_base.group_oacis_staff,1,0,0,0
+access_oacis_alumni_mailing_list_admin,mailing.list admin,model_mailing_list,oacis_base.group_oacis_admin,1,1,1,1
+access_oacis_alumni_mailing_list_manager,mailing.list manager,model_mailing_list,oacis_base.group_oacis_manager,1,1,1,0
+access_oacis_alumni_event_event_admin,event.event admin,model_event_event,oacis_base.group_oacis_admin,1,1,1,1
+access_oacis_alumni_event_event_manager,event.event manager,model_event_event,oacis_base.group_oacis_manager,1,1,1,0

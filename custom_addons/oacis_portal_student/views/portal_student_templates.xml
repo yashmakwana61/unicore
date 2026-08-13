@@ -3,21 +3,21 @@
 
   <!--
   =====================================================
-  PORTAL HOME — Add UniCore Student links to /my/ page
+  PORTAL HOME — Add Oacis Student links to /my/ page
   =====================================================
   -->
-  <template id="portal_my_home_unicore_student"
-            name="UniCore Student Portal Home"
+  <template id="portal_my_home_oacis_student"
+            name="Oacis Student Portal Home"
             inherit_id="portal.portal_my_home"
             priority="30">
     <xpath expr="//div[hasclass('o_portal_docs')]"
            position="inside">
       <t t-call="portal.portal_docs_entry">
-        <t t-set="icon">/web/image/unicore_portal_student/static/src/img/icon_portal.png</t>
+        <t t-set="icon">/web/image/oacis_portal_student/static/src/img/icon_portal.png</t>
         <t t-set="title">My Academic Portal</t>
-        <t t-set="url">/my/unicore/student</t>
-        <t t-set="placeholder_count">unicore_courses</t>
-        <t t-set="count" t-value="unicore_courses or 0"/>
+        <t t-set="url">/my/oacis/student</t>
+        <t t-set="placeholder_count">oacis_courses</t>
+        <t t-set="count" t-value="oacis_courses or 0"/>
         <t t-set="text">Active Courses</t>
       </t>
     </xpath>
@@ -25,9 +25,9 @@
            position="inside">
       <t t-call="portal.portal_docs_entry">
         <t t-set="title">Assignments</t>
-        <t t-set="url">/my/unicore/student/assignments</t>
-        <t t-set="placeholder_count">unicore_assignments</t>
-        <t t-set="count" t-value="unicore_assignments or 0"/>
+        <t t-set="url">/my/oacis/student/assignments</t>
+        <t t-set="placeholder_count">oacis_assignments</t>
+        <t t-set="count" t-value="oacis_assignments or 0"/>
         <t t-set="text">Pending Assignments</t>
       </t>
     </xpath>
@@ -45,70 +45,70 @@
       <t t-call="portal.portal_searchbar">
         <t t-set="title">Student Portal</t>
       </t>
-      <div class="unicore-portal-layout">
+      <div class="oacis-portal-layout">
         <!-- Sidebar Toggle (mobile) -->
-        <button class="btn btn-primary d-md-none unicore-sidebar-toggle mb-2" type="button"
-                data-bs-toggle="collapse" data-bs-target="#unicoreSidebar"
-                aria-expanded="false" aria-controls="unicoreSidebar">
+        <button class="btn btn-primary d-md-none oacis-sidebar-toggle mb-2" type="button"
+                data-bs-toggle="collapse" data-bs-target="#oacisSidebar"
+                aria-expanded="false" aria-controls="oacisSidebar">
           <i class="fa fa-bars"></i> Menu
         </button>
 
         <div class="d-flex align-items-start gap-3">
           <!-- Sidebar -->
-          <div class="unicore-sidebar collapse d-md-block" id="unicoreSidebar">
+          <div class="oacis-sidebar collapse d-md-block" id="oacisSidebar">
             <nav class="nav flex-column">
-              <a class="nav-link unicore-nav-item"
+              <a class="nav-link oacis-nav-item"
                  t-att-class="'active' if page_name == 'student_dashboard' else ''"
-                 href="/my/unicore/student">
+                 href="/my/oacis/student">
                 <i class="fa fa-tachometer fa-fw"></i>
                 <span>Dashboard</span>
               </a>
-              <a class="nav-link unicore-nav-item"
+              <a class="nav-link oacis-nav-item"
                  t-att-class="'active' if page_name == 'student_courses' else ''"
-                 href="/my/unicore/student/courses">
+                 href="/my/oacis/student/courses">
                 <i class="fa fa-book fa-fw"></i>
                 <span>My Courses</span>
               </a>
-              <a class="nav-link unicore-nav-item"
+              <a class="nav-link oacis-nav-item"
                  t-att-class="'active' if page_name == 'student_attendance' else ''"
-                 href="/my/unicore/student/attendance">
+                 href="/my/oacis/student/attendance">
                 <i class="fa fa-calendar-check-o fa-fw"></i>
                 <span>Attendance</span>
               </a>
-              <a class="nav-link unicore-nav-item"
+              <a class="nav-link oacis-nav-item"
                  t-att-class="'active' if page_name in ('student_assignments','student_assignment_detail') else ''"
-                 href="/my/unicore/student/assignments">
+                 href="/my/oacis/student/assignments">
                 <i class="fa fa-tasks fa-fw"></i>
                 <span>Assignments</span>
               </a>
-              <a class="nav-link unicore-nav-item"
+              <a class="nav-link oacis-nav-item"
                  t-att-class="'active' if page_name == 'student_exams' else ''"
-                 href="/my/unicore/student/exams">
+                 href="/my/oacis/student/exams">
                 <i class="fa fa-ticket fa-fw"></i>
                 <span>Exams</span>
               </a>
-              <a class="nav-link unicore-nav-item"
+              <a class="nav-link oacis-nav-item"
                  t-att-class="'active' if page_name == 'student_results' else ''"
-                 href="/my/unicore/student/results">
+                 href="/my/oacis/student/results">
                 <i class="fa fa-graduation-cap fa-fw"></i>
                 <span>Results</span>
               </a>
-              <a class="nav-link unicore-nav-item"
+              <a class="nav-link oacis-nav-item"
                  t-att-class="'active' if page_name == 'student_fees' else ''"
-                 href="/my/unicore/student/fees">
+                 href="/my/oacis/student/fees">
                 <i class="fa fa-money fa-fw"></i>
                 <span>Fees</span>
               </a>
-              <a class="nav-link unicore-nav-item"
+              <a class="nav-link oacis-nav-item"
                  t-att-class="'active' if page_name == 'student_scholarships' else ''"
-                 href="/my/unicore/student/scholarships">
+                 href="/my/oacis/student/scholarships">
                 <i class="fa fa-trophy fa-fw"></i>
                 <span>Scholarships</span>
               </a>
             </nav>
           </div>
           <!-- Page Content -->
-          <div class="unicore-sidebar-content flex-grow-1 min-width-0">
+          <div class="oacis-sidebar-content flex-grow-1 min-width-0">
             <t t-raw="0"/>
           </div>
         </div>
@@ -123,7 +123,7 @@
   -->
   <template id="portal_student_dashboard"
             name="Student Dashboard">
-    <t t-call="unicore_portal_student.portal_student_layout">
+    <t t-call="oacis_portal_student.portal_student_layout">
       <div class="container">
 
         <!-- Welcome Header -->
@@ -225,7 +225,7 @@
             course(s) with attendance below the
             required minimum. You may be ineligible
             for examinations.
-            <a href="/my/unicore/student/attendance"
+            <a href="/my/oacis/student/attendance"
                class="alert-link">
               View Attendance →
             </a>
@@ -235,7 +235,7 @@
           <div class="alert alert-warning" role="alert">
             <strong>📋 Fee Due:</strong>
             You have outstanding fee payments.
-            <a href="/my/unicore/student/fees"
+            <a href="/my/oacis/student/fees"
                class="alert-link">
               View Fees →
             </a>
@@ -245,7 +245,7 @@
         <!-- Quick Links -->
         <div class="row mt-2 g-3">
           <div class="col-6 col-md-4">
-            <a href="/my/unicore/student/courses"
+            <a href="/my/oacis/student/courses"
                class="card text-center text-decoration-none h-100">
               <div class="card-body">
                 <i class="fa fa-book fa-2x text-primary mb-2"/>
@@ -256,7 +256,7 @@
             </a>
           </div>
           <div class="col-6 col-md-4">
-            <a href="/my/unicore/student/exams"
+            <a href="/my/oacis/student/exams"
                class="card text-center text-decoration-none h-100">
               <div class="card-body">
                 <i class="fa fa-ticket fa-2x text-info mb-2"/>
@@ -267,7 +267,7 @@
             </a>
           </div>
           <div class="col-6 col-md-4">
-            <a href="/my/unicore/student/results"
+            <a href="/my/oacis/student/results"
                class="card text-center text-decoration-none h-100">
               <div class="card-body">
                 <i class="fa fa-graduation-cap fa-2x text-success mb-2"/>
@@ -290,7 +290,7 @@
   -->
   <template id="portal_student_courses"
             name="My Courses">
-    <t t-call="unicore_portal_student.portal_student_layout">
+    <t t-call="oacis_portal_student.portal_student_layout">
       <div class="container">
         <h4 class="mb-3">My Enrolled Courses</h4>
 
@@ -366,7 +366,7 @@
   -->
   <template id="portal_student_attendance"
             name="My Attendance">
-    <t t-call="unicore_portal_student.portal_student_layout">
+    <t t-call="oacis_portal_student.portal_student_layout">
       <div class="container">
         <h4 class="mb-3">My Attendance Records</h4>
 
@@ -457,7 +457,7 @@
   -->
   <template id="portal_student_exams"
             name="My Exam Hall Tickets">
-    <t t-call="unicore_portal_student.portal_student_layout">
+    <t t-call="oacis_portal_student.portal_student_layout">
       <div class="container">
         <h4 class="mb-3">My Exam Hall Tickets</h4>
 
@@ -589,7 +589,7 @@
   -->
   <template id="portal_student_results"
             name="My Results">
-    <t t-call="unicore_portal_student.portal_student_layout">
+    <t t-call="oacis_portal_student.portal_student_layout">
       <div class="container">
         <h4 class="mb-3">My Academic Results</h4>
 
@@ -731,7 +731,7 @@
   -->
   <template id="portal_student_fees"
             name="My Fee Invoices">
-    <t t-call="unicore_portal_student.portal_student_layout">
+    <t t-call="oacis_portal_student.portal_student_layout">
       <div class="container">
         <h4 class="mb-3">My Fee Invoices</h4>
 
@@ -876,7 +876,7 @@
   -->
   <template id="portal_student_scholarships"
             name="My Scholarships">
-    <t t-call="unicore_portal_student.portal_student_layout">
+    <t t-call="oacis_portal_student.portal_student_layout">
       <div class="container">
         <h4 class="mb-3">My Scholarship Applications</h4>
 
@@ -894,7 +894,7 @@
         <t t-if="not applications">
           <div class="alert alert-info">
             No scholarship applications found.
-            <a href="/my/unicore/student"
+            <a href="/my/oacis/student"
                class="alert-link">
               Return to Dashboard
             </a>

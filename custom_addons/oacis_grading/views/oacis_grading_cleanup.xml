@@ -4,20 +4,20 @@
     <!-- Remove the separate board/calendar/analysis/activity actions and menus.
          The underlying views are kept and exposed via view_mode on the main actions. -->
 
-    <delete model="ir.actions.act_window" id="action_unicore_grade_entry_activity"/>
-    <delete model="ir.actions.act_window" id="action_unicore_grade_entry_analysis"/>
-    <delete model="ir.actions.act_window" id="action_unicore_grade_entry_kanban"/>
-    <delete model="ir.actions.act_window" id="action_unicore_grade_scale_kanban"/>
-    <delete model="ir.actions.act_window" id="action_unicore_semester_result_analysis"/>
-    <delete model="ir.actions.act_window" id="action_unicore_semester_result_calendar"/>
-    <delete model="ir.actions.act_window" id="action_unicore_semester_result_kanban"/>
+    <delete model="ir.actions.act_window" id="action_oacis_grade_entry_activity"/>
+    <delete model="ir.actions.act_window" id="action_oacis_grade_entry_analysis"/>
+    <delete model="ir.actions.act_window" id="action_oacis_grade_entry_kanban"/>
+    <delete model="ir.actions.act_window" id="action_oacis_grade_scale_kanban"/>
+    <delete model="ir.actions.act_window" id="action_oacis_semester_result_analysis"/>
+    <delete model="ir.actions.act_window" id="action_oacis_semester_result_calendar"/>
+    <delete model="ir.actions.act_window" id="action_oacis_semester_result_kanban"/>
 
-    <delete model="ir.ui.menu" id="menu_unicore_grade_entry_activity"/>
-    <delete model="ir.ui.menu" id="menu_unicore_grade_entry_analysis"/>
-    <delete model="ir.ui.menu" id="menu_unicore_grade_entry_board"/>
-    <delete model="ir.ui.menu" id="menu_unicore_grade_scale_board"/>
-    <delete model="ir.ui.menu" id="menu_unicore_semester_result_analysis"/>
-    <delete model="ir.ui.menu" id="menu_unicore_semester_result_board"/>
-    <delete model="ir.ui.menu" id="menu_unicore_semester_result_calendar"/>
+    <delete model="ir.ui.menu" id="menu_oacis_grade_entry_activity"/>
+    <delete model="ir.ui.menu" id="menu_oacis_grade_entry_analysis"/>
+    <delete model="ir.ui.menu" id="menu_oacis_grade_entry_board"/>
+    <delete model="ir.ui.menu" id="menu_oacis_grade_scale_board"/>
+    <delete model="ir.ui.menu" id="menu_oacis_semester_result_analysis"/>
+    <delete model="ir.ui.menu" id="menu_oacis_semester_result_board"/>
+    <delete model="ir.ui.menu" id="menu_oacis_semester_result_calendar"/>
 
 </odoo>

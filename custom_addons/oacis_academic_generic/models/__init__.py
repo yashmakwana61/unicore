@@ -1,1 +1,1 @@
-from . import unicore_academic_unit, unicore_academic_unit_type
+from . import oacis_academic_unit, oacis_academic_unit_type

@@ -5,7 +5,7 @@
     'summary': 'Institutional analytics dashboards '
                'for academic, financial and student data',
     'description': """
-        UniCore Analytics provides a comprehensive
+        Oacis Analytics provides a comprehensive
         analytics suite for university administration:
 
         - Student Analytics: enrollment trends,
@@ -29,38 +29,38 @@
     'website': 'https://precisefect.com',
     'license': 'OPL-1',
     'depends': [
-        'unicore_base', 'unicore_security',
-        'unicore_campus', 'unicore_academic',
-        'unicore_calendar', 'unicore_student',
-        'unicore_faculty_profile', 'unicore_guardian',
-        'unicore_curriculum', 'unicore_timetable',
-        'unicore_attendance',
-        'unicore_exam', 'unicore_grading',
-        'unicore_fees', 'unicore_scholarship',
-        'unicore_admission', 'unicore_library',
-        'unicore_hostel', 'unicore_transport',
+        'oacis_base', 'oacis_security',
+        'oacis_campus', 'oacis_academic',
+        'oacis_calendar', 'oacis_student',
+        'oacis_faculty_profile', 'oacis_guardian',
+        'oacis_curriculum', 'oacis_timetable',
+        'oacis_attendance',
+        'oacis_exam', 'oacis_grading',
+        'oacis_fees', 'oacis_scholarship',
+        'oacis_admission', 'oacis_library',
+        'oacis_hostel', 'oacis_transport',
         'mail',
     ],
     'data': [
-        'security/unicore_analytics_record_rules.xml',
+        'security/oacis_analytics_record_rules.xml',
         'security/ir.model.access.csv',
-        'data/unicore_analytics_cron.xml',
-        'views/unicore_student_analytics_views.xml',
-        'views/unicore_academic_analytics_views.xml',
-        'views/unicore_financial_analytics_views.xml',
-        'views/unicore_admission_analytics_views.xml',
-        'menus/unicore_analytics_menus.xml',
+        'data/oacis_analytics_cron.xml',
+        'views/oacis_student_analytics_views.xml',
+        'views/oacis_academic_analytics_views.xml',
+        'views/oacis_financial_analytics_views.xml',
+        'views/oacis_admission_analytics_views.xml',
+        'menus/oacis_analytics_menus.xml',
         'views/admission_dashboard_views.xml',
     ],
     'assets': {
         'web.assets_backend': [
-            'unicore_analytics/static/src/scss/admission_dashboard.scss',
-            'unicore_analytics/static/src/xml/admission_dashboard.xml',
-            'unicore_analytics/static/src/js/admission_dashboard.js',
+            'oacis_analytics/static/src/scss/admission_dashboard.scss',
+            'oacis_analytics/static/src/xml/admission_dashboard.xml',
+            'oacis_analytics/static/src/js/admission_dashboard.js',
         ],
     },
     'images': ['static/description/icon.png'],
-    'web_icon': 'unicore_analytics,'
+    'web_icon': 'oacis_analytics,'
                 'static/description/icon.png',
     'installable': True,
     'application': True,

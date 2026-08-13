@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="view_slide_slide_form_inherit_unicore_lms" model="ir.ui.view">
-            <field name="name">slide.slide.form.inherit.unicore.lms</field>
+        <record id="view_slide_slide_form_inherit_oacis_lms" model="ir.ui.view">
+            <field name="name">slide.slide.form.inherit.oacis.lms</field>
             <field name="model">slide.slide</field>
             <field name="inherit_id" ref="website_slides.view_slide_slide_form"/>
             <field name="arch" type="xml">
-                <!-- Add Unicore specific fields after the general slide fields -->
+                <!-- Add Oacis specific fields after the general slide fields -->
                 <xpath expr="//notebook" position="inside">
-                    <page string="Unicore Assessments" name="unicore_assessments">
+                    <page string="Oacis Assessments" name="oacis_assessments">
                         <group>
-                            <group string="Unicore Assignment">
-                                <field name="is_unicore_assignment"/>
-                                <field name="unicore_assignment_id" 
-                                       invisible="not is_unicore_assignment"
-                                       required="is_unicore_assignment"/>
+                            <group string="Oacis Assignment">
+                                <field name="is_oacis_assignment"/>
+                                <field name="oacis_assignment_id" 
+                                       invisible="not is_oacis_assignment"
+                                       required="is_oacis_assignment"/>
                             </group>
-                            <group string="Unicore Quiz">
-                                <field name="is_unicore_quiz"/>
-                                <field name="unicore_quiz_id" 
-                                       invisible="not is_unicore_quiz"
-                                       required="is_unicore_quiz"/>
+                            <group string="Oacis Quiz">
+                                <field name="is_oacis_quiz"/>
+                                <field name="oacis_quiz_id" 
+                                       invisible="not is_oacis_quiz"
+                                       required="is_oacis_quiz"/>
                             </group>
                             <group string="Live Class Integration">
                                 <field name="is_live_class"/>

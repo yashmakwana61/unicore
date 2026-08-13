@@ -3,9 +3,9 @@
   <!-- ================================================== -->
   <!-- LEAVE REQUEST — TREE (LIST) VIEW                    -->
   <!-- ================================================== -->
-  <record id="unicore_student_leave_request_tree_view" model="ir.ui.view">
-    <field name="name">unicore.student.leave.request.tree</field>
-    <field name="model">unicore.student.leave.request</field>
+  <record id="oacis_student_leave_request_tree_view" model="ir.ui.view">
+    <field name="name">oacis.student.leave.request.tree</field>
+    <field name="model">oacis.student.leave.request</field>
     <field name="arch" type="xml">
       <list string="Leave Requests" decoration-danger="state == 'rejected'" decoration-success="state == 'approved'" decoration-info="state == 'submitted'" decoration-muted="state == 'cancelled'">
         <field name="name"/>
@@ -23,17 +23,17 @@
   <!-- ================================================== -->
   <!-- LEAVE REQUEST — FORM VIEW                           -->
   <!-- ================================================== -->
-  <record id="unicore_student_leave_request_form_view" model="ir.ui.view">
-    <field name="name">unicore.student.leave.request.form</field>
-    <field name="model">unicore.student.leave.request</field>
+  <record id="oacis_student_leave_request_form_view" model="ir.ui.view">
+    <field name="name">oacis.student.leave.request.form</field>
+    <field name="model">oacis.student.leave.request</field>
     <field name="arch" type="xml">
       <form string="Leave Request">
         <header>
-          <button name="action_submit" type="object" string="Submit Request" class="oe_highlight" invisible="state != 'draft'" groups="unicore_base.group_unicore_student,unicore_base.group_unicore_staff"/>
-          <button name="action_approve" type="object" string="Approve" class="oe_highlight" invisible="state != 'submitted'" groups="unicore_base.group_unicore_registrar,unicore_base.group_unicore_manager,unicore_base.group_unicore_admin"/>
-          <button name="action_reject" type="object" string="Reject" class="btn-danger" invisible="state != 'submitted'" groups="unicore_base.group_unicore_registrar,unicore_base.group_unicore_manager,unicore_base.group_unicore_admin"/>
-          <button name="action_resubmit" type="object" string="Resubmit" class="oe_highlight" invisible="state != 'rejected'" groups="unicore_base.group_unicore_student,unicore_base.group_unicore_staff"/>
-          <button name="action_cancel" type="object" string="Cancel" invisible="state not in ('draft', 'submitted')" groups="unicore_base.group_unicore_student,unicore_base.group_unicore_staff,unicore_base.group_unicore_registrar"/>
+          <button name="action_submit" type="object" string="Submit Request" class="oe_highlight" invisible="state != 'draft'" groups="oacis_base.group_oacis_student,oacis_base.group_oacis_staff"/>
+          <button name="action_approve" type="object" string="Approve" class="oe_highlight" invisible="state != 'submitted'" groups="oacis_base.group_oacis_registrar,oacis_base.group_oacis_manager,oacis_base.group_oacis_admin"/>
+          <button name="action_reject" type="object" string="Reject" class="btn-danger" invisible="state != 'submitted'" groups="oacis_base.group_oacis_registrar,oacis_base.group_oacis_manager,oacis_base.group_oacis_admin"/>
+          <button name="action_resubmit" type="object" string="Resubmit" class="oe_highlight" invisible="state != 'rejected'" groups="oacis_base.group_oacis_student,oacis_base.group_oacis_staff"/>
+          <button name="action_cancel" type="object" string="Cancel" invisible="state not in ('draft', 'submitted')" groups="oacis_base.group_oacis_student,oacis_base.group_oacis_staff,oacis_base.group_oacis_registrar"/>
           <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved"/>
         </header>
         <sheet>
@@ -90,9 +90,9 @@
   <!-- ================================================== -->
   <!-- LEAVE REQUEST — SEARCH VIEW                         -->
   <!-- ================================================== -->
-  <record id="unicore_student_leave_request_search_view" model="ir.ui.view">
-    <field name="name">unicore.student.leave.request.search</field>
-    <field name="model">unicore.student.leave.request</field>
+  <record id="oacis_student_leave_request_search_view" model="ir.ui.view">
+    <field name="name">oacis.student.leave.request.search</field>
+    <field name="model">oacis.student.leave.request</field>
     <field name="arch" type="xml">
       <search string="Search Leave Requests">
         <field name="name"/>
@@ -118,9 +118,9 @@
   <!-- ================================================== -->
   <!-- LEAVE REQUEST — KANBAN VIEW                         -->
   <!-- ================================================== -->
-  <record id="unicore_student_leave_request_kanban_view" model="ir.ui.view">
-    <field name="name">unicore.student.leave.request.kanban</field>
-    <field name="model">unicore.student.leave.request</field>
+  <record id="oacis_student_leave_request_kanban_view" model="ir.ui.view">
+    <field name="name">oacis.student.leave.request.kanban</field>
+    <field name="model">oacis.student.leave.request</field>
     <field name="arch" type="xml">
       <kanban string="Leave Requests" class="o_kanban_small_column" default_group_by="state">
         <field name="id"/>
@@ -178,9 +178,9 @@
   <!-- ================================================== -->
   <record id="action_student_leave_request" model="ir.actions.act_window">
     <field name="name">Leave Requests</field>
-    <field name="res_model">unicore.student.leave.request</field>
+    <field name="res_model">oacis.student.leave.request</field>
     <field name="view_mode">list,kanban,form</field>
-    <field name="search_view_id" ref="unicore_student_leave_request_search_view"/>
+    <field name="search_view_id" ref="oacis_student_leave_request_search_view"/>
     <field name="context">{'search_default_state_submitted': 1}</field>
     <field name="help" type="html">
       <p class="o_view_nocontent_smiling_face">

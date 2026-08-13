@@ -2,7 +2,7 @@
 <odoo>
   <data noupdate="1">
     <!-- ========== ASSIGNMENT PUBLISHED (to students) ========== -->
-    <record id="template_assignment_published_email" model="unicore.notification.template">
+    <record id="template_assignment_published_email" model="oacis.notification.template">
       <field name="name">Assignment Published — Email</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">assignment_published</field>
@@ -28,7 +28,7 @@
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-    <record id="template_assignment_published_whatsapp" model="unicore.notification.template">
+    <record id="template_assignment_published_whatsapp" model="oacis.notification.template">
       <field name="name">Assignment Published — WhatsApp</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">assignment_published</field>
@@ -49,7 +49,7 @@ Submit before the due date via the student portal.</field>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-    <record id="template_assignment_published_inapp" model="unicore.notification.template">
+    <record id="template_assignment_published_inapp" model="oacis.notification.template">
       <field name="name">Assignment Published — In-App</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">assignment_published</field>
@@ -62,7 +62,7 @@ Submit before the due date via the student portal.</field>
       <field name="active" eval="True"/>
     </record>
     <!-- ========== ASSIGNMENT SUBMITTED (to faculty) ========== -->
-    <record id="template_assignment_submitted_email" model="unicore.notification.template">
+    <record id="template_assignment_submitted_email" model="oacis.notification.template">
       <field name="name">Assignment Submitted — Email</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">assignment_submitted</field>
@@ -83,7 +83,7 @@ Submit before the due date via the student portal.</field>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-    <record id="template_assignment_submitted_whatsapp" model="unicore.notification.template">
+    <record id="template_assignment_submitted_whatsapp" model="oacis.notification.template">
       <field name="name">Assignment Submitted — WhatsApp</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">assignment_submitted</field>
@@ -101,7 +101,7 @@ Grade it from the faculty portal.</field>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-    <record id="template_assignment_submitted_inapp" model="unicore.notification.template">
+    <record id="template_assignment_submitted_inapp" model="oacis.notification.template">
       <field name="name">Assignment Submitted — In-App</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">assignment_submitted</field>
@@ -114,7 +114,7 @@ Grade it from the faculty portal.</field>
       <field name="active" eval="True"/>
     </record>
     <!-- ========== ASSIGNMENT GRADED (to student) ========== -->
-    <record id="template_assignment_graded_email" model="unicore.notification.template">
+    <record id="template_assignment_graded_email" model="oacis.notification.template">
       <field name="name">Assignment Graded — Email</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">assignment_graded</field>
@@ -136,7 +136,7 @@ Grade it from the faculty portal.</field>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-    <record id="template_assignment_graded_whatsapp" model="unicore.notification.template">
+    <record id="template_assignment_graded_whatsapp" model="oacis.notification.template">
       <field name="name">Assignment Graded — WhatsApp</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">assignment_graded</field>
@@ -156,7 +156,7 @@ Review feedback in the student portal.</field>
       <field name="language_code">en</field>
       <field name="active" eval="True"/>
     </record>
-    <record id="template_assignment_graded_inapp" model="unicore.notification.template">
+    <record id="template_assignment_graded_inapp" model="oacis.notification.template">
       <field name="name">Assignment Graded — In-App</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="trigger_event">assignment_graded</field>

@@ -8,9 +8,9 @@
         <!-- ========================================================= -->
         
 
-        <record id="unicore_attendance_record_calendar_view" model="ir.ui.view">
-            <field name="name">unicore.attendance.record.calendar</field>
-            <field name="model">unicore.attendance.record</field>
+        <record id="oacis_attendance_record_calendar_view" model="ir.ui.view">
+            <field name="name">oacis.attendance.record.calendar</field>
+            <field name="model">oacis.attendance.record</field>
             <field name="arch" type="xml">
                 <calendar date_start="session_date" color="color" string="Attendance Record Calendar">
                     <field name="student_id"/>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <record id="unicore_student_status_wizard_form" model="ir.ui.view">
-        <field name="name">unicore.student.status.wizard.form</field>
-        <field name="model">unicore.student.status.wizard</field>
+    <record id="oacis_student_status_wizard_form" model="ir.ui.view">
+        <field name="name">oacis.student.status.wizard.form</field>
+        <field name="model">oacis.student.status.wizard</field>
         <field name="arch" type="xml">
             <form string="Change Status">
                 <group>
@@ -20,9 +20,9 @@
         </field>
     </record>
 
-    <record id="action_unicore_student_status_wizard" model="ir.actions.act_window">
+    <record id="action_oacis_student_status_wizard" model="ir.actions.act_window">
         <field name="name">Status Change</field>
-        <field name="res_model">unicore.student.status.wizard</field>
+        <field name="res_model">oacis.student.status.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>

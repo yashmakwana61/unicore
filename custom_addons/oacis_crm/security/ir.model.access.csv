@@ -1,9 +1,9 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_unicore_crm_lead_admin,crm.lead admin,model_crm_lead,unicore_base.group_unicore_admin,1,1,1,1
-access_unicore_crm_lead_manager,crm.lead manager,model_crm_lead,unicore_base.group_unicore_manager,1,1,1,0
-access_unicore_crm_lead_registrar,crm.lead registrar,model_crm_lead,unicore_base.group_unicore_registrar,1,1,1,0
-access_unicore_crm_lead_staff,crm.lead staff,model_crm_lead,unicore_base.group_unicore_staff,1,0,0,0
-access_unicore_crm_stage_admin,crm.stage admin,model_crm_stage,unicore_base.group_unicore_admin,1,0,0,0
-access_unicore_crm_stage_manager,crm.stage manager,model_crm_stage,unicore_base.group_unicore_manager,1,0,0,0
-access_unicore_crm_stage_registrar,crm.stage registrar,model_crm_stage,unicore_base.group_unicore_registrar,1,0,0,0
-access_unicore_crm_stage_staff,crm.stage staff,model_crm_stage,unicore_base.group_unicore_staff,1,0,0,0
+access_oacis_crm_lead_admin,crm.lead admin,model_crm_lead,oacis_base.group_oacis_admin,1,1,1,1
+access_oacis_crm_lead_manager,crm.lead manager,model_crm_lead,oacis_base.group_oacis_manager,1,1,1,0
+access_oacis_crm_lead_registrar,crm.lead registrar,model_crm_lead,oacis_base.group_oacis_registrar,1,1,1,0
+access_oacis_crm_lead_staff,crm.lead staff,model_crm_lead,oacis_base.group_oacis_staff,1,0,0,0
+access_oacis_crm_stage_admin,crm.stage admin,model_crm_stage,oacis_base.group_oacis_admin,1,0,0,0
+access_oacis_crm_stage_manager,crm.stage manager,model_crm_stage,oacis_base.group_oacis_manager,1,0,0,0
+access_oacis_crm_stage_registrar,crm.stage registrar,model_crm_stage,oacis_base.group_oacis_registrar,1,0,0,0
+access_oacis_crm_stage_staff,crm.stage staff,model_crm_stage,oacis_base.group_oacis_staff,1,0,0,0

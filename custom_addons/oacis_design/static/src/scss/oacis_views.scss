@@ -1,5 +1,5 @@
 /* ==========================================================================
-   UniCore Design - Custom View Density, Group Headers, Kanban Flyout & Refresher
+   Oacis Design - Custom View Density, Group Headers, Kanban Flyout & Refresher
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -9,8 +9,8 @@
     /* Cozy / Compact density */
     &.o_theme_density_compact,
     &.o_theme_density_cozy,
-    [data-unicore-density="compact"] &,
-    [data-unicore-density="cozy"] & {
+    [data-oacis-density="compact"] &,
+    [data-oacis-density="cozy"] & {
         .o_data_row > td,
         .o_data_row > th {
             padding-top: 0.25rem !important;
@@ -23,8 +23,8 @@
     /* Roomy / Comfortable density */
     &.o_theme_density_comfortable,
     &.o_theme_density_roomy,
-    [data-unicore-density="comfortable"] &,
-    [data-unicore-density="roomy"] & {
+    [data-oacis-density="comfortable"] &,
+    [data-oacis-density="roomy"] & {
         .o_data_row > td,
         .o_data_row > th {
             padding-top: 0.75rem !important;
@@ -36,7 +36,7 @@
 
     /* Default density */
     &.o_theme_density_default,
-    [data-unicore-density="default"] & {
+    [data-oacis-density="default"] & {
         .o_data_row > td,
         .o_data_row > th {
             padding-top: 0.45rem;
@@ -52,13 +52,13 @@
    -------------------------------------------------------------------------- */
 .o_list_renderer {
     .o_group_header {
-        background-color: var(--unicore-group-header-bg, rgba(0, 0, 0, 0.03)) !important;
+        background-color: var(--oacis-group-header-bg, rgba(0, 0, 0, 0.03)) !important;
         border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
         border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
         transition: background-color 0.15s ease-in-out;
 
         &:hover {
-            background-color: var(--unicore-group-header-hover-bg, rgba(0, 0, 0, 0.06)) !important;
+            background-color: var(--oacis-group-header-hover-bg, rgba(0, 0, 0, 0.06)) !important;
         }
 
         .o_group_name {
@@ -80,7 +80,7 @@
 /* --------------------------------------------------------------------------
    3. Shift+Click Kanban Flyout Side-Panel (Responsive & Adaptive)
    -------------------------------------------------------------------------- */
-.o_unicore_flyout_wrapper {
+.o_oacis_flyout_wrapper {
     position: fixed;
     top: 0;
     left: 0;
@@ -91,7 +91,7 @@
     justify-content: flex-end;
     pointer-events: auto;
 
-    .o_unicore_flyout_backdrop {
+    .o_oacis_flyout_backdrop {
         position: absolute;
         top: 0;
         left: 0;
@@ -99,19 +99,19 @@
         bottom: 0;
         background-color: rgba(0, 0, 0, 0.4);
         backdrop-filter: blur(3px);
-        animation: unicoreFadeIn 0.2s ease-out forwards;
+        animation: oacisFadeIn 0.2s ease-out forwards;
     }
 
-    .o_unicore_flyout_panel {
+    .o_oacis_flyout_panel {
         position: relative;
         width: 650px;
         max-width: 90vw;
         height: 100%;
-        background-color: var(--unicore-flyout-bg, #ffffff);
+        background-color: var(--oacis-flyout-bg, #ffffff);
         display: flex;
         flex-direction: column;
         z-index: 1;
-        animation: unicoreSlideInRight 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        animation: oacisSlideInRight 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         box-shadow: -6px 0 24px rgba(0, 0, 0, 0.18);
 
         @media (max-width: 768px) {
@@ -119,13 +119,13 @@
             max-width: 100vw;
         }
 
-        .o_unicore_flyout_header {
-            background-color: var(--unicore-flyout-header-bg, #f8f9fa);
+        .o_oacis_flyout_header {
+            background-color: var(--oacis-flyout-header-bg, #f8f9fa);
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
-        .o_unicore_flyout_body {
-            background-color: var(--unicore-flyout-body-bg, #ffffff);
+        .o_oacis_flyout_body {
+            background-color: var(--oacis-flyout-body-bg, #ffffff);
             overflow-y: auto !important;
             overflow-x: hidden !important;
 
@@ -224,7 +224,7 @@
     }
 }
 
-@keyframes unicoreSlideInRight {
+@keyframes oacisSlideInRight {
     from {
         transform: translateX(100%);
     }
@@ -233,7 +233,7 @@
     }
 }
 
-@keyframes unicoreFadeIn {
+@keyframes oacisFadeIn {
     from {
         opacity: 0;
     }
@@ -263,7 +263,7 @@
 /* --------------------------------------------------------------------------
    5. Resizable Chatter Drag Handle
    -------------------------------------------------------------------------- */
-.o-unicore-chatter-drag-handle {
+.o-oacis-chatter-drag-handle {
     position: absolute;
     top: 0;
     left: -3px;
@@ -314,7 +314,7 @@
 }
 
 /* Lock cursor globally while dragging the chatter resize handle */
-body.o_unicore_chatter_dragging {
+body.o_oacis_chatter_dragging {
     cursor: col-resize !important;
     user-select: none !important;
     -webkit-user-select: none !important;
@@ -325,7 +325,7 @@ body.o_unicore_chatter_dragging {
     }
 
     /* Keep the drag handle interactive */
-    .o-unicore-chatter-drag-handle {
+    .o-oacis-chatter-drag-handle {
         pointer-events: auto !important;
     }
 }
@@ -333,7 +333,7 @@ body.o_unicore_chatter_dragging {
 /* --------------------------------------------------------------------------
    6. Fullscreen Form View
    -------------------------------------------------------------------------- */
-body.o_unicore_fullscreen {
+body.o_oacis_fullscreen {
     /* Hide the top navbar */
     .o_navbar,
     nav.o_main_navbar,
@@ -341,9 +341,9 @@ body.o_unicore_fullscreen {
         display: none !important;
     }
 
-    /* Hide the sidebar (UniCore custom sidebar) */
-    .o_unicore_sidebar,
-    .o_unicore_sidebar_toggle {
+    /* Hide the sidebar (Oacis custom sidebar) */
+    .o_oacis_sidebar,
+    .o_oacis_sidebar_toggle {
         display: none !important;
     }
 
@@ -383,7 +383,7 @@ body.o_unicore_fullscreen {
 }
 
 /* Fullscreen toggle button styling */
-.o_unicore_fullscreen_btn {
+.o_oacis_fullscreen_btn {
     border-radius: 6px;
     padding: 4px 10px;
     transition: all 0.2s ease;
@@ -403,7 +403,7 @@ body.o_unicore_fullscreen {
 }
 
 /* Chatter position toggle button styling */
-.o_unicore_chatter_toggle_btn {
+.o_oacis_chatter_toggle_btn {
     border-radius: 6px;
     padding: 4px 10px;
     transition: all 0.2s ease;
@@ -513,7 +513,7 @@ body.o_unicore_fullscreen {
 }
 
 /* In fullscreen mode, always use 100% width regardless of breakpoint */
-body.o_unicore_fullscreen .o_form_view .o_form_sheet {
+body.o_oacis_fullscreen .o_form_view .o_form_sheet {
     max-width: 100% !important;
 }
 

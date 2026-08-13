@@ -136,7 +136,7 @@ class ResUsers(models.Model):
         self.theme_workspace_items = json.dumps(items)
         return items
 
-    def _get_unicore_theme_config(self):
+    def _get_oacis_theme_config(self):
         self.ensure_one()
         company = self.company_id
         return {

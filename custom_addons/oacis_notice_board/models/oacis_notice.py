@@ -2,9 +2,9 @@ from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
-class UnicoreNotice(models.Model):
-    _name = 'unicore.notice'
-    _description = 'UniCore Notice'
+class OacisNotice(models.Model):
+    _name = 'oacis.notice'
+    _description = 'Oacis Notice'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'pinned desc, publish_date desc, id desc'
     _rec_name = 'title'
@@ -63,15 +63,15 @@ class UnicoreNotice(models.Model):
         tracking=True,
     )
     campus_ids = fields.Many2many(
-        comodel_name='unicore.campus',
-        relation='unicore_notice_campus_rel',
+        comodel_name='oacis.campus',
+        relation='oacis_notice_campus_rel',
         column1='notice_id',
         column2='campus_id',
         string='Campuses',
     )
     program_ids = fields.Many2many(
-        comodel_name='unicore.program',
-        relation='unicore_notice_program_rel',
+        comodel_name='oacis.program',
+        relation='oacis_notice_program_rel',
         column1='notice_id',
         column2='program_id',
         string='Programs',

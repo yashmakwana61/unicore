@@ -1,1 +1,1 @@
-from . import unicore_student_ext
+from . import oacis_student_ext

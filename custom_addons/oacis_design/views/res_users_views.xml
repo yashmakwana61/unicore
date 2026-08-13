@@ -2,7 +2,7 @@
 <odoo>
     <!-- Inherit the main user form view to add preferences -->
     <record id="view_users_form_inherit" model="ir.ui.view">
-        <field name="name">res.users.form.inherit.unicore_design</field>
+        <field name="name">res.users.form.inherit.oacis_design</field>
         <field name="model">res.users</field>
         <field name="inherit_id" ref="base.view_users_form"/>
         <field name="arch" type="xml">
@@ -19,7 +19,7 @@
 
     <!-- Inherit the simple user preferences form view -->
     <record id="view_users_form_simple_modif_inherit" model="ir.ui.view">
-        <field name="name">res.users.preferences.form.inherit.unicore_design</field>
+        <field name="name">res.users.preferences.form.inherit.oacis_design</field>
         <field name="model">res.users</field>
         <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
         <field name="arch" type="xml">

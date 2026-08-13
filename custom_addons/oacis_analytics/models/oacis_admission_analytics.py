@@ -1,5 +1,5 @@
 """
-UniCore Admission Analytics
+Oacis Admission Analytics
 PostgreSQL VIEW-based models for admission funnel,
 conversion rates and applicant analytics.
 """
@@ -12,8 +12,8 @@ from odoo.orm.fields_misc import Id
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreAdmissionFunnelReport(models.Model):
-    _name = 'unicore.admission.funnel.report'
+class OacisAdmissionFunnelReport(models.Model):
+    _name = 'oacis.admission.funnel.report'
     _description = 'Admission Funnel Analytics'
     _auto = False
     _rec_name = 'program_id'
@@ -26,17 +26,17 @@ class UniCoreAdmissionFunnelReport(models.Model):
         readonly=True,
     )
     cycle_id = fields.Many2one(
-        comodel_name='unicore.admission.cycle',
+        comodel_name='oacis.admission.cycle',
         string='Admission Cycle',
         readonly=True,
     )
     academic_year_id = fields.Many2one(
-        comodel_name='unicore.academic.year',
+        comodel_name='oacis.academic.year',
         string='Academic Year',
         readonly=True,
     )
     program_id = fields.Many2one(
-        comodel_name='unicore.program',
+        comodel_name='oacis.program',
         string='Program',
         readonly=True,
     )
@@ -93,11 +93,11 @@ class UniCoreAdmissionFunnelReport(models.Model):
     def init(self):
         tools.drop_view_if_exists(
             self.env.cr,
-            'unicore_admission_funnel_report',
+            'oacis_admission_funnel_report',
         )
         self.env.cr.execute("""
             CREATE OR REPLACE VIEW
-            unicore_admission_funnel_report AS (
+            oacis_admission_funnel_report AS (
                 SELECT
                     ROW_NUMBER() OVER () AS id,
                     a.company_id,
@@ -161,8 +161,8 @@ class UniCoreAdmissionFunnelReport(models.Model):
                         AVG(a.aggregate_percentage)
                         ::numeric, 1
                     ) AS avg_aggregate_pct
-                FROM unicore_admission_applicant a
-                JOIN unicore_admission_cycle ac
+                FROM oacis_admission_applicant a
+                JOIN oacis_admission_cycle ac
                     ON ac.id = a.cycle_id
                 GROUP BY
                     a.company_id,
@@ -173,8 +173,8 @@ class UniCoreAdmissionFunnelReport(models.Model):
         """)
 
 
-class UniCoreApplicantCategoryReport(models.Model):
-    _name = 'unicore.applicant.category.report'
+class OacisApplicantCategoryReport(models.Model):
+    _name = 'oacis.applicant.category.report'
     _description = 'Applicant Category Analytics'
     _auto = False
     _rec_name = 'category'
@@ -187,7 +187,7 @@ class UniCoreApplicantCategoryReport(models.Model):
         readonly=True,
     )
     academic_year_id = fields.Many2one(
-        comodel_name='unicore.academic.year',
+        comodel_name='oacis.academic.year',
         string='Academic Year',
         readonly=True,
     )
@@ -231,11 +231,11 @@ class UniCoreApplicantCategoryReport(models.Model):
     def init(self):
         tools.drop_view_if_exists(
             self.env.cr,
-            'unicore_applicant_category_report',
+            'oacis_applicant_category_report',
         )
         self.env.cr.execute("""
             CREATE OR REPLACE VIEW
-            unicore_applicant_category_report AS (
+            oacis_applicant_category_report AS (
                 SELECT
                     ROW_NUMBER() OVER () AS id,
                     a.company_id,
@@ -249,8 +249,8 @@ class UniCoreApplicantCategoryReport(models.Model):
                     ROUND(
                         AVG(a.composite_score)::numeric, 1
                     ) AS avg_score
-                FROM unicore_admission_applicant a
-                JOIN unicore_admission_cycle ac
+                FROM oacis_admission_applicant a
+                JOIN oacis_admission_cycle ac
                     ON ac.id = a.cycle_id
                 GROUP BY
                     a.company_id,

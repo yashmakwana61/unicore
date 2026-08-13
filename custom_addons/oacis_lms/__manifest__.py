@@ -1,27 +1,27 @@
 {
-    'name': "Unicore LMS",
+    'name': "Oacis LMS",
 
-    'summary': "Advanced Learning Management System for Unicore",
+    'summary': "Advanced Learning Management System for Oacis",
 
     'description': """
-Advanced LMS integrating Odoo eLearning with Unicore Academic structure.
+Advanced LMS integrating Odoo eLearning with Oacis Academic structure.
 Supports both public B2C courses (free/paid) and internal university academic courses.
     """,
 
     'author': "My Company",
     'website': "https://www.yourcompany.com",
-    'category': 'Unicore/LMS',
+    'category': 'Oacis/LMS',
     'version': '1.0',
 
     'depends': [
         'base',
         'website_slides',
         'website_sale_slides',
-        'unicore_academic',
-        'unicore_student',
-        'unicore_assignment',
-        'unicore_quiz',
-        'unicore_gradebook',
+        'oacis_academic',
+        'oacis_student',
+        'oacis_assignment',
+        'oacis_quiz',
+        'oacis_gradebook',
     ],
 
     'data': [

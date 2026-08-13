@@ -1,5 +1,5 @@
 """
-UniCore Library Issue Model
+Oacis Library Issue Model
 Book lending transactions. Each record represents
 one book copy issued to one member. Tracks issue
 date, due date, return date and calculates fines
@@ -15,10 +15,10 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreLibraryIssue(models.Model):
-    _name = 'unicore.library.issue'
+class OacisLibraryIssue(models.Model):
+    _name = 'oacis.library.issue'
     _description = 'Book Issue / Transaction'
-    _inherit = ['unicore.mixin', 'mail.thread']
+    _inherit = ['oacis.mixin', 'mail.thread']
     _order = 'issue_date desc'
     _check_company_auto = True
     _rec_name = 'display_name'
@@ -62,7 +62,7 @@ class UniCoreLibraryIssue(models.Model):
     # --- MEMBER & BOOK ---
 
     member_id = fields.Many2one(
-        comodel_name='unicore.library.member',
+        comodel_name='oacis.library.member',
         string='Member',
         required=True,
         ondelete='restrict',
@@ -72,14 +72,14 @@ class UniCoreLibraryIssue(models.Model):
                "('company_id','=',company_id)]",
     )
     student_id = fields.Many2one(
-        comodel_name='unicore.student',
+        comodel_name='oacis.student',
         string='Student',
         related='member_id.student_id',
         store=True,
         readonly=True,
     )
     book_copy_id = fields.Many2one(
-        comodel_name='unicore.library.book.copy',
+        comodel_name='oacis.library.book.copy',
         string='Book Copy',
         required=True,
         ondelete='restrict',
@@ -89,7 +89,7 @@ class UniCoreLibraryIssue(models.Model):
                "('company_id','=',company_id)]",
     )
     book_id = fields.Many2one(
-        comodel_name='unicore.library.book',
+        comodel_name='oacis.library.book',
         string='Book',
         related='book_copy_id.book_id',
         store=True,
@@ -292,14 +292,14 @@ class UniCoreLibraryIssue(models.Model):
             if not vals.get('issue_number'):
                 vals['issue_number'] = (
                     self.env['ir.sequence'].next_by_code(
-                        'unicore.library.issue',
+                        'oacis.library.issue',
                     ) or '/'
                 )
             # Set due date from member's loan period
             if ('due_date' not in vals
                     and 'member_id' in vals):
                 member = self.env[
-                    'unicore.library.member'
+                    'oacis.library.member'
                 ].browse(vals['member_id'])
                 if member.exists():
                     issue_date = fields.Date.from_string(
@@ -366,7 +366,7 @@ class UniCoreLibraryIssue(models.Model):
         notify the next member in queue.
         """
         reservation = self.env[
-            'unicore.library.reservation'
+            'oacis.library.reservation'
         ].search([
             ('book_id', '=', self.book_id.id),
             ('reservation_state', '=', 'active'),
@@ -402,7 +402,7 @@ class UniCoreLibraryIssue(models.Model):
             )
         # Check no active reservation
         reservation = self.env[
-            'unicore.library.reservation'
+            'oacis.library.reservation'
         ].search([
             ('book_id', '=', self.book_id.id),
             ('reservation_state', '=', 'active'),

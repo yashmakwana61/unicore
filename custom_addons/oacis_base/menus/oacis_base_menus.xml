@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- UniCore Root Menu -->
-    <menuitem id="menu_unicore_root"
-              name="UniCore"
+    <!-- Oacis Root Menu -->
+    <menuitem id="menu_oacis_root"
+              name="Oacis"
               sequence="1"
-              web_icon="unicore_base,static/description/icon.png"
-              groups="unicore_base.group_unicore_staff"/>
+              web_icon="oacis_base,static/description/icon.png"
+              groups="oacis_base.group_oacis_staff"/>
 
-    <!-- UniCore Campuses Menu -->
-    <menuitem id="menu_unicore_campuses"
+    <!-- Oacis Campuses Menu -->
+    <menuitem id="menu_oacis_campuses"
               name="Campuses"
-              parent="menu_unicore_root"
-              action="action_unicore_campus"
+              parent="menu_oacis_root"
+              action="action_oacis_campus"
               sequence="5"/>
 
-    <!-- UniCore Configuration Menu -->
-    <menuitem id="menu_unicore_configuration"
+    <!-- Oacis Configuration Menu -->
+    <menuitem id="menu_oacis_configuration"
               name="Configuration"
-              parent="menu_unicore_root"
+              parent="menu_oacis_root"
               sequence="999"
-              groups="unicore_base.group_unicore_admin"/>
+              groups="oacis_base.group_oacis_admin"/>
 
 </odoo>

@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_fee_invoice_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.fee.invoice.kanban</field>
-        <field name="model">unicore.fee.invoice</field>
+    <record id="oacis_fee_invoice_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.fee.invoice.kanban</field>
+        <field name="model">oacis.fee.invoice</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="invoice_state">
                 <field name="display_name"/>
@@ -58,9 +58,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_fee_structure_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.fee.structure.kanban</field>
-        <field name="model">unicore.fee.structure</field>
+    <record id="oacis_fee_structure_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.fee.structure.kanban</field>
+        <field name="model">oacis.fee.structure</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="structure_state">
                 <field name="name"/>

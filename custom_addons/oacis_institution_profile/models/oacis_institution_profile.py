@@ -1,7 +1,7 @@
 from odoo import api, fields, models
 
 
-class UnicoreInstitutionProfile(models.Model):
+class OacisInstitutionProfile(models.Model):
     """Per-institution configuration record driving multi-entity behavior.
 
     This is the real driver behind the (previously dead) res.company.university_type
@@ -13,9 +13,9 @@ class UnicoreInstitutionProfile(models.Model):
     Phase 5 together with the onboarding wizard.
     """
 
-    _name = 'unicore.institution.profile'
+    _name = 'oacis.institution.profile'
     _description = 'Institution Profile'
-    _inherit = ['unicore.mixin', 'mail.thread']
+    _inherit = ['oacis.mixin', 'mail.thread']
     _order = 'name'
 
     name = fields.Char(
@@ -53,8 +53,8 @@ class UnicoreInstitutionProfile(models.Model):
              'read this flag as the compatibility shim.',
     )
     academic_unit_level_ids = fields.Many2many(
-        comodel_name='unicore.academic.unit.type',
-        relation='unicore_institution_profile_unit_type_rel',
+        comodel_name='oacis.academic.unit.type',
+        relation='oacis_institution_profile_unit_type_rel',
         column1='profile_id',
         column2='unit_type_id',
         string='Academic Unit Levels',
@@ -95,7 +95,7 @@ class UnicoreInstitutionProfile(models.Model):
              'precedence (see effective_grading_scheme).',
     )
     grading_scheme_id = fields.Many2one(
-        comodel_name='unicore.grading.scheme',
+        comodel_name='oacis.grading.scheme',
         string='Grading Scheme',
         tracking=True,
         help='Dedicated grading scheme record (Phase 2). When set, its '
@@ -126,18 +126,18 @@ class UnicoreInstitutionProfile(models.Model):
                 else record.grading_scheme
             )
     terminology_profile_id = fields.Many2one(
-        comodel_name='unicore.terminology.profile',
+        comodel_name='oacis.terminology.profile',
         string='Terminology Profile',
         tracking=True,
         help='Field-label substitutions applied at setup (one-time relabeling, Phase 5).',
     )
     feature_toggle_ids = fields.Many2many(
-        comodel_name='unicore.institution.feature',
-        relation='unicore_institution_profile_feature_rel',
+        comodel_name='oacis.institution.feature',
+        relation='oacis_institution_profile_feature_rel',
         column1='profile_id',
         column2='feature_id',
         string='Relevant Features',
-        help='Optional UniCore modules relevant for this institution type.',
+        help='Optional Oacis modules relevant for this institution type.',
     )
     description = fields.Text(
         string='Description',
@@ -153,7 +153,7 @@ class UnicoreInstitutionProfile(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Institution Profiles',
-            'res_model': 'unicore.institution.profile',
+            'res_model': 'oacis.institution.profile',
             'view_mode': 'tree,form',
             'target': 'current',
         }

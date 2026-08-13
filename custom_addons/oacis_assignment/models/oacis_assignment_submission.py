@@ -1,5 +1,5 @@
 """
-UniCore Assignment Submission Model
+Oacis Assignment Submission Model
 A submission is one student's submitted work for an assignment.
 Students upload a file through the portal; submissions carry a
 state (draft → submitted/late → graded/returned). Faculty grade
@@ -21,10 +21,10 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreAssignmentSubmission(models.Model):
-    _name = 'unicore.assignment.submission'
+class OacisAssignmentSubmission(models.Model):
+    _name = 'oacis.assignment.submission'
     _description = 'Assignment Submission'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'submission_date desc, id desc'
     _check_company_auto = True
     _rec_name = 'display_name'
@@ -32,7 +32,7 @@ class UniCoreAssignmentSubmission(models.Model):
     # ------- RELATIONS -------
 
     assignment_id = fields.Many2one(
-        comodel_name='unicore.assignment',
+        comodel_name='oacis.assignment',
         string='Assignment',
         required=True,
         ondelete='cascade',
@@ -40,7 +40,7 @@ class UniCoreAssignmentSubmission(models.Model):
         tracking=True,
     )
     student_id = fields.Many2one(
-        comodel_name='unicore.student',
+        comodel_name='oacis.student',
         string='Student',
         required=True,
         ondelete='restrict',
@@ -48,21 +48,21 @@ class UniCoreAssignmentSubmission(models.Model):
         tracking=True,
     )
     enrollment_id = fields.Many2one(
-        comodel_name='unicore.enrollment',
+        comodel_name='oacis.enrollment',
         string='Enrollment',
         ondelete='set null',
         index=True,
     )
 
     course_offering_id = fields.Many2one(
-        comodel_name='unicore.course.offering',
+        comodel_name='oacis.course.offering',
         string='Course Offering',
         related='assignment_id.course_offering_id',
         store=True,
         readonly=True,
     )
     course_id = fields.Many2one(
-        comodel_name='unicore.course',
+        comodel_name='oacis.course',
         string='Course',
         related='assignment_id.course_id',
         store=True,
@@ -76,14 +76,14 @@ class UniCoreAssignmentSubmission(models.Model):
         readonly=True,
     )
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus',
+        comodel_name='oacis.campus',
         string='Campus',
         related='assignment_id.campus_id',
         store=True,
         readonly=True,
     )
     rubric_id = fields.Many2one(
-        comodel_name='unicore.assignment.rubric',
+        comodel_name='oacis.assignment.rubric',
         string='Rubric',
         related='assignment_id.rubric_id',
         store=True,
@@ -168,7 +168,7 @@ class UniCoreAssignmentSubmission(models.Model):
         readonly=True,
     )
     rubric_evaluation_ids = fields.One2many(
-        comodel_name='unicore.assignment.submission.criterion',
+        comodel_name='oacis.assignment.submission.criterion',
         inverse_name='submission_id',
         string='Rubric Evaluation',
     )
@@ -326,11 +326,11 @@ class UniCoreAssignmentSubmission(models.Model):
                 assignment_id = vals.get('assignment_id')
                 if student_id and assignment_id:
                     assignment = self.env[
-                        'unicore.assignment'
+                        'oacis.assignment'
                     ].browse(assignment_id)
                     if assignment.course_offering_id:
                         enrollment = self.env[
-                            'unicore.enrollment'
+                            'oacis.enrollment'
                         ].search([
                             ('student_id', '=', student_id),
                             ('course_offering_id', '=',
@@ -388,7 +388,7 @@ class UniCoreAssignmentSubmission(models.Model):
             rec.graded_date = fields.Datetime.now()
             # Notify the student of the grade
             try:
-                Engine = self.env['unicore.notification.engine']
+                Engine = self.env['oacis.notification.engine']
                 Engine.send_to_student(
                     student=rec.student_id,
                     trigger_event='assignment_graded',
@@ -469,28 +469,28 @@ class UniCoreAssignmentSubmission(models.Model):
         self.annotations = False
 
 
-class UniCoreAssignmentSubmissionCriterion(models.Model):
-    _name = 'unicore.assignment.submission.criterion'
+class OacisAssignmentSubmissionCriterion(models.Model):
+    _name = 'oacis.assignment.submission.criterion'
     _description = 'Submission Rubric Evaluation'
     _order = 'sequence, id'
     _check_company_auto = True
 
     submission_id = fields.Many2one(
-        comodel_name='unicore.assignment.submission',
+        comodel_name='oacis.assignment.submission',
         string='Submission',
         required=True,
         ondelete='cascade',
         index=True,
     )
     assignment_id = fields.Many2one(
-        comodel_name='unicore.assignment',
+        comodel_name='oacis.assignment',
         string='Assignment',
         related='submission_id.assignment_id',
         store=True,
         readonly=True,
     )
     criterion_id = fields.Many2one(
-        comodel_name='unicore.assignment.rubric.criterion',
+        comodel_name='oacis.assignment.rubric.criterion',
         string='Criterion',
         required=True,
         ondelete='restrict',

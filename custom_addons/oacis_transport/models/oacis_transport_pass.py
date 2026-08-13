@@ -1,5 +1,5 @@
 """
-UniCore Transport Pass Model
+Oacis Transport Pass Model
 A student's subscription to a transport route
 for a specific semester. Carries the pass number,
 boarding stop, fee and payment status.
@@ -14,10 +14,10 @@ from odoo.exceptions import UserError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreTransportPass(models.Model):
-    _name = 'unicore.transport.pass'
+class OacisTransportPass(models.Model):
+    _name = 'oacis.transport.pass'
     _description = 'Student Transport Pass'
-    _inherit = ['unicore.mixin', 'mail.thread']
+    _inherit = ['oacis.mixin', 'mail.thread']
     _order = 'academic_year_id desc, student_id'
     _check_company_auto = True
     _rec_name = 'display_name'
@@ -62,7 +62,7 @@ class UniCoreTransportPass(models.Model):
     # --- STUDENT & ROUTE ---
 
     student_id = fields.Many2one(
-        comodel_name='unicore.student',
+        comodel_name='oacis.student',
         string='Student',
         required=True,
         ondelete='restrict',
@@ -73,7 +73,7 @@ class UniCoreTransportPass(models.Model):
                "['enrolled','active'])]",
     )
     route_id = fields.Many2one(
-        comodel_name='unicore.transport.route',
+        comodel_name='oacis.transport.route',
         string='Route',
         required=True,
         ondelete='restrict',
@@ -83,14 +83,14 @@ class UniCoreTransportPass(models.Model):
                "('company_id','=',company_id)]",
     )
     vehicle_id = fields.Many2one(
-        comodel_name='unicore.transport.vehicle',
+        comodel_name='oacis.transport.vehicle',
         string='Vehicle',
         related='route_id.vehicle_id',
         store=True,
         readonly=True,
     )
     boarding_stop_id = fields.Many2one(
-        comodel_name='unicore.transport.stop',
+        comodel_name='oacis.transport.stop',
         string='Boarding Stop',
         ondelete='set null',
         domain="[('route_id','=',route_id),"
@@ -101,7 +101,7 @@ class UniCoreTransportPass(models.Model):
     # --- ACADEMIC PERIOD ---
 
     academic_year_id = fields.Many2one(
-        comodel_name='unicore.academic.year',
+        comodel_name='oacis.academic.year',
         string='Academic Year',
         required=True,
         ondelete='restrict',
@@ -109,7 +109,7 @@ class UniCoreTransportPass(models.Model):
         tracking=True,
     )
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         ondelete='set null',
         domain="[('academic_year_id','=',"
@@ -253,7 +253,7 @@ class UniCoreTransportPass(models.Model):
             if not vals.get('pass_number'):
                 vals['pass_number'] = (
                     self.env['ir.sequence'].next_by_code(
-                        'unicore.transport.pass',
+                        'oacis.transport.pass',
                     ) or '/'
                 )
         return super().create(vals_list)

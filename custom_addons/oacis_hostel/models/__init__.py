@@ -1,7 +1,7 @@
-"""UniCore Hostel — Models Package"""
+"""Oacis Hostel — Models Package"""
 from . import (
-    unicore_hostel_allocation,
-    unicore_hostel_block,
-    unicore_hostel_maintenance,
-    unicore_hostel_room,
+    oacis_hostel_allocation,
+    oacis_hostel_block,
+    oacis_hostel_maintenance,
+    oacis_hostel_room,
 )

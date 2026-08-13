@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_department_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.department.kanban</field>
-        <field name="model">unicore.department</field>
+    <record id="oacis_department_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.department.kanban</field>
+        <field name="model">oacis.department</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="dept_state">
                 <field name="code"/>

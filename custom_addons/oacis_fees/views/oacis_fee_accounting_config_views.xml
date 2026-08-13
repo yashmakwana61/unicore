@@ -3,9 +3,9 @@
     <data>
 
         <!-- Form View -->
-        <record id="unicore_fee_accounting_config_form" model="ir.ui.view">
-            <field name="name">unicore.fee.accounting.config.form</field>
-            <field name="model">unicore.fee.accounting.config</field>
+        <record id="oacis_fee_accounting_config_form" model="ir.ui.view">
+            <field name="name">oacis.fee.accounting.config.form</field>
+            <field name="model">oacis.fee.accounting.config</field>
             <field name="arch" type="xml">
                 <form string="Fee Accounting Configuration">
                     <sheet>
@@ -48,9 +48,9 @@
         </record>
 
         <!-- Tree View -->
-        <record id="unicore_fee_accounting_config_tree" model="ir.ui.view">
-            <field name="name">unicore.fee.accounting.config.tree</field>
-            <field name="model">unicore.fee.accounting.config</field>
+        <record id="oacis_fee_accounting_config_tree" model="ir.ui.view">
+            <field name="name">oacis.fee.accounting.config.tree</field>
+            <field name="model">oacis.fee.accounting.config</field>
             <field name="arch" type="xml">
                 <list string="Fee Accounting Configurations">
                     <field name="company_id" />
@@ -63,13 +63,13 @@
         </record>
 
         <!-- Action -->
-        <record id="unicore_fee_accounting_config_action" model="ir.actions.act_window">
+        <record id="oacis_fee_accounting_config_action" model="ir.actions.act_window">
             <field name="name">Fee Accounting Configuration</field>
-            <field name="res_model">unicore.fee.accounting.config</field>
+            <field name="res_model">oacis.fee.accounting.config</field>
             <field name="view_mode">list,form</field>
             <field name="view_ids" eval="[(5, 0, 0),
-                                         (0, 0, {'sequence': 1, 'view_mode': 'list', 'view_id': ref('unicore_fee_accounting_config_tree')}),
-                                         (0, 0, {'sequence': 2, 'view_mode': 'form', 'view_id': ref('unicore_fee_accounting_config_form')})]"/>
+                                         (0, 0, {'sequence': 1, 'view_mode': 'list', 'view_id': ref('oacis_fee_accounting_config_tree')}),
+                                         (0, 0, {'sequence': 2, 'view_mode': 'form', 'view_id': ref('oacis_fee_accounting_config_form')})]"/>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Create a new Fee Accounting Configuration

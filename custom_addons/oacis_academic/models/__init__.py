@@ -1,6 +1,6 @@
 from . import (
-    unicore_department,
-    unicore_faculty,
-    unicore_program,
-    unicore_specialisation,
+    oacis_department,
+    oacis_faculty,
+    oacis_program,
+    oacis_specialisation,
 )

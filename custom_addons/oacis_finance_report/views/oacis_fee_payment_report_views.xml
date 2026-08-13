@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <!-- Pivot View for Payments -->
-  <record id="view_unicore_fee_payment_pivot" model="ir.ui.view">
-    <field name="name">unicore.fee.payment.pivot</field>
-    <field name="model">unicore.fee.payment</field>
+  <record id="view_oacis_fee_payment_pivot" model="ir.ui.view">
+    <field name="name">oacis.fee.payment.pivot</field>
+    <field name="model">oacis.fee.payment</field>
     <field name="arch" type="xml">
       <pivot string="Payment Analytics">
         <field name="payment_method" type="row"/>
@@ -13,9 +13,9 @@
     </field>
   </record>
   <!-- Graph View for Payments -->
-  <record id="view_unicore_fee_payment_graph" model="ir.ui.view">
-    <field name="name">unicore.fee.payment.graph</field>
-    <field name="model">unicore.fee.payment</field>
+  <record id="view_oacis_fee_payment_graph" model="ir.ui.view">
+    <field name="name">oacis.fee.payment.graph</field>
+    <field name="model">oacis.fee.payment</field>
     <field name="arch" type="xml">
       <graph string="Payment Collection Trend" type="line">
         <field name="payment_date" interval="month"/>
@@ -24,9 +24,9 @@
     </field>
   </record>
   <!-- Payment Analysis Action -->
-  <record id="action_unicore_fee_payment_analysis" model="ir.actions.act_window">
+  <record id="action_oacis_fee_payment_analysis" model="ir.actions.act_window">
     <field name="name">Payment Analytics</field>
-    <field name="res_model">unicore.fee.payment</field>
+    <field name="res_model">oacis.fee.payment</field>
     <field name="view_mode">graph,pivot,list</field>
     <field name="domain">[('payment_state','=','confirmed')]</field>
     <field name="context">{'search_default_group_by_method': 1}</field>

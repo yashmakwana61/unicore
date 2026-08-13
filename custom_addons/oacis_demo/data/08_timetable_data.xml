@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data noupdate="0">
-    <record id="uc_demo_timeslot_lab1" model="unicore.time.slot">
+    <record id="uc_demo_timeslot_lab1" model="oacis.time.slot">
       <field name="name">Lab Session 1</field>
       <field name="start_time">16.25</field>
       <field name="end_time">18.25</field>
@@ -10,7 +10,7 @@
       <field name="slot_type">lab</field>
     </record>
 
-    <record id="uc_demo_timeslot_lab2" model="unicore.time.slot">
+    <record id="uc_demo_timeslot_lab2" model="oacis.time.slot">
       <field name="name">Lab Session 2</field>
       <field name="start_time">18.25</field>
       <field name="end_time">20.25</field>
@@ -19,17 +19,17 @@
       <field name="slot_type">lab</field>
     </record>
 
-    <record id="uc_demo_tt_cs101_mon" model="unicore.timetable.entry">
+    <record id="uc_demo_tt_cs101_mon" model="oacis.timetable.entry">
       <field name="course_offering_id" ref="uc_demo_offering_cs101"/>
       <field name="day_of_week">1</field>
-      <field name="time_slot_id" ref="unicore_timetable.time_slot_period_1"/>
+      <field name="time_slot_id" ref="oacis_timetable.time_slot_period_1"/>
       <field name="room_id" ref="uc_demo_room_a101"/>
       <field name="instructor_id" ref="uc_demo_faculty_rajesh"/>
       <field name="semester_id" ref="uc_demo_sem_odd"/>
       <field name="entry_state">confirmed</field>
     </record>
 
-    <record id="uc_demo_tt_cs101_wed" model="unicore.timetable.entry">
+    <record id="uc_demo_tt_cs101_wed" model="oacis.timetable.entry">
       <field name="course_offering_id" ref="uc_demo_offering_cs101"/>
       <field name="day_of_week">3</field>
       <field name="time_slot_id" ref="uc_demo_timeslot_lab1"/>
@@ -39,20 +39,20 @@
       <field name="entry_state">confirmed</field>
     </record>
 
-    <record id="uc_demo_tt_math101_tue" model="unicore.timetable.entry">
+    <record id="uc_demo_tt_math101_tue" model="oacis.timetable.entry">
       <field name="course_offering_id" ref="uc_demo_offering_math101"/>
       <field name="day_of_week">2</field>
-      <field name="time_slot_id" ref="unicore_timetable.time_slot_period_2"/>
+      <field name="time_slot_id" ref="oacis_timetable.time_slot_period_2"/>
       <field name="room_id" ref="uc_demo_room_a102"/>
       <field name="instructor_id" ref="uc_demo_faculty_anita"/>
       <field name="semester_id" ref="uc_demo_sem_odd"/>
       <field name="entry_state">confirmed</field>
     </record>
 
-    <record id="uc_demo_tt_mba101_thu" model="unicore.timetable.entry">
+    <record id="uc_demo_tt_mba101_thu" model="oacis.timetable.entry">
       <field name="course_offering_id" ref="uc_demo_offering_mba101"/>
       <field name="day_of_week">4</field>
-      <field name="time_slot_id" ref="unicore_timetable.time_slot_period_3"/>
+      <field name="time_slot_id" ref="oacis_timetable.time_slot_period_3"/>
       <field name="room_id" ref="uc_demo_room_a102"/>
       <field name="instructor_id" ref="uc_demo_faculty_suresh"/>
       <field name="semester_id" ref="uc_demo_sem_odd"/>

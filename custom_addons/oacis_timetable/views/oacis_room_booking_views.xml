@@ -6,9 +6,9 @@
         <!-- FORM VIEW                                   -->
         <!-- ========================================== -->
 
-        <record id="view_unicore_room_booking_form" model="ir.ui.view">
-            <field name="name">unicore.room.booking.form</field>
-            <field name="model">unicore.room.booking</field>
+        <record id="view_oacis_room_booking_form" model="ir.ui.view">
+            <field name="name">oacis.room.booking.form</field>
+            <field name="model">oacis.room.booking</field>
             <field name="arch" type="xml">
                 <form>
                     <header>
@@ -17,14 +17,14 @@
                                 string="Approve"
                                 invisible="booking_state != 'requested'"
                                 class="btn-primary"
-                                groups="unicore_base.group_unicore_registrar"/>
+                                groups="oacis_base.group_oacis_registrar"/>
                         <button name="action_cancel" type="object"
                                 string="Cancel"
                                 invisible="booking_state == 'cancelled'"/>
                         <button name="action_reset_requested" type="object"
                                 string="Reset to Requested"
                                 invisible="booking_state != 'cancelled'"
-                                groups="unicore_base.group_unicore_admin"/>
+                                groups="oacis_base.group_oacis_admin"/>
                     </header>
                     <sheet>
                         <group string="Booking Details">
@@ -64,9 +64,9 @@
         <!-- LIST VIEW                                   -->
         <!-- ========================================== -->
 
-        <record id="view_unicore_room_booking_list" model="ir.ui.view">
-            <field name="name">unicore.room.booking.list</field>
-            <field name="model">unicore.room.booking</field>
+        <record id="view_oacis_room_booking_list" model="ir.ui.view">
+            <field name="name">oacis.room.booking.list</field>
+            <field name="model">oacis.room.booking</field>
             <field name="arch" type="xml">
                 <list decoration-success="booking_state == 'approved'"
                       decoration-muted="booking_state == 'cancelled'"
@@ -86,9 +86,9 @@
         <!-- SEARCH VIEW                                 -->
         <!-- ========================================== -->
 
-        <record id="view_unicore_room_booking_search" model="ir.ui.view">
-            <field name="name">unicore.room.booking.search</field>
-            <field name="model">unicore.room.booking</field>
+        <record id="view_oacis_room_booking_search" model="ir.ui.view">
+            <field name="name">oacis.room.booking.search</field>
+            <field name="model">oacis.room.booking</field>
             <field name="arch" type="xml">
                 <search>
                     <field name="name"/>
@@ -116,9 +116,9 @@
         <!-- WINDOW ACTION                               -->
         <!-- ========================================== -->
 
-        <record id="action_unicore_room_booking" model="ir.actions.act_window">
+        <record id="action_oacis_room_booking" model="ir.actions.act_window">
             <field name="name">Room Bookings</field>
-            <field name="res_model">unicore.room.booking</field>
+            <field name="res_model">oacis.room.booking</field>
             <field name="view_mode">list,form</field>
         </record>
 

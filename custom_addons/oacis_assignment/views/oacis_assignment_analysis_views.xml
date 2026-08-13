@@ -6,9 +6,9 @@
         <!-- SUBMISSION ANALYSIS (PIVOT + GRAPH)                           -->
         <!-- ============================================================ -->
 
-        <record id="view_unicore_assignment_submission_pivot" model="ir.ui.view">
-            <field name="name">unicore.assignment.submission.pivot</field>
-            <field name="model">unicore.assignment.submission</field>
+        <record id="view_oacis_assignment_submission_pivot" model="ir.ui.view">
+            <field name="name">oacis.assignment.submission.pivot</field>
+            <field name="model">oacis.assignment.submission</field>
             <field name="arch" type="xml">
                 <pivot string="Submission Analysis">
                     <field name="course_id" type="row"/>
@@ -19,9 +19,9 @@
             </field>
         </record>
 
-        <record id="view_unicore_assignment_submission_graph" model="ir.ui.view">
-            <field name="name">unicore.assignment.submission.graph</field>
-            <field name="model">unicore.assignment.submission</field>
+        <record id="view_oacis_assignment_submission_graph" model="ir.ui.view">
+            <field name="name">oacis.assignment.submission.graph</field>
+            <field name="model">oacis.assignment.submission</field>
             <field name="arch" type="xml">
                 <graph string="Submission Analysis">
                     <field name="state"/>

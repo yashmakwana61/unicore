@@ -1,7 +1,7 @@
-"""Institution-profile enforcement on ``unicore.academic.unit``.
+"""Institution-profile enforcement on ``oacis.academic.unit``.
 
-Wired here (not in unicore_academic_generic) because the profile model lives in
-this module, which depends on unicore_academic_generic — the generic module can
+Wired here (not in oacis_academic_generic) because the profile model lives in
+this module, which depends on oacis_academic_generic — the generic module can
 never reference ``res.company.institution_profile_id`` without creating a
 circular dependency. Enforcement is active only when this module is installed.
 """
@@ -10,8 +10,8 @@ from odoo import _, api, models
 from odoo.exceptions import ValidationError
 
 
-class UnicoreAcademicUnit(models.Model):
-    _inherit = 'unicore.academic.unit'
+class OacisAcademicUnit(models.Model):
+    _inherit = 'oacis.academic.unit'
 
     @api.constrains('company_id', 'unit_type_id')
     def _check_unit_type_allowed(self):

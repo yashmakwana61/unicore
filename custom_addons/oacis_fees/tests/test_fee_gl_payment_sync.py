@@ -5,8 +5,8 @@ from odoo.fields import Command
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'financial')
-class UniCoreFeeGLPaymentSyncTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'financial')
+class OacisFeeGLPaymentSyncTest(TransactionCase):
     """Regression tests for the fee-invoice <-> GL payment sync.
 
     Recording a payment against the fee invoice's GL invoice (via the native
@@ -22,18 +22,18 @@ class UniCoreFeeGLPaymentSyncTest(TransactionCase):
         cls.company = cls.env.company
         cls.currency = cls.company.currency_id
 
-        cls.faculty = cls.env['unicore.faculty'].create({
+        cls.faculty = cls.env['oacis.faculty'].create({
             'name': 'Test Faculty of Business',
             'code': 'TFB',
             'company_id': cls.company.id,
         })
-        cls.department = cls.env['unicore.department'].create({
+        cls.department = cls.env['oacis.department'].create({
             'name': 'Test Commerce',
             'code': 'TCOM',
             'faculty_id': cls.faculty.id,
             'company_id': cls.company.id,
         })
-        cls.program = cls.env['unicore.program'].create({
+        cls.program = cls.env['oacis.program'].create({
             'name': 'Test B.Com',
             'code': 'TEST-BCOM',
             'program_type': 'undergraduate',
@@ -44,12 +44,12 @@ class UniCoreFeeGLPaymentSyncTest(TransactionCase):
             'department_id': cls.department.id,
             'company_id': cls.company.id,
         })
-        cls.campus = cls.env['unicore.campus'].create({
+        cls.campus = cls.env['oacis.campus'].create({
             'name': 'Test Business Campus',
             'code': 'TBCAMP',
             'company_id': cls.company.id,
         })
-        cls.academic_year = cls.env['unicore.academic.year'].create({
+        cls.academic_year = cls.env['oacis.academic.year'].create({
             'name': 'Test AY 2025-26',
             'code': 'TAY2526',
             'date_start': '2025-07-01',
@@ -61,7 +61,7 @@ class UniCoreFeeGLPaymentSyncTest(TransactionCase):
         # The default company uses a term-mode calendar (institution profile),
         # which forces academic years to ``year_type == 'term'``; such years may
         # only contain term semesters.
-        cls.semester = cls.env['unicore.semester'].create({
+        cls.semester = cls.env['oacis.semester'].create({
             'name': 'Test First Term 2025-26',
             'code': 'TT1-2526',
             'semester_type': 'term_1',
@@ -72,7 +72,7 @@ class UniCoreFeeGLPaymentSyncTest(TransactionCase):
             'company_id': cls.company.id,
         })
 
-        cls.student = cls.env['unicore.student'].create({
+        cls.student = cls.env['oacis.student'].create({
             'name': 'Fee',
             'last_name': 'GL Student',
             'gender': 'male',
@@ -116,7 +116,7 @@ class UniCoreFeeGLPaymentSyncTest(TransactionCase):
         # Only one active config is allowed per company. Reuse an existing one
         # (pointing its journal/accounts at the test chart) or create a fresh
         # one when none exists yet.
-        cls.config = cls.env['unicore.fee.accounting.config'].search([
+        cls.config = cls.env['oacis.fee.accounting.config'].search([
             ('company_id', '=', company.id),
         ], limit=1)
         if cls.config:
@@ -128,7 +128,7 @@ class UniCoreFeeGLPaymentSyncTest(TransactionCase):
                 'is_active': True,
             })
         else:
-            cls.config = cls.env['unicore.fee.accounting.config'].create({
+            cls.config = cls.env['oacis.fee.accounting.config'].create({
                 'company_id': company.id,
                 'journal_id': sale_journal.id,
                 'revenue_account_id': revenue.id,
@@ -138,7 +138,7 @@ class UniCoreFeeGLPaymentSyncTest(TransactionCase):
             })
 
     def _create_invoice(self, amount=30000.0):
-        return self.env['unicore.fee.invoice'].create({
+        return self.env['oacis.fee.invoice'].create({
             'student_id': self.student.id,
             'company_id': self.company.id,
             'academic_year_id': self.academic_year.id,

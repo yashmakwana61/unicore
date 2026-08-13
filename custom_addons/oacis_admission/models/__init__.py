@@ -1,5 +1,5 @@
 from . import (
-    unicore_admission_sequence,
+    oacis_admission_sequence,
     admission_applicant,
     admission_cycle,
     admission_enrollment,
@@ -7,9 +7,9 @@ from . import (
     entrance_test,
     offer_letter,
     res_company,
-    unicore_course_offering_ext,
-    unicore_enrollment,
-    unicore_enrollment_log,
-    unicore_enrollment_waitlist,
-    unicore_student_ext_enrollment,
+    oacis_course_offering_ext,
+    oacis_enrollment,
+    oacis_enrollment_log,
+    oacis_enrollment_waitlist,
+    oacis_student_ext_enrollment,
 )

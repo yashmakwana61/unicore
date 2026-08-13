@@ -100,12 +100,12 @@ def api_error(message, error_code='ERROR', status_code=400):
 
 
 def validate_api_key(req):
-    token = req.httprequest.headers.get('X-UniCore-Key', '')
+    token = req.httprequest.headers.get('X-Oacis-Key', '')
     if not token:
         return None
     ip_address = req.httprequest.remote_addr or ''
     try:
-        ApiKey = req.env['unicore.api.key']
+        ApiKey = req.env['oacis.api.key']
         api_key = ApiKey.sudo().validate_key(token, ip_address)
         return api_key
     except AccessDenied:

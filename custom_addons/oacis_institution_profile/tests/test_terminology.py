@@ -13,19 +13,19 @@ import odoo
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'unit')
-class UniCoreTerminologyTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'unit')
+class OacisTerminologyTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
 
         cls.terminology_legacy = cls.env.ref(
-            'unicore_institution_profile.terminology_university_legacy')
+            'oacis_institution_profile.terminology_university_legacy')
         cls.terminology_school = cls.env.ref(
-            'unicore_institution_profile.terminology_school_k12')
+            'oacis_institution_profile.terminology_school_k12')
         cls.profile_school = cls.env.ref(
-            'unicore_institution_profile.profile_school_k12')
+            'oacis_institution_profile.profile_school_k12')
 
     def test_01_resolve_label_legacy(self):
         """Legacy terminology resolves to the university vocabulary."""
@@ -42,7 +42,7 @@ class UniCoreTerminologyTest(TransactionCase):
 
     def test_02_resolve_label_blank_falls_back(self):
         """Blank terms fall back to the default / generic label."""
-        term = self.env['unicore.terminology.profile'].create({
+        term = self.env['oacis.terminology.profile'].create({
             'name': 'Blank Terms',
             'code': 'BLANK',
             'term_faculty': '',
@@ -61,7 +61,7 @@ class UniCoreTerminologyTest(TransactionCase):
         self.assertIsNone(company.get_term_label('semester'))
 
         company.institution_profile_id = self.env.ref(
-            'unicore_institution_profile.profile_university_legacy').id
+            'oacis_institution_profile.profile_university_legacy').id
         self.assertEqual(
             company.get_term_label('semester', default='Semester'), 'Semester')
         self.assertEqual(company.get_term_label('program'), 'Program')

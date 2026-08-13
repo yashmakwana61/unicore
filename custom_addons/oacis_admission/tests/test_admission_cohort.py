@@ -11,8 +11,8 @@ from odoo.exceptions import ValidationError
 from odoo.tests import TransactionCase, tagged
 
 
-@tagged('unicore', 'unit')
-class UniCoreAdmissionCohortTest(TransactionCase):
+@tagged('oacis', 'unit')
+class OacisAdmissionCohortTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
@@ -21,7 +21,7 @@ class UniCoreAdmissionCohortTest(TransactionCase):
 
         # K-12 school profile (dept not required for programs).
         cls.company.institution_profile_id = cls.env[
-            'unicore.institution.profile'
+            'oacis.institution.profile'
         ].create({
             'name': 'A School',
             'code': 'ASCH',
@@ -30,26 +30,26 @@ class UniCoreAdmissionCohortTest(TransactionCase):
         }).id
 
         cls.grade_type = cls.env.ref(
-            'unicore_academic_generic.unit_type_grade_level')
-        cls.grade = cls.env['unicore.academic.unit'].create({
+            'oacis_academic_generic.unit_type_grade_level')
+        cls.grade = cls.env['oacis.academic.unit'].create({
             'name': 'Grade 5',
             'code': 'AG5',
             'unit_type_id': cls.grade_type.id,
             'company_id': cls.company.id,
         })
 
-        cls.campus = cls.env['unicore.campus'].create({
+        cls.campus = cls.env['oacis.campus'].create({
             'name': 'A Campus',
             'code': 'ACMP',
             'company_id': cls.company.id,
         })
-        cls.academic_year = cls.env['unicore.academic.year'].create({
+        cls.academic_year = cls.env['oacis.academic.year'].create({
             'name': '2025-2026',
             'code': '2025',
             'date_start': '2025-06-01',
             'date_end': '2026-05-31',
         })
-        cls.cycle = cls.env['unicore.admission.cycle'].create({
+        cls.cycle = cls.env['oacis.admission.cycle'].create({
             'name': 'A Intake 2025-26',
             'code': 'AIN-2526',
             'campus_id': cls.campus.id,
@@ -61,7 +61,7 @@ class UniCoreAdmissionCohortTest(TransactionCase):
         })
 
     def _program(self, code, cohort_kind):
-        return self.env['unicore.program'].create({
+        return self.env['oacis.program'].create({
             'name': 'A Program %s' % code,
             'code': code,
             'program_type': 'undergraduate',
@@ -98,13 +98,13 @@ class UniCoreAdmissionCohortTest(TransactionCase):
         """A grade-batch (K-12) applicant must carry a grade level."""
         program = self._program('AGB', 'grade_batch')
         with self.assertRaises(ValidationError):
-            self.env['unicore.admission.applicant'].create(
+            self.env['oacis.admission.applicant'].create(
                 self._applicant_vals(program.id))
 
     def test_02_grade_batch_confirm_binds_grade(self):
         """Confirming a grade-batch applicant propagates the grade level."""
         program = self._program('AGB2', 'grade_batch')
-        applicant = self.env['unicore.admission.applicant'].create(
+        applicant = self.env['oacis.admission.applicant'].create(
             self._applicant_vals(program.id, grade_id=self.grade.id))
         self.assertEqual(applicant.cohort_kind, 'grade_batch')
         self.assertEqual(applicant.grade_level_id, self.grade)
@@ -118,7 +118,7 @@ class UniCoreAdmissionCohortTest(TransactionCase):
     def test_03_rolling_confirm_auto_start(self):
         """Rolling-intake applicants confirm without grade and get a start date."""
         program = self._program('ARL', 'rolling')
-        applicant = self.env['unicore.admission.applicant'].create(
+        applicant = self.env['oacis.admission.applicant'].create(
             self._applicant_vals(program.id))
         self.assertEqual(applicant.cohort_kind, 'rolling')
         self.assertFalse(applicant.grade_level_id)
@@ -131,7 +131,7 @@ class UniCoreAdmissionCohortTest(TransactionCase):
     def test_04_academic_year_confirm_unchanged(self):
         """Academic-year (legacy-style) applicants confirm unchanged."""
         program = self._program('AAY', 'academic_year')
-        applicant = self.env['unicore.admission.applicant'].create(
+        applicant = self.env['oacis.admission.applicant'].create(
             self._applicant_vals(program.id))
         self.assertEqual(applicant.cohort_kind, 'academic_year')
 

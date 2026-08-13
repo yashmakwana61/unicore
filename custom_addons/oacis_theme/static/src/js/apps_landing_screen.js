@@ -6,7 +6,7 @@ import { useService } from "@web/core/utils/hooks";
 import { fuzzyLookup } from "@web/core/utils/search";
 
 export class AppsLandingScreen extends Component {
-    static template = "unicore_theme.AppsLandingScreen";
+    static template = "oacis_theme.AppsLandingScreen";
 
     setup() {
         this.menuService = useService("menu");
@@ -22,14 +22,14 @@ export class AppsLandingScreen extends Component {
 
         // Lifecycle hooks to toggle the full-screen mode safely
         onMounted(() => {
-            document.body.classList.add("o_unicore_apps_landing_active");
+            document.body.classList.add("o_oacis_apps_landing_active");
             if (this.appsSearchInput.el) {
                 this.appsSearchInput.el.focus();
             }
         });
 
         onWillUnmount(() => {
-            document.body.classList.remove("o_unicore_apps_landing_active");
+            document.body.classList.remove("o_oacis_apps_landing_active");
         });
         
         useExternalListener(window, "keydown", this.onGlobalKeydown);
@@ -102,4 +102,4 @@ export class AppsLandingScreen extends Component {
 }
 
 // Register as a standard client action
-registry.category("actions").add("unicore_apps_landing", AppsLandingScreen);
+registry.category("actions").add("oacis_apps_landing", AppsLandingScreen);

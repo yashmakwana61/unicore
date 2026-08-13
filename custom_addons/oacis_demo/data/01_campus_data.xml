@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data noupdate="0">
-    <record id="uc_demo_campus_main" model="unicore.campus">
+    <record id="uc_demo_campus_main" model="oacis.campus">
       <field name="name">Main Campus</field>
       <field name="code">MAIN</field>
       <field name="company_id" ref="base.main_company"/>
@@ -17,7 +17,7 @@
       <field name="campus_state">active</field>
     </record>
 
-    <record id="uc_demo_building_a" model="unicore.building">
+    <record id="uc_demo_building_a" model="oacis.building">
       <field name="name">Academic Block A</field>
       <field name="code">BLK-A</field>
       <field name="campus_id" ref="uc_demo_campus_main"/>
@@ -27,7 +27,7 @@
       <field name="sequence">10</field>
     </record>
 
-    <record id="uc_demo_building_b" model="unicore.building">
+    <record id="uc_demo_building_b" model="oacis.building">
       <field name="name">Science &amp; Lab Complex</field>
       <field name="code">BLK-B</field>
       <field name="campus_id" ref="uc_demo_campus_main"/>
@@ -37,31 +37,31 @@
       <field name="sequence">20</field>
     </record>
 
-    <record id="uc_demo_floor_a1" model="unicore.floor">
+    <record id="uc_demo_floor_a1" model="oacis.floor">
       <field name="name">Ground Floor</field>
       <field name="floor_number">0</field>
       <field name="building_id" ref="uc_demo_building_a"/>
     </record>
 
-    <record id="uc_demo_floor_a2" model="unicore.floor">
+    <record id="uc_demo_floor_a2" model="oacis.floor">
       <field name="name">First Floor</field>
       <field name="floor_number">1</field>
       <field name="building_id" ref="uc_demo_building_a"/>
     </record>
 
-    <record id="uc_demo_floor_b1" model="unicore.floor">
+    <record id="uc_demo_floor_b1" model="oacis.floor">
       <field name="name">Ground Floor</field>
       <field name="floor_number">0</field>
       <field name="building_id" ref="uc_demo_building_b"/>
     </record>
 
-    <record id="uc_demo_floor_b2" model="unicore.floor">
+    <record id="uc_demo_floor_b2" model="oacis.floor">
       <field name="name">First Floor</field>
       <field name="floor_number">1</field>
       <field name="building_id" ref="uc_demo_building_b"/>
     </record>
 
-    <record id="uc_demo_room_a101" model="unicore.room">
+    <record id="uc_demo_room_a101" model="oacis.room">
       <field name="name">Lecture Hall 101</field>
       <field name="code">A101</field>
       <field name="floor_id" ref="uc_demo_floor_a1"/>
@@ -73,7 +73,7 @@
       <field name="room_state">available</field>
     </record>
 
-    <record id="uc_demo_room_a102" model="unicore.room">
+    <record id="uc_demo_room_a102" model="oacis.room">
       <field name="name">Classroom 102</field>
       <field name="code">A102</field>
       <field name="floor_id" ref="uc_demo_floor_a1"/>
@@ -84,7 +84,7 @@
       <field name="room_state">available</field>
     </record>
 
-    <record id="uc_demo_room_a201" model="unicore.room">
+    <record id="uc_demo_room_a201" model="oacis.room">
       <field name="name">Computer Lab 201</field>
       <field name="code">A201</field>
       <field name="floor_id" ref="uc_demo_floor_a2"/>
@@ -96,7 +96,7 @@
       <field name="room_state">available</field>
     </record>
 
-    <record id="uc_demo_room_a202" model="unicore.room">
+    <record id="uc_demo_room_a202" model="oacis.room">
       <field name="name">Seminar Room 202</field>
       <field name="code">A202</field>
       <field name="floor_id" ref="uc_demo_floor_a2"/>
@@ -108,7 +108,7 @@
       <field name="room_state">available</field>
     </record>
 
-    <record id="uc_demo_room_b101" model="unicore.room">
+    <record id="uc_demo_room_b101" model="oacis.room">
       <field name="name">Physics Lab</field>
       <field name="code">B101</field>
       <field name="floor_id" ref="uc_demo_floor_b1"/>
@@ -118,7 +118,7 @@
       <field name="room_state">available</field>
     </record>
 
-    <record id="uc_demo_room_b201" model="unicore.room">
+    <record id="uc_demo_room_b201" model="oacis.room">
       <field name="name">Computer Lab 201</field>
       <field name="code">B201</field>
       <field name="floor_id" ref="uc_demo_floor_b2"/>
@@ -129,7 +129,7 @@
       <field name="room_state">available</field>
     </record>
 
-    <record id="uc_demo_facility_canteen" model="unicore.facility">
+    <record id="uc_demo_facility_canteen" model="oacis.facility">
       <field name="name">Campus Cafeteria</field>
       <field name="facility_type">canteen</field>
       <field name="campus_id" ref="uc_demo_campus_main"/>
@@ -137,14 +137,14 @@
       <field name="operating_hours">Mon-Sat 8am-8pm</field>
     </record>
 
-    <record id="uc_demo_facility_sports" model="unicore.facility">
+    <record id="uc_demo_facility_sports" model="oacis.facility">
       <field name="name">Sports Complex</field>
       <field name="facility_type">sports</field>
       <field name="campus_id" ref="uc_demo_campus_main"/>
       <field name="capacity">500</field>
     </record>
 
-    <record id="uc_demo_facility_medical" model="unicore.facility">
+    <record id="uc_demo_facility_medical" model="oacis.facility">
       <field name="name">Health Center</field>
       <field name="facility_type">medical</field>
       <field name="campus_id" ref="uc_demo_campus_main"/>

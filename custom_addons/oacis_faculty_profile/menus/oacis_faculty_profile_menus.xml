@@ -2,46 +2,46 @@
 <odoo>
 
     <!-- Level 2: Faculty & Staff Section -->
-    <menuitem id="menu_unicore_faculty_staff"
+    <menuitem id="menu_oacis_faculty_staff"
               name="Faculty &amp; Staff"
-              parent="unicore_base.menu_unicore_root"
+              parent="oacis_base.menu_oacis_root"
               sequence="40"
-              groups="unicore_base.group_unicore_staff"/>
+              groups="oacis_base.group_oacis_staff"/>
 
     <!-- Level 3: Faculty Members -->
-    <menuitem id="menu_unicore_faculty_member_all"
+    <menuitem id="menu_oacis_faculty_member_all"
               name="Faculty Members"
-              parent="menu_unicore_faculty_staff"
-              action="action_unicore_faculty_member"
+              parent="menu_oacis_faculty_staff"
+              action="action_oacis_faculty_member"
               sequence="10"/>
 
-    <menuitem id="menu_unicore_faculty_member_active"
+    <menuitem id="menu_oacis_faculty_member_active"
               name="Active Faculty"
-              parent="menu_unicore_faculty_staff"
-              action="action_unicore_faculty_member_active"
+              parent="menu_oacis_faculty_staff"
+              action="action_oacis_faculty_member_active"
               sequence="20"/>
 
     <!-- Level 3: Administrative Staff -->
-    <menuitem id="menu_unicore_staff_member_all"
+    <menuitem id="menu_oacis_staff_member_all"
               name="Administrative Staff"
-              parent="menu_unicore_faculty_staff"
-              action="action_unicore_staff_member"
+              parent="menu_oacis_faculty_staff"
+              action="action_oacis_staff_member"
               sequence="30"/>
 
     <!-- Level 3: Publications (Manager only) -->
-    <menuitem id="menu_unicore_faculty_publications"
+    <menuitem id="menu_oacis_faculty_publications"
               name="Publications"
-              parent="menu_unicore_faculty_staff"
-              action="action_unicore_faculty_publication"
+              parent="menu_oacis_faculty_staff"
+              action="action_oacis_faculty_publication"
               sequence="40"
-              groups="unicore_base.group_unicore_manager"/>
+              groups="oacis_base.group_oacis_manager"/>
 
     <!-- Level 3: Teaching Workload (Registrar only) -->
-    <menuitem id="menu_unicore_faculty_workload"
+    <menuitem id="menu_oacis_faculty_workload"
               name="Teaching Workload"
-              parent="menu_unicore_faculty_staff"
-              action="action_unicore_faculty_workload"
+              parent="menu_oacis_faculty_staff"
+              action="action_oacis_faculty_workload"
               sequence="50"
-              groups="unicore_base.group_unicore_registrar"/>
+              groups="oacis_base.group_oacis_registrar"/>
 
 </odoo>

@@ -1,8 +1,8 @@
-"""UniCore Analytics — Models Package"""
+"""Oacis Analytics — Models Package"""
 from . import (
     admission_dashboard,
-    unicore_academic_analytics,
-    unicore_admission_analytics,
-    unicore_financial_analytics,
-    unicore_student_analytics,
+    oacis_academic_analytics,
+    oacis_admission_analytics,
+    oacis_financial_analytics,
+    oacis_student_analytics,
 )

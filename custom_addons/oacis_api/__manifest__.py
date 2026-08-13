@@ -1,19 +1,19 @@
 {
-    'name': 'UniCore API',
+    'name': 'Oacis API',
     'version': '19.0.1.0.0',
     'category': 'Education',
-    'summary': 'RESTful API gateway for UniCore ERP',
+    'summary': 'RESTful API gateway for Oacis ERP',
     'description': """
-UniCore API
+Oacis API
 ===========
 
-RESTful API gateway for the UniCore University Management System.
+RESTful API gateway for the Oacis University Management System.
 
 Provides a secure, authenticated REST API for external integrations
 including mobile apps, portals, and third-party systems.
 
 Key features:
-- Custom X-UniCore-Key authentication header
+- Custom X-Oacis-Key authentication header
 - Scope-based access control (read, write, admin)
 - Daily rate limiting per API key
 - Usage tracking and expiry management
@@ -32,16 +32,16 @@ All endpoints return consistent JSON structure:
     'website': 'https://precisefect.com',
     'license': 'OPL-1',
     'depends': [
-        'unicore_base',
-        'unicore_security',
-        'unicore_student',
-        'unicore_academic',
-        'unicore_admission',
-        'unicore_attendance',
-        'unicore_grading',
-        'unicore_fees',
-        'unicore_notify',
-        'unicore_curriculum',
+        'oacis_base',
+        'oacis_security',
+        'oacis_student',
+        'oacis_academic',
+        'oacis_admission',
+        'oacis_attendance',
+        'oacis_grading',
+        'oacis_fees',
+        'oacis_notify',
+        'oacis_curriculum',
     ],
     'data': [
         'security/groups.xml',
@@ -54,6 +54,6 @@ All endpoints return consistent JSON structure:
     'installable': True,
     'application': False,
     'auto_install': False,
-    'web_icon': 'unicore_api,'
+    'web_icon': 'oacis_api,'
                 'static/description/icon.png',
 }

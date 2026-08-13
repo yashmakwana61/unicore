@@ -2,12 +2,12 @@ from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
-class UnicoreStudentDocument(models.Model):
+class OacisStudentDocument(models.Model):
     """Student document records for identity proofs, transcripts, certificates etc."""
 
-    _name = 'unicore.student.document'
+    _name = 'oacis.student.document'
     _description = 'Student Document'
-    _inherit = ['unicore.mixin', 'mail.thread']
+    _inherit = ['oacis.mixin', 'mail.thread']
     _order = 'is_verified, document_type, name'
     _check_company_auto = True
     _rec_name = 'name'
@@ -51,7 +51,7 @@ class UnicoreStudentDocument(models.Model):
     verification_notes = fields.Text(string='Verification Notes')
 
     student_id = fields.Many2one(
-        comodel_name='unicore.student', string='Student',
+        comodel_name='oacis.student', string='Student',
         required=True, ondelete='cascade',
     )
     company_id = fields.Many2one(
@@ -59,7 +59,7 @@ class UnicoreStudentDocument(models.Model):
         related='student_id.company_id', store=True, readonly=True,
     )
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus', string='Campus',
+        comodel_name='oacis.campus', string='Campus',
         related='student_id.campus_id', store=True, readonly=True,
     )
 

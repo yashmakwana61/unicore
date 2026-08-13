@@ -3,7 +3,7 @@
 
     <!--
     Room type reference data placeholder.
-    Room types are defined as Selection fields on unicore.room.
+    Room types are defined as Selection fields on oacis.room.
     Add reference records here when room types are migrated to
     a dedicated model in a future version.
     -->

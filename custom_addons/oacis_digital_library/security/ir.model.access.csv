@@ -1,5 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_digital_material_admin,unicore.digital.material.admin,model_unicore_digital_material,unicore_base.group_unicore_admin,1,1,1,1
-access_digital_material_manager,unicore.digital.material.manager,model_unicore_digital_material,unicore_base.group_unicore_manager,1,1,1,0
-access_digital_material_faculty,unicore.digital.material.faculty,model_unicore_digital_material,unicore_base.group_unicore_faculty,1,1,1,0
-access_digital_material_student,unicore.digital.material.student,model_unicore_digital_material,unicore_base.group_unicore_student,1,0,0,0
+access_digital_material_admin,oacis.digital.material.admin,model_oacis_digital_material,oacis_base.group_oacis_admin,1,1,1,1
+access_digital_material_manager,oacis.digital.material.manager,model_oacis_digital_material,oacis_base.group_oacis_manager,1,1,1,0
+access_digital_material_faculty,oacis.digital.material.faculty,model_oacis_digital_material,oacis_base.group_oacis_faculty,1,1,1,0
+access_digital_material_student,oacis.digital.material.student,model_oacis_digital_material,oacis_base.group_oacis_student,1,0,0,0

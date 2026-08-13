@@ -3,15 +3,15 @@
     <!-- Use noupdate="1" so if users manually clear this later, a module upgrade doesn't force it back -->
     <data noupdate="1">
         <!-- 1. Register the Client Action -->
-        <record id="action_unicore_apps_landing" model="ir.actions.client">
+        <record id="action_oacis_apps_landing" model="ir.actions.client">
             <field name="name">Apps Landing Screen</field>
-            <field name="tag">unicore_apps_landing</field>
+            <field name="tag">oacis_apps_landing</field>
             <field name="target">main</field>
         </record>
 
         <!-- 2. Set as default action for admin -->
         <record id="base.user_admin" model="res.users">
-            <field name="action_id" ref="action_unicore_apps_landing"/>
+            <field name="action_id" ref="action_oacis_apps_landing"/>
         </record>
     </data>
 </odoo>

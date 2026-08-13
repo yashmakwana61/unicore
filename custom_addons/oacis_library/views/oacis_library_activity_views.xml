@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_library_book_activity_view" model="ir.ui.view">
-        <field name="name">unicore.library.book.activity</field>
-        <field name="model">unicore.library.book</field>
+    <record id="oacis_library_book_activity_view" model="ir.ui.view">
+        <field name="name">oacis.library.book.activity</field>
+        <field name="model">oacis.library.book</field>
         <field name="arch" type="xml">
             <activity string="Library Book Activities"/>
         </field>

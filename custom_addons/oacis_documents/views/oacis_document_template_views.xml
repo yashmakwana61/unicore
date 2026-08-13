@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-  <record id="view_unicore_doc_template_form" model="ir.ui.view">
-    <field name="name">unicore.document.template.form</field>
-    <field name="model">unicore.document.template</field>
+  <record id="view_oacis_doc_template_form" model="ir.ui.view">
+    <field name="name">oacis.document.template.form</field>
+    <field name="model">oacis.document.template</field>
     <field name="arch" type="xml">
       <form>
         <sheet>
@@ -36,9 +36,9 @@
     </field>
   </record>
 
-  <record id="view_unicore_doc_template_list" model="ir.ui.view">
-    <field name="name">unicore.document.template.list</field>
-    <field name="model">unicore.document.template</field>
+  <record id="view_oacis_doc_template_list" model="ir.ui.view">
+    <field name="name">oacis.document.template.list</field>
+    <field name="model">oacis.document.template</field>
     <field name="arch" type="xml">
       <list>
         <field name="name"/>
@@ -51,9 +51,9 @@
     </field>
   </record>
 
-  <record id="action_unicore_doc_template" model="ir.actions.act_window">
+  <record id="action_oacis_doc_template" model="ir.actions.act_window">
     <field name="name">Document Templates</field>
-    <field name="res_model">unicore.document.template</field>
+    <field name="res_model">oacis.document.template</field>
     <field name="view_mode">list,form</field>
   </record>
 

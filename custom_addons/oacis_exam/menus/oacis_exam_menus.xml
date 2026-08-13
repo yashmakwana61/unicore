@@ -4,71 +4,71 @@
 
         <!-- Level 2 — Top Section -->
         <menuitem
-            id="menu_unicore_exam"
+            id="menu_oacis_exam"
             name="Examinations"
             sequence="90"
-            web_icon="unicore_exam,static/description/icon.png"
-            groups="unicore_base.group_unicore_staff"/>
+            web_icon="oacis_exam,static/description/icon.png"
+            groups="oacis_base.group_oacis_staff"/>
 
         <!-- Level 3 — Student Self-Service -->
         <menuitem
-            id="menu_unicore_exam_my_tickets"
+            id="menu_oacis_exam_my_tickets"
             name="My Hall Tickets"
-            parent="menu_unicore_exam"
-            action="action_unicore_exam_hall_ticket_my"
+            parent="menu_oacis_exam"
+            action="action_oacis_exam_hall_ticket_my"
             sequence="10"
-            groups="unicore_base.group_unicore_student"/>
+            groups="oacis_base.group_oacis_student"/>
 
         <menuitem
-            id="menu_unicore_exam_my_seat"
+            id="menu_oacis_exam_my_seat"
             name="My Seat Assignment"
-            parent="menu_unicore_exam"
-            action="action_unicore_exam_seating_my"
+            parent="menu_oacis_exam"
+            action="action_oacis_exam_seating_my"
             sequence="20"
-            groups="unicore_base.group_unicore_student"/>
+            groups="oacis_base.group_oacis_student"/>
 
         <!-- Level 3 — Faculty -->
         <menuitem
-            id="menu_unicore_exam_upcoming"
+            id="menu_oacis_exam_upcoming"
             name="Upcoming Exams"
-            parent="menu_unicore_exam"
-            action="action_unicore_exam_upcoming"
+            parent="menu_oacis_exam"
+            action="action_oacis_exam_upcoming"
             sequence="30"
-            groups="unicore_base.group_unicore_faculty"/>
+            groups="oacis_base.group_oacis_faculty"/>
 
         <!-- Level 3 — Registrar -->
         <menuitem
-            id="menu_unicore_exam_schedule_all"
+            id="menu_oacis_exam_schedule_all"
             name="All Exam Schedules"
-            parent="menu_unicore_exam"
-            action="action_unicore_exam_schedule"
+            parent="menu_oacis_exam"
+            action="action_oacis_exam_schedule"
             sequence="40"
-            groups="unicore_base.group_unicore_registrar"/>
+            groups="oacis_base.group_oacis_registrar"/>
 
         <menuitem
-            id="menu_unicore_exam_hall_ticket_all"
+            id="menu_oacis_exam_hall_ticket_all"
             name="Hall Tickets"
-            parent="menu_unicore_exam"
-            action="action_unicore_exam_hall_ticket"
+            parent="menu_oacis_exam"
+            action="action_oacis_exam_hall_ticket"
             sequence="50"
-            groups="unicore_base.group_unicore_registrar"/>
+            groups="oacis_base.group_oacis_registrar"/>
 
         <menuitem
-            id="menu_unicore_exam_hall_ticket_ineligible"
+            id="menu_oacis_exam_hall_ticket_ineligible"
             name="Ineligible Students"
-            parent="menu_unicore_exam"
-            action="action_unicore_exam_hall_ticket_ineligible"
+            parent="menu_oacis_exam"
+            action="action_oacis_exam_hall_ticket_ineligible"
             sequence="60"
-            groups="unicore_base.group_unicore_registrar"/>
+            groups="oacis_base.group_oacis_registrar"/>
 
         <!-- Level 3 — Staff -->
         <menuitem
-            id="menu_unicore_exam_seating_all"
+            id="menu_oacis_exam_seating_all"
             name="Seating Plans"
-            parent="menu_unicore_exam"
-            action="action_unicore_exam_seating"
+            parent="menu_oacis_exam"
+            action="action_oacis_exam_seating"
             sequence="70"
-            groups="unicore_base.group_unicore_staff"/>
+            groups="oacis_base.group_oacis_staff"/>
 
     </data>
 </odoo>

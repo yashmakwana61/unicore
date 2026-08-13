@@ -1,7 +1,7 @@
-UniCore Campus Management
+Oacis Campus Management
 =========================
 
-Complete campus infrastructure management module for UniCore ERP.
+Complete campus infrastructure management module for Oacis ERP.
 
 Key Features
 ------------
@@ -29,8 +29,8 @@ Security Groups Access
 
 Dependencies
 ------------
-- unicore_base: Base campus model, security groups, mixins
-- unicore_security: Record rules, campus isolation, user campus assignment
+- oacis_base: Base campus model, security groups, mixins
+- oacis_security: Record rules, campus isolation, user campus assignment
 
 Author: Precisefect Solutions Pvt. Ltd.
 Website: https://precisefect.com

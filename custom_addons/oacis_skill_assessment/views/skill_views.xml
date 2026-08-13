@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="view_unicore_skill_tree" model="ir.ui.view">
-            <field name="name">unicore.skill.tree</field>
-            <field name="model">unicore.skill</field>
+        <record id="view_oacis_skill_tree" model="ir.ui.view">
+            <field name="name">oacis.skill.tree</field>
+            <field name="model">oacis.skill</field>
             <field name="arch" type="xml">
                 <list string="Skills">
                     <field name="name"/>
@@ -12,9 +12,9 @@
             </field>
         </record>
 
-        <record id="view_unicore_skill_form" model="ir.ui.view">
-            <field name="name">unicore.skill.form</field>
-            <field name="model">unicore.skill</field>
+        <record id="view_oacis_skill_form" model="ir.ui.view">
+            <field name="name">oacis.skill.form</field>
+            <field name="model">oacis.skill</field>
             <field name="arch" type="xml">
                 <form string="Skill">
                     <sheet>
@@ -35,9 +35,9 @@
             </field>
         </record>
 
-        <record id="view_unicore_skill_assessment_tree" model="ir.ui.view">
-            <field name="name">unicore.student.skill.assessment.tree</field>
-            <field name="model">unicore.student.skill.assessment</field>
+        <record id="view_oacis_skill_assessment_tree" model="ir.ui.view">
+            <field name="name">oacis.student.skill.assessment.tree</field>
+            <field name="model">oacis.student.skill.assessment</field>
             <field name="arch" type="xml">
                 <list string="Skill Assessments">
                     <field name="student_id" widget="many2one_avatar"/>
@@ -53,9 +53,9 @@
             </field>
         </record>
 
-        <record id="view_unicore_skill_assessment_form" model="ir.ui.view">
-            <field name="name">unicore.student.skill.assessment.form</field>
-            <field name="model">unicore.student.skill.assessment</field>
+        <record id="view_oacis_skill_assessment_form" model="ir.ui.view">
+            <field name="name">oacis.student.skill.assessment.form</field>
+            <field name="model">oacis.student.skill.assessment</field>
             <field name="arch" type="xml">
                 <form string="Skill Assessment">
                     <sheet>
@@ -83,9 +83,9 @@
             </field>
         </record>
 
-        <record id="view_unicore_skill_assessment_search" model="ir.ui.view">
-            <field name="name">unicore.student.skill.assessment.search</field>
-            <field name="model">unicore.student.skill.assessment</field>
+        <record id="view_oacis_skill_assessment_search" model="ir.ui.view">
+            <field name="name">oacis.student.skill.assessment.search</field>
+            <field name="model">oacis.student.skill.assessment</field>
             <field name="arch" type="xml">
                 <search string="Search Skill Assessments">
                     <field name="student_id" widget="many2one_avatar"/>
@@ -98,17 +98,17 @@
             </field>
         </record>
 
-        <record id="action_unicore_skill" model="ir.actions.act_window">
+        <record id="action_oacis_skill" model="ir.actions.act_window">
             <field name="name">Skills</field>
-            <field name="res_model">unicore.skill</field>
+            <field name="res_model">oacis.skill</field>
             <field name="view_mode">list,form</field>
         </record>
 
-        <record id="action_unicore_skill_assessment" model="ir.actions.act_window">
+        <record id="action_oacis_skill_assessment" model="ir.actions.act_window">
             <field name="name">Skill Assessments</field>
-            <field name="res_model">unicore.student.skill.assessment</field>
+            <field name="res_model">oacis.student.skill.assessment</field>
             <field name="view_mode">list,form</field>
-            <field name="search_view_id" ref="view_unicore_skill_assessment_search"/>
+            <field name="search_view_id" ref="view_oacis_skill_assessment_search"/>
         </record>
     </data>
 </odoo>

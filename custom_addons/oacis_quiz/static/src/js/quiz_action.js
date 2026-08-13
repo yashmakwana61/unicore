@@ -41,7 +41,7 @@ class TakeQuizClientAction extends Component {
     async loadQuizzes() {
         // Fetch active quizzes
         this.state.quizzes = await this.orm.searchRead(
-            "unicore.quiz",
+            "oacis.quiz",
             [["state", "=", "active"]],
             ["title", "time_limit"]
         );
@@ -51,7 +51,7 @@ class TakeQuizClientAction extends Component {
         try {
             // First find the student record for the current user
             const students = await this.orm.searchRead(
-                "unicore.student",
+                "oacis.student",
                 [],
                 ["id"],
                 { limit: 1 }
@@ -65,7 +65,7 @@ class TakeQuizClientAction extends Component {
             const studentId = students[0].id;
             
             // Create a quiz attempt
-            const attemptIds = await this.orm.create("unicore.quiz.attempt", [{
+            const attemptIds = await this.orm.create("oacis.quiz.attempt", [{
                 student_id: studentId,
                 quiz_id: quizId,
                 state: 'in_progress'
@@ -74,12 +74,12 @@ class TakeQuizClientAction extends Component {
             this.state.attemptId = attemptIds[0];
             
             // Fetch the quiz details including questions
-            const quizData = await this.orm.read("unicore.quiz", [quizId], ["title", "time_limit", "question_ids"]);
+            const quizData = await this.orm.read("oacis.quiz", [quizId], ["title", "time_limit", "question_ids"]);
             const quiz = quizData[0];
             this.state.selectedQuiz = quiz;
             
             // Fetch questions
-            this.state.questions = await this.orm.read("unicore.question.bank", quiz.question_ids, [
+            this.state.questions = await this.orm.read("oacis.question.bank", quiz.question_ids, [
                 "question_text", "option_a", "option_b", "option_c", "option_d"
             ]);
             
@@ -134,7 +134,7 @@ class TakeQuizClientAction extends Component {
         this.clearTimer();
         
         try {
-            await this.orm.call("unicore.quiz.attempt", "submit_quiz_attempt", [
+            await this.orm.call("oacis.quiz.attempt", "submit_quiz_attempt", [
                 this.state.attemptId,
                 this.state.answers,
                 this.state.tabSwitches
@@ -154,6 +154,6 @@ class TakeQuizClientAction extends Component {
     }
 }
 
-TakeQuizClientAction.template = "unicore_quiz.TakeQuizClientAction";
+TakeQuizClientAction.template = "oacis_quiz.TakeQuizClientAction";
 
-registry.category("actions").add("unicore_quiz.take_quiz_client_action", TakeQuizClientAction);
+registry.category("actions").add("oacis_quiz.take_quiz_client_action", TakeQuizClientAction);

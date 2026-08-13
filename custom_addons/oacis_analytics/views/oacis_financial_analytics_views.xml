@@ -3,10 +3,10 @@
 
   <!-- FEE COLLECTION REPORT -->
 
-  <record id="view_unicore_fee_coll_report_pivot"
+  <record id="view_oacis_fee_coll_report_pivot"
           model="ir.ui.view">
-    <field name="name">unicore.fee.collection.report.pivot</field>
-    <field name="model">unicore.fee.collection.report</field>
+    <field name="name">oacis.fee.collection.report.pivot</field>
+    <field name="model">oacis.fee.collection.report</field>
     <field name="arch" type="xml">
       <pivot string="Fee Collection Analytics">
         <field name="semester_id" type="row"/>
@@ -20,10 +20,10 @@
     </field>
   </record>
 
-  <record id="view_unicore_fee_coll_report_graph"
+  <record id="view_oacis_fee_coll_report_graph"
           model="ir.ui.view">
-    <field name="name">unicore.fee.collection.report.graph</field>
-    <field name="model">unicore.fee.collection.report</field>
+    <field name="name">oacis.fee.collection.report.graph</field>
+    <field name="model">oacis.fee.collection.report</field>
     <field name="arch" type="xml">
       <graph string="Fee Collection Trend"
              type="bar"
@@ -36,10 +36,10 @@
     </field>
   </record>
 
-  <record id="view_unicore_fee_coll_report_list"
+  <record id="view_oacis_fee_coll_report_list"
           model="ir.ui.view">
-    <field name="name">unicore.fee.collection.report.list</field>
-    <field name="model">unicore.fee.collection.report</field>
+    <field name="name">oacis.fee.collection.report.list</field>
+    <field name="model">oacis.fee.collection.report</field>
     <field name="arch" type="xml">
       <list>
         <field name="semester_id"/>
@@ -53,19 +53,19 @@
     </field>
   </record>
 
-  <record id="action_unicore_fee_coll_report"
+  <record id="action_oacis_fee_coll_report"
           model="ir.actions.act_window">
     <field name="name">Fee Collection Analytics</field>
-    <field name="res_model">unicore.fee.collection.report</field>
+    <field name="res_model">oacis.fee.collection.report</field>
     <field name="view_mode">graph,pivot,list</field>
   </record>
 
   <!-- PAYMENT METHOD REPORT -->
 
-  <record id="view_unicore_payment_method_pivot"
+  <record id="view_oacis_payment_method_pivot"
           model="ir.ui.view">
-    <field name="name">unicore.payment.method.report.pivot</field>
-    <field name="model">unicore.payment.method.report</field>
+    <field name="name">oacis.payment.method.report.pivot</field>
+    <field name="model">oacis.payment.method.report</field>
     <field name="arch" type="xml">
       <pivot string="Payment Method Analytics">
         <field name="payment_method" type="row"/>
@@ -76,10 +76,10 @@
     </field>
   </record>
 
-  <record id="view_unicore_payment_method_graph"
+  <record id="view_oacis_payment_method_graph"
           model="ir.ui.view">
-    <field name="name">unicore.payment.method.report.graph</field>
-    <field name="model">unicore.payment.method.report</field>
+    <field name="name">oacis.payment.method.report.graph</field>
+    <field name="model">oacis.payment.method.report</field>
     <field name="arch" type="xml">
       <graph string="Payment Method Distribution"
              type="pie">
@@ -89,10 +89,10 @@
     </field>
   </record>
 
-  <record id="view_unicore_payment_method_list"
+  <record id="view_oacis_payment_method_list"
           model="ir.ui.view">
-    <field name="name">unicore.payment.method.report.list</field>
-    <field name="model">unicore.payment.method.report</field>
+    <field name="name">oacis.payment.method.report.list</field>
+    <field name="model">oacis.payment.method.report</field>
     <field name="arch" type="xml">
       <list>
         <field name="payment_month"/>
@@ -103,10 +103,10 @@
     </field>
   </record>
 
-  <record id="action_unicore_payment_method_report"
+  <record id="action_oacis_payment_method_report"
           model="ir.actions.act_window">
     <field name="name">Payment Method Analytics</field>
-    <field name="res_model">unicore.payment.method.report</field>
+    <field name="res_model">oacis.payment.method.report</field>
     <field name="view_mode">graph,pivot,list</field>
   </record>
 

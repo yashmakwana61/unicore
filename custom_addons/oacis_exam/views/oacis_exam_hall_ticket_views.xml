@@ -5,18 +5,18 @@
         <!-- ============================================================ -->
         <!-- HALL TICKET — FORM VIEW                                      -->
         <!-- ============================================================ -->
-        <record id="view_unicore_exam_hall_ticket_form" model="ir.ui.view">
-            <field name="name">unicore.exam.hall.ticket.form</field>
-            <field name="model">unicore.exam.hall.ticket</field>
+        <record id="view_oacis_exam_hall_ticket_form" model="ir.ui.view">
+            <field name="name">oacis.exam.hall.ticket.form</field>
+            <field name="model">oacis.exam.hall.ticket</field>
             <field name="arch" type="xml">
                 <form>
                     <header>
                         <field name="ticket_state" widget="statusbar"/>
-                        <button name="action_approve" type="object" string="Approve" invisible="ticket_state != 'draft'" class="btn-primary" groups="unicore_base.group_unicore_registrar"/>
-                        <button name="action_override_approve" type="object" string="Override Approve" invisible="ticket_state != 'draft' or eligibility_status != 'ineligible'" class="btn-warning" groups="unicore_base.group_unicore_admin"/>
-                        <button name="action_block" type="object" string="Block" invisible="ticket_state not in ('draft','approved')" groups="unicore_base.group_unicore_registrar"/>
-                        <button name="action_mark_used" type="object" string="Mark Used" invisible="ticket_state != 'approved'" groups="unicore_base.group_unicore_registrar"/>
-                        <button name="action_cancel" type="object" string="Cancel" invisible="ticket_state in ('used','cancelled')" groups="unicore_base.group_unicore_admin"/>
+                        <button name="action_approve" type="object" string="Approve" invisible="ticket_state != 'draft'" class="btn-primary" groups="oacis_base.group_oacis_registrar"/>
+                        <button name="action_override_approve" type="object" string="Override Approve" invisible="ticket_state != 'draft' or eligibility_status != 'ineligible'" class="btn-warning" groups="oacis_base.group_oacis_admin"/>
+                        <button name="action_block" type="object" string="Block" invisible="ticket_state not in ('draft','approved')" groups="oacis_base.group_oacis_registrar"/>
+                        <button name="action_mark_used" type="object" string="Mark Used" invisible="ticket_state != 'approved'" groups="oacis_base.group_oacis_registrar"/>
+                        <button name="action_cancel" type="object" string="Cancel" invisible="ticket_state in ('used','cancelled')" groups="oacis_base.group_oacis_admin"/>
                         <widget name="web_ribbon" title="INELIGIBLE" invisible="eligibility_status not in ('ineligible','ineligible_fees')" bg_color="text-bg-danger"/>
                         <widget name="web_ribbon" title="OVERRIDE" invisible="eligibility_status != 'override'" bg_color="text-bg-warning"/>
                         <widget name="web_ribbon" title="BLOCKED" invisible="ticket_state != 'blocked'" bg_color="text-bg-secondary"/>
@@ -60,9 +60,9 @@
         <!-- ============================================================ -->
         <!-- HALL TICKET — LIST VIEW                                       -->
         <!-- ============================================================ -->
-        <record id="view_unicore_exam_hall_ticket_list" model="ir.ui.view">
-            <field name="name">unicore.exam.hall.ticket.list</field>
-            <field name="model">unicore.exam.hall.ticket</field>
+        <record id="view_oacis_exam_hall_ticket_list" model="ir.ui.view">
+            <field name="name">oacis.exam.hall.ticket.list</field>
+            <field name="model">oacis.exam.hall.ticket</field>
             <field name="arch" type="xml">
                 <list decoration-success="ticket_state == 'approved' and eligibility_status == 'eligible'" decoration-danger="eligibility_status in ('ineligible','ineligible_fees')" decoration-warning="eligibility_status == 'override'" decoration-muted="ticket_state in ('blocked','cancelled')">
                     <field name="ticket_number"/>
@@ -79,9 +79,9 @@
         <!-- ============================================================ -->
         <!-- HALL TICKET — SEARCH VIEW                                     -->
         <!-- ============================================================ -->
-        <record id="view_unicore_exam_hall_ticket_search" model="ir.ui.view">
-            <field name="name">unicore.exam.hall.ticket.search</field>
-            <field name="model">unicore.exam.hall.ticket</field>
+        <record id="view_oacis_exam_hall_ticket_search" model="ir.ui.view">
+            <field name="name">oacis.exam.hall.ticket.search</field>
+            <field name="model">oacis.exam.hall.ticket</field>
             <field name="arch" type="xml">
                 <search>
                     <field name="ticket_number"/>
@@ -107,23 +107,23 @@
         <!-- ============================================================ -->
         <!-- WINDOW ACTIONS                                                -->
         <!-- ============================================================ -->
-        <record id="action_unicore_exam_hall_ticket" model="ir.actions.act_window">
+        <record id="action_oacis_exam_hall_ticket" model="ir.actions.act_window">
             <field name="name">Hall Tickets</field>
-            <field name="res_model">unicore.exam.hall.ticket</field>
+            <field name="res_model">oacis.exam.hall.ticket</field>
             <field name="view_mode">list,form</field>
             <field name="context">{'search_default_group_by_exam': 1}</field>
         </record>
 
-        <record id="action_unicore_exam_hall_ticket_ineligible" model="ir.actions.act_window">
+        <record id="action_oacis_exam_hall_ticket_ineligible" model="ir.actions.act_window">
             <field name="name">Ineligible Hall Tickets</field>
-            <field name="res_model">unicore.exam.hall.ticket</field>
+            <field name="res_model">oacis.exam.hall.ticket</field>
             <field name="view_mode">list,form</field>
             <field name="domain">[('eligibility_status','in',['ineligible','ineligible_fees'])]</field>
         </record>
 
-        <record id="action_unicore_exam_hall_ticket_my" model="ir.actions.act_window">
+        <record id="action_oacis_exam_hall_ticket_my" model="ir.actions.act_window">
             <field name="name">My Hall Tickets</field>
-            <field name="res_model">unicore.exam.hall.ticket</field>
+            <field name="res_model">oacis.exam.hall.ticket</field>
             <field name="view_mode">list,form</field>
             <field name="domain">[('student_id.partner_id.user_ids','in',[uid])]</field>
         </record>

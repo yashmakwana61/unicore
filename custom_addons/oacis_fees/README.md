@@ -1,10 +1,10 @@
-# UniCore Fees — Odoo GL Integration Module
+# Oacis Fees — Odoo GL Integration Module
 
-Complete integration of UniCore Fee Invoicing with Odoo's default accounting module.
+Complete integration of Oacis Fee Invoicing with Odoo's default accounting module.
 
 ## Overview
 
-This module extends the UniCore Fees application to automatically create and post GL invoices, automatically reconcile payments with GL receivable lines, and maintain complete audit trails.
+This module extends the Oacis Fees application to automatically create and post GL invoices, automatically reconcile payments with GL receivable lines, and maintain complete audit trails.
 
 **Status:** ✅ Production Ready
 
@@ -160,26 +160,26 @@ See [PAYMENT_RECONCILIATION.md](PAYMENT_RECONCILIATION.md) → Testing Checklist
 ## Files Structure
 
 ```
-unicore_fees/
+oacis_fees/
 ├── models/
-│   ├── unicore_fee_accounting_config.py        [Config model]
-│   ├── unicore_student_partner_ext.py          [Student linking]
-│   ├── unicore_fee_invoice_gl_ext.py           [GL invoice creation]
-│   ├── unicore_fee_invoice_status_ext.py       [Status tracking]
-│   ├── unicore_fee_payment_gl_ext.py           [Payment reconciliation]
-│   ├── unicore_fee_reconciliation_wizard.py    [Manual wizard]
+│   ├── oacis_fee_accounting_config.py        [Config model]
+│   ├── oacis_student_partner_ext.py          [Student linking]
+│   ├── oacis_fee_invoice_gl_ext.py           [GL invoice creation]
+│   ├── oacis_fee_invoice_status_ext.py       [Status tracking]
+│   ├── oacis_fee_payment_gl_ext.py           [Payment reconciliation]
+│   ├── oacis_fee_reconciliation_wizard.py    [Manual wizard]
 │   └── [existing models...]
 │
 ├── views/
-│   ├── unicore_fee_accounting_config_views.xml
-│   ├── unicore_student_partner_ext_views.xml
-│   ├── unicore_fee_invoice_gl_ext_views.xml
-│   ├── unicore_fee_payment_gl_ext_views.xml
-│   ├── unicore_fee_reconciliation_wizard_views.xml
+│   ├── oacis_fee_accounting_config_views.xml
+│   ├── oacis_student_partner_ext_views.xml
+│   ├── oacis_fee_invoice_gl_ext_views.xml
+│   ├── oacis_fee_payment_gl_ext_views.xml
+│   ├── oacis_fee_reconciliation_wizard_views.xml
 │   └── [existing views...]
 │
 ├── security/
-│   ├── unicore_fee_accounting_access.csv
+│   ├── oacis_fee_accounting_access.csv
 │   └── [existing security...]
 │
 ├── QUICK_START.md                    [Quick reference]
@@ -261,11 +261,11 @@ For more help, see [PAYMENT_RECONCILIATION.md](PAYMENT_RECONCILIATION.md) → Tr
 ## Technical Details
 
 ### Models Added
-- `unicore.fee.accounting.config` — GL configuration per company
-- Extension: `unicore.student` — Added partner_id field
-- Extension: `unicore.fee.invoice` — Added GL invoice mapping
-- Extension: `unicore.fee.payment` — Added GL reconciliation
-- `unicore.fee.reconciliation.wizard` — Manual reconciliation
+- `oacis.fee.accounting.config` — GL configuration per company
+- Extension: `oacis.student` — Added partner_id field
+- Extension: `oacis.fee.invoice` — Added GL invoice mapping
+- Extension: `oacis.fee.payment` — Added GL reconciliation
+- `oacis.fee.reconciliation.wizard` — Manual reconciliation
 
 ### Views Added
 - Accounting configuration form & tree
@@ -277,7 +277,7 @@ For more help, see [PAYMENT_RECONCILIATION.md](PAYMENT_RECONCILIATION.md) → Tr
 ### Dependencies
 - Odoo 19.0 (base)
 - account module (GL)
-- All existing unicore_fees dependencies
+- All existing oacis_fees dependencies
 
 ### Access Control
 - Admin: Full access to GL configuration
@@ -312,13 +312,13 @@ Possible additions:
 
 ## Summary
 
-UniCore Fees is now fully integrated with Odoo's default accounting module. Every fee invoice creates a GL invoice, every payment is reconciled with GL, and the entire workflow is audited for compliance.
+Oacis Fees is now fully integrated with Odoo's default accounting module. Every fee invoice creates a GL invoice, every payment is reconciled with GL, and the entire workflow is audited for compliance.
 
 **Ready to deploy!** Follow [QUICK_START.md](QUICK_START.md) for setup.
 
 ---
 
-**Module Name:** unicore_fees  
+**Module Name:** oacis_fees  
 **Version:** 19.0.1.0.0  
 **Category:** Education  
 **License:** OPL-1  

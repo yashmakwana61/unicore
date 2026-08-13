@@ -1,5 +1,5 @@
 """
-UniCore Student Leave Portal Controller
+Oacis Student Leave Portal Controller
 Provides web routes for students and guardians
 to submit, view and manage leave requests via
 the self-service portal.
@@ -17,11 +17,11 @@ from odoo.addons.portal.controllers.portal import CustomerPortal
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreStudentLeavePortal(CustomerPortal):
+class OacisStudentLeavePortal(CustomerPortal):
     """
     Student & Guardian portal routes for leave
     requests. Extends CustomerPortal to add pages
-    under /my/unicore/student/leave/
+    under /my/oacis/student/leave/
     """
 
     def _prepare_home_portal_values(self, counters):
@@ -31,10 +31,10 @@ class UniCoreStudentLeavePortal(CustomerPortal):
         student = self._get_current_student()
         guardian = self._get_current_guardian()
         if student:
-            if 'unicore_leave_requests' in counters:
-                values['unicore_leave_requests'] = (
+            if 'oacis_leave_requests' in counters:
+                values['oacis_leave_requests'] = (
                     request.env[
-                        'unicore.student.leave.request'
+                        'oacis.student.leave.request'
                     ].sudo().search_count([
                         ('student_id', '=', student.id),
                     ])
@@ -46,10 +46,10 @@ class UniCoreStudentLeavePortal(CustomerPortal):
             ward_ids = ward_relations.mapped(
                 'student_id',
             ).ids
-            if 'unicore_leave_requests' in counters:
-                values['unicore_leave_requests'] = (
+            if 'oacis_leave_requests' in counters:
+                values['oacis_leave_requests'] = (
                     request.env[
-                        'unicore.student.leave.request'
+                        'oacis.student.leave.request'
                     ].sudo().search_count([
                         ('student_id', 'in', ward_ids),
                     ])
@@ -61,7 +61,7 @@ class UniCoreStudentLeavePortal(CustomerPortal):
             return False
         partner = request.env.user.partner_id
         student = (
-            request.env['unicore.student']
+            request.env['oacis.student']
             .sudo()
             .search([
                 ('partner_id', '=', partner.id),
@@ -74,7 +74,7 @@ class UniCoreStudentLeavePortal(CustomerPortal):
             return False
         partner = request.env.user.partner_id
         guardian = (
-            request.env['unicore.guardian']
+            request.env['oacis.guardian']
             .sudo()
             .search([
                 ('partner_id', '=', partner.id),
@@ -106,7 +106,7 @@ class UniCoreStudentLeavePortal(CustomerPortal):
 
     def _get_ward_relations(self, guardian):
         return (
-            request.env['unicore.guardian.student.rel']
+            request.env['oacis.guardian.student.rel']
             .sudo()
             .search([
                 ('guardian_id', '=', guardian.id),
@@ -118,7 +118,7 @@ class UniCoreStudentLeavePortal(CustomerPortal):
         """Determine which leave requests the current
         user can view based on role."""
         LeaveRequest = request.env[
-            'unicore.student.leave.request'
+            'oacis.student.leave.request'
         ].sudo()
         student = self._get_current_student()
         guardian = self._get_current_guardian()
@@ -143,7 +143,7 @@ class UniCoreStudentLeavePortal(CustomerPortal):
     # ===================================================
 
     @http.route(
-        '/my/unicore/student/leave',
+        '/my/oacis/student/leave',
         type='http',
         auth='user',
         website=True,
@@ -168,7 +168,7 @@ class UniCoreStudentLeavePortal(CustomerPortal):
             'guardian': guardian,
         }
         return request.render(
-            'unicore_student_leave'
+            'oacis_student_leave'
             '.portal_leave_request_list',
             values,
         )
@@ -178,7 +178,7 @@ class UniCoreStudentLeavePortal(CustomerPortal):
     # ===================================================
 
     @http.route(
-        '/my/unicore/student/leave/new',
+        '/my/oacis/student/leave/new',
         type='http',
         auth='user',
         website=True,
@@ -206,7 +206,7 @@ class UniCoreStudentLeavePortal(CustomerPortal):
             )
         else:
             available_students = request.env[
-                'unicore.student'
+                'oacis.student'
             ].browse()
 
         values = {
@@ -217,7 +217,7 @@ class UniCoreStudentLeavePortal(CustomerPortal):
             'error': kwargs.get('error', ''),
         }
         return request.render(
-            'unicore_student_leave'
+            'oacis_student_leave'
             '.portal_leave_request_form',
             values,
         )
@@ -227,7 +227,7 @@ class UniCoreStudentLeavePortal(CustomerPortal):
     # ===================================================
 
     @http.route(
-        '/my/unicore/student/leave/submit',
+        '/my/oacis/student/leave/submit',
         type='http',
         auth='user',
         methods=['POST'],
@@ -257,26 +257,26 @@ class UniCoreStudentLeavePortal(CustomerPortal):
         if not all([student_id, date_from, date_to,
                     reason]):
             return request.redirect(
-                '/my/unicore/student/leave/new'
+                '/my/oacis/student/leave/new'
                 '?error=Please+fill+all+required+fields',
             )
 
         # Find the student record
         target_student = (
-            request.env['unicore.student']
+            request.env['oacis.student']
             .sudo()
             .browse(int(student_id))
         )
         if not target_student.exists():
             return request.redirect(
-                '/my/unicore/student/leave/new'
+                '/my/oacis/student/leave/new'
                 '?error=Invalid+student+selected',
             )
 
         # Check student is not already on leave
         if target_student.student_state == 'on_leave':
             return request.redirect(
-                '/my/unicore/student/leave/new'
+                '/my/oacis/student/leave/new'
                 '?error=Student+is+already+on+leave',
             )
 
@@ -300,7 +300,7 @@ class UniCoreStudentLeavePortal(CustomerPortal):
 
             leave_request = (
                 request.env[
-                    'unicore.student.leave.request'
+                    'oacis.student.leave.request'
                 ]
                 .sudo()
                 .create(vals)
@@ -324,13 +324,13 @@ class UniCoreStudentLeavePortal(CustomerPortal):
             leave_request.sudo().action_submit()
 
             return request.redirect(
-                '/my/unicore/student/leave/%d'
+                '/my/oacis/student/leave/%d'
                 % leave_request.id,
             )
 
         except (ValidationError, AccessError) as e:
             return request.redirect(
-                '/my/unicore/student/leave/new'
+                '/my/oacis/student/leave/new'
                 '?error=%s' % str(e),
             )
         except Exception as e:
@@ -339,7 +339,7 @@ class UniCoreStudentLeavePortal(CustomerPortal):
                 str(e),
             )
             return request.redirect(
-                '/my/unicore/student/leave/new'
+                '/my/oacis/student/leave/new'
                 '?error=An+error+occurred+while+'
                 'submitting+your+request',
             )
@@ -349,7 +349,7 @@ class UniCoreStudentLeavePortal(CustomerPortal):
     # ===================================================
 
     @http.route(
-        '/my/unicore/student/leave/<int:leave_id>',
+        '/my/oacis/student/leave/<int:leave_id>',
         type='http',
         auth='user',
         website=True,
@@ -358,7 +358,7 @@ class UniCoreStudentLeavePortal(CustomerPortal):
         """Show detail of a single leave request."""
         leave_request = (
             request.env[
-                'unicore.student.leave.request'
+                'oacis.student.leave.request'
             ]
             .sudo()
             .browse(leave_id)
@@ -373,7 +373,7 @@ class UniCoreStudentLeavePortal(CustomerPortal):
             'page_name': 'student_leave_request_detail',
         }
         return request.render(
-            'unicore_student_leave'
+            'oacis_student_leave'
             '.portal_leave_request_detail',
             values,
         )

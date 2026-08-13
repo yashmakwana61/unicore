@@ -10,8 +10,8 @@ student with course registrations, all in one step:
    the applicant's program, resolving the open offering for that course in the
    chosen semester (company + campus scoped).
 3. Confirming enrolls the student (student_state enrolled, optionally active),
-   creates a ``unicore.admission.enrollment`` record and delegates course
-   registration to ``unicore.enrollment`` — full offerings auto-route to the
+   creates a ``oacis.admission.enrollment`` record and delegates course
+   registration to ``oacis.enrollment`` — full offerings auto-route to the
    waitlist, gaps and duplicates are reported in the chatter (never fatal).
 """
 import logging
@@ -23,35 +23,35 @@ _logger = logging.getLogger(__name__)
 
 
 class AdmissionEnrollmentWizard(models.TransientModel):
-    _name = 'unicore.admission.enrollment.wizard'
+    _name = 'oacis.admission.enrollment.wizard'
     _description = 'Enroll Applicant in Program'
 
     applicant_id = fields.Many2one(
-        comodel_name='unicore.admission.applicant', string='Applicant',
+        comodel_name='oacis.admission.applicant', string='Applicant',
         required=True, readonly=True,
     )
     student_id = fields.Many2one(
-        comodel_name='unicore.student', string='Student',
+        comodel_name='oacis.student', string='Student',
         related='applicant_id.student_id', readonly=True,
     )
     cycle_id = fields.Many2one(
-        comodel_name='unicore.admission.cycle', string='Admission Cycle',
+        comodel_name='oacis.admission.cycle', string='Admission Cycle',
         related='applicant_id.cycle_id', readonly=True,
     )
     program_id = fields.Many2one(
-        comodel_name='unicore.program', string='Program',
+        comodel_name='oacis.program', string='Program',
         related='applicant_id.program_id', readonly=True,
     )
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus', string='Campus',
+        comodel_name='oacis.campus', string='Campus',
         related='applicant_id.campus_id', readonly=True,
     )
     academic_year_id = fields.Many2one(
-        comodel_name='unicore.academic.year', string='Academic Year',
+        comodel_name='oacis.academic.year', string='Academic Year',
         related='cycle_id.academic_year_id', readonly=True,
     )
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester', string='Semester / Term',
+        comodel_name='oacis.semester', string='Semester / Term',
         required=True,
         domain="[('academic_year_id', '=', academic_year_id)]",
         help='Target semester / term for the first year of the program. For '
@@ -64,7 +64,7 @@ class AdmissionEnrollmentWizard(models.TransientModel):
              'the current semester, which activation requires.',
     )
     line_ids = fields.One2many(
-        comodel_name='unicore.admission.enrollment.wizard.line',
+        comodel_name='oacis.admission.enrollment.wizard.line',
         inverse_name='wizard_id', string='Course Lines',
     )
 
@@ -85,7 +85,7 @@ class AdmissionEnrollmentWizard(models.TransientModel):
             'default_applicant_id')
         if not applicant_id:
             return res
-        applicant = self.env['unicore.admission.applicant'].browse(
+        applicant = self.env['oacis.admission.applicant'].browse(
             applicant_id)
         year = applicant.cycle_id.academic_year_id
         if ('semester_id' in fields_list and not res.get('semester_id')
@@ -95,7 +95,7 @@ class AdmissionEnrollmentWizard(models.TransientModel):
                 res['semester_id'] = semester.id
         if ('line_ids' in fields_list and not res.get('line_ids')
                 and res.get('semester_id')):
-            semester = self.env['unicore.semester'].browse(
+            semester = self.env['oacis.semester'].browse(
                 res['semester_id'])
             res['line_ids'] = self._prepare_line_commands(applicant, semester)
         return res
@@ -113,16 +113,16 @@ class AdmissionEnrollmentWizard(models.TransientModel):
     def _get_curriculum_lines(self, applicant):
         """Mandatory Semester-1 curriculum lines of the applicant's program."""
         program = applicant.program_id
-        curriculum = self.env['unicore.curriculum'].search([
+        curriculum = self.env['oacis.curriculum'].search([
             ('program_id', '=', program.id),
             ('is_current', '=', True),
         ], limit=1)
         if not curriculum:
-            curriculum = self.env['unicore.curriculum'].search([
+            curriculum = self.env['oacis.curriculum'].search([
                 ('program_id', '=', program.id),
             ], limit=1)
         if not curriculum:
-            return self.env['unicore.curriculum.line']
+            return self.env['oacis.curriculum.line']
         return curriculum.curriculum_line_ids.filtered(
             lambda line: line.is_mandatory and line.semester_number == 1,
         )
@@ -130,7 +130,7 @@ class AdmissionEnrollmentWizard(models.TransientModel):
     def _resolve_offering(self, applicant, line, semester):
         """Open offering for a curriculum course in the target semester,
         scoped to the applicant's program, campus and company."""
-        return self.env['unicore.course.offering'].search([
+        return self.env['oacis.course.offering'].search([
             ('course_id', '=', line.course_id.id),
             ('program_id', '=', applicant.program_id.id),
             ('semester_id', '=', semester.id),
@@ -146,7 +146,7 @@ class AdmissionEnrollmentWizard(models.TransientModel):
         if offering.enrolled_count >= offering.max_enrollment:
             return 'full'
         if applicant.student_id:
-            duplicate = self.env['unicore.enrollment'].search_count([
+            duplicate = self.env['oacis.enrollment'].search_count([
                 ('student_id', '=', applicant.student_id.id),
                 ('course_id', '=', offering.course_id.id),
                 ('semester_id', '=', offering.semester_id.id),
@@ -237,7 +237,7 @@ class AdmissionEnrollmentWizard(models.TransientModel):
 
         # 2) Create the program-level admission enrollment record.
         admission_enrollment = self.env[
-            'unicore.admission.enrollment'].create({
+            'oacis.admission.enrollment'].create({
                 'applicant_id': applicant.id,
                 'student_id': student.id,
                 'cycle_id': applicant.cycle_id.id,
@@ -250,7 +250,7 @@ class AdmissionEnrollmentWizard(models.TransientModel):
             })
 
         # 3) Register courses, reusing the full enrollment validation chain.
-        Enrollment = self.env['unicore.enrollment']
+        Enrollment = self.env['oacis.enrollment']
         messages = []
         created_count = 0
         for line in self.line_ids.filtered('checked'):
@@ -297,33 +297,33 @@ class AdmissionEnrollmentWizard(models.TransientModel):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Program Enrollment'),
-            'res_model': 'unicore.admission.enrollment',
+            'res_model': 'oacis.admission.enrollment',
             'view_mode': 'form',
             'res_id': admission_enrollment.id,
         }
 
 
 class AdmissionEnrollmentWizardLine(models.TransientModel):
-    _name = 'unicore.admission.enrollment.wizard.line'
+    _name = 'oacis.admission.enrollment.wizard.line'
     _description = 'Enroll in Program Wizard Line'
 
     wizard_id = fields.Many2one(
-        comodel_name='unicore.admission.enrollment.wizard',
+        comodel_name='oacis.admission.enrollment.wizard',
         string='Wizard', required=True, ondelete='cascade',
     )
     curriculum_line_id = fields.Many2one(
-        comodel_name='unicore.curriculum.line', string='Curriculum Line',
+        comodel_name='oacis.curriculum.line', string='Curriculum Line',
         readonly=True,
     )
     course_id = fields.Many2one(
-        comodel_name='unicore.course', string='Course', required=True,
+        comodel_name='oacis.course', string='Course', required=True,
         readonly=True,
     )
     semester_number = fields.Integer(
         string='Program Semester', readonly=True,
     )
     offering_id = fields.Many2one(
-        comodel_name='unicore.course.offering', string='Offering',
+        comodel_name='oacis.course.offering', string='Offering',
         readonly=True,
     )
     offering_state = fields.Selection(

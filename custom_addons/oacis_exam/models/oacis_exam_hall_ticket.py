@@ -1,5 +1,5 @@
 """
-UniCore Exam Hall Ticket Model
+Oacis Exam Hall Ticket Model
 Per-student authorization to sit a specific exam.
 Generated in bulk by the exam schedule's
 action_generate_hall_tickets() method.
@@ -16,10 +16,10 @@ from odoo.exceptions import UserError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreExamHallTicket(models.Model):
-    _name = 'unicore.exam.hall.ticket'
+class OacisExamHallTicket(models.Model):
+    _name = 'oacis.exam.hall.ticket'
     _description = 'Exam Hall Ticket'
-    _inherit = ['unicore.mixin', 'mail.thread']
+    _inherit = ['oacis.mixin', 'mail.thread']
     _order = 'exam_schedule_id, student_id'
     _check_company_auto = True
     _rec_name = 'display_name'
@@ -53,7 +53,7 @@ class UniCoreExamHallTicket(models.Model):
     )
 
     exam_schedule_id = fields.Many2one(
-        comodel_name='unicore.exam.schedule',
+        comodel_name='oacis.exam.schedule',
         string='Exam',
         required=True,
         ondelete='cascade',
@@ -62,7 +62,7 @@ class UniCoreExamHallTicket(models.Model):
     )
 
     student_id = fields.Many2one(
-        comodel_name='unicore.student',
+        comodel_name='oacis.student',
         string='Student',
         required=True,
         ondelete='restrict',
@@ -71,13 +71,13 @@ class UniCoreExamHallTicket(models.Model):
     )
 
     enrollment_id = fields.Many2one(
-        comodel_name='unicore.enrollment',
+        comodel_name='oacis.enrollment',
         string='Enrollment',
         ondelete='set null',
     )
 
     course_id = fields.Many2one(
-        comodel_name='unicore.course',
+        comodel_name='oacis.course',
         string='Course',
         related='exam_schedule_id.course_id',
         store=True,
@@ -85,7 +85,7 @@ class UniCoreExamHallTicket(models.Model):
     )
 
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         related='exam_schedule_id.semester_id',
         store=True,
@@ -115,7 +115,7 @@ class UniCoreExamHallTicket(models.Model):
     )
 
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus',
+        comodel_name='oacis.campus',
         string='Campus',
         related='exam_schedule_id.campus_id',
         store=True,
@@ -155,7 +155,7 @@ class UniCoreExamHallTicket(models.Model):
     )
 
     seating_id = fields.Many2one(
-        comodel_name='unicore.exam.seating',
+        comodel_name='oacis.exam.seating',
         string='Seat Assignment',
         readonly=True,
         copy=False,
@@ -176,7 +176,7 @@ class UniCoreExamHallTicket(models.Model):
         for vals in vals_list:
             if not vals.get('ticket_number'):
                 vals['ticket_number'] = (
-                    self.env['ir.sequence'].next_by_code('unicore.exam.hall.ticket') or '/'
+                    self.env['ir.sequence'].next_by_code('oacis.exam.hall.ticket') or '/'
                 )
         return super().create(vals_list)
 

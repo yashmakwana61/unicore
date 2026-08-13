@@ -10,8 +10,8 @@ import odoo
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'unit')
-class UniCoreProfileTemplateTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'unit')
+class OacisProfileTemplateTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
@@ -19,7 +19,7 @@ class UniCoreProfileTemplateTest(TransactionCase):
         cls.company = cls.env.company
 
     def _profile(self, xmlid):
-        return self.env.ref('unicore_institution_profile.%s' % xmlid)
+        return self.env.ref('oacis_institution_profile.%s' % xmlid)
 
     def _unit_codes(self, profile):
         return sorted(profile.academic_unit_level_ids.mapped('code'))

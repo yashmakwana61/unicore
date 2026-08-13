@@ -1,17 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <!-- Window Action -->
-  <record id="action_unicore_department" model="ir.actions.act_window">
+  <record id="action_oacis_department" model="ir.actions.act_window">
     <field name="name">Departments</field>
-    <field name="res_model">unicore.department</field>
+    <field name="res_model">oacis.department</field>
     <field name="view_mode">list,form</field>
     <field name="domain">[]</field>
     <field name="context">{}</field>
   </record>
   <!-- Form View -->
-  <record id="unicore_department_form_view" model="ir.ui.view">
-    <field name="name">unicore.department.form</field>
-    <field name="model">unicore.department</field>
+  <record id="oacis_department_form_view" model="ir.ui.view">
+    <field name="name">oacis.department.form</field>
+    <field name="model">oacis.department</field>
     <field name="arch" type="xml">
       <form>
         <header>
@@ -19,7 +19,7 @@
           <button name="action_set_operational" type="object" string="Set Operational" class="btn-primary" invisible="dept_state != 'draft'"/>
           <button name="action_suspend" type="object" string="Suspend" invisible="dept_state != 'active'"/>
           <button name="action_close" type="object" string="Close" invisible="dept_state not in ('active', 'suspended')"/>
-          <button name="action_reset_draft" type="object" string="Reset to Draft" groups="unicore_base.group_unicore_admin" invisible="dept_state not in ('suspended', 'closed')"/>
+          <button name="action_reset_draft" type="object" string="Reset to Draft" groups="oacis_base.group_oacis_admin" invisible="dept_state not in ('suspended', 'closed')"/>
         </header>
         <sheet>
           <div class="oe_button_box" name="button_box">
@@ -67,9 +67,9 @@
     </field>
   </record>
   <!-- List View -->
-  <record id="unicore_department_list_view" model="ir.ui.view">
-    <field name="name">unicore.department.list</field>
-    <field name="model">unicore.department</field>
+  <record id="oacis_department_list_view" model="ir.ui.view">
+    <field name="name">oacis.department.list</field>
+    <field name="model">oacis.department</field>
     <field name="arch" type="xml">
       <list>
         <field name="code"/>
@@ -82,9 +82,9 @@
     </field>
   </record>
   <!-- Search View -->
-  <record id="unicore_department_search_view" model="ir.ui.view">
-    <field name="name">unicore.department.search</field>
-    <field name="model">unicore.department</field>
+  <record id="oacis_department_search_view" model="ir.ui.view">
+    <field name="name">oacis.department.search</field>
+    <field name="model">oacis.department</field>
     <field name="arch" type="xml">
       <search>
         <field name="name"/>

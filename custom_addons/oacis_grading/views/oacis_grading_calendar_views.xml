@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_semester_result_calendar_view" model="ir.ui.view">
-        <field name="name">unicore.semester.result.calendar</field>
-        <field name="model">unicore.semester.result</field>
+    <record id="oacis_semester_result_calendar_view" model="ir.ui.view">
+        <field name="name">oacis.semester.result.calendar</field>
+        <field name="model">oacis.semester.result</field>
         <field name="arch" type="xml">
             <calendar date_start="published_on" color="color" string="Semester Result Calendar">
                 <field name="student_id"/>

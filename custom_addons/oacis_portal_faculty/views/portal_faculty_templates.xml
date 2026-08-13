@@ -2,32 +2,32 @@
 <odoo>
 
   <!-- ================================================
-  PORTAL HOME - Add UniCore Faculty entry to /my/
+  PORTAL HOME - Add Oacis Faculty entry to /my/
   ================================================ -->
-  <template id="portal_my_home_unicore_faculty"
-            name="UniCore Faculty Portal Home"
+  <template id="portal_my_home_oacis_faculty"
+            name="Oacis Faculty Portal Home"
             inherit_id="portal.portal_my_home"
             priority="25">
     <xpath expr="//div[hasclass('o_portal_docs')]"
            position="inside">
       <t t-call="portal.portal_docs_entry">
         <t t-set="title">Faculty Portal</t>
-        <t t-set="url">/my/unicore/faculty</t>
+        <t t-set="url">/my/oacis/faculty</t>
         <t t-set="placeholder_count">
-          unicore_faculty_courses
+          oacis_faculty_courses
         </t>
         <t t-set="count"
-           t-value="unicore_faculty_courses or 0"/>
+           t-value="oacis_faculty_courses or 0"/>
         <t t-set="text">Active Courses</t>
       </t>
       <t t-call="portal.portal_docs_entry">
         <t t-set="title">Assignments</t>
-        <t t-set="url">/my/unicore/faculty/assignments</t>
+        <t t-set="url">/my/oacis/faculty/assignments</t>
         <t t-set="placeholder_count">
-          unicore_faculty_assignments
+          oacis_faculty_assignments
         </t>
         <t t-set="count"
-           t-value="unicore_faculty_assignments or 0"/>
+           t-value="oacis_faculty_assignments or 0"/>
         <t t-set="text">Published Assignments</t>
       </t>
     </xpath>
@@ -49,27 +49,27 @@
           <div class="col-12">
             <nav class="nav nav-pills flex-wrap">
               <a t-att-class="'nav-link' + (' active' if page_name == 'faculty_dashboard' else '')"
-                 href="/my/unicore/faculty">
+                 href="/my/oacis/faculty">
                 Dashboard
               </a>
               <a t-att-class="'nav-link' + (' active' if page_name == 'faculty_schedule' else '')"
-                 href="/my/unicore/faculty/schedule">
+                 href="/my/oacis/faculty/schedule">
                 My Schedule
               </a>
               <a t-att-class="'nav-link' + (' active' if page_name in ('faculty_courses','faculty_course_detail') else '')"
-                 href="/my/unicore/faculty/courses">
+                 href="/my/oacis/faculty/courses">
                 My Courses
               </a>
               <a t-att-class="'nav-link' + (' active' if page_name in ('faculty_assignments','faculty_assignment_detail','faculty_assignment_grade','faculty_assignment_create') else '')"
-                 href="/my/unicore/faculty/assignments">
+                 href="/my/oacis/faculty/assignments">
                 Assignments
               </a>
               <a t-att-class="'nav-link' + (' active' if page_name == 'faculty_exams' else '')"
-                 href="/my/unicore/faculty/exams">
+                 href="/my/oacis/faculty/exams">
                 Exams
               </a>
               <a t-att-class="'nav-link' + (' active' if page_name == 'faculty_profile' else '')"
-                 href="/my/unicore/faculty/profile">
+                 href="/my/oacis/faculty/profile">
                 My Profile
               </a>
             </nav>
@@ -85,7 +85,7 @@
   ================================================ -->
   <template id="portal_faculty_dashboard"
             name="Faculty Dashboard">
-    <t t-call="unicore_portal_faculty.portal_faculty_layout">
+    <t t-call="oacis_portal_faculty.portal_faculty_layout">
       <div class="container">
 
         <!-- Welcome -->
@@ -167,7 +167,7 @@
             </strong>
             open session(s) requiring attendance.
             <t t-foreach="open_sessions" t-as="sess">
-              <a t-att-href="'/my/unicore/faculty/attendance/%d' % sess.id"
+              <a t-att-href="'/my/oacis/faculty/attendance/%d' % sess.id"
                  class="btn btn-sm btn-warning ms-2">
                 Mark:
                 <t t-esc="sess.session_date"/>
@@ -268,7 +268,7 @@
   ================================================ -->
   <template id="portal_faculty_schedule"
             name="Faculty Schedule">
-    <t t-call="unicore_portal_faculty.portal_faculty_layout">
+    <t t-call="oacis_portal_faculty.portal_faculty_layout">
       <div class="container">
         <h4 class="mb-4">My Weekly Schedule</h4>
 
@@ -327,7 +327,7 @@
   ================================================ -->
   <template id="portal_faculty_courses"
             name="Faculty Courses">
-    <t t-call="unicore_portal_faculty.portal_faculty_layout">
+    <t t-call="oacis_portal_faculty.portal_faculty_layout">
       <div class="container">
         <h4 class="mb-3">My Courses</h4>
 
@@ -380,11 +380,11 @@
                 </div>
               </div>
               <div class="d-flex gap-2 flex-wrap">
-                <a t-att-href="'/my/unicore/faculty/courses/%d' % offering.id"
+                <a t-att-href="'/my/oacis/faculty/courses/%d' % offering.id"
                    class="btn btn-sm btn-outline-primary">
                   View Students
                 </a>
-                <a t-att-href="'/my/unicore/faculty/grades/%d' % offering.id"
+                <a t-att-href="'/my/oacis/faculty/grades/%d' % offering.id"
                    class="btn btn-sm btn-outline-success">
                   Enter Grades
                 </a>
@@ -402,14 +402,14 @@
   ================================================ -->
   <template id="portal_faculty_course_detail"
             name="Faculty Course Detail">
-    <t t-call="unicore_portal_faculty.portal_faculty_layout">
+    <t t-call="oacis_portal_faculty.portal_faculty_layout">
       <div class="container">
 
         <!-- Breadcrumb -->
         <nav aria-label="breadcrumb" class="mb-3">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="/my/unicore/faculty/courses">
+              <a href="/my/oacis/faculty/courses">
                 My Courses
               </a>
             </li>
@@ -435,7 +435,7 @@
           <div class="alert alert-warning mb-3">
             <strong>Attendance Required:</strong>
             <t t-foreach="open_sessions" t-as="sess">
-              <a t-att-href="'/my/unicore/faculty/attendance/%d' % sess.id"
+              <a t-att-href="'/my/oacis/faculty/attendance/%d' % sess.id"
                  class="btn btn-sm btn-warning ms-2">
                 Mark
                 <t t-esc="sess.session_date"/>
@@ -497,7 +497,7 @@
           </tbody>
         </table>
 
-        <a t-att-href="'/my/unicore/faculty/grades/%d' % offering.id"
+        <a t-att-href="'/my/oacis/faculty/grades/%d' % offering.id"
            class="btn btn-primary mt-2">
           Enter / Edit Grades
         </a>
@@ -511,7 +511,7 @@
   ================================================ -->
   <template id="portal_faculty_attendance_form"
             name="Attendance Marking Form">
-    <t t-call="unicore_portal_faculty.portal_faculty_layout">
+    <t t-call="oacis_portal_faculty.portal_faculty_layout">
       <div class="container">
 
         <h4 class="mb-1">Mark Attendance</h4>
@@ -526,7 +526,7 @@
           <t t-esc="session.timetable_entry_id.room_id.code"/>
         </p>
 
-        <form t-att-action="'/my/unicore/faculty/attendance/%d/save' % session.id"
+        <form t-att-action="'/my/oacis/faculty/attendance/%d/save' % session.id"
               method="post">
           <input type="hidden" name="csrf_token"
                  t-att-value="request.csrf_token()"/>
@@ -595,7 +595,7 @@
                     class="btn btn-success">
               Save Attendance
             </button>
-            <a t-att-href="'/my/unicore/faculty/courses/%d' % offering.id"
+            <a t-att-href="'/my/oacis/faculty/courses/%d' % offering.id"
                class="btn btn-outline-secondary">
               Cancel
             </a>
@@ -611,7 +611,7 @@
   ================================================ -->
   <template id="portal_faculty_session_closed"
             name="Session Closed">
-    <t t-call="unicore_portal_faculty.portal_faculty_layout">
+    <t t-call="oacis_portal_faculty.portal_faculty_layout">
       <div class="container">
         <div class="alert alert-warning mt-3">
           <h5>Session Closed</h5>
@@ -622,7 +622,7 @@
             </strong>
             is already closed and cannot be modified.
           </p>
-          <a href="/my/unicore/faculty"
+          <a href="/my/oacis/faculty"
              class="btn btn-primary">
             Back to Dashboard
           </a>
@@ -636,7 +636,7 @@
   ================================================ -->
   <template id="portal_faculty_grade_form"
             name="Grade Entry Form">
-    <t t-call="unicore_portal_faculty.portal_faculty_layout">
+    <t t-call="oacis_portal_faculty.portal_faculty_layout">
       <div class="container">
 
         <h4 class="mb-1">Grade Entry</h4>
@@ -651,7 +651,7 @@
           <t t-esc="offering.course_id.external_assessment_marks"/>
         </p>
 
-        <form t-att-action="'/my/unicore/faculty/grades/%d/save' % offering.id"
+        <form t-att-action="'/my/oacis/faculty/grades/%d/save' % offering.id"
               method="post">
           <input type="hidden" name="csrf_token"
                  t-att-value="request.csrf_token()"/>
@@ -751,7 +751,7 @@
                     class="btn btn-success">
               Save and Submit to Registrar
             </button>
-            <a t-att-href="'/my/unicore/faculty/courses/%d' % offering.id"
+            <a t-att-href="'/my/oacis/faculty/courses/%d' % offering.id"
                class="btn btn-outline-secondary">
               Cancel
             </a>
@@ -767,7 +767,7 @@
   ================================================ -->
   <template id="portal_faculty_exams"
             name="Faculty Exams">
-    <t t-call="unicore_portal_faculty.portal_faculty_layout">
+    <t t-call="oacis_portal_faculty.portal_faculty_layout">
       <div class="container">
         <h4 class="mb-3">My Exam Duties</h4>
 
@@ -843,7 +843,7 @@
   ================================================ -->
   <template id="portal_faculty_profile"
             name="Faculty Profile">
-    <t t-call="unicore_portal_faculty.portal_faculty_layout">
+    <t t-call="oacis_portal_faculty.portal_faculty_layout">
       <div class="container">
         <h4 class="mb-3">My Profile</h4>
 

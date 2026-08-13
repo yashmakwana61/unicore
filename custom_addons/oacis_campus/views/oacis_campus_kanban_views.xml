@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_campus_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.campus.kanban</field>
-        <field name="model">unicore.campus</field>
+    <record id="oacis_campus_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.campus.kanban</field>
+        <field name="model">oacis.campus</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="campus_state">
                 <field name="campus_display_name"/>
@@ -62,9 +62,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_building_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.building.kanban</field>
-        <field name="model">unicore.building</field>
+    <record id="oacis_building_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.building.kanban</field>
+        <field name="model">oacis.building</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="building_type">
                 <field name="code"/>
@@ -78,7 +78,7 @@
                 <field name="color"/>
                 <templates>
                     <t t-name="card" class="flex-row">
-                        <img t-att-src="record.image.raw_value ? 'data:image/png;base64,'+record.image.raw_value : '/unicore_campus/static/description/icon.png'"
+                        <img t-att-src="record.image.raw_value ? 'data:image/png;base64,'+record.image.raw_value : '/oacis_campus/static/description/icon.png'"
                              class="o_kanban_image rounded shadow-sm me-3" alt="building"/>
                         <main>
                             <field name="code" class="fw-bold fs-5"/>
@@ -100,9 +100,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_facility_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.facility.kanban</field>
-        <field name="model">unicore.facility</field>
+    <record id="oacis_facility_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.facility.kanban</field>
+        <field name="model">oacis.facility</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="facility_type">
                 <field name="name"/>

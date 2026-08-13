@@ -10,8 +10,8 @@ from odoo import fields
 from odoo.tests import TransactionCase, tagged
 
 
-@tagged('unicore', 'unit')
-class UniCoreStudentReportCohortTest(TransactionCase):
+@tagged('oacis', 'unit')
+class OacisStudentReportCohortTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
@@ -20,7 +20,7 @@ class UniCoreStudentReportCohortTest(TransactionCase):
 
         # K-12 school profile (no department required on programs).
         cls.company.institution_profile_id = cls.env[
-            'unicore.institution.profile'
+            'oacis.institution.profile'
         ].create({
             'name': 'R School',
             'code': 'RSCH',
@@ -29,20 +29,20 @@ class UniCoreStudentReportCohortTest(TransactionCase):
         }).id
 
         cls.grade_type = cls.env.ref(
-            'unicore_academic_generic.unit_type_grade_level')
-        cls.grade = cls.env['unicore.academic.unit'].create({
+            'oacis_academic_generic.unit_type_grade_level')
+        cls.grade = cls.env['oacis.academic.unit'].create({
             'name': 'Grade 5',
             'code': 'RG5',
             'unit_type_id': cls.grade_type.id,
             'company_id': cls.company.id,
         })
 
-        cls.campus = cls.env['unicore.campus'].create({
+        cls.campus = cls.env['oacis.campus'].create({
             'name': 'R Campus',
             'code': 'RCMP',
             'company_id': cls.company.id,
         })
-        cls.academic_year = cls.env['unicore.academic.year'].create({
+        cls.academic_year = cls.env['oacis.academic.year'].create({
             'name': '2025-2026',
             'code': '2025',
             'date_start': '2025-06-01',
@@ -50,7 +50,7 @@ class UniCoreStudentReportCohortTest(TransactionCase):
         })
 
     def _program(self, code, cohort_kind):
-        return self.env['unicore.program'].create({
+        return self.env['oacis.program'].create({
             'name': 'R Program %s' % code,
             'code': code,
             'program_type': 'undergraduate',
@@ -77,7 +77,7 @@ class UniCoreStudentReportCohortTest(TransactionCase):
         }
         if grade:
             vals['grade_level_id'] = grade.id
-        return self.env['unicore.student'].create(vals)
+        return self.env['oacis.student'].create(vals)
 
     def test_01_view_returns_cohort_rows(self):
         """The report surfaces cohort_kind and grade_level for students."""
@@ -87,7 +87,7 @@ class UniCoreStudentReportCohortTest(TransactionCase):
         # The report is a SQL view: flush ORM changes first so the stored
         # related ``student.cohort_kind`` is visible to the view query.
         self.env.flush_all()
-        rows = self.env['unicore.student.enrollment.report'].search(
+        rows = self.env['oacis.student.enrollment.report'].search(
             [('program_id', '=', program.id)])
         self.assertTrue(rows)
         row = rows[0]
@@ -98,7 +98,7 @@ class UniCoreStudentReportCohortTest(TransactionCase):
     def test_02_group_by_grade_level(self):
         """read_group can break the report down by grade level."""
         program = self._program('RGB2', 'grade_batch')
-        grade2 = self.env['unicore.academic.unit'].create({
+        grade2 = self.env['oacis.academic.unit'].create({
             'name': 'Grade 6',
             'code': 'RG6',
             'unit_type_id': self.grade_type.id,
@@ -109,7 +109,7 @@ class UniCoreStudentReportCohortTest(TransactionCase):
         self._student('A3', program, grade=grade2)
 
         grouped = self.env[
-            'unicore.student.enrollment.report'
+            'oacis.student.enrollment.report'
         ].read_group(
             [('program_id', '=', program.id)],
             ['student_count'],

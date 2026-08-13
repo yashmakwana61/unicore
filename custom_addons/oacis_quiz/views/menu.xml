@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <menuitem id="menu_unicore_quiz_root"
+        <menuitem id="menu_oacis_quiz_root"
                   name="Quizzes"
                   
                   sequence="120"/>
 
-        <menuitem id="menu_unicore_quiz_take"
+        <menuitem id="menu_oacis_quiz_take"
                   name="Take Quiz"
-                  parent="menu_unicore_quiz_root"
-                  action="action_unicore_quiz_take"
+                  parent="menu_oacis_quiz_root"
+                  action="action_oacis_quiz_take"
                   sequence="10"/>
 
-        <menuitem id="menu_unicore_quizzes"
+        <menuitem id="menu_oacis_quizzes"
                   name="Manage Quizzes"
-                  parent="menu_unicore_quiz_root"
-                  action="action_unicore_quiz"
+                  parent="menu_oacis_quiz_root"
+                  action="action_oacis_quiz"
                   sequence="20"/>
                   
-        <menuitem id="menu_unicore_quiz_attempts"
+        <menuitem id="menu_oacis_quiz_attempts"
                   name="Attempts"
-                  parent="menu_unicore_quiz_root"
-                  action="action_unicore_quiz_attempt"
+                  parent="menu_oacis_quiz_root"
+                  action="action_oacis_quiz_attempt"
                   sequence="30"/>
 
-        <menuitem id="menu_unicore_question_bank"
+        <menuitem id="menu_oacis_question_bank"
                   name="Question Bank"
-                  parent="menu_unicore_quiz_root"
-                  action="action_unicore_question_bank"
+                  parent="menu_oacis_quiz_root"
+                  action="action_oacis_question_bank"
                   sequence="40"/>
     </data>
 </odoo>

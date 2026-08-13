@@ -2,46 +2,46 @@
 <odoo>
 
   <!-- Student self-service: my assignment scores -->
-  <menuitem id="menu_unicore_my_assignment_scores"
+  <menuitem id="menu_oacis_my_assignment_scores"
     name="My Assignment Scores"
-    parent="unicore_grading.menu_unicore_grading"
-    action="action_unicore_gradebook_assignment_line_my"
+    parent="oacis_grading.menu_oacis_grading"
+    action="action_oacis_gradebook_assignment_line_my"
     sequence="25"
-    groups="unicore_base.group_unicore_student"/>
+    groups="oacis_base.group_oacis_student"/>
 
   <!-- Grade Book (faculty / admin) -->
-  <menuitem id="menu_unicore_gradebook"
+  <menuitem id="menu_oacis_gradebook"
     name="Grade Book"
-    parent="unicore_grading.menu_unicore_grading"
+    parent="oacis_grading.menu_oacis_grading"
     sequence="55"
-    groups="unicore_base.group_unicore_faculty,unicore_base.group_unicore_admin"/>
+    groups="oacis_base.group_oacis_faculty,oacis_base.group_oacis_admin"/>
 
-  <menuitem id="menu_unicore_gradebook_all"
+  <menuitem id="menu_oacis_gradebook_all"
     name="All Grade Books"
-    parent="menu_unicore_gradebook"
-    action="action_unicore_gradebook_all"
+    parent="menu_oacis_gradebook"
+    action="action_oacis_gradebook_all"
     sequence="10"
-    groups="unicore_base.group_unicore_faculty,unicore_base.group_unicore_admin"/>
+    groups="oacis_base.group_oacis_faculty,oacis_base.group_oacis_admin"/>
 
-  <menuitem id="menu_unicore_gradebook_my"
+  <menuitem id="menu_oacis_gradebook_my"
     name="My Grade Books"
-    parent="menu_unicore_gradebook"
-    action="action_unicore_gradebook_my"
+    parent="menu_oacis_gradebook"
+    action="action_oacis_gradebook_my"
     sequence="20"
-    groups="unicore_base.group_unicore_faculty"/>
+    groups="oacis_base.group_oacis_faculty"/>
 
-  <menuitem id="menu_unicore_gradebook_pending"
+  <menuitem id="menu_oacis_gradebook_pending"
     name="Pending Grade Entry Sync"
-    parent="menu_unicore_gradebook"
-    action="action_unicore_gradebook_student_line_pending"
+    parent="menu_oacis_gradebook"
+    action="action_oacis_gradebook_student_line_pending"
     sequence="30"
-    groups="unicore_base.group_unicore_faculty,unicore_base.group_unicore_admin"/>
+    groups="oacis_base.group_oacis_faculty,oacis_base.group_oacis_admin"/>
 
-  <menuitem id="menu_unicore_gradebook_scores"
+  <menuitem id="menu_oacis_gradebook_scores"
     name="Assignment Scores"
-    parent="menu_unicore_gradebook"
-    action="action_unicore_gradebook_assignment_line_all"
+    parent="menu_oacis_gradebook"
+    action="action_oacis_gradebook_assignment_line_all"
     sequence="40"
-    groups="unicore_base.group_unicore_faculty,unicore_base.group_unicore_admin"/>
+    groups="oacis_base.group_oacis_faculty,oacis_base.group_oacis_admin"/>
 
 </odoo>

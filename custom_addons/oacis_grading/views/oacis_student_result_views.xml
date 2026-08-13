@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <!-- Extend student form to show grade history -->
-  <record id="view_unicore_student_grading_ext" model="ir.ui.view">
-    <field name="name">unicore.student.grading.ext</field>
-    <field name="model">unicore.student</field>
-    <field name="inherit_id" ref="unicore_student.unicore_student_form_view"/>
+  <record id="view_oacis_student_grading_ext" model="ir.ui.view">
+    <field name="name">oacis.student.grading.ext</field>
+    <field name="model">oacis.student</field>
+    <field name="inherit_id" ref="oacis_student.oacis_student_form_view"/>
     <field name="arch" type="xml">
       <!-- Add smart button for grade entries -->
       <xpath expr="//div[@name='button_box']" position="inside">
@@ -14,7 +14,7 @@
       </xpath>
       <!-- Add Grades notebook tab -->
       <xpath expr="//notebook" position="inside">
-        <page string="Academic Results" groups="unicore_base.group_unicore_registrar">
+        <page string="Academic Results" groups="oacis_base.group_oacis_registrar">
           <field name="enrollment_ids_for_grades">
             <list editable="bottom">
               <field name="course_id"/>

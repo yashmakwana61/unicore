@@ -3,9 +3,9 @@
     <data>
 
         <!-- Batch Migration Wizard Form -->
-        <record id="view_unicore_fee_batch_wizard_form" model="ir.ui.view">
-            <field name="name">unicore.fee.invoice.batch.wizard.form</field>
-            <field name="model">unicore.fee.invoice.batch.wizard</field>
+        <record id="view_oacis_fee_batch_wizard_form" model="ir.ui.view">
+            <field name="name">oacis.fee.invoice.batch.wizard.form</field>
+            <field name="model">oacis.fee.invoice.batch.wizard</field>
             <field name="arch" type="xml">
                 <form string="Batch GL Migration Wizard">
                     <div class="alert alert-info" role="alert">
@@ -52,9 +52,9 @@
         </record>
 
         <!-- Batch Migration Action -->
-        <record id="action_unicore_fee_batch_wizard" model="ir.actions.act_window">
+        <record id="action_oacis_fee_batch_wizard" model="ir.actions.act_window">
             <field name="name">Batch GL Migration</field>
-            <field name="res_model">unicore.fee.invoice.batch.wizard</field>
+            <field name="res_model">oacis.fee.invoice.batch.wizard</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>
         </record>

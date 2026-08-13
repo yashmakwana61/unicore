@@ -8,7 +8,7 @@
   -->
   <template id="portal_faculty_assignments"
             name="My Assignments">
-    <t t-call="unicore_portal_faculty.portal_faculty_layout">
+    <t t-call="oacis_portal_faculty.portal_faculty_layout">
       <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h4 class="mb-0">My Assignments</h4>
@@ -37,7 +37,7 @@
                 <span class="badge bg-secondary me-2">
                   <t t-esc="off_data['assignment_count']"/> assignment(s)
                 </span>
-                <a t-attf-href="/my/unicore/faculty/assignments/new/#{off_data['offering'].id}"
+                <a t-attf-href="/my/oacis/faculty/assignments/new/#{off_data['offering'].id}"
                    class="btn btn-sm btn-primary">
                   <i class="fa fa-plus"/> New Assignment
                 </a>
@@ -62,7 +62,7 @@
                     <t t-foreach="off_data['assignments']" t-as="assignment">
                       <tr>
                         <td>
-                          <a t-attf-href="/my/unicore/faculty/assignments/#{assignment.id}">
+                          <a t-attf-href="/my/oacis/faculty/assignments/#{assignment.id}">
                             <t t-esc="assignment.title"/>
                           </a>
                         </td>
@@ -81,7 +81,7 @@
                           <t t-esc="assignment.graded_count"/>
                         </td>
                         <td class="text-end">
-                          <a t-attf-href="/my/unicore/faculty/assignments/#{assignment.id}"
+                          <a t-attf-href="/my/oacis/faculty/assignments/#{assignment.id}"
                              class="btn btn-sm btn-outline-primary">
                             View
                           </a>
@@ -110,12 +110,12 @@
   -->
   <template id="portal_faculty_assignment_create"
             name="Create Assignment">
-    <t t-call="unicore_portal_faculty.portal_faculty_layout">
+    <t t-call="oacis_portal_faculty.portal_faculty_layout">
       <div class="container">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="/my/unicore/faculty/assignments">Assignments</a>
+              <a href="/my/oacis/faculty/assignments">Assignments</a>
             </li>
             <li class="breadcrumb-item active">New Assignment</li>
           </ol>
@@ -130,7 +130,7 @@
             </h4>
           </div>
           <div class="card-body">
-            <form t-attf-action="/my/unicore/faculty/assignments/new/#{offering.id}/save"
+            <form t-attf-action="/my/oacis/faculty/assignments/new/#{offering.id}/save"
                   method="post">
               <input type="hidden" name="csrf_token"
                      t-att-value="csrf_token"/>
@@ -227,7 +227,7 @@
                         class="btn btn-success">
                   <i class="fa fa-paper-plane"/> Save &amp; Publish
                 </button>
-                <a href="/my/unicore/faculty/assignments"
+                <a href="/my/oacis/faculty/assignments"
                    class="btn btn-outline-secondary">Cancel</a>
               </div>
             </form>
@@ -244,12 +244,12 @@
   -->
   <template id="portal_faculty_assignment_detail"
             name="Assignment Detail">
-    <t t-call="unicore_portal_faculty.portal_faculty_layout">
+    <t t-call="oacis_portal_faculty.portal_faculty_layout">
       <div class="container">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="/my/unicore/faculty/assignments">Assignments</a>
+              <a href="/my/oacis/faculty/assignments">Assignments</a>
             </li>
             <li class="breadcrumb-item active">
               <t t-esc="assignment.title"/>
@@ -299,7 +299,7 @@
             </div>
 
             <div class="d-flex justify-content-end mb-2">
-              <a t-attf-href="/my/unicore/faculty/assignments/new/#{assignment.course_offering_id.id}"
+              <a t-attf-href="/my/oacis/faculty/assignments/new/#{assignment.course_offering_id.id}"
                  class="btn btn-sm btn-outline-primary">
                 <i class="fa fa-plus"/> New Assignment
               </a>
@@ -358,7 +358,7 @@
                     </td>
                     <td class="text-end">
                       <t t-if="sub and sub.state in ('submitted','late','graded','returned')">
-                        <a t-attf-href="/my/unicore/faculty/assignments/#{assignment.id}/grade/#{sub.id}"
+                        <a t-attf-href="/my/oacis/faculty/assignments/#{assignment.id}/grade/#{sub.id}"
                            class="btn btn-sm btn-outline-primary">
                           <t t-esc="'Regrade' if sub.state == 'graded' else 'Grade'"/>
                         </a>
@@ -381,15 +381,15 @@
   -->
   <template id="portal_faculty_assignment_grade"
             name="Grade Submission">
-    <t t-call="unicore_portal_faculty.portal_faculty_layout">
+    <t t-call="oacis_portal_faculty.portal_faculty_layout">
       <div class="container">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="/my/unicore/faculty/assignments">Assignments</a>
+              <a href="/my/oacis/faculty/assignments">Assignments</a>
             </li>
             <li class="breadcrumb-item">
-              <a t-attf-href="/my/unicore/faculty/assignments/#{assignment.id}">
+              <a t-attf-href="/my/oacis/faculty/assignments/#{assignment.id}">
                 <t t-esc="assignment.title"/>
               </a>
             </li>
@@ -436,7 +436,7 @@
                   </p>
                 </t>
                 <t t-if="submission.submission_file">
-                  <a t-attf-href="/web/content/unicore.assignment.submission/#{submission.id}/submission_file?download=true&amp;filename=#{submission.submission_filename}"
+                  <a t-attf-href="/web/content/oacis.assignment.submission/#{submission.id}/submission_file?download=true&amp;filename=#{submission.submission_filename}"
                      class="btn btn-outline-primary btn-sm mt-2">
                     <i class="fa fa-download"/> Download submission
                   </a>
@@ -457,7 +457,7 @@
                 <h5 class="mb-0">Grade</h5>
               </div>
               <div class="card-body">
-                <form t-attf-action="/my/unicore/faculty/assignments/#{assignment.id}/grade/#{submission.id}/save"
+                <form t-attf-action="/my/oacis/faculty/assignments/#{assignment.id}/grade/#{submission.id}/save"
                       method="post">
                   <input type="hidden" name="csrf_token"
                          t-att-value="csrf_token"/>
@@ -552,7 +552,7 @@
                     <button type="submit" class="btn btn-success">
                       <i class="fa fa-check"/> Save Grade
                     </button>
-                    <a t-attf-href="/my/unicore/faculty/assignments/#{assignment.id}"
+                    <a t-attf-href="/my/oacis/faculty/assignments/#{assignment.id}"
                        class="btn btn-outline-secondary">Back</a>
                   </div>
                 </form>

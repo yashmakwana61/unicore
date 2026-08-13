@@ -1,5 +1,5 @@
 """
-UniCore Timetable Entry Model
+Oacis Timetable Entry Model
 Represents one recurring weekly scheduled class
 session: a course offering taught on a specific
 day-of-week in a specific time slot, room, and by
@@ -18,15 +18,15 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreTimetableEntry(models.Model):
-    _name = 'unicore.timetable.entry'
+class OacisTimetableEntry(models.Model):
+    _name = 'oacis.timetable.entry'
     _description = 'Timetable Entry'
-    _inherit = ['unicore.mixin', 'mail.thread']
+    _inherit = ['oacis.mixin', 'mail.thread']
     _order = 'day_of_week, time_slot_id'
     _check_company_auto = True
 
     course_offering_id = fields.Many2one(
-        comodel_name='unicore.course.offering',
+        comodel_name='oacis.course.offering',
         string='Course Offering',
         required=True,
         ondelete='cascade',
@@ -37,7 +37,7 @@ class UniCoreTimetableEntry(models.Model):
     )
 
     course_id = fields.Many2one(
-        comodel_name='unicore.course',
+        comodel_name='oacis.course',
         string='Course',
         related='course_offering_id.course_id',
         store=True,
@@ -45,7 +45,7 @@ class UniCoreTimetableEntry(models.Model):
     )
 
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         related='course_offering_id.semester_id',
         store=True,
@@ -53,7 +53,7 @@ class UniCoreTimetableEntry(models.Model):
     )
 
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus',
+        comodel_name='oacis.campus',
         string='Campus',
         related='course_offering_id.campus_id',
         store=True,
@@ -84,7 +84,7 @@ class UniCoreTimetableEntry(models.Model):
     )
 
     time_slot_id = fields.Many2one(
-        comodel_name='unicore.time.slot',
+        comodel_name='oacis.time.slot',
         string='Time Slot',
         required=True,
         ondelete='restrict',
@@ -93,7 +93,7 @@ class UniCoreTimetableEntry(models.Model):
     )
 
     room_id = fields.Many2one(
-        comodel_name='unicore.room',
+        comodel_name='oacis.room',
         string='Room',
         required=True,
         ondelete='restrict',
@@ -102,7 +102,7 @@ class UniCoreTimetableEntry(models.Model):
     )
 
     instructor_id = fields.Many2one(
-        comodel_name='unicore.faculty.member',
+        comodel_name='oacis.faculty.member',
         string='Instructor',
         required=True,
         ondelete='restrict',
@@ -301,7 +301,7 @@ class UniCoreTimetableEntry(models.Model):
                     'effective_date_start', 'effective_date_end',
                     'entry_state')
     def _check_against_room_bookings(self):
-        RoomBooking = self.env['unicore.room.booking']
+        RoomBooking = self.env['oacis.room.booking']
         for rec in self:
             if rec.entry_state == 'cancelled':
                 continue

@@ -6,24 +6,24 @@ class SlideChannel(models.Model):
 
     is_academic_course = fields.Boolean(
         string="Is Academic Course",
-        help="Check this if this course is part of the Unicore academic curriculum.",
+        help="Check this if this course is part of the Oacis academic curriculum.",
     )
 
     course_offering_id = fields.Many2one(
-        'unicore.course.offering',
+        'oacis.course.offering',
         string="Academic Course Offering",
         help="Link this LMS course to a specific academic offering to auto-enroll students.",
     )
 
     program_id = fields.Many2one(
-        'unicore.program',
+        'oacis.program',
         related='course_offering_id.program_id',
         store=True,
         readonly=True,
     )
 
     semester_id = fields.Many2one(
-        'unicore.semester',
+        'oacis.semester',
         related='course_offering_id.semester_id',
         store=True,
         readonly=True,
@@ -31,7 +31,7 @@ class SlideChannel(models.Model):
 
     def action_sync_academic_enrollments(self):
         """
-        Sync students from unicore_enrollment (via course_offering)
+        Sync students from oacis_enrollment (via course_offering)
         to this slide.channel as partners.
         """
         for channel in self:
@@ -39,7 +39,7 @@ class SlideChannel(models.Model):
                 continue
 
             # Assuming offering has enrollment_ids which links to student_id which has partner_id
-            enrollments = self.env['unicore.enrollment'].search([
+            enrollments = self.env['oacis.enrollment'].search([
                 ('course_offering_id', '=', channel.course_offering_id.id),
                 ('enrollment_state', 'in', ['registered', 'enrolled', 'ongoing']),
             ])
@@ -58,7 +58,7 @@ class SlideChannel(models.Model):
         if not self.is_academic_course or not self.course_offering_id:
             return None
 
-        gradebook = self.env['unicore.gradebook.config'].search([
+        gradebook = self.env['oacis.gradebook.config'].search([
             ('course_offering_id', '=', self.course_offering_id.id),
         ], limit=1)
 
@@ -66,7 +66,7 @@ class SlideChannel(models.Model):
             return {
                 'type': 'ir.actions.act_window',
                 'name': 'Academic Gradebook',
-                'res_model': 'unicore.gradebook.config',
+                'res_model': 'oacis.gradebook.config',
                 'view_mode': 'form',
                 'res_id': gradebook.id,
             }
@@ -74,7 +74,7 @@ class SlideChannel(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Academic Gradebook',
-            'res_model': 'unicore.gradebook.config',
+            'res_model': 'oacis.gradebook.config',
             'view_mode': 'list,form',
             'domain': [('course_offering_id', '=', self.course_offering_id.id)],
             'context': {'default_course_offering_id': self.course_offering_id.id},

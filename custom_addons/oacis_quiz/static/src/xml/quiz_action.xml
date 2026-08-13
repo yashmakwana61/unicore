@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
-    <t t-name="unicore_quiz.TakeQuizClientAction" owl="1">
-        <div class="o_action o_unicore_quiz_action p-4 h-100 bg-view overflow-auto">
+    <t t-name="oacis_quiz.TakeQuizClientAction" owl="1">
+        <div class="o_action o_oacis_quiz_action p-4 h-100 bg-view overflow-auto">
             
             <t t-if="state.status === 'list'">
                 <div class="container mt-4">

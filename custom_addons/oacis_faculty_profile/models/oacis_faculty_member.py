@@ -8,9 +8,9 @@ _logger = logging.getLogger(__name__)
 
 
 class FacultyMember(models.Model):
-    _name = 'unicore.faculty.member'
+    _name = 'oacis.faculty.member'
     _description = 'Faculty Member (Academic Staff)'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'employee_id_number, name'
     _check_company_auto = True
     _rec_name = 'display_name'
@@ -80,28 +80,28 @@ class FacultyMember(models.Model):
         tracking=True,
     )
     campus_ids = fields.Many2many(
-        'unicore.campus',
-        'unicore_faculty_member_campus_rel',
+        'oacis.campus',
+        'oacis_faculty_member_campus_rel',
         'faculty_member_id',
         'campus_id',
         string='Assigned Campuses',
         domain="[('company_id', '=', company_id)]",
     )
     primary_campus_id = fields.Many2one(
-        'unicore.campus',
+        'oacis.campus',
         string='Primary Campus',
         domain="[('company_id', '=', company_id)]",
         tracking=True,
     )
     academic_faculty_id = fields.Many2one(
-        'unicore.faculty',
+        'oacis.faculty',
         string='Faculty / School',
         help='The academic faculty unit this member belongs to',
         domain="[('company_id', '=', company_id)]",
         tracking=True,
     )
     department_id = fields.Many2one(
-        'unicore.department',
+        'oacis.department',
         string='Department',
         domain="[('faculty_id', '=', academic_faculty_id)]",
         tracking=True,
@@ -156,7 +156,7 @@ class FacultyMember(models.Model):
 
     # === QUALIFICATIONS & PUBLICATIONS ===
     qualification_ids = fields.One2many(
-        'unicore.faculty.qualification',
+        'oacis.faculty.qualification',
         'faculty_member_id',
         string='Academic Qualifications',
     )
@@ -166,7 +166,7 @@ class FacultyMember(models.Model):
         store=False,
     )
     publication_ids = fields.One2many(
-        'unicore.faculty.publication',
+        'oacis.faculty.publication',
         'faculty_member_id',
         string='Publications & Research',
     )
@@ -178,7 +178,7 @@ class FacultyMember(models.Model):
 
     # === WORKLOAD ===
     workload_ids = fields.One2many(
-        'unicore.faculty.workload',
+        'oacis.faculty.workload',
         'faculty_member_id',
         string='Workload Records',
     )
@@ -335,7 +335,7 @@ class FacultyMember(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if not vals.get('employee_id_number'):
-                vals['employee_id_number'] = self.env['ir.sequence'].next_by_code('unicore.faculty.member')
+                vals['employee_id_number'] = self.env['ir.sequence'].next_by_code('oacis.faculty.member')
         records = super().create(vals_list)
         for record in records:
             try:
@@ -449,7 +449,7 @@ class FacultyMember(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Publications',
-            'res_model': 'unicore.faculty.publication',
+            'res_model': 'oacis.faculty.publication',
             'view_mode': 'list,form',
             'domain': [('faculty_member_id', '=', self.id)],
             'context': {
@@ -462,7 +462,7 @@ class FacultyMember(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Teaching Workload',
-            'res_model': 'unicore.faculty.workload',
+            'res_model': 'oacis.faculty.workload',
             'view_mode': 'list,form',
             'domain': [('faculty_member_id', '=', self.id)],
             'context': {

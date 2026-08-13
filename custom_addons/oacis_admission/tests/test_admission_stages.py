@@ -32,26 +32,26 @@ EXPECTED = [
 ]
 
 
-@tagged('unicore', 'unit')
-class UniCoreAdmissionStageTest(TransactionCase):
+@tagged('oacis', 'unit')
+class OacisAdmissionStageTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.company = cls.env.company
 
-        cls.campus = cls.env['unicore.campus'].create({
+        cls.campus = cls.env['oacis.campus'].create({
             'name': 'Stage Campus',
             'code': 'STGC',
             'company_id': cls.company.id,
         })
-        cls.academic_year = cls.env['unicore.academic.year'].create({
+        cls.academic_year = cls.env['oacis.academic.year'].create({
             'name': '2025-2026',
             'code': '2025',
             'date_start': '2025-06-01',
             'date_end': '2026-05-31',
         })
-        cls.cycle = cls.env['unicore.admission.cycle'].create({
+        cls.cycle = cls.env['oacis.admission.cycle'].create({
             'name': 'Stage Intake 2025-26',
             'code': 'STG-2526',
             'campus_id': cls.campus.id,
@@ -62,17 +62,17 @@ class UniCoreAdmissionStageTest(TransactionCase):
             'company_id': cls.company.id,
         })
         # University-type institutions require a department on the program.
-        faculty = cls.env['unicore.faculty'].create({
+        faculty = cls.env['oacis.faculty'].create({
             'name': 'Faculty of Arts',
             'code': 'FA',
             'company_id': cls.company.id,
         })
-        department = cls.env['unicore.department'].create({
+        department = cls.env['oacis.department'].create({
             'name': 'Humanities',
             'code': 'HUM',
             'faculty_id': faculty.id,
         })
-        cls.program = cls.env['unicore.program'].create({
+        cls.program = cls.env['oacis.program'].create({
             'name': 'Stage B.A.',
             'code': 'STGBA',
             'program_type': 'undergraduate',
@@ -86,7 +86,7 @@ class UniCoreAdmissionStageTest(TransactionCase):
 
         # Re-seed is idempotent: main company already has its pipeline from
         # the module seed data, so this must return (not duplicate) stages.
-        cls.stages = cls.env['unicore.admission.stage']._ensure_default_stages(
+        cls.stages = cls.env['oacis.admission.stage']._ensure_default_stages(
             cls.company)
 
     def _applicant_vals(self, **overrides):
@@ -110,7 +110,7 @@ class UniCoreAdmissionStageTest(TransactionCase):
 
     def test_01_default_pipeline_seeded_for_main_company(self):
         """Main company has exactly the 13 default stages, ordered."""
-        stages = self.env['unicore.admission.stage'].search(
+        stages = self.env['oacis.admission.stage'].search(
             [('company_id', '=', self.company.id)], order='sequence, id')
         self.assertEqual(len(stages), 13)
         got = [(s.name, s.sequence, s.state) for s in stages]
@@ -118,11 +118,11 @@ class UniCoreAdmissionStageTest(TransactionCase):
 
     def test_02_ensure_default_stages_is_idempotent(self):
         """Re-seeding an existing pipeline returns it without duplicating."""
-        before = self.env['unicore.admission.stage'].search_count(
+        before = self.env['oacis.admission.stage'].search_count(
             [('company_id', '=', self.company.id)])
-        again = self.env['unicore.admission.stage']._ensure_default_stages(
+        again = self.env['oacis.admission.stage']._ensure_default_stages(
             self.company)
-        after = self.env['unicore.admission.stage'].search_count(
+        after = self.env['oacis.admission.stage'].search_count(
             [('company_id', '=', self.company.id)])
         self.assertEqual(before, after)
         self.assertEqual(before, len(again))
@@ -130,7 +130,7 @@ class UniCoreAdmissionStageTest(TransactionCase):
     def test_03_new_company_gets_lazy_default_pipeline(self):
         """Creating a company auto-seeds its own 13-stage pipeline."""
         company_b = self.env['res.company'].create({'name': 'Stage Branch B'})
-        stages_b = self.env['unicore.admission.stage'].sudo().search(
+        stages_b = self.env['oacis.admission.stage'].sudo().search(
             [('company_id', '=', company_b.id)], order='sequence, id')
         self.assertEqual(len(stages_b), 13)
         # Each stage belongs to B, and mirrors the default mapping.
@@ -145,23 +145,23 @@ class UniCoreAdmissionStageTest(TransactionCase):
 
     def test_04_create_applicant_defaults_stage_from_state(self):
         """A new applicant's stage is derived from its initial state."""
-        applicant = self.env['unicore.admission.applicant'].create(
+        applicant = self.env['oacis.admission.applicant'].create(
             self._applicant_vals(state='applied'))
         self.assertTrue(applicant.stage_id)
         self.assertEqual(applicant.stage_id.state, 'applied')
         self.assertEqual(applicant.stage_id.name, 'Applied')
 
         # Default state 'inquiry' also resolves.
-        applicant2 = self.env['unicore.admission.applicant'].create(
+        applicant2 = self.env['oacis.admission.applicant'].create(
             self._applicant_vals(email='ravi2@example.com'))
         self.assertEqual(applicant2.state, 'inquiry')
         self.assertEqual(applicant2.stage_id.state, 'inquiry')
 
     def test_05_stage_write_syncs_state_and_color(self):
         """Kanban drag: writing stage_id drives state and card color."""
-        applicant = self.env['unicore.admission.applicant'].create(
+        applicant = self.env['oacis.admission.applicant'].create(
             self._applicant_vals())
-        offer_stage = self.env['unicore.admission.stage']._get_stage_for_state(
+        offer_stage = self.env['oacis.admission.stage']._get_stage_for_state(
             self.company.id, 'offer_sent')
         applicant.stage_id = offer_stage
         self.assertEqual(applicant.state, 'offer_sent')
@@ -169,7 +169,7 @@ class UniCoreAdmissionStageTest(TransactionCase):
 
     def test_06_state_write_syncs_stage(self):
         """Action buttons / API: writing state drives stage_id."""
-        applicant = self.env['unicore.admission.applicant'].create(
+        applicant = self.env['oacis.admission.applicant'].create(
             self._applicant_vals())
         applicant.write({'state': 'shortlisted'})
         self.assertEqual(applicant.stage_id.state, 'shortlisted')
@@ -181,7 +181,7 @@ class UniCoreAdmissionStageTest(TransactionCase):
 
     def test_07_advance_stage_moves_by_sequence(self):
         """Advance walks the pipeline in sequence order."""
-        applicant = self.env['unicore.admission.applicant'].create(
+        applicant = self.env['oacis.admission.applicant'].create(
             self._applicant_vals())
         self.assertEqual(applicant.state, 'inquiry')
         applicant.action_advance_stage()
@@ -195,9 +195,9 @@ class UniCoreAdmissionStageTest(TransactionCase):
 
     def test_08_advance_stage_raises_on_terminal(self):
         """Terminal stages cannot be advanced."""
-        applicant = self.env['unicore.admission.applicant'].create(
+        applicant = self.env['oacis.admission.applicant'].create(
             self._applicant_vals())
-        confirmed = self.env['unicore.admission.stage']._get_stage_for_state(
+        confirmed = self.env['oacis.admission.stage']._get_stage_for_state(
             self.company.id, 'confirmed')
         applicant.stage_id = confirmed
         self.assertEqual(applicant.state, 'confirmed')
@@ -206,9 +206,9 @@ class UniCoreAdmissionStageTest(TransactionCase):
 
     def test_09_advance_stage_raises_on_last_stage(self):
         """The last non-terminal stage (Waitlisted) cannot be advanced."""
-        applicant = self.env['unicore.admission.applicant'].create(
+        applicant = self.env['oacis.admission.applicant'].create(
             self._applicant_vals())
-        waitlisted = self.env['unicore.admission.stage']._get_stage_for_state(
+        waitlisted = self.env['oacis.admission.stage']._get_stage_for_state(
             self.company.id, 'waitlisted')
         applicant.stage_id = waitlisted
         self.assertEqual(applicant.state, 'waitlisted')
@@ -222,9 +222,9 @@ class UniCoreAdmissionStageTest(TransactionCase):
     def test_10_stages_are_per_company(self):
         """Stage resolution is scoped to the applicant's company."""
         company_b = self.env['res.company'].create({'name': 'Stage Branch C'})
-        applied_a = self.env['unicore.admission.stage']._get_stage_for_state(
+        applied_a = self.env['oacis.admission.stage']._get_stage_for_state(
             self.company.id, 'applied')
-        applied_b = self.env['unicore.admission.stage']._get_stage_for_state(
+        applied_b = self.env['oacis.admission.stage']._get_stage_for_state(
             company_b.id, 'applied')
         self.assertTrue(applied_a)
         self.assertTrue(applied_b)
@@ -233,7 +233,7 @@ class UniCoreAdmissionStageTest(TransactionCase):
         self.assertEqual(applied_b.company_id, company_b)
 
         # A main-company applicant always resolves to main-company stages.
-        applicant = self.env['unicore.admission.applicant'].create(
+        applicant = self.env['oacis.admission.applicant'].create(
             self._applicant_vals())
         applicant.write({'state': 'fee_pending'})
         self.assertEqual(applicant.stage_id.company_id, self.company)

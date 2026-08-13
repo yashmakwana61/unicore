@@ -5,12 +5,12 @@ from odoo import fields, models
 _logger = logging.getLogger(__name__)
 
 
-class UnicoreFacility(models.Model):
+class OacisFacility(models.Model):
     """Represents a facility available within a campus."""
 
-    _name = 'unicore.facility'
+    _name = 'oacis.facility'
     _description = 'Campus Facility'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
     _order = 'campus_id, name'
     _check_company_auto = True
 
@@ -36,7 +36,7 @@ class UnicoreFacility(models.Model):
         required=True,
     )
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus',
+        comodel_name='oacis.campus',
         string='Campus',
         required=True,
         ondelete='restrict',

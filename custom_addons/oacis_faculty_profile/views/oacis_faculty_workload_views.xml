@@ -2,9 +2,9 @@
 <odoo>
 
     <!-- ==================== FORM VIEW ==================== -->
-    <record id="unicore_faculty_workload_form_view" model="ir.ui.view">
-        <field name="name">unicore.faculty.workload.form</field>
-        <field name="model">unicore.faculty.workload</field>
+    <record id="oacis_faculty_workload_form_view" model="ir.ui.view">
+        <field name="name">oacis.faculty.workload.form</field>
+        <field name="model">oacis.faculty.workload</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
@@ -30,9 +30,9 @@
     </record>
 
     <!-- ==================== LIST VIEW ==================== -->
-    <record id="unicore_faculty_workload_list_view" model="ir.ui.view">
-        <field name="name">unicore.faculty.workload.list</field>
-        <field name="model">unicore.faculty.workload</field>
+    <record id="oacis_faculty_workload_list_view" model="ir.ui.view">
+        <field name="name">oacis.faculty.workload.list</field>
+        <field name="model">oacis.faculty.workload</field>
         <field name="arch" type="xml">
             <list limit="40">
                 <field name="faculty_member_id"/>
@@ -48,9 +48,9 @@
     </record>
 
     <!-- ==================== SEARCH VIEW ==================== -->
-    <record id="unicore_faculty_workload_search_view" model="ir.ui.view">
-        <field name="name">unicore.faculty.workload.search</field>
-        <field name="model">unicore.faculty.workload</field>
+    <record id="oacis_faculty_workload_search_view" model="ir.ui.view">
+        <field name="name">oacis.faculty.workload.search</field>
+        <field name="model">oacis.faculty.workload</field>
         <field name="arch" type="xml">
             <search>
                 <field name="faculty_member_id" options="{'no_create_edit': True}"/>
@@ -67,12 +67,12 @@
     </record>
 
     <!-- ==================== WINDOW ACTION ==================== -->
-    <record id="action_unicore_faculty_workload" model="ir.actions.act_window">
+    <record id="action_oacis_faculty_workload" model="ir.actions.act_window">
         <field name="name">Teaching Workload</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">unicore.faculty.workload</field>
+        <field name="res_model">oacis.faculty.workload</field>
         <field name="view_mode">list,form</field>
-        <field name="search_view_id" ref="unicore_faculty_workload_search_view"/>
+        <field name="search_view_id" ref="oacis_faculty_workload_search_view"/>
     </record>
 
 </odoo>

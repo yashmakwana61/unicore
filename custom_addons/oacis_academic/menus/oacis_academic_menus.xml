@@ -2,38 +2,38 @@
 <odoo>
 
     <!-- Academic Structure Top Menu -->
-    <menuitem id="menu_unicore_academic"
+    <menuitem id="menu_oacis_academic"
               name="Academic Structure"
-              parent="unicore_base.menu_unicore_root"
+              parent="oacis_base.menu_oacis_root"
               sequence="10"
-              groups="unicore_base.group_unicore_staff"/>
+              groups="oacis_base.group_oacis_staff"/>
 
     <!-- Faculties -->
-    <menuitem id="menu_unicore_faculty_list"
+    <menuitem id="menu_oacis_faculty_list"
               name="Faculties"
-              parent="menu_unicore_academic"
-              action="action_unicore_faculty"
+              parent="menu_oacis_academic"
+              action="action_oacis_faculty"
               sequence="10"/>
 
     <!-- Departments -->
-    <menuitem id="menu_unicore_department_list"
+    <menuitem id="menu_oacis_department_list"
               name="Departments"
-              parent="menu_unicore_academic"
-              action="action_unicore_department"
+              parent="menu_oacis_academic"
+              action="action_oacis_department"
               sequence="20"/>
 
     <!-- Programs -->
-    <menuitem id="menu_unicore_program_list"
+    <menuitem id="menu_oacis_program_list"
               name="Programs"
-              parent="menu_unicore_academic"
-              action="action_unicore_program"
+              parent="menu_oacis_academic"
+              action="action_oacis_program"
               sequence="30"/>
 
     <!-- Specialisations -->
-    <menuitem id="menu_unicore_specialisation_list"
+    <menuitem id="menu_oacis_specialisation_list"
               name="Specialisations"
-              parent="menu_unicore_academic"
-              action="action_unicore_specialisation"
+              parent="menu_oacis_academic"
+              action="action_oacis_specialisation"
               sequence="40"/>
 
 </odoo>

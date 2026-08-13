@@ -1,4 +1,4 @@
-# UniCore Fees GL Integration — Deployment Guide
+# Oacis Fees GL Integration — Deployment Guide
 
 **Status:** Ready for Production Deployment ✅
 
@@ -20,7 +20,7 @@
 - [ ] All accounts belong to correct company
 
 ### Module Preparation
-- [ ] unicore_fees module latest version downloaded
+- [ ] oacis_fees module latest version downloaded
 - [ ] All dependencies available
 - [ ] No conflicting customizations
 - [ ] Development environment tested
@@ -35,13 +35,13 @@
 # Navigate to Odoo addons directory
 cd /path/to/odoo/addons
 
-# If not already there, copy unicore_fees folder
+# If not already there, copy oacis_fees folder
 # or if in development, create symlink
 
 # Restart Odoo server
 sudo systemctl restart odoo
 
-# In Odoo UI: Apps → Search "unicore_fees" → Install
+# In Odoo UI: Apps → Search "oacis_fees" → Install
 ```
 
 **What Happens Automatically:**
@@ -88,16 +88,16 @@ sudo systemctl restart odoo
 
 **Navigate to:** Settings → Technical → Automation → Scheduled Actions
 
-**Search for:** "UniCore Fees"
+**Search for:** "Oacis Fees"
 
 **Verify Two Cron Jobs Exist:**
 
-1. **UniCore Fees: Batch Create GL Invoices**
+1. **Oacis Fees: Batch Create GL Invoices**
    - Status: Active ✅
    - Interval: 1 hour
    - Next Run: [Shows next scheduled time]
 
-2. **UniCore Fees: Batch Reconcile Payments**
+2. **Oacis Fees: Batch Reconcile Payments**
    - Status: Active ✅
    - Interval: 1 hour
    - Next Run: [Shows next scheduled time, ~30 min after first]
@@ -369,7 +369,7 @@ If you have existing test/demo fee invoices, migrate them:
 
 1. **Stop Cron Jobs:** Disable in Settings → Technical → Automation
 2. **Disable GL Creation:** 
-   - Uninstall unicore_fees module
+   - Uninstall oacis_fees module
    - Restore previous version
 3. **Restore Database:** Use backup from before deployment
 4. **Verify:** Test with small transaction
@@ -403,7 +403,7 @@ If you have existing test/demo fee invoices, migrate them:
 
 - [ ] Odoo 19 running
 - [ ] account module installed
-- [ ] unicore_fees module installed
+- [ ] oacis_fees module installed
 - [ ] GL accounts configured
 - [ ] Sales journal created
 - [ ] Accounting config created
@@ -421,7 +421,7 @@ If you have existing test/demo fee invoices, migrate them:
 
 ## Summary
 
-Your UniCore Fees system is now fully integrated with Odoo GL:
+Your Oacis Fees system is now fully integrated with Odoo GL:
 
 ✅ **Automatic GL Invoice Creation** — When fee invoices are sent  
 ✅ **Automatic GL Posting** — To GL accounts  

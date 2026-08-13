@@ -3,98 +3,98 @@
 
   <!-- ROOT MENU — Standalone App -->
   <menuitem
-    id="menu_unicore_hostel_root"
+    id="menu_oacis_hostel_root"
     name="Hostel"
     sequence="180"
-    web_icon="unicore_hostel,static/description/icon.png"
-    groups="unicore_base.group_unicore_staff,unicore_base.group_unicore_admin"/>
+    web_icon="oacis_hostel,static/description/icon.png"
+    groups="oacis_base.group_oacis_staff,oacis_base.group_oacis_admin"/>
 
   <!-- Allocations -->
   <menuitem
-    id="menu_unicore_hostel_allocations"
+    id="menu_oacis_hostel_allocations"
     name="Room Allocations"
-    parent="menu_unicore_hostel_root"
+    parent="menu_oacis_hostel_root"
     sequence="10"
-    groups="unicore_base.group_unicore_staff"/>
+    groups="oacis_base.group_oacis_staff"/>
 
   <menuitem
-    id="menu_unicore_hostel_alloc_checkedin"
+    id="menu_oacis_hostel_alloc_checkedin"
     name="Currently Checked In"
-    parent="menu_unicore_hostel_allocations"
-    action="action_unicore_hostel_allocation"
+    parent="menu_oacis_hostel_allocations"
+    action="action_oacis_hostel_allocation"
     sequence="10"
-    groups="unicore_base.group_unicore_staff"/>
+    groups="oacis_base.group_oacis_staff"/>
 
   <menuitem
-    id="menu_unicore_hostel_alloc_all"
+    id="menu_oacis_hostel_alloc_all"
     name="All Allocations"
-    parent="menu_unicore_hostel_allocations"
-    action="action_unicore_hostel_allocation_all"
+    parent="menu_oacis_hostel_allocations"
+    action="action_oacis_hostel_allocation_all"
     sequence="20"
-    groups="unicore_base.group_unicore_staff"/>
+    groups="oacis_base.group_oacis_staff"/>
 
   <!-- Rooms -->
   <menuitem
-    id="menu_unicore_hostel_rooms"
+    id="menu_oacis_hostel_rooms"
     name="Rooms"
-    parent="menu_unicore_hostel_root"
+    parent="menu_oacis_hostel_root"
     sequence="20"
-    groups="unicore_base.group_unicore_staff"/>
+    groups="oacis_base.group_oacis_staff"/>
 
   <menuitem
-    id="menu_unicore_hostel_rooms_available"
+    id="menu_oacis_hostel_rooms_available"
     name="Available Rooms"
-    parent="menu_unicore_hostel_rooms"
-    action="action_unicore_hostel_room_available"
+    parent="menu_oacis_hostel_rooms"
+    action="action_oacis_hostel_room_available"
     sequence="10"
-    groups="unicore_base.group_unicore_staff"/>
+    groups="oacis_base.group_oacis_staff"/>
 
   <menuitem
-    id="menu_unicore_hostel_rooms_all"
+    id="menu_oacis_hostel_rooms_all"
     name="All Rooms"
-    parent="menu_unicore_hostel_rooms"
-    action="action_unicore_hostel_room"
+    parent="menu_oacis_hostel_rooms"
+    action="action_oacis_hostel_room"
     sequence="20"
-    groups="unicore_base.group_unicore_staff"/>
+    groups="oacis_base.group_oacis_staff"/>
 
   <!-- Maintenance -->
   <menuitem
-    id="menu_unicore_hostel_maintenance"
+    id="menu_oacis_hostel_maintenance"
     name="Maintenance"
-    parent="menu_unicore_hostel_root"
+    parent="menu_oacis_hostel_root"
     sequence="30"
-    groups="unicore_base.group_unicore_staff"/>
+    groups="oacis_base.group_oacis_staff"/>
 
   <menuitem
-    id="menu_unicore_hostel_maint_open"
+    id="menu_oacis_hostel_maint_open"
     name="Open Requests"
-    parent="menu_unicore_hostel_maintenance"
-    action="action_unicore_hostel_maintenance"
+    parent="menu_oacis_hostel_maintenance"
+    action="action_oacis_hostel_maintenance"
     sequence="10"
-    groups="unicore_base.group_unicore_staff"/>
+    groups="oacis_base.group_oacis_staff"/>
 
   <menuitem
-    id="menu_unicore_hostel_maint_urgent"
+    id="menu_oacis_hostel_maint_urgent"
     name="Urgent / High Priority"
-    parent="menu_unicore_hostel_maintenance"
-    action="action_unicore_hostel_maintenance_urgent"
+    parent="menu_oacis_hostel_maintenance"
+    action="action_oacis_hostel_maintenance_urgent"
     sequence="20"
-    groups="unicore_base.group_unicore_staff"/>
+    groups="oacis_base.group_oacis_staff"/>
 
   <!-- Configuration -->
   <menuitem
-    id="menu_unicore_hostel_config"
+    id="menu_oacis_hostel_config"
     name="Configuration"
-    parent="menu_unicore_hostel_root"
+    parent="menu_oacis_hostel_root"
     sequence="90"
-    groups="unicore_base.group_unicore_admin"/>
+    groups="oacis_base.group_oacis_admin"/>
 
   <menuitem
-    id="menu_unicore_hostel_blocks"
+    id="menu_oacis_hostel_blocks"
     name="Hostel Blocks"
-    parent="menu_unicore_hostel_config"
-    action="action_unicore_hostel_block"
+    parent="menu_oacis_hostel_config"
+    action="action_oacis_hostel_block"
     sequence="10"
-    groups="unicore_base.group_unicore_admin"/>
+    groups="oacis_base.group_oacis_admin"/>
 
 </odoo>

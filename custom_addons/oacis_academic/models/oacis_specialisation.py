@@ -6,12 +6,12 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UnicoreSpecialisation(models.Model):
+class OacisSpecialisation(models.Model):
     """Program Specialisation or Major representing a branch of study."""
 
-    _name = 'unicore.specialisation'
+    _name = 'oacis.specialisation'
     _description = 'Program Specialisation or Major'
-    _inherit = ['unicore.mixin', 'mail.thread']
+    _inherit = ['oacis.mixin', 'mail.thread']
     _order = 'program_id, sequence, name'
     _check_company_auto = True
 
@@ -27,21 +27,21 @@ class UnicoreSpecialisation(models.Model):
         size=20,
     )
     program_id = fields.Many2one(
-        comodel_name='unicore.program',
+        comodel_name='oacis.program',
         string='Program',
         required=True,
         ondelete='restrict',
         tracking=True,
     )
     department_id = fields.Many2one(
-        comodel_name='unicore.department',
+        comodel_name='oacis.department',
         related='program_id.department_id',
         string='Department',
         store=True,
         readonly=True,
     )
     faculty_id = fields.Many2one(
-        comodel_name='unicore.faculty',
+        comodel_name='oacis.faculty',
         related='program_id.faculty_id',
         string='Faculty',
         store=True,

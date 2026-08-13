@@ -4,9 +4,9 @@
     <!-- ============================================================
          Curriculum Calendar
          ============================================================ -->
-    <record id="unicore_curriculum_calendar_view" model="ir.ui.view">
-        <field name="name">unicore.curriculum.calendar</field>
-        <field name="model">unicore.curriculum</field>
+    <record id="oacis_curriculum_calendar_view" model="ir.ui.view">
+        <field name="name">oacis.curriculum.calendar</field>
+        <field name="model">oacis.curriculum</field>
         <field name="type">calendar</field>
         <field name="arch" type="xml">
             <calendar date_start="approved_on" color="color" string="Curriculum Calendar">

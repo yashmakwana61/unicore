@@ -1,5 +1,5 @@
 """
-UniCore Library Member Model
+Oacis Library Member Model
 Students and faculty registered as library members
 with borrowing limits and privilege levels.
 """
@@ -12,10 +12,10 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreLibraryMember(models.Model):
-    _name = 'unicore.library.member'
+class OacisLibraryMember(models.Model):
+    _name = 'oacis.library.member'
     _description = 'Library Member'
-    _inherit = ['unicore.mixin', 'mail.thread']
+    _inherit = ['oacis.mixin', 'mail.thread']
     _order = 'member_id'
     _check_company_auto = True
     _rec_name = 'display_name'
@@ -52,13 +52,13 @@ class UniCoreLibraryMember(models.Model):
     # --- LINKED RECORDS ---
 
     student_id = fields.Many2one(
-        comodel_name='unicore.student',
+        comodel_name='oacis.student',
         string='Student',
         ondelete='restrict',
         domain="[('company_id','=',company_id)]",
     )
     faculty_member_id = fields.Many2one(
-        comodel_name='unicore.faculty.member',
+        comodel_name='oacis.faculty.member',
         string='Faculty Member',
         ondelete='restrict',
         domain="[('company_id','=',company_id)]",
@@ -160,7 +160,7 @@ class UniCoreLibraryMember(models.Model):
     )
 
     def _compute_issue_stats(self):
-        Issue = self.env['unicore.library.issue']
+        Issue = self.env['oacis.library.issue']
         for rec in self:
             active = Issue.search([
                 ('member_id', '=', rec.id),
@@ -181,12 +181,12 @@ class UniCoreLibraryMember(models.Model):
 
     def _search_current_issue_count(self, operator, value):
         if operator == '>' and value == 0:
-            issues = self.env['unicore.library.issue'].search(
+            issues = self.env['oacis.library.issue'].search(
                 [('issue_state', '=', 'issued')],
             )
             return [('id', 'in', issues.mapped('member_id').ids)]
         if operator == '=' and value == 0:
-            issues = self.env['unicore.library.issue'].search(
+            issues = self.env['oacis.library.issue'].search(
                 [('issue_state', '=', 'issued')],
             )
             return [('id', 'not in', issues.mapped('member_id').ids)]
@@ -194,13 +194,13 @@ class UniCoreLibraryMember(models.Model):
 
     def _search_outstanding_fines(self, operator, value):
         if operator == '>' and value == 0:
-            issues = self.env['unicore.library.issue'].search([
+            issues = self.env['oacis.library.issue'].search([
                 ('fine_amount', '>', 0),
                 ('fine_paid', '=', False),
             ])
             return [('id', 'in', issues.mapped('member_id').ids)]
         if operator == '=' and value == 0:
-            issues = self.env['unicore.library.issue'].search([
+            issues = self.env['oacis.library.issue'].search([
                 ('fine_amount', '>', 0),
                 ('fine_paid', '=', False),
             ])
@@ -257,7 +257,7 @@ class UniCoreLibraryMember(models.Model):
             if not vals.get('member_id'):
                 vals['member_id'] = (
                     self.env['ir.sequence'].next_by_code(
-                        'unicore.library.member',
+                        'oacis.library.member',
                     ) or '/'
                 )
         return super().create(vals_list)
@@ -283,7 +283,7 @@ class UniCoreLibraryMember(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Issue Book'),
-            'res_model': 'unicore.library.issue',
+            'res_model': 'oacis.library.issue',
             'view_mode': 'form',
             'target': 'new',
             'context': {
@@ -296,7 +296,7 @@ class UniCoreLibraryMember(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Issue History'),
-            'res_model': 'unicore.library.issue',
+            'res_model': 'oacis.library.issue',
             'view_mode': 'list,form',
             'domain': [
                 ('member_id', '=', self.id),

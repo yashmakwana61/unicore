@@ -1,17 +1,17 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <!-- Window Action -->
-  <record id="action_unicore_program" model="ir.actions.act_window">
+  <record id="action_oacis_program" model="ir.actions.act_window">
     <field name="name">Programs</field>
-    <field name="res_model">unicore.program</field>
+    <field name="res_model">oacis.program</field>
     <field name="view_mode">kanban,list,form</field>
     <field name="domain">[]</field>
     <field name="context">{}</field>
   </record>
   <!-- Form View -->
-  <record id="unicore_program_form_view" model="ir.ui.view">
-    <field name="name">unicore.program.form</field>
-    <field name="model">unicore.program</field>
+  <record id="oacis_program_form_view" model="ir.ui.view">
+    <field name="name">oacis.program.form</field>
+    <field name="model">oacis.program</field>
     <field name="arch" type="xml">
       <form>
         <header>
@@ -19,7 +19,7 @@
           <button name="action_approve" type="object" string="Approve" class="btn-primary" invisible="program_state != 'draft'"/>
           <button name="action_activate" type="object" string="Activate" invisible="program_state != 'approved'"/>
           <button name="action_discontinue" type="object" string="Discontinue" invisible="program_state != 'active'"/>
-          <button name="action_reset_draft" type="object" string="Reset to Draft" groups="unicore_base.group_unicore_admin" invisible="program_state == 'draft'"/>
+          <button name="action_reset_draft" type="object" string="Reset to Draft" groups="oacis_base.group_oacis_admin" invisible="program_state == 'draft'"/>
         </header>
         <sheet>
           <div class="oe_button_box" name="button_box">
@@ -98,9 +98,9 @@
     </field>
   </record>
   <!-- List View -->
-  <record id="unicore_program_list_view" model="ir.ui.view">
-    <field name="name">unicore.program.list</field>
-    <field name="model">unicore.program</field>
+  <record id="oacis_program_list_view" model="ir.ui.view">
+    <field name="name">oacis.program.list</field>
+    <field name="model">oacis.program</field>
     <field name="arch" type="xml">
       <list>
         <field name="code"/>
@@ -118,9 +118,9 @@
     </field>
   </record>
   <!-- Search View -->
-  <record id="unicore_program_search_view" model="ir.ui.view">
-    <field name="name">unicore.program.search</field>
-    <field name="model">unicore.program</field>
+  <record id="oacis_program_search_view" model="ir.ui.view">
+    <field name="name">oacis.program.search</field>
+    <field name="model">oacis.program</field>
     <field name="arch" type="xml">
       <search>
         <field name="name"/>
@@ -147,9 +147,9 @@
     </field>
   </record>
   <!-- Kanban View -->
-  <record id="unicore_program_kanban_view" model="ir.ui.view">
-    <field name="name">unicore.program.kanban</field>
-    <field name="model">unicore.program</field>
+  <record id="oacis_program_kanban_view" model="ir.ui.view">
+    <field name="name">oacis.program.kanban</field>
+    <field name="model">oacis.program</field>
     <field name="arch" type="xml">
       <kanban class="o_kanban_mobile" highlight_color="color">
         <field name="code"/>

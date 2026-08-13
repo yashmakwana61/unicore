@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-  <record id="view_unicore_fee_structure_form" model="ir.ui.view">
-    <field name="name">unicore.fee.structure.form</field>
-    <field name="model">unicore.fee.structure</field>
+  <record id="view_oacis_fee_structure_form" model="ir.ui.view">
+    <field name="name">oacis.fee.structure.form</field>
+    <field name="model">oacis.fee.structure</field>
     <field name="arch" type="xml">
       <form>
         <header>
           <button name="action_activate" string="Activate" type="object" invisible="structure_state != 'draft'" class="btn-primary"/>
-          <button name="action_archive_structure" string="Archive" type="object" invisible="structure_state != 'active'" groups="unicore_base.group_unicore_admin"/>
-          <button name="action_reset_draft" string="Reset to Draft" type="object" invisible="structure_state == 'draft'" groups="unicore_base.group_unicore_admin"/>
+          <button name="action_archive_structure" string="Archive" type="object" invisible="structure_state != 'active'" groups="oacis_base.group_oacis_admin"/>
+          <button name="action_reset_draft" string="Reset to Draft" type="object" invisible="structure_state == 'draft'" groups="oacis_base.group_oacis_admin"/>
           <field name="structure_state" widget="statusbar" statusbar_visible="draft,active,archived"/>
         </header>
         <sheet>
@@ -50,9 +50,9 @@
       </form>
     </field>
   </record>
-  <record id="view_unicore_fee_structure_list" model="ir.ui.view">
-    <field name="name">unicore.fee.structure.list</field>
-    <field name="model">unicore.fee.structure</field>
+  <record id="view_oacis_fee_structure_list" model="ir.ui.view">
+    <field name="name">oacis.fee.structure.list</field>
+    <field name="model">oacis.fee.structure</field>
     <field name="arch" type="xml">
       <list decoration-success="structure_state == 'active'" decoration-muted="structure_state == 'archived'">
         <field name="name"/>
@@ -66,9 +66,9 @@
       </list>
     </field>
   </record>
-  <record id="view_unicore_fee_structure_search" model="ir.ui.view">
-    <field name="name">unicore.fee.structure.search</field>
-    <field name="model">unicore.fee.structure</field>
+  <record id="view_oacis_fee_structure_search" model="ir.ui.view">
+    <field name="name">oacis.fee.structure.search</field>
+    <field name="model">oacis.fee.structure</field>
     <field name="arch" type="xml">
       <search>
         <field name="name"/>
@@ -82,9 +82,9 @@
       </search>
     </field>
   </record>
-  <record id="action_unicore_fee_structure" model="ir.actions.act_window">
+  <record id="action_oacis_fee_structure" model="ir.actions.act_window">
     <field name="name">Fee Structures</field>
-    <field name="res_model">unicore.fee.structure</field>
+    <field name="res_model">oacis.fee.structure</field>
     <field name="view_mode">list,form</field>
   </record>
 </odoo>

@@ -4,14 +4,14 @@
     <!-- Remove the separate board/calendar/analysis/activity actions and menus.
          The underlying views are kept and exposed via view_mode on the main actions. -->
 
-    <delete model="ir.actions.act_window" id="action_unicore_fee_invoice_activity"/>
-    <delete model="ir.actions.act_window" id="action_unicore_fee_invoice_calendar"/>
-    <delete model="ir.actions.act_window" id="action_unicore_fee_invoice_kanban"/>
-    <delete model="ir.actions.act_window" id="action_unicore_fee_structure_kanban"/>
+    <delete model="ir.actions.act_window" id="action_oacis_fee_invoice_activity"/>
+    <delete model="ir.actions.act_window" id="action_oacis_fee_invoice_calendar"/>
+    <delete model="ir.actions.act_window" id="action_oacis_fee_invoice_kanban"/>
+    <delete model="ir.actions.act_window" id="action_oacis_fee_structure_kanban"/>
 
-    <delete model="ir.ui.menu" id="menu_unicore_fee_invoice_activity"/>
-    <delete model="ir.ui.menu" id="menu_unicore_fee_invoice_board"/>
-    <delete model="ir.ui.menu" id="menu_unicore_fee_invoice_calendar"/>
-    <delete model="ir.ui.menu" id="menu_unicore_fee_structure_board"/>
+    <delete model="ir.ui.menu" id="menu_oacis_fee_invoice_activity"/>
+    <delete model="ir.ui.menu" id="menu_oacis_fee_invoice_board"/>
+    <delete model="ir.ui.menu" id="menu_oacis_fee_invoice_calendar"/>
+    <delete model="ir.ui.menu" id="menu_oacis_fee_structure_board"/>
 
 </odoo>

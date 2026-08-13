@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data noupdate="0">
-    <record id="uc_demo_faculty_eng" model="unicore.faculty">
+    <record id="uc_demo_faculty_eng" model="oacis.faculty">
       <field name="name">Faculty of Engineering and Technology</field>
       <field name="code">ENG</field>
       <field name="company_id" ref="base.main_company"/>
@@ -10,7 +10,7 @@
       <field name="sequence">10</field>
     </record>
 
-    <record id="uc_demo_faculty_bus" model="unicore.faculty">
+    <record id="uc_demo_faculty_bus" model="oacis.faculty">
       <field name="name">Faculty of Business Administration</field>
       <field name="code">BUS</field>
       <field name="company_id" ref="base.main_company"/>
@@ -19,7 +19,7 @@
       <field name="sequence">20</field>
     </record>
 
-    <record id="uc_demo_dept_cs" model="unicore.department">
+    <record id="uc_demo_dept_cs" model="oacis.department">
       <field name="name">Department of Computer Science</field>
       <field name="code">CS</field>
       <field name="faculty_id" ref="uc_demo_faculty_eng"/>
@@ -28,7 +28,7 @@
       <field name="email">cs@pfu.precisefect.com</field>
     </record>
 
-    <record id="uc_demo_dept_ec" model="unicore.department">
+    <record id="uc_demo_dept_ec" model="oacis.department">
       <field name="name">Department of Electronics and Communication</field>
       <field name="code">EC</field>
       <field name="faculty_id" ref="uc_demo_faculty_eng"/>
@@ -36,7 +36,7 @@
       <field name="established_year">1997</field>
     </record>
 
-    <record id="uc_demo_dept_mba" model="unicore.department">
+    <record id="uc_demo_dept_mba" model="oacis.department">
       <field name="name">Department of Management Studies</field>
       <field name="code">MGMT</field>
       <field name="faculty_id" ref="uc_demo_faculty_bus"/>
@@ -44,7 +44,7 @@
       <field name="established_year">1998</field>
     </record>
 
-    <record id="uc_demo_program_btech_cs" model="unicore.program">
+    <record id="uc_demo_program_btech_cs" model="oacis.program">
       <field name="name">Bachelor of Technology in Computer Science</field>
       <field name="code">BTECH-CS</field>
       <field name="department_id" ref="uc_demo_dept_cs"/>
@@ -59,7 +59,7 @@
       <field name="accreditation_body">AICTE</field>
     </record>
 
-    <record id="uc_demo_program_btech_ec" model="unicore.program">
+    <record id="uc_demo_program_btech_ec" model="oacis.program">
       <field name="name">Bachelor of Technology in Electronics</field>
       <field name="code">BTECH-EC</field>
       <field name="department_id" ref="uc_demo_dept_ec"/>
@@ -72,7 +72,7 @@
       <field name="tuition_fee_per_semester">42000.0</field>
     </record>
 
-    <record id="uc_demo_program_mba" model="unicore.program">
+    <record id="uc_demo_program_mba" model="oacis.program">
       <field name="name">Master of Business Administration</field>
       <field name="code">MBA</field>
       <field name="department_id" ref="uc_demo_dept_mba"/>
@@ -85,14 +85,14 @@
       <field name="tuition_fee_per_semester">55000.0</field>
     </record>
 
-    <record id="uc_demo_spec_ai" model="unicore.specialisation">
+    <record id="uc_demo_spec_ai" model="oacis.specialisation">
       <field name="name">Artificial Intelligence</field>
       <field name="code">AI</field>
       <field name="program_id" ref="uc_demo_program_btech_cs"/>
       <field name="min_credits">30</field>
     </record>
 
-    <record id="uc_demo_spec_se" model="unicore.specialisation">
+    <record id="uc_demo_spec_se" model="oacis.specialisation">
       <field name="name">Software Engineering</field>
       <field name="code">SE</field>
       <field name="program_id" ref="uc_demo_program_btech_cs"/>

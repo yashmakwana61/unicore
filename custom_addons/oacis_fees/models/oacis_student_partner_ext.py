@@ -1,14 +1,14 @@
 """
-UniCore Student — Partner Extension
-Links unicore.student to res.partner for accounting/invoicing.
+Oacis Student — Partner Extension
+Links oacis.student to res.partner for accounting/invoicing.
 """
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
-class UnicoreStudentPartnerExt(models.Model):
-    _inherit = 'unicore.student'
+class OacisStudentPartnerExt(models.Model):
+    _inherit = 'oacis.student'
 
     partner_id = fields.Many2one(
         comodel_name='res.partner',
@@ -26,7 +26,7 @@ class UnicoreStudentPartnerExt(models.Model):
 
         # Get accounting config to check if auto-create is enabled
         try:
-            config = self.env['unicore.fee.accounting.config']._get_active_config(
+            config = self.env['oacis.fee.accounting.config']._get_active_config(
                 company_id=records[0].company_id.id,
             )
         except UserError:
@@ -49,7 +49,7 @@ class UnicoreStudentPartnerExt(models.Model):
 
         # Check if sync is enabled
         try:
-            config = self.env['unicore.fee.accounting.config']._get_active_config(
+            config = self.env['oacis.fee.accounting.config']._get_active_config(
                 company_id=self.company_id.id,
             )
         except UserError:

@@ -3,7 +3,7 @@ from odoo.exceptions import UserError
 
 
 class AdmissionApplicantCrmExt(models.Model):
-    _inherit = 'unicore.admission.applicant'
+    _inherit = 'oacis.admission.applicant'
 
     crm_lead_id = fields.Many2one(
         'crm.lead', string='CRM Opportunity', readonly=True, copy=False,
@@ -34,7 +34,7 @@ class AdmissionApplicantCrmExt(models.Model):
     def _sync_crm_lead(self, create=False):
         self.ensure_one()
         team = self.env.ref(
-            'unicore_crm.crm_team_admissions', raise_if_not_found=False)
+            'oacis_crm.crm_team_admissions', raise_if_not_found=False)
         stage = self._get_crm_stage_for_state(self.state)
         lead = self.crm_lead_id
         if not lead:

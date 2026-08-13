@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_library_member_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.library.member.kanban</field>
-        <field name="model">unicore.library.member</field>
+    <record id="oacis_library_member_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.library.member.kanban</field>
+        <field name="model">oacis.library.member</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="member_state">
                 <field name="display_name"/>
@@ -57,9 +57,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_library_issue_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.library.issue.kanban</field>
-        <field name="model">unicore.library.issue</field>
+    <record id="oacis_library_issue_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.library.issue.kanban</field>
+        <field name="model">oacis.library.issue</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="issue_state">
                 <field name="display_name"/>
@@ -110,9 +110,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_library_reservation_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.library.reservation.kanban</field>
-        <field name="model">unicore.library.reservation</field>
+    <record id="oacis_library_reservation_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.library.reservation.kanban</field>
+        <field name="model">oacis.library.reservation</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="reservation_state">
                 <field name="display_name"/>

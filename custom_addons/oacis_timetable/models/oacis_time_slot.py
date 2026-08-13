@@ -1,9 +1,9 @@
 """
-UniCore Time Slot Model
+Oacis Time Slot Model
 Defines reusable bell-schedule periods shared across
 the institution. Time slots are day-agnostic templates
 (e.g. "Period 1: 09:00-10:00") that are combined with
-a day-of-week in unicore.timetable.entry to form
+a day-of-week in oacis.timetable.entry to form
 an actual scheduled class.
 """
 import logging
@@ -14,10 +14,10 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreTimeSlot(models.Model):
-    _name = 'unicore.time.slot'
+class OacisTimeSlot(models.Model):
+    _name = 'oacis.time.slot'
     _description = 'Time Slot Template'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
     _order = 'sequence, start_time'
     _check_company_auto = True
 
@@ -37,7 +37,7 @@ class UniCoreTimeSlot(models.Model):
     )
 
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus',
+        comodel_name='oacis.campus',
         string='Campus',
         ondelete='restrict',
         domain="[('company_id', '=', company_id)]",

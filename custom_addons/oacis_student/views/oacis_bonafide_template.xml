@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="unicore_bonafide_template">
+    <template id="oacis_bonafide_template">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="student">
                 <t t-call="web.external_layout">
@@ -92,7 +92,7 @@
         </t>
     </template>
 
-    <template id="unicore_bonafide_styles">
+    <template id="oacis_bonafide_styles">
         <style>
             .bonafide-container {
                 font-family: Arial, sans-serif;

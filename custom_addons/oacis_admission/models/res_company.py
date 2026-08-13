@@ -10,5 +10,5 @@ class ResCompany(models.Model):
     def create(self, vals_list):
         companies = super().create(vals_list)
         for company in companies:
-            self.env['unicore.admission.stage']._ensure_default_stages(company)
+            self.env['oacis.admission.stage']._ensure_default_stages(company)
         return companies

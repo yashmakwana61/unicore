@@ -2,7 +2,7 @@ from odoo import _, api, models
 from odoo.exceptions import UserError
 
 
-class UnicoreSequenceMixin(models.AbstractModel):
+class OacisSequenceMixin(models.AbstractModel):
     """Per-company sequence numbering helper (multi-institution compliance, C1).
 
     Gives every institution an *independent* counter for a given sequence code.
@@ -11,7 +11,7 @@ class UnicoreSequenceMixin(models.AbstractModel):
     institutions even when the same Odoo database serves several companies.
     """
 
-    _name = 'unicore.sequence.mixin'
+    _name = 'oacis.sequence.mixin'
     _description = 'Per-company sequence numbering mixin'
 
     @api.model

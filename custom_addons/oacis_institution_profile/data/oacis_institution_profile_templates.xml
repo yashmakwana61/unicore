@@ -5,7 +5,7 @@
         <!-- ============================================================
              Ready-to-attach Institution Profile templates (Phase 5)
              One profile per supported institution_type. UNI_LEGACY and
-             K12_SCHOOL ship in unicore_institution_profile_data.xml; these
+             K12_SCHOOL ship in oacis_institution_profile_data.xml; these
              complete the catalog: College, Training Institute, Academy /
              Test-Prep, Coaching Center. Each carries its full related
              settings (calendar_mode, grading scheme, academic unit levels,
@@ -17,7 +17,7 @@
              College Terminology Profile (COL)
              Mostly generic university vocabulary; Program -> Degree Program.
              ============================================================ -->
-        <record id="terminology_profile_col" model="unicore.terminology.profile">
+        <record id="terminology_profile_col" model="oacis.terminology.profile">
             <field name="name">College</field>
             <field name="code">COL</field>
             <field name="term_faculty">Faculty</field>
@@ -33,7 +33,7 @@
              Training Institute Terminology Profile (TRN)
              Faculty hidden; batch/cycle vocabulary for vocational training.
              ============================================================ -->
-        <record id="terminology_profile_trn" model="unicore.terminology.profile">
+        <record id="terminology_profile_trn" model="oacis.terminology.profile">
             <field name="name">Training Institute</field>
             <field name="code">TRN</field>
             <!-- term_faculty left blank = concept hidden -->
@@ -49,7 +49,7 @@
              Academy / Test-Prep Terminology Profile (ACA)
              Faculty hidden; batch/term vocabulary for test-prep academies.
              ============================================================ -->
-        <record id="terminology_profile_aca" model="unicore.terminology.profile">
+        <record id="terminology_profile_aca" model="oacis.terminology.profile">
             <field name="name">Academy / Test-Prep</field>
             <field name="code">ACA</field>
             <!-- term_faculty left blank = concept hidden -->
@@ -65,7 +65,7 @@
              Coaching Center Terminology Profile (COA)
              Faculty hidden; batch/cycle vocabulary for coaching centers.
              ============================================================ -->
-        <record id="terminology_profile_coa" model="unicore.terminology.profile">
+        <record id="terminology_profile_coa" model="oacis.terminology.profile">
             <field name="name">Coaching Center</field>
             <field name="code">COA</field>
             <!-- term_faculty left blank = concept hidden -->
@@ -82,7 +82,7 @@
              Traditional Faculty -> Department hierarchy, semester calendar,
              credit-GPA grading — a lighter, non-legacy university cousin.
              ============================================================ -->
-        <record id="profile_college" model="unicore.institution.profile">
+        <record id="profile_college" model="oacis.institution.profile">
             <field name="name">College</field>
             <field name="code">COL</field>
             <field name="institution_type">college</field>
@@ -91,7 +91,7 @@
             <field name="grading_scheme">credit_gpa</field>
             <field name="grading_scheme_id" ref="grading_scheme_credit_gpa"/>
             <field name="terminology_profile_id" ref="terminology_profile_col"/>
-            <field name="academic_unit_level_ids" eval="[(6, 0, [ref('unicore_academic_generic.unit_type_faculty'), ref('unicore_academic_generic.unit_type_department'), ref('unicore_academic_generic.unit_type_stream')])]"/>
+            <field name="academic_unit_level_ids" eval="[(6, 0, [ref('oacis_academic_generic.unit_type_faculty'), ref('oacis_academic_generic.unit_type_department'), ref('oacis_academic_generic.unit_type_stream')])]"/>
             <field name="feature_toggle_ids" eval="[(6, 0, [ref('feature_hostel'), ref('feature_transport'), ref('feature_library'), ref('feature_alumni'), ref('feature_convocation'), ref('feature_scholarship'), ref('feature_thesis'), ref('feature_crm'), ref('feature_admission'), ref('feature_website'), ref('feature_attendance'), ref('feature_exam'), ref('feature_fees')])]"/>
             <field name="description">Traditional college: Faculty -> Department
                 hierarchy with a semester calendar and credit-GPA grading.
@@ -104,7 +104,7 @@
              Flat batch hierarchy, rolling-batch calendar, simple-percentage
              grading, trainee/trainer vocabulary.
              ============================================================ -->
-        <record id="profile_training_institute" model="unicore.institution.profile">
+        <record id="profile_training_institute" model="oacis.institution.profile">
             <field name="name">Training Institute</field>
             <field name="code">TRN</field>
             <field name="institution_type">training</field>
@@ -113,7 +113,7 @@
             <field name="grading_scheme">simple_percentage</field>
             <field name="grading_scheme_id" ref="grading_scheme_simple_percentage"/>
             <field name="terminology_profile_id" ref="terminology_profile_trn"/>
-            <field name="academic_unit_level_ids" eval="[(6, 0, [ref('unicore_academic_generic.unit_type_batch_group'), ref('unicore_academic_generic.unit_type_other')])]"/>
+            <field name="academic_unit_level_ids" eval="[(6, 0, [ref('oacis_academic_generic.unit_type_batch_group'), ref('oacis_academic_generic.unit_type_other')])]"/>
             <field name="feature_toggle_ids" eval="[(6, 0, [ref('feature_admission'), ref('feature_attendance'), ref('feature_fees'), ref('feature_exam'), ref('feature_crm'), ref('feature_website'), ref('feature_scholarship'), ref('feature_library'), ref('feature_transport')])]"/>
             <field name="description">Vocational / skills training institute:
                 flat batch hierarchy (no Faculty/Department), rolling-batch
@@ -126,7 +126,7 @@
              Batch + grade hierarchy, term calendar, pass/fail grading,
              instructor/term/session vocabulary.
              ============================================================ -->
-        <record id="profile_academy" model="unicore.institution.profile">
+        <record id="profile_academy" model="oacis.institution.profile">
             <field name="name">Academy / Test-Prep</field>
             <field name="code">ACA</field>
             <field name="institution_type">academy</field>
@@ -135,7 +135,7 @@
             <field name="grading_scheme">pass_fail</field>
             <field name="grading_scheme_id" ref="grading_scheme_pass_fail"/>
             <field name="terminology_profile_id" ref="terminology_profile_aca"/>
-            <field name="academic_unit_level_ids" eval="[(6, 0, [ref('unicore_academic_generic.unit_type_grade_level'), ref('unicore_academic_generic.unit_type_batch_group'), ref('unicore_academic_generic.unit_type_other')])]"/>
+            <field name="academic_unit_level_ids" eval="[(6, 0, [ref('oacis_academic_generic.unit_type_grade_level'), ref('oacis_academic_generic.unit_type_batch_group'), ref('oacis_academic_generic.unit_type_other')])]"/>
             <field name="feature_toggle_ids" eval="[(6, 0, [ref('feature_admission'), ref('feature_attendance'), ref('feature_fees'), ref('feature_exam'), ref('feature_crm'), ref('feature_website'), ref('feature_scholarship'), ref('feature_library')])]"/>
             <field name="description">Test-prep academy: batch and grade-level
                 hierarchy, term-based calendar and pass/fail grading.
@@ -147,7 +147,7 @@
              Flat batch hierarchy, rolling-batch calendar, completion-based
              grading, coach/cycle vocabulary.
              ============================================================ -->
-        <record id="profile_coaching_center" model="unicore.institution.profile">
+        <record id="profile_coaching_center" model="oacis.institution.profile">
             <field name="name">Coaching Center</field>
             <field name="code">COA</field>
             <field name="institution_type">coaching</field>
@@ -156,7 +156,7 @@
             <field name="grading_scheme">certificate_only</field>
             <field name="grading_scheme_id" ref="grading_scheme_certificate_only"/>
             <field name="terminology_profile_id" ref="terminology_profile_coa"/>
-            <field name="academic_unit_level_ids" eval="[(6, 0, [ref('unicore_academic_generic.unit_type_batch_group'), ref('unicore_academic_generic.unit_type_other')])]"/>
+            <field name="academic_unit_level_ids" eval="[(6, 0, [ref('oacis_academic_generic.unit_type_batch_group'), ref('oacis_academic_generic.unit_type_other')])]"/>
             <field name="feature_toggle_ids" eval="[(6, 0, [ref('feature_admission'), ref('feature_attendance'), ref('feature_fees'), ref('feature_exam'), ref('feature_crm'), ref('feature_website'), ref('feature_library')])]"/>
             <field name="description">Coaching center: flat batch hierarchy,
                 rolling-batch calendar and completion/certificate grading.

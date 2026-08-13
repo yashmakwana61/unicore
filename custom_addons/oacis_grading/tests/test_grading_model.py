@@ -3,8 +3,8 @@ from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'unit')
-class UniCoreGradingTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'unit')
+class OacisGradingTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
@@ -12,18 +12,18 @@ class UniCoreGradingTest(TransactionCase):
 
         cls.company = cls.env.company
 
-        cls.faculty = cls.env['unicore.faculty'].create({
+        cls.faculty = cls.env['oacis.faculty'].create({
             'name': 'Test Faculty of Arts',
             'code': 'TFA',
             'company_id': cls.company.id,
         })
-        cls.department = cls.env['unicore.department'].create({
+        cls.department = cls.env['oacis.department'].create({
             'name': 'Test English',
             'code': 'TENG',
             'faculty_id': cls.faculty.id,
             'company_id': cls.company.id,
         })
-        cls.program = cls.env['unicore.program'].create({
+        cls.program = cls.env['oacis.program'].create({
             'name': 'Test B.A. English',
             'code': 'TEST-BA-ENG',
             'program_type': 'undergraduate',
@@ -34,12 +34,12 @@ class UniCoreGradingTest(TransactionCase):
             'department_id': cls.department.id,
             'company_id': cls.company.id,
         })
-        cls.campus = cls.env['unicore.campus'].create({
+        cls.campus = cls.env['oacis.campus'].create({
             'name': 'Test Arts Campus',
             'code': 'TARTSCAMP',
             'company_id': cls.company.id,
         })
-        cls.academic_year = cls.env['unicore.academic.year'].create({
+        cls.academic_year = cls.env['oacis.academic.year'].create({
             'name': 'Test AY 2027-28',
             'code': 'TAY2728',
             'date_start': '2027-07-01',
@@ -48,7 +48,7 @@ class UniCoreGradingTest(TransactionCase):
             'is_current': False,
             'company_id': cls.company.id,
         })
-        cls.semester = cls.env['unicore.semester'].create({
+        cls.semester = cls.env['oacis.semester'].create({
             'name': 'Test ODD 2027-28',
             'code': 'TODD-2728',
             'semester_type': 'odd',
@@ -58,14 +58,14 @@ class UniCoreGradingTest(TransactionCase):
             'semester_state': 'ongoing',
             'company_id': cls.company.id,
         })
-        cls.course = cls.env['unicore.course'].create({
+        cls.course = cls.env['oacis.course'].create({
             'name': 'Test English Literature',
             'code': 'TEL401',
             'credit_hours': 4.0,
             'department_id': cls.department.id,
             'company_id': cls.company.id,
         })
-        cls.offering = cls.env['unicore.course.offering'].create({
+        cls.offering = cls.env['oacis.course.offering'].create({
             'course_id': cls.course.id,
             'semester_id': cls.semester.id,
             'academic_year_id': cls.academic_year.id,
@@ -74,7 +74,7 @@ class UniCoreGradingTest(TransactionCase):
             'offering_state': 'open',
             'company_id': cls.company.id,
         })
-        cls.student = cls.env['unicore.student'].create({
+        cls.student = cls.env['oacis.student'].create({
             'name': 'Grading',
             'last_name': 'Test Student',
             'gender': 'female',
@@ -91,13 +91,13 @@ class UniCoreGradingTest(TransactionCase):
     def setUp(self):
         super().setUp()
         self.student.action_enroll()
-        self.enrollment = self.env['unicore.enrollment'].create({
+        self.enrollment = self.env['oacis.enrollment'].create({
             'student_id': self.student.id,
             'course_offering_id': self.offering.id,
         })
 
     def test_01_grade_entry_create(self):
-        grade = self.env['unicore.grade.entry'].create({
+        grade = self.env['oacis.grade.entry'].create({
             'enrollment_id': self.enrollment.id,
             'internal_marks': 35.0,
             'external_marks': 55.0,
@@ -107,7 +107,7 @@ class UniCoreGradingTest(TransactionCase):
         self.assertTrue(grade.letter_grade)
 
     def test_02_grade_point_calculation(self):
-        grade = self.env['unicore.grade.entry'].create({
+        grade = self.env['oacis.grade.entry'].create({
             'enrollment_id': self.enrollment.id,
             'internal_marks': 40.0,
             'external_marks': 45.0,
@@ -117,7 +117,7 @@ class UniCoreGradingTest(TransactionCase):
         self.assertGreater(grade.grade_point, 0.0)
 
     def test_03_failing_grade(self):
-        grade = self.env['unicore.grade.entry'].create({
+        grade = self.env['oacis.grade.entry'].create({
             'enrollment_id': self.enrollment.id,
             'internal_marks': 10.0,
             'external_marks': 10.0,
@@ -128,7 +128,7 @@ class UniCoreGradingTest(TransactionCase):
 
     def test_04_cgpa_recomputes_on_new_grade(self):
         self.assertEqual(self.student.cgpa, 0.0)
-        grade = self.env['unicore.grade.entry'].create({
+        grade = self.env['oacis.grade.entry'].create({
             'enrollment_id': self.enrollment.id,
             'internal_marks': 38.0,
             'external_marks': 52.0,
@@ -139,7 +139,7 @@ class UniCoreGradingTest(TransactionCase):
         self.assertGreater(self.student.cgpa, 0.0)
 
     def test_05_grade_entry_state_flow(self):
-        grade = self.env['unicore.grade.entry'].create({
+        grade = self.env['oacis.grade.entry'].create({
             'enrollment_id': self.enrollment.id,
             'internal_marks': 30.0,
             'external_marks': 50.0,
@@ -155,7 +155,7 @@ class UniCoreGradingTest(TransactionCase):
         self.assertEqual(grade.entry_state, 'locked')
 
     def test_06_grade_locked_cannot_be_edited(self):
-        grade = self.env['unicore.grade.entry'].create({
+        grade = self.env['oacis.grade.entry'].create({
             'enrollment_id': self.enrollment.id,
             'internal_marks': 30.0,
             'external_marks': 50.0,
@@ -169,7 +169,7 @@ class UniCoreGradingTest(TransactionCase):
             grade.action_reset_draft()
 
     def test_07_semester_result_generation(self):
-        grade = self.env['unicore.grade.entry'].create({
+        grade = self.env['oacis.grade.entry'].create({
             'enrollment_id': self.enrollment.id,
             'internal_marks': 38.0,
             'external_marks': 52.0,
@@ -178,12 +178,12 @@ class UniCoreGradingTest(TransactionCase):
         grade.action_verify()
         grade.action_publish()
 
-        count = self.env['unicore.semester.result'].generate_results_for_semester(
+        count = self.env['oacis.semester.result'].generate_results_for_semester(
             self.semester.id, self.company.id,
         )
         self.assertEqual(count, 1)
 
-        result = self.env['unicore.semester.result'].search([
+        result = self.env['oacis.semester.result'].search([
             ('student_id', '=', self.student.id),
             ('semester_id', '=', self.semester.id),
         ], limit=1)
@@ -195,7 +195,7 @@ class UniCoreGradingTest(TransactionCase):
 
     def test_08_internal_marks_cannot_exceed_max(self):
         with self.assertRaises(ValidationError):
-            self.env['unicore.grade.entry'].create({
+            self.env['oacis.grade.entry'].create({
                 'enrollment_id': self.enrollment.id,
                 'internal_marks': 99.0,
                 'external_marks': 10.0,
@@ -203,7 +203,7 @@ class UniCoreGradingTest(TransactionCase):
 
     def test_09_external_marks_cannot_exceed_max(self):
         with self.assertRaises(ValidationError):
-            self.env['unicore.grade.entry'].create({
+            self.env['oacis.grade.entry'].create({
                 'enrollment_id': self.enrollment.id,
                 'internal_marks': 10.0,
                 'external_marks': 99.0,

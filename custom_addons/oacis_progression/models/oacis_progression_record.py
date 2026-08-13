@@ -2,16 +2,16 @@ from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
-class UniCoreProgressionRecord(models.Model):
-    _name = 'unicore.progression.record'
+class OacisProgressionRecord(models.Model):
+    _name = 'oacis.progression.record'
     _description = 'Student Progression Record'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'student_id, academic_year_id desc'
     _check_company_auto = True
     _rec_name = 'name'
 
     student_id = fields.Many2one(
-        comodel_name='unicore.student',
+        comodel_name='oacis.student',
         string='Student',
         required=True,
         ondelete='cascade',
@@ -26,14 +26,14 @@ class UniCoreProgressionRecord(models.Model):
         readonly=True,
     )
     academic_year_id = fields.Many2one(
-        comodel_name='unicore.academic.year',
+        comodel_name='oacis.academic.year',
         string='Academic Year',
         required=True,
         domain="[('company_id', '=', company_id)]",
         tracking=True,
     )
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         domain="[('academic_year_id', '=', academic_year_id)]",
         help='Optional: specific semester if progression is run mid-year.',

@@ -1,8 +1,8 @@
-# UniCore Fees — Complete GL Integration (All Phases)
+# Oacis Fees — Complete GL Integration (All Phases)
 
 ## ✅ ALL PHASES COMPLETE
 
-This document summarizes the complete integration of UniCore Fee Invoices with Odoo's default accounting module across all three phases.
+This document summarizes the complete integration of Oacis Fee Invoices with Odoo's default accounting module across all three phases.
 
 ---
 
@@ -24,25 +24,25 @@ This document summarizes the complete integration of UniCore Fee Invoices with O
 ## Phase 1: Prerequisite Setup ✅
 
 ### What was built:
-1. **Accounting Configuration Model** (`unicore_fee_accounting_config`)
+1. **Accounting Configuration Model** (`oacis_fee_accounting_config`)
    - Configurable GL accounts (revenue, receivable)
    - Configurable sales journal
    - Optional tax settings
    - Auto-post and partner auto-create toggles
    - Audit trail (created_by, updated_by)
 
-2. **Student ↔ Partner Linking** (`unicore_student_partner_ext`)
+2. **Student ↔ Partner Linking** (`oacis_student_partner_ext`)
    - Auto-create res.partner from student data
    - Auto-sync partner when student details change
    - Archive partner when student deleted
    - Extended student form with partner_id field
 
 ### Files Created:
-- `models/unicore_fee_accounting_config.py` (180 lines)
-- `models/unicore_student_partner_ext.py` (128 lines)
-- `views/unicore_fee_accounting_config_views.xml` (70 lines)
-- `views/unicore_student_partner_ext_views.xml` (25 lines)
-- `security/unicore_fee_accounting_access.csv` (4 lines)
+- `models/oacis_fee_accounting_config.py` (180 lines)
+- `models/oacis_student_partner_ext.py` (128 lines)
+- `views/oacis_fee_accounting_config_views.xml` (70 lines)
+- `views/oacis_student_partner_ext_views.xml` (25 lines)
+- `security/oacis_fee_accounting_access.csv` (4 lines)
 
 ### Configuration UI:
 - Menu: Fees → Configuration → Accounting Configuration
@@ -54,7 +54,7 @@ This document summarizes the complete integration of UniCore Fee Invoices with O
 ## Phase 2: Core GL Integration ✅
 
 ### What was built:
-1. **Fee Invoice ↔ GL Invoice Mapping** (`unicore_fee_invoice_gl_ext`)
+1. **Fee Invoice ↔ GL Invoice Mapping** (`oacis_fee_invoice_gl_ext`)
    - New `account_move_id` field links to GL invoice
    - New `gl_status` field shows GL posting status
    - New `gl_invoice_number` field displays GL number
@@ -79,8 +79,8 @@ This document summarizes the complete integration of UniCore Fee Invoices with O
    - Complete GL trail maintained
 
 ### Files Created:
-- `models/unicore_fee_invoice_gl_ext.py` (234 lines)
-- `views/unicore_fee_invoice_gl_ext_views.xml` (78 lines)
+- `models/oacis_fee_invoice_gl_ext.py` (234 lines)
+- `views/oacis_fee_invoice_gl_ext_views.xml` (78 lines)
 - `ACCOUNTING_INTEGRATION.md` (documentation)
 
 ### UI Enhancements:
@@ -100,7 +100,7 @@ This document summarizes the complete integration of UniCore Fee Invoices with O
 ## Phase 3: Payment GL Reconciliation ✅
 
 ### What was built:
-1. **Payment GL Reconciliation** (`unicore_fee_payment_gl_ext`)
+1. **Payment GL Reconciliation** (`oacis_fee_payment_gl_ext`)
    - New `gl_matching_line_ids` field links to GL AR lines
    - New `bank_deposit_move_id` field tracks bank deposits
    - New `is_reconciled` boolean shows reconciliation status
@@ -112,13 +112,13 @@ This document summarizes the complete integration of UniCore Fee Invoices with O
    - `_unreconc ile_from_gl()` handles payment cancellation
    - Manual reconciliation support
 
-2. **Invoice Status Sync** (`unicore_fee_invoice_status_ext`)
+2. **Invoice Status Sync** (`oacis_fee_invoice_status_ext`)
    - New `gl_fully_reconciled` boolean computed field
    - `_update_payment_state()` logs GL reconciliation status
    - Invoice status updated based on GL reconciliation
    - Action: View GL reconciliation status
 
-3. **Manual Reconciliation Wizard** (`unicore_fee_reconciliation_wizard`)
+3. **Manual Reconciliation Wizard** (`oacis_fee_reconciliation_wizard`)
    - Transient model for manual GL reconciliation
    - Shows available unreconciled AR lines
    - Allows user to select lines to match
@@ -127,11 +127,11 @@ This document summarizes the complete integration of UniCore Fee Invoices with O
    - Performs manual reconciliation on confirm
 
 ### Files Created:
-- `models/unicore_fee_payment_gl_ext.py` (330 lines)
-- `models/unicore_fee_invoice_status_ext.py` (75 lines)
-- `models/unicore_fee_reconciliation_wizard.py` (160 lines)
-- `views/unicore_fee_payment_gl_ext_views.xml` (88 lines)
-- `views/unicore_fee_reconciliation_wizard_views.xml` (92 lines)
+- `models/oacis_fee_payment_gl_ext.py` (330 lines)
+- `models/oacis_fee_invoice_status_ext.py` (75 lines)
+- `models/oacis_fee_reconciliation_wizard.py` (160 lines)
+- `views/oacis_fee_payment_gl_ext_views.xml` (88 lines)
+- `views/oacis_fee_reconciliation_wizard_views.xml` (92 lines)
 - `PAYMENT_RECONCILIATION.md` (documentation)
 
 ### UI Enhancements:
@@ -162,7 +162,7 @@ This document summarizes the complete integration of UniCore Fee Invoices with O
 
     ┌────────────────────────────────────────────────────┐
     │         Student Creates Fee Invoice                │
-    │  (unicore.fee.invoice - Status: DRAFT)            │
+    │  (oacis.fee.invoice - Status: DRAFT)            │
     └────────────────┬─────────────────────────────────┘
                      │
                      │ (Fee structure lines added)
@@ -197,7 +197,7 @@ This document summarizes the complete integration of UniCore Fee Invoices with O
                      ↓ (Fee Invoice Status: SENT)
     ┌────────────────────────────────────────────────────┐
     │       Student Records Payment                     │
-    │  (unicore.fee.payment - Status: DRAFT)            │
+    │  (oacis.fee.payment - Status: DRAFT)            │
     │  - Amount: ₹5000                                  │
     │  - Method: Bank Transfer / Cash / Cheque / etc.   │
     └────────────────┬─────────────────────────────────┘
@@ -258,25 +258,25 @@ This document summarizes the complete integration of UniCore Fee Invoices with O
 ## File Structure Summary
 
 ```
-custom-addons/unicore_fees/
+custom-addons/oacis_fees/
 ├── models/
-│   ├── unicore_fee_accounting_config.py        [Phase 1]
-│   ├── unicore_student_partner_ext.py          [Phase 1]
-│   ├── unicore_fee_invoice_gl_ext.py           [Phase 2]
-│   ├── unicore_fee_invoice_status_ext.py       [Phase 3]
-│   ├── unicore_fee_payment_gl_ext.py           [Phase 3]
-│   ├── unicore_fee_reconciliation_wizard.py    [Phase 3]
+│   ├── oacis_fee_accounting_config.py        [Phase 1]
+│   ├── oacis_student_partner_ext.py          [Phase 1]
+│   ├── oacis_fee_invoice_gl_ext.py           [Phase 2]
+│   ├── oacis_fee_invoice_status_ext.py       [Phase 3]
+│   ├── oacis_fee_payment_gl_ext.py           [Phase 3]
+│   ├── oacis_fee_reconciliation_wizard.py    [Phase 3]
 │   └── __init__.py                             [Updated]
 │
 ├── views/
-│   ├── unicore_fee_accounting_config_views.xml        [Phase 1]
-│   ├── unicore_student_partner_ext_views.xml          [Phase 1]
-│   ├── unicore_fee_invoice_gl_ext_views.xml           [Phase 2]
-│   ├── unicore_fee_payment_gl_ext_views.xml           [Phase 3]
-│   ├── unicore_fee_reconciliation_wizard_views.xml    [Phase 3]
+│   ├── oacis_fee_accounting_config_views.xml        [Phase 1]
+│   ├── oacis_student_partner_ext_views.xml          [Phase 1]
+│   ├── oacis_fee_invoice_gl_ext_views.xml           [Phase 2]
+│   ├── oacis_fee_payment_gl_ext_views.xml           [Phase 3]
+│   ├── oacis_fee_reconciliation_wizard_views.xml    [Phase 3]
 │
 ├── security/
-│   └── unicore_fee_accounting_access.csv      [Phase 1]
+│   └── oacis_fee_accounting_access.csv      [Phase 1]
 │
 ├── ACCOUNTING_INTEGRATION.md                  [Phase 2]
 ├── PAYMENT_RECONCILIATION.md                  [Phase 3]
@@ -513,7 +513,7 @@ Before going live:
 
 ## Conclusion
 
-UniCore Fees is now fully integrated with Odoo's default accounting module. Fee invoices automatically create GL invoices, payments automatically reconcile with GL, and the entire workflow is audited and tracked.
+Oacis Fees is now fully integrated with Odoo's default accounting module. Fee invoices automatically create GL invoices, payments automatically reconcile with GL, and the entire workflow is audited and tracked.
 
 **Key Achievement:** Fee system and Accounting system are now in sync, with real-time GL posting and reconciliation.
 
@@ -523,5 +523,5 @@ UniCore Fees is now fully integrated with Odoo's default accounting module. Fee 
 
 *Document Version: 1.0*  
 *Last Updated: 2026-07-18*  
-*Module: unicore_fees*  
+*Module: oacis_fees*  
 *Odoo Version: 19.0*

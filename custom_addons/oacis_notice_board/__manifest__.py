@@ -1,10 +1,10 @@
 {
-    'name': 'UniCore Notice Board',
+    'name': 'Oacis Notice Board',
     'version': '19.0.1.0.0',
     'category': 'Education',
     'summary': 'Persistent circulars and notices for students, faculty and guardians',
     'description': '''
-        UniCore Notice Board provides a persistent bulletin board for
+        Oacis Notice Board provides a persistent bulletin board for
         institutional circulars and notices that can be browsed by
         students, faculty and guardians through the portal experience.
     ''',
@@ -13,17 +13,17 @@
     'license': 'OPL-1',
     'depends': [
         'mail',
-        'unicore_base',
-        'unicore_security',
-        'unicore_student',
-        'unicore_faculty_profile',
-        'unicore_guardian',
-        'unicore_academic',
+        'oacis_base',
+        'oacis_security',
+        'oacis_student',
+        'oacis_faculty_profile',
+        'oacis_guardian',
+        'oacis_academic',
     ],
     'data': [
         'security/ir.model.access.csv',
-        'views/unicore_notice_views.xml',
-        'menus/unicore_notice_menus.xml',
+        'views/oacis_notice_views.xml',
+        'menus/oacis_notice_menus.xml',
     ],
     'installable': True,
     'application': True,

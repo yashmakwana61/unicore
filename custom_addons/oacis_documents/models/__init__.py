@@ -1,7 +1,7 @@
 from . import (
-    unicore_document,
-    unicore_document_category,
-    unicore_document_template,
-    unicore_faculty_ext,
-    unicore_student_ext,
+    oacis_document,
+    oacis_document_category,
+    oacis_document_template,
+    oacis_faculty_ext,
+    oacis_student_ext,
 )

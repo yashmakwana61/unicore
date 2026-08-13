@@ -4,8 +4,8 @@ from odoo import api, fields, models
 class EventEventExt(models.Model):
     _inherit = 'event.event'
 
-    unicore_alumni_event = fields.Boolean(
-        string='UniCore Alumni Event',
+    oacis_alumni_event = fields.Boolean(
+        string='Oacis Alumni Event',
         help='Mark this event as an alumni engagement event.',
     )
     alumni_registration_count = fields.Integer(

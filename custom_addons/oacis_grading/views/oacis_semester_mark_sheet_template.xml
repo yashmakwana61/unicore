@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="unicore_semester_mark_sheet_template">
+    <template id="oacis_semester_mark_sheet_template">
         <t t-call="web.html_container">
             <t t-foreach="report_data" t-as="ms">
-                <t t-call="unicore_grading.unicore_semester_mark_sheet_styles"/>
+                <t t-call="oacis_grading.oacis_semester_mark_sheet_styles"/>
 
                 <div class="ms-container">
                     <!-- HEADER -->
@@ -97,7 +97,7 @@
         </t>
     </template>
 
-    <template id="unicore_semester_mark_sheet_styles">
+    <template id="oacis_semester_mark_sheet_styles">
         <style>
             .ms-container {
                 font-family: Arial, 'Helvetica Neue', sans-serif;

@@ -1,8 +1,8 @@
 from . import (
-    unicore_assignment,
-    unicore_assignment_rubric,
-    unicore_assignment_submission,
-    unicore_course_offering_ext,
-    unicore_notification_template_ext,
-    unicore_student_ext,
+    oacis_assignment,
+    oacis_assignment_rubric,
+    oacis_assignment_submission,
+    oacis_course_offering_ext,
+    oacis_notification_template_ext,
+    oacis_student_ext,
 )

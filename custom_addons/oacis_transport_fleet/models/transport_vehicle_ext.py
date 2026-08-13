@@ -3,7 +3,7 @@ from odoo.exceptions import UserError
 
 
 class TransportVehicleExt(models.Model):
-    _inherit = 'unicore.transport.vehicle'
+    _inherit = 'oacis.transport.vehicle'
 
     fleet_vehicle_id = fields.Many2one(
         'fleet.vehicle', string='Fleet Vehicle', readonly=True, copy=False,
@@ -52,7 +52,7 @@ class TransportVehicleExt(models.Model):
                     'color': self.color,
                     'fuel_type': self._get_fleet_fuel_type(),
                     'company_id': self.company_id.id,
-                    'unicore_vehicle_id': self.id,
+                    'oacis_vehicle_id': self.id,
                 })
             self.with_context(_fleet_sync=True).write(
                 {'fleet_vehicle_id': fleet.id})

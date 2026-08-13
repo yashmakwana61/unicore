@@ -5,10 +5,10 @@
     <!-- TOP-LEVEL MENU: Leave Requests under Student Mgmt   -->
     <!-- ================================================== -->
 
-    <!-- Menu item under existing UniCore Students root -->
+    <!-- Menu item under existing Oacis Students root -->
     <menuitem id="menu_student_leave_request_parent"
               name="Leave Requests"
-              parent="unicore_student.menu_unicore_student_root"
+              parent="oacis_student.menu_oacis_student_root"
               sequence="20"/>
 
     <!-- ================================================== -->

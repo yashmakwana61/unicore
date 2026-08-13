@@ -1,1 +1,1 @@
-from . import unicore_notice
+from . import oacis_notice

@@ -1,13 +1,13 @@
 from odoo import api, models
 
 
-class UniCoreGradeBookReport(models.AbstractModel):
-    _name = 'report.unicore_gradebook.unicore_gradebook_template'
+class OacisGradeBookReport(models.AbstractModel):
+    _name = 'report.oacis_gradebook.oacis_gradebook_template'
     _description = 'Grade Book Mark Sheet Report'
 
     @api.model
     def _get_report_values(self, docids, data=None):
-        configs = self.env['unicore.gradebook.config'].browse(docids)
+        configs = self.env['oacis.gradebook.config'].browse(docids)
         data = data or {}
 
         report_data = []
@@ -67,7 +67,7 @@ class UniCoreGradeBookReport(models.AbstractModel):
 
         return {
             'doc_ids': docids,
-            'doc_model': 'unicore.gradebook.config',
+            'doc_model': 'oacis.gradebook.config',
             'docs': configs,
             'report_data': report_data,
             'data': data or {},

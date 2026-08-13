@@ -3,9 +3,9 @@ from odoo.exceptions import ValidationError
 
 
 class PlacementCompany(models.Model):
-    _name = 'unicore.placement.company'
+    _name = 'oacis.placement.company'
     _description = 'Placement Company'
-    _inherit = ['unicore.mixin', 'mail.thread']
+    _inherit = ['oacis.mixin', 'mail.thread']
     _order = 'name'
     _check_company_auto = True
 
@@ -16,15 +16,15 @@ class PlacementCompany(models.Model):
 
 
 class PlacementDrive(models.Model):
-    _name = 'unicore.placement.drive'
+    _name = 'oacis.placement.drive'
     _description = 'Placement Drive'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'date desc'
     _check_company_auto = True
     _rec_name = 'name'
 
     company_id = fields.Many2one(
-        'unicore.placement.company',
+        'oacis.placement.company',
         string='Company',
         required=True,
         ondelete='cascade',
@@ -38,8 +38,8 @@ class PlacementDrive(models.Model):
     )
     date = fields.Date(string='Drive Date', required=True, tracking=True)
     eligible_program_ids = fields.Many2many(
-        'unicore.program',
-        'unicore_placement_drive_program_rel',
+        'oacis.program',
+        'oacis_placement_drive_program_rel',
         'drive_id', 'program_id',
         string='Eligible Programs',
         domain="[('company_id', 'in', [institution_id, False])]",
@@ -75,15 +75,15 @@ class PlacementDrive(models.Model):
 
 
 class PlacementApplication(models.Model):
-    _name = 'unicore.placement.application'
+    _name = 'oacis.placement.application'
     _description = 'Placement Application'
-    _inherit = ['unicore.mixin', 'mail.thread']
+    _inherit = ['oacis.mixin', 'mail.thread']
     _order = 'create_date desc'
     _check_company_auto = True
     _rec_name = 'name'
 
     student_id = fields.Many2one(
-        'unicore.student',
+        'oacis.student',
         string='Student',
         required=True,
         ondelete='cascade',
@@ -96,7 +96,7 @@ class PlacementApplication(models.Model):
         store=True,
     )
     drive_id = fields.Many2one(
-        'unicore.placement.drive',
+        'oacis.placement.drive',
         string='Placement Drive',
         required=True,
         domain="[('institution_id', 'in', [company_id, False])]",

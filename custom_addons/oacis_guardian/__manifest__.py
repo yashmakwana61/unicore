@@ -1,42 +1,42 @@
 {
-    'name': 'UniCore Guardians',
+    'name': 'Oacis Guardians',
     'version': '19.0.1.0.0',
     'category': 'Education',
     'summary': 'Parent and guardian profile management '
                'with portal access',
     'description': """
         Manages guardian and parent profiles as
-        first-class records in UniCore ERP.
+        first-class records in Oacis ERP.
 
         Guardians can be linked to multiple students.
         Supports financial guarantor designation,
         communication history and portal access for
         monitoring academic progress and fee status.
 
-        DESIGN: unicore.guardian owns the relationship
-        to unicore.student via unicore.guardian.student.rel.
+        DESIGN: oacis.guardian owns the relationship
+        to oacis.student via oacis.guardian.student.rel.
         Guardians are NOT owned by students.
     """,
     'author': 'Precisefect Solutions Pvt. Ltd.',
     'website': 'https://precisefect.com',
     'license': 'OPL-1',
     'depends': [
-        'unicore_base',
-        'unicore_security',
-        'unicore_campus',
-        'unicore_academic',
-        'unicore_calendar',
-        'unicore_student',
-        'unicore_faculty_profile',
+        'oacis_base',
+        'oacis_security',
+        'oacis_campus',
+        'oacis_academic',
+        'oacis_calendar',
+        'oacis_student',
+        'oacis_faculty_profile',
     ],
     'data': [
-        'security/unicore_guardian_record_rules.xml',
+        'security/oacis_guardian_record_rules.xml',
         'security/ir.model.access.csv',
-        'data/unicore_guardian_sequence_data.xml',
-        'views/unicore_guardian_views.xml',
-        'views/unicore_guardian_student_rel_views.xml',
-        'views/unicore_student_ext_views.xml',
-        'menus/unicore_guardian_menus.xml',
+        'data/oacis_guardian_sequence_data.xml',
+        'views/oacis_guardian_views.xml',
+        'views/oacis_guardian_student_rel_views.xml',
+        'views/oacis_student_ext_views.xml',
+        'menus/oacis_guardian_menus.xml',
     ],
     'installable': True,
     'application': True,

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <!-- ACADEMIC HISTORY FORM VIEW -->
-    <record id="unicore_student_academic_history_form_view" model="ir.ui.view">
-        <field name="name">unicore.student.academic.history.form</field>
-        <field name="model">unicore.student.academic.history</field>
+    <record id="oacis_student_academic_history_form_view" model="ir.ui.view">
+        <field name="name">oacis.student.academic.history.form</field>
+        <field name="model">oacis.student.academic.history</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
@@ -54,9 +54,9 @@
     </record>
 
     <!-- ACADEMIC HISTORY TREE VIEW -->
-    <record id="unicore_student_academic_history_tree_view" model="ir.ui.view">
-        <field name="name">unicore.student.academic.history.tree</field>
-        <field name="model">unicore.student.academic.history</field>
+    <record id="oacis_student_academic_history_tree_view" model="ir.ui.view">
+        <field name="name">oacis.student.academic.history.tree</field>
+        <field name="model">oacis.student.academic.history</field>
         <field name="arch" type="xml">
             <list limit="40">
                 <field name="student_id"/>
@@ -73,9 +73,9 @@
     </record>
 
     <!-- ACADEMIC HISTORY SEARCH VIEW -->
-    <record id="unicore_student_academic_history_search_view" model="ir.ui.view">
-        <field name="name">unicore.student.academic.history.search</field>
-        <field name="model">unicore.student.academic.history</field>
+    <record id="oacis_student_academic_history_search_view" model="ir.ui.view">
+        <field name="name">oacis.student.academic.history.search</field>
+        <field name="model">oacis.student.academic.history</field>
         <field name="arch" type="xml">
             <search>
                 <field name="student_id"/>
@@ -92,11 +92,11 @@
     </record>
 
     <!-- ACADEMIC HISTORY ACTIONS -->
-    <record id="action_unicore_student_academic_history" model="ir.actions.act_window">
+    <record id="action_oacis_student_academic_history" model="ir.actions.act_window">
         <field name="name">Academic History</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">unicore.student.academic.history</field>
+        <field name="res_model">oacis.student.academic.history</field>
         <field name="view_mode">list,form</field>
-        <field name="search_view_id" ref="unicore_student_academic_history_search_view"/>
+        <field name="search_view_id" ref="oacis_student_academic_history_search_view"/>
     </record>
 </odoo>

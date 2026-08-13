@@ -16,8 +16,8 @@ import odoo
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'unit')
-class UniCoreStudentCohortRosterTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'unit')
+class OacisStudentCohortRosterTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
@@ -27,23 +27,23 @@ class UniCoreStudentCohortRosterTest(TransactionCase):
         # Deterministic legacy baseline: main company starts with NO profile.
         cls.company.institution_profile_id = False
 
-        cls.faculty = cls.env['unicore.faculty'].create({
+        cls.faculty = cls.env['oacis.faculty'].create({
             'name': 'P6 Faculty of Arts',
             'code': 'PFAC',  # faculty codes must be letters only
             'company_id': cls.company.id,
         })
-        cls.department = cls.env['unicore.department'].create({
+        cls.department = cls.env['oacis.department'].create({
             'name': 'P6 English',
             'code': 'P6ENG',
             'faculty_id': cls.faculty.id,
         })
-        cls.campus = cls.env['unicore.campus'].create({
+        cls.campus = cls.env['oacis.campus'].create({
             'name': 'P6 Main Campus',
             'code': 'P6CAMPUS',
             'company_id': cls.company.id,
         })
         cls.grade_type = cls.env.ref(
-            'unicore_academic_generic.unit_type_grade_level')
+            'oacis_academic_generic.unit_type_grade_level')
 
     def _student_vals(self, **kw):
         vals = {
@@ -61,7 +61,7 @@ class UniCoreStudentCohortRosterTest(TransactionCase):
         return vals
 
     def _legacy_program(self, code='P6LEG'):
-        return self.env['unicore.program'].create({
+        return self.env['oacis.program'].create({
             'name': 'P6 Legacy B.A.',
             'code': code,
             'program_type': 'undergraduate',
@@ -75,14 +75,14 @@ class UniCoreStudentCohortRosterTest(TransactionCase):
 
     def _school_kit(self, tag):
         self.company.institution_profile_id = self.env[
-            'unicore.institution.profile'
+            'oacis.institution.profile'
         ].create({
             'name': 'P6 School %s' % tag,
             'code': 'P6SCH%s' % tag,
             'institution_type': 'school',
             'is_legacy_university': False,
         }).id
-        return self.env['unicore.academic.unit'].create({
+        return self.env['oacis.academic.unit'].create({
             'name': 'Grade 5',
             'code': 'P6G5',
             'unit_type_id': self.grade_type.id,
@@ -90,7 +90,7 @@ class UniCoreStudentCohortRosterTest(TransactionCase):
         })
 
     def _school_program(self, code, cohort_kind, unit):
-        return self.env['unicore.program'].create({
+        return self.env['oacis.program'].create({
             'name': 'P6 School Program %s' % code,
             'code': code,
             'program_type': 'undergraduate',
@@ -106,13 +106,13 @@ class UniCoreStudentCohortRosterTest(TransactionCase):
         """Legacy members share program + batch_year."""
         self.company.institution_profile_id = False
         program = self._legacy_program()
-        s1 = self.env['unicore.student'].create(
+        s1 = self.env['oacis.student'].create(
             self._student_vals(program_id=program.id,
                                email='p6.legacy.a@example.com'))
-        s2 = self.env['unicore.student'].create(
+        s2 = self.env['oacis.student'].create(
             self._student_vals(program_id=program.id, batch_year=2025,
                                email='p6.legacy.b@example.com'))
-        s3 = self.env['unicore.student'].create(
+        s3 = self.env['oacis.student'].create(
             self._student_vals(program_id=program.id, batch_year=2024,
                                email='p6.legacy.c@example.com'))
         self.assertEqual(s1.cohort_members_count, 2)
@@ -120,7 +120,7 @@ class UniCoreStudentCohortRosterTest(TransactionCase):
         self.assertEqual(s3.cohort_members_count, 1)
         domain = s1.action_open_cohort_members()['domain']
         self.assertEqual(
-            set(self.env['unicore.student'].search(domain).ids),
+            set(self.env['oacis.student'].search(domain).ids),
             {s1.id, s2.id},
         )
 
@@ -128,19 +128,19 @@ class UniCoreStudentCohortRosterTest(TransactionCase):
         """K-12 members share program + grade level."""
         unit = self._school_kit('A')
         program = self._school_program('P6GB1', 'grade_batch', unit)
-        other_unit = self.env['unicore.academic.unit'].create({
+        other_unit = self.env['oacis.academic.unit'].create({
             'name': 'Grade 6',
             'code': 'P6G6',
             'unit_type_id': self.grade_type.id,
             'company_id': self.company.id,
         })
-        s1 = self.env['unicore.student'].create(
+        s1 = self.env['oacis.student'].create(
             self._student_vals(program_id=program.id, grade_level_id=unit.id,
                                email='p6.gb.a@example.com'))
-        s2 = self.env['unicore.student'].create(
+        s2 = self.env['oacis.student'].create(
             self._student_vals(program_id=program.id, grade_level_id=unit.id,
                                email='p6.gb.b@example.com'))
-        s3 = self.env['unicore.student'].create(
+        s3 = self.env['oacis.student'].create(
             self._student_vals(program_id=program.id,
                                grade_level_id=other_unit.id,
                                email='p6.gb.c@example.com'))
@@ -152,13 +152,13 @@ class UniCoreStudentCohortRosterTest(TransactionCase):
         """Rolling members share program + cohort start (auto-filled intake)."""
         unit = self._school_kit('B')
         program = self._school_program('P6ROLL1', 'rolling', unit)
-        s1 = self.env['unicore.student'].create(
+        s1 = self.env['oacis.student'].create(
             self._student_vals(program_id=program.id, admission_date='2025-01-10',
                                email='p6.roll.a@example.com'))
-        s2 = self.env['unicore.student'].create(
+        s2 = self.env['oacis.student'].create(
             self._student_vals(program_id=program.id, admission_date='2025-01-10',
                                email='p6.roll.b@example.com'))
-        s3 = self.env['unicore.student'].create(
+        s3 = self.env['oacis.student'].create(
             self._student_vals(program_id=program.id, admission_date='2025-03-01',
                                email='p6.roll.c@example.com'))
         # Phase 5 auto-fill means cohort_start_date follows admission_date.
@@ -172,16 +172,16 @@ class UniCoreStudentCohortRosterTest(TransactionCase):
         """action_open_cohort_members returns the same-cohort student list."""
         unit = self._school_kit('C')
         program = self._school_program('P6ROLL2', 'rolling', unit)
-        s1 = self.env['unicore.student'].create(
+        s1 = self.env['oacis.student'].create(
             self._student_vals(program_id=program.id,
                                email='p6.action.a@example.com'))
-        s2 = self.env['unicore.student'].create(
+        s2 = self.env['oacis.student'].create(
             self._student_vals(program_id=program.id,
                                email='p6.action.b@example.com'))
         action = s1.action_open_cohort_members()
-        self.assertEqual(action['res_model'], 'unicore.student')
+        self.assertEqual(action['res_model'], 'oacis.student')
         self.assertEqual(action['view_mode'], 'list,form')
         self.assertEqual(
-            set(self.env['unicore.student'].search(action['domain']).ids),
+            set(self.env['oacis.student'].search(action['domain']).ids),
             {s1.id, s2.id},
         )

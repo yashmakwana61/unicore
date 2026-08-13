@@ -14,13 +14,13 @@ DEFAULT_TEMPERATURE = 0.7
 DEFAULT_MAX_TOKENS = 2048
 
 
-class UnicoreAIProvider(models.AbstractModel):
+class OacisAIProvider(models.AbstractModel):
     """Utility abstract model that encapsulates all communication with the
     OpenCode Zen (OpenAI-compatible) API.  Any model that needs AI features
-    can call the helper methods defined here via ``self.env['unicore.ai.provider']``.
+    can call the helper methods defined here via ``self.env['oacis.ai.provider']``.
     """
-    _name = 'unicore.ai.provider'
-    _description = 'Unicore AI Provider'
+    _name = 'oacis.ai.provider'
+    _description = 'Oacis AI Provider'
 
     # ------------------------------------------------------------------
     # Configuration helpers
@@ -30,31 +30,31 @@ class UnicoreAIProvider(models.AbstractModel):
     def _get_api_key(self):
         """Return the configured API key or raise."""
         key = self.env['ir.config_parameter'].sudo().get_param(
-            'unicore_ai.api_key', default='',
+            'oacis_ai.api_key', default='',
         )
         if not key:
             raise UserError(_(
                 'OpenCode Zen API key is not configured. '
-                'Please go to Settings → Unicore AI and enter your API key.',
+                'Please go to Settings → Oacis AI and enter your API key.',
             ))
         return key
 
     @api.model
     def _get_api_url(self):
         return self.env['ir.config_parameter'].sudo().get_param(
-            'unicore_ai.api_url', default=DEFAULT_API_URL,
+            'oacis_ai.api_url', default=DEFAULT_API_URL,
         )
 
     @api.model
     def _get_model(self):
         return self.env['ir.config_parameter'].sudo().get_param(
-            'unicore_ai.model', default=DEFAULT_MODEL,
+            'oacis_ai.model', default=DEFAULT_MODEL,
         )
 
     @api.model
     def _get_temperature(self):
         val = self.env['ir.config_parameter'].sudo().get_param(
-            'unicore_ai.temperature', default=str(DEFAULT_TEMPERATURE),
+            'oacis_ai.temperature', default=str(DEFAULT_TEMPERATURE),
         )
         try:
             return float(val)
@@ -64,7 +64,7 @@ class UnicoreAIProvider(models.AbstractModel):
     @api.model
     def _get_max_tokens(self):
         val = self.env['ir.config_parameter'].sudo().get_param(
-            'unicore_ai.max_tokens', default=str(DEFAULT_MAX_TOKENS),
+            'oacis_ai.max_tokens', default=str(DEFAULT_MAX_TOKENS),
         )
         try:
             return int(val)
@@ -106,7 +106,7 @@ class UnicoreAIProvider(models.AbstractModel):
         payload.update(kwargs)
 
         _logger.info(
-            'Unicore AI → calling %s  model=%s  messages=%d',
+            'Oacis AI → calling %s  model=%s  messages=%d',
             url, model, len(messages),
         )
 
@@ -130,7 +130,7 @@ class UnicoreAIProvider(models.AbstractModel):
                 body = exc.response.text
             except Exception:
                 pass
-            _logger.error('Unicore AI HTTP error: %s — %s', exc, body)
+            _logger.error('Oacis AI HTTP error: %s — %s', exc, body)
             raise UserError(_(
                 'AI service returned an error (%(status)s). '
                 'Details: %(body)s',
@@ -147,7 +147,7 @@ class UnicoreAIProvider(models.AbstractModel):
         try:
             return data['choices'][0]['message']['content']
         except (KeyError, IndexError):
-            _logger.error('Unicore AI unexpected payload: %s', data)
+            _logger.error('Oacis AI unexpected payload: %s', data)
             raise UserError(_(
                 'The AI service returned an unexpected response structure.',
             ))
@@ -207,8 +207,8 @@ class UnicoreAIProvider(models.AbstractModel):
         system_msg = {
             'role': 'system',
             'content': (
-                'You are Unicore AI, a helpful and friendly assistant '
-                'integrated into the Unicore Education Management System. '
+                'You are Oacis AI, a helpful and friendly assistant '
+                'integrated into the Oacis Education Management System. '
                 'Answer questions about academics, administration, '
                 'assignments, exams, fees, or any other education-related '
                 'topics. Be concise and professional.'

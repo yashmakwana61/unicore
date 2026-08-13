@@ -2,9 +2,9 @@
 <odoo>
 
     <!-- Scholarship Award List View -->
-    <record id="view_unicore_scholarship_award_list" model="ir.ui.view">
-        <field name="name">unicore.scholarship.award.list</field>
-        <field name="model">unicore.scholarship.award</field>
+    <record id="view_oacis_scholarship_award_list" model="ir.ui.view">
+        <field name="name">oacis.scholarship.award.list</field>
+        <field name="model">oacis.scholarship.award</field>
         <field name="arch" type="xml">
             <list string="Scholarship Awards">
                 <field name="award_number"/>
@@ -23,9 +23,9 @@
     </record>
 
     <!-- Scholarship Award Form View -->
-    <record id="view_unicore_scholarship_award_form" model="ir.ui.view">
-        <field name="name">unicore.scholarship.award.form</field>
-        <field name="model">unicore.scholarship.award</field>
+    <record id="view_oacis_scholarship_award_form" model="ir.ui.view">
+        <field name="name">oacis.scholarship.award.form</field>
+        <field name="model">oacis.scholarship.award</field>
         <field name="arch" type="xml">
             <form string="Scholarship Award">
                 <header>
@@ -74,9 +74,9 @@
     </record>
 
     <!-- Scholarship Award Action -->
-    <record id="action_unicore_scholarship_award" model="ir.actions.act_window">
+    <record id="action_oacis_scholarship_award" model="ir.actions.act_window">
         <field name="name">Scholarship Awards</field>
-        <field name="res_model">unicore.scholarship.award</field>
+        <field name="res_model">oacis.scholarship.award</field>
         <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

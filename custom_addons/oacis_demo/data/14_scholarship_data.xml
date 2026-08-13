@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data noupdate="0">
-    <record id="uc_demo_scholar_program_merit" model="unicore.scholarship.program">
+    <record id="uc_demo_scholar_program_merit" model="oacis.scholarship.program">
       <field name="name">Merit Scholarship</field>
       <field name="code">MERIT-2026</field>
       <field name="company_id" ref="base.main_company"/>
@@ -15,7 +15,7 @@
       <field name="program_state">open</field>
     </record>
 
-    <record id="uc_demo_scholar_program_sports" model="unicore.scholarship.program">
+    <record id="uc_demo_scholar_program_sports" model="oacis.scholarship.program">
       <field name="name">Sports Excellence Scholarship</field>
       <field name="code">SPORTS-2026</field>
       <field name="company_id" ref="base.main_company"/>
@@ -29,28 +29,28 @@
       <field name="program_state">open</field>
     </record>
 
-    <record id="uc_demo_scholar_app_arav" model="unicore.scholarship.application">
+    <record id="uc_demo_scholar_app_arav" model="oacis.scholarship.application">
       <field name="student_id" ref="uc_demo_student_arav"/>
       <field name="scholarship_program_id" ref="uc_demo_scholar_program_merit"/>
       <field name="company_id" ref="base.main_company"/>
       <field name="application_state">approved</field>
     </record>
 
-    <record id="uc_demo_scholar_app_diya" model="unicore.scholarship.application">
+    <record id="uc_demo_scholar_app_diya" model="oacis.scholarship.application">
       <field name="student_id" ref="uc_demo_student_diya"/>
       <field name="scholarship_program_id" ref="uc_demo_scholar_program_merit"/>
       <field name="company_id" ref="base.main_company"/>
       <field name="application_state">approved</field>
     </record>
 
-    <record id="uc_demo_scholar_app_aryan" model="unicore.scholarship.application">
+    <record id="uc_demo_scholar_app_aryan" model="oacis.scholarship.application">
       <field name="student_id" ref="uc_demo_student_aryan"/>
       <field name="scholarship_program_id" ref="uc_demo_scholar_program_sports"/>
       <field name="company_id" ref="base.main_company"/>
       <field name="application_state">submitted</field>
     </record>
 
-    <record id="uc_demo_scholar_award_arav" model="unicore.scholarship.award">
+    <record id="uc_demo_scholar_award_arav" model="oacis.scholarship.award">
       <field name="application_id" ref="uc_demo_scholar_app_arav"/>
       <field name="student_id" ref="uc_demo_student_arav"/>
       <field name="semester_id" ref="uc_demo_sem_odd"/>
@@ -59,7 +59,7 @@
       <field name="award_state">disbursed</field>
     </record>
 
-    <record id="uc_demo_scholar_award_diya" model="unicore.scholarship.award">
+    <record id="uc_demo_scholar_award_diya" model="oacis.scholarship.award">
       <field name="application_id" ref="uc_demo_scholar_app_diya"/>
       <field name="student_id" ref="uc_demo_student_diya"/>
       <field name="semester_id" ref="uc_demo_sem_odd"/>

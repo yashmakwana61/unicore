@@ -1,7 +1,7 @@
 """
-UniCore Fee Invoice — Online Payment Extension
+Oacis Fee Invoice — Online Payment Extension
 
-Bridges a UniCore fee invoice to Odoo's native online payment flow.
+Bridges a Oacis fee invoice to Odoo's native online payment flow.
 
 The fee invoice already produces a posted GL account.move
 (`account_move_id`). The `account_payment` module natively supports paying
@@ -14,8 +14,8 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
-class UniCoreFeeInvoicePaymentExt(models.Model):
-    _inherit = 'unicore.fee.invoice'
+class OacisFeeInvoicePaymentExt(models.Model):
+    _inherit = 'oacis.fee.invoice'
 
     payment_tx_count = fields.Integer(
         string='Online Payments',

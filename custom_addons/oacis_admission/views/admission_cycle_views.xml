@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <record id="admission_cycle_seat_list_view" model="ir.ui.view">
-    <field name="name">unicore.admission.cycle.seat.list</field>
-    <field name="model">unicore.admission.cycle.seat</field>
+    <field name="name">oacis.admission.cycle.seat.list</field>
+    <field name="model">oacis.admission.cycle.seat</field>
     <field name="arch" type="xml">
       <list editable="bottom">
         <field name="program_id" options="{'no_create_edit': True}"/>
@@ -14,8 +14,8 @@
     </field>
   </record>
   <record id="admission_cycle_form_view" model="ir.ui.view">
-    <field name="name">unicore.admission.cycle.form</field>
-    <field name="model">unicore.admission.cycle</field>
+    <field name="name">oacis.admission.cycle.form</field>
+    <field name="model">oacis.admission.cycle</field>
     <field name="arch" type="xml">
       <form>
         <header>
@@ -74,8 +74,8 @@
     </field>
   </record>
   <record id="admission_cycle_list_view" model="ir.ui.view">
-    <field name="name">unicore.admission.cycle.list</field>
-    <field name="model">unicore.admission.cycle</field>
+    <field name="name">oacis.admission.cycle.list</field>
+    <field name="model">oacis.admission.cycle</field>
     <field name="arch" type="xml">
       <list>
         <field name="name"/>
@@ -90,8 +90,8 @@
     </field>
   </record>
   <record id="admission_cycle_kanban_view" model="ir.ui.view">
-    <field name="name">unicore.admission.cycle.kanban</field>
-    <field name="model">unicore.admission.cycle</field>
+    <field name="name">oacis.admission.cycle.kanban</field>
+    <field name="model">oacis.admission.cycle</field>
     <field name="arch" type="xml">
       <kanban class="o_kanban_small_cards">
         <field name="id"/>
@@ -149,8 +149,8 @@
     </field>
   </record>
   <record id="admission_cycle_search_view" model="ir.ui.view">
-    <field name="name">unicore.admission.cycle.search</field>
-    <field name="model">unicore.admission.cycle</field>
+    <field name="name">oacis.admission.cycle.search</field>
+    <field name="model">oacis.admission.cycle</field>
     <field name="arch" type="xml">
       <search>
         <field name="name"/>
@@ -162,9 +162,9 @@
       </search>
     </field>
   </record>
-  <record id="action_unicore_admission_cycle" model="ir.actions.act_window">
+  <record id="action_oacis_admission_cycle" model="ir.actions.act_window">
     <field name="name">Admission Cycles</field>
-    <field name="res_model">unicore.admission.cycle</field>
+    <field name="res_model">oacis.admission.cycle</field>
     <field name="view_mode">kanban,list,form</field>
     <field name="search_view_id" ref="admission_cycle_search_view"/>
     <field name="help" type="html">

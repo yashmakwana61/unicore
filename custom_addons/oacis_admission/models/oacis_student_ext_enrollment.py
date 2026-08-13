@@ -1,11 +1,11 @@
 from odoo import _, api, fields, models
 
 
-class UniCoreStudentEnrollmentExt(models.Model):
-    _inherit = 'unicore.student'
+class OacisStudentEnrollmentExt(models.Model):
+    _inherit = 'oacis.student'
 
     enrollment_ids = fields.One2many(
-        comodel_name='unicore.enrollment',
+        comodel_name='oacis.enrollment',
         inverse_name='student_id',
         string='Enrollments',
     )
@@ -52,7 +52,7 @@ class UniCoreStudentEnrollmentExt(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Enrollments'),
-            'res_model': 'unicore.enrollment',
+            'res_model': 'oacis.enrollment',
             'view_mode': 'list,form',
             'domain': [('student_id', '=', self.id)],
             'context': {

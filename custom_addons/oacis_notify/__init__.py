@@ -1,7 +1,7 @@
 """
-UniCore Notifications Module
+Oacis Notifications Module
 Unified multi-channel notification engine for
-UniCore ERP. Supports email via Odoo mail.mail,
+Oacis ERP. Supports email via Odoo mail.mail,
 WhatsApp Business API via HTTP, and in-app
 messages via Odoo chatter.
 """

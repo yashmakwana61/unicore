@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-  <record id="view_unicore_student_form_inherit_guardian" model="ir.ui.view">
-    <field name="name">unicore.student.form.inherit.guardian</field>
-    <field name="model">unicore.student</field>
-    <field name="inherit_id" ref="unicore_student.unicore_student_form_view"/>
+  <record id="view_oacis_student_form_inherit_guardian" model="ir.ui.view">
+    <field name="name">oacis.student.form.inherit.guardian</field>
+    <field name="model">oacis.student</field>
+    <field name="inherit_id" ref="oacis_student.oacis_student_form_view"/>
     <field name="arch" type="xml">
       <xpath expr="//div[@name='button_box']" position="inside">
         <button id="stat_button_guardians" name="action_open_guardians" type="object" class="oe_stat_button" icon="fa-users">

@@ -1,27 +1,27 @@
 {
-    'name': 'UniCore Grade Book',
+    'name': 'Oacis Grade Book',
     'version': '19.0.1.1.0',
     'category': 'Education',
     'summary': 'Per-course assignment grade book with CA weighting, integrated with Grading & Results',
     'description': """
-        UniCore Grade Book
+        Oacis Grade Book
         ==================
 
         A running, per-course view of all assignment scores across the
         semester, with weighting configuration (e.g. assignments = 20%
         of the continuous assessment / internal marks). Deeply
-        integrated with the ``unicore_grading`` module: the grade book
+        integrated with the ``oacis_grading`` module: the grade book
         rolls up graded assignment submissions and proposes the
         weighted CA component for the existing
-        ``unicore.grade.entry.internal_marks`` field.
+        ``oacis.grade.entry.internal_marks`` field.
 
         Architecture note
         -----------------
-        The grade book models reference ``unicore.assignment`` records
-        (score snapshots per assignment). ``unicore_assignment`` sits
-        above ``unicore_grading`` in the module dependency graph
+        The grade book models reference ``oacis.assignment`` records
+        (score snapshots per assignment). ``oacis_assignment`` sits
+        above ``oacis_grading`` in the module dependency graph
         (``assignment -> notify -> fees -> grading``), so these models
-        cannot physically live inside ``unicore_grading`` without a
+        cannot physically live inside ``oacis_grading`` without a
         dependency cycle. This module therefore remains the host for
         the grade book, while all of it is fully integrated with the
         grading module's data (grade entries, state machine, reports).
@@ -56,19 +56,19 @@
     'website': 'https://precisefect.com',
     'license': 'OPL-1',
     'depends': [
-        'unicore_assignment',
-        'unicore_grading',
+        'oacis_assignment',
+        'oacis_grading',
     ],
     'data': [
-        'security/unicore_gradebook_record_rules.xml',
+        'security/oacis_gradebook_record_rules.xml',
         'security/ir.model.access.csv',
-        'data/unicore_gradebook_report_action.xml',
-        'views/unicore_gradebook_views.xml',
-        'views/unicore_gradebook_student_line_views.xml',
-        'views/unicore_gradebook_assignment_line_views.xml',
-        'views/unicore_course_offering_ext_views.xml',
-        'views/unicore_gradebook_template.xml',
-        'menus/unicore_gradebook_menus.xml',
+        'data/oacis_gradebook_report_action.xml',
+        'views/oacis_gradebook_views.xml',
+        'views/oacis_gradebook_student_line_views.xml',
+        'views/oacis_gradebook_assignment_line_views.xml',
+        'views/oacis_course_offering_ext_views.xml',
+        'views/oacis_gradebook_template.xml',
+        'menus/oacis_gradebook_menus.xml',
     ],
     'installable': True,
     'application': True,

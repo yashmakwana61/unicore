@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data noupdate="0">
-    <record id="uc_demo_student_arav" model="unicore.student">
+    <record id="uc_demo_student_arav" model="oacis.student">
       <field name="name">Aarav</field>
       <field name="last_name">Patel</field>
       <field name="gender">male</field>
@@ -18,7 +18,7 @@
       <field name="specialisation_id" ref="uc_demo_spec_se"/>
     </record>
 
-    <record id="uc_demo_student_diya" model="unicore.student">
+    <record id="uc_demo_student_diya" model="oacis.student">
       <field name="name">Diya</field>
       <field name="last_name">Shah</field>
       <field name="gender">female</field>
@@ -35,7 +35,7 @@
       <field name="specialisation_id" ref="uc_demo_spec_ai"/>
     </record>
 
-    <record id="uc_demo_student_kabir" model="unicore.student">
+    <record id="uc_demo_student_kabir" model="oacis.student">
       <field name="name">Kabir</field>
       <field name="last_name">Joshi</field>
       <field name="gender">male</field>
@@ -51,7 +51,7 @@
       <field name="student_state">enrolled</field>
     </record>
 
-    <record id="uc_demo_student_myra" model="unicore.student">
+    <record id="uc_demo_student_myra" model="oacis.student">
       <field name="name">Myra</field>
       <field name="last_name">Desai</field>
       <field name="gender">female</field>
@@ -67,7 +67,7 @@
       <field name="student_state">enrolled</field>
     </record>
 
-    <record id="uc_demo_student_aryan" model="unicore.student">
+    <record id="uc_demo_student_aryan" model="oacis.student">
       <field name="name">Aryan</field>
       <field name="last_name">Mehta</field>
       <field name="gender">male</field>
@@ -83,7 +83,7 @@
       <field name="student_state">enrolled</field>
     </record>
 
-    <record id="uc_demo_student_vivaan" model="unicore.student">
+    <record id="uc_demo_student_vivaan" model="oacis.student">
       <field name="name">Vivaan</field>
       <field name="last_name">Chauhan</field>
       <field name="gender">male</field>
@@ -99,7 +99,7 @@
       <field name="student_state">enrolled</field>
     </record>
 
-    <record id="uc_demo_student_zara" model="unicore.student">
+    <record id="uc_demo_student_zara" model="oacis.student">
       <field name="name">Zara</field>
       <field name="last_name">Bhatt</field>
       <field name="gender">female</field>
@@ -115,7 +115,7 @@
       <field name="student_state">enrolled</field>
     </record>
 
-    <record id="uc_demo_student_rohan" model="unicore.student">
+    <record id="uc_demo_student_rohan" model="oacis.student">
       <field name="name">Rohan</field>
       <field name="last_name">Sharma</field>
       <field name="gender">male</field>
@@ -131,7 +131,7 @@
       <field name="student_state">enrolled</field>
     </record>
 
-    <record id="uc_demo_student_nisha" model="unicore.student">
+    <record id="uc_demo_student_nisha" model="oacis.student">
       <field name="name">Nisha</field>
       <field name="last_name">Verma</field>
       <field name="gender">female</field>
@@ -147,7 +147,7 @@
       <field name="student_state">enrolled</field>
     </record>
 
-    <record id="uc_demo_student_arjun" model="unicore.student">
+    <record id="uc_demo_student_arjun" model="oacis.student">
       <field name="name">Arjun</field>
       <field name="last_name">Singh</field>
       <field name="gender">male</field>
@@ -163,21 +163,21 @@
       <field name="student_state">enrolled</field>
     </record>
 
-    <record id="uc_demo_contact_arav" model="unicore.student.emergency.contact">
+    <record id="uc_demo_contact_arav" model="oacis.student.emergency.contact">
       <field name="student_id" ref="uc_demo_student_arav"/>
       <field name="name">Neha Patel</field>
       <field name="relationship">mother</field>
       <field name="mobile">+919000000901</field>
     </record>
 
-    <record id="uc_demo_contact_diya" model="unicore.student.emergency.contact">
+    <record id="uc_demo_contact_diya" model="oacis.student.emergency.contact">
       <field name="student_id" ref="uc_demo_student_diya"/>
       <field name="name">Rajesh Shah</field>
       <field name="relationship">father</field>
       <field name="mobile">+919000000902</field>
     </record>
 
-    <record id="uc_demo_contact_rohan" model="unicore.student.emergency.contact">
+    <record id="uc_demo_contact_rohan" model="oacis.student.emergency.contact">
       <field name="student_id" ref="uc_demo_student_rohan"/>
       <field name="name">Priya Sharma</field>
       <field name="relationship">mother</field>

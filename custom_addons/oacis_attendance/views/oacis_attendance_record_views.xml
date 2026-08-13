@@ -2,9 +2,9 @@
 <odoo>
     <data>
 
-        <record id="view_unicore_attendance_record_form" model="ir.ui.view">
-            <field name="name">unicore.attendance.record.form</field>
-            <field name="model">unicore.attendance.record</field>
+        <record id="view_oacis_attendance_record_form" model="ir.ui.view">
+            <field name="name">oacis.attendance.record.form</field>
+            <field name="model">oacis.attendance.record</field>
             <field name="arch" type="xml">
                 <form>
                     <header>
@@ -50,9 +50,9 @@
             </field>
         </record>
 
-        <record id="view_unicore_attendance_record_list" model="ir.ui.view">
-            <field name="name">unicore.attendance.record.list</field>
-            <field name="model">unicore.attendance.record</field>
+        <record id="view_oacis_attendance_record_list" model="ir.ui.view">
+            <field name="name">oacis.attendance.record.list</field>
+            <field name="model">oacis.attendance.record</field>
             <field name="arch" type="xml">
                 <list decoration-danger="shortage_alert == True" decoration-warning="warning_alert == True" decoration-success="status == 'present'" decoration-muted="status == 'excused'">
                     <field name="session_date"/>
@@ -66,9 +66,9 @@
             </field>
         </record>
 
-        <record id="view_unicore_attendance_record_search" model="ir.ui.view">
-            <field name="name">unicore.attendance.record.search</field>
-            <field name="model">unicore.attendance.record</field>
+        <record id="view_oacis_attendance_record_search" model="ir.ui.view">
+            <field name="name">oacis.attendance.record.search</field>
+            <field name="model">oacis.attendance.record</field>
             <field name="arch" type="xml">
                 <search>
                     <field name="student_id"/>
@@ -92,23 +92,23 @@
             </field>
         </record>
 
-        <record id="action_unicore_attendance_record" model="ir.actions.act_window">
+        <record id="action_oacis_attendance_record" model="ir.actions.act_window">
             <field name="name">Attendance Records</field>
-            <field name="res_model">unicore.attendance.record</field>
+            <field name="res_model">oacis.attendance.record</field>
             <field name="view_mode">list,form</field>
         </record>
 
-        <record id="action_unicore_attendance_shortage" model="ir.actions.act_window">
+        <record id="action_oacis_attendance_shortage" model="ir.actions.act_window">
             <field name="name">Attendance Shortage Alerts</field>
-            <field name="res_model">unicore.attendance.record</field>
+            <field name="res_model">oacis.attendance.record</field>
             <field name="view_mode">list,form</field>
             <field name="domain">[('shortage_alert','=',True)]</field>
             <field name="context">{'search_default_group_course': 1}</field>
         </record>
 
-        <record id="action_unicore_attendance_my" model="ir.actions.act_window">
+        <record id="action_oacis_attendance_my" model="ir.actions.act_window">
             <field name="name">My Attendance</field>
-            <field name="res_model">unicore.attendance.record</field>
+            <field name="res_model">oacis.attendance.record</field>
             <field name="view_mode">list,form</field>
             <field name="domain">[('student_id.partner_id.user_ids','in',[uid])]</field>
             <field name="context">{'search_default_group_course': 1}</field>

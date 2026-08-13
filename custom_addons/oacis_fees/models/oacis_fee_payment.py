@@ -7,10 +7,10 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreFeePayment(models.Model):
-    _name = 'unicore.fee.payment'
+class OacisFeePayment(models.Model):
+    _name = 'oacis.fee.payment'
     _description = 'Fee Payment (Archived - Use GL Invoicing)'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'payment_date desc, id desc'
     _check_company_auto = True
     _rec_name = 'display_name'
@@ -42,7 +42,7 @@ class UniCoreFeePayment(models.Model):
         index=True,
     )
     invoice_id = fields.Many2one(
-        comodel_name='unicore.fee.invoice',
+        comodel_name='oacis.fee.invoice',
         string='Invoice',
         required=True,
         ondelete='restrict',
@@ -136,7 +136,7 @@ class UniCoreFeePayment(models.Model):
         for vals in vals_list:
             if not vals.get('receipt_number'):
                 vals['receipt_number'] = (
-                    self.env['ir.sequence'].next_by_code('unicore.fee.payment') or '/'
+                    self.env['ir.sequence'].next_by_code('oacis.fee.payment') or '/'
                 )
         return super().create(vals_list)
 

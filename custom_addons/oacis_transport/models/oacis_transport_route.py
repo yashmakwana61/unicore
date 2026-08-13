@@ -1,5 +1,5 @@
 """
-UniCore Transport Route Model
+Oacis Transport Route Model
 A named transport route operated by the university
 with ordered stops, distance and timing information.
 A route has one primary vehicle assigned.
@@ -12,10 +12,10 @@ from odoo import _, api, fields, models
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreTransportRoute(models.Model):
-    _name = 'unicore.transport.route'
+class OacisTransportRoute(models.Model):
+    _name = 'oacis.transport.route'
     _description = 'Transport Route'
-    _inherit = ['unicore.mixin', 'mail.thread']
+    _inherit = ['oacis.mixin', 'mail.thread']
     _order = 'name'
     _check_company_auto = True
 
@@ -39,14 +39,14 @@ class UniCoreTransportRoute(models.Model):
         ondelete='restrict',
     )
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus',
+        comodel_name='oacis.campus',
         string='Campus',
         required=True,
         ondelete='restrict',
         domain="[('company_id','=',company_id)]",
     )
     vehicle_id = fields.Many2one(
-        comodel_name='unicore.transport.vehicle',
+        comodel_name='oacis.transport.vehicle',
         string='Assigned Vehicle',
         ondelete='set null',
         domain="[('vehicle_state','=','active'),"
@@ -107,7 +107,7 @@ class UniCoreTransportRoute(models.Model):
     # --- STOPS ---
 
     stop_ids = fields.One2many(
-        comodel_name='unicore.transport.stop',
+        comodel_name='oacis.transport.stop',
         inverse_name='route_id',
         string='Stops',
     )
@@ -135,7 +135,7 @@ class UniCoreTransportRoute(models.Model):
             )
 
     pass_ids = fields.One2many(
-        comodel_name='unicore.transport.pass',
+        comodel_name='oacis.transport.pass',
         inverse_name='route_id',
         string='Passes',
     )
@@ -169,7 +169,7 @@ class UniCoreTransportRoute(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('%s Passes') % self.name,
-            'res_model': 'unicore.transport.pass',
+            'res_model': 'oacis.transport.pass',
             'view_mode': 'list,form',
             'domain': [('route_id', '=', self.id)],
             'context': {
@@ -178,8 +178,8 @@ class UniCoreTransportRoute(models.Model):
         }
 
 
-class UniCoreTransportStop(models.Model):
-    _name = 'unicore.transport.stop'
+class OacisTransportStop(models.Model):
+    _name = 'oacis.transport.stop'
     _description = 'Transport Route Stop'
     _order = 'route_id, sequence'
     _check_company_auto = True
@@ -190,7 +190,7 @@ class UniCoreTransportStop(models.Model):
         default=lambda self: self.env.company,
     )
     route_id = fields.Many2one(
-        comodel_name='unicore.transport.route',
+        comodel_name='oacis.transport.route',
         string='Route',
         required=True,
         ondelete='cascade',

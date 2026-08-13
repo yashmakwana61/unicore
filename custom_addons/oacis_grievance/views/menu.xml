@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <menuitem id="menu_unicore_grievance_root"
+        <menuitem id="menu_oacis_grievance_root"
                   name="Grievances"
                   
                   sequence="60"/>
 
-        <menuitem id="menu_unicore_grievance_requests"
+        <menuitem id="menu_oacis_grievance_requests"
                   name="Requests"
-                  parent="menu_unicore_grievance_root"
-                  action="action_unicore_grievance_request"
+                  parent="menu_oacis_grievance_root"
+                  action="action_oacis_grievance_request"
                   sequence="10"/>
 
-        <menuitem id="menu_unicore_grievance_config"
+        <menuitem id="menu_oacis_grievance_config"
                   name="Configuration"
-                  parent="menu_unicore_grievance_root"
+                  parent="menu_oacis_grievance_root"
                   sequence="100"/>
 
-        <menuitem id="menu_unicore_grievance_categories"
+        <menuitem id="menu_oacis_grievance_categories"
                   name="Categories"
-                  parent="menu_unicore_grievance_config"
-                  action="action_unicore_grievance_category"
+                  parent="menu_oacis_grievance_config"
+                  action="action_oacis_grievance_category"
                   sequence="10"/>
     </data>
 </odoo>

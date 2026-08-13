@@ -1,5 +1,5 @@
 """
-UniCore Exam — Models Package
+Oacis Exam — Models Package
 """
 from .. import reports
-from . import unicore_exam_hall_ticket, unicore_exam_schedule, unicore_exam_seating
+from . import oacis_exam_hall_ticket, oacis_exam_schedule, oacis_exam_seating

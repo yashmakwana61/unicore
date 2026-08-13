@@ -9,9 +9,9 @@ import { patch } from "@web/core/utils/patch";
 import { NavBar } from "@web/webclient/navbar/navbar";
 import { user } from "@web/core/user";
 
-const TOGGLE_EVENT = "UNICORE_TOGGLE_SIDEBAR";
-const START_MENU_TOGGLE_EVENT = "UNICORE_TOGGLE_START_MENU";
-const MINI_STORAGE_KEY = "unicore_sidebar_mini";
+const TOGGLE_EVENT = "OACIS_TOGGLE_SIDEBAR";
+const START_MENU_TOGGLE_EVENT = "OACIS_TOGGLE_START_MENU";
+const MINI_STORAGE_KEY = "oacis_sidebar_mini";
 
 // Deterministic pastel palette for app tiles that have no web icon.
 const LETTER_COLORS = [
@@ -35,8 +35,8 @@ const LETTER_COLORS = [
  * mode it appears as a fly-out. The "App & Menu Finder" input at the top
  * filters the whole menu tree as you type, with no keyboard shortcut needed.
  */
-export class UnicoreSidebar extends Component {
-    static template = "unicore_design.Sidebar";
+export class OacisSidebar extends Component {
+    static template = "oacis_design.Sidebar";
     static props = {};
 
     setup() {
@@ -83,7 +83,7 @@ export class UnicoreSidebar extends Component {
             () => [this.state.focusSearch]
         );
         onWillUnmount(() =>
-            document.documentElement.removeAttribute("data-unicore-sidebar")
+            document.documentElement.removeAttribute("data-oacis-sidebar")
         );
     }
 
@@ -281,27 +281,27 @@ export class UnicoreSidebar extends Component {
         const root = document.documentElement;
         if (this.ui.isSmall) {
             if (this.state.open) {
-                root.setAttribute("data-unicore-sidebar", "open");
+                root.setAttribute("data-oacis-sidebar", "open");
             } else {
-                root.removeAttribute("data-unicore-sidebar");
+                root.removeAttribute("data-oacis-sidebar");
             }
         } else if (this.state.mini) {
-            root.setAttribute("data-unicore-sidebar", "mini");
+            root.setAttribute("data-oacis-sidebar", "mini");
         } else {
-            root.removeAttribute("data-unicore-sidebar");
+            root.removeAttribute("data-oacis-sidebar");
         }
     }
 }
 
-registry.category("main_components").add("UnicoreSidebar", {
-    Component: UnicoreSidebar,
+registry.category("main_components").add("OacisSidebar", {
+    Component: OacisSidebar,
 });
 
 // NavBar entry points: the desktop apps-menu button and the mobile burger both
 // toggle the sidebar (the burger is patched to open our drawer instead of the
 // built-in one).
 patch(NavBar.prototype, {
-    _toggleUnicoreSidebar() {
+    _toggleOacisSidebar() {
         this.env.bus.trigger(TOGGLE_EVENT);
     },
     _openAppMenuSidebar() {

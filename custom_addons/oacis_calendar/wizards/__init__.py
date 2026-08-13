@@ -1,1 +1,1 @@
-from . import unicore_generate_weeks_wizard
+from . import oacis_generate_weeks_wizard

@@ -5,10 +5,10 @@
     <!-- EXTEND STUDENT FORM                                           -->
     <!-- Add enrollments smart button + Enrollments notebook tab       -->
     <!-- ============================================================ -->
-    <record id="view_unicore_student_form_ext_enrollment" model="ir.ui.view">
-      <field name="name">unicore.student.form.ext.enrollment</field>
-      <field name="model">unicore.student</field>
-      <field name="inherit_id" ref="unicore_student.unicore_student_form_view"/>
+    <record id="view_oacis_student_form_ext_enrollment" model="ir.ui.view">
+      <field name="name">oacis.student.form.ext.enrollment</field>
+      <field name="model">oacis.student</field>
+      <field name="inherit_id" ref="oacis_student.oacis_student_form_view"/>
       <field name="arch" type="xml">
         <!-- Add enrollments stat button to button_box -->
         <xpath expr="//div[@name='button_box']" position="inside">
@@ -18,7 +18,7 @@
         </xpath>
         <!-- Add Enrollments notebook page at the end of the notebook -->
         <xpath expr="//notebook" position="inside">
-          <page string="Enrollments" groups="unicore_base.group_unicore_registrar" name="enrollments">
+          <page string="Enrollments" groups="oacis_base.group_oacis_registrar" name="enrollments">
             <field name="enrollment_ids" editable="0">
               <list>
                 <field name="course_id"/>

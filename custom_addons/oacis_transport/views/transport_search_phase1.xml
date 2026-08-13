@@ -6,8 +6,8 @@
          ===================================================== -->
     <record id="view_transport_vehicle_search_phase1_filters"
             model="ir.ui.view">
-        <field name="name">unicore.transport.vehicle.search.phase1</field>
-        <field name="model">unicore.transport.vehicle</field>
+        <field name="name">oacis.transport.vehicle.search.phase1</field>
+        <field name="model">oacis.transport.vehicle</field>
         <field name="arch" type="xml">
             <search>
                 <field name="name"/>
@@ -41,8 +41,8 @@
          ===================================================== -->
     <record id="view_transport_route_search_phase1_filters"
             model="ir.ui.view">
-        <field name="name">unicore.transport.route.search.phase1</field>
-        <field name="model">unicore.transport.route</field>
+        <field name="name">oacis.transport.route.search.phase1</field>
+        <field name="model">oacis.transport.route</field>
         <field name="arch" type="xml">
             <search>
                 <field name="code"/>
@@ -72,9 +72,9 @@
          ===================================================== -->
     <record id="view_transport_pass_search_phase1_filters"
             model="ir.ui.view">
-        <field name="name">unicore.transport.pass.search.phase1</field>
-        <field name="model">unicore.transport.pass</field>
-        <field name="inherit_id" ref="unicore_transport.view_unicore_transport_pass_search"/>
+        <field name="name">oacis.transport.pass.search.phase1</field>
+        <field name="model">oacis.transport.pass</field>
+        <field name="inherit_id" ref="oacis_transport.view_oacis_transport_pass_search"/>
         <field name="arch" type="xml">
 
             <xpath expr="//filter[@name='expired']" position="after">
@@ -92,9 +92,9 @@
          ===================================================== -->
     <record id="view_transport_trip_search_phase1_filters"
             model="ir.ui.view">
-        <field name="name">unicore.transport.trip.search.phase1</field>
-        <field name="model">unicore.transport.trip</field>
-        <field name="inherit_id" ref="unicore_transport.view_unicore_transport_trip_search"/>
+        <field name="name">oacis.transport.trip.search.phase1</field>
+        <field name="model">oacis.transport.trip</field>
+        <field name="inherit_id" ref="oacis_transport.view_oacis_transport_trip_search"/>
         <field name="arch" type="xml">
 
             <xpath expr="//filter[@name='scheduled']" position="after">

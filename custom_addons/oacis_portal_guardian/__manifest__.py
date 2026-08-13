@@ -1,11 +1,11 @@
 {
-    'name': 'UniCore Guardian Portal',
+    'name': 'Oacis Guardian Portal',
     'version': '19.0.1.0.0',
     'category': 'Education',
     'summary': 'Guardian self-service portal for ward '
                'academic and fee monitoring',
     'description': """
-        UniCore Guardian Portal provides web-based
+        Oacis Guardian Portal provides web-based
         self-service access for guardians:
 
         - Dashboard: overview of all wards with
@@ -20,7 +20,7 @@
         - Exam Schedule: upcoming exam schedules
           and hall ticket status
 
-        Guardian access via /my/unicore/guardian/
+        Guardian access via /my/oacis/guardian/
         All data access gated by permission flags
         set on the guardian-student relationship.
     """,
@@ -28,14 +28,14 @@
     'website': 'https://precisefect.com',
     'license': 'OPL-1',
     'depends': [
-        'unicore_base', 'unicore_security',
-        'unicore_campus', 'unicore_academic',
-        'unicore_calendar', 'unicore_student',
-        'unicore_guardian', 'unicore_curriculum',
-        'unicore_admission', 'unicore_attendance',
-        'unicore_exam', 'unicore_grading',
-        'unicore_fees', 'unicore_notify',
-        'unicore_portal_student', 'portal',
+        'oacis_base', 'oacis_security',
+        'oacis_campus', 'oacis_academic',
+        'oacis_calendar', 'oacis_student',
+        'oacis_guardian', 'oacis_curriculum',
+        'oacis_admission', 'oacis_attendance',
+        'oacis_exam', 'oacis_grading',
+        'oacis_fees', 'oacis_notify',
+        'oacis_portal_student', 'portal',
     ],
     'data': [
         'security/ir.model.access.csv',

@@ -7,7 +7,7 @@ class AIGenerateWizard(models.TransientModel):
 
     Can be opened from any form view via a server action or button.
     """
-    _name = 'unicore.ai.generate.wizard'
+    _name = 'oacis.ai.generate.wizard'
     _description = 'AI Text Generator'
 
     action = fields.Selection(
@@ -45,7 +45,7 @@ class AIGenerateWizard(models.TransientModel):
     def action_generate(self):
         """Call the AI provider and populate the result field."""
         self.ensure_one()
-        provider = self.env['unicore.ai.provider']
+        provider = self.env['oacis.ai.provider']
 
         if self.action == 'generate':
             if not self.prompt:

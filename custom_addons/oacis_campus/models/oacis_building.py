@@ -7,12 +7,12 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UnicoreBuilding(models.Model):
+class OacisBuilding(models.Model):
     """Represents a building within a campus."""
 
-    _name = 'unicore.building'
+    _name = 'oacis.building'
     _description = 'Campus Building'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'campus_id, sequence, name'
     _check_company_auto = True
 
@@ -28,7 +28,7 @@ class UnicoreBuilding(models.Model):
         help='Short code e.g. BLK-A, SCI-1',
     )
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus',
+        comodel_name='oacis.campus',
         string='Campus',
         required=True,
         ondelete='restrict',
@@ -46,7 +46,7 @@ class UnicoreBuilding(models.Model):
         default=10,
     )
     floor_ids = fields.One2many(
-        comodel_name='unicore.floor',
+        comodel_name='oacis.floor',
         inverse_name='building_id',
         string='Floors',
     )
@@ -128,7 +128,7 @@ class UnicoreBuilding(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Floors'),
-            'res_model': 'unicore.floor',
+            'res_model': 'oacis.floor',
             'view_mode': 'list,form',
             'domain': [('building_id', '=', self.id)],
             'context': {'default_building_id': self.id},

@@ -1,5 +1,5 @@
 """
-UniCore Guardian Model
+Oacis Guardian Model
 Manages parent and guardian profiles as standalone
 records that can be linked to multiple students.
 """
@@ -12,10 +12,10 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreGuardian(models.Model):
-    _name = 'unicore.guardian'
+class OacisGuardian(models.Model):
+    _name = 'oacis.guardian'
     _description = 'Student Guardian / Parent'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'name, last_name'
     _check_company_auto = True
     _rec_name = 'display_name'
@@ -97,7 +97,7 @@ class UniCoreGuardian(models.Model):
     # ------- STUDENT RELATIONSHIP FIELDS -------
 
     student_rel_ids = fields.One2many(
-        'unicore.guardian.student.rel',
+        'oacis.guardian.student.rel',
         'guardian_id',
         string='Ward Students',
     )
@@ -116,8 +116,8 @@ class UniCoreGuardian(models.Model):
         help='This guardian is financially responsible for fee payments',
     )
     guarantor_student_ids = fields.Many2many(
-        'unicore.student',
-        'unicore_guardian_guarantor_student_rel',
+        'oacis.student',
+        'oacis_guardian_guarantor_student_rel',
         'guardian_id',
         'student_id',
         string='Financial Responsibility For',
@@ -254,7 +254,7 @@ class UniCoreGuardian(models.Model):
             if not vals.get('guardian_id_number'):
                 vals['guardian_id_number'] = (
                     self.env['ir.sequence'].next_by_code(
-                        'unicore.guardian',
+                        'oacis.guardian',
                     ) or '/'
                 )
         records = super().create(vals_list)
@@ -358,7 +358,7 @@ class UniCoreGuardian(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Wards / Students'),
-            'res_model': 'unicore.student',
+            'res_model': 'oacis.student',
             'view_mode': 'list,form',
             'domain': [('id', 'in', self.student_rel_ids.mapped('student_id').ids)],
             'context': {

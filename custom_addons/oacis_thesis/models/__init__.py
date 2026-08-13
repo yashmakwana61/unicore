@@ -1,1 +1,1 @@
-from . import unicore_thesis
+from . import oacis_thesis

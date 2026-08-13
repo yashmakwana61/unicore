@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-Reusable Playwright UI checker for the unicore_design module.
+Reusable Playwright UI checker for the oacis_design module.
 
 Checks, on a real headless Chromium:
   * login + opening a form view works
-  * the theme config (session.unicore_theme_config) is exposed to the client
-  * the `o_unicore_chatter_side` / `o_unicore_chatter_bottom` marker classes
+  * the theme config (session.oacis_theme_config) is exposed to the client
+  * the `o_oacis_chatter_side` / `o_oacis_chatter_bottom` marker classes
     are present on `.o_form_view`
   * the dynamic theme.css is actually loaded
   * the page keeps a natural scrollbar (no overflow:hidden killing scroll)
@@ -29,7 +29,7 @@ import sys
 
 from playwright.sync_api import sync_playwright
 
-DEFAULT_BASE = os.environ.get("UNICORE_BASE_URL", "http://127.0.0.1:8069")
+DEFAULT_BASE = os.environ.get("OACIS_BASE_URL", "http://127.0.0.1:8069")
 DEFAULT_DB = os.environ.get("ODOO_DB", "odoo")
 PSQL = os.environ.get("PSQL", "psql")
 
@@ -138,12 +138,12 @@ def collect_metrics(page):
         }
 
         return {
-            themeConfig: document.documentElement.dataset.unicoreChatter || null,
-            themeCssLink: (document.querySelector('#unicore-theme-stylesheet') || {}).href || null,
+            themeConfig: document.documentElement.dataset.oacisChatter || null,
+            themeCssLink: (document.querySelector('#oacis-theme-stylesheet') || {}).href || null,
             viewport: { w: window.innerWidth, h: window.innerHeight },
             form: {
-                markerSide: form ? form.classList.contains('o_unicore_chatter_side') : null,
-                markerBottom: form ? form.classList.contains('o_unicore_chatter_bottom') : null,
+                markerSide: form ? form.classList.contains('o_oacis_chatter_side') : null,
+                markerBottom: form ? form.classList.contains('o_oacis_chatter_bottom') : null,
                 rect: rect(form),
                 style: style(form),
             },
@@ -203,14 +203,14 @@ def scroll_test(page, metrics):
 def render_report(metrics, scroll, expected_position, screenshot_path):
     lines = []
     lines.append("=" * 64)
-    lines.append("UNICORE_DESIGN UI CHECK")
+    lines.append("OACIS_DESIGN UI CHECK")
     lines.append("=" * 64)
 
     cfg = metrics["themeConfig"]
     lines.append(f"theme_config:          {json.dumps(cfg) if cfg else 'MISSING'}")
 
     marker = "side" if metrics["form"]["markerSide"] else ("bottom" if metrics["form"]["markerBottom"] else "NONE")
-    lines.append(f"marker class:          o_unicore_chatter_{marker}")
+    lines.append(f"marker class:          o_oacis_chatter_{marker}")
     lines.append(f"theme.css link:        {metrics['themeCssLink']}")
 
     f = metrics["form"]
@@ -256,7 +256,7 @@ def render_report(metrics, scroll, expected_position, screenshot_path):
     notes = []
     if not cfg:
         ok = False
-        notes.append("session.unicore_theme_config missing")
+        notes.append("session.oacis_theme_config missing")
     if marker == "NONE":
         ok = False
         notes.append("no chatter marker class on .o_form_view")
@@ -286,7 +286,7 @@ def render_report(metrics, scroll, expected_position, screenshot_path):
 
 
 def main():
-    ap = argparse.ArgumentParser(description="unicore_design UI checker (Playwright)")
+    ap = argparse.ArgumentParser(description="oacis_design UI checker (Playwright)")
     ap.add_argument("--base-url", default=DEFAULT_BASE)
     ap.add_argument("--login", default="admin")
     ap.add_argument("--password", default="admin")
@@ -298,7 +298,7 @@ def main():
     ap.add_argument("--viewport", default="1600,1000", help="WxH viewport")
     ap.add_argument("--headful", action="store_true")
     ap.add_argument("--screenshot-dir", default="/tmp/opencode")
-    ap.add_argument("--screenshot-name", default="unicore_check.png")
+    ap.add_argument("--screenshot-name", default="oacis_check.png")
     ap.add_argument("--no-report", action="store_true", help="suppress the text report")
     args = ap.parse_args()
 

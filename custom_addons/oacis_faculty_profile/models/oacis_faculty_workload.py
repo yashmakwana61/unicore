@@ -7,13 +7,13 @@ _logger = logging.getLogger(__name__)
 
 
 class FacultyWorkload(models.Model):
-    _name = 'unicore.faculty.workload'
+    _name = 'oacis.faculty.workload'
     _description = 'Faculty Teaching Workload Record'
     _order = 'faculty_member_id, academic_year_id, semester_id'
     _check_company_auto = True
 
     faculty_member_id = fields.Many2one(
-        'unicore.faculty.member',
+        'oacis.faculty.member',
         string='Faculty Member',
         required=True,
         ondelete='cascade',
@@ -26,22 +26,22 @@ class FacultyWorkload(models.Model):
         readonly=True,
     )
     academic_year_id = fields.Many2one(
-        'unicore.academic.year',
+        'oacis.academic.year',
         string='Academic Year',
         required=True,
         domain="[('company_id', '=', company_id)]",
     )
     semester_id = fields.Many2one(
-        'unicore.semester',
+        'oacis.semester',
         string='Semester',
         required=True,
         domain="[('academic_year_id', '=', academic_year_id)]",
     )
-    program_id = fields.Many2one('unicore.program', string='Program')
+    program_id = fields.Many2one('oacis.program', string='Program')
     course_name = fields.Char(
         string='Course / Subject Name',
         required=True,
-        help='Will link to unicore.course in future module',
+        help='Will link to oacis.course in future module',
     )
     course_code = fields.Char(string='Course Code')
     weekly_hours = fields.Float(
@@ -51,7 +51,7 @@ class FacultyWorkload(models.Model):
         digits=(4, 1),
     )
     student_count = fields.Integer(string='Enrolled Students', default=0)
-    room_id = fields.Many2one('unicore.room', string='Assigned Room')
+    room_id = fields.Many2one('oacis.room', string='Assigned Room')
     workload_type = fields.Selection([
         ('teaching', 'Teaching'),
         ('lab', 'Laboratory'),

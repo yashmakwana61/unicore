@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <data>
-    <record id="view_unicore_thesis_tree" model="ir.ui.view">
-      <field name="name">unicore.thesis.tree</field>
-      <field name="model">unicore.thesis</field>
+    <record id="view_oacis_thesis_tree" model="ir.ui.view">
+      <field name="name">oacis.thesis.tree</field>
+      <field name="model">oacis.thesis</field>
       <field name="arch" type="xml">
         <list string="Theses">
           <field name="title"/>
@@ -13,9 +13,9 @@
         </list>
       </field>
     </record>
-    <record id="view_unicore_thesis_form" model="ir.ui.view">
-      <field name="name">unicore.thesis.form</field>
-      <field name="model">unicore.thesis</field>
+    <record id="view_oacis_thesis_form" model="ir.ui.view">
+      <field name="name">oacis.thesis.form</field>
+      <field name="model">oacis.thesis</field>
       <field name="arch" type="xml">
         <form string="Thesis">
           <header>
@@ -59,9 +59,9 @@
         </form>
       </field>
     </record>
-    <record id="view_unicore_thesis_review_tree" model="ir.ui.view">
-      <field name="name">unicore.thesis.review.tree</field>
-      <field name="model">unicore.thesis.review</field>
+    <record id="view_oacis_thesis_review_tree" model="ir.ui.view">
+      <field name="name">oacis.thesis.review.tree</field>
+      <field name="model">oacis.thesis.review</field>
       <field name="arch" type="xml">
         <list string="Thesis Reviews">
           <field name="thesis_id"/>
@@ -71,9 +71,9 @@
         </list>
       </field>
     </record>
-    <record id="view_unicore_thesis_review_form" model="ir.ui.view">
-      <field name="name">unicore.thesis.review.form</field>
-      <field name="model">unicore.thesis.review</field>
+    <record id="view_oacis_thesis_review_form" model="ir.ui.view">
+      <field name="name">oacis.thesis.review.form</field>
+      <field name="model">oacis.thesis.review</field>
       <field name="arch" type="xml">
         <form string="Thesis Review">
           <sheet>
@@ -100,14 +100,14 @@
         </form>
       </field>
     </record>
-    <record id="action_unicore_thesis" model="ir.actions.act_window">
+    <record id="action_oacis_thesis" model="ir.actions.act_window">
       <field name="name">Theses</field>
-      <field name="res_model">unicore.thesis</field>
+      <field name="res_model">oacis.thesis</field>
       <field name="view_mode">list,form</field>
     </record>
-    <record id="action_unicore_thesis_review" model="ir.actions.act_window">
+    <record id="action_oacis_thesis_review" model="ir.actions.act_window">
       <field name="name">Thesis Reviews</field>
-      <field name="res_model">unicore.thesis.review</field>
+      <field name="res_model">oacis.thesis.review</field>
       <field name="view_mode">list,form</field>
     </record>
   </data>

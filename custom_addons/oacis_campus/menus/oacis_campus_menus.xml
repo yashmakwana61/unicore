@@ -4,31 +4,31 @@
     <!-- Window Actions are defined in their respective view files -->
 
     <!-- Buildings Menu -->
-    <menuitem id="menu_unicore_building_list"
+    <menuitem id="menu_oacis_building_list"
               name="Buildings"
-              parent="unicore_base.menu_unicore_configuration"
-              action="action_unicore_building"
+              parent="oacis_base.menu_oacis_configuration"
+              action="action_oacis_building"
               sequence="20"/>
 
     <!-- Floors Menu -->
-    <menuitem id="menu_unicore_floor_list"
+    <menuitem id="menu_oacis_floor_list"
               name="Floors"
-              parent="unicore_base.menu_unicore_configuration"
-              action="action_unicore_floor"
+              parent="oacis_base.menu_oacis_configuration"
+              action="action_oacis_floor"
               sequence="30"/>
 
     <!-- Rooms Menu -->
-    <menuitem id="menu_unicore_room_list"
+    <menuitem id="menu_oacis_room_list"
               name="Rooms"
-              parent="unicore_base.menu_unicore_configuration"
-              action="action_unicore_room"
+              parent="oacis_base.menu_oacis_configuration"
+              action="action_oacis_room"
               sequence="40"/>
 
     <!-- Facilities Menu -->
-    <menuitem id="menu_unicore_facility_list"
+    <menuitem id="menu_oacis_facility_list"
               name="Facilities"
-              parent="unicore_base.menu_unicore_configuration"
-              action="action_unicore_facility"
+              parent="oacis_base.menu_oacis_configuration"
+              action="action_oacis_facility"
               sequence="50"/>
 
     <!-- Campus Board -->

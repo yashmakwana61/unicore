@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_unicore_bonafide_wizard_form" model="ir.ui.view">
-        <field name="name">UniCore Bonafide Wizard</field>
-        <field name="model">unicore.bonafide.wizard</field>
+    <record id="view_oacis_bonafide_wizard_form" model="ir.ui.view">
+        <field name="name">Oacis Bonafide Wizard</field>
+        <field name="model">oacis.bonafide.wizard</field>
         <field name="arch" type="xml">
             <form string="Bonafide Certificate">
                 <group>
@@ -18,9 +18,9 @@
             </form>
         </field>
     </record>
-    <record id="action_unicore_bonafide_wizard" model="ir.actions.act_window">
+    <record id="action_oacis_bonafide_wizard" model="ir.actions.act_window">
         <field name="name">Bonafide Certificate</field>
-        <field name="res_model">unicore.bonafide.wizard</field>
+        <field name="res_model">oacis.bonafide.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>

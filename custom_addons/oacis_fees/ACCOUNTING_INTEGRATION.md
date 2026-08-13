@@ -1,15 +1,15 @@
-# UniCore Fees — GL Accounting Integration Guide
+# Oacis Fees — GL Accounting Integration Guide
 
 ## Overview
-This module integrates UniCore Fee Invoices with Odoo's default accounting module (`account.move`). When a fee invoice is confirmed/sent, an automatic GL invoice is created and posted to the accounting system.
+This module integrates Oacis Fee Invoices with Odoo's default accounting module (`account.move`). When a fee invoice is confirmed/sent, an automatic GL invoice is created and posted to the accounting system.
 
 ---
 
 ## Phase 1: Prerequisite Setup ✅
 
 ### What was implemented:
-1. **Added 'account' dependency** to unicore_fees module
-2. **Created `unicore.fee.accounting.config` model** to store GL configuration
+1. **Added 'account' dependency** to oacis_fees module
+2. **Created `oacis.fee.accounting.config` model** to store GL configuration
    - Configurable sales journal
    - GL revenue account mapping
    - GL receivable account configuration
@@ -21,11 +21,11 @@ This module integrates UniCore Fee Invoices with Odoo's default accounting modul
    - Archives partner when student is deleted
 
 ### Configuration Files Created:
-- `models/unicore_fee_accounting_config.py` — GL config model
-- `models/unicore_student_partner_ext.py` — Student ↔ Partner linking
-- `views/unicore_fee_accounting_config_views.xml` — Configuration UI
-- `views/unicore_student_partner_ext_views.xml` — Student form extension
-- `security/unicore_fee_accounting_access.csv` — Access control
+- `models/oacis_fee_accounting_config.py` — GL config model
+- `models/oacis_student_partner_ext.py` — Student ↔ Partner linking
+- `views/oacis_fee_accounting_config_views.xml` — Configuration UI
+- `views/oacis_student_partner_ext_views.xml` — Student form extension
+- `security/oacis_fee_accounting_access.csv` — Access control
 
 ---
 
@@ -33,7 +33,7 @@ This module integrates UniCore Fee Invoices with Odoo's default accounting modul
 
 ### What was implemented:
 
-#### A. Extended Fee Invoice Model (`unicore_fee_invoice_gl_ext.py`)
+#### A. Extended Fee Invoice Model (`oacis_fee_invoice_gl_ext.py`)
 New fields added:
 - `account_move_id` — Links fee invoice to GL invoice
 - `gl_status` — Shows GL invoice status (draft/posted/cancelled)
@@ -90,7 +90,7 @@ New fields added:
 2. Opens account.move form in same window
 ```
 
-#### C. Views Updated (`unicore_fee_invoice_gl_ext_views.xml`)
+#### C. Views Updated (`oacis_fee_invoice_gl_ext_views.xml`)
 1. **Form view enhancements:**
    - Added "GL Invoice" stat button in button box
    - Added GL Invoice link field in Invoice Details section
@@ -108,7 +108,7 @@ New fields added:
 ```
 ┌─────────────────────────────────┐
 │  Student Creates Fee Invoice    │
-│  (In unicore_fees app)          │
+│  (In oacis_fees app)          │
 └────────────────┬────────────────┘
                  │ (Status: draft)
                  ↓

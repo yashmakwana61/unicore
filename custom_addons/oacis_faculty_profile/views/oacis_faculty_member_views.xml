@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <!-- ==================== FORM VIEW ==================== -->
-  <record id="unicore_faculty_member_form_view" model="ir.ui.view">
-    <field name="name">unicore.faculty.member.form</field>
-    <field name="model">unicore.faculty.member</field>
+  <record id="oacis_faculty_member_form_view" model="ir.ui.view">
+    <field name="name">oacis.faculty.member.form</field>
+    <field name="model">oacis.faculty.member</field>
     <field name="arch" type="xml">
       <form>
         <header>
@@ -12,10 +12,10 @@
           <button name="action_place_on_leave" type="object" string="Place on Leave" invisible="member_state != 'active'" class="btn-warning"/>
           <button name="action_sabbatical" type="object" string="Sabbatical" invisible="member_state != 'active'" class="btn-info"/>
           <button name="action_return_to_active" type="object" string="Return to Active" invisible="member_state not in ('on_leave','sabbatical')" class="btn-success"/>
-          <button name="action_suspend" type="object" string="Suspend" invisible="member_state != 'active'" groups="unicore_base.group_unicore_admin"/>
-          <button name="action_terminate" type="object" string="Terminate" invisible="member_state in ('terminated','retired')" groups="unicore_base.group_unicore_admin"/>
-          <button name="action_retire" type="object" string="Retire" invisible="member_state != 'active'" groups="unicore_base.group_unicore_admin"/>
-          <button name="action_reset_draft" type="object" string="Reset to Draft" groups="unicore_base.group_unicore_admin"/>
+          <button name="action_suspend" type="object" string="Suspend" invisible="member_state != 'active'" groups="oacis_base.group_oacis_admin"/>
+          <button name="action_terminate" type="object" string="Terminate" invisible="member_state in ('terminated','retired')" groups="oacis_base.group_oacis_admin"/>
+          <button name="action_retire" type="object" string="Retire" invisible="member_state != 'active'" groups="oacis_base.group_oacis_admin"/>
+          <button name="action_reset_draft" type="object" string="Reset to Draft" groups="oacis_base.group_oacis_admin"/>
         </header>
         <sheet>
           <div class="oe_button_box" name="button_box">
@@ -147,9 +147,9 @@
     </field>
   </record>
   <!-- ==================== LIST VIEW ==================== -->
-  <record id="unicore_faculty_member_list_view" model="ir.ui.view">
-    <field name="name">unicore.faculty.member.list</field>
-    <field name="model">unicore.faculty.member</field>
+  <record id="oacis_faculty_member_list_view" model="ir.ui.view">
+    <field name="name">oacis.faculty.member.list</field>
+    <field name="model">oacis.faculty.member</field>
     <field name="arch" type="xml">
       <list limit="40">
         <field name="employee_id_number"/>
@@ -166,9 +166,9 @@
     </field>
   </record>
   <!-- ==================== SEARCH VIEW ==================== -->
-  <record id="unicore_faculty_member_search_view" model="ir.ui.view">
-    <field name="name">unicore.faculty.member.search</field>
-    <field name="model">unicore.faculty.member</field>
+  <record id="oacis_faculty_member_search_view" model="ir.ui.view">
+    <field name="name">oacis.faculty.member.search</field>
+    <field name="model">oacis.faculty.member</field>
     <field name="arch" type="xml">
       <search>
         <field name="display_name"/>
@@ -194,9 +194,9 @@
     </field>
   </record>
   <!-- ==================== KANBAN VIEW ==================== -->
-  <record id="unicore_faculty_member_kanban_view" model="ir.ui.view">
-    <field name="name">unicore.faculty.member.kanban</field>
-    <field name="model">unicore.faculty.member</field>
+  <record id="oacis_faculty_member_kanban_view" model="ir.ui.view">
+    <field name="name">oacis.faculty.member.kanban</field>
+    <field name="model">oacis.faculty.member</field>
     <field name="arch" type="xml">
       <kanban class="o_kanban_mobile" highlight_color="color">
         <field name="employee_id_number"/>
@@ -212,7 +212,7 @@
           <t t-name="card">
             <div class="oe_kanban_global_click">
               <div class="o_kanban_image">
-                <img t-if="record.image_1920.raw_value" t-att-src="'/web/image?model=unicore.faculty.member&amp;field=image_1920&amp;id=' + record.id.raw_value" alt="Photo" style="width:100px; height:100px; border-radius:50%; object-fit:cover;"/>
+                <img t-if="record.image_1920.raw_value" t-att-src="'/web/image?model=oacis.faculty.member&amp;field=image_1920&amp;id=' + record.id.raw_value" alt="Photo" style="width:100px; height:100px; border-radius:50%; object-fit:cover;"/>
                 <t t-if="!record.image_1920.raw_value">
                   <span t-esc="record.display_name.value[0]" style="font-size:3rem; background:#eee; border-radius:50%; width:100px; height:100px; display:flex; align-items:center; justify-content:center;"/>
                 </t>
@@ -245,12 +245,12 @@
     </field>
   </record>
   <!-- ==================== WINDOW ACTIONS ==================== -->
-  <record id="action_unicore_faculty_member" model="ir.actions.act_window">
+  <record id="action_oacis_faculty_member" model="ir.actions.act_window">
     <field name="name">Faculty Members</field>
     <field name="type">ir.actions.act_window</field>
-    <field name="res_model">unicore.faculty.member</field>
+    <field name="res_model">oacis.faculty.member</field>
     <field name="view_mode">kanban,list,form</field>
-    <field name="search_view_id" ref="unicore_faculty_member_search_view"/>
+    <field name="search_view_id" ref="oacis_faculty_member_search_view"/>
     <field name="help" type="html">
       <p class="o_view_nocontent_smiling_face">
                 Start managing faculty members
@@ -261,12 +261,12 @@
             </p>
     </field>
   </record>
-  <record id="action_unicore_faculty_member_active" model="ir.actions.act_window">
+  <record id="action_oacis_faculty_member_active" model="ir.actions.act_window">
     <field name="name">Active Faculty</field>
     <field name="type">ir.actions.act_window</field>
-    <field name="res_model">unicore.faculty.member</field>
+    <field name="res_model">oacis.faculty.member</field>
     <field name="view_mode">list,kanban,form</field>
     <field name="domain">[('member_state', '=', 'active')]</field>
-    <field name="search_view_id" ref="unicore_faculty_member_search_view"/>
+    <field name="search_view_id" ref="oacis_faculty_member_search_view"/>
   </record>
 </odoo>

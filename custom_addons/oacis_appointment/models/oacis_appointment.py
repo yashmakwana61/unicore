@@ -3,15 +3,15 @@ from odoo.exceptions import ValidationError
 
 
 class AppointmentSlot(models.Model):
-    _name = 'unicore.appointment.slot'
+    _name = 'oacis.appointment.slot'
     _description = 'Appointment Slot'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
     _order = 'date, start_time'
     _check_company_auto = True
     _rec_name = 'name'
 
     faculty_id = fields.Many2one(
-        'unicore.faculty.member',
+        'oacis.faculty.member',
         string='Faculty',
         required=True,
         ondelete='cascade',
@@ -64,7 +64,7 @@ class AppointmentSlot(models.Model):
             rec.booking_count = len(rec.booking_ids.filtered(lambda b: b.state == 'confirmed'))
 
     booking_ids = fields.One2many(
-        'unicore.appointment.booking',
+        'oacis.appointment.booking',
         'slot_id',
         string='Bookings',
     )
@@ -91,15 +91,15 @@ class AppointmentSlot(models.Model):
 
 
 class AppointmentBooking(models.Model):
-    _name = 'unicore.appointment.booking'
+    _name = 'oacis.appointment.booking'
     _description = 'Appointment Booking'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'slot_id, student_id'
     _check_company_auto = True
     _rec_name = 'name'
 
     slot_id = fields.Many2one(
-        'unicore.appointment.slot',
+        'oacis.appointment.slot',
         string='Appointment Slot',
         required=True,
         ondelete='cascade',
@@ -112,7 +112,7 @@ class AppointmentBooking(models.Model):
         store=True,
     )
     student_id = fields.Many2one(
-        'unicore.student',
+        'oacis.student',
         string='Student',
         required=True,
         ondelete='cascade',

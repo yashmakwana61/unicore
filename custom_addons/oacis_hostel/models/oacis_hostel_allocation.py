@@ -1,5 +1,5 @@
 """
-UniCore Hostel Allocation Model
+Oacis Hostel Allocation Model
 Assignment of a student to a hostel room for
 an academic year. Tracks check-in, check-out,
 hostel fees and room condition.
@@ -14,10 +14,10 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreHostelAllocation(models.Model):
-    _name = 'unicore.hostel.allocation'
+class OacisHostelAllocation(models.Model):
+    _name = 'oacis.hostel.allocation'
     _description = 'Hostel Room Allocation'
-    _inherit = ['unicore.mixin', 'mail.thread',
+    _inherit = ['oacis.mixin', 'mail.thread',
                 'mail.activity.mixin']
     _order = 'academic_year_id desc, student_id'
     _check_company_auto = True
@@ -63,7 +63,7 @@ class UniCoreHostelAllocation(models.Model):
     # --- STUDENT & ROOM ---
 
     student_id = fields.Many2one(
-        comodel_name='unicore.student',
+        comodel_name='oacis.student',
         string='Student',
         required=True,
         ondelete='restrict',
@@ -74,7 +74,7 @@ class UniCoreHostelAllocation(models.Model):
                "['enrolled','active'])]",
     )
     room_id = fields.Many2one(
-        comodel_name='unicore.hostel.room',
+        comodel_name='oacis.hostel.room',
         string='Room',
         required=True,
         ondelete='restrict',
@@ -85,14 +85,14 @@ class UniCoreHostelAllocation(models.Model):
                "['available','partial'])]",
     )
     block_id = fields.Many2one(
-        comodel_name='unicore.hostel.block',
+        comodel_name='oacis.hostel.block',
         string='Block',
         related='room_id.block_id',
         store=True,
         readonly=True,
     )
     academic_year_id = fields.Many2one(
-        comodel_name='unicore.academic.year',
+        comodel_name='oacis.academic.year',
         string='Academic Year',
         required=True,
         ondelete='restrict',
@@ -313,7 +313,7 @@ class UniCoreHostelAllocation(models.Model):
             if not vals.get('allocation_number'):
                 vals['allocation_number'] = (
                     self.env['ir.sequence'].next_by_code(
-                        'unicore.hostel.allocation',
+                        'oacis.hostel.allocation',
                     ) or '/'
                 )
         return super().create(vals_list)

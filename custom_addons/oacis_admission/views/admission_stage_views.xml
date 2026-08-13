@@ -6,8 +6,8 @@
     <!-- ============================================================ -->
 
     <record id="admission_stage_list_view" model="ir.ui.view">
-        <field name="name">unicore.admission.stage.list</field>
-        <field name="model">unicore.admission.stage</field>
+        <field name="name">oacis.admission.stage.list</field>
+        <field name="model">oacis.admission.stage</field>
         <field name="arch" type="xml">
             <list string="Admission Stages" editable="bottom">
                 <field name="sequence" widget="handle"/>
@@ -23,8 +23,8 @@
     </record>
 
     <record id="admission_stage_form_view" model="ir.ui.view">
-        <field name="name">unicore.admission.stage.form</field>
-        <field name="model">unicore.admission.stage</field>
+        <field name="name">oacis.admission.stage.form</field>
+        <field name="model">oacis.admission.stage</field>
         <field name="arch" type="xml">
             <form string="Admission Stage">
                 <sheet>
@@ -54,9 +54,9 @@
         </field>
     </record>
 
-    <record id="action_unicore_admission_stage" model="ir.actions.act_window">
+    <record id="action_oacis_admission_stage" model="ir.actions.act_window">
         <field name="name">Admission Stages</field>
-        <field name="res_model">unicore.admission.stage</field>
+        <field name="res_model">oacis.admission.stage</field>
         <field name="view_mode">list,form</field>
         <field name="context">{'search_default_group_by_company': 1}</field>
         <field name="help" type="html">

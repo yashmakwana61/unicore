@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="unicore_base.group_unicore_admin" model="res.groups">
-        <field name="implied_ids" eval="[(4, ref('sales_team.group_sale_salesman')), (4, ref('unicore_base.group_unicore_faculty'))]"/>
+    <record id="oacis_base.group_oacis_admin" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('sales_team.group_sale_salesman')), (4, ref('oacis_base.group_oacis_faculty'))]"/>
     </record>
 
-    <record id="unicore_base.group_unicore_manager" model="res.groups">
+    <record id="oacis_base.group_oacis_manager" model="res.groups">
         <field name="implied_ids" eval="[(4, ref('sales_team.group_sale_salesman'))]"/>
     </record>
 

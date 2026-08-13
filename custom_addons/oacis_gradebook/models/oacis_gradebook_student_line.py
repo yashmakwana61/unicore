@@ -1,11 +1,11 @@
 """
-UniCore Grade Book Student Line
+Oacis Grade Book Student Line
 ===============================
 
 One row per enrolled student in a grade book. Aggregates the
 student's graded assignment scores and computes the weighted
 contribution toward the continuous assessment (CA / internal)
-marks of the linked ``unicore.grade.entry``.
+marks of the linked ``oacis.grade.entry``.
 
 Roll-up formula
 ---------------
@@ -35,8 +35,8 @@ from odoo.exceptions import UserError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreGradeBookStudentLine(models.Model):
-    _name = 'unicore.gradebook.student.line'
+class OacisGradeBookStudentLine(models.Model):
+    _name = 'oacis.gradebook.student.line'
     _description = 'Grade Book Student Line'
     _order = 'student_id, id'
     _check_company_auto = True
@@ -45,14 +45,14 @@ class UniCoreGradeBookStudentLine(models.Model):
     # ------- RELATIONS -------
 
     config_id = fields.Many2one(
-        comodel_name='unicore.gradebook.config',
+        comodel_name='oacis.gradebook.config',
         string='Grade Book',
         required=True,
         ondelete='cascade',
         index=True,
     )
     course_offering_id = fields.Many2one(
-        comodel_name='unicore.course.offering',
+        comodel_name='oacis.course.offering',
         string='Course Offering',
         related='config_id.course_offering_id',
         store=True,
@@ -60,14 +60,14 @@ class UniCoreGradeBookStudentLine(models.Model):
         index=True,
     )
     course_id = fields.Many2one(
-        comodel_name='unicore.course',
+        comodel_name='oacis.course',
         string='Course',
         related='config_id.course_id',
         store=True,
         readonly=True,
     )
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         related='config_id.semester_id',
         store=True,
@@ -81,14 +81,14 @@ class UniCoreGradeBookStudentLine(models.Model):
         readonly=True,
     )
     enrollment_id = fields.Many2one(
-        comodel_name='unicore.enrollment',
+        comodel_name='oacis.enrollment',
         string='Enrollment',
         required=True,
         ondelete='cascade',
         index=True,
     )
     student_id = fields.Many2one(
-        comodel_name='unicore.student',
+        comodel_name='oacis.student',
         string='Student',
         related='enrollment_id.student_id',
         store=True,
@@ -96,7 +96,7 @@ class UniCoreGradeBookStudentLine(models.Model):
         index=True,
     )
     assignment_line_ids = fields.One2many(
-        comodel_name='unicore.gradebook.assignment.line',
+        comodel_name='oacis.gradebook.assignment.line',
         inverse_name='student_line_id',
         string='Assignment Scores',
     )
@@ -153,15 +153,15 @@ class UniCoreGradeBookStudentLine(models.Model):
              'for the grade entry internal / CA marks.',
     )
 
-    # ------- GRADE ENTRY LINKAGE (unicore.grading) -------
+    # ------- GRADE ENTRY LINKAGE (oacis.grading) -------
 
     grade_entry_id = fields.Many2one(
-        comodel_name='unicore.grade.entry',
+        comodel_name='oacis.grade.entry',
         string='Grade Entry',
         compute='_compute_grade_entry',
         store=True,
         help='Linked CA / grade record for this enrollment. Read-only '
-             'reference to the existing unicore.grading model.',
+             'reference to the existing oacis.grading model.',
     )
     grade_entry_state = fields.Selection(
         string='Grade Entry Status',
@@ -239,7 +239,7 @@ class UniCoreGradeBookStudentLine(models.Model):
         """
         if not self:
             return
-        GradeEntry = self.env['unicore.grade.entry']
+        GradeEntry = self.env['oacis.grade.entry']
         enroll_ids = self.mapped('enrollment_id').ids
         entries = GradeEntry.search([
             ('enrollment_id', 'in', enroll_ids),
@@ -302,7 +302,7 @@ class UniCoreGradeBookStudentLine(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Grade Entry'),
-            'res_model': 'unicore.grade.entry',
+            'res_model': 'oacis.grade.entry',
             'view_mode': 'form',
             'res_id': self.grade_entry_id.id,
         }

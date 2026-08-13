@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="1">
-        <record id="rule_unicore_mentor_allocation_student" model="ir.rule">
+        <record id="rule_oacis_mentor_allocation_student" model="ir.rule">
             <field name="name">Mentor Allocation: Student Own</field>
-            <field name="model_id" ref="model_unicore_mentor_allocation"/>
+            <field name="model_id" ref="model_oacis_mentor_allocation"/>
             <field name="domain_force">[('student_ids.partner_id.user_ids', 'in', user.id)]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_student'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_student'))]"/>
             <field name="perm_read" eval="1"/>
             <field name="perm_write" eval="0"/>
             <field name="perm_create" eval="0"/>
             <field name="perm_unlink" eval="0"/>
         </record>
-        <record id="rule_unicore_mentor_allocation_faculty" model="ir.rule">
+        <record id="rule_oacis_mentor_allocation_faculty" model="ir.rule">
             <field name="name">Mentor Allocation: Faculty Own</field>
-            <field name="model_id" ref="model_unicore_mentor_allocation"/>
+            <field name="model_id" ref="model_oacis_mentor_allocation"/>
             <field name="domain_force">[('mentor_id.user_id', '=', user.id)]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_faculty'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_faculty'))]"/>
             <field name="perm_read" eval="1"/>
             <field name="perm_write" eval="0"/>
             <field name="perm_create" eval="0"/>
             <field name="perm_unlink" eval="0"/>
         </record>
 
-        <record id="rule_unicore_mentor_meeting_log_student" model="ir.rule">
+        <record id="rule_oacis_mentor_meeting_log_student" model="ir.rule">
             <field name="name">Mentor Meeting Log: Student Own</field>
-            <field name="model_id" ref="model_unicore_mentor_meeting_log"/>
+            <field name="model_id" ref="model_oacis_mentor_meeting_log"/>
             <field name="domain_force">[('student_id.partner_id.user_ids', 'in', user.id)]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_student'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_student'))]"/>
             <field name="perm_read" eval="1"/>
             <field name="perm_write" eval="0"/>
             <field name="perm_create" eval="0"/>
             <field name="perm_unlink" eval="0"/>
         </record>
-        <record id="rule_unicore_mentor_meeting_log_faculty" model="ir.rule">
+        <record id="rule_oacis_mentor_meeting_log_faculty" model="ir.rule">
             <field name="name">Mentor Meeting Log: Faculty Own</field>
-            <field name="model_id" ref="model_unicore_mentor_meeting_log"/>
+            <field name="model_id" ref="model_oacis_mentor_meeting_log"/>
             <field name="domain_force">[('allocation_id.mentor_id.user_id', '=', user.id)]</field>
-            <field name="groups" eval="[(4, ref('unicore_base.group_unicore_faculty'))]"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_faculty'))]"/>
             <field name="perm_read" eval="1"/>
             <field name="perm_write" eval="1"/>
             <field name="perm_create" eval="1"/>

@@ -3,7 +3,7 @@ from odoo import fields, models
 
 class ResCompany(models.Model):
     _inherit = 'res.company'
-    _description = 'Extend res.company with UniCore-specific institution fields.'
+    _description = 'Extend res.company with Oacis-specific institution fields.'
 
     university_type = fields.Selection([
         ('university', 'University'),
@@ -30,7 +30,7 @@ class ResCompany(models.Model):
     )
 
     campus_ids = fields.One2many(
-        comodel_name='unicore.campus',
+        comodel_name='oacis.campus',
         inverse_name='company_id',
         string='Campuses',
         help='Campuses belonging to this institution.',

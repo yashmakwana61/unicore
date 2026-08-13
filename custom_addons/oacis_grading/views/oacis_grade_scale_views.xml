@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <!-- Form View -->
-  <record id="view_unicore_grade_scale_form" model="ir.ui.view">
-    <field name="name">unicore.grade.scale.form</field>
-    <field name="model">unicore.grade.scale</field>
+  <record id="view_oacis_grade_scale_form" model="ir.ui.view">
+    <field name="name">oacis.grade.scale.form</field>
+    <field name="model">oacis.grade.scale</field>
     <field name="arch" type="xml">
       <form>
         <sheet>
@@ -42,9 +42,9 @@
     </field>
   </record>
   <!-- List View -->
-  <record id="view_unicore_grade_scale_list" model="ir.ui.view">
-    <field name="name">unicore.grade.scale.list</field>
-    <field name="model">unicore.grade.scale</field>
+  <record id="view_oacis_grade_scale_list" model="ir.ui.view">
+    <field name="name">oacis.grade.scale.list</field>
+    <field name="model">oacis.grade.scale</field>
     <field name="arch" type="xml">
       <list>
         <field name="sequence" widget="handle"/>
@@ -57,9 +57,9 @@
     </field>
   </record>
   <!-- Search View -->
-  <record id="view_unicore_grade_scale_search" model="ir.ui.view">
-    <field name="name">unicore.grade.scale.search</field>
-    <field name="model">unicore.grade.scale</field>
+  <record id="view_oacis_grade_scale_search" model="ir.ui.view">
+    <field name="name">oacis.grade.scale.search</field>
+    <field name="model">oacis.grade.scale</field>
     <field name="arch" type="xml">
       <search>
         <field name="name"/>
@@ -70,9 +70,9 @@
     </field>
   </record>
   <!-- Window Action -->
-  <record id="action_unicore_grade_scale" model="ir.actions.act_window">
+  <record id="action_oacis_grade_scale" model="ir.actions.act_window">
     <field name="name">Grade Scales</field>
-    <field name="res_model">unicore.grade.scale</field>
+    <field name="res_model">oacis.grade.scale</field>
     <field name="view_mode">list,form</field>
   </record>
 </odoo>

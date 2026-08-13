@@ -5,7 +5,7 @@
         <field name="name">Convocation Ceremony 2025</field>
         <field name="date_begin">2025-12-15 09:00:00</field>
         <field name="date_end">2025-12-15 17:00:00</field>
-        <field name="unicore_convocation_event">True</field>
+        <field name="oacis_convocation_event">True</field>
         <field name="company_id" eval="ref('base.main_company')"/>
     </record>
 

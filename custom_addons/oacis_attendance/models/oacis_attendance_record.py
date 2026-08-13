@@ -1,5 +1,5 @@
 """
-UniCore Attendance Record Model
+Oacis Attendance Record Model
 One student's attendance status for one class session.
 Records are created in bulk when a session is opened
 for marking. Faculty update the status field for
@@ -17,8 +17,8 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreAttendanceRecord(models.Model):
-    _name = 'unicore.attendance.record'
+class OacisAttendanceRecord(models.Model):
+    _name = 'oacis.attendance.record'
     _description = 'Student Attendance Record'
     _rec_name = 'display_name'
 
@@ -41,12 +41,12 @@ class UniCoreAttendanceRecord(models.Model):
             rec.display_name = 'Attendance - %s - %s' % (
                 student_name, session_name,
             )
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'session_id desc, student_id'
     _check_company_auto = True
 
     session_id = fields.Many2one(
-        comodel_name='unicore.attendance.session',
+        comodel_name='oacis.attendance.session',
         string='Session',
         required=True,
         ondelete='cascade',
@@ -54,7 +54,7 @@ class UniCoreAttendanceRecord(models.Model):
     )
 
     student_id = fields.Many2one(
-        comodel_name='unicore.student',
+        comodel_name='oacis.student',
         string='Student',
         required=True,
         ondelete='cascade',
@@ -62,14 +62,14 @@ class UniCoreAttendanceRecord(models.Model):
     )
 
     enrollment_id = fields.Many2one(
-        comodel_name='unicore.enrollment',
+        comodel_name='oacis.enrollment',
         string='Enrollment',
         ondelete='set null',
         help='Link to the enrollment record for this student in this course offering',
     )
 
     course_offering_id = fields.Many2one(
-        comodel_name='unicore.course.offering',
+        comodel_name='oacis.course.offering',
         string='Course Offering',
         related='session_id.course_offering_id',
         store=True,
@@ -78,7 +78,7 @@ class UniCoreAttendanceRecord(models.Model):
     )
 
     course_id = fields.Many2one(
-        comodel_name='unicore.course',
+        comodel_name='oacis.course',
         string='Course',
         related='session_id.course_id',
         store=True,
@@ -86,7 +86,7 @@ class UniCoreAttendanceRecord(models.Model):
     )
 
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         related='session_id.semester_id',
         store=True,
@@ -225,7 +225,7 @@ class UniCoreAttendanceRecord(models.Model):
 
     @api.depends('cumulative_attendance_percentage', 'course_offering_id')
     def _compute_shortage_alert(self):
-        Policy = self.env['unicore.attendance.policy']
+        Policy = self.env['oacis.attendance.policy']
         for rec in self:
             rec.shortage_alert = False
             rec.warning_alert = False

@@ -1,15 +1,15 @@
-UniCore Student Leave Requests
+Oacis Student Leave Requests
 ==============================
 
 A formal, student/guardian-initiated leave request
-workflow for UniCore ERP.
+workflow for Oacis ERP.
 
 Overview
 --------
 
 This module provides a leave request submission
 system that is **distinct** from the registrar-side
-"Place on Leave" button already on ``unicore.student``.
+"Place on Leave" button already on ``oacis.student``.
 
 Students or guardians can **submit** a leave request
 with:
@@ -20,7 +20,7 @@ with:
 
 The request routes to faculty/registrar for approval.
 On approval, the existing ``action_place_on_leave``
-method on ``unicore.student`` is triggered, keeping
+method on ``oacis.student`` is triggered, keeping
 this module additive.
 
 Features
@@ -55,15 +55,15 @@ States
 Dependencies
 ------------
 
-- ``unicore_student`` — Student profile and
+- ``oacis_student`` — Student profile and
   ``action_place_on_leave``
-- ``unicore_guardian`` — Guardian profiles and
+- ``oacis_guardian`` — Guardian profiles and
   ward relationships
-- ``unicore_notify`` — Multi-channel notification
+- ``oacis_notify`` — Multi-channel notification
   engine
-- ``unicore_portal_student`` — Student portal
+- ``oacis_portal_student`` — Student portal
   infrastructure
-- ``unicore_portal_guardian`` — Guardian portal
+- ``oacis_portal_guardian`` — Guardian portal
   infrastructure
 
 Integration
@@ -71,15 +71,15 @@ Integration
 
 On approval, this module calls the **existing**
 ``action_place_on_leave`` method on
-``unicore.student`` rather than duplicating the
+``oacis.student`` rather than duplicating the
 state machine. This keeps the module fully additive.
 
 Portal Routes
 -------------
 
-- ``/my/unicore/student/leave`` — List leave
+- ``/my/oacis/student/leave`` — List leave
   requests
-- ``/my/unicore/student/leave/new`` — Create new
+- ``/my/oacis/student/leave/new`` — Create new
   request
-- ``/my/unicore/student/leave/<id>`` — View request
+- ``/my/oacis/student/leave/<id>`` — View request
   details

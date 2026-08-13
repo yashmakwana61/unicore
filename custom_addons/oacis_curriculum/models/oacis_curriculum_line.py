@@ -1,5 +1,5 @@
 """
-UniCore Curriculum Line Model
+Oacis Curriculum Line Model
 Each line represents one course assigned to a
 specific semester number within a curriculum plan.
 This defines WHAT is taught in WHICH semester
@@ -14,8 +14,8 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreCurriculumLine(models.Model):
-    _name = 'unicore.curriculum.line'
+class OacisCurriculumLine(models.Model):
+    _name = 'oacis.curriculum.line'
     _description = 'Curriculum Course Line'
     _rec_name = 'display_name'
 
@@ -49,14 +49,14 @@ class UniCoreCurriculumLine(models.Model):
     _check_company_auto = True
 
     curriculum_id = fields.Many2one(
-        comodel_name='unicore.curriculum',
+        comodel_name='oacis.curriculum',
         string='Curriculum',
         required=True,
         ondelete='cascade',
         index=True,
     )
     course_id = fields.Many2one(
-        comodel_name='unicore.course',
+        comodel_name='oacis.course',
         string='Course',
         required=True,
         ondelete='restrict',
@@ -71,7 +71,7 @@ class UniCoreCurriculumLine(models.Model):
         readonly=True,
     )
     program_id = fields.Many2one(
-        comodel_name='unicore.program',
+        comodel_name='oacis.program',
         string='Program',
         related='curriculum_id.program_id',
         store=True,

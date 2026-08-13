@@ -1,4 +1,4 @@
-# UniCore Fees GL Integration — Quick Start Guide
+# Oacis Fees GL Integration — Quick Start Guide
 
 ## For Finance Admins: Setup (5 minutes)
 
@@ -205,5 +205,5 @@ A: No, GL invoice uses accounts from config at time of creation. Future invoices
 
 **Version:** 1.0  
 **Updated:** 2026-07-18  
-**Module:** unicore_fees v19.0  
+**Module:** oacis_fees v19.0  
 **Odoo:** 19.0

@@ -1,18 +1,18 @@
 from odoo import api, models
 
 
-class UniCoreSemesterMarkSheetReport(models.AbstractModel):
-    _name = 'report.unicore_grading.unicore_semester_mark_sheet_template'
+class OacisSemesterMarkSheetReport(models.AbstractModel):
+    _name = 'report.oacis_grading.oacis_semester_mark_sheet_template'
     _description = 'Semester Mark Sheet Report'
 
     @api.model
     def _get_report_values(self, docids, data=None):
-        semesters = self.env['unicore.semester'].browse(docids)
+        semesters = self.env['oacis.semester'].browse(docids)
         data = data or {}
 
         report_data = []
         for semester in semesters:
-            entries = self.env['unicore.grade.entry'].search([
+            entries = self.env['oacis.grade.entry'].search([
                 ('semester_id', '=', semester.id),
                 ('entry_state', 'in', ['published', 'locked']),
             ], order='course_offering_id, student_id')
@@ -59,7 +59,7 @@ class UniCoreSemesterMarkSheetReport(models.AbstractModel):
 
         return {
             'doc_ids': docids,
-            'doc_model': 'unicore.semester',
+            'doc_model': 'oacis.semester',
             'docs': semesters,
             'report_data': report_data,
             'data': data or {},

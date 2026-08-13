@@ -7,12 +7,12 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UnicoreStudent(models.Model):
+class OacisStudent(models.Model):
     """Complete student record covering personal, academic and status information."""
 
-    _name = 'unicore.student'
+    _name = 'oacis.student'
     _description = 'Student'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'student_id_number, name'
     _check_company_auto = True
     _rec_name = 'display_name'
@@ -96,23 +96,23 @@ class UnicoreStudent(models.Model):
         ondelete='restrict', tracking=True,
     )
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus', string='Campus', required=True,
+        comodel_name='oacis.campus', string='Campus', required=True,
         domain="[('company_id', '=', company_id)]", tracking=True,
     )
     program_id = fields.Many2one(
-        comodel_name='unicore.program', string='Program', required=True,
+        comodel_name='oacis.program', string='Program', required=True,
         domain="[('company_id', '=', company_id)]", tracking=True,
     )
     specialisation_id = fields.Many2one(
-        comodel_name='unicore.specialisation', string='Specialisation',
+        comodel_name='oacis.specialisation', string='Specialisation',
         domain="[('program_id', '=', program_id)]", tracking=True,
     )
     department_id = fields.Many2one(
-        comodel_name='unicore.department', related='program_id.department_id',
+        comodel_name='oacis.department', related='program_id.department_id',
         store=True, readonly=True, string='Department',
     )
     faculty_id = fields.Many2one(
-        comodel_name='unicore.faculty', related='program_id.faculty_id',
+        comodel_name='oacis.faculty', related='program_id.faculty_id',
         store=True, readonly=True, string='Faculty',
     )
     batch_year = fields.Integer(
@@ -128,7 +128,7 @@ class UnicoreStudent(models.Model):
              'program; Phase 3).',
     )
     grade_level_id = fields.Many2one(
-        comodel_name='unicore.academic.unit', string='Grade Level',
+        comodel_name='oacis.academic.unit', string='Grade Level',
         domain="[('unit_type_id.code', '=', 'GRADE'), "
                "('company_id', '=', company_id)]",
         tracking=True, ondelete='restrict',
@@ -149,10 +149,10 @@ class UnicoreStudent(models.Model):
              'key; Phase 6).',
     )
     current_semester_id = fields.Many2one(
-        comodel_name='unicore.semester', string='Current Semester', tracking=True,
+        comodel_name='oacis.semester', string='Current Semester', tracking=True,
     )
     current_academic_year_id = fields.Many2one(
-        comodel_name='unicore.academic.year',
+        comodel_name='oacis.academic.year',
         related='current_semester_id.academic_year_id',
         store=True, readonly=True, string='Current Academic Year',
     )
@@ -192,17 +192,17 @@ class UnicoreStudent(models.Model):
 
     # --- RELATIONS ---
     guardian_ids = fields.One2many(
-        comodel_name='unicore.student.emergency.contact',
+        comodel_name='oacis.student.emergency.contact',
         inverse_name='student_id', string='Emergency Contacts / Guardians',
     )
     document_ids = fields.One2many(
-        comodel_name='unicore.student.document',
+        comodel_name='oacis.student.document',
         inverse_name='student_id', string='Documents',
     )
     document_count = fields.Integer(string='Document Count', compute='_compute_document_count', store=False)
     academic_history_count = fields.Integer(string='Academic History Count', compute='_compute_academic_history_count', store=False)
     academic_history_ids = fields.One2many(
-        comodel_name='unicore.student.academic.history',
+        comodel_name='oacis.student.academic.history',
         inverse_name='student_id', string='Academic History',
     )
 
@@ -285,7 +285,7 @@ class UnicoreStudent(models.Model):
         for record in self:
             domain = record._cohort_members_domain()
             record.cohort_members_count = (
-                self.env['unicore.student'].search_count(domain)
+                self.env['oacis.student'].search_count(domain)
                 if domain else 0
             )
 
@@ -427,13 +427,13 @@ class UnicoreStudent(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if not vals.get('student_id_number'):
-                seq = self.env['ir.sequence'].next_by_code('unicore.student') or '/'
+                seq = self.env['ir.sequence'].next_by_code('oacis.student') or '/'
                 vals['student_id_number'] = seq
             # Phase 5 intake automation: for rolling-intake programs, default
             # the cohort start date from the admission date unless given.
             # Legacy (academic_year) and grade_batch programs are untouched.
             if not vals.get('cohort_start_date'):
-                program = self.env['unicore.program'].browse(
+                program = self.env['oacis.program'].browse(
                     vals.get('program_id'))
                 if (program.cohort_kind == 'rolling'
                         and vals.get('admission_date')):
@@ -516,7 +516,7 @@ class UnicoreStudent(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Place on Leave'),
-            'res_model': 'unicore.student.status.wizard',
+            'res_model': 'oacis.student.status.wizard',
             'view_mode': 'form',
             'target': 'new',
             'context': {
@@ -566,7 +566,7 @@ class UnicoreStudent(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Withdraw Student'),
-            'res_model': 'unicore.student.status.wizard',
+            'res_model': 'oacis.student.status.wizard',
             'view_mode': 'form',
             'target': 'new',
             'context': {
@@ -581,7 +581,7 @@ class UnicoreStudent(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Expel Student'),
-            'res_model': 'unicore.student.status.wizard',
+            'res_model': 'oacis.student.status.wizard',
             'view_mode': 'form',
             'target': 'new',
             'context': {
@@ -614,7 +614,7 @@ class UnicoreStudent(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Reactivate Student'),
-            'res_model': 'unicore.student.status.wizard',
+            'res_model': 'oacis.student.status.wizard',
             'view_mode': 'form',
             'target': 'new',
             'context': {
@@ -631,7 +631,7 @@ class UnicoreStudent(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Documents'),
-            'res_model': 'unicore.student.document',
+            'res_model': 'oacis.student.document',
             'view_mode': 'list,form',
             'domain': [('student_id', '=', self.id)],
             'context': {'default_student_id': self.id},
@@ -642,7 +642,7 @@ class UnicoreStudent(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Academic History'),
-            'res_model': 'unicore.student.academic.history',
+            'res_model': 'oacis.student.academic.history',
             'view_mode': 'list,form',
             'domain': [('student_id', '=', self.id)],
             'context': {'default_student_id': self.id},
@@ -653,7 +653,7 @@ class UnicoreStudent(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Cohort Members'),
-            'res_model': 'unicore.student',
+            'res_model': 'oacis.student',
             'view_mode': 'list,form',
             'domain': self._cohort_members_domain() or [('id', '=', self.id)],
         }

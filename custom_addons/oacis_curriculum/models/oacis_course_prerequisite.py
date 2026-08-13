@@ -1,5 +1,5 @@
 """
-UniCore Course Prerequisite Model
+Oacis Course Prerequisite Model
 Defines prerequisite relationships between courses.
 A prerequisite is a course that must be completed
 before a student can enroll in another course.
@@ -13,8 +13,8 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreCoursePrerequisite(models.Model):
-    _name = 'unicore.course.prerequisite'
+class OacisCoursePrerequisite(models.Model):
+    _name = 'oacis.course.prerequisite'
     _description = 'Course Prerequisite'
     _rec_name = 'display_name'
 
@@ -39,14 +39,14 @@ class UniCoreCoursePrerequisite(models.Model):
     _order = 'course_id, prerequisite_course_id'
 
     course_id = fields.Many2one(
-        comodel_name='unicore.course',
+        comodel_name='oacis.course',
         string='Course',
         required=True,
         ondelete='cascade',
         index=True,
     )
     prerequisite_course_id = fields.Many2one(
-        comodel_name='unicore.course',
+        comodel_name='oacis.course',
         string='Prerequisite Course',
         required=True,
         ondelete='restrict',

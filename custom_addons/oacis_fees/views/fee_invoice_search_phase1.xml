@@ -5,9 +5,9 @@
     <!-- Phase 1: Invoice search view - missing filters + group-bys -->
     <!-- ========================================================= -->
     <record id="view_fee_invoice_search_phase1_filters" model="ir.ui.view">
-        <field name="name">unicore.fee.invoice.search.phase1</field>
-        <field name="model">unicore.fee.invoice</field>
-        <field name="inherit_id" ref="unicore_fees.view_unicore_fee_invoice_search"/>
+        <field name="name">oacis.fee.invoice.search.phase1</field>
+        <field name="model">oacis.fee.invoice</field>
+        <field name="inherit_id" ref="oacis_fees.view_oacis_fee_invoice_search"/>
         <field name="arch" type="xml">
 
             <xpath expr="//field[@name='semester_id']" position="after">

@@ -2,17 +2,17 @@
 <templates xml:space="preserve">
 
     <!-- NavBar: Custom layout with Logo, Hamburger (Start Menu) and Sub-menu sections -->
-    <t t-name="unicore_design.NavBar" t-inherit="web.NavBar" t-inherit-mode="extension">
+    <t t-name="oacis_design.NavBar" t-inherit="web.NavBar" t-inherit-mode="extension">
         <xpath expr="//t[@t-call='web.NavBar.AppsMenu']" position="replace">
             <!-- Logo Section (Green circle logo & brand text) -->
-            <!-- <div class="o_unicore_navbar_brand_container d-flex align-items-center me-2">
-                <img class="o_unicore_navbar_logo me-2" src="/web/binary/company_logo" alt="Logo"/>
-                <span class="o_unicore_navbar_brand fw-bold" t-esc="currentCompany ? currentCompany.name : ''"/>
+            <!-- <div class="o_oacis_navbar_brand_container d-flex align-items-center me-2">
+                <img class="o_oacis_navbar_logo me-2" src="/web/binary/company_logo" alt="Logo"/>
+                <span class="o_oacis_navbar_brand fw-bold" t-esc="currentCompany ? currentCompany.name : ''"/>
             </div> -->
 
             <!-- Hamburger Button (Grid icon to toggle the Start Menu) -->
-            <button class="o_unicore_sidebar_toggle btn d-flex align-items-center justify-content-center me-2"
-                    t-on-click="_toggleUnicoreStartMenu"
+            <button class="o_oacis_sidebar_toggle btn d-flex align-items-center justify-content-center me-2"
+                    t-on-click="_toggleOacisStartMenu"
                     title="Toggle Start Menu"
                     aria-label="Toggle Start Menu"
                     data-hotkey="h">
@@ -30,87 +30,87 @@
     <!-- Dual-tier sidebar: icon rail (tier 1) + tabbed submenu panel (tier 2).
          data-mini is only set on desktop so the mobile drawer keeps the full
          layout; the search input drives the "App & Menu Finder". -->
-    <t t-name="unicore_design.Sidebar">
-        <div class="o_unicore_sidebar"
+    <t t-name="oacis_design.Sidebar">
+        <div class="o_oacis_sidebar"
              t-att-data-mini="state.mini &amp;&amp; !ui.isSmall"
              t-att-data-open="state.open"
              t-att-data-search="!!query">
 
             <t t-portal="'body'">
-                <div class="o_unicore_sidebar_backdrop" t-if="state.open" t-on-click="closeMobile"/>
+                <div class="o_oacis_sidebar_backdrop" t-if="state.open" t-on-click="closeMobile"/>
             </t>
 
-            <div class="o_unicore_sidebar_inner">
-                <header class="o_unicore_sidebar_header">
-                    <button class="o_unicore_sidebar_logo" t-att-title="this._t('All Apps')"
+            <div class="o_oacis_sidebar_inner">
+                <header class="o_oacis_sidebar_header">
+                    <button class="o_oacis_sidebar_logo" t-att-title="this._t('All Apps')"
                             t-att-aria-label="this._t('All Apps')" t-on-click="toggleStartMenu">
                         <i class="oi oi-apps"/>
                     </button>
 
-                    <button t-if="state.mini &amp;&amp; !ui.isSmall" class="o_unicore_sidebar_search_mini"
+                    <button t-if="state.mini &amp;&amp; !ui.isSmall" class="o_oacis_sidebar_search_mini"
                             t-att-title="this._t('App &amp; Menu Finder')"
                             t-att-aria-label="this._t('App &amp; Menu Finder')"
                             t-on-click="toggleFinder">
                         <i class="oi oi-search"/>
                     </button>
 
-                    <div class="o_unicore_sidebar_head_content">
-                        <span class="o_unicore_sidebar_brand" t-esc="this._t('Navigation')"/>
-                        <input class="o_unicore_sidebar_search" type="search" t-ref="searchInput"
+                    <div class="o_oacis_sidebar_head_content">
+                        <span class="o_oacis_sidebar_brand" t-esc="this._t('Navigation')"/>
+                        <input class="o_oacis_sidebar_search" type="search" t-ref="searchInput"
                                t-att-placeholder="this._t('App &amp; Menu Finder…')"
                                t-att-aria-label="this._t('App &amp; Menu Finder')"
                                t-model="state.search"/>
                     </div>
 
-                    <button class="o_unicore_sidebar_close" t-att-title="this._t('Close')"
+                    <button class="o_oacis_sidebar_close" t-att-title="this._t('Close')"
                             t-att-aria-label="this._t('Close')" t-on-click="closeMobile">
                         <i class="oi oi-close"/>
                     </button>
                 </header>
 
-                <div class="o_unicore_sidebar_body">
+                <div class="o_oacis_sidebar_body">
                     <!-- Tier 1: primary vertical icon bar -->
-                    <nav class="o_unicore_sidebar_rail">
+                    <nav class="o_oacis_sidebar_rail">
                         <t t-foreach="visibleApps" t-as="app" t-key="app.id">
-                            <button class="o_unicore_sidebar_app"
+                            <button class="o_oacis_sidebar_app"
                                     t-att-data-active="state.activeAppId === app.id"
                                     t-att-title="app.name"
                                     t-on-mouseenter="ev => this.onAppHover(app)"
                                     t-on-click="ev => this.onAppClick(ev, app)">
-                                <img t-if="app.webIconData" class="o_unicore_sidebar_app_icon"
+                                <img t-if="app.webIconData" class="o_oacis_sidebar_app_icon"
                                      t-attf-src="{{app.webIconData}}" alt="" loading="lazy"/>
-                                <span t-else="" class="o_unicore_sidebar_app_letter"
+                                <span t-else="" class="o_oacis_sidebar_app_letter"
                                       t-att-style="'background: ' + letterColor(app)"
                                       t-esc="app.name.charAt(0)"/>
                             </button>
                         </t>
-                        <div t-if="!visibleApps.length" class="o_unicore_sidebar_rail_empty">
+                        <div t-if="!visibleApps.length" class="o_oacis_sidebar_rail_empty">
                             <t t-esc="this._t('No matches')"/>
                         </div>
                     </nav>
 
                     <!-- Tier 2: tabbed submenu panel (auto-expands on hover) -->
-                    <aside class="o_unicore_sidebar_panel">
-                        <header class="o_unicore_sidebar_panel_header"
+                    <aside class="o_oacis_sidebar_panel">
+                        <header class="o_oacis_sidebar_panel_header"
                                 t-att-title="query ? this._t('Search results') : (activeApp ? activeApp.name : this._t('Apps'))"
                                 t-on-click="onPanelHeaderClick">
-                            <img t-if="activeApp &amp;&amp; activeApp.webIconData" class="o_unicore_sidebar_panel_icon"
+                            <img t-if="activeApp &amp;&amp; activeApp.webIconData" class="o_oacis_sidebar_panel_icon"
                                  t-attf-src="{{activeApp.webIconData}}" alt=""/>
-                            <span t-elif="activeApp" class="o_unicore_sidebar_panel_letter"
+                            <span t-elif="activeApp" class="o_oacis_sidebar_panel_letter"
                                   t-att-style="'background: ' + letterColor(activeApp)"
                                   t-esc="activeApp.name.charAt(0)"/>
-                            <span class="o_unicore_sidebar_panel_title"
+                            <span class="o_oacis_sidebar_panel_title"
                                   t-esc="query ? this._t('Search results') : (activeApp ? activeApp.name : this._t('Apps'))"/>
                         </header>
 
-                        <div class="o_unicore_sidebar_panel_scroll">
+                        <div class="o_oacis_sidebar_panel_scroll">
                             <t t-if="query">
                                 <t t-foreach="searchGroups" t-as="group" t-key="group.app.id">
-                                    <section class="o_unicore_sidebar_group">
-                                        <h3 class="o_unicore_sidebar_group_title" t-esc="group.app.name"/>
-                                        <ul class="o_unicore_sidebar_list">
+                                    <section class="o_oacis_sidebar_group">
+                                        <h3 class="o_oacis_sidebar_group_title" t-esc="group.app.name"/>
+                                        <ul class="o_oacis_sidebar_list">
                                             <t t-foreach="group.menus" t-as="menu" t-key="menu.id">
-                                                <li class="o_unicore_sidebar_item"
+                                                <li class="o_oacis_sidebar_item"
                                                     t-att-data-active="isCurrent(menu)"
                                                     t-on-click="ev => this.onMenuClick(ev, menu)">
                                                     <span t-esc="menu.name"/>
@@ -119,7 +119,7 @@
                                         </ul>
                                     </section>
                                 </t>
-                                <div t-if="!searchGroups.length" class="o_unicore_sidebar_empty">
+                                <div t-if="!searchGroups.length" class="o_oacis_sidebar_empty">
                                     <t t-esc="this._t('No results for')"/> “<t t-esc="query"/>”
                                 </div>
                             </t>
@@ -129,7 +129,7 @@
                                     <!-- A section with no children is itself a
                                          menu entry -> render it as a clickable item. -->
                                     <t t-if="section.name &amp;&amp; !section.childrenTree.length">
-                                        <div class="o_unicore_sidebar_item"
+                                        <div class="o_oacis_sidebar_item"
                                              t-att-data-active="isCurrent(section)"
                                              t-on-click="ev => this.onMenuClick(ev, section)">
                                             <span t-esc="section.name"/>
@@ -138,27 +138,27 @@
                                     <!-- A section with children becomes a group
                                          header (also clickable) + its items. -->
                                     <t t-else="">
-                                        <section class="o_unicore_sidebar_group" t-if="section.name">
-                                            <h3 class="o_unicore_sidebar_group_title"
+                                        <section class="o_oacis_sidebar_group" t-if="section.name">
+                                            <h3 class="o_oacis_sidebar_group_title"
                                                 t-on-click="ev => this.onMenuClick(ev, section)">
                                                 <span t-esc="section.name"/>
                                             </h3>
-                                            <ul class="o_unicore_sidebar_list">
+                                            <ul class="o_oacis_sidebar_list">
                                                 <t t-foreach="section.childrenTree" t-as="menu" t-key="menu.id">
                                                     <t t-if="!menu.childrenTree.length">
-                                                        <li class="o_unicore_sidebar_item"
+                                                        <li class="o_oacis_sidebar_item"
                                                             t-att-data-active="isCurrent(menu)"
                                                             t-on-click="ev => this.onMenuClick(ev, menu)">
                                                             <span t-esc="menu.name"/>
                                                         </li>
                                                     </t>
                                                     <t t-else="">
-                                                        <li class="o_unicore_sidebar_item o_unicore_sidebar_item_parent"
+                                                        <li class="o_oacis_sidebar_item o_oacis_sidebar_item_parent"
                                                             t-on-click="ev => this.onMenuClick(ev, menu)">
-                                                            <span class="o_unicore_sidebar_item_name" t-esc="menu.name"/>
-                                                            <ul class="o_unicore_sidebar_sub">
+                                                            <span class="o_oacis_sidebar_item_name" t-esc="menu.name"/>
+                                                            <ul class="o_oacis_sidebar_sub">
                                                                 <t t-foreach="menu.childrenTree" t-as="child" t-key="child.id">
-                                                                    <li class="o_unicore_sidebar_item"
+                                                                    <li class="o_oacis_sidebar_item"
                                                                         t-att-data-active="isCurrent(child)"
                                                                         t-on-click="ev => this.onMenuClick(ev, child)">
                                                                         <span t-esc="child.name"/>
@@ -172,7 +172,7 @@
                                         </section>
                                     </t>
                                 </t>
-                                <div t-if="activeApp &amp;&amp; !activeSections.length" class="o_unicore_sidebar_empty">
+                                <div t-if="activeApp &amp;&amp; !activeSections.length" class="o_oacis_sidebar_empty">
                                     <t t-esc="this._t('No sub-menus for this app.')"/>
                                 </div>
                             </t>
@@ -180,12 +180,12 @@
                     </aside>
                 </div>
 
-                <footer class="o_unicore_sidebar_footer">
-                    <button class="o_unicore_sidebar_mini" t-on-click="toggleMini"
+                <footer class="o_oacis_sidebar_footer">
+                    <button class="o_oacis_sidebar_mini" t-on-click="toggleMini"
                             t-att-title="state.mini ? this._t('Expand sidebar') : this._t('Collapse to icons')"
                             t-att-aria-label="state.mini ? this._t('Expand sidebar') : this._t('Collapse to icons')">
                         <i t-att-class="'fa ' + (state.mini ? 'fa-chevron-right' : 'fa-chevron-left')"/>
-                        <span class="o_unicore_sidebar_footer_label"
+                        <span class="o_oacis_sidebar_footer_label"
                               t-esc="state.mini ? this._t('Expand') : this._t('Collapse')"/>
                     </button>
                 </footer>

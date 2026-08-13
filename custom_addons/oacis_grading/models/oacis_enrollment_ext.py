@@ -1,7 +1,7 @@
 """
-UniCore Enrollment & Student Extensions \u2014 Grading Module
-Adds grade_entry_id reverse link to unicore.enrollment
-and grade-related fields/actions to unicore.student.
+Oacis Enrollment & Student Extensions \u2014 Grading Module
+Adds grade_entry_id reverse link to oacis.enrollment
+and grade-related fields/actions to oacis.student.
 """
 
 import logging
@@ -11,11 +11,11 @@ from odoo import _, fields, models
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreEnrollmentGradingExt(models.Model):
-    _inherit = 'unicore.enrollment'
+class OacisEnrollmentGradingExt(models.Model):
+    _inherit = 'oacis.enrollment'
 
     grade_entry_id = fields.One2many(
-        comodel_name='unicore.grade.entry',
+        comodel_name='oacis.grade.entry',
         inverse_name='enrollment_id',
         string='Grade Entry',
         readonly=True,
@@ -31,8 +31,8 @@ class UniCoreEnrollmentGradingExt(models.Model):
             rec.grade_entry_count = len(rec.grade_entry_id)
 
 
-class UniCoreStudentGradingExt(models.Model):
-    _inherit = 'unicore.student'
+class OacisStudentGradingExt(models.Model):
+    _inherit = 'oacis.student'
 
     grade_entry_count_student = fields.Integer(
         string='Grade Entries',
@@ -40,7 +40,7 @@ class UniCoreStudentGradingExt(models.Model):
         store=False,
     )
     enrollment_ids_for_grades = fields.One2many(
-        comodel_name='unicore.enrollment',
+        comodel_name='oacis.enrollment',
         inverse_name='student_id',
         string='Enrollments',
         readonly=True,
@@ -66,7 +66,7 @@ class UniCoreStudentGradingExt(models.Model):
     )
 
     def _compute_grade_entry_count_student(self):
-        GradeEntry = self.env['unicore.grade.entry']
+        GradeEntry = self.env['oacis.grade.entry']
         if not self:
             return
         # Batch: one search for all students instead of a per-record
@@ -88,7 +88,7 @@ class UniCoreStudentGradingExt(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Grade Entries'),
-            'res_model': 'unicore.grade.entry',
+            'res_model': 'oacis.grade.entry',
             'view_mode': 'list,form',
             'domain': [('student_id', '=', self.id)],
             'context': {

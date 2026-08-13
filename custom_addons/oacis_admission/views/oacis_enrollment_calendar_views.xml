@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_enrollment_calendar_view" model="ir.ui.view">
-        <field name="name">unicore.enrollment.calendar</field>
-        <field name="model">unicore.enrollment</field>
+    <record id="oacis_enrollment_calendar_view" model="ir.ui.view">
+        <field name="name">oacis.enrollment.calendar</field>
+        <field name="model">oacis.enrollment</field>
         <field name="type">calendar</field>
         <field name="arch" type="xml">
             <calendar date_start="registration_date" color="color" string="Enrollment Calendar">
@@ -25,9 +25,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_enrollment_waitlist_calendar_view" model="ir.ui.view">
-        <field name="name">unicore.enrollment.waitlist.calendar</field>
-        <field name="model">unicore.enrollment.waitlist</field>
+    <record id="oacis_enrollment_waitlist_calendar_view" model="ir.ui.view">
+        <field name="name">oacis.enrollment.waitlist.calendar</field>
+        <field name="model">oacis.enrollment.waitlist</field>
         <field name="type">calendar</field>
         <field name="arch" type="xml">
             <calendar date_start="waitlist_date" color="color" string="Enrollment Waitlist Calendar">

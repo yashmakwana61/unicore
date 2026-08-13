@@ -6,9 +6,9 @@
         <!-- FORM VIEW                                                     -->
         <!-- ============================================================ -->
 
-        <record id="view_unicore_enrollment_waitlist_form" model="ir.ui.view">
-            <field name="name">unicore.enrollment.waitlist.form</field>
-            <field name="model">unicore.enrollment.waitlist</field>
+        <record id="view_oacis_enrollment_waitlist_form" model="ir.ui.view">
+            <field name="name">oacis.enrollment.waitlist.form</field>
+            <field name="model">oacis.enrollment.waitlist</field>
             <field name="arch" type="xml">
                 <form>
                     <header>
@@ -17,15 +17,15 @@
                                 string="Promote to Enrollment"
                                 class="btn-primary"
                                 invisible="waitlist_state != 'waiting'"
-                                groups="unicore_base.group_unicore_registrar"/>
+                                groups="oacis_base.group_oacis_registrar"/>
                         <button name="action_decline" type="object"
                                 string="Mark Declined"
                                 invisible="waitlist_state != 'waiting'"
-                                groups="unicore_base.group_unicore_registrar"/>
+                                groups="oacis_base.group_oacis_registrar"/>
                         <button name="action_expire" type="object"
                                 string="Mark Expired"
                                 invisible="waitlist_state != 'waiting'"
-                                groups="unicore_base.group_unicore_registrar"/>
+                                groups="oacis_base.group_oacis_registrar"/>
                     </header>
                     <sheet>
                         <group>
@@ -52,9 +52,9 @@
         <!-- LIST VIEW                                                     -->
         <!-- ============================================================ -->
 
-        <record id="view_unicore_enrollment_waitlist_list" model="ir.ui.view">
-            <field name="name">unicore.enrollment.waitlist.list</field>
-            <field name="model">unicore.enrollment.waitlist</field>
+        <record id="view_oacis_enrollment_waitlist_list" model="ir.ui.view">
+            <field name="name">oacis.enrollment.waitlist.list</field>
+            <field name="model">oacis.enrollment.waitlist</field>
             <field name="arch" type="xml">
                 <list decoration-warning="waitlist_state == 'waiting'"
                       decoration-success="waitlist_state == 'promoted'"
@@ -73,9 +73,9 @@
         <!-- SEARCH VIEW                                                   -->
         <!-- ============================================================ -->
 
-        <record id="view_unicore_enrollment_waitlist_search" model="ir.ui.view">
-            <field name="name">unicore.enrollment.waitlist.search</field>
-            <field name="model">unicore.enrollment.waitlist</field>
+        <record id="view_oacis_enrollment_waitlist_search" model="ir.ui.view">
+            <field name="name">oacis.enrollment.waitlist.search</field>
+            <field name="model">oacis.enrollment.waitlist</field>
             <field name="arch" type="xml">
                 <search>
                     <field name="student_id"/>
@@ -98,9 +98,9 @@
         <!-- WINDOW ACTION                                                 -->
         <!-- ============================================================ -->
 
-        <record id="action_unicore_enrollment_waitlist" model="ir.actions.act_window">
+        <record id="action_oacis_enrollment_waitlist" model="ir.actions.act_window">
             <field name="name">Enrollment Waitlist</field>
-            <field name="res_model">unicore.enrollment.waitlist</field>
+            <field name="res_model">oacis.enrollment.waitlist</field>
             <field name="view_mode">list,form</field>
             <field name="context">{'search_default_waiting': 1}</field>
         </record>

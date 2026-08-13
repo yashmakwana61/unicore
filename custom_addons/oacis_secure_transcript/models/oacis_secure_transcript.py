@@ -18,15 +18,15 @@ except ImportError:
 
 
 class SecureTranscript(models.Model):
-    _name = 'unicore.secure.transcript'
+    _name = 'oacis.secure.transcript'
     _description = 'Secure Transcript'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'issued_date desc'
     _check_company_auto = True
     _rec_name = 'name'
 
     student_id = fields.Many2one(
-        'unicore.student',
+        'oacis.student',
         string='Student',
         required=True,
         ondelete='cascade',
@@ -39,8 +39,8 @@ class SecureTranscript(models.Model):
         store=True,
     )
     semester_result_ids = fields.Many2many(
-        'unicore.semester.result',
-        'unicore_transcript_result_rel',
+        'oacis.semester.result',
+        'oacis_transcript_result_rel',
         'transcript_id', 'result_id',
         string='Semester Results',
         domain="[('student_id', '=', student_id), ('is_published', '=', True)]",

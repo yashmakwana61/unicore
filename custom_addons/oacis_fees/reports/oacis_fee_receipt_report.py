@@ -85,16 +85,16 @@ def indian_format(amount):
     return '₹ ' + result + '.' + str(decimal_part).zfill(2)
 
 
-class UniCoreFeeReceiptReport(models.AbstractModel):
-    _name = 'report.unicore_fees.fee_receipt_template'
+class OacisFeeReceiptReport(models.AbstractModel):
+    _name = 'report.oacis_fees.fee_receipt_template'
     _description = 'Fee Payment Receipt Report'
 
     @api.model
     def _get_report_values(self, docids, data=None):
-        payments = self.env['unicore.fee.payment'].browse(docids)
+        payments = self.env['oacis.fee.payment'].browse(docids)
         return {
             'doc_ids': docids,
-            'doc_model': 'unicore.fee.payment',
+            'doc_model': 'oacis.fee.payment',
             'docs': payments,
             'amount_to_words': amount_to_words,
             'indian_format': indian_format,

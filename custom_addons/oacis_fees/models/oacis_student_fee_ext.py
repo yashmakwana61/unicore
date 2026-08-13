@@ -1,6 +1,6 @@
 """
-UniCore Student Extension — Fees Module
-Adds fee summary fields to unicore.student record.
+Oacis Student Extension — Fees Module
+Adds fee summary fields to oacis.student record.
 """
 
 import logging
@@ -10,11 +10,11 @@ from odoo import _, fields, models
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreStudentFeeExt(models.Model):
-    _inherit = 'unicore.student'
+class OacisStudentFeeExt(models.Model):
+    _inherit = 'oacis.student'
 
     fee_invoice_ids = fields.One2many(
-        comodel_name='unicore.fee.invoice',
+        comodel_name='oacis.fee.invoice',
         inverse_name='student_id',
         string='Fee Invoices',
         readonly=True,
@@ -56,7 +56,7 @@ class UniCoreStudentFeeExt(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Fee Invoices'),
-            'res_model': 'unicore.fee.invoice',
+            'res_model': 'oacis.fee.invoice',
             'view_mode': 'list,form',
             'domain': [('student_id', '=', self.id)],
             'context': {'default_student_id': self.id},

@@ -1,1 +1,1 @@
-from . import unicore_digital_material
+from . import oacis_digital_material

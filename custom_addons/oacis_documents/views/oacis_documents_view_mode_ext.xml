@@ -4,19 +4,19 @@
     <!-- Expose the new kanban/calendar/pivot/graph/activity views through the
          view switcher on the existing actions. -->
 
-    <record id="action_unicore_document_all" model="ir.actions.act_window">
+    <record id="action_oacis_document_all" model="ir.actions.act_window">
         <field name="view_mode">list,kanban,form,activity</field>
     </record>
 
-    <record id="action_unicore_document_institutional" model="ir.actions.act_window">
+    <record id="action_oacis_document_institutional" model="ir.actions.act_window">
         <field name="view_mode">list,kanban,form,activity</field>
     </record>
 
-    <record id="action_unicore_document_student" model="ir.actions.act_window">
+    <record id="action_oacis_document_student" model="ir.actions.act_window">
         <field name="view_mode">list,form,kanban,activity</field>
     </record>
 
-    <record id="action_unicore_document_unverified" model="ir.actions.act_window">
+    <record id="action_oacis_document_unverified" model="ir.actions.act_window">
         <field name="view_mode">list,form,kanban,activity</field>
     </record>
 

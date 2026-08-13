@@ -2,12 +2,12 @@
 <odoo>
     <record id="action_report_fee_receipt" model="ir.actions.report">
         <field name="name">Fee Payment Receipt</field>
-        <field name="model">unicore.fee.payment</field>
+        <field name="model">oacis.fee.payment</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">unicore_fees.fee_receipt_template</field>
-        <field name="report_file">unicore_fees.fee_receipt_template</field>
+        <field name="report_name">oacis_fees.fee_receipt_template</field>
+        <field name="report_file">oacis_fees.fee_receipt_template</field>
         <field name="print_report_name">'Fee-Receipt-%s' % object.receipt_number</field>
-        <field name="binding_model_id" ref="unicore_fees.model_unicore_fee_payment"/>
+        <field name="binding_model_id" ref="oacis_fees.model_oacis_fee_payment"/>
         <field name="binding_type">report</field>
         <field name="paperformat_id" ref="base.paperformat_euro"/>
     </record>

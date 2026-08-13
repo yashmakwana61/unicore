@@ -11,8 +11,8 @@ from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'unit')
-class UniCoreCourseDepartmentTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'unit')
+class OacisCourseDepartmentTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
@@ -20,12 +20,12 @@ class UniCoreCourseDepartmentTest(TransactionCase):
         cls.company = cls.env.company
         # Legacy baseline: no profile set.
         cls.company.institution_profile_id = False
-        cls.faculty = cls.env['unicore.faculty'].create({
+        cls.faculty = cls.env['oacis.faculty'].create({
             'name': 'Test Faculty of Science',
             'code': 'TFSC',
             'company_id': cls.company.id,
         })
-        cls.department = cls.env['unicore.department'].create({
+        cls.department = cls.env['oacis.department'].create({
             'name': 'Test Physics',
             'code': 'TPHY',
             'faculty_id': cls.faculty.id,
@@ -44,13 +44,13 @@ class UniCoreCourseDepartmentTest(TransactionCase):
     def test_01_legacy_course_requires_department(self):
         self.company.institution_profile_id = False
         with self.assertRaises(ValidationError):
-            self.env['unicore.course'].create(
+            self.env['oacis.course'].create(
                 self._course_vals(code='TCRS01'),
             )
 
     def test_02_legacy_course_with_department_ok(self):
         self.company.institution_profile_id = False
-        course = self.env['unicore.course'].create(
+        course = self.env['oacis.course'].create(
             self._course_vals(
                 code='TCRS02',
                 department_id=self.department.id,
@@ -61,7 +61,7 @@ class UniCoreCourseDepartmentTest(TransactionCase):
         self.assertEqual(course.academic_faculty_id, self.faculty)
 
     def test_03_school_course_without_department_ok(self):
-        profile = self.env['unicore.institution.profile'].create({
+        profile = self.env['oacis.institution.profile'].create({
             'name': 'Test School',
             'code': 'TEST-SCHOOL-DEPT',
             'institution_type': 'school',
@@ -69,7 +69,7 @@ class UniCoreCourseDepartmentTest(TransactionCase):
             'grading_scheme': 'simple_percentage',
         })
         self.company.institution_profile_id = profile.id
-        course = self.env['unicore.course'].create(
+        course = self.env['oacis.course'].create(
             self._course_vals(code='TCRS03'),
         )
         self.assertFalse(course.is_legacy_institution)
@@ -78,7 +78,7 @@ class UniCoreCourseDepartmentTest(TransactionCase):
 
     def test_04_legacy_write_removing_department_fails(self):
         self.company.institution_profile_id = False
-        course = self.env['unicore.course'].create(
+        course = self.env['oacis.course'].create(
             self._course_vals(
                 code='TCRS04',
                 department_id=self.department.id,

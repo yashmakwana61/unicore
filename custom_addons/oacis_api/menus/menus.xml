@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <menuitem id="menu_unicore_api_root"
+  <menuitem id="menu_oacis_api_root"
             name="API Management"
-            parent="unicore_base.menu_unicore_root"
+            parent="oacis_base.menu_oacis_root"
             sequence="90"/>
 
-  <menuitem id="menu_unicore_api_keys"
+  <menuitem id="menu_oacis_api_keys"
             name="API Keys"
-            parent="menu_unicore_api_root"
-            action="action_unicore_api_key"
+            parent="menu_oacis_api_root"
+            action="action_oacis_api_key"
             sequence="10"/>
 </odoo>

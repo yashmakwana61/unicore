@@ -1,15 +1,15 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_unicore_enrollment_portal,Enrollment Portal,unicore_admission.model_unicore_enrollment,base.group_portal,1,0,0,0
-access_unicore_grade_entry_portal,Grade Entry Portal,unicore_grading.model_unicore_grade_entry,base.group_portal,1,0,0,0
-access_unicore_semester_result_portal,Semester Result Portal,unicore_grading.model_unicore_semester_result,base.group_portal,1,0,0,0
-access_unicore_fee_invoice_portal,Fee Invoice Portal,unicore_fees.model_unicore_fee_invoice,base.group_portal,1,0,0,0
-access_unicore_fee_payment_portal,Fee Payment Portal,unicore_fees.model_unicore_fee_payment,base.group_portal,1,0,0,0
-access_unicore_hall_ticket_portal,Hall Ticket Portal,unicore_exam.model_unicore_exam_hall_ticket,base.group_portal,1,0,0,0
-access_unicore_attendance_record_portal,Attendance Portal,unicore_attendance.model_unicore_attendance_record,base.group_portal,1,0,0,0
-access_unicore_scholarship_app_portal,Scholarship App Portal,unicore_scholarship.model_unicore_scholarship_application,base.group_portal,1,0,0,0
-access_unicore_timetable_entry_portal,Timetable Entry Portal,unicore_timetable.model_unicore_timetable_entry,base.group_portal,1,0,0,0
-access_unicore_student_portal,Student Portal,unicore_student.model_unicore_student,base.group_portal,1,0,0,0
-access_unicore_assignment_portal,Assignment Portal,unicore_assignment.model_unicore_assignment,base.group_portal,1,0,0,0
-access_unicore_assignment_submission_portal,Assignment Submission Portal,unicore_assignment.model_unicore_assignment_submission,base.group_portal,1,1,1,0
-access_unicore_assignment_rubric_portal,Assignment Rubric Portal,unicore_assignment.model_unicore_assignment_rubric,base.group_portal,1,0,0,0
-access_unicore_assignment_rubric_criterion_portal,Assignment Rubric Criterion Portal,unicore_assignment.model_unicore_assignment_rubric_criterion,base.group_portal,1,0,0,0
+access_oacis_enrollment_portal,Enrollment Portal,oacis_admission.model_oacis_enrollment,base.group_portal,1,0,0,0
+access_oacis_grade_entry_portal,Grade Entry Portal,oacis_grading.model_oacis_grade_entry,base.group_portal,1,0,0,0
+access_oacis_semester_result_portal,Semester Result Portal,oacis_grading.model_oacis_semester_result,base.group_portal,1,0,0,0
+access_oacis_fee_invoice_portal,Fee Invoice Portal,oacis_fees.model_oacis_fee_invoice,base.group_portal,1,0,0,0
+access_oacis_fee_payment_portal,Fee Payment Portal,oacis_fees.model_oacis_fee_payment,base.group_portal,1,0,0,0
+access_oacis_hall_ticket_portal,Hall Ticket Portal,oacis_exam.model_oacis_exam_hall_ticket,base.group_portal,1,0,0,0
+access_oacis_attendance_record_portal,Attendance Portal,oacis_attendance.model_oacis_attendance_record,base.group_portal,1,0,0,0
+access_oacis_scholarship_app_portal,Scholarship App Portal,oacis_scholarship.model_oacis_scholarship_application,base.group_portal,1,0,0,0
+access_oacis_timetable_entry_portal,Timetable Entry Portal,oacis_timetable.model_oacis_timetable_entry,base.group_portal,1,0,0,0
+access_oacis_student_portal,Student Portal,oacis_student.model_oacis_student,base.group_portal,1,0,0,0
+access_oacis_assignment_portal,Assignment Portal,oacis_assignment.model_oacis_assignment,base.group_portal,1,0,0,0
+access_oacis_assignment_submission_portal,Assignment Submission Portal,oacis_assignment.model_oacis_assignment_submission,base.group_portal,1,1,1,0
+access_oacis_assignment_rubric_portal,Assignment Rubric Portal,oacis_assignment.model_oacis_assignment_rubric,base.group_portal,1,0,0,0
+access_oacis_assignment_rubric_criterion_portal,Assignment Rubric Criterion Portal,oacis_assignment.model_oacis_assignment_rubric_criterion,base.group_portal,1,0,0,0

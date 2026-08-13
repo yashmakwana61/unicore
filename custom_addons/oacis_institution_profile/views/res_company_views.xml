@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-  <!-- Extend the UniCore company form (defined in unicore_base) to add the
-         institution profile driver. Inherit the unicore view, not base, to keep
+  <!-- Extend the Oacis company form (defined in oacis_base) to add the
+         institution profile driver. Inherit the oacis view, not base, to keep
          field ordering. -->
   <record id="view_res_company_form_inherit_institution_profile" model="ir.ui.view">
     <field name="name">res.company.form.inherit.institution.profile</field>
     <field name="model">res.company</field>
-    <field name="inherit_id" ref="unicore_base.view_res_company_form_inherit_unicore"/>
+    <field name="inherit_id" ref="oacis_base.view_res_company_form_inherit_oacis"/>
     <field name="arch" type="xml">
       <field name="university_type" position="after">
         <field name="institution_profile_id" options="{'no_create': True}"/>

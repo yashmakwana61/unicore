@@ -1,7 +1,7 @@
 """
-UniCore Finance Reports Application
+Oacis Finance Reports Application
 Provides financial reporting, analytics dashboards,
-KPI tracking and PDF reports for UniCore ERP fee
+KPI tracking and PDF reports for Oacis ERP fee
 and scholarship data.
 """
 from . import models

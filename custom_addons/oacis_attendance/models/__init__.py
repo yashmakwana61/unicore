@@ -1,8 +1,8 @@
 """
-UniCore Attendance — Models Package
+Oacis Attendance — Models Package
 """
 from . import (
-    unicore_attendance_policy,
-    unicore_attendance_record,
-    unicore_attendance_session,
+    oacis_attendance_policy,
+    oacis_attendance_record,
+    oacis_attendance_session,
 )

@@ -24,10 +24,10 @@
       <field name="type">contact</field>
     </record>
     <!-- Link the demo faculty member and student to these partners -->
-    <record id="uc_demo_faculty_rajesh" model="unicore.faculty.member">
+    <record id="uc_demo_faculty_rajesh" model="oacis.faculty.member">
       <field name="partner_id" ref="uc_demo_partner_faculty_rajesh"/>
     </record>
-    <record id="uc_demo_student_arav" model="unicore.student">
+    <record id="uc_demo_student_arav" model="oacis.student">
       <field name="partner_id" ref="uc_demo_partner_student_arav"/>
     </record>
     <!-- ================================================================
@@ -35,16 +35,16 @@
          (needed so assignments and the faculty portal resolve the
          instructor of each offering)
     ================================================================ -->
-    <record id="uc_demo_offering_cs101" model="unicore.course.offering">
+    <record id="uc_demo_offering_cs101" model="oacis.course.offering">
       <field name="faculty_member_id" ref="uc_demo_faculty_rajesh"/>
     </record>
-    <record id="uc_demo_offering_math101" model="unicore.course.offering">
+    <record id="uc_demo_offering_math101" model="oacis.course.offering">
       <field name="faculty_member_id" ref="uc_demo_faculty_anita"/>
     </record>
-    <record id="uc_demo_offering_mba101" model="unicore.course.offering">
+    <record id="uc_demo_offering_mba101" model="oacis.course.offering">
       <field name="faculty_member_id" ref="uc_demo_faculty_suresh"/>
     </record>
-    <record id="uc_demo_offering_mba102" model="unicore.course.offering">
+    <record id="uc_demo_offering_mba102" model="oacis.course.offering">
       <field name="faculty_member_id" ref="uc_demo_faculty_suresh"/>
     </record>
     <!-- ================================================================
@@ -60,7 +60,7 @@
       <field name="partner_id" ref="uc_demo_partner_faculty_rajesh"/>
       <field name="company_id" ref="base.main_company"/>
       <field name="company_ids" eval="[(6, 0, [ref('base.main_company')])]"/>
-      <field name="group_ids" eval="[(6, 0, [ref('unicore_base.group_unicore_faculty')])]"/>
+      <field name="group_ids" eval="[(6, 0, [ref('oacis_base.group_oacis_faculty')])]"/>
     </record>
     <record id="uc_demo_user_student_arav" model="res.users">
       <field name="name">Aarav Patel (Student)</field>
@@ -69,32 +69,32 @@
       <field name="partner_id" ref="uc_demo_partner_student_arav"/>
       <field name="company_id" ref="base.main_company"/>
       <field name="company_ids" eval="[(6, 0, [ref('base.main_company')])]"/>
-      <field name="group_ids" eval="[(6, 0, [ref('base.group_portal'), ref('unicore_base.group_unicore_student')])]"/>
+      <field name="group_ids" eval="[(6, 0, [ref('base.group_portal'), ref('oacis_base.group_oacis_student')])]"/>
     </record>
     <!-- ================================================================
          DEMO RUBRICS
     ================================================================ -->
     <!-- Homework Rubric (10 pts) -->
-    <record id="uc_demo_rubric_homework" model="unicore.assignment.rubric">
+    <record id="uc_demo_rubric_homework" model="oacis.assignment.rubric">
       <field name="name">Homework Rubric</field>
       <field name="description">&lt;p&gt;Standard rubric used to grade homework and problem sets.&lt;/p&gt;</field>
       <field name="company_id" ref="base.main_company"/>
     </record>
-    <record id="uc_demo_criterion_hw_completeness" model="unicore.assignment.rubric.criterion">
+    <record id="uc_demo_criterion_hw_completeness" model="oacis.assignment.rubric.criterion">
       <field name="rubric_id" ref="uc_demo_rubric_homework"/>
       <field name="sequence">10</field>
       <field name="name">Completeness</field>
       <field name="max_points">4.0</field>
       <field name="description">All parts of the assignment answered.</field>
     </record>
-    <record id="uc_demo_criterion_hw_correctness" model="unicore.assignment.rubric.criterion">
+    <record id="uc_demo_criterion_hw_correctness" model="oacis.assignment.rubric.criterion">
       <field name="rubric_id" ref="uc_demo_rubric_homework"/>
       <field name="sequence">20</field>
       <field name="name">Correctness</field>
       <field name="max_points">4.0</field>
       <field name="description">Solutions are technically correct.</field>
     </record>
-    <record id="uc_demo_criterion_hw_presentation" model="unicore.assignment.rubric.criterion">
+    <record id="uc_demo_criterion_hw_presentation" model="oacis.assignment.rubric.criterion">
       <field name="rubric_id" ref="uc_demo_rubric_homework"/>
       <field name="sequence">30</field>
       <field name="name">Presentation</field>
@@ -102,33 +102,33 @@
       <field name="description">Clear, tidy and well-structured submission.</field>
     </record>
     <!-- Lab Report Rubric (25 pts) -->
-    <record id="uc_demo_rubric_lab_report" model="unicore.assignment.rubric">
+    <record id="uc_demo_rubric_lab_report" model="oacis.assignment.rubric">
       <field name="name">Lab Report Rubric</field>
       <field name="description">&lt;p&gt;Rubric for evaluating laboratory reports and practical work.&lt;/p&gt;</field>
       <field name="company_id" ref="base.main_company"/>
     </record>
-    <record id="uc_demo_criterion_lab_analysis" model="unicore.assignment.rubric.criterion">
+    <record id="uc_demo_criterion_lab_analysis" model="oacis.assignment.rubric.criterion">
       <field name="rubric_id" ref="uc_demo_rubric_lab_report"/>
       <field name="sequence">10</field>
       <field name="name">Problem Analysis</field>
       <field name="max_points">5.0</field>
       <field name="description">Correctly interprets the problem statement.</field>
     </record>
-    <record id="uc_demo_criterion_lab_impl" model="unicore.assignment.rubric.criterion">
+    <record id="uc_demo_criterion_lab_impl" model="oacis.assignment.rubric.criterion">
       <field name="rubric_id" ref="uc_demo_rubric_lab_report"/>
       <field name="sequence">20</field>
       <field name="name">Implementation</field>
       <field name="max_points">10.0</field>
       <field name="description">Working code with correct logic.</field>
     </record>
-    <record id="uc_demo_criterion_lab_testing" model="unicore.assignment.rubric.criterion">
+    <record id="uc_demo_criterion_lab_testing" model="oacis.assignment.rubric.criterion">
       <field name="rubric_id" ref="uc_demo_rubric_lab_report"/>
       <field name="sequence">30</field>
       <field name="name">Testing</field>
       <field name="max_points">5.0</field>
       <field name="description">Edge cases tested and documented.</field>
     </record>
-    <record id="uc_demo_criterion_lab_docs" model="unicore.assignment.rubric.criterion">
+    <record id="uc_demo_criterion_lab_docs" model="oacis.assignment.rubric.criterion">
       <field name="rubric_id" ref="uc_demo_rubric_lab_report"/>
       <field name="sequence">40</field>
       <field name="name">Documentation</field>
@@ -136,33 +136,33 @@
       <field name="description">Comments, report and references.</field>
     </record>
     <!-- Project Rubric (30 pts) -->
-    <record id="uc_demo_rubric_project" model="unicore.assignment.rubric">
+    <record id="uc_demo_rubric_project" model="oacis.assignment.rubric">
       <field name="name">Project Rubric</field>
       <field name="description">&lt;p&gt;Rubric for evaluating case studies and projects.&lt;/p&gt;</field>
       <field name="company_id" ref="base.main_company"/>
     </record>
-    <record id="uc_demo_criterion_proj_research" model="unicore.assignment.rubric.criterion">
+    <record id="uc_demo_criterion_proj_research" model="oacis.assignment.rubric.criterion">
       <field name="rubric_id" ref="uc_demo_rubric_project"/>
       <field name="sequence">10</field>
       <field name="name">Research &amp; Analysis</field>
       <field name="max_points">10.0</field>
       <field name="description">Depth of research and data analysis.</field>
     </record>
-    <record id="uc_demo_criterion_proj_concepts" model="unicore.assignment.rubric.criterion">
+    <record id="uc_demo_criterion_proj_concepts" model="oacis.assignment.rubric.criterion">
       <field name="rubric_id" ref="uc_demo_rubric_project"/>
       <field name="sequence">20</field>
       <field name="name">Application of Concepts</field>
       <field name="max_points">10.0</field>
       <field name="description">Uses course frameworks correctly.</field>
     </record>
-    <record id="uc_demo_criterion_proj_reco" model="unicore.assignment.rubric.criterion">
+    <record id="uc_demo_criterion_proj_reco" model="oacis.assignment.rubric.criterion">
       <field name="rubric_id" ref="uc_demo_rubric_project"/>
       <field name="sequence">30</field>
       <field name="name">Recommendations</field>
       <field name="max_points">5.0</field>
       <field name="description">Actionable, realistic recommendations.</field>
     </record>
-    <record id="uc_demo_criterion_proj_pres" model="unicore.assignment.rubric.criterion">
+    <record id="uc_demo_criterion_proj_pres" model="oacis.assignment.rubric.criterion">
       <field name="rubric_id" ref="uc_demo_rubric_project"/>
       <field name="sequence">40</field>
       <field name="name">Presentation</field>
@@ -174,7 +174,7 @@
          today = 2026-08-05 (Odd Semester 2026: 15 Jul – 30 Nov)
     ================================================================ -->
     <!-- CS101 (Rajesh) -->
-    <record id="uc_demo_assignment_cs101_hw1" model="unicore.assignment">
+    <record id="uc_demo_assignment_cs101_hw1" model="oacis.assignment">
       <field name="title">Week 2 – Variables &amp; Data Types</field>
       <field name="description">&lt;p&gt;Complete exercises 1–10 from the Python primer.&lt;/p&gt;
         &lt;ul&gt;
@@ -193,7 +193,7 @@
       <field name="course_offering_id" ref="uc_demo_offering_cs101"/>
       <field name="assignment_state">published</field>
     </record>
-    <record id="uc_demo_assignment_cs101_lab1" model="unicore.assignment">
+    <record id="uc_demo_assignment_cs101_lab1" model="oacis.assignment">
       <field name="title">Lab 1 – Loops &amp; Functions in Python</field>
       <field name="description">&lt;p&gt;Write a program that prints a multiplication table for any
            number using a loop, wrapped in a reusable function.&lt;/p&gt;
@@ -209,7 +209,7 @@
       <field name="course_offering_id" ref="uc_demo_offering_cs101"/>
       <field name="assignment_state">published</field>
     </record>
-    <record id="uc_demo_assignment_cs101_proj" model="unicore.assignment">
+    <record id="uc_demo_assignment_cs101_proj" model="oacis.assignment">
       <field name="title">Mini Project – Student Record System</field>
       <field name="description">&lt;p&gt;Build a console-based student record system in Python that
            supports add, search, update and delete operations with data
@@ -226,7 +226,7 @@
       <field name="assignment_state">draft</field>
     </record>
     <!-- MATH101 (Anita) -->
-    <record id="uc_demo_assignment_math101_hw1" model="unicore.assignment">
+    <record id="uc_demo_assignment_math101_hw1" model="oacis.assignment">
       <field name="title">Problem Set 1 – Sets &amp; Relations</field>
       <field name="description">&lt;p&gt;Solve problems 1–8 on sets, subsets, unions and equivalence
            relations from the chapter 1 handout.&lt;/p&gt;</field>
@@ -242,7 +242,7 @@
       <field name="assignment_state">published</field>
     </record>
     <!-- MBA101 (Suresh) -->
-    <record id="uc_demo_assignment_mba101_proj" model="unicore.assignment">
+    <record id="uc_demo_assignment_mba101_proj" model="oacis.assignment">
       <field name="title">Case Study – Strategic Management</field>
       <field name="description">&lt;p&gt;Analyse the provided company case study using Porter's Five
            Forces and propose a 5-point strategic recommendation.&lt;/p&gt;</field>
@@ -258,7 +258,7 @@
       <field name="assignment_state">published</field>
     </record>
     <!-- MBA102 (Suresh) -->
-    <record id="uc_demo_assignment_mba102_quiz" model="unicore.assignment">
+    <record id="uc_demo_assignment_mba102_quiz" model="oacis.assignment">
       <field name="title">Quiz 1 – Descriptive Statistics</field>
       <field name="description">&lt;p&gt;Answer the quiz on mean, median, mode and standard deviation.&lt;/p&gt;</field>
       <field name="assignment_type">quiz</field>
@@ -276,7 +276,7 @@
          (a small placeholder file is embedded as base64 text)
     ================================================================ -->
     <!-- CS101 HW1 submissions -->
-    <record id="uc_demo_sub_cs101_hw1_arav" model="unicore.assignment.submission">
+    <record id="uc_demo_sub_cs101_hw1_arav" model="oacis.assignment.submission">
       <field name="assignment_id" ref="uc_demo_assignment_cs101_hw1"/>
       <field name="student_id" ref="uc_demo_student_arav"/>
       <field name="submission_text">Submitted all 10 exercises with comments.</field>
@@ -293,7 +293,7 @@
       <field name="annotations">[{"page":1,"x":120,"y":340,"text":"Good example here"},
          {"page":1,"x":200,"y":420,"text":"Recheck exercise 7"}]</field>
     </record>
-    <record id="uc_demo_sub_cs101_hw1_diya" model="unicore.assignment.submission">
+    <record id="uc_demo_sub_cs101_hw1_diya" model="oacis.assignment.submission">
       <field name="assignment_id" ref="uc_demo_assignment_cs101_hw1"/>
       <field name="student_id" ref="uc_demo_student_diya"/>
       <field name="submission_text">Exercises 1–10 complete.</field>
@@ -303,7 +303,7 @@
       <field name="attempt_count">1</field>
       <field name="state">submitted</field>
     </record>
-    <record id="uc_demo_sub_cs101_hw1_kabir" model="unicore.assignment.submission">
+    <record id="uc_demo_sub_cs101_hw1_kabir" model="oacis.assignment.submission">
       <field name="assignment_id" ref="uc_demo_assignment_cs101_hw1"/>
       <field name="student_id" ref="uc_demo_student_kabir"/>
       <field name="submission_text">Late submission — completed over the weekend.</field>
@@ -313,7 +313,7 @@
       <field name="attempt_count">1</field>
       <field name="state">late</field>
     </record>
-    <record id="uc_demo_sub_cs101_hw1_myra" model="unicore.assignment.submission">
+    <record id="uc_demo_sub_cs101_hw1_myra" model="oacis.assignment.submission">
       <field name="assignment_id" ref="uc_demo_assignment_cs101_hw1"/>
       <field name="student_id" ref="uc_demo_student_myra"/>
       <field name="submission_text"/>
@@ -323,7 +323,7 @@
       <field name="attempt_count">1</field>
       <field name="state">submitted</field>
     </record>
-    <record id="uc_demo_sub_cs101_hw1_aryan" model="unicore.assignment.submission">
+    <record id="uc_demo_sub_cs101_hw1_aryan" model="oacis.assignment.submission">
       <field name="assignment_id" ref="uc_demo_assignment_cs101_hw1"/>
       <field name="student_id" ref="uc_demo_student_aryan"/>
       <field name="submission_text">Still working — will finish tonight.</field>
@@ -332,7 +332,7 @@
       <field name="state">draft</field>
     </record>
     <!-- CS101 Lab1 submissions -->
-    <record id="uc_demo_sub_cs101_lab1_arav" model="unicore.assignment.submission">
+    <record id="uc_demo_sub_cs101_lab1_arav" model="oacis.assignment.submission">
       <field name="assignment_id" ref="uc_demo_assignment_cs101_lab1"/>
       <field name="student_id" ref="uc_demo_student_arav"/>
       <field name="submission_text">Multiplication table program + report attached.</field>
@@ -343,7 +343,7 @@
       <field name="state">submitted</field>
     </record>
     <!-- MATH101 HW1 submissions -->
-    <record id="uc_demo_sub_math101_hw1_arav" model="unicore.assignment.submission">
+    <record id="uc_demo_sub_math101_hw1_arav" model="oacis.assignment.submission">
       <field name="assignment_id" ref="uc_demo_assignment_math101_hw1"/>
       <field name="student_id" ref="uc_demo_student_arav"/>
       <field name="submission_text">Problems 1–8 solved.</field>
@@ -353,7 +353,7 @@
       <field name="attempt_count">1</field>
       <field name="state">submitted</field>
     </record>
-    <record id="uc_demo_sub_math101_hw1_diya" model="unicore.assignment.submission">
+    <record id="uc_demo_sub_math101_hw1_diya" model="oacis.assignment.submission">
       <field name="assignment_id" ref="uc_demo_assignment_math101_hw1"/>
       <field name="student_id" ref="uc_demo_student_diya"/>
       <field name="submission_text">Solutions attached.</field>
@@ -366,7 +366,7 @@
            incorrect. Resubmit once corrected.&lt;/p&gt;</field>
     </record>
     <!-- MBA101 Project submissions -->
-    <record id="uc_demo_sub_mba101_proj_rohan" model="unicore.assignment.submission">
+    <record id="uc_demo_sub_mba101_proj_rohan" model="oacis.assignment.submission">
       <field name="assignment_id" ref="uc_demo_assignment_mba101_proj"/>
       <field name="student_id" ref="uc_demo_student_rohan"/>
       <field name="submission_text">Case study report with Five Forces analysis.</field>
@@ -383,7 +383,7 @@
       <field name="annotations">[{"page":2,"x":90,"y":300,"text":"Strong evidence here"},
          {"page":3,"x":150,"y":410,"text":"Add financial figures"}]</field>
     </record>
-    <record id="uc_demo_sub_mba101_proj_nisha" model="unicore.assignment.submission">
+    <record id="uc_demo_sub_mba101_proj_nisha" model="oacis.assignment.submission">
       <field name="assignment_id" ref="uc_demo_assignment_mba101_proj"/>
       <field name="student_id" ref="uc_demo_student_nisha"/>
       <field name="submission_text">Report submitted.</field>
@@ -394,7 +394,7 @@
       <field name="state">submitted</field>
     </record>
     <!-- MBA102 Quiz submission (closed assignment) -->
-    <record id="uc_demo_sub_mba102_quiz_rohan" model="unicore.assignment.submission">
+    <record id="uc_demo_sub_mba102_quiz_rohan" model="oacis.assignment.submission">
       <field name="assignment_id" ref="uc_demo_assignment_mba102_quiz"/>
       <field name="student_id" ref="uc_demo_student_rohan"/>
       <field name="submission_text">Quiz answers.</field>
@@ -411,41 +411,41 @@
          RUBRIC EVALUATION LINES for graded submissions
     ================================================================ -->
     <!-- arav — CS101 HW1 (rubric: homework 4/4/2) -->
-    <record id="uc_demo_eval_hw1_arav_complete" model="unicore.assignment.submission.criterion">
+    <record id="uc_demo_eval_hw1_arav_complete" model="oacis.assignment.submission.criterion">
       <field name="submission_id" ref="uc_demo_sub_cs101_hw1_arav"/>
       <field name="criterion_id" ref="uc_demo_criterion_hw_completeness"/>
       <field name="points_awarded">4.0</field>
     </record>
-    <record id="uc_demo_eval_hw1_arav_correct" model="unicore.assignment.submission.criterion">
+    <record id="uc_demo_eval_hw1_arav_correct" model="oacis.assignment.submission.criterion">
       <field name="submission_id" ref="uc_demo_sub_cs101_hw1_arav"/>
       <field name="criterion_id" ref="uc_demo_criterion_hw_correctness"/>
       <field name="points_awarded">3.0</field>
       <field name="comments">Two conversion errors in exercise 7.</field>
     </record>
-    <record id="uc_demo_eval_hw1_arav_present" model="unicore.assignment.submission.criterion">
+    <record id="uc_demo_eval_hw1_arav_present" model="oacis.assignment.submission.criterion">
       <field name="submission_id" ref="uc_demo_sub_cs101_hw1_arav"/>
       <field name="criterion_id" ref="uc_demo_criterion_hw_presentation"/>
       <field name="points_awarded">1.0</field>
       <field name="comments">Missing comments in last section.</field>
     </record>
     <!-- rohan — MBA101 Project (rubric: project 10/10/5/5) -->
-    <record id="uc_demo_eval_proj_rohan_research" model="unicore.assignment.submission.criterion">
+    <record id="uc_demo_eval_proj_rohan_research" model="oacis.assignment.submission.criterion">
       <field name="submission_id" ref="uc_demo_sub_mba101_proj_rohan"/>
       <field name="criterion_id" ref="uc_demo_criterion_proj_research"/>
       <field name="points_awarded">9.0</field>
     </record>
-    <record id="uc_demo_eval_proj_rohan_concepts" model="unicore.assignment.submission.criterion">
+    <record id="uc_demo_eval_proj_rohan_concepts" model="oacis.assignment.submission.criterion">
       <field name="submission_id" ref="uc_demo_sub_mba101_proj_rohan"/>
       <field name="criterion_id" ref="uc_demo_criterion_proj_concepts"/>
       <field name="points_awarded">8.0</field>
       <field name="comments">Good use of Porter's model.</field>
     </record>
-    <record id="uc_demo_eval_proj_rohan_reco" model="unicore.assignment.submission.criterion">
+    <record id="uc_demo_eval_proj_rohan_reco" model="oacis.assignment.submission.criterion">
       <field name="submission_id" ref="uc_demo_sub_mba101_proj_rohan"/>
       <field name="criterion_id" ref="uc_demo_criterion_proj_reco"/>
       <field name="points_awarded">4.0</field>
     </record>
-    <record id="uc_demo_eval_proj_rohan_pres" model="unicore.assignment.submission.criterion">
+    <record id="uc_demo_eval_proj_rohan_pres" model="oacis.assignment.submission.criterion">
       <field name="submission_id" ref="uc_demo_sub_mba101_proj_rohan"/>
       <field name="criterion_id" ref="uc_demo_criterion_proj_pres"/>
       <field name="points_awarded">4.0</field>

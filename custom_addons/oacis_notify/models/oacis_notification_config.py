@@ -1,5 +1,5 @@
 """
-UniCore Notification Config Model
+Oacis Notification Config Model
 Per-company configuration for notification channels.
 Stores WhatsApp API credentials, email defaults
 and global notification preferences.
@@ -13,10 +13,10 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreNotificationConfig(models.Model):
-    _name = 'unicore.notification.config'
+class OacisNotificationConfig(models.Model):
+    _name = 'oacis.notification.config'
     _description = 'Notification Configuration'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
     _order = 'company_id'
     _check_company_auto = True
 
@@ -41,7 +41,7 @@ class UniCoreNotificationConfig(models.Model):
     )
     email_from_name = fields.Char(
         string='From Name',
-        default='UniCore ERP',
+        default='Oacis ERP',
         help='Display name for outgoing emails',
     )
     email_footer_text = fields.Text(
@@ -159,7 +159,7 @@ class UniCoreNotificationConfig(models.Model):
                 _('Please configure WhatsApp '
                   'Access Token.'),
             )
-        Engine = self.env['unicore.notification.engine']
+        Engine = self.env['oacis.notification.engine']
         result = Engine._test_whatsapp_connection(self)
         if result:
             return {

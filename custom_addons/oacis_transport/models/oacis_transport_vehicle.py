@@ -1,5 +1,5 @@
 """
-UniCore Transport Vehicle Model
+Oacis Transport Vehicle Model
 University fleet vehicles with driver details,
 capacity tracking and compliance document monitoring
 (insurance, fitness certificate, permits).
@@ -14,10 +14,10 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreTransportVehicle(models.Model):
-    _name = 'unicore.transport.vehicle'
+class OacisTransportVehicle(models.Model):
+    _name = 'oacis.transport.vehicle'
     _description = 'Transport Vehicle'
-    _inherit = ['unicore.mixin', 'mail.thread',
+    _inherit = ['oacis.mixin', 'mail.thread',
                 'mail.activity.mixin']
     _order = 'registration_number'
     _check_company_auto = True
@@ -42,7 +42,7 @@ class UniCoreTransportVehicle(models.Model):
         ondelete='restrict',
     )
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus',
+        comodel_name='oacis.campus',
         string='Home Campus',
         ondelete='set null',
         domain="[('company_id','=',company_id)]",
@@ -181,7 +181,7 @@ class UniCoreTransportVehicle(models.Model):
     # --- ROUTE STATS ---
 
     route_ids = fields.One2many(
-        comodel_name='unicore.transport.route',
+        comodel_name='oacis.transport.route',
         inverse_name='vehicle_id',
         string='Assigned Routes',
     )
@@ -197,7 +197,7 @@ class UniCoreTransportVehicle(models.Model):
     )
 
     def _compute_route_count(self):
-        Pass = self.env['unicore.transport.pass']
+        Pass = self.env['oacis.transport.pass']
         for rec in self:
             rec.route_count = len(rec.route_ids)
             rec.current_pass_count = Pass.search_count([
@@ -244,7 +244,7 @@ class UniCoreTransportVehicle(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Routes'),
-            'res_model': 'unicore.transport.route',
+            'res_model': 'oacis.transport.route',
             'view_mode': 'list,form',
             'domain': [('vehicle_id', '=', self.id)],
         }
@@ -254,7 +254,7 @@ class UniCoreTransportVehicle(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Active Passes'),
-            'res_model': 'unicore.transport.pass',
+            'res_model': 'oacis.transport.pass',
             'view_mode': 'list,form',
             'domain': [
                 ('vehicle_id', '=', self.id),

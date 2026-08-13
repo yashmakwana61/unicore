@@ -1,1 +1,1 @@
-from . import unicore_semester_mark_sheet_report, unicore_transcript_report
+from . import oacis_semester_mark_sheet_report, oacis_transcript_report

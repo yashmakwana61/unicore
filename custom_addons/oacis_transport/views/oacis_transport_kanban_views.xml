@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_transport_vehicle_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.transport.vehicle.kanban</field>
-        <field name="model">unicore.transport.vehicle</field>
+    <record id="oacis_transport_vehicle_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.transport.vehicle.kanban</field>
+        <field name="model">oacis.transport.vehicle</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="vehicle_state">
                 <field name="display_name"/>
@@ -55,9 +55,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_transport_route_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.transport.route.kanban</field>
-        <field name="model">unicore.transport.route</field>
+    <record id="oacis_transport_route_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.transport.route.kanban</field>
+        <field name="model">oacis.transport.route</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="route_state">
                 <field name="display_name"/>
@@ -109,9 +109,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_transport_pass_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.transport.pass.kanban</field>
-        <field name="model">unicore.transport.pass</field>
+    <record id="oacis_transport_pass_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.transport.pass.kanban</field>
+        <field name="model">oacis.transport.pass</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="pass_state">
                 <field name="display_name"/>
@@ -151,9 +151,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_transport_trip_kanban_view" model="ir.ui.view">
-        <field name="name">unicore.transport.trip.kanban</field>
-        <field name="model">unicore.transport.trip</field>
+    <record id="oacis_transport_trip_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.transport.trip.kanban</field>
+        <field name="model">oacis.transport.trip</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="trip_state">
                 <field name="display_name"/>

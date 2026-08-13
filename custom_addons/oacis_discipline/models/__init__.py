@@ -1,1 +1,1 @@
-from . import unicore_discipline
+from . import oacis_discipline

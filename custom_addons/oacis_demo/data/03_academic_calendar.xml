@@ -4,7 +4,7 @@
        existing academic years & semesters (avoids clobbering live calendar data
        and profile/calendar-mode constraint trips). Fresh installs still seed all. -->
   <data noupdate="1">
-    <record id="uc_demo_ay_2526" model="unicore.academic.year">
+    <record id="uc_demo_ay_2526" model="oacis.academic.year">
       <field name="name">Academic Year 2026-27</field>
       <field name="code">AY2526</field>
       <field name="company_id" ref="base.main_company"/>
@@ -15,7 +15,7 @@
       <field name="is_current">True</field>
     </record>
 
-    <record id="uc_demo_sem_odd" model="unicore.semester">
+    <record id="uc_demo_sem_odd" model="oacis.semester">
       <field name="name">Odd Semester 2026</field>
       <field name="code">ODD-2526</field>
       <field name="academic_year_id" ref="uc_demo_ay_2526"/>
@@ -33,7 +33,7 @@
       <field name="semester_state">ongoing</field>
     </record>
 
-    <record id="uc_demo_sem_even" model="unicore.semester">
+    <record id="uc_demo_sem_even" model="oacis.semester">
       <field name="name">Even Semester 2027</field>
       <field name="code">EVEN-2526</field>
       <field name="academic_year_id" ref="uc_demo_ay_2526"/>
@@ -48,7 +48,7 @@
       <field name="semester_state">confirmed</field>
     </record>
 
-    <record id="uc_demo_holiday_diwali" model="unicore.holiday">
+    <record id="uc_demo_holiday_diwali" model="oacis.holiday">
       <field name="name">Diwali Break</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="academic_year_id" ref="uc_demo_ay_2526"/>
@@ -59,7 +59,7 @@
       <field name="affects_attendance">True</field>
     </record>
 
-    <record id="uc_demo_holiday_republic" model="unicore.holiday">
+    <record id="uc_demo_holiday_republic" model="oacis.holiday">
       <field name="name">Republic Day</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="academic_year_id" ref="uc_demo_ay_2526"/>
@@ -69,7 +69,7 @@
       <field name="affects_attendance">True</field>
     </record>
 
-    <record id="uc_demo_holiday_independence" model="unicore.holiday">
+    <record id="uc_demo_holiday_independence" model="oacis.holiday">
       <field name="name">Independence Day</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="academic_year_id" ref="uc_demo_ay_2526"/>

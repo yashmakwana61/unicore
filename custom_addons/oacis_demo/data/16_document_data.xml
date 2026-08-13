@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data noupdate="0">
-    <record id="uc_demo_doc_cat_academic" model="unicore.document.category">
+    <record id="uc_demo_doc_cat_academic" model="oacis.document.category">
       <field name="name">Academic Documents</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="category_type">institutional</field>
       <field name="sequence">10</field>
     </record>
 
-    <record id="uc_demo_doc_cat_student" model="unicore.document.category">
+    <record id="uc_demo_doc_cat_student" model="oacis.document.category">
       <field name="name">Student Documents</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="category_type">student</field>
       <field name="sequence">20</field>
     </record>
 
-    <record id="uc_demo_doc_template_bonafide" model="unicore.document.template">
+    <record id="uc_demo_doc_template_bonafide" model="oacis.document.template">
       <field name="name">Standard Bonafide Letter</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="template_type">bonafide</field>
@@ -24,7 +24,7 @@
       <field name="is_active_template">True</field>
     </record>
 
-    <record id="uc_demo_doc_calendar" model="unicore.document">
+    <record id="uc_demo_doc_calendar" model="oacis.document">
       <field name="name">Academic Calendar 2026-27</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="category_id" ref="uc_demo_doc_cat_academic"/>
@@ -33,7 +33,7 @@
       <field name="document_state">active</field>
     </record>
 
-    <record id="uc_demo_doc_policy" model="unicore.document">
+    <record id="uc_demo_doc_policy" model="oacis.document">
       <field name="name">Attendance Policy 2026-27</field>
       <field name="company_id" ref="base.main_company"/>
       <field name="category_id" ref="uc_demo_doc_cat_academic"/>

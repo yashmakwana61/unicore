@@ -1,10 +1,10 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_appointment_slot_admin,unicore.appointment.slot.admin,model_unicore_appointment_slot,unicore_base.group_unicore_admin,1,1,1,1
-access_appointment_slot_manager,unicore.appointment.slot.manager,model_unicore_appointment_slot,unicore_base.group_unicore_manager,1,1,1,0
-access_appointment_slot_faculty,unicore.appointment.slot.faculty,model_unicore_appointment_slot,unicore_base.group_unicore_faculty,1,1,1,0
-access_appointment_slot_student,unicore.appointment.slot.student,model_unicore_appointment_slot,unicore_base.group_unicore_student,1,0,0,0
+access_appointment_slot_admin,oacis.appointment.slot.admin,model_oacis_appointment_slot,oacis_base.group_oacis_admin,1,1,1,1
+access_appointment_slot_manager,oacis.appointment.slot.manager,model_oacis_appointment_slot,oacis_base.group_oacis_manager,1,1,1,0
+access_appointment_slot_faculty,oacis.appointment.slot.faculty,model_oacis_appointment_slot,oacis_base.group_oacis_faculty,1,1,1,0
+access_appointment_slot_student,oacis.appointment.slot.student,model_oacis_appointment_slot,oacis_base.group_oacis_student,1,0,0,0
 
-access_appointment_booking_admin,unicore.appointment.booking.admin,model_unicore_appointment_booking,unicore_base.group_unicore_admin,1,1,1,1
-access_appointment_booking_manager,unicore.appointment.booking.manager,model_unicore_appointment_booking,unicore_base.group_unicore_manager,1,1,1,0
-access_appointment_booking_faculty,unicore.appointment.booking.faculty,model_unicore_appointment_booking,unicore_base.group_unicore_faculty,1,1,0,0
-access_appointment_booking_student,unicore.appointment.booking.student,model_unicore_appointment_booking,unicore_base.group_unicore_student,1,1,1,0
+access_appointment_booking_admin,oacis.appointment.booking.admin,model_oacis_appointment_booking,oacis_base.group_oacis_admin,1,1,1,1
+access_appointment_booking_manager,oacis.appointment.booking.manager,model_oacis_appointment_booking,oacis_base.group_oacis_manager,1,1,1,0
+access_appointment_booking_faculty,oacis.appointment.booking.faculty,model_oacis_appointment_booking,oacis_base.group_oacis_faculty,1,1,0,0
+access_appointment_booking_student,oacis.appointment.booking.student,model_oacis_appointment_booking,oacis_base.group_oacis_student,1,1,1,0

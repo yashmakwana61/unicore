@@ -2,17 +2,17 @@
 <odoo>
 
     <!-- Window Action -->
-    <record id="action_unicore_academic_unit_type" model="ir.actions.act_window">
+    <record id="action_oacis_academic_unit_type" model="ir.actions.act_window">
         <field name="name">Unit Types</field>
-        <field name="res_model">unicore.academic.unit.type</field>
+        <field name="res_model">oacis.academic.unit.type</field>
         <field name="view_mode">list,form</field>
         <field name="domain">[]</field>
     </record>
 
     <!-- List View -->
-    <record id="unicore_academic_unit_type_list_view" model="ir.ui.view">
-        <field name="name">unicore.academic.unit.type.list</field>
-        <field name="model">unicore.academic.unit.type</field>
+    <record id="oacis_academic_unit_type_list_view" model="ir.ui.view">
+        <field name="name">oacis.academic.unit.type.list</field>
+        <field name="model">oacis.academic.unit.type</field>
         <field name="arch" type="xml">
             <list string="Unit Types">
                 <field name="sequence" widget="handle"/>
@@ -24,9 +24,9 @@
     </record>
 
     <!-- Form View -->
-    <record id="unicore_academic_unit_type_form_view" model="ir.ui.view">
-        <field name="name">unicore.academic.unit.type.form</field>
-        <field name="model">unicore.academic.unit.type</field>
+    <record id="oacis_academic_unit_type_form_view" model="ir.ui.view">
+        <field name="name">oacis.academic.unit.type.form</field>
+        <field name="model">oacis.academic.unit.type</field>
         <field name="arch" type="xml">
             <form string="Unit Type">
                 <sheet>

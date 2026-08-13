@@ -7,8 +7,8 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-@tests.tagged('unicore', 'phase1')
-class UniCoreAdmissionMeritScoringTest(tests.common.TransactionCase):
+@tests.tagged('oacis', 'phase1')
+class OacisAdmissionMeritScoringTest(tests.common.TransactionCase):
     """Phase 1: smart scoring (configurable weights), merit ranks, bulk merit
     list generation, seat enforcement and per-company sequences."""
 
@@ -18,17 +18,17 @@ class UniCoreAdmissionMeritScoringTest(tests.common.TransactionCase):
 
         cls.company = cls.env.company
 
-        faculty = cls.env['unicore.faculty'].create({
+        faculty = cls.env['oacis.faculty'].create({
             'name': 'Faculty of Science',
             'code': 'FS',
             'company_id': cls.company.id,
         })
-        department = cls.env['unicore.department'].create({
+        department = cls.env['oacis.department'].create({
             'name': 'Physics',
             'code': 'PHY',
             'faculty_id': faculty.id,
         })
-        cls.program = cls.env['unicore.program'].create({
+        cls.program = cls.env['oacis.program'].create({
             'name': 'B.Sc Physics',
             'code': 'BSC-PHY',
             'degree_title': 'Bachelor of Science',
@@ -39,18 +39,18 @@ class UniCoreAdmissionMeritScoringTest(tests.common.TransactionCase):
             'department_id': department.id,
             'company_id': cls.company.id,
         })
-        cls.campus = cls.env['unicore.campus'].create({
+        cls.campus = cls.env['oacis.campus'].create({
             'name': 'Science Campus',
             'code': 'SC',
             'company_id': cls.company.id,
         })
-        cls.academic_year = cls.env['unicore.academic.year'].create({
+        cls.academic_year = cls.env['oacis.academic.year'].create({
             'name': '2025-2026',
             'code': '2025',
             'date_start': '2025-06-01',
             'date_end': '2026-05-31',
         })
-        cls.cycle = cls.env['unicore.admission.cycle'].create({
+        cls.cycle = cls.env['oacis.admission.cycle'].create({
             'name': 'Main Intake 2025-26',
             'code': 'MAIN-2526',
             'campus_id': cls.campus.id,
@@ -60,7 +60,7 @@ class UniCoreAdmissionMeritScoringTest(tests.common.TransactionCase):
             'state': 'active',
             'company_id': cls.company.id,
         })
-        cls.seat = cls.env['unicore.admission.cycle.seat'].create({
+        cls.seat = cls.env['oacis.admission.cycle.seat'].create({
             'cycle_id': cls.cycle.id,
             'program_id': cls.program.id,
             'total_seats': 2,
@@ -73,9 +73,9 @@ class UniCoreAdmissionMeritScoringTest(tests.common.TransactionCase):
     # ----------------------------------------------------------
 
     def _create_applicant(self, name, aggregate, entrance, interview, state='shortlisted'):
-        return self.env['unicore.admission.applicant'].create({
+        return self.env['oacis.admission.applicant'].create({
             'name': name,
-            'email': '%s@test.unicore.edu' % name.lower().replace(' ', '.'),
+            'email': '%s@test.oacis.edu' % name.lower().replace(' ', '.'),
             'mobile': '9000000000',
             'gender': 'male',
             'date_of_birth': '2003-06-15',
@@ -124,7 +124,7 @@ class UniCoreAdmissionMeritScoringTest(tests.common.TransactionCase):
 
     def test_03_weights_must_sum_to_100(self):
         with self.assertRaises(ValidationError):
-            self.env['unicore.admission.cycle'].create({
+            self.env['oacis.admission.cycle'].create({
                 'name': 'Broken Weights',
                 'code': 'BW-2526',
                 'campus_id': self.campus.id,
@@ -173,11 +173,11 @@ class UniCoreAdmissionMeritScoringTest(tests.common.TransactionCase):
 
         self.cycle.action_generate_merit_list()
 
-        merit = self.env['unicore.admission.applicant'].search([
+        merit = self.env['oacis.admission.applicant'].search([
             ('cycle_id', '=', self.cycle.id),
             ('state', '=', 'merit_listed'),
         ])
-        waitlisted = self.env['unicore.admission.applicant'].search([
+        waitlisted = self.env['oacis.admission.applicant'].search([
             ('cycle_id', '=', self.cycle.id),
             ('state', '=', 'waitlisted'),
         ])
@@ -191,7 +191,7 @@ class UniCoreAdmissionMeritScoringTest(tests.common.TransactionCase):
         )
         self.assertEqual(
             max(merit.mapped('composite_score')),
-            max(self.env['unicore.admission.applicant'].search([
+            max(self.env['oacis.admission.applicant'].search([
                 ('cycle_id', '=', self.cycle.id),
             ]).mapped('composite_score')),
             'Top-scoring applicant must be merit-listed.',
@@ -233,12 +233,12 @@ class UniCoreAdmissionMeritScoringTest(tests.common.TransactionCase):
             'currency_id': self.env.ref('base.USD').id,
         })
 
-        Applicant = self.env['unicore.admission.applicant']
+        Applicant = self.env['oacis.admission.applicant']
 
         def _create(company, name, mobile):
             return Applicant.with_company(company).create({
                 'name': name,
-                'email': '%s@test.unicore.edu' % name.lower(),
+                'email': '%s@test.oacis.edu' % name.lower(),
                 'mobile': mobile,
                 'gender': 'female',
                 'date_of_birth': '2003-06-15',

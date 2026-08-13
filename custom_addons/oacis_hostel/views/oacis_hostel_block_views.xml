@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-  <record id="view_unicore_hostel_block_form" model="ir.ui.view">
-    <field name="name">unicore.hostel.block.form</field>
-    <field name="model">unicore.hostel.block</field>
+  <record id="view_oacis_hostel_block_form" model="ir.ui.view">
+    <field name="name">oacis.hostel.block.form</field>
+    <field name="model">oacis.hostel.block</field>
     <field name="arch" type="xml">
       <form>
         <header>
@@ -80,9 +80,9 @@
       </form>
     </field>
   </record>
-  <record id="view_unicore_hostel_block_list" model="ir.ui.view">
-    <field name="name">unicore.hostel.block.list</field>
-    <field name="model">unicore.hostel.block</field>
+  <record id="view_oacis_hostel_block_list" model="ir.ui.view">
+    <field name="name">oacis.hostel.block.list</field>
+    <field name="model">oacis.hostel.block</field>
     <field name="arch" type="xml">
       <list decoration-success="block_state == 'active'" decoration-warning="block_state == 'under_renovation'" decoration-muted="block_state in ('inactive','closed')">
         <field name="name"/>
@@ -99,9 +99,9 @@
       </list>
     </field>
   </record>
-  <record id="action_unicore_hostel_block" model="ir.actions.act_window">
+  <record id="action_oacis_hostel_block" model="ir.actions.act_window">
     <field name="name">Hostel Blocks</field>
-    <field name="res_model">unicore.hostel.block</field>
+    <field name="res_model">oacis.hostel.block</field>
     <field name="view_mode">list,form</field>
   </record>
 </odoo>

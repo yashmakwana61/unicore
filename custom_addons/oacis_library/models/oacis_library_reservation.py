@@ -1,5 +1,5 @@
 """
-UniCore Library Reservation Model
+Oacis Library Reservation Model
 Queue-based reservation system for books that are
 currently issued to another member.
 """
@@ -13,11 +13,11 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreLibraryReservation(models.Model):
-    _name = 'unicore.library.reservation'
+class OacisLibraryReservation(models.Model):
+    _name = 'oacis.library.reservation'
     _description = 'Book Reservation'
     _rec_name = 'display_name'
-    _inherit = ['unicore.mixin', 'mail.thread']
+    _inherit = ['oacis.mixin', 'mail.thread']
 
     display_name = fields.Char(
         string='Display Name',
@@ -55,7 +55,7 @@ class UniCoreLibraryReservation(models.Model):
         ondelete='restrict',
     )
     member_id = fields.Many2one(
-        comodel_name='unicore.library.member',
+        comodel_name='oacis.library.member',
         string='Member',
         required=True,
         ondelete='restrict',
@@ -65,7 +65,7 @@ class UniCoreLibraryReservation(models.Model):
                "('company_id','=',company_id)]",
     )
     book_id = fields.Many2one(
-        comodel_name='unicore.library.book',
+        comodel_name='oacis.library.book',
         string='Book',
         required=True,
         ondelete='restrict',
@@ -150,7 +150,7 @@ class UniCoreLibraryReservation(models.Model):
             if not vals.get('reservation_number'):
                 vals['reservation_number'] = (
                     self.env['ir.sequence'].next_by_code(
-                        'unicore.library.reservation',
+                        'oacis.library.reservation',
                     ) or '/'
                 )
             # Auto-set expiry (30 days from today)

@@ -1,6 +1,6 @@
 """Calendar-mode wiring: term-based institutions require Term academic years.
 
-Verifies that ``unicore.academic.year`` honors the institution profile's
+Verifies that ``oacis.academic.year`` honors the institution profile's
 ``calendar_mode``: one-directional enforcement where a term-based profile
 requires ``year_type == 'term'`` (and defaults to it), while semester / legacy
 companies stay fully flexible.
@@ -11,17 +11,17 @@ from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 
 
-@odoo.tests.tagged('unicore', 'unit')
-class UniCoreCalendarModeTest(TransactionCase):
+@odoo.tests.tagged('oacis', 'unit')
+class OacisCalendarModeTest(TransactionCase):
 
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.company = cls.env.company
         cls.profile_school = cls.env.ref(
-            'unicore_institution_profile.profile_school_k12')
+            'oacis_institution_profile.profile_school_k12')
         cls.profile_legacy = cls.env.ref(
-            'unicore_institution_profile.profile_university_legacy')
+            'oacis_institution_profile.profile_university_legacy')
 
     def _year(self, code, **kw):
         vals = {
@@ -32,7 +32,7 @@ class UniCoreCalendarModeTest(TransactionCase):
             'year_state': 'cancelled',
         }
         vals.update(kw)
-        return self.env['unicore.academic.year'].create(vals)
+        return self.env['oacis.academic.year'].create(vals)
 
     def test_01_term_profile_rejects_semester_year(self):
         """A term-based institution cannot create a semester-based year."""

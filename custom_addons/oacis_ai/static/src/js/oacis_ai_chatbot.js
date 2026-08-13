@@ -5,10 +5,10 @@ import { registry } from "@web/core/registry";
 import { rpc } from "@web/core/network/rpc";
 
 // ─────────────────────────────────────────────────────────────────
-//  Unicore AI Chatbot — systray icon + slide-out panel
+//  Oacis AI Chatbot — systray icon + slide-out panel
 // ─────────────────────────────────────────────────────────────────
-export class UnicoreAIChatbot extends Component {
-    static template = "unicore_ai.ChatbotSystray";
+export class OacisAIChatbot extends Component {
+    static template = "oacis_ai.ChatbotSystray";
     static props = [];
 
     setup() {
@@ -26,7 +26,7 @@ export class UnicoreAIChatbot extends Component {
 
     // ── helpers ──────────────────────────────────────────────────
     scrollToBottom() {
-        const el = document.querySelector(".o_unicore_ai_messages");
+        const el = document.querySelector(".o_oacis_ai_messages");
         if (el) {
             requestAnimationFrame(() => {
                 el.scrollTop = el.scrollHeight;
@@ -40,7 +40,7 @@ export class UnicoreAIChatbot extends Component {
             .replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
             .replace(/>/g, "&gt;")
-            .replace(/```([\s\S]*?)```/g, '<pre class="o_unicore_ai_code">$1</pre>')
+            .replace(/```([\s\S]*?)```/g, '<pre class="o_oacis_ai_code">$1</pre>')
             .replace(/`([^`]+)`/g, "<code>$1</code>")
             .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
             .replace(/\*(.+?)\*/g, "<em>$1</em>")
@@ -55,18 +55,18 @@ export class UnicoreAIChatbot extends Component {
 
     // ── session management ──────────────────────────────────────
     async newSession() {
-        const res = await rpc("/unicore_ai/chat/new_session", {});
+        const res = await rpc("/oacis_ai/chat/new_session", {});
         this.state.currentSessionId = res.id;
         this.state.messages = [];
         this.state.showHistory = false;
     }
 
     async loadSessions() {
-        this.state.sessions = await rpc("/unicore_ai/chat/sessions", {});
+        this.state.sessions = await rpc("/oacis_ai/chat/sessions", {});
     }
 
     async loadSession(sessionId) {
-        const messages = await rpc("/unicore_ai/chat/messages", {
+        const messages = await rpc("/oacis_ai/chat/messages", {
             session_id: sessionId,
         });
         this.state.messages = messages;
@@ -76,7 +76,7 @@ export class UnicoreAIChatbot extends Component {
     }
 
     async deleteSession(sessionId) {
-        await rpc("/unicore_ai/chat/delete_session", {
+        await rpc("/oacis_ai/chat/delete_session", {
             session_id: sessionId,
         });
         if (this.state.currentSessionId === sessionId) {
@@ -111,7 +111,7 @@ export class UnicoreAIChatbot extends Component {
     async _doSend(text) {
         // Create session lazily
         if (!this.state.currentSessionId) {
-            const res = await rpc("/unicore_ai/chat/new_session", {});
+            const res = await rpc("/oacis_ai/chat/new_session", {});
             this.state.currentSessionId = res.id;
         }
 
@@ -121,7 +121,7 @@ export class UnicoreAIChatbot extends Component {
         this.scrollToBottom();
 
         try {
-            const res = await rpc("/unicore_ai/chat/send", {
+            const res = await rpc("/oacis_ai/chat/send", {
                 session_id: this.state.currentSessionId,
                 message: text,
             });
@@ -156,7 +156,7 @@ export class UnicoreAIChatbot extends Component {
 
 // Register the systray item
 registry.category("systray").add(
-    "unicore_ai.Chatbot",
-    { Component: UnicoreAIChatbot },
+    "oacis_ai.Chatbot",
+    { Component: OacisAIChatbot },
     { sequence: 50 }
 );

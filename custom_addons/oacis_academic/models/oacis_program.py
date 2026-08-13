@@ -7,12 +7,12 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UnicoreProgram(models.Model):
+class OacisProgram(models.Model):
     """Academic Program representing a Degree, Diploma or Certificate."""
 
-    _name = 'unicore.program'
+    _name = 'oacis.program'
     _description = 'Academic Program (Degree / Diploma / Certificate)'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'department_id, sequence, name'
     _check_company_auto = True
 
@@ -29,7 +29,7 @@ class UnicoreProgram(models.Model):
         help='e.g. BSCS, MBA, MTECH-CS',
     )
     department_id = fields.Many2one(
-        comodel_name='unicore.department',
+        comodel_name='oacis.department',
         string='Department',
         # Not required at the ORM level anymore (Phase 1 makes the rigid
         # Faculty -> Department -> Program chain optional for non-university
@@ -40,7 +40,7 @@ class UnicoreProgram(models.Model):
         tracking=True,
     )
     academic_unit_id = fields.Many2one(
-        comodel_name='unicore.academic.unit',
+        comodel_name='oacis.academic.unit',
         string='Academic Unit',
         ondelete='restrict',
         tracking=True,
@@ -50,7 +50,7 @@ class UnicoreProgram(models.Model):
              'institutions. Universities keep using Department (legacy).',
     )
     faculty_id = fields.Many2one(
-        comodel_name='unicore.faculty',
+        comodel_name='oacis.faculty',
         related='department_id.faculty_id',
         string='Faculty',
         store=True,
@@ -114,14 +114,14 @@ class UnicoreProgram(models.Model):
         store=False,
     )
     campus_ids = fields.Many2many(
-        comodel_name='unicore.campus',
-        relation='unicore_program_campus_rel',
+        comodel_name='oacis.campus',
+        relation='oacis_program_campus_rel',
         column1='program_id',
         column2='campus_id',
         string='Offered at Campuses',
     )
     specialisation_ids = fields.One2many(
-        comodel_name='unicore.specialisation',
+        comodel_name='oacis.specialisation',
         inverse_name='program_id',
         string='Specialisations',
     )
@@ -166,7 +166,7 @@ class UnicoreProgram(models.Model):
     tuition_fee_per_semester = fields.Float(
         string='Tuition Fee Per Semester',
         digits=(14, 2),
-        help='Base tuition fee — actual invoicing handled by unicore_fees',
+        help='Base tuition fee — actual invoicing handled by oacis_fees',
     )
     currency_id = fields.Many2one(
         comodel_name='res.currency',
@@ -400,7 +400,7 @@ class UnicoreProgram(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Specialisations'),
-            'res_model': 'unicore.specialisation',
+            'res_model': 'oacis.specialisation',
             'view_mode': 'list,form',
             'domain': [('program_id', '=', self.id)],
             'context': {'default_program_id': self.id},

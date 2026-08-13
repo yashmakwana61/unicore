@@ -1,5 +1,5 @@
 """
-UniCore Assignment Rubric Models
+Oacis Assignment Rubric Models
 A rubric is a reusable set of grading criteria that can be
 attached to one or many assignments. Each criterion defines
 a name, maximum points and description of what is expected.
@@ -14,10 +14,10 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreAssignmentRubric(models.Model):
-    _name = 'unicore.assignment.rubric'
+class OacisAssignmentRubric(models.Model):
+    _name = 'oacis.assignment.rubric'
     _description = 'Assignment Rubric'
-    _inherit = ['unicore.mixin']
+    _inherit = ['oacis.mixin']
     _order = 'name, id'
     _check_company_auto = True
     _rec_name = 'name'
@@ -54,7 +54,7 @@ class UniCoreAssignmentRubric(models.Model):
     # ------- CRITERIA -------
 
     criterion_ids = fields.One2many(
-        comodel_name='unicore.assignment.rubric.criterion',
+        comodel_name='oacis.assignment.rubric.criterion',
         inverse_name='rubric_id',
         string='Criteria',
     )
@@ -69,7 +69,7 @@ class UniCoreAssignmentRubric(models.Model):
     # ------- USAGE -------
 
     assignment_ids = fields.One2many(
-        comodel_name='unicore.assignment',
+        comodel_name='oacis.assignment',
         inverse_name='rubric_id',
         string='Assignments',
     )
@@ -112,7 +112,7 @@ class UniCoreAssignmentRubric(models.Model):
             if not vals.get('code'):
                 vals['code'] = self.env[
                     'ir.sequence'
-                ].next_by_code('unicore.assignment.rubric')
+                ].next_by_code('oacis.assignment.rubric')
         return super().create(vals_list)
 
     # ------- ACTIONS -------
@@ -122,14 +122,14 @@ class UniCoreAssignmentRubric(models.Model):
         return {
             'name': _('Assignments'),
             'type': 'ir.actions.act_window',
-            'res_model': 'unicore.assignment',
+            'res_model': 'oacis.assignment',
             'view_mode': 'list,form',
             'domain': [('rubric_id', '=', self.id)],
         }
 
 
-class UniCoreAssignmentRubricCriterion(models.Model):
-    _name = 'unicore.assignment.rubric.criterion'
+class OacisAssignmentRubricCriterion(models.Model):
+    _name = 'oacis.assignment.rubric.criterion'
     _description = 'Rubric Criterion'
     _order = 'sequence, id'
     _check_company_auto = True
@@ -138,7 +138,7 @@ class UniCoreAssignmentRubricCriterion(models.Model):
     # ------- RELATIONS -------
 
     rubric_id = fields.Many2one(
-        comodel_name='unicore.assignment.rubric',
+        comodel_name='oacis.assignment.rubric',
         string='Rubric',
         required=True,
         ondelete='cascade',

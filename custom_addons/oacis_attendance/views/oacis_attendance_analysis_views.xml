@@ -6,9 +6,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_attendance_session_pivot_view" model="ir.ui.view">
-        <field name="name">unicore.attendance.session.pivot</field>
-        <field name="model">unicore.attendance.session</field>
+    <record id="oacis_attendance_session_pivot_view" model="ir.ui.view">
+        <field name="name">oacis.attendance.session.pivot</field>
+        <field name="model">oacis.attendance.session</field>
         <field name="arch" type="xml">
             <pivot string="Attendance Session Analysis">
                 <field name="session_state" type="row"/>
@@ -19,9 +19,9 @@
         </field>
     </record>
 
-    <record id="unicore_attendance_session_graph_view" model="ir.ui.view">
-        <field name="name">unicore.attendance.session.graph</field>
-        <field name="model">unicore.attendance.session</field>
+    <record id="oacis_attendance_session_graph_view" model="ir.ui.view">
+        <field name="name">oacis.attendance.session.graph</field>
+        <field name="model">oacis.attendance.session</field>
         <field name="arch" type="xml">
             <graph string="Attendance Session Analysis" type="bar">
                 <field name="course_offering_id" type="row"/>
@@ -35,9 +35,9 @@
          ============================================================ -->
     
 
-    <record id="unicore_attendance_record_pivot_view" model="ir.ui.view">
-        <field name="name">unicore.attendance.record.pivot</field>
-        <field name="model">unicore.attendance.record</field>
+    <record id="oacis_attendance_record_pivot_view" model="ir.ui.view">
+        <field name="name">oacis.attendance.record.pivot</field>
+        <field name="model">oacis.attendance.record</field>
         <field name="arch" type="xml">
             <pivot string="Attendance Record Analysis">
                 <field name="status" type="row"/>
@@ -45,9 +45,9 @@
         </field>
     </record>
 
-    <record id="unicore_attendance_record_graph_view" model="ir.ui.view">
-        <field name="name">unicore.attendance.record.graph</field>
-        <field name="model">unicore.attendance.record</field>
+    <record id="oacis_attendance_record_graph_view" model="ir.ui.view">
+        <field name="name">oacis.attendance.record.graph</field>
+        <field name="model">oacis.attendance.record</field>
         <field name="arch" type="xml">
             <graph string="Attendance Record Analysis" type="bar">
                 <field name="status" type="row"/>

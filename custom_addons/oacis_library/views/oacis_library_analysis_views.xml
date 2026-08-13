@@ -4,9 +4,9 @@
     <!-- ============================================================
          Library Issue Analysis
          ============================================================ -->
-    <record id="unicore_library_issue_pivot_view" model="ir.ui.view">
-        <field name="name">unicore.library.issue.pivot</field>
-        <field name="model">unicore.library.issue</field>
+    <record id="oacis_library_issue_pivot_view" model="ir.ui.view">
+        <field name="name">oacis.library.issue.pivot</field>
+        <field name="model">oacis.library.issue</field>
         <field name="arch" type="xml">
             <pivot string="Library Issue Analysis">
                 <field name="issue_state" type="row"/>
@@ -15,9 +15,9 @@
         </field>
     </record>
 
-    <record id="unicore_library_issue_graph_view" model="ir.ui.view">
-        <field name="name">unicore.library.issue.graph</field>
-        <field name="model">unicore.library.issue</field>
+    <record id="oacis_library_issue_graph_view" model="ir.ui.view">
+        <field name="name">oacis.library.issue.graph</field>
+        <field name="model">oacis.library.issue</field>
         <field name="arch" type="xml">
             <graph string="Library Issue Analysis" type="bar">
                 <field name="issue_state" type="row"/>
@@ -31,9 +31,9 @@
     <!-- ============================================================
          Library Book Analysis
          ============================================================ -->
-    <record id="unicore_library_book_pivot_view" model="ir.ui.view">
-        <field name="name">unicore.library.book.pivot</field>
-        <field name="model">unicore.library.book</field>
+    <record id="oacis_library_book_pivot_view" model="ir.ui.view">
+        <field name="name">oacis.library.book.pivot</field>
+        <field name="model">oacis.library.book</field>
         <field name="arch" type="xml">
             <pivot string="Library Book Analysis">
                 <field name="publisher_id" type="row"/>
@@ -42,9 +42,9 @@
         </field>
     </record>
 
-    <record id="unicore_library_book_graph_view" model="ir.ui.view">
-        <field name="name">unicore.library.book.graph</field>
-        <field name="model">unicore.library.book</field>
+    <record id="oacis_library_book_graph_view" model="ir.ui.view">
+        <field name="name">oacis.library.book.graph</field>
+        <field name="model">oacis.library.book</field>
         <field name="arch" type="xml">
             <graph string="Library Book Analysis" type="bar">
                 <field name="publisher_id" type="row"/>
@@ -58,9 +58,9 @@
     <!-- ============================================================
          Library Member Analysis
          ============================================================ -->
-    <record id="unicore_library_member_pivot_view" model="ir.ui.view">
-        <field name="name">unicore.library.member.pivot</field>
-        <field name="model">unicore.library.member</field>
+    <record id="oacis_library_member_pivot_view" model="ir.ui.view">
+        <field name="name">oacis.library.member.pivot</field>
+        <field name="model">oacis.library.member</field>
         <field name="arch" type="xml">
             <pivot string="Library Member Analysis">
                 <field name="member_type" type="row"/>
@@ -69,9 +69,9 @@
         </field>
     </record>
 
-    <record id="unicore_library_member_graph_view" model="ir.ui.view">
-        <field name="name">unicore.library.member.graph</field>
-        <field name="model">unicore.library.member</field>
+    <record id="oacis_library_member_graph_view" model="ir.ui.view">
+        <field name="name">oacis.library.member.graph</field>
+        <field name="model">oacis.library.member</field>
         <field name="arch" type="xml">
             <graph string="Library Member Analysis" type="bar">
                 <field name="member_type" type="row"/>

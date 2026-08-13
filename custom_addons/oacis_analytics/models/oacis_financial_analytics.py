@@ -1,5 +1,5 @@
 """
-UniCore Financial Analytics
+Oacis Financial Analytics
 PostgreSQL VIEW-based models for fee collection
 trends and financial performance analytics.
 """
@@ -12,8 +12,8 @@ from odoo.orm.fields_misc import Id
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreFeeCollectionReport(models.Model):
-    _name = 'unicore.fee.collection.report'
+class OacisFeeCollectionReport(models.Model):
+    _name = 'oacis.fee.collection.report'
     _description = 'Fee Collection Analytics'
     _auto = False
     _rec_name = 'semester_id'
@@ -26,7 +26,7 @@ class UniCoreFeeCollectionReport(models.Model):
         readonly=True,
     )
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         readonly=True,
     )
@@ -70,11 +70,11 @@ class UniCoreFeeCollectionReport(models.Model):
     def init(self):
         tools.drop_view_if_exists(
             self.env.cr,
-            'unicore_fee_collection_report',
+            'oacis_fee_collection_report',
         )
         self.env.cr.execute("""
             CREATE OR REPLACE VIEW
-            unicore_fee_collection_report AS (
+            oacis_fee_collection_report AS (
                 SELECT
                     ROW_NUMBER() OVER () AS id,
                     fi.company_id,
@@ -96,7 +96,7 @@ class UniCoreFeeCollectionReport(models.Model):
                         / NULLIF(SUM(fi.total_amount), 0)
                         * 100), 1
                     ) AS collection_rate
-                FROM unicore_fee_invoice fi
+                FROM oacis_fee_invoice fi
                 WHERE fi.invoice_state != 'cancelled'
                 GROUP BY
                     fi.company_id,
@@ -106,8 +106,8 @@ class UniCoreFeeCollectionReport(models.Model):
         """)
 
 
-class UniCorePaymentMethodReport(models.Model):
-    _name = 'unicore.payment.method.report'
+class OacisPaymentMethodReport(models.Model):
+    _name = 'oacis.payment.method.report'
     _description = 'Payment Method Analytics'
     _auto = False
     _rec_name = 'payment_method'
@@ -151,11 +151,11 @@ class UniCorePaymentMethodReport(models.Model):
     def init(self):
         tools.drop_view_if_exists(
             self.env.cr,
-            'unicore_payment_method_report',
+            'oacis_payment_method_report',
         )
         self.env.cr.execute("""
             CREATE OR REPLACE VIEW
-            unicore_payment_method_report AS (
+            oacis_payment_method_report AS (
                 SELECT
                     ROW_NUMBER() OVER () AS id,
                     fp.company_id,
@@ -166,7 +166,7 @@ class UniCorePaymentMethodReport(models.Model):
                     ROUND(
                         SUM(fp.amount)::numeric, 2
                     ) AS total_amount
-                FROM unicore_fee_payment fp
+                FROM oacis_fee_payment fp
                 WHERE fp.payment_state = 'confirmed'
                 GROUP BY
                     fp.company_id,

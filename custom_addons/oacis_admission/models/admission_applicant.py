@@ -3,9 +3,9 @@ from odoo.exceptions import UserError, ValidationError
 
 
 class AdmissionApplicant(models.Model):
-    _name = 'unicore.admission.applicant'
+    _name = 'oacis.admission.applicant'
     _description = 'Admission Applicant'
-    _inherit = ['unicore.mixin', 'unicore.sequence.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'oacis.sequence.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'application_number desc, id desc'
     _rec_name = 'name'
     _check_company_auto = True
@@ -32,19 +32,19 @@ class AdmissionApplicant(models.Model):
         default=lambda self: _('New'), tracking=True,
     )
     cycle_id = fields.Many2one(
-        comodel_name='unicore.admission.cycle', string='Admission Cycle',
+        comodel_name='oacis.admission.cycle', string='Admission Cycle',
         required=True, tracking=True,
     )
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus', string='Campus', required=True,
+        comodel_name='oacis.campus', string='Campus', required=True,
         domain="[('company_id', '=', company_id)]", tracking=True,
     )
     program_id = fields.Many2one(
-        comodel_name='unicore.program', string='Program', required=True,
+        comodel_name='oacis.program', string='Program', required=True,
         domain="[('company_id', '=', company_id)]", tracking=True,
     )
     specialisation_id = fields.Many2one(
-        comodel_name='unicore.specialisation', string='Specialisation',
+        comodel_name='oacis.specialisation', string='Specialisation',
         domain="[('program_id', '=', program_id)]",
     )
     # --- COHORT (Gap-3 fill) ---
@@ -54,7 +54,7 @@ class AdmissionApplicant(models.Model):
              '(from the program).',
     )
     grade_level_id = fields.Many2one(
-        comodel_name='unicore.academic.unit', string='Grade Level',
+        comodel_name='oacis.academic.unit', string='Grade Level',
         domain="[('unit_type_id.code', '=', 'GRADE'), "
                "('company_id', '=', company_id)]",
         tracking=True, ondelete='restrict',
@@ -123,7 +123,7 @@ class AdmissionApplicant(models.Model):
         string='Status', default='inquiry', required=True, tracking=True,
     )
     stage_id = fields.Many2one(
-        comodel_name='unicore.admission.stage',
+        comodel_name='oacis.admission.stage',
         string='Stage',
         domain="[('company_id', '=', company_id)]",
         ondelete='restrict', tracking=True,
@@ -142,20 +142,20 @@ class AdmissionApplicant(models.Model):
         ondelete='restrict', tracking=True,
     )
     offer_letter_ids = fields.One2many(
-        comodel_name='unicore.admission.offer.letter',
+        comodel_name='oacis.admission.offer.letter',
         inverse_name='applicant_id', string='Offer Letters',
     )
     offer_letter_count = fields.Integer(
         string='Offer Count', compute='_compute_offer_letter_count', store=False,
     )
     student_id = fields.Many2one(
-        comodel_name='unicore.student', string='Created Student',
+        comodel_name='oacis.student', string='Created Student',
         readonly=True, copy=False,
         help='Student record created when admission is confirmed.',
     )
     # --- PROGRAM ENROLLMENT (Phase 3) ---
     admission_enrollment_ids = fields.One2many(
-        comodel_name='unicore.admission.enrollment',
+        comodel_name='oacis.admission.enrollment',
         inverse_name='applicant_id', string='Program Enrollments',
     )
     admission_enrollment_count = fields.Integer(
@@ -163,7 +163,7 @@ class AdmissionApplicant(models.Model):
         compute='_compute_admission_enrollment_count',
     )
     student_course_enrollment_ids = fields.One2many(
-        comodel_name='unicore.enrollment',
+        comodel_name='oacis.enrollment',
         inverse_name='student_id',
         compute='_compute_student_course_enrollments',
         string='Course Enrollments',
@@ -223,7 +223,7 @@ class AdmissionApplicant(models.Model):
         groups = {}
         for record in self:
             key = (record.cycle_id.id, record.program_id.id)
-            groups.setdefault(key, self.env['unicore.admission.applicant'])
+            groups.setdefault(key, self.env['oacis.admission.applicant'])
             groups[key] |= record
         for (cycle_id, program_id), applicants in groups.items():
             siblings = self.search([
@@ -248,14 +248,14 @@ class AdmissionApplicant(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        Stage = self.env['unicore.admission.stage']
+        Stage = self.env['oacis.admission.stage']
         for vals in vals_list:
             company_id = vals.get('company_id') or self.env.company.id
             # Lazy seed: a company without a pipeline gets the 13 defaults.
             Stage._ensure_default_stages(self.env['res.company'].browse(company_id))
             if vals.get('application_number', _('New')) == _('New'):
                 seq = self._next_sequence(
-                    'unicore.admission.applicant', company_id=company_id,
+                    'oacis.admission.applicant', company_id=company_id,
                 ) or '/'
                 vals['application_number'] = seq
             if 'stage_id' not in vals:
@@ -294,7 +294,7 @@ class AdmissionApplicant(models.Model):
         """Set ``stage_id`` (and card color) to match the current ``state``."""
         for record in self:
             if not record.stage_id or record.stage_id.state != record.state:
-                stage = self.env['unicore.admission.stage']._get_stage_for_state(
+                stage = self.env['oacis.admission.stage']._get_stage_for_state(
                     record.company_id.id, record.state)
                 if stage:
                     record.stage_id = stage
@@ -354,11 +354,11 @@ class AdmissionApplicant(models.Model):
             record.write({'state': 'merit_listed'})
 
     def action_send_offer(self):
-        OfferLetter = self.env['unicore.admission.offer.letter']
+        OfferLetter = self.env['oacis.admission.offer.letter']
         for record in self:
             if record.state != 'merit_listed':
                 raise UserError(_('Only merit-listed applicants can receive offers.'))
-            seat = self.env['unicore.admission.cycle.seat'].search([
+            seat = self.env['oacis.admission.cycle.seat'].search([
                 ('cycle_id', '=', record.cycle_id.id),
                 ('program_id', '=', record.program_id.id),
             ], limit=1)
@@ -382,7 +382,7 @@ class AdmissionApplicant(models.Model):
             record.write({'state': 'fee_pending'})
 
     def action_confirm_admission(self):
-        Student = self.env['unicore.student']
+        Student = self.env['oacis.student']
         for record in self:
             if record.state != 'fee_pending':
                 raise UserError(_('Fee must be confirmed before admission.'))
@@ -439,7 +439,7 @@ class AdmissionApplicant(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Offer Letters'),
-            'res_model': 'unicore.admission.offer.letter',
+            'res_model': 'oacis.admission.offer.letter',
             'view_mode': 'list,form',
             'domain': [('applicant_id', '=', self.id)],
             'context': {'default_applicant_id': self.id},
@@ -452,7 +452,7 @@ class AdmissionApplicant(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Student'),
-            'res_model': 'unicore.student',
+            'res_model': 'oacis.student',
             'view_mode': 'form',
             'res_id': self.student_id.id,
         }
@@ -470,7 +470,7 @@ class AdmissionApplicant(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Enroll in Program'),
-            'res_model': 'unicore.admission.enrollment.wizard',
+            'res_model': 'oacis.admission.enrollment.wizard',
             'view_mode': 'form',
             'target': 'new',
             'context': {'default_applicant_id': self.id},
@@ -481,7 +481,7 @@ class AdmissionApplicant(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Program Enrollments'),
-            'res_model': 'unicore.admission.enrollment',
+            'res_model': 'oacis.admission.enrollment',
             'view_mode': 'list,form',
             'domain': [('applicant_id', '=', self.id)],
             'context': {'default_applicant_id': self.id},
@@ -495,7 +495,7 @@ class AdmissionApplicant(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': _('Course Enrollments'),
-            'res_model': 'unicore.enrollment',
+            'res_model': 'oacis.enrollment',
             'view_mode': 'list,form',
             'domain': [('student_id', '=', self.student_id.id)],
             'context': {'default_student_id': self.student_id.id},

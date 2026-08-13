@@ -1,8 +1,8 @@
-"""UniCore Grade Book — Models Package"""
+"""Oacis Grade Book — Models Package"""
 from . import (
-    unicore_assignment_submission_ext,
-    unicore_course_offering_ext,
-    unicore_gradebook_assignment_line,
-    unicore_gradebook_config,
-    unicore_gradebook_student_line,
+    oacis_assignment_submission_ext,
+    oacis_course_offering_ext,
+    oacis_gradebook_assignment_line,
+    oacis_gradebook_config,
+    oacis_gradebook_student_line,
 )

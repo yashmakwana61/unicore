@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="unicore_campus_form_view" model="ir.ui.view">
-        <field name="name">unicore.campus.form</field>
-        <field name="model">unicore.campus</field>
+    <record id="oacis_campus_form_view" model="ir.ui.view">
+        <field name="name">oacis.campus.form</field>
+        <field name="model">oacis.campus</field>
         <field name="arch" type="xml">
             <form>
                 <header/>
@@ -42,9 +42,9 @@
         </field>
     </record>
 
-    <record id="unicore_campus_list_view" model="ir.ui.view">
-        <field name="name">unicore.campus.list</field>
-        <field name="model">unicore.campus</field>
+    <record id="oacis_campus_list_view" model="ir.ui.view">
+        <field name="name">oacis.campus.list</field>
+        <field name="model">oacis.campus</field>
         <field name="arch" type="xml">
             <list>
                 <field name="name"/>
@@ -55,9 +55,9 @@
         </field>
     </record>
 
-    <record id="unicore_campus_search_view" model="ir.ui.view">
-        <field name="name">unicore.campus.search</field>
-        <field name="model">unicore.campus</field>
+    <record id="oacis_campus_search_view" model="ir.ui.view">
+        <field name="name">oacis.campus.search</field>
+        <field name="model">oacis.campus</field>
         <field name="arch" type="xml">
             <search>
                 <field name="name"/>
@@ -66,9 +66,9 @@
         </field>
     </record>
 
-    <record id="action_unicore_campus" model="ir.actions.act_window">
+    <record id="action_oacis_campus" model="ir.actions.act_window">
         <field name="name">Campuses</field>
-        <field name="res_model">unicore.campus</field>
+        <field name="res_model">oacis.campus</field>
         <field name="view_mode">list,form</field>
     </record>
 </odoo>

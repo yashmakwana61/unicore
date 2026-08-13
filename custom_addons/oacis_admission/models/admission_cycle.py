@@ -3,20 +3,20 @@ from odoo.exceptions import UserError, ValidationError
 
 
 class AdmissionCycle(models.Model):
-    _name = 'unicore.admission.cycle'
+    _name = 'oacis.admission.cycle'
     _description = 'Admission Cycle'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'start_date desc, id desc'
     _rec_name = 'name'
 
     name = fields.Char(string='Cycle Name', required=True, tracking=True)
     code = fields.Char(string='Cycle Code', required=True, tracking=True)
     campus_id = fields.Many2one(
-        comodel_name='unicore.campus', string='Campus', required=True,
+        comodel_name='oacis.campus', string='Campus', required=True,
         domain="[('company_id', '=', company_id)]", tracking=True,
     )
     academic_year_id = fields.Many2one(
-        comodel_name='unicore.academic.year', string='Academic Year', required=True, tracking=True,
+        comodel_name='oacis.academic.year', string='Academic Year', required=True, tracking=True,
     )
     start_date = fields.Date(string='Start Date', required=True, tracking=True)
     end_date = fields.Date(string='End Date', required=True, tracking=True)
@@ -52,11 +52,11 @@ class AdmissionCycle(models.Model):
         ondelete='restrict', tracking=True,
     )
     seat_ids = fields.One2many(
-        comodel_name='unicore.admission.cycle.seat',
+        comodel_name='oacis.admission.cycle.seat',
         inverse_name='cycle_id', string='Seat Allocation',
     )
     applicant_ids = fields.One2many(
-        comodel_name='unicore.admission.applicant',
+        comodel_name='oacis.admission.applicant',
         inverse_name='cycle_id', string='Applicants',
     )
     applicant_count = fields.Integer(
@@ -88,7 +88,7 @@ class AdmissionCycle(models.Model):
 
     @api.depends('seat_ids')
     def _compute_applicant_count(self):
-        Applicant = self.env['unicore.admission.applicant']
+        Applicant = self.env['oacis.admission.applicant']
         for record in self:
             record.applicant_count = Applicant.search_count([('cycle_id', '=', record.id)])
 
@@ -108,7 +108,7 @@ class AdmissionCycle(models.Model):
         The top N (where N = available seats) become ``merit_listed`` and the
         remaining eligible applicants are moved to ``waitlisted``.
         """
-        Applicant = self.env['unicore.admission.applicant']
+        Applicant = self.env['oacis.admission.applicant']
         for record in self:
             if record.state != 'active':
                 raise UserError(_('Merit list can only be generated for active cycles.'))
@@ -143,7 +143,7 @@ class AdmissionCycle(models.Model):
         for record in self:
             if record.state != 'active':
                 raise UserError(_('Only active cycles can be closed.'))
-            pending = self.env['unicore.admission.applicant'].search_count([
+            pending = self.env['oacis.admission.applicant'].search_count([
                 ('cycle_id', '=', record.id),
                 ('state', 'not in', ('confirmed', 'rejected', 'withdrawn', 'waitlisted')),
             ])
@@ -161,16 +161,16 @@ class AdmissionCycle(models.Model):
 
 
 class AdmissionCycleSeat(models.Model):
-    _name = 'unicore.admission.cycle.seat'
+    _name = 'oacis.admission.cycle.seat'
     _description = 'Admission Cycle Seat Allocation'
     _rec_name = 'program_id'
 
     cycle_id = fields.Many2one(
-        comodel_name='unicore.admission.cycle', string='Admission Cycle',
+        comodel_name='oacis.admission.cycle', string='Admission Cycle',
         required=True, ondelete='cascade',
     )
     program_id = fields.Many2one(
-        comodel_name='unicore.program', string='Program', required=True,
+        comodel_name='oacis.program', string='Program', required=True,
         domain="[('company_id', '=', company_id)]",
     )
     total_seats = fields.Integer(string='Total Seats', required=True, default=0)
@@ -194,7 +194,7 @@ class AdmissionCycleSeat(models.Model):
     def _compute_seat_usage(self):
         """Available seats = total - reserved - applicants already committed
         (offer sent / fee pending / confirmed)."""
-        Applicant = self.env['unicore.admission.applicant']
+        Applicant = self.env['oacis.admission.applicant']
         for record in self:
             committed = Applicant.search_count([
                 ('cycle_id', '=', record.cycle_id.id),

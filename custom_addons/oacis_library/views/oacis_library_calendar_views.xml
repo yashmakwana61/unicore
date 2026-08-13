@@ -4,9 +4,9 @@
     <!-- ============================================================
          Library Issue Calendar
          ============================================================ -->
-    <record id="unicore_library_issue_calendar_view" model="ir.ui.view">
-        <field name="name">unicore.library.issue.calendar</field>
-        <field name="model">unicore.library.issue</field>
+    <record id="oacis_library_issue_calendar_view" model="ir.ui.view">
+        <field name="name">oacis.library.issue.calendar</field>
+        <field name="model">oacis.library.issue</field>
         <field name="type">calendar</field>
         <field name="arch" type="xml">
             <calendar date_start="issue_date" date_stop="due_date" color="color" string="Library Issue Calendar">
@@ -23,9 +23,9 @@
     <!-- ============================================================
          Library Reservation Calendar
          ============================================================ -->
-    <record id="unicore_library_reservation_calendar_view" model="ir.ui.view">
-        <field name="name">unicore.library.reservation.calendar</field>
-        <field name="model">unicore.library.reservation</field>
+    <record id="oacis_library_reservation_calendar_view" model="ir.ui.view">
+        <field name="name">oacis.library.reservation.calendar</field>
+        <field name="model">oacis.library.reservation</field>
         <field name="type">calendar</field>
         <field name="arch" type="xml">
             <calendar date_start="reservation_date" date_stop="expiry_date" color="color" string="Library Reservation Calendar">
@@ -41,9 +41,9 @@
     <!-- ============================================================
          Library Member Calendar
          ============================================================ -->
-    <record id="unicore_library_member_calendar_view" model="ir.ui.view">
-        <field name="name">unicore.library.member.calendar</field>
-        <field name="model">unicore.library.member</field>
+    <record id="oacis_library_member_calendar_view" model="ir.ui.view">
+        <field name="name">oacis.library.member.calendar</field>
+        <field name="model">oacis.library.member</field>
         <field name="type">calendar</field>
         <field name="arch" type="xml">
             <calendar date_start="registration_date" date_stop="valid_until" color="color" string="Library Member Calendar">

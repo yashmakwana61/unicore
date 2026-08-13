@@ -1,16 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-  <record id="view_unicore_library_issue_form" model="ir.ui.view">
-    <field name="name">unicore.library.issue.form</field>
-    <field name="model">unicore.library.issue</field>
+  <record id="view_oacis_library_issue_form" model="ir.ui.view">
+    <field name="name">oacis.library.issue.form</field>
+    <field name="model">oacis.library.issue</field>
     <field name="arch" type="xml">
       <form>
         <header>
           <button name="action_return" string="Return Book" type="object" invisible="issue_state != 'issued'" class="btn-primary"/>
           <button name="action_renew" string="Renew" type="object" invisible="issue_state != 'issued'"/>
-          <button name="action_mark_lost" string="Mark as Lost" type="object" invisible="issue_state != 'issued'" groups="unicore_base.group_unicore_admin"/>
-          <button name="action_mark_fine_paid" string="Fine Paid" type="object" invisible="fine_amount == 0 or fine_paid" class="btn-success" groups="unicore_base.group_unicore_staff"/>
-          <button name="action_waive_fine" string="Waive Fine" type="object" invisible="fine_amount == 0 or fine_waived" groups="unicore_base.group_unicore_admin"/>
+          <button name="action_mark_lost" string="Mark as Lost" type="object" invisible="issue_state != 'issued'" groups="oacis_base.group_oacis_admin"/>
+          <button name="action_mark_fine_paid" string="Fine Paid" type="object" invisible="fine_amount == 0 or fine_paid" class="btn-success" groups="oacis_base.group_oacis_staff"/>
+          <button name="action_waive_fine" string="Waive Fine" type="object" invisible="fine_amount == 0 or fine_waived" groups="oacis_base.group_oacis_admin"/>
           <field name="issue_state" widget="statusbar" statusbar_visible="issued,returned"/>
         </header>
         <sheet>
@@ -59,9 +59,9 @@
       </form>
     </field>
   </record>
-  <record id="view_unicore_library_issue_list" model="ir.ui.view">
-    <field name="name">unicore.library.issue.list</field>
-    <field name="model">unicore.library.issue</field>
+  <record id="view_oacis_library_issue_list" model="ir.ui.view">
+    <field name="name">oacis.library.issue.list</field>
+    <field name="model">oacis.library.issue</field>
     <field name="arch" type="xml">
       <list decoration-danger="is_overdue and                issue_state == 'issued'" decoration-success="issue_state == 'returned'" decoration-muted="issue_state in ('lost','cancelled')">
         <field name="issue_number"/>
@@ -77,9 +77,9 @@
       </list>
     </field>
   </record>
-  <record id="view_unicore_library_issue_search" model="ir.ui.view">
-    <field name="name">unicore.library.issue.search</field>
-    <field name="model">unicore.library.issue</field>
+  <record id="view_oacis_library_issue_search" model="ir.ui.view">
+    <field name="name">oacis.library.issue.search</field>
+    <field name="model">oacis.library.issue</field>
     <field name="arch" type="xml">
       <search>
         <field name="issue_number"/>
@@ -96,22 +96,22 @@
       </search>
     </field>
   </record>
-  <record id="action_unicore_library_issue" model="ir.actions.act_window">
+  <record id="action_oacis_library_issue" model="ir.actions.act_window">
     <field name="name">Book Issues</field>
-    <field name="res_model">unicore.library.issue</field>
+    <field name="res_model">oacis.library.issue</field>
     <field name="view_mode">list,form</field>
     <field name="context">{'search_default_issued': 1}</field>
   </record>
-  <record id="action_unicore_library_overdue" model="ir.actions.act_window">
+  <record id="action_oacis_library_overdue" model="ir.actions.act_window">
     <field name="name">Overdue Books</field>
-    <field name="res_model">unicore.library.issue</field>
+    <field name="res_model">oacis.library.issue</field>
     <field name="view_mode">list,form</field>
     <field name="domain">[('is_overdue','=',True),
        ('issue_state','=','issued')]</field>
   </record>
-  <record id="action_unicore_library_issue_new" model="ir.actions.act_window">
+  <record id="action_oacis_library_issue_new" model="ir.actions.act_window">
     <field name="name">Issue Book</field>
-    <field name="res_model">unicore.library.issue</field>
+    <field name="res_model">oacis.library.issue</field>
     <field name="view_mode">form</field>
     <field name="target">new</field>
   </record>

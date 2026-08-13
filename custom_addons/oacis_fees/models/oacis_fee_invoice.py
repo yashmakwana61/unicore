@@ -1,5 +1,5 @@
 """
-UniCore Fee Invoice Model
+Oacis Fee Invoice Model
 A fee invoice is generated per student per semester
 from the applicable fee structure. Supports full
 payment or installments. Tracks payment status
@@ -15,10 +15,10 @@ from odoo.exceptions import UserError, ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class UniCoreFeeInvoice(models.Model):
-    _name = 'unicore.fee.invoice'
+class OacisFeeInvoice(models.Model):
+    _name = 'oacis.fee.invoice'
     _description = 'Student Fee Invoice'
-    _inherit = ['unicore.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['oacis.mixin', 'mail.thread', 'mail.activity.mixin']
     _order = 'invoice_date desc, student_id'
     _check_company_auto = True
     _rec_name = 'display_name'
@@ -50,7 +50,7 @@ class UniCoreFeeInvoice(models.Model):
         index=True,
     )
     student_id = fields.Many2one(
-        comodel_name='unicore.student',
+        comodel_name='oacis.student',
         string='Student',
         required=True,
         ondelete='restrict',
@@ -66,7 +66,7 @@ class UniCoreFeeInvoice(models.Model):
         ondelete='restrict',
     )
     academic_year_id = fields.Many2one(
-        comodel_name='unicore.academic.year',
+        comodel_name='oacis.academic.year',
         string='Academic Year',
         required=True,
         ondelete='restrict',
@@ -74,14 +74,14 @@ class UniCoreFeeInvoice(models.Model):
         tracking=True,
     )
     semester_id = fields.Many2one(
-        comodel_name='unicore.semester',
+        comodel_name='oacis.semester',
         string='Semester',
         ondelete='restrict',
         domain="[('academic_year_id','=',academic_year_id)]",
         tracking=True,
     )
     fee_structure_id = fields.Many2one(
-        comodel_name='unicore.fee.structure',
+        comodel_name='oacis.fee.structure',
         string='Fee Structure',
         ondelete='restrict',
         domain="[('company_id','=',company_id),('structure_state','=','active')]",
@@ -104,7 +104,7 @@ class UniCoreFeeInvoice(models.Model):
         default=lambda self: self.env.company.currency_id,
     )
     line_ids = fields.One2many(
-        comodel_name='unicore.fee.invoice.line',
+        comodel_name='oacis.fee.invoice.line',
         inverse_name='invoice_id',
         string='Invoice Lines',
     )
@@ -240,7 +240,7 @@ class UniCoreFeeInvoice(models.Model):
         for vals in vals_list:
             if not vals.get('invoice_number'):
                 vals['invoice_number'] = (
-                    self.env['ir.sequence'].next_by_code('unicore.fee.invoice') or '/'
+                    self.env['ir.sequence'].next_by_code('oacis.fee.invoice') or '/'
                 )
         return super().create(vals_list)
 
@@ -290,10 +290,10 @@ class UniCoreFeeInvoice(models.Model):
 
     @classmethod
     def generate_invoices_for_semester(cls, env, semester_id, company_id):
-        Invoice = env['unicore.fee.invoice']
-        Enrollment = env['unicore.enrollment']
-        FeeStructure = env['unicore.fee.structure']
-        semester = env['unicore.semester'].browse(semester_id)
+        Invoice = env['oacis.fee.invoice']
+        Enrollment = env['oacis.enrollment']
+        FeeStructure = env['oacis.fee.structure']
+        semester = env['oacis.semester'].browse(semester_id)
         enrollments = Enrollment.search([
             ('semester_id', '=', semester_id),
             ('enrollment_state', '=', 'registered'),
@@ -323,7 +323,7 @@ class UniCoreFeeInvoice(models.Model):
             invoice = Invoice.create(vals)
             if structure:
                 for sl in structure.line_ids:
-                    env['unicore.fee.invoice.line'].create({
+                    env['oacis.fee.invoice.line'].create({
                         'invoice_id': invoice.id,
                         'fee_type': sl.fee_type,
                         'name': sl.name,
@@ -334,8 +334,8 @@ class UniCoreFeeInvoice(models.Model):
         return created_count
 
 
-class UniCoreFeeInvoiceLine(models.Model):
-    _name = 'unicore.fee.invoice.line'
+class OacisFeeInvoiceLine(models.Model):
+    _name = 'oacis.fee.invoice.line'
     _description = 'Fee Invoice Line'
     _order = 'invoice_id, sequence'
     _check_company_auto = True
@@ -346,7 +346,7 @@ class UniCoreFeeInvoiceLine(models.Model):
         store=True,
     )
     invoice_id = fields.Many2one(
-        comodel_name='unicore.fee.invoice',
+        comodel_name='oacis.fee.invoice',
         string='Invoice',
         required=True,
         ondelete='cascade',

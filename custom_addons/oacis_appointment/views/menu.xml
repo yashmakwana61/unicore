@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <menuitem id="menu_unicore_appointment_root"
+        <menuitem id="menu_oacis_appointment_root"
                   name="Appointments"
                   
                   sequence="90"/>
 
-        <menuitem id="menu_unicore_appointment_slots"
+        <menuitem id="menu_oacis_appointment_slots"
                   name="Slots"
-                  parent="menu_unicore_appointment_root"
-                  action="action_unicore_appointment_slot"
+                  parent="menu_oacis_appointment_root"
+                  action="action_oacis_appointment_slot"
                   sequence="10"/>
 
-        <menuitem id="menu_unicore_appointment_bookings"
+        <menuitem id="menu_oacis_appointment_bookings"
                   name="Bookings"
-                  parent="menu_unicore_appointment_root"
-                  action="action_unicore_appointment_booking"
+                  parent="menu_oacis_appointment_root"
+                  action="action_oacis_appointment_booking"
                   sequence="20"/>
     </data>
 </odoo>
