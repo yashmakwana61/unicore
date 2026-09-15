@@ -35,7 +35,8 @@
         'oacis_admission', 'oacis_attendance',
         'oacis_exam', 'oacis_grading',
         'oacis_fees', 'oacis_notify',
-        'oacis_portal_student', 'portal',
+        'oacis_portal_student', 'oacis_notice_board',
+        'portal',
     ],
     'data': [
         'security/ir.model.access.csv',

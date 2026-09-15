@@ -6,7 +6,7 @@
     'author': 'Precisefect Solutions Pvt. Ltd.',
     'website': 'https://www.precisefect.com',
     'license': 'OPL-1',
-    'depends': ['oacis_student', 'oacis_theme'],
+    'depends': ['oacis_student'],
     'data': [
         'security/ir.model.access.csv',
         'security/security_rules.xml',

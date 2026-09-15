@@ -128,10 +128,16 @@ class OacisApiEndpointTest(HttpCase):
     # HELPERS
     # ----------------------------------------------------------
 
-    def _api_get(self, path, key=None, params=None):
+    def _key_secret(self, key):
+        """Generate a usable secret for a key record and return
+        it (the plaintext is only ever available at generation)."""
+        action = key.action_generate_key()
+        return action['context']['default_full_token']
+
+    def _api_get(self, path, key=None, params=None, secret=None):
         headers = {}
         if key:
-            headers['X-Oacis-Key'] = key.token
+            headers['X-Oacis-Key'] = secret or self._key_secret(key)
         url = '/api/oacis/v1' + path
         if params:
             query = '&'.join(
@@ -142,10 +148,10 @@ class OacisApiEndpointTest(HttpCase):
         response = self.url_open(url, headers=headers)
         return response
 
-    def _api_post(self, path, key=None, body=None):
+    def _api_post(self, path, key=None, body=None, secret=None):
         headers = {'Content-Type': 'application/json'}
         if key:
-            headers['X-Oacis-Key'] = key.token
+            headers['X-Oacis-Key'] = secret or self._key_secret(key)
         url = '/api/oacis/v1' + path
         data = json.dumps(body or {}).encode()
         response = self.url_open(url, data=data, headers=headers)
@@ -370,6 +376,23 @@ class OacisApiEndpointTest(HttpCase):
             self.assertEqual(data['code'], 'INTERNAL_ERROR',
                              '500 indicates notification delivery failure, '
                              'scope check passed')
+
+    def test_17b_notify_key_cannot_read_data(self):
+        """Regression: notify_only scope must never gain read access
+        to PII-bearing data endpoints."""
+        response = self._api_get('/students', key=self.notify_key)
+        self.assertEqual(response.status_code, 403)
+        data = self._json(response)
+        self.assertEqual(data['code'], 'FORBIDDEN')
+
+    def test_17c_notify_key_cannot_read_single_student(self):
+        """Regression: notify_only scope must be blocked on detail
+        endpoints as well as list endpoints."""
+        response = self._api_get(
+            '/students/%d' % self.test_student.id,
+            key=self.notify_key,
+        )
+        self.assertEqual(response.status_code, 403)
 
     # ----------------------------------------------------------
     # GROUP 6: Input Validation

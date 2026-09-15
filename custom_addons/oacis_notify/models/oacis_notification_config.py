@@ -6,6 +6,7 @@ and global notification preferences.
 """
 
 import logging
+import os
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
@@ -67,8 +68,14 @@ class OacisNotificationConfig(models.Model):
     )
     whatsapp_access_token = fields.Char(
         string='WhatsApp Access Token',
-        help='Permanent access token from Meta '
-             'Business Manager. Stored encrypted.',
+        password=True,
+        groups='base.group_system',
+        copy=False,
+        help='Permanent access token from Meta Business Manager. '
+             'Recommended: set the OACIS_WHATSAPP_TOKEN environment '
+             'variable instead of storing the token in the database. '
+             'If the environment variable is set it takes precedence '
+             'over this value.',
     )
     whatsapp_business_account_id = fields.Char(
         string='WhatsApp Business Account ID',
@@ -154,10 +161,12 @@ class OacisNotificationConfig(models.Model):
                 _('Please configure WhatsApp '
                   'Phone Number ID.'),
             )
-        if not self.whatsapp_access_token:
+        if not self._get_whatsapp_access_token():
             raise UserError(
-                _('Please configure WhatsApp '
-                  'Access Token.'),
+                _('WhatsApp Access Token is not configured. '
+                  'Set the OACIS_WHATSAPP_TOKEN environment variable, '
+                  'or ask a system administrator to store it in '
+                  'Settings.'),
             )
         Engine = self.env['oacis.notification.engine']
         result = Engine._test_whatsapp_connection(self)
@@ -192,3 +201,16 @@ class OacisNotificationConfig(models.Model):
                 'company_id': company_id,
             })
         return config
+
+    def _get_whatsapp_access_token(self):
+        """Resolve the WhatsApp access token.
+
+        Precedence: ``OACIS_WHATSAPP_TOKEN`` environment variable
+        first, so production deployments can avoid storing the
+        secret in the database at all. The stored field is read via
+        sudo because the field is restricted to system administrators.
+        """
+        token = os.environ.get('OACIS_WHATSAPP_TOKEN', '')
+        if not token:
+            token = self.sudo().whatsapp_access_token or ''
+        return token.strip()

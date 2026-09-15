@@ -132,6 +132,11 @@
           </ol>
         </nav>
 
+        <div t-if="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+          <t t-esc="error"/>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
         <div class="card mb-3">
           <div class="card-header d-flex justify-content-between align-items-center">
             <h4 class="mb-0">

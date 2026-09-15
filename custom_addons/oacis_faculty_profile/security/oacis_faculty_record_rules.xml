@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo noupdate="1">
+<odoo>
+    <data noupdate="1">
 
     <!-- Faculty Member: Company Isolation (all internal users) -->
     <record id="rule_oacis_faculty_member_company" model="ir.rule">
@@ -61,4 +62,5 @@
         <field name="perm_unlink" eval="True"/>
     </record>
 
+    </data>
 </odoo>

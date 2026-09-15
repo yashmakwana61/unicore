@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="action_studio_dictionary_crawl" model="ir.actions.server">
+            <field name="name">Studio: nightly Data Dictionary crawl</field>
+            <field name="model_id" ref="model_studio_data_dictionary"/>
+            <field name="state">code</field>
+            <field name="code">env['studio.data.dictionary'].crawl()</field>
+        </record>
+        <record id="cron_studio_dictionary_crawl" model="ir.cron">
+            <field name="name">Studio: nightly Data Dictionary crawl</field>
+            <field name="ir_actions_server_id" ref="action_studio_dictionary_crawl"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="active" eval="True"/>
+            <field name="nextcall" eval="DateTime.now().strftime('%Y-%m-%d 02:00:00')"/>
+        </record>
+    </data>
+</odoo>

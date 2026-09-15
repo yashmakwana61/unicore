@@ -151,6 +151,20 @@ class OacisFeePayment(models.Model):
         self.message_post(body=_('Payment %s confirmed. Amount: %s') % (
             self.receipt_number, self.amount,
         ))
+        # Notify student + guardians that the payment landed.
+        # Reversals (negative copies) are not announced.
+        if self.amount > 0 and 'oacis.notification.engine' in self.env:
+            self.env['oacis.notification.engine']._safe_emit(
+                self.invoice_id.student_id,
+                'fee_paid',
+                {
+                    'amount': str(self.amount),
+                    'invoice_number': self.invoice_id.invoice_number,
+                    'receipt_number': self.receipt_number,
+                    'payment_date': str(self.payment_date),
+                },
+                include_guardians=True,
+            )
 
     def action_cancel(self):
         self.ensure_one()

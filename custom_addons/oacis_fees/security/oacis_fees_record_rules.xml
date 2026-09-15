@@ -100,5 +100,18 @@
             <field name="perm_unlink" eval="True"/>
         </record>
 
+        <!-- Fee Invoice Line: students see only lines of their own invoices.
+             Without this, the line-level ACL exposes every student's fees. -->
+        <record id="rule_oacis_fee_invoice_line_student" model="ir.rule">
+            <field name="name">Fee Invoice Line: Student Self-View</field>
+            <field name="model_id" ref="oacis_fees.model_oacis_fee_invoice_line"/>
+            <field name="global" eval="False"/>
+            <field name="groups" eval="[(4, ref('oacis_base.group_oacis_student'))]"/>
+            <field name="domain_force">[('invoice_id.student_id.partner_id.user_ids', 'in', [user.id])]</field>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
     </data>
 </odoo>

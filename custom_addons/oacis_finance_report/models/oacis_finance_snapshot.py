@@ -184,49 +184,77 @@ class OacisFinanceSnapshot(models.Model):
                 ].browse()
             )
 
-            Invoice = self.env['oacis.fee.invoice']
-            Payment = self.env['oacis.fee.payment']
-            Award = self.env['oacis.scholarship.award']
-
-            domain_company = [
-                ('company_id', '=', company.id),
-            ]
-            if semester:
-                domain_company.append(
-                    ('semester_id', '=', semester.id),
-                )
-
-            active_invoices = Invoice.search(
-                domain_company + [
-                    ('invoice_state', 'not in',
-                     ['draft', 'cancelled']),
-                ],
+            # Aggregate directly in SQL: avoids loading whole
+            # recordsets into memory and, for legacy payments,
+            # includes archived (active=False) rows that the
+            # ORM search silently drops.
+            semester_clause = (
+                ' AND semester_id = %s' if semester else ''
             )
-            total_invoiced = sum(
-                i.total_amount for i in active_invoices
-            )
-            total_outstanding = sum(
-                i.amount_outstanding
-                for i in active_invoices
-            )
-            paid_invoices = active_invoices.filtered(
-                lambda i: i.invoice_state == 'paid',
-            )
-            overdue_invoices = active_invoices.filtered(
-                lambda i: i.invoice_state == 'overdue',
-            )
-            total_overdue = sum(
-                i.amount_outstanding
-                for i in overdue_invoices
+            sem_params = (
+                [semester.id] if semester else []
             )
 
-            payments = Payment.search([
-                ('company_id', '=', company.id),
-                ('payment_state', '=', 'confirmed'),
-            ])
-            total_collected = sum(
-                p.amount for p in payments
+            self.env.cr.execute(
+                """
+                SELECT
+                    COUNT(*),
+                    COALESCE(SUM(total_amount), 0),
+                    COALESCE(SUM(amount_outstanding), 0),
+                    COUNT(CASE WHEN invoice_state = 'paid'
+                          THEN 1 END),
+                    COUNT(CASE WHEN invoice_state = 'overdue'
+                          THEN 1 END),
+                    COALESCE(SUM(CASE WHEN invoice_state
+                        = 'overdue' THEN amount_outstanding
+                        ELSE 0 END), 0)
+                FROM oacis_fee_invoice
+                WHERE company_id = %s
+                  AND invoice_state NOT IN
+                      ('draft', 'cancelled')
+                """ + semester_clause,
+                [company.id] + sem_params,
             )
+            (invoice_count_total,
+             total_invoiced,
+             total_outstanding,
+             invoice_count_paid,
+             invoice_count_overdue,
+             total_overdue) = self.env.cr.fetchone()
+
+            self.env.cr.execute(
+                """
+                SELECT COALESCE(SUM(collected), 0)
+                FROM (
+                    SELECT CASE
+                        WHEN fi.account_move_id IS NOT NULL
+                            THEN GREATEST(
+                                fi.total_amount
+                                - fi.amount_outstanding, 0)
+                        ELSE COALESCE((
+                            SELECT SUM(fp.amount)
+                            FROM oacis_fee_payment fp
+                            WHERE fp.invoice_id = fi.id
+                              AND fp.payment_state
+                                  = 'confirmed'
+                        ), 0)
+                    END AS collected
+                    FROM oacis_fee_invoice fi
+                    WHERE fi.company_id = %s
+                      AND fi.invoice_state NOT IN
+                          ('draft', 'cancelled')
+                """ + (
+                    " AND fi.semester_id = %s"
+                    if semester else ""
+                ) + """
+                ) sub
+                """,
+                [company.id] + sem_params,
+            )
+            # GL-aware collection total: reconciled residual
+            # for GL invoices, confirmed legacy receipts
+            # otherwise.
+            total_collected = self.env.cr.fetchone()[0]
             collection_rate = (
                 round(
                     total_collected / total_invoiced * 100,
@@ -235,15 +263,18 @@ class OacisFinanceSnapshot(models.Model):
                 if total_invoiced > 0 else 0.0
             )
 
-            awards = Award.search([
-                ('company_id', '=', company.id),
-                ('award_state', '=', 'disbursed'),
-            ])
-            total_scholarship = sum(
-                a.award_amount for a in awards
+            self.env.cr.execute(
+                """
+                SELECT COALESCE(SUM(award_amount), 0),
+                       COUNT(DISTINCT student_id)
+                FROM oacis_scholarship_award
+                WHERE company_id = %s
+                  AND award_state = 'disbursed'
+                """,
+                [company.id],
             )
-            beneficiaries = len(
-                set(awards.mapped('student_id').ids),
+            total_scholarship, beneficiaries = (
+                self.env.cr.fetchone()
             )
 
             vals = {
@@ -259,20 +290,18 @@ class OacisFinanceSnapshot(models.Model):
                 'currency_id': (
                     company.currency_id.id
                 ),
-                'total_invoiced': total_invoiced,
-                'total_collected': total_collected,
-                'total_outstanding': total_outstanding,
-                'total_overdue': total_overdue,
+                'total_invoiced': float(total_invoiced),
+                'total_collected': float(total_collected),
+                'total_outstanding': float(total_outstanding),
+                'total_overdue': float(total_overdue),
                 'collection_rate': collection_rate,
-                'invoice_count_total': len(
-                    active_invoices,
-                ),
-                'invoice_count_paid': len(paid_invoices),
-                'invoice_count_overdue': len(
-                    overdue_invoices,
+                'invoice_count_total': invoice_count_total,
+                'invoice_count_paid': invoice_count_paid,
+                'invoice_count_overdue': (
+                    invoice_count_overdue
                 ),
                 'total_scholarship_awarded': (
-                    total_scholarship
+                    float(total_scholarship)
                 ),
                 'scholarship_beneficiary_count': (
                     beneficiaries

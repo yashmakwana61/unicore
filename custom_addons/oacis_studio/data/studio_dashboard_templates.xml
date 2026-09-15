@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Forge Studio 2.0 — Dashboard Template Seeds (§60) -->
+        <!-- Template app for dashboards (so app_id is satisfied) -->
+        <record id="app_forge_templates" model="studio.app">
+            <field name="name">Forge Templates</field>
+            <field name="key">forge_templates</field>
+            <field name="category">custom</field>
+            <field name="state">published</field>
+        </record>
+        <!-- Each template has an actual 12-col layout + widgets; used as starting points -->
+        <record id="dash_template_school_overview" model="studio.dashboard">
+            <field name="key">dash_school_overview</field>
+            <field name="app_id" ref="oacis_studio.app_forge_templates"/>
+            <field name="name">School Overview</field>
+            <field name="description">KPI overview of students, staff, attendance and fees.</field>
+            <field name="layout_json">{"cols": 12, "widgets": [{"type": "kpi", "title": "Total Students", "col_span": 3, "row_span": 2, "config": {"metric": "count", "model": "oacis.student"}}, {"type": "kpi", "title": "Present Today", "col_span": 3, "row_span": 2, "config": {"metric": "count", "model": "oacis.attendance"}}, {"type": "kpi", "title": "Fee Collected (MTD)", "col_span": 3, "row_span": 2, "config": {"metric": "sum", "model": "oacis.fees"}}, {"type": "kpi", "title": "Open Grievances", "col_span": 3, "row_span": 2, "config": {"metric": "count", "model": "oacis.grievance"}}, {"type": "chart_bar", "title": "Attendance Trend (7d)", "col_span": 8, "row_span": 4, "config": {"dataset": "attendance_daily"}}, {"type": "ranking", "title": "Top Classes by Attendance", "col_span": 4, "row_span": 4, "config": {"dataset": "class_ranking"}}, {"type": "table", "title": "Recent Admissions", "col_span": 12, "row_span": 3, "config": {"model": "oacis.student", "limit": 10}}]}</field>
+        </record>
+        <record id="dash_template_admissions" model="studio.dashboard">
+            <field name="key">dash_admissions</field>
+            <field name="app_id" ref="oacis_studio.app_forge_templates"/>
+            <field name="name">Admissions Dashboard</field>
+            <field name="description">Pipeline: enquiry → application → verification → confirmed.</field>
+            <field name="layout_json">{"cols": 12, "widgets": [{"type": "kpi", "title": "Enquiries", "col_span": 3, "row_span": 2, "config": {"metric": "count"}}, {"type": "kpi", "title": "Applications", "col_span": 3, "row_span": 2, "config": {"metric": "count"}}, {"type": "kpi", "title": "Confirmed", "col_span": 3, "row_span": 2, "config": {"metric": "count"}}, {"type": "kpi", "title": "Conversion %", "col_span": 3, "row_span": 2, "config": {"metric": "progress"}}, {"type": "chart_bar", "title": "Admissions by Month", "col_span": 12, "row_span": 4, "config": {"dataset": "admission_monthly"}}, {"type": "table", "title": "Pending Verifications", "col_span": 12, "row_span": 3, "config": {"model": "oacis.student"}}]}</field>
+        </record>
+        <record id="dash_template_attendance" model="studio.dashboard">
+            <field name="key">dash_attendance</field>
+            <field name="app_id" ref="oacis_studio.app_forge_templates"/>
+            <field name="name">Attendance Dashboard</field>
+            <field name="description">Daily/weekly attendance, low-attendance alerts, class comparison.</field>
+            <field name="layout_json">{"cols": 12, "widgets": [{"type": "kpi", "title": "Overall %", "col_span": 4, "row_span": 2, "config": {"metric": "progress"}}, {"type": "kpi", "title": "Below 75%", "col_span": 4, "row_span": 2, "config": {"metric": "count"}}, {"type": "kpi", "title": "Absentees Today", "col_span": 4, "row_span": 2, "config": {"metric": "count"}}, {"type": "chart_line", "title": "Attendance % — Last 30 days", "col_span": 8, "row_span": 4, "config": {"dataset": "attendance_trend"}}, {"type": "gauge", "title": "School Attendance Health", "col_span": 4, "row_span": 4, "config": {"dataset": "attendance_gauge"}}, {"type": "table", "title": "At-Risk Students", "col_span": 12, "row_span": 3, "config": {"model": "oacis.student"}}]}</field>
+        </record>
+        <record id="dash_template_academic" model="studio.dashboard">
+            <field name="key">dash_academic</field>
+            <field name="app_id" ref="oacis_studio.app_forge_templates"/>
+            <field name="name">Academic Performance Dashboard</field>
+            <field name="description">Grade distribution, subject-wise performance, term comparison.</field>
+            <field name="layout_json">{"cols": 12, "widgets": [{"type": "kpi", "title": "Avg GPA", "col_span": 3, "row_span": 2, "config": {"metric": "avg"}}, {"type": "kpi", "title": "Pass %", "col_span": 3, "row_span": 2, "config": {"metric": "progress"}}, {"type": "kpi", "title": "Top Scorer", "col_span": 3, "row_span": 2, "config": {"metric": "ranking"}}, {"type": "kpi", "title": "Pending Evaluations", "col_span": 3, "row_span": 2, "config": {"metric": "count"}}, {"type": "chart_pie", "title": "Grade Distribution", "col_span": 6, "row_span": 4, "config": {"dataset": "grade_dist"}}, {"type": "chart_bar", "title": "Subject-wise Avg", "col_span": 6, "row_span": 4, "config": {"dataset": "subject_avg"}}, {"type": "table", "title": "Class Ranking", "col_span": 12, "row_span": 3, "config": {"model": "oacis.student"}}]}</field>
+        </record>
+        <record id="dash_template_fee_collection" model="studio.dashboard">
+            <field name="key">dash_fee_collection</field>
+            <field name="app_id" ref="oacis_studio.app_forge_templates"/>
+            <field name="name">Fee Collection Dashboard</field>
+            <field name="description">Collected vs due, defaulter list, installment tracking.</field>
+            <field name="layout_json">{"cols": 12, "widgets": [{"type": "kpi", "title": "Total Due", "col_span": 3, "row_span": 2, "config": {"metric": "sum"}}, {"type": "kpi", "title": "Collected", "col_span": 3, "row_span": 2, "config": {"metric": "sum"}}, {"type": "kpi", "title": "Outstanding", "col_span": 3, "row_span": 2, "config": {"metric": "sum"}}, {"type": "kpi", "title": "Collection %", "col_span": 3, "row_span": 2, "config": {"metric": "progress"}}, {"type": "chart_bar", "title": "Collection by Month", "col_span": 8, "row_span": 4, "config": {"dataset": "fee_monthly"}}, {"type": "progress", "title": "Term-wise Collection", "col_span": 4, "row_span": 4, "config": {"dataset": "fee_term"}}, {"type": "table", "title": "Defaulters", "col_span": 12, "row_span": 3, "config": {"model": "oacis.student"}}]}</field>
+        </record>
+    </data>
+</odoo>

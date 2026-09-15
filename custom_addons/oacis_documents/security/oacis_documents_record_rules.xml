@@ -36,18 +36,16 @@
       <field name="perm_create" eval="False"/>
       <field name="perm_unlink" eval="False"/>
     </record>
-    <!-- Document: Confidential blocked from non-admin -->
+    <!-- Document: Confidential visible to staff, hidden from students -->
     <record id="rule_oacis_document_confidential" model="ir.rule">
-      <field name="name">Document: Confidential -- Admin Only</field>
+      <field name="name">Document: Confidential -- Staff Only</field>
       <field name="model_id" ref="model_oacis_document"/>
-      <field name="domain_force">['|',
-          ('is_confidential', '=', False),
-          ('is_confidential', '=', True)]</field>
-      <field name="groups" eval="[(4,ref('base.group_user'))]"/>
+      <field name="domain_force">[('is_confidential', '=', False)]</field>
+      <field name="groups" eval="[(4,ref('oacis_base.group_oacis_student'))]"/>
       <field name="perm_read" eval="True"/>
-      <field name="perm_write" eval="True"/>
-      <field name="perm_create" eval="True"/>
-      <field name="perm_unlink" eval="True"/>
+      <field name="perm_write" eval="False"/>
+      <field name="perm_create" eval="False"/>
+      <field name="perm_unlink" eval="False"/>
     </record>
     <!-- Document: Admin Bypass -->
     <record id="rule_oacis_document_admin" model="ir.rule">

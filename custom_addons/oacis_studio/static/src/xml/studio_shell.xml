@@ -1,0 +1,803 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+<t t-name="oacis_studio.ForgeStudioShell">
+    <div class="o_forge_shell h-100 d-flex flex-column">
+
+        <!-- ════════ HEADER ════════ -->
+        <div class="o_forge_header">
+            <div class="o_forge_header_section o_forge_header_section--left">
+                <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--sm" t-on-click="goBack" title="Back to Studio Home">
+                    <i class="fa fa-arrow-left"/> Back
+                </button>
+                <div class="o_forge_separator"/>
+                <span class="o_forge_breadcrumb">
+                    <t t-foreach="breadcrumbs" t-as="part" t-key="part_index">
+                        <t t-if="part_index > 0"><span class="sep">▸</span></t>
+                        <b t-if="part_index === breadcrumbs.length - 1" t-esc="part"/>
+                        <t t-else="" t-esc="part"/>
+                    </t>
+                </span>
+                <span class="o_forge_badge o_forge_badge--model ms-2" t-if="state.model" t-esc="state.model.key"/>
+                <div class="o_forge_separator"/>
+                <span t-att-class="'o_forge_badge o_forge_badge--' + saveStateClass">
+                    <t t-if="saveStateClass === 'dirty'">● Unsaved</t>
+                    <t t-elif="saveStateClass === 'saving'">Saving…</t>
+                    <t t-else="">✓ Saved</t>
+                </span>
+            </div>
+
+            <div class="o_forge_header_section o_forge_header_section--center">
+                <!-- Undo / Redo -->
+                <button class="o_forge_btn o_forge_btn--icon-sm o_forge_btn--ghost" t-on-click="undo" t-att-disabled="!canUndo" title="Undo (Ctrl+Z)">
+                    <i class="fa fa-undo"/>
+                </button>
+                <button class="o_forge_btn o_forge_btn--icon-sm o_forge_btn--ghost" t-on-click="redo" t-att-disabled="!canRedo" title="Redo (Ctrl+Y)">
+                    <i class="fa fa-repeat"/>
+                </button>
+                <div class="o_forge_separator"/>
+                <!-- View Switcher -->
+                <div class="o_forge_view_switcher">
+                    <t t-foreach="availableViewTypes" t-as="vt" t-key="vt">
+                        <button class="o_forge_view_tab" t-att-class="state.currentViewType === vt ? 'active' : ''" t-on-click="() => this.switchView(vt)" t-esc="vt"/>
+                    </t>
+                </div>
+                <div class="o_forge_separator"/>
+                <!-- Device Toggle -->
+                <button class="o_forge_btn o_forge_btn--icon-sm" t-att-class="state.device === 'desktop' ? 'active' : ''" t-on-click="() => this.state.device = 'desktop'" title="Desktop">
+                    <i class="fa fa-desktop"/>
+                </button>
+                <button class="o_forge_btn o_forge_btn--icon-sm" t-att-class="state.device === 'tablet' ? 'active' : ''" t-on-click="() => this.state.device = 'tablet'" title="Tablet">
+                    <i class="fa fa-tablet"/>
+                </button>
+                <button class="o_forge_btn o_forge_btn--icon-sm" t-att-class="state.device === 'mobile' ? 'active' : ''" t-on-click="() => this.state.device = 'mobile'" title="Mobile">
+                    <i class="fa fa-mobile"/>
+                </button>
+            </div>
+
+            <div class="o_forge_header_section o_forge_header_section--right">
+                <!-- Dev Mode Toggle -->
+                <button class="o_forge_btn o_forge_btn--sm" t-att-class="state.devMode === 'simple' ? 'active' : ''" t-on-click="() => this.setDevMode('simple')" title="Simple">Simple</button>
+                <button class="o_forge_btn o_forge_btn--sm" t-att-class="state.devMode === 'advanced' ? 'active' : ''" t-on-click="() => this.setDevMode('advanced')" title="Advanced">Advanced</button>
+                <button class="o_forge_btn o_forge_btn--sm" t-att-class="state.devMode === 'developer' ? 'active' : ''" t-on-click="() => this.setDevMode('developer')" title="Developer">Dev</button>
+                <div class="o_forge_separator"/>
+                <!-- Preview -->
+                <button class="o_forge_btn o_forge_btn--sm" t-att-class="state.previewMode ? 'active' : ''" t-on-click="togglePreview">
+                    <i class="fa fa-eye"/> <t t-esc="state.previewMode ? 'Exit Preview' : 'Preview'"/>
+                </button>
+                <!-- Save -->
+                <button class="o_forge_btn o_forge_btn--sm" t-on-click="saveDraft" title="Save Draft (Ctrl+S)">
+                    <i class="fa fa-save"/> Save
+                </button>
+                <!-- Publish -->
+                <button class="o_forge_btn o_forge_btn--primary o_forge_btn--sm" t-on-click="openPublishDialog" title="Publish to production">
+                    Publish
+                </button>
+                <!-- Ask Forge -->
+                <button class="o_forge_btn o_forge_btn--accent o_forge_btn--sm" t-on-click="toggleAiPanel" title="AI Copilot">
+                    ✨ Ask Forge
+                </button>
+                <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm" t-on-click="toggleShortcuts" title="Shortcuts (?)"><i class="fa fa-question"/></button>
+            </div>
+        </div>
+
+        <!-- ════════ PREVIEW BAR ════════ -->
+        <t t-if="state.previewMode">
+            <div class="o_forge_preview_bar">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="fa fa-eye"/>
+                    <span>Preview Mode — Studio controls hidden</span>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="text-muted me-1">Preview as:</span>
+                    <button class="o_forge_btn o_forge_btn--sm" t-att-class="state.previewRole === 'admin' ? 'active' : ''" t-on-click="() => this.setPreviewRole('admin')">Administrator</button>
+                    <button class="o_forge_btn o_forge_btn--sm" t-att-class="state.previewRole === 'principal' ? 'active' : ''" t-on-click="() => this.setPreviewRole('principal')">Principal</button>
+                    <button class="o_forge_btn o_forge_btn--sm" t-att-class="state.previewRole === 'teacher' ? 'active' : ''" t-on-click="() => this.setPreviewRole('teacher')">Teacher</button>
+                    <button class="o_forge_btn o_forge_btn--sm" t-att-class="state.previewRole === 'parent' ? 'active' : ''" t-on-click="() => this.setPreviewRole('parent')">Parent</button>
+                    <button class="o_forge_btn o_forge_btn--sm" t-att-class="state.previewRole === 'student' ? 'active' : ''" t-on-click="() => this.setPreviewRole('student')">Student</button>
+                    <div class="o_forge_separator" style="background:rgba(255,255,255,0.2)"/>
+                    <button class="o_forge_btn o_forge_btn--sm" t-on-click="togglePreview">Exit Preview</button>
+                </div>
+            </div>
+        </t>
+
+        <!-- ════════ 3-PANE LAYOUT ════════ -->
+        <div class="d-flex flex-grow-1 overflow-hidden" style="min-height:0;">
+
+            <!-- ── LEFT: Add Sidebar ── -->
+            <div class="o_forge_sidebar" t-if="!state.previewMode">
+                <!-- Search -->
+                <div class="o_forge_sidebar_search" style="position:relative;">
+                    <i class="fa fa-search o_forge_search_icon"/>
+                    <input type="text" placeholder="Search..." t-att-value="state.addSearch" t-on-input="(ev) => this.state.addSearch = ev.target.value"/>
+                </div>
+
+                <div class="o_forge_sidebar_content">
+                    <!-- Components Section -->
+                    <div class="o_forge_sidebar_section">
+                        <div class="o_forge_sidebar_section_header" t-on-click="() => this.toggleSidebarSection('Components')">
+                            <span class="title">Components</span>
+                            <span class="count" t-esc="filteredComponents.length"/>
+                            <i t-att-class="'fa fa-chevron-down chevron ' + (isSidebarSectionOpen('Components') ? '' : 'collapsed')"/>
+                        </div>
+                        <t t-if="isSidebarSectionOpen('Components')">
+                            <t t-foreach="filteredComponents" t-as="comp" t-key="comp.label">
+                                <div class="o_forge_component_item" draggable="true"
+                                     t-on-dragstart="(ev) => this.onDragStartPalette(ev, comp)"
+                                     t-on-dragend="onDragEnd"
+                                     t-on-click="() => { const n = this._createNodeFromPaletteItem(comp); const t = this._getDefaultInsertTarget(); const old = JSON.stringify(this.state.arch); t.push(n); this._pushHistory(old, {type:'manual', label:'Add ' + n.type}); this.selectNode(n, 'add', n.type); }">
+                                    <i t-att-class="'fa ' + comp.icon"/>
+                                    <span class="o_forge_component_label" t-esc="comp.label"/>
+                                </div>
+                            </t>
+                        </t>
+                    </div>
+
+                    <!-- New Fields Section -->
+                    <div class="o_forge_sidebar_section">
+                        <div class="o_forge_sidebar_section_header" t-on-click="() => this.toggleSidebarSection('New Fields')">
+                            <span class="title">New Fields</span>
+                            <span class="count" t-esc="filteredNewFieldTypes.length"/>
+                            <i t-att-class="'fa fa-chevron-down chevron ' + (isSidebarSectionOpen('New Fields') ? '' : 'collapsed')"/>
+                        </div>
+                        <t t-if="isSidebarSectionOpen('New Fields')">
+                            <t t-foreach="filteredNewFieldTypes" t-as="ft" t-key="ft.label">
+                                <div class="o_forge_field_item" draggable="true"
+                                     t-on-dragstart="(ev) => this.onDragStartPalette(ev, ft)"
+                                     t-on-dragend="onDragEnd"
+                                     t-on-click="() => { const n = this._createNodeFromPaletteItem(ft); const t = this._getDefaultInsertTarget(); const old = JSON.stringify(this.state.arch); t.push(n); this._pushHistory(old, {type:'manual', label:'Add ' + n.label}); this.selectNode(n, 'add', 'field'); }">
+                                    <i t-att-class="'fa ' + ft.icon"/>
+                                    <span class="o_forge_field_name" t-esc="ft.label"/>
+                                </div>
+                            </t>
+                        </t>
+                    </div>
+
+                    <!-- Existing Fields Section -->
+                    <div class="o_forge_sidebar_section">
+                        <div class="o_forge_sidebar_section_header" t-on-click="() => this.toggleSidebarSection('Existing Fields')">
+                            <span class="title">Existing Fields</span>
+                            <span class="count" t-esc="filteredExistingFields.length"/>
+                            <i t-att-class="'fa fa-chevron-down chevron ' + (isSidebarSectionOpen('Existing Fields') ? '' : 'collapsed')"/>
+                        </div>
+                        <t t-if="isSidebarSectionOpen('Existing Fields')">
+                            <t t-foreach="filteredExistingFields" t-as="fld" t-key="fld.key">
+                                <div class="o_forge_field_item" draggable="true"
+                                     t-att-style="isFieldInUse(fld.key) ? 'opacity:0.4; pointer-events:none;' : ''"
+                                     t-on-dragstart="(ev) => this.onDragStartPalette(ev, {type:'field', ttype:fld.ttype, label:fld.label}, fld)"
+                                     t-on-dragend="onDragEnd"
+                                     t-on-click="() => this.addExistingField(fld)">
+                                    <span class="o_forge_field_ttype" t-esc="fieldTypeIcon(fld.ttype)"/>
+                                    <span class="o_forge_field_name" t-esc="fld.label"/>
+                                    <t t-if="isFieldInUse(fld.key)">
+                                        <i class="fa fa-check text-muted" style="font-size:10px;"/>
+                                    </t>
+                                </div>
+                            </t>
+                            <t t-if="!filteredExistingFields.length">
+                                <div class="text-muted small p-2" style="font-size:11px;">No fields found</div>
+                            </t>
+                        </t>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── CENTER: Canvas ── -->
+            <div class="o_forge_canvas" t-att-class="'o_forge_canvas--' + state.device" t-ref="canvas">
+                <!-- Preview Mode Canvas -->
+                <t t-if="state.previewMode">
+                    <div class="o_forge_canvas_inner">
+                        <div class="alert alert-info small mb-3">
+                            <i class="fa fa-eye me-1"/>
+                            Live preview as <b t-esc="state.previewRole"/> — <t t-esc="state.model?.key || ''"/>
+                            <t t-if="state.previewRole === 'teacher'"> — Scholarship fields hidden</t>
+                            <t t-elif="state.previewRole === 'parent'"> — Own children only</t>
+                            <t t-elif="state.previewRole === 'student'"> — Read-only view</t>
+                            <t t-else=""> — Full access</t>
+                        </div>
+                        <!-- Render the actual arch as a read-only preview -->
+                        <div class="o_forge_live_preview">
+                            <t t-call="oacis_studio.ForgeCanvasRenderer">
+                                <t t-set="node" t-value="state.arch"/>
+                                <t t-set="preview" t-value="true"/>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+
+                <!-- Edit Mode Canvas -->
+                <t t-else="">
+                    <div class="o_forge_canvas_inner">
+                        <t t-if="state.arch &amp;&amp; state.arch.children &amp;&amp; state.arch.children.length">
+                            <div class="o_forge_live_form">
+                                <t t-call="oacis_studio.ForgeCanvasRenderer">
+                                    <t t-set="node" t-value="state.arch"/>
+                                </t>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <div class="o_forge_empty_canvas">
+                                <i class="fa fa-arrows"/>
+                                <p><b>Start building your form</b></p>
+                                <p>Drag components or fields from the left panel, or click a field to add it here.</p>
+                                <p class="mt-2">
+                                    <a href="#" t-on-click="toggleAiPanel">✨ Ask Forge to design it for you</a>
+                                </p>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+            </div>
+
+            <!-- ── RIGHT: Properties Panel ── -->
+            <div class="o_forge_properties" t-if="!state.previewMode">
+                <div class="o_forge_props_header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="o_forge_props_title">Properties</span>
+                        <span class="o_forge_badge o_forge_badge--model" t-esc="state.devMode"/>
+                    </div>
+                    <t t-if="state.selected">
+                        <div class="o_forge_props_subtitle mt-1">
+                            <i t-att-class="'fa ' + nodeTypeIcon(state.selectedElementType)"/>
+                            <span t-esc="state.selectedElementType"/>
+                            — <b t-esc="getNodeLabel(state.selected)"/>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="o_forge_props_subtitle mt-1">Select an element to edit</div>
+                    </t>
+                </div>
+
+                <div class="o_forge_props_content" t-ref="propsContent">
+                    <t t-if="state.selected">
+                        <!-- Property Groups -->
+                        <t t-foreach="visibleProperties" t-as="prop" t-key="prop.key">
+                            <div class="o_forge_prop_group">
+                                <div class="o_forge_prop_label">
+                                    <span t-esc="prop.label"/>
+                                    <t t-if="prop.tooltip">
+                                        <i class="fa fa-question-circle" t-att-title="prop.tooltip"/>
+                                    </t>
+                                </div>
+
+                                <!-- Text input -->
+                                <t t-if="prop.type === 'text'">
+                                    <input class="o_forge_prop_input" type="text"
+                                           t-att-value="getPropValue(prop)"
+                                           t-on-input="(ev) => this.setPropValue(prop, ev.target.value)"/>
+                                </t>
+
+                                <!-- Readonly -->
+                                <t t-if="prop.type === 'readonly'">
+                                    <input class="o_forge_prop_input" type="text" readonly="readonly"
+                                           t-att-value="getPropValue(prop)"/>
+                                </t>
+
+                                <!-- Select -->
+                                <t t-if="prop.type === 'select'">
+                                    <select class="o_forge_prop_select"
+                                            t-on-change="(ev) => this.setPropValue(prop, ev.target.value)">
+                                        <t t-foreach="prop.options" t-as="opt" t-key="opt.value">
+                                            <option t-att-value="opt.value" t-att-selected="getPropValue(prop) == opt.value ? 'selected' : null" t-esc="opt.label"/>
+                                        </t>
+                                    </select>
+                                </t>
+
+                                <!-- Checkbox -->
+                                <t t-if="prop.type === 'checkbox'">
+                                    <div class="o_forge_prop_check">
+                                        <input type="checkbox"
+                                               t-att-checked="getPropValue(prop) ? 'checked' : null"
+                                               t-on-change="(ev) => this.setPropValue(prop, ev.target.checked)"/>
+                                        <label t-esc="prop.tooltip || prop.label"/>
+                                    </div>
+                                </t>
+
+                                <!-- Textarea -->
+                                <t t-if="prop.type === 'textarea'">
+                                    <textarea class="o_forge_prop_textarea"
+                                              t-on-input="(ev) => this.setPropValue(prop, ev.target.value)"
+                                              t-esc="getPropValue(prop)"/>
+                                </t>
+                            </div>
+                        </t>
+
+                        <!-- Advanced Section -->
+                        <div class="o_forge_props_advanced" t-if="state.devMode !== 'simple'">
+                            <div class="o_forge_props_advanced_header" t-on-click="() => this.state.showAdvanced = !this.state.showAdvanced">
+                                <i t-att-class="'fa fa-chevron-right chevron ' + (state.showAdvanced ? 'expanded' : '')"/>
+                                <span>Advanced</span>
+                            </div>
+                        </div>
+
+                        <!-- Developer Section -->
+                        <div class="o_forge_props_advanced" t-if="state.devMode === 'developer'">
+                            <div class="o_forge_props_advanced_header" t-on-click="() => this.state.showDeveloper = !this.state.showDeveloper">
+                                <i t-att-class="'fa fa-chevron-right chevron ' + (state.showDeveloper ? 'expanded' : '')"/>
+                                <span>Developer</span>
+                            </div>
+                            <t t-if="state.showDeveloper">
+                                <div class="mt-2">
+                                    <div class="o_forge_prop_group">
+                                        <div class="o_forge_prop_label">XML Preview</div>
+                                        <pre class="bg-light p-2 small" style="font-size:10px; max-height:200px; overflow:auto; border-radius:4px; border:1px solid #e2e8f0;"><t t-esc="'&lt;field name=&quot;' + (state.selected?.name || '') + '&quot;'"/>... /&gt;</pre>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+
+                    <!-- No selection state -->
+                    <t t-else="">
+                        <div class="o_forge_props_empty">
+                            <i class="fa fa-mouse-pointer"/>
+                            <p>Click any element in the canvas to edit its properties.</p>
+                            <p class="mt-1" style="font-size:11px;">Hover to outline, double-click to rename.</p>
+                        </div>
+
+                        <!-- History Timeline -->
+                        <t t-if="state.historyMeta.length">
+                            <div class="o_forge_history">
+                                <div class="small fw-bold text-muted mb-1" style="text-transform:uppercase; letter-spacing:0.3px; font-size:10px;">History</div>
+                                <t t-foreach="state.historyMeta" t-as="h" t-key="h_index">
+                                    <div class="o_forge_history_item">
+                                        <i t-att-class="h.type === 'ai' ? 'fa fa-magic text-primary' : h.type === 'publish' ? 'fa fa-upload text-success' : 'fa fa-circle text-muted'" style="font-size:6px;"/>
+                                        <span t-esc="h.label"/>
+                                        <span class="time" t-esc="h.time"/>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+                    </t>
+                </div>
+            </div>
+        </div>
+
+        <!-- ════════ AI PANEL (floating) ════════ -->
+        <t t-if="state.showAiPanel">
+            <div class="o_forge_ai_panel">
+                <div class="o_forge_ai_header">
+                    <i class="fa fa-magic"/>
+                    <span>Ask Forge</span>
+                    <div style="flex:1;"/>
+                    <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm" t-on-click="toggleAiPanel">
+                        <i class="fa fa-times"/>
+                    </button>
+                </div>
+
+                <!-- Context hint + quick actions -->
+                <div class="px-3 py-2" style="font-size:11px; color:#64748b; border-bottom:1px solid #e2e8f0;">
+                    <div><i class="fa fa-info-circle me-1"/><t t-esc="aiContextHint"/></div>
+                    <div class="d-flex flex-wrap gap-1 mt-2">
+                        <t t-foreach="aiContextActions" t-as="act" t-key="act">
+                            <button class="o_forge_btn o_forge_btn--ghost" style="height:20px; padding:0 6px; font-size:10px; border-radius:10px;" t-on-click="() => this.doAiContextAction(act)" t-esc="act"/>
+                        </t>
+                    </div>
+                </div>
+
+                <!-- Messages -->
+                <div class="o_forge_ai_messages">
+                    <t t-foreach="state.aiMessages" t-as="msg" t-key="msg_index">
+                        <div t-att-class="'mb-2 p-2 rounded ' + (msg.role === 'user' ? 'bg-primary bg-opacity-10' : 'bg-light')" style="font-size:12px;">
+                            <div t-esc="msg.text"/>
+                            <t t-if="msg.changes &amp;&amp; msg.changes.length">
+                                <div class="mt-1">
+                                    <t t-foreach="msg.changes" t-as="change" t-key="change_index">
+                                        <div class="o_forge_ai_change">
+                                            <i class="fa fa-check"/>
+                                            <span t-esc="change"/>
+                                        </div>
+                                    </t>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+                    <t t-if="state.aiLoading">
+                        <div class="mb-2 p-2 rounded bg-light" style="font-size:12px;">
+                            <i class="fa fa-spinner fa-spin me-1"/> Thinking...
+                        </div>
+                    </t>
+                </div>
+
+                <!-- Proposed changes action -->
+                <t t-if="state.aiProposedChanges">
+                    <div class="px-3 py-2" style="border-top:1px solid #e2e8f0;">
+                        <div class="d-flex gap-2">
+                            <button class="o_forge_btn o_forge_btn--primary o_forge_btn--sm flex-grow-1" t-on-click="applyAiChanges">
+                                <i class="fa fa-check"/> Apply Changes
+                            </button>
+                            <button class="o_forge_btn o_forge_btn--sm" t-on-click="cancelAiChanges">Cancel</button>
+                        </div>
+                    </div>
+                </t>
+
+                <!-- Input -->
+                <div class="o_forge_ai_input">
+                    <input type="text" placeholder="e.g., Make this field readonly after admission..."
+                           t-att-value="state.aiPrompt"
+                           t-on-input="(ev) => this.state.aiPrompt = ev.target.value"
+                           t-on-keydown="(ev) => ev.key === 'Enter' ? this.askForge() : null"/>
+                    <button class="o_forge_btn o_forge_btn--accent o_forge_btn--sm" t-on-click="askForge" t-att-disabled="state.aiLoading">
+                        <t t-if="state.aiLoading"><i class="fa fa-spinner fa-spin"/></t>
+                        <t t-else=""><i class="fa fa-paper-plane"/></t>
+                    </button>
+                </div>
+            </div>
+        </t>
+
+        <!-- ════════ PUBLISH DIALOG ════════ -->
+        <t t-if="state.showPublishDialog">
+            <div class="o_forge_dialog_overlay" t-on-click="cancelPublish">
+                <div class="o_forge_dialog" t-on-click.stop="">
+                    <h5>Publish <t t-esc="state.app?.name || ''"/></h5>
+                    <p>This will create a new version and compile views to production.</p>
+                    <div class="o_forge_prop_group">
+                        <div class="o_forge_prop_label">Changelog</div>
+                        <input class="o_forge_prop_input" t-att-value="state.publishChangelog" t-on-input="(ev) => this.state.publishChangelog = ev.target.value"/>
+                    </div>
+                    <div class="o_forge_prop_group">
+                        <div class="o_forge_prop_label">Changes</div>
+                        <pre class="bg-light p-2 small" style="max-height:120px; overflow:auto; font-size:11px; border-radius:4px; border:1px solid #e2e8f0;" t-esc="state.publishDiff"/>
+                    </div>
+                    <div class="d-flex gap-2 justify-content-end mt-3">
+                        <button class="o_forge_btn" t-on-click="cancelPublish">Cancel</button>
+                        <button class="o_forge_btn o_forge_btn--primary" t-on-click="confirmPublish">
+                            <i class="fa fa-upload me-1"/> Publish
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </t>
+        <!-- Shortcuts help -->
+        <t t-if="state.showShortcuts">
+            <div class="o_forge_dialog_overlay" t-on-click="toggleShortcuts">
+                <div class="o_forge_dialog" t-on-click.stop="" style="width:420px;">
+                    <h5>Keyboard Shortcuts</h5>
+                    <div style="font-size:12px; line-height:1.8; margin-top:12px;">
+                        <div><b>Ctrl+Z</b> Undo — <b>Ctrl+Y</b> Redo</div>
+                        <div><b>Ctrl+K</b> Command Palette — <b>Ctrl+S</b> Save</div>
+                        <div><b>Ctrl+P</b> Preview — <b>Delete</b> Delete selected</div>
+                        <div><b>Esc</b> Deselect — <b>Enter</b> Inline edit</div>
+                        <div><b>Drag</b> Move field — <b>Click</b> Select</div>
+                    </div>
+                    <div class="d-flex justify-content-end mt-3"><button class="o_forge_btn o_forge_btn--primary" t-on-click="toggleShortcuts">Close</button></div>
+                </div>
+            </div>
+        </t>
+    </div>
+</t>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- Canvas Renderer — Recursive template for semantic layout -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<t t-name="oacis_studio.ForgeCanvasRenderer">
+    <t t-if="node">
+        <!-- Sheet (root) -->
+        <t t-if="node.type === 'sheet'">
+            <t t-foreach="node.children or []" t-as="child" t-key="child_index">
+                <t t-call="oacis_studio.ForgeCanvasRenderer">
+                    <t t-set="node" t-value="child"/>
+                </t>
+            </t>
+        </t>
+
+        <!-- Group -->
+        <t t-if="node.type === 'group'">
+            <div class="o_forge_node o_forge_group_node"
+                 t-att-class="(preview ? '' : 'cursor-pointer ') + (isSelected(node) ? ' selected ' : '') + (state.dropTarget === (node.children || []) ? ' drop-target ' : '')"
+                 t-if="!preview"
+                 t-on-click="() => this.selectNode(node, 'group', 'group')"
+                 t-on-mouseenter="() => this.onNodeHover(node)"
+                 t-on-mouseleave="() => this.onNodeLeave()"
+                 t-on-dragover.prevent="(ev) => this.onDragOverGroup(ev, node)"
+                 t-on-drop="(ev) => this.onDropGroup(ev, node)">
+
+                <!-- Toolbar -->
+                <div class="o_forge_node_toolbar" t-if="isSelected(node) &amp;&amp; !preview">
+                    <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm" t-on-click.stop="() => this.moveNode(node, this._findParentList(node, this.state.arch) || [], -1)" title="Move up"><i class="fa fa-arrow-up"/></button>
+                    <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm" t-on-click.stop="() => this.moveNode(node, this._findParentList(node, this.state.arch) || [], 1)" title="Move down"><i class="fa fa-arrow-down"/></button>
+                    <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm" t-on-click.stop="() => this.duplicateNode(node, this._findParentList(node, this.state.arch) || [])" title="Duplicate"><i class="fa fa-clone"/></button>
+                    <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm" t-on-click.stop="() => this.hideNode(node)" title="Toggle visibility"><i class="fa fa-eye-slash"/></button>
+                    <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm o_forge_btn--danger" t-on-click.stop="() => this.deleteNode(node, this._findParentList(node, this.state.arch) || [])" title="Delete"><i class="fa fa-trash"/></button>
+                </div>
+
+                <div class="o_forge_node_header">
+                    <span class="o_forge_node_type">Group</span>
+                    <t t-if="node.string"><span class="small text-muted" t-esc="node.string"/></t>
+                </div>
+                <div class="o_forge_group_body">
+                    <t t-foreach="node.children or []" t-as="child" t-key="child_index">
+                        <t t-call="oacis_studio.ForgeCanvasRenderer">
+                            <t t-set="node" t-value="child"/>
+                        </t>
+                    </t>
+                    <t t-if="!node.children || !node.children.length">
+                        <div class="o_forge_drop_placeholder" style="grid-column:1/-1;">Drop fields here</div>
+                    </t>
+                </div>
+            </div>
+            <!-- Preview mode: simplified render -->
+            <t t-if="preview">
+                <div class="mb-2">
+                    <t t-if="node.string"><div class="small fw-bold text-muted mb-1" t-esc="node.string"/></t>
+                    <div class="row g-2">
+                        <t t-foreach="node.children or []" t-as="child" t-key="child_index">
+                            <div class="col-6">
+                                <t t-call="oacis_studio.ForgeCanvasRenderer">
+                                    <t t-set="node" t-value="child"/>
+                                    <t t-set="preview" t-value="true"/>
+                                </t>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </t>
+
+        <!-- Field -->
+        <t t-if="node.type === 'field'">
+            <t t-if="!preview">
+                <div class="o_forge_node o_forge_field_node"
+                     t-att-class="(isSelected(node) ? ' selected ' : '')"
+                     draggable="true"
+                     t-on-dragstart="(ev) => this.onDragStartCanvas(ev, node, this._findParentList(node, this.state.arch) || [], 0)"
+                     t-on-dragend="onDragEnd"
+                     t-on-click.stop="() => this.selectNode(node, 'field', 'field')"
+                     t-on-mouseenter="() => this.onNodeHover(node)"
+                     t-on-mouseleave="() => this.onNodeLeave()">
+
+                    <!-- Toolbar -->
+                    <div class="o_forge_node_toolbar" t-if="isSelected(node)">
+                        <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm" t-on-click.stop="() => this.moveNode(node, this._findParentList(node, this.state.arch) || [], -1)" title="Move up"><i class="fa fa-arrow-up"/></button>
+                        <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm" t-on-click.stop="() => this.moveNode(node, this._findParentList(node, this.state.arch) || [], 1)" title="Move down"><i class="fa fa-arrow-down"/></button>
+                        <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm" t-on-click.stop="() => this.duplicateNode(node, this._findParentList(node, this.state.arch) || [])" title="Duplicate"><i class="fa fa-clone"/></button>
+                        <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm" t-on-click.stop="() => this.hideNode(node)" title="Toggle visibility"><i class="fa fa-eye-slash"/></button>
+                        <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm o_forge_btn--danger" t-on-click.stop="() => this.deleteNode(node, this._findParentList(node, this.state.arch) || [])" title="Delete"><i class="fa fa-trash"/></button>
+                    </div>
+
+                    <div class="o_forge_field_widget" t-esc="fieldTypeIcon(node.ttype || 'char')"/>
+                    <div class="o_forge_field_info">
+                        <t t-if="isInlineEditing(node)">
+                            <input class="o_forge_inline_edit" type="text"
+                                   t-att-value="node.label || node.name"
+                                   t-on-blur="(ev) => this.onInlineBlur(ev, node)"
+                                   t-on-keydown="(ev) => this.onInlineKeydown(ev, node)"
+                                   t-ref="inlineEditInput"/>
+                        </t>
+                        <t t-else="">
+                            <div class="o_forge_field_label" t-on-dblclick="() => this.onInlineDblClick(node)" t-esc="node.label || node.name"/>
+                        </t>
+                        <div class="o_forge_field_meta">
+                            <t t-esc="node.name"/>
+                            <t t-if="node.ttype"> · <t t-esc="node.ttype"/></t>
+                        </div>
+                    </div>
+                    <t t-if="node.required">
+                        <span class="o_forge_field_required">*</span>
+                    </t>
+                    <t t-if="node.invisible">
+                        <i class="fa fa-eye-slash text-muted" style="font-size:10px;" title="Hidden"/>
+                    </t>
+                </div>
+            </t>
+            <!-- Preview mode -->
+            <t t-if="preview">
+                <div class="mb-1">
+                    <label class="form-label small mb-0" t-esc="node.label || node.name" style="font-weight:500;"/>
+                    <t t-if="node.required"><span class="text-danger">*</span></t>
+                    <input class="form-control form-control-sm" type="text" readonly="readonly" t-att-placeholder="node.placeholder || node.label || node.name" t-att-style="node.invisible ? 'display:none;' : ''"/>
+                </div>
+            </t>
+        </t>
+
+        <!-- Notebook -->
+        <t t-if="node.type === 'notebook'">
+            <div class="o_forge_node o_forge_notebook_node"
+                 t-if="!preview"
+                 t-att-class="isSelected(node) ? ' selected ' : ''"
+                 t-on-click="() => this.selectNode(node, 'notebook', 'notebook')"
+                 t-on-mouseenter="() => this.onNodeHover(node)"
+                 t-on-mouseleave="() => this.onNodeLeave()">
+
+                <div class="o_forge_node_toolbar" t-if="isSelected(node)">
+                    <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm o_forge_btn--danger" t-on-click.stop="() => this.deleteNode(node, this._findParentList(node, this.state.arch) || [])" title="Delete"><i class="fa fa-trash"/></button>
+                </div>
+
+                <div class="o_forge_notebook_tabs">
+                    <t t-foreach="node.children or []" t-as="page" t-key="page_index">
+                        <div class="o_forge_notebook_tab"
+                             t-att-class="page_index === 0 ? 'active' : ''"
+                             t-esc="page.string || 'Tab ' + (page_index + 1)"/>
+                    </t>
+                </div>
+                <t t-foreach="node.children or []" t-as="page" t-key="page_index">
+                    <t t-if="page_index === 0">
+                        <div class="o_forge_notebook_page">
+                            <t t-foreach="page.children or []" t-as="child" t-key="child_index">
+                                <t t-call="oacis_studio.ForgeCanvasRenderer">
+                                    <t t-set="node" t-value="child"/>
+                                </t>
+                            </t>
+                        </div>
+                    </t>
+                </t>
+            </div>
+            <!-- Preview mode: tabs -->
+            <t t-if="preview">
+                <div class="mb-2 border rounded">
+                    <div class="d-flex bg-light" style="border-bottom:1px solid #e2e8f0;">
+                        <t t-foreach="node.children or []" t-as="page" t-key="page_index">
+                            <div class="px-3 py-1 small" t-att-style="page_index === 0 ? 'border-bottom:2px solid #7c3aed; font-weight:500; color:#7c3aed;' : 'color:#64748b;'" t-esc="page.string || 'Tab'"/>
+                        </t>
+                    </div>
+                    <div class="p-2">
+                        <t t-foreach="node.children or []" t-as="page" t-key="page_index">
+                            <t t-if="page_index === 0">
+                                <t t-foreach="page.children or []" t-as="child" t-key="child_index">
+                                    <t t-call="oacis_studio.ForgeCanvasRenderer">
+                                        <t t-set="node" t-value="child"/>
+                                        <t t-set="preview" t-value="true"/>
+                                    </t>
+                                </t>
+                            </t>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </t>
+
+        <!-- Page (tab content) — handled inside notebook -->
+
+        <!-- Button -->
+        <t t-if="node.type === 'button'">
+            <t t-if="!preview">
+                <div class="o_forge_node o_forge_button_node"
+                     t-att-class="isSelected(node) ? ' selected ' : ''"
+                     t-on-click.stop="() => this.selectNode(node, 'button', 'button')"
+                     t-on-mouseenter="() => this.onNodeHover(node)"
+                     t-on-mouseleave="() => this.onNodeLeave()">
+
+                    <div class="o_forge_node_toolbar" t-if="isSelected(node)" style="top:-36px;">
+                        <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm o_forge_btn--danger" t-on-click.stop="() => this.deleteNode(node, this._findParentList(node, this.state.arch) || [])" title="Delete"><i class="fa fa-trash"/></button>
+                    </div>
+
+                    <span t-esc="node.string || 'Button'"/>
+                </div>
+            </t>
+            <t t-if="preview">
+                <button class="btn btn-sm btn-primary me-1 mb-1" t-att-style="node.invisible ? 'display:none;' : ''" t-esc="node.string || 'Button'"/>
+            </t>
+        </t>
+
+        <!-- Smart Button -->
+        <t t-if="node.type === 'smart_button'">
+            <t t-if="!preview">
+                <div class="o_forge_node o_forge_button_node"
+                     t-att-class="isSelected(node) ? ' selected ' : ''"
+                     t-on-click.stop="() => this.selectNode(node, 'smart_button', 'smart_button')"
+                     t-on-mouseenter="() => this.onNodeHover(node)"
+                     t-on-mouseleave="() => this.onNodeLeave()">
+
+                    <div class="o_forge_node_toolbar" t-if="isSelected(node)" style="top:-36px;">
+                        <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm o_forge_btn--danger" t-on-click.stop="() => this.deleteNode(node, this._findParentList(node, this.state.arch) || [])" title="Delete"><i class="fa fa-trash"/></button>
+                    </div>
+
+                    <i t-att-class="'fa ' + (node.icon || 'fa-cube')"/>
+                    <span t-esc="node.string || 'Smart Button'"/>
+                </div>
+            </t>
+            <t t-if="preview">
+                <div class="o_card_services mb-1 me-1 d-inline-block">
+                    <div class="o_kanban_gutter"/>
+                    <div class="o_kanban_record_bottom">
+                        <div class="oe_kanban_details">
+                            <strong class="o_kanban_record_name" t-esc="node.string || 'Smart Button'"/>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+
+        <!-- Separator -->
+        <t t-if="node.type === 'separator'">
+            <div class="o_forge_node o_forge_separator_node"
+                 t-if="!preview"
+                 t-att-class="isSelected(node) ? ' selected ' : ''"
+                 t-on-click.stop="() => this.selectNode(node, 'separator', 'separator')"
+                 t-on-mouseenter="() => this.onNodeHover(node)"
+                 t-on-mouseleave="() => this.onNodeLeave()">
+                <div class="o_forge_node_toolbar" t-if="isSelected(node)" style="top:-36px;">
+                    <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm o_forge_btn--danger" t-on-click.stop="() => this.deleteNode(node, this._findParentList(node, this.state.arch) || [])" title="Delete"><i class="fa fa-trash"/></button>
+                </div>
+            </div>
+            <t t-if="preview">
+                <hr t-att-style="node.invisible ? 'display:none;' : ''" class="my-2"/>
+            </t>
+        </t>
+
+        <!-- Label -->
+        <t t-if="node.type === 'label'">
+            <t t-if="!preview">
+                <div class="o_forge_node o_forge_field_node"
+                     t-att-class="isSelected(node) ? ' selected ' : ''"
+                     t-on-click.stop="() => this.selectNode(node, 'label', 'label')"
+                     t-on-mouseenter="() => this.onNodeHover(node)"
+                     t-on-mouseleave="() => this.onNodeLeave()">
+                    <div class="o_forge_node_toolbar" t-if="isSelected(node)" style="top:-36px;">
+                        <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm o_forge_btn--danger" t-on-click.stop="() => this.deleteNode(node, this._findParentList(node, this.state.arch) || [])" title="Delete"><i class="fa fa-trash"/></button>
+                    </div>
+                    <div class="o_forge_field_widget"><i class="fa fa-font"/></div>
+                    <div class="o_forge_field_info">
+                        <div class="o_forge_field_label" t-on-dblclick="() => this.onInlineDblClick(node)" t-esc="node.string || 'Label'"/>
+                    </div>
+                </div>
+            </t>
+            <t t-if="preview">
+                <div class="small fw-bold" t-esc="node.string || 'Label'" t-att-style="node.invisible ? 'display:none;' : ''"/>
+            </t>
+        </t>
+
+        <!-- Chatter -->
+        <t t-if="node.type === 'chatter'">
+            <t t-if="!preview">
+                <div class="o_forge_node o_forge_chatter_node"
+                     t-att-class="isSelected(node) ? ' selected ' : ''"
+                     t-on-click.stop="() => this.selectNode(node, 'chatter', 'chatter')"
+                     t-on-mouseenter="() => this.onNodeHover(node)"
+                     t-on-mouseleave="() => this.onNodeLeave()">
+                    <div class="o_forge_node_toolbar" t-if="isSelected(node)" style="top:-36px;">
+                        <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm o_forge_btn--danger" t-on-click.stop="() => this.deleteNode(node, this._findParentList(node, this.state.arch) || [])" title="Delete"><i class="fa fa-trash"/></button>
+                    </div>
+                    <div class="o_forge_chatter_header">
+                        <i class="fa fa-comments"/>
+                        <span>Chatter — Messages, Activities, Followers</span>
+                    </div>
+                </div>
+            </t>
+            <t t-if="preview">
+                <div class="border rounded p-2 mt-2 bg-light text-muted small">
+                    <i class="fa fa-comments me-1"/> Chatter area
+                </div>
+            </t>
+        </t>
+
+        <!-- Activity -->
+        <t t-if="node.type === 'activity'">
+            <t t-if="!preview">
+                <div class="o_forge_node o_forge_chatter_node"
+                     t-att-class="isSelected(node) ? ' selected ' : ''"
+                     t-on-click.stop="() => this.selectNode(node, 'activity', 'activity')"
+                     t-on-mouseenter="() => this.onNodeHover(node)"
+                     t-on-mouseleave="() => this.onNodeLeave()">
+                    <div class="o_forge_node_toolbar" t-if="isSelected(node)" style="top:-36px;">
+                        <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm o_forge_btn--danger" t-on-click.stop="() => this.deleteNode(node, this._findParentList(node, this.state.arch) || [])" title="Delete"><i class="fa fa-trash"/></button>
+                    </div>
+                    <div class="o_forge_chatter_header">
+                        <i class="fa fa-calendar-check-o"/>
+                        <span>Activity Log</span>
+                    </div>
+                </div>
+            </t>
+            <t t-if="preview">
+                <div class="border rounded p-2 mt-2 bg-light text-muted small">
+                    <i class="fa fa-calendar-check-o me-1"/> Activity log
+                </div>
+            </t>
+        </t>
+
+        <!-- Generic fallback -->
+        <t t-if="!['sheet','group','field','notebook','page','button','smart_button','separator','label','chatter','activity'].includes(node.type)">
+            <t t-if="!preview">
+                <div class="o_forge_node o_forge_field_node"
+                     t-att-class="isSelected(node) ? ' selected ' : ''"
+                     t-on-click.stop="() => this.selectNode(node, node.type, node.type)">
+                    <div class="o_forge_field_widget"><i class="fa fa-question"/></div>
+                    <div class="o_forge_field_info">
+                        <div class="o_forge_field_label" t-esc="node.type"/>
+                        <div class="o_forge_field_meta" t-esc="node.string || node.name || ''"/>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </t>
+</t>
+</templates>

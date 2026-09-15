@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+<t t-name="oacis_studio.StudioWorkflowBuilder">
+    <div class="h-100 d-flex flex-column" style="font-family:Inter,-apple-system,sans-serif; font-size:13px;">
+        <div class="o_forge_header">
+            <div class="o_forge_header_section o_forge_header_section--left">
+                <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--sm" t-on-click="() => this.action.doAction('oacis_studio.action_studio_home')"><i class="fa fa-arrow-left"/> Back</button>
+                <div class="o_forge_separator"/><span class="o_forge_breadcrumb"><b>Workflow Builder</b> <t t-if="state.workflow">▸ <t t-esc="state.workflow.name"/></t></span>
+            </div>
+            <div class="o_forge_header_section o_forge_header_section--center">
+                <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm" t-on-click="zoomOut" title="Zoom out"><i class="fa fa-search-minus"/></button>
+                <span style="font-size:11px; color:#64748b;" t-esc="zoomPercent"/>
+                <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm" t-on-click="zoomIn" title="Zoom in"><i class="fa fa-search-plus"/></button>
+                <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--sm" t-on-click="resetZoom">100%</button>
+            </div>
+            <div class="o_forge_header_section o_forge_header_section--right">
+                <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--sm" t-on-click="openConnect"><i class="fa fa-link"/> Connect</button>
+                <button class="o_forge_btn o_forge_btn--primary o_forge_btn--sm" t-on-click="() => this.state.showNewNode = true"><i class="fa fa-plus"/> Add Node</button>
+            </div>
+        </div>
+        <div class="d-flex flex-grow-1 overflow-hidden" style="min-height:0;">
+            <div class="flex-grow-1 overflow-auto p-3" style="background:#f8fafc;">
+                <t t-if="state.workflow">
+                    <t t-if="validationIssues.length">
+                        <div class="alert alert-warning py-2 px-3 mb-2" style="font-size:11px;">
+                            <i class="fa fa-exclamation-triangle me-1"/> <t t-foreach="validationIssues" t-as="iss" t-key="iss"><span t-esc="iss"/><t t-if="!iss_last">, </t></t>
+                        </div>
+                    </t>
+                    <div t-att-style="'transform:scale('+state.zoom+'); transform-origin:top left; display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding:24px; background:white; border:1px solid #e2e8f0; border-radius:6px; min-height:200px;'">
+                        <t t-foreach="state.nodes" t-as="node" t-key="node.id">
+                            <div draggable="true" t-att-style="'border:2px solid ' + nodeTypeInfo(node.node_type).color + '; border-radius:8px; padding:12px 16px; cursor:grab; min-width:140px; text-align:center; background:white;' + (state.selectedNode === node ? ' box-shadow:0 0 0 2px ' + nodeTypeInfo(node.node_type).color + ';' : '') + (state.draggedNode===node ? ' opacity:0.5;' : '')"
+                                 t-on-dragstart="(ev)=>this.onNodeDragStart(ev, node)" t-on-dragover="onNodeDragOver" t-on-drop="(ev)=>this.onNodeDrop(ev, node)" t-on-dragend="onNodeDragEnd" t-on-click="() => this.selectNode(node)">
+                                <div t-att-style="'font-size:20px; color:' + nodeTypeInfo(node.node_type).color + '; margin-bottom:4px;'"><i t-att-class="'fa ' + nodeTypeInfo(node.node_type).icon"/></div>
+                                <div style="font-weight:600; font-size:12px;" t-esc="node.name"/>
+                                <div style="font-size:10px; color:#94a3b8;" t-esc="nodeTypeInfo(node.node_type).label"/>
+                                <div class="mt-1 d-flex gap-1 justify-content-center">
+                                    <button class="o_forge_btn o_forge_btn--ghost" style="height:18px; padding:0 4px; font-size:10px;" t-on-click.stop="() => this.duplicateNode(node)"><i class="fa fa-clone"/></button>
+                                    <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--danger" style="height:18px; padding:0 4px; font-size:10px;" t-on-click.stop="() => this.deleteNode(node)"><i class="fa fa-trash"/></button>
+                                </div>
+                            </div>
+                            <t t-if="node_index &lt; state.nodes.length - 1">
+                                <div style="color:#cbd5e1; font-size:20px;"><i class="fa fa-arrow-right"/></div>
+                            </t>
+                        </t>
+                        <t t-if="!state.nodes.length">
+                            <div style="width:100%; text-align:center; padding:32px; color:#94a3b8;"><i class="fa fa-sitemap" style="font-size:32px; display:block; margin-bottom:8px;"/><p>No workflow nodes yet. Click "Add Node" to start. Or <a href="#" style="color:#7c3aed;" t-on-click.prevent="() => this.state.showNewNode = true">ask Forge</a> to generate one.</p></div>
+                        </t>
+                    </div>
+                    <!-- Transitions list -->
+                    <t t-if="state.transitions.length">
+                        <div style="margin-top:12px; background:white; border:1px solid #e2e8f0; border-radius:6px; padding:12px;">
+                            <div style="font-weight:600; font-size:11px; color:#64748b; text-transform:uppercase; letter-spacing:0.3px; margin-bottom:8px;">Connections</div>
+                            <t t-foreach="state.transitions" t-as="tr" t-key="tr.id">
+                                <div style="display:flex; align-items:center; gap:8px; padding:6px 8px; border:1px solid #f1f5f9; border-radius:4px; margin-bottom:4px; cursor:pointer; font-size:12px;" t-att-style="state.selectedTransition===tr ? 'background:#f5f3ff; border-color:#c4b5fd;' : ''" t-on-click="()=>this.selectTransition(tr)">
+                                    <i class="fa fa-link" style="color:#7c3aed;"/><span t-esc="(tr.from_node_id?tr.from_node_id[1]:'?') + ' → ' + (tr.to_node_id?tr.to_node_id[1]:'?')"/>
+                                    <span style="color:#94a3b8; font-size:10px;" t-esc="tr.name"/>
+                                    <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--sm" style="margin-left:auto; height:20px;" t-on-click.stop="()=>this.deleteTransition(tr)"><i class="fa fa-trash"/></button>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+                    <!-- Mini-map placeholder -->
+                    <div style="margin-top:8px; text-align:right; font-size:10px; color:#94a3b8;">Drag to reorder • Click to select • Use Connect to link nodes</div>
+                </t>
+                <t t-if="!state.workflow">
+                    <div class="d-flex align-items-center justify-content-center h-100"><div class="text-center" style="max-width:400px;"><div style="font-size:48px; margin-bottom:12px;">🔀</div><h5 style="font-weight:600;">Workflow Builder</h5><p style="color:#64748b; font-size:13px;">Create visual approval workflows. Each node can be approval, condition, action, or notification.</p><p style="font-size:11px; color:#94a3b8;">Open a Workflow record to edit, or create one in Builder → Automations.</p></div></div>
+                </t>
+            </div>
+            <div class="o_forge_properties" style="width:280px;" t-if="state.selectedNode">
+                <div class="o_forge_props_header"><span class="o_forge_props_title">Node Properties</span></div>
+                <div class="o_forge_props_content">
+                    <div class="o_forge_prop_group"><div class="o_forge_prop_label">Name</div><input class="o_forge_prop_input" t-att-value="state.selectedNode.name" readonly="readonly"/></div>
+                    <div class="o_forge_prop_group"><div class="o_forge_prop_label">Type</div><div style="display:flex; align-items:center; gap:6px;"><i t-att-class="'fa ' + nodeTypeInfo(state.selectedNode.node_type).icon" t-att-style="'color:' + nodeTypeInfo(state.selectedNode.node_type).color"/><span t-esc="nodeTypeInfo(state.selectedNode.node_type).label"/></div></div>
+                    <div class="o_forge_prop_group"><div class="o_forge_prop_label">Sequence</div><input class="o_forge_prop_input" t-att-value="state.selectedNode.sequence" readonly="readonly"/></div>
+                    <div class="o_forge_prop_group"><div class="o_forge_prop_label">Approver / Config</div><pre class="bg-light p-2" style="font-size:11px; max-height:160px; overflow:auto; border-radius:4px; border:1px solid #e2e8f0;" t-esc="JSON.stringify(state.selectedNode.config_json || {}, null, 2)"/></div>
+                    <div class="d-flex gap-1 mt-2">
+                        <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--sm" t-on-click="()=>this.duplicateNode(state.selectedNode)"><i class="fa fa-clone"/> Duplicate</button>
+                        <button class="o_forge_btn o_forge_btn--danger o_forge_btn--sm" t-on-click="()=>this.deleteNode(state.selectedNode)"><i class="fa fa-trash"/> Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <t t-if="state.showNewNode">
+            <div class="o_forge_dialog_overlay" t-on-click="() => this.state.showNewNode = false">
+                <div class="o_forge_dialog" t-on-click.stop="">
+                    <h5>Add Workflow Node</h5>
+                    <div class="o_forge_prop_group mt-3"><div class="o_forge_prop_label">Node Name</div><input class="o_forge_prop_input" placeholder="e.g., Teacher Approval" t-att-value="state.newNode.name" t-on-input="(ev) => this.state.newNode.name = ev.target.value"/></div>
+                    <div class="o_forge_prop_group"><div class="o_forge_prop_label">Node Type</div><select class="o_forge_prop_select" t-on-change="(ev) => this.state.newNode.node_type = ev.target.value"><t t-foreach="[{value:'start',label:'Start'},{value:'approval',label:'Approval'},{value:'condition',label:'Condition'},{value:'action',label:'Action'},{value:'notification',label:'Notification'},{value:'end',label:'End'}]" t-as="nt" t-key="nt.value"><option t-att-value="nt.value" t-att-selected="state.newNode.node_type === nt.value ? 'selected' : null" t-esc="nt.label"/></t></select></div>
+                    <div class="o_forge_prop_group"><div class="o_forge_prop_label">Approver</div><input class="o_forge_prop_input" placeholder="e.g., teacher, principal" t-att-value="state.newNode.config_json.approver" t-on-input="(ev) => this.state.newNode.config_json.approver = ev.target.value"/></div>
+                    <div class="d-flex gap-2 justify-content-end mt-3"><button class="o_forge_btn" t-on-click="() => this.state.showNewNode = false">Cancel</button><button class="o_forge_btn o_forge_btn--primary" t-on-click="addNode">Add Node</button></div>
+                </div>
+            </div>
+        </t>
+        <t t-if="state.showConnect">
+            <div class="o_forge_dialog_overlay" t-on-click="() => this.state.showConnect = false">
+                <div class="o_forge_dialog" t-on-click.stop="">
+                    <h5>Connect Nodes</h5>
+                    <div class="o_forge_prop_group mt-3"><div class="o_forge_prop_label">From</div><select class="o_forge_prop_select" t-on-change="(ev)=>this.state.connectFrom=parseInt(ev.target.value)"><t t-foreach="state.nodes" t-as="n" t-key="n.id"><option t-att-value="n.id" t-att-selected="state.connectFrom===n.id ? 'selected' : null" t-esc="n.name"/></t></select></div>
+                    <div class="o_forge_prop_group"><div class="o_forge_prop_label">To</div><select class="o_forge_prop_select" t-on-change="(ev)=>this.state.connectTo=parseInt(ev.target.value)"><t t-foreach="state.nodes" t-as="n" t-key="n.id"><option t-att-value="n.id" t-att-selected="state.connectTo===n.id ? 'selected' : null" t-esc="n.name"/></t></select></div>
+                    <div class="d-flex gap-2 justify-content-end mt-3"><button class="o_forge_btn" t-on-click="() => this.state.showConnect = false">Cancel</button><button class="o_forge_btn o_forge_btn--primary" t-on-click="createConnection">Connect</button></div>
+                </div>
+            </div>
+        </t>
+    </div>
+</t>
+</templates>

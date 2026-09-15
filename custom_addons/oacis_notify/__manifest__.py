@@ -32,6 +32,8 @@
         'security/oacis_notify_record_rules.xml',
         'security/ir.model.access.csv',
         'data/oacis_notify_config_data.xml',
+        'data/oacis_notify_cron.xml',
+        'data/oacis_notify_automation_cron.xml',
         'data/oacis_notify_template_data.xml',
         'views/oacis_notification_config_views.xml',
         'views/oacis_notification_template_views.xml',

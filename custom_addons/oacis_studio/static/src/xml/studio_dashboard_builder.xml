@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+<t t-name="oacis_studio.StudioDashboardBuilder">
+    <div class="o_studio_dashboard_builder h-100 d-flex flex-column" style="font-family:Inter,-apple-system,sans-serif; font-size:13px;">
+        <!-- Header -->
+        <div class="o_forge_header">
+            <div class="o_forge_header_section o_forge_header_section--left">
+                <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--sm" t-on-click="() => this.action.doAction('oacis_studio.action_studio_home')">
+                    <i class="fa fa-arrow-left"/> Back
+                </button>
+                <div class="o_forge_separator"/>
+                <span class="o_forge_breadcrumb"><b>Dashboard Builder</b></span>
+            </div>
+            <div class="o_forge_header_section o_forge_header_section--right">
+                <button class="o_forge_btn o_forge_btn--sm" t-on-click="refreshPreview">
+                    <i class="fa fa-refresh"/> Refresh
+                </button>
+                <button class="o_forge_btn o_forge_btn--sm" t-on-click="exportPdf"><i class="fa fa-file-pdf-o"/> Export PDF</button>
+                <button class="o_forge_btn o_forge_btn--primary o_forge_btn--sm" t-on-click="save">
+                    <i class="fa fa-save"/> Save
+                </button>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="d-flex flex-grow-1 overflow-hidden" style="min-height:0;">
+            <!-- Widget palette -->
+            <div class="o_forge_sidebar" style="width:200px;">
+                <div class="o_forge_sidebar_search" style="padding:8px;">
+                    <div class="o_forge_props_title" style="font-size:12px; font-weight:600; padding:4px 0;">Widgets</div>
+                </div>
+                <div class="o_forge_sidebar_content">
+                    <t t-foreach="state.palette" t-as="w" t-key="w.type">
+                        <div class="o_forge_component_item" t-on-click="() => this.addWidget(w)">
+                            <i t-att-class="'fa ' + w.icon"/>
+                            <span class="o_forge_component_label" t-esc="w.label"/>
+                        </div>
+                    </t>
+                </div>
+            </div>
+
+            <!-- Grid canvas -->
+            <div class="flex-grow-1 overflow-auto p-4" style="background:#f8fafc;">
+                <div style="background:white; border:1px solid #e2e8f0; border-radius:6px; padding:16px;">
+                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+                        <span style="font-weight:600; font-size:12px;">12-Column Grid</span>
+                        <span style="font-size:11px; color:#94a3b8;">Click widgets to add · ↑↓ to reorder · −/+ to resize</span>
+                    </div>
+
+                    <div class="row g-2">
+                        <t t-foreach="state.layout.widgets or []" t-as="w" t-key="w_index">
+                            <div t-att-class="'col-' + (w.col_span || 4)" style="min-height:80px;">
+                                <div class="o_forge_node o_forge_field_node" style="height:100%; padding:12px;">
+                                    <div class="o_forge_field_info">
+                                        <div class="o_forge_field_label" t-esc="w.title"/>
+                                        <div class="o_forge_field_meta" t-esc="w.type"/>
+                                    </div>
+                                    <div class="d-flex gap-1" style="position:absolute; top:4px; right:4px;">
+                                        <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm" t-on-click="() => this.moveWidget(w_index, -1)"><i class="fa fa-arrow-up"/></button>
+                                        <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm" t-on-click="() => this.moveWidget(w_index, 1)"><i class="fa fa-arrow-down"/></button>
+                                        <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm" t-on-click="() => this.resizeWidget(w, -1)"><i class="fa fa-minus"/></button>
+                                        <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm" t-on-click="() => this.resizeWidget(w, 1)"><i class="fa fa-plus"/></button>
+                                        <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--icon-sm o_forge_btn--danger" t-on-click="() => { state.layout.widgets.splice(w_index, 1); }"><i class="fa fa-trash"/></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                        <t t-if="!state.layout.widgets || !state.layout.widgets.length">
+                            <div class="col-12">
+                                <div class="o_forge_empty_canvas">
+                                    <i class="fa fa-dashboard"/>
+                                    <p><b>Add widgets from the left panel</b></p>
+                                    <p>KPI · Charts · Tables · Gauges · Rankings</p>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</t>
+</templates>

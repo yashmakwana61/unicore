@@ -46,6 +46,68 @@ class OacisNotificationEngine(models.AbstractModel):
     _name = 'oacis.notification.engine'
     _description = 'Notification Engine'
 
+    # ===================================================
+    # SAFE EVENT EMISSION API
+    # ===================================================
+
+    @api.model
+    def _safe_emit(self, student, trigger_event,
+                   variables=None, include_guardians=False):
+        """
+        Fire-and-forget event emission for business flows.
+
+        Never raises: any failure (missing template, disabled
+        channel, provider error) is logged and swallowed so a
+        notification problem can never break a transaction in
+        the calling module. Call sites guard the lookup with
+        ``'oacis.notification.engine' in self.env`` to stay
+        install-order safe.
+        """
+        if not student or not student.id:
+            return False
+        try:
+            self.send_to_student(
+                student, trigger_event, variables,
+            )
+        except Exception as e:
+            _logger.warning(
+                'Notification %s to student %s failed: %s',
+                trigger_event, student.id, str(e),
+            )
+            return False
+        if include_guardians:
+            try:
+                rels = self.env[
+                    'oacis.guardian.student.rel'
+                ].sudo().search([
+                    ('student_id', '=', student.id),
+                    ('is_active_relationship', '=', True),
+                ])
+            except Exception as e:
+                _logger.warning(
+                    'Guardian lookup failed for student '
+                    '%s: %s', student.id, str(e),
+                )
+                rels = self.env[
+                    'oacis.guardian.student.rel'
+                ]
+            for rel in rels:
+                guardian = rel.guardian_id
+                if not guardian or not guardian.id:
+                    continue
+                try:
+                    self.send_to_guardian(
+                        guardian, trigger_event,
+                        dict(variables or {}), student=student,
+                    )
+                except Exception as e:
+                    _logger.warning(
+                        'Notification %s to guardian %s '
+                        'failed: %s',
+                        trigger_event, guardian.id, str(e),
+                    )
+        return True
+
     @api.model
     def _get_template(self, trigger_event, channel,
                        company_id):
@@ -166,8 +228,11 @@ class OacisNotificationEngine(models.AbstractModel):
             return False, 'WhatsApp not enabled'
         if not config.whatsapp_phone_number_id:
             return False, 'Phone Number ID not configured'
-        if not config.whatsapp_access_token:
-            return False, 'Access Token not configured'
+        access_token = config._get_whatsapp_access_token()
+        if not access_token:
+            return False, (
+                'Access Token not configured (set OACIS_WHATSAPP_TOKEN '
+                'or the stored field as system administrator)')
 
         # Clean mobile number (remove spaces, dashes)
         clean_mobile = ''.join(
@@ -182,8 +247,7 @@ class OacisNotificationEngine(models.AbstractModel):
             config.whatsapp_phone_number_id,
         )
         headers = {
-            'Authorization': 'Bearer %s'
-                             % config.whatsapp_access_token,
+            'Authorization': 'Bearer %s' % access_token,
             'Content-Type': 'application/json',
         }
         payload = {
@@ -236,7 +300,7 @@ class OacisNotificationEngine(models.AbstractModel):
             )
             headers = {
                 'Authorization': 'Bearer %s'
-                                 % config.whatsapp_access_token,
+                                 % config._get_whatsapp_access_token(),
             }
             response = requests.get(
                 url, headers=headers, timeout=10,
@@ -283,6 +347,10 @@ class OacisNotificationEngine(models.AbstractModel):
         variables.setdefault(
             'institution_name',
             student.company_id.name,
+        )
+        variables.setdefault(
+            'portal_url',
+            student.get_base_url() + '/my/oacis/student',
         )
 
         results = {
@@ -426,6 +494,10 @@ class OacisNotificationEngine(models.AbstractModel):
             variables.setdefault(
                 'student_name', student.display_name,
             )
+        variables.setdefault(
+            'portal_url',
+            guardian.get_base_url() + '/my/oacis/guardian',
+        )
 
         results = {'email': False, 'whatsapp': False}
 

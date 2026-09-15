@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_studio_model_list" model="ir.ui.view">
+        <field name="name">studio.model.list</field>
+        <field name="model">studio.model</field>
+        <field name="arch" type="xml">
+            <list string="Studio Models (Phase 2: hybrid JSONB)">
+                <field name="app_id"/>
+                <field name="key"/>
+                <field name="tech_name"/>
+                <field name="label"/>
+                <field name="extends_model_id" optional="hide"/>
+                <field name="active" widget="boolean_toggle"/>
+                <button name="action_open_fields" string="Fields" type="object" icon="fa-list"/>
+                <button name="action_open_records" string="Records" type="object" icon="fa-database"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_studio_model_form" model="ir.ui.view">
+        <field name="name">studio.model.form</field>
+        <field name="model">studio.model</field>
+        <field name="arch" type="xml">
+            <form string="Studio Model">
+                <header>
+                    <button name="action_open_fields" string="Manage Fields" type="object" class="oe_highlight"/>
+                    <button name="action_open_records" string="View Records" type="object"/>
+                    <button name="action_open_view_builder" string="Views" type="object"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        Phase 2 Hybrid Runtime — <b>New models</b> are JSONB (<code>studio.record</code>) by default — instant, no registry reload. Fill <b>key</b> (e.g. <code>scholarship.application</code>) and <b>tech_name</b> auto-fills as <code>x_scholarship_application</code>. Leave <b>Extends</b> empty for new app, or pick <code>oacis.student</code> to extend existing.
+                    </div>
+                    <group>
+                        <field name="app_id" options="{'no_create': True}"/>
+                        <field name="key" placeholder="scholarship.application"/>
+                        <field name="tech_name" placeholder="x_scholarship_application"/>
+                        <field name="label" placeholder="Scholarship Application"/>
+                        <field name="extends_model_id" placeholder="Leave empty for new model, or select oacis.student to extend"/>
+                        <field name="opts" widget="ace" options="{'mode':'json'}" placeholder='{"chatter": true, "track": true}'/>
+                        <field name="active"/>
+                    </group>
+                    <notebook>
+                        <page string="Fields" name="fields">
+                            <field name="field_ids" context="{'default_model_id': id}">
+                                <list string="Field Palette" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="key" placeholder="amount"/>
+                                    <field name="tech_name" placeholder="x_amount" optional="hide"/>
+                                    <field name="label"/>
+                                    <field name="ttype"/>
+                                    <field name="relation_model" placeholder="oacis.student" optional="show"/>
+                                    <field name="required" widget="boolean_toggle"/>
+                                    <field name="active" widget="boolean_toggle" optional="hide"/>
+                                </list>
+                                <form string="Studio Field">
+                                    <group>
+                                        <field name="key"/>
+                                        <field name="tech_name"/>
+                                        <field name="label"/>
+                                        <field name="ttype"/>
+                                        <field name="relation_model" invisible="ttype not in ['many2one','one2many','many2many']" placeholder="oacis.student"/>
+                                        <field name="selection_json" invisible="ttype != 'selection'" placeholder="[['draft','Draft']]" widget="ace" options="{'mode':'json'}"/>
+                                        <field name="compute_expr" placeholder="For formula/related"/>
+                                        <field name="required"/>
+                                        <field name="readonly"/>
+                                        <field name="sequence"/>
+                                        <field name="help_text"/>
+                                    </group>
+                                </form>
+                            </field>
+                            <div class="alert alert-light" role="alert">
+                                Supported V1: char/text/html/integer/float/monetary/boolean/date/datetime/selection/many2one/one2many/many2many/image/binary/attachment/reference/related. V2: formula/auto_number/signature/qr.
+                                Relations can point to any <code>oacis.*</code> (Student, Fees, Attendance) or another Studio model’s <code>tech_name</code>.
+                            </div>
+                        </page>
+                        <page string="Views" name="views"><field name="view_ids"/></page>
+                        <page string="Records" name="records">
+                            <div class="alert alert-light">Records for this model are stored in <code>studio.record</code> JSONB — open via <b>View Records</b> button.</div>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_studio_model_search" model="ir.ui.view">
+        <field name="name">studio.model.search</field>
+        <field name="model">studio.model</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="key"/>
+                <field name="label"/>
+                <field name="app_id"/>
+                <filter string="Active" name="active" domain="[('active','=',True)]"/>
+                <filter string="Extends oacis" name="extends" domain="[('extends_model_id','!=',False)]"/>
+            </search>
+        </field>
+    </record>
+    <record id="action_studio_model" model="ir.actions.act_window">
+        <field name="name">Studio Models</field>
+        <field name="res_model">studio.model</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

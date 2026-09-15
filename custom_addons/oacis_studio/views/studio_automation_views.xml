@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_studio_automation_list" model="ir.ui.view">
+        <field name="name">studio.automation.list</field>
+        <field name="model">studio.automation</field>
+        <field name="arch" type="xml">
+            <list string="Studio Automations (Phase 4)">
+                <field name="name"/>
+                <field name="key" optional="hide"/>
+                <field name="app_id"/>
+                <field name="model_id"/>
+                <field name="trigger_type" widget="badge"/>
+                <field name="trigger_field" optional="show"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_studio_automation_form" model="ir.ui.view">
+        <field name="name">studio.automation.form</field>
+        <field name="model">studio.automation</field>
+        <field name="arch" type="xml">
+            <form string="Automation (Zapier-like)">
+                <header>
+                    <button name="action_test" string="Test" type="object"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        Zapier inside Odoo — e.g. <i>When attendance &lt;75% notify teacher+parent</i>, <i>When fee overdue send reminder</i>. Triggers: on_create/on_write/on_unlink/on_schedule/on_time/webhook. Actions: update, email, notify, activity, webhook. Condition via <code>safe_eval</code>.
+                    </div>
+                    <group>
+                        <field name="name" placeholder="Low Attendance Alert"/>
+                        <field name="key" placeholder="low_attendance"/>
+                        <field name="app_id" options="{'no_create': True}"/>
+                        <field name="model_id" options="{'no_create': True}" domain="[('app_id','=',app_id)]"/>
+                        <field name="trigger_type"/>
+                        <field name="trigger_field" placeholder="attendance_pct" invisible="trigger_type not in ['on_write','on_time']"/>
+                        <field name="active"/>
+                    </group>
+                    <group string="Condition (safe_eval)">
+                        <field name="condition" nolabel="1" placeholder="values.get('attendance_pct',100) &lt; 75" widget="ace" options="{'mode':'python'}"/>
+                        <div class="alert alert-light" colspan="2">Context: <code>record</code>, <code>values</code> (values_json), <code>state</code>, <code>env</code>. Leave empty for always.</div>
+                    </group>
+                    <group string="Actions (JSON list)">
+                        <field name="action_nodes" widget="ace" options="{'mode':'json'}" nolabel="1" placeholder='[{"type":"notify","config":{"message":"Attendance below 75%"}},{"type":"update_record","config":{"field":"state","value":"at_risk"}}]'/>
+                        <div class="alert alert-light" colspan="2">
+                            Types: <code>update_record</code> <code>{"field":"state","value":"alert"}</code> | <code>email</code> | <code>notify</code> | <code>activity</code> <code>{"summary":"Follow up"}</code> | <code>webhook</code>
+                        </div>
+                    </group>
+                    <group string="Advanced">
+                        <field name="trigger_config" widget="ace" options="{'mode':'json'}" placeholder='{"minutes": 60}'/>
+                        <field name="cron_id" readonly="1" invisible="not cron_id"/>
+                    </group>
+                    <notebook>
+                        <page string="Logs" name="logs">
+                            <field name="log_ids" readonly="1"><list><field name="create_date"/><field name="res_model" optional="hide"/><field name="res_id" optional="hide"/><field name="message"/><field name="status" widget="badge"/></list></field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter"><field name="message_ids"/></div>
+            </form>
+        </field>
+    </record>
+    <record id="view_studio_automation_search" model="ir.ui.view">
+        <field name="name">studio.automation.search</field>
+        <field name="model">studio.automation</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="app_id"/>
+                <field name="model_id"/>
+                <field name="trigger_type"/>
+                <filter string="Active" name="active" domain="[('active','=',True)]"/>
+                <filter string="On Create" name="on_create" domain="[('trigger_type','=','on_create')]"/>
+            </search>
+        </field>
+    </record>
+    <record id="action_studio_automation" model="ir.actions.act_window">
+        <field name="name">Studio Automations</field>
+        <field name="res_model">studio.automation</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Create automation — e.g. Fee overdue → reminder, Admission approved → enrollment</p></field>
+    </record>
+    <record id="action_studio_automation_log" model="ir.actions.act_window">
+        <field name="name">Automation Logs</field>
+        <field name="res_model">studio.automation.log</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="view_studio_automation_builder" model="ir.actions.client">
+        <field name="name">Automation Builder</field>
+        <field name="tag">studio.automation_builder</field>
+    </record>
+</odoo>

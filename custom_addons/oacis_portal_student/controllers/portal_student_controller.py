@@ -7,10 +7,11 @@ restrict data to the currently logged-in student.
 
 import logging
 from datetime import date, datetime
+from urllib.parse import quote_plus as url_quote_plus
 
 from werkzeug.exceptions import NotFound
 
-from odoo import _, http
+from odoo import _, fields, http
 from odoo.exceptions import AccessError, UserError
 from odoo.http import request
 
@@ -35,6 +36,7 @@ class OacisStudentPortal(CustomerPortal):
             counters,
         )
         student = self._get_current_student()
+        values['oacis_is_student'] = bool(student)
         if student:
             if 'oacis_courses' in counters:
                 values['oacis_courses'] = (
@@ -602,7 +604,7 @@ class OacisStudentPortal(CustomerPortal):
             ], limit=1)
             submission_map[assignment.id] = sub or False
 
-        now = datetime.now()
+        now = fields.Datetime.now()
         overdue_ids = {
             a.id for a in assignments
             if a.due_datetime and now > a.due_datetime
@@ -672,7 +674,7 @@ class OacisStudentPortal(CustomerPortal):
             ('student_id', '=', student.id),
         ], limit=1)
 
-        now = datetime.now()
+        now = fields.Datetime.now()
         can_submit = (
             assignment.assignment_state == 'published'
             and (not submission or submission.state
@@ -691,6 +693,7 @@ class OacisStudentPortal(CustomerPortal):
                 assignment.due_datetime
                 and now > assignment.due_datetime,
             ),
+            'error': kwargs.get('error'),
             'page_name': 'student_assignment_detail',
         }
         return request.render(
@@ -757,16 +760,27 @@ class OacisStudentPortal(CustomerPortal):
             uploaded = request.httprequest.files['submission_file']
             submission_file = uploaded.read()
             filename = uploaded.filename or ''
+            request.env['oacis.upload.validator'].validate_upload(
+                filename,
+                submission_file,
+                field_label=_('assignment submission'),
+            )
 
         notes = kwargs.get('submission_text') or ''
 
         if not submission_file and not notes:
-            raise UserError(_(
-                'Please attach a file or write notes before '
-                'submitting.',
-            ))
+            return request.redirect(
+                '/my/oacis/student/assignments/%d?error=%s'
+                % (
+                    assignment.id,
+                    url_quote_plus(
+                        'Please attach a file or write notes '
+                        'before submitting.'
+                    ),
+                ),
+            )
 
-        now = datetime.now()
+        now = fields.Datetime.now()
         due_dt = assignment.due_datetime
         is_late = bool(due_dt and now > due_dt)
 

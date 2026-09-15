@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Workflow List -->
+    <record id="view_studio_workflow_list" model="ir.ui.view">
+        <field name="name">studio.workflow.list</field>
+        <field name="model">studio.workflow</field>
+        <field name="arch" type="xml">
+            <list string="Studio Workflows (Phase 4)">
+                <field name="name"/>
+                <field name="key"/>
+                <field name="app_id"/>
+                <field name="model_id"/>
+                <field name="trigger_type" widget="badge"/>
+                <field name="state" widget="badge" decoration-success="state=='active'" decoration-warning="state=='draft'"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_studio_workflow_form" model="ir.ui.view">
+        <field name="name">studio.workflow.form</field>
+        <field name="model">studio.workflow</field>
+        <field name="arch" type="xml">
+            <form string="Workflow Builder">
+                <header>
+                    <button name="action_activate" string="Activate" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_archive" string="Archive" type="object" invisible="state == 'archived'"/>
+                    <button name="action_open_builder" string="Open Visual Builder" type="object" icon="fa-project-diagram"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,active,archived"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        Phase 4 — Visual Workflow: <b>Trigger → Condition → Approval → Action</b>. Nodes: trigger/condition/approval/create/update/email/notify/activity/delay/webhook. Transitions with <code>safe_eval</code> condition. Execution: <code>studio.workflow.instance</code> with retries &amp; audit log. See <code>docs/studio_plan.md §6</code>.
+                    </div>
+                    <group>
+                        <field name="name" placeholder="Scholarship Approval"/>
+                        <field name="key" placeholder="scholarship_approval"/>
+                        <field name="app_id" options="{'no_create': True}"/>
+                        <field name="model_id" options="{'no_create': True}" domain="[('app_id','=',app_id)]"/>
+                        <field name="trigger_type"/>
+                        <field name="trigger_field" placeholder="status" invisible="trigger_type != 'on_write'"/>
+                        <field name="max_retries"/>
+                        <field name="active"/>
+                    </group>
+                    <group string="Description"><field name="description" nolabel="1" placeholder="Application Submitted → Document Verification → Principal Approval → Confirmed"/></group>
+                    <notebook>
+                        <page string="Nodes" name="nodes">
+                            <field name="node_ids" context="{'default_workflow_id': id}">
+                                <list string="Nodes" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="node_type" widget="badge"/>
+                                    <field name="key" optional="hide"/>
+                                    <field name="active" widget="boolean_toggle" optional="hide"/>
+                                </list>
+                                <form string="Node">
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="key"/>
+                                        <field name="node_type"/>
+                                        <field name="sequence"/>
+                                        <field name="active"/>
+                                    </group>
+                                    <group string="Config (JSON)">
+                                        <field name="config_json" widget="ace" options="{'mode':'json'}" nolabel="1" placeholder='{"expression": "values.get(&apos;amount&apos;,0) > 5000", "group_id": 12, "message": "Approved"}'/>
+                                    </group>
+                                    <group string="Help" colspan="2">
+                                        <div class="alert alert-light">
+                                            <b>Config per type:</b> condition: <code>{"expression":"values.get('amount',0)>5000"}</code> | approval: <code>{"group_id": 12}</code> | update: <code>{"field":"status","value":"approved"}</code> | email/notify: <code>{"message":"..."}</code> | delay: <code>{"minutes":60}</code>
+                                        </div>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Transitions" name="transitions">
+                            <field name="transition_ids" context="{'default_workflow_id': id}">
+                                <list string="Transitions" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name" placeholder="Approved"/>
+                                    <field name="from_node_id"/>
+                                    <field name="to_node_id"/>
+                                    <field name="condition" placeholder="result==True or state=='approved'"/>
+                                    <field name="active" widget="boolean_toggle" optional="hide"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Instances" name="instances">
+                            <field name="instance_ids" readonly="1">
+                                <list string="Instances">
+                                    <field name="res_display"/>
+                                    <field name="res_model" optional="hide"/>
+                                    <field name="res_id" optional="hide"/>
+                                    <field name="current_node_id" optional="show"/>
+                                    <field name="state" widget="badge" decoration-success="state=='done'" decoration-warning="state=='waiting_approval'"/>
+                                    <field name="attempts" optional="hide"/>
+                                    <field name="create_date"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter"><field name="message_ids"/><field name="activity_ids"/></div>
+            </form>
+        </field>
+    </record>
+    <record id="view_studio_workflow_search" model="ir.ui.view">
+        <field name="name">studio.workflow.search</field>
+        <field name="model">studio.workflow</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="key"/>
+                <field name="app_id"/>
+                <field name="model_id"/>
+                <field name="trigger_type"/>
+                <filter string="Active" name="active" domain="[('state','=','active')]"/>
+                <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+            </search>
+        </field>
+    </record>
+    <!-- Instance List/Form -->
+    <record id="view_studio_workflow_instance_list" model="ir.ui.view">
+        <field name="name">studio.workflow.instance.list</field>
+        <field name="model">studio.workflow.instance</field>
+        <field name="arch" type="xml">
+            <list string="Workflow Instances">
+                <field name="workflow_id"/>
+                <field name="res_display"/>
+                <field name="current_node_id"/>
+                <field name="state" widget="badge"/>
+                <field name="attempts"/>
+                <field name="create_date"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_studio_workflow_instance_form" model="ir.ui.view">
+        <field name="name">studio.workflow.instance.form</field>
+        <field name="model">studio.workflow.instance</field>
+        <field name="arch" type="xml">
+            <form string="Workflow Instance">
+                <header>
+                    <button name="action_run_next" string="Run Next / Approve" type="object" class="oe_highlight" invisible="state in ['done','cancelled']"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state in ['done','cancelled']"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="workflow_id" readonly="1"/>
+                        <field name="res_model" readonly="1"/>
+                        <field name="res_id" readonly="1"/>
+                        <field name="res_display" readonly="1"/>
+                        <field name="current_node_id" readonly="1"/>
+                        <field name="attempts" readonly="1"/>
+                    </group>
+                    <group string="History"><field name="history_json" widget="ace" options="{'mode':'json'}" readonly="1" nolabel="1"/></group>
+                    <notebook>
+                        <page string="Logs" name="logs">
+                            <field name="log_ids" readonly="1"><list><field name="create_date"/><field name="node_id" optional="show"/><field name="message"/><field name="status" widget="badge"/></list></field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter"><field name="message_ids"/></div>
+            </form>
+        </field>
+    </record>
+    <record id="action_studio_workflow" model="ir.actions.act_window">
+        <field name="name">Studio Workflows</field>
+        <field name="res_model">studio.workflow</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Create first workflow — e.g. Scholarship Approval: Trigger → Condition → Approval → Update</p></field>
+    </record>
+    <record id="action_studio_workflow_instance" model="ir.actions.act_window">
+        <field name="name">Workflow Instances</field>
+        <field name="res_model">studio.workflow.instance</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="view_studio_workflow_builder" model="ir.actions.client">
+        <field name="name">Workflow Builder</field>
+        <field name="tag">studio.workflow_builder</field>
+    </record>
+</odoo>

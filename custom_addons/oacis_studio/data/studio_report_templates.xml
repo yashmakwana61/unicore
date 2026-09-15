@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Sample templates for marketplace — Phase 5 covers all 22 report_type -->
+        <record id="template_report_card" model="studio.report.template">
+            <field name="name">Sample — Report Card (Semester)</field>
+            <field name="report_type">report_card</field>
+            <field name="description">Official semester report card with grades, attendance, conduct, signature.</field>
+            <field name="layout_json">{"header": [{"type": "text", "value": "&lt;b&gt;PRECISEFECT ACADEMY&lt;/b&gt;&lt;br/&gt;Semester Report Card", "style": "text-align:center; font-size:14pt; color:#1e3a5f;"}], "body": [{"type": "field", "path": "record.display_name", "label": "Student"}, {"type": "table", "columns": [{"field": "subject", "label": "Subject"}, {"field": "grade", "label": "Grade"}, {"field": "marks", "label": "Marks"}]}, {"type": "conditional", "condition": "values.get('attendance',100) &lt; 75", "children": [{"type": "text", "value": "&lt;span style='color:red;'&gt;Attendance below 75% — Guardian notified&lt;/span&gt;"}]}, {"type": "signature", "who": "Principal"}], "footer": [{"type": "page_number"}]}</field>
+        </record>
+        <record id="template_transcript" model="studio.report.template">
+            <field name="name">Sample — Academic Transcript</field>
+            <field name="report_type">academic_transcript</field>
+            <field name="description">Official transcript with semester-wise GPA, credits, QR verification.</field>
+            <field name="layout_json">{"header": [{"type": "text", "value": "ACADEMIC TRANSCRIPT — Official Statement", "style": "text-align:center; font-weight:bold;"}], "body": [{"type": "field", "path": "record.display_name", "label": "Student"}, {"type": "table", "columns": [{"field": "code", "label": "Code"}, {"field": "course", "label": "Course"}, {"field": "credits", "label": "Credits"}, {"field": "grade", "label": "Grade"}]}, {"type": "qr", "payload": "transcript_{{record.id}}"}, {"type": "signature", "who": "Registrar"}], "footer": [{"type": "text", "value": "Verified via QR — https://verify.precisefect.com"}]}</field>
+        </record>
+        <record id="template_fee_statement" model="studio.report.template">
+            <field name="name">Sample — Fee Statement</field>
+            <field name="report_type">fee_statement</field>
+            <field name="description">Fee statement with dues, payments, balance, due date.</field>
+            <field name="layout_json">{"header": [{"type": "text", "value": "Fee Statement"}], "body": [{"type": "field", "path": "record.display_name", "label": "Student"}, {"type": "table", "columns": [{"field": "particular", "label": "Particular"}, {"field": "amount", "label": "Amount"}, {"field": "due_date", "label": "Due"}]}, {"type": "text", "value": "Total Due — computed from fee lines", "style": "text-align:right; font-weight:bold;"}], "footer": [{"type": "page_number"}]}</field>
+        </record>
+        <record id="template_certificate" model="studio.report.template">
+            <field name="name">Sample — Certificate of Achievement</field>
+            <field name="report_type">certificate</field>
+            <field name="description">Centered certificate with student name, achievement, date, signatures, border.</field>
+            <field name="layout_json">{"header": [], "body": [{"type": "text", "value": "&lt;h1 style=&quot;text-align:center; color:#d97706;&quot;&gt;Certificate of Achievement&lt;/h1&gt;", "style": "text-align:center;"}, {"type": "field", "path": "record.display_name", "label": "Awarded to"}, {"type": "text", "value": "For outstanding performance", "style": "text-align:center;"}, {"type": "signature", "who": "Principal"}, {"type": "qr", "payload": "cert_{{record.id}}"}], "footer": []}</field>
+        </record>
+        <record id="template_attendance" model="studio.report.template">
+            <field name="name">Sample — Attendance Report</field>
+            <field name="report_type">attendance_report</field>
+            <field name="description">Monthly attendance with present/absent, percentage, chart placeholder.</field>
+            <field name="layout_json">{"header": [{"type": "text", "value": "Attendance Report — {{record.display_name}}"}], "body": [{"type": "field", "path": "record.display_name", "label": "Student"}, {"type": "table", "columns": [{"field": "month", "label": "Month"}, {"field": "present", "label": "Present"}, {"field": "percentage", "label": "%"}]}, {"type": "conditional", "condition": "values.get('percentage',100) &lt; 75", "children": [{"type": "text", "value": "At Risk — Below 75%"}]} ], "footer": [{"type": "page_number"}]}</field>
+        </record>
+    </data>
+</odoo>

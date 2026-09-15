@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+<t t-name="oacis_studio.ForgeContextualButton">
+    <div class="o_forge_contextual_bar" t-if="isOacis" style="display:flex;align-items:center;justify-content:space-between;padding:6px 16px;margin:0 12px 8px;background:linear-gradient(135deg,#f5f3ff 0%,#ede9fe 100%);border:1px solid #c4b5fd;border-radius:6px;font-size:13px;">
+        <span style="display:flex;align-items:center;gap:6px;color:#5b21b6;">
+            <span style="font-size:14px;">✨</span>
+            <span>Customize this <b t-esc="model"/> with Forge Studio</span>
+        </span>
+        <button class="btn btn-sm" style="background:#714B67;color:white;border:none;padding:4px 12px;border-radius:4px;font-size:12px;cursor:pointer;font-weight:500;" t-on-click="openForge">
+            ⚙ Customize with Forge
+        </button>
+    </div>
+</t>
+</templates>

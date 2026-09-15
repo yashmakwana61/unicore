@@ -24,6 +24,7 @@
         'security/oacis_timetable_record_rules.xml',
         'security/ir.model.access.csv',
         'data/oacis_time_slot_demo_data.xml',
+        'wizards/oacis_generate_timetable_views.xml',
         'views/oacis_time_slot_views.xml',
         'views/oacis_timetable_entry_views.xml',
         'views/timetable_search_calendar_phase1.xml',

@@ -10,7 +10,7 @@
             priority="25">
     <xpath expr="//div[hasclass('o_portal_docs')]"
            position="inside">
-      <t t-call="portal.portal_docs_entry">
+      <t t-if="oacis_is_faculty" t-call="portal.portal_docs_entry">
         <t t-set="title">Faculty Portal</t>
         <t t-set="url">/my/oacis/faculty</t>
         <t t-set="placeholder_count">
@@ -20,7 +20,7 @@
            t-value="oacis_faculty_courses or 0"/>
         <t t-set="text">Active Courses</t>
       </t>
-      <t t-call="portal.portal_docs_entry">
+      <t t-if="oacis_is_faculty" t-call="portal.portal_docs_entry">
         <t t-set="title">Assignments</t>
         <t t-set="url">/my/oacis/faculty/assignments</t>
         <t t-set="placeholder_count">
@@ -67,6 +67,10 @@
               <a t-att-class="'nav-link' + (' active' if page_name == 'faculty_exams' else '')"
                  href="/my/oacis/faculty/exams">
                 Exams
+              </a>
+              <a t-att-class="'nav-link' + (' active' if page_name == 'faculty_notices' else '')"
+                 href="/my/oacis/faculty/notices">
+                Notices
               </a>
               <a t-att-class="'nav-link' + (' active' if page_name == 'faculty_profile' else '')"
                  href="/my/oacis/faculty/profile">

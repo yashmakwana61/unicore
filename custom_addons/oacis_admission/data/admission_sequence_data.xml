@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<odoo noupdate="1">
+<odoo>
+    <data noupdate="1">
 
     <record id="seq_oacis_admission_applicant" model="ir.sequence">
         <field name="name">Admission Application Number</field>
@@ -25,4 +26,5 @@
         <field name="company_id" eval="False"/>
     </record>
 
+    </data>
 </odoo>

@@ -270,31 +270,39 @@
         <field name="color"/>
         <templates>
           <t t-name="card">
-            <div class="oe_kanban_global_click">
-              <div class="o_kanban_image">
-                <img t-if="record.image_1920.raw_value" t-att-src="'/web/image?model=oacis.student&amp;field=image_1920&amp;id=' + record.id.raw_value" alt="Student Photo" style="width:100px; height:100px; border-radius:50%; object-fit:cover;"/>
+            <!-- Apply Profile variant class -->
+            <div class="oacis-kanban-profile w-100 h-100 d-flex">
+              
+              <!-- Avatar Area -->
+              <div class="oacis-profile-avatar">
+                <img t-if="record.image_1920.raw_value" t-att-src="'/web/image?model=oacis.student&amp;field=image_1920&amp;id=' + record.id.raw_value" alt="Student Photo" class="oacis-avatar oacis-avatar-lg"/>
                 <t t-if="!record.image_1920.raw_value">
-                  <span t-esc="record.display_name.value[0]" style="font-size:3rem; background:#eee; border-radius:50%; width:100px; height:100px; display:flex; align-items:center; justify-content:center;"/>
+                  <div class="oacis-avatar oacis-avatar-lg d-flex align-items-center justify-content-center text-muted" style="background:#f0eff3; font-size:18px;">
+                    <span t-esc="record.display_name.value[0]"/>
+                  </div>
                 </t>
               </div>
-              <div class="oe_kanban_details">
-                <strong class="o_kanban_record_title">
-                  <field name="display_name"/>
-                </strong>
-                <div class="text-muted o_kanban_record_subtitle">
-                  <field name="student_id_number"/>
+              
+              <!-- Details Area -->
+              <div class="oacis-profile-details">
+                <div class="oacis-kanban-title"><field name="display_name"/></div>
+                <div class="oacis-kanban-subtitle"><field name="student_id_number"/></div>
+                
+                <div class="mt-1">
+                  <!-- Use Odoo widget but we can style it via global CSS later if needed, or use manual badges. For now let's use the field widget but add our badge class wrapper or just leave as widget -->
+                  <field name="student_state" widget="badge" decoration-success="student_state == 'active'" decoration-info="student_state == 'enrolled'" decoration-muted="student_state == 'draft'" decoration-danger="student_state in ('suspended', 'expelled')"/>
                 </div>
-                <div>
-                  <field name="student_state" widget="badge"/>
-                </div>
-                <div>
+
+                <div class="oacis-meta-row mt-2">
                   <i class="fa fa-envelope" title="Email"/>
                   <field name="email"/>
                 </div>
-                <div>
-                  <i class="fa fa-graduation-cap"/> CGPA: <field name="cgpa"/>
+                <div class="oacis-meta-row">
+                  <i class="fa fa-graduation-cap" title="CGPA"/>
+                  <span>CGPA: <field name="cgpa"/></span>
                 </div>
               </div>
+
             </div>
           </t>
         </templates>

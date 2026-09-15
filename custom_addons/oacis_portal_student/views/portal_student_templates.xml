@@ -12,7 +12,7 @@
             priority="30">
     <xpath expr="//div[hasclass('o_portal_docs')]"
            position="inside">
-      <t t-call="portal.portal_docs_entry">
+      <t t-if="oacis_is_student" t-call="portal.portal_docs_entry">
         <t t-set="icon">/web/image/oacis_portal_student/static/src/img/icon_portal.png</t>
         <t t-set="title">My Academic Portal</t>
         <t t-set="url">/my/oacis/student</t>
@@ -23,7 +23,7 @@
     </xpath>
     <xpath expr="//div[hasclass('o_portal_docs')]"
            position="inside">
-      <t t-call="portal.portal_docs_entry">
+      <t t-if="oacis_is_student" t-call="portal.portal_docs_entry">
         <t t-set="title">Assignments</t>
         <t t-set="url">/my/oacis/student/assignments</t>
         <t t-set="placeholder_count">oacis_assignments</t>
@@ -104,6 +104,12 @@
                  href="/my/oacis/student/scholarships">
                 <i class="fa fa-trophy fa-fw"></i>
                 <span>Scholarships</span>
+              </a>
+              <a class="nav-link oacis-nav-item"
+                 t-att-class="'active' if page_name == 'student_notices' else ''"
+                 href="/my/oacis/student/notices">
+                <i class="fa fa-bullhorn fa-fw"></i>
+                <span>Notices</span>
               </a>
             </nav>
           </div>
@@ -855,10 +861,21 @@
                           <code class="small">
                             <t t-esc="pmt.receipt_number"/>
                           </code>
+                          <a class="btn btn-sm btn-outline-secondary ms-2 py-0 px-1"
+                             t-attf-href="/report/pdf/oacis_fees.action_report_fee_receipt/#{pmt.id}"
+                             target="_blank">
+                            Receipt PDF
+                          </a>
                         </li>
                       </t>
                     </ul>
                   </t>
+
+                  <a class="btn btn-primary btn-sm mt-3"
+                     t-attf-href="/report/pdf/oacis_fees.action_report_fee_statement/#{inv.id}"
+                     target="_blank">
+                    <i class="fa fa-download me-1"></i>Download Statement (PDF)
+                  </a>
                 </div>
               </div>
             </div>

@@ -7,7 +7,7 @@
             priority="25">
     <xpath expr="//div[hasclass('o_portal_docs')]"
            position="inside">
-      <t t-call="portal.portal_docs_entry">
+      <t t-if="oacis_is_guardian" t-call="portal.portal_docs_entry">
         <t t-set="title">Guardian Portal</t>
         <t t-set="url">/my/oacis/guardian</t>
         <t t-set="placeholder_count">oacis_wards</t>
@@ -36,6 +36,10 @@
               <a t-att-class="'nav-link' + (' active' if page_name == 'guardian_exams' else '')"
                  href="/my/oacis/guardian/exams">
                 Exams
+              </a>
+              <a t-att-class="'nav-link' + (' active' if page_name == 'guardian_notices' else '')"
+                 href="/my/oacis/guardian/notices">
+                Notices
               </a>
             </nav>
           </div>
@@ -593,6 +597,12 @@
                       </t>
                     </ul>
                   </t>
+
+                  <a class="btn btn-primary btn-sm mt-3"
+                     t-attf-href="/report/pdf/oacis_fees.action_report_fee_statement/#{inv.id}"
+                     target="_blank">
+                    <i class="fa fa-download me-1"></i>Download Statement (PDF)
+                  </a>
                 </div>
               </div>
             </div>

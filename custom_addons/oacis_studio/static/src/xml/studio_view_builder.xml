@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+<t t-name="oacis_studio.StudioViewBuilder">
+    <div class="o_studio_view_builder h-100 d-flex flex-column" style="font-family:Inter,-apple-system,sans-serif; font-size:13px;">
+        <!-- Header -->
+        <div class="o_forge_header">
+            <div class="o_forge_header_section o_forge_header_section--left">
+                <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--sm" t-on-click="() => this.action.doAction('oacis_studio.action_studio_home')">
+                    <i class="fa fa-arrow-left"/> Back
+                </button>
+                <div class="o_forge_separator"/>
+                <span class="o_forge_breadcrumb"><b>View Builder</b></span>
+            </div>
+            <div class="o_forge_header_section o_forge_header_section--right">
+                <button class="o_forge_btn o_forge_btn--sm" t-on-click="updateXml">
+                    <i class="fa fa-refresh"/> Refresh
+                </button>
+                <button class="o_forge_btn o_forge_btn--primary o_forge_btn--sm" t-on-click="save">
+                    <i class="fa fa-save"/> Save
+                </button>
+            </div>
+        </div>
+
+        <!-- 3-pane -->
+        <div class="d-flex flex-grow-1 overflow-hidden" style="min-height:0;">
+            <!-- Left: Components -->
+            <div class="o_forge_sidebar" style="width:200px;">
+                <div class="o_forge_sidebar_search" style="padding:8px;">
+                    <div class="o_forge_props_title" style="font-size:12px; font-weight:600; padding:4px 0;">Components</div>
+                </div>
+                <div class="o_forge_sidebar_content">
+                    <t t-foreach="state.palette" t-as="comp" t-key="comp.type">
+                        <div class="o_forge_component_item" t-on-click="() => this.addComponent(comp)">
+                            <i t-att-class="'fa ' + comp.icon"/>
+                            <span class="o_forge_component_label" t-esc="comp.label"/>
+                        </div>
+                    </t>
+
+                    <div class="o_forge_sidebar_section">
+                        <div class="o_forge_sidebar_section_header">
+                            <span class="title">Model Fields</span>
+                        </div>
+                        <t t-foreach="state.modelFields" t-as="fld" t-key="fld.id">
+                            <div class="o_forge_field_item">
+                                <span class="o_forge_field_ttype" t-esc="fld.ttype?.charAt(0) || '?'"/>
+                                <span class="o_forge_field_name" t-esc="fld.key"/>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center: Canvas (arch_json) -->
+            <div class="flex-grow-1 overflow-auto p-4" style="background:#f8fafc;">
+                <div style="background:white; border:1px solid #e2e8f0; border-radius:6px; padding:16px;">
+                    <div style="font-weight:600; font-size:12px; margin-bottom:8px;">View Arch (JSON)</div>
+                    <pre class="bg-light p-3" style="max-height:400px; overflow:auto; font-size:11px; border-radius:4px; border:1px solid #e2e8f0; margin:0;" t-esc="archJsonStr"/>
+                    <div style="font-size:11px; color:#64748b; margin-top:8px;">
+                        Form/List/Kanban/Search types supported. Save → Generate XML on view form shows compiled output.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: XML Preview -->
+            <div class="o_forge_properties" style="width:320px;">
+                <div class="o_forge_props_header">
+                    <span class="o_forge_props_title">XML Preview</span>
+                </div>
+                <div class="o_forge_props_content">
+                    <pre class="bg-dark text-light p-3" style="max-height:500px; overflow:auto; font-size:10px; border-radius:4px; margin:0;" t-esc="state.xml"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</t>
+</templates>

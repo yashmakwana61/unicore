@@ -1,0 +1,121 @@
+// ============================================
+// Kanban Design System - Core Tokens & Structure
+// ============================================
+
+// 1. Kanban Variables
+$oacis-kanban-radius: var(--uc-radius-card);
+$oacis-kanban-spacing-sm: 8px;
+$oacis-kanban-spacing-md: 12px;
+$oacis-kanban-spacing-lg: 16px;
+
+$oacis-kanban-border: 1px solid var(--uc-border-light);
+$oacis-kanban-shadow: var(--uc-shadow-sm);
+$oacis-kanban-shadow-hover: var(--uc-shadow-md);
+
+$oacis-kanban-transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+
+// 2. Core Kanban Renderer
+.o_kanban_renderer {
+    padding: $oacis-kanban-spacing-lg;
+    background: var(--uc-bg-page);
+    overflow-y: auto;
+    
+    // Ghost cards (empty spaces in grid)
+    .o_kanban_record.o_kanban_ghost {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        pointer-events: none !important;
+        min-height: 0 !important;
+        padding: 0 !important;
+        margin: 0 $oacis-kanban-spacing-sm !important;
+    }
+}
+
+// 3. Ungrouped Kanban (Grid Layout)
+.o_kanban_renderer.o_kanban_ungrouped {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: $oacis-kanban-spacing-lg;
+    align-items: start;
+    
+    > .o_kanban_record:not(.o_kanban_ghost) {
+        width: 100%;
+        margin: 0;
+    }
+    
+    > .o_kanban_record.o_kanban_ghost {
+        display: none;
+    }
+}
+
+// 4. Grouped Kanban (Columns)
+.o_kanban_renderer.o_kanban_grouped {
+    display: flex;
+    gap: $oacis-kanban-spacing-md;
+    align-items: flex-start;
+    padding-bottom: $oacis-kanban-spacing-lg;
+    
+    .o_kanban_group {
+        background: var(--uc-bg-subtle);
+        border-radius: $oacis-kanban-radius;
+        min-width: 320px;
+        width: 320px;
+        padding: 0 $oacis-kanban-spacing-md $oacis-kanban-spacing-md;
+        display: flex;
+        flex-direction: column;
+        gap: $oacis-kanban-spacing-sm;
+        
+        .o_kanban_header {
+            padding: $oacis-kanban-spacing-md 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: var(--uc-bg-subtle);
+            z-index: 10;
+            
+            .o_kanban_header_title {
+                display: flex;
+                align-items: center;
+                gap: $oacis-kanban-spacing-sm;
+                font-weight: 600;
+                font-size: 14px;
+                color: var(--uc-text-heading);
+                
+                .o_kanban_counter {
+                    background: var(--uc-primary);
+                    color: white;
+                    font-size: 11px;
+                    padding: 2px 8px;
+                    border-radius: var(--uc-radius-pill);
+                }
+            }
+        }
+    }
+}
+
+// 5. Global Kanban Card Base
+.o_kanban_record:not(.o_kanban_ghost) {
+    background: var(--uc-surface);
+    border: $oacis-kanban-border;
+    border-radius: $oacis-kanban-radius;
+    box-shadow: $oacis-kanban-shadow;
+    padding: $oacis-kanban-spacing-lg;
+    transition: $oacis-kanban-transition;
+    display: flex;
+    flex-direction: column;
+    gap: $oacis-kanban-spacing-sm;
+    position: relative;
+    cursor: pointer;
+    
+    &:hover {
+        border-color: var(--uc-primary);
+        box-shadow: $oacis-kanban-shadow-hover;
+        transform: translateY(-2px);
+    }
+    
+    // Maintain minimum hit area for usability
+    min-height: 120px;
+}

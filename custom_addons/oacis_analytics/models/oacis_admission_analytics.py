@@ -240,7 +240,9 @@ class OacisApplicantCategoryReport(models.Model):
                     ROW_NUMBER() OVER () AS id,
                     a.company_id,
                     ac.academic_year_id,
-                    'general'::varchar AS category,
+                    COALESCE(
+                        a.admission_category, 'general'
+                    )::varchar AS category,
                     a.gender,
                     COUNT(a.id) AS total_applicants,
                     COUNT(CASE WHEN a.state
@@ -255,6 +257,7 @@ class OacisApplicantCategoryReport(models.Model):
                 GROUP BY
                     a.company_id,
                     ac.academic_year_id,
+                    a.admission_category,
                     a.gender
             )
         """)

@@ -5,3 +5,4 @@ timetable entries, and ad-hoc room bookings with
 multi-dimensional conflict detection.
 """
 from . import models
+from . import wizards

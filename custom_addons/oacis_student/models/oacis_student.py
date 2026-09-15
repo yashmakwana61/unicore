@@ -45,7 +45,12 @@ class OacisStudent(models.Model):
         comodel_name='res.country.state', string='State / Province',
         domain="[('country_id', '=', country_id)]",
     )
-    religion = fields.Char(string='Religion', help='Optional — used for demographic reporting')
+    religion = fields.Char(
+        string='Religion',
+        help='Optional — used for demographic reporting',
+        groups='oacis_base.group_oacis_registrar,oacis_base.group_oacis_manager,'
+               'oacis_base.group_oacis_admin',
+    )
     blood_group = fields.Selection(
         selection=[
             ('a+', 'A+'), ('a-', 'A-'), ('b+', 'B+'), ('b-', 'B-'),
@@ -53,6 +58,8 @@ class OacisStudent(models.Model):
             ('unknown', 'Unknown'),
         ],
         string='Blood Group', default='unknown',
+        groups='oacis_base.group_oacis_registrar,oacis_base.group_oacis_manager,'
+               'oacis_base.group_oacis_admin',
     )
     disability_status = fields.Selection(
         selection=[
@@ -61,18 +68,45 @@ class OacisStudent(models.Model):
             ('learning', 'Learning Disability'), ('other', 'Other'),
         ],
         string='Disability Status', default='none',
+        groups='oacis_base.group_oacis_registrar,oacis_base.group_oacis_manager,'
+               'oacis_base.group_oacis_admin',
     )
     disability_details = fields.Text(
         string='Disability Details',
         help='Describe if disability_status is not none',
+        groups='oacis_base.group_oacis_registrar,oacis_base.group_oacis_manager,'
+               'oacis_base.group_oacis_admin',
     )
 
     # --- IDENTIFICATION DOCUMENTS ---
-    passport_number = fields.Char(string='Passport Number')
-    passport_expiry = fields.Date(string='Passport Expiry Date')
-    national_id = fields.Char(string='National ID / Aadhaar / NIC')
-    visa_number = fields.Char(string='Visa Number', help='For international students')
-    visa_expiry = fields.Date(string='Visa Expiry Date')
+    # Government identity numbers are restricted to registrar-level
+    # staff; they never appear in portal reads or faculty views.
+    passport_number = fields.Char(
+        string='Passport Number',
+        groups='oacis_base.group_oacis_registrar,oacis_base.group_oacis_manager,'
+               'oacis_base.group_oacis_admin',
+    )
+    passport_expiry = fields.Date(
+        string='Passport Expiry Date',
+        groups='oacis_base.group_oacis_registrar,oacis_base.group_oacis_manager,'
+               'oacis_base.group_oacis_admin',
+    )
+    national_id = fields.Char(
+        string='National ID / Aadhaar / NIC',
+        groups='oacis_base.group_oacis_registrar,oacis_base.group_oacis_manager,'
+               'oacis_base.group_oacis_admin',
+    )
+    visa_number = fields.Char(
+        string='Visa Number',
+        help='For international students',
+        groups='oacis_base.group_oacis_registrar,oacis_base.group_oacis_manager,'
+               'oacis_base.group_oacis_admin',
+    )
+    visa_expiry = fields.Date(
+        string='Visa Expiry Date',
+        groups='oacis_base.group_oacis_registrar,oacis_base.group_oacis_manager,'
+               'oacis_base.group_oacis_admin',
+    )
     is_international = fields.Boolean(string='International Student', default=False, tracking=True)
 
     # --- CONTACT ---

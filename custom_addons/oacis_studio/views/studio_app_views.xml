@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_studio_app_form" model="ir.ui.view">
+        <field name="name">studio.app.form</field>
+        <field name="model">studio.app</field>
+        <field name="arch" type="xml">
+            <form string="Studio App">
+                <header>
+                    <button name="action_validate" string="Validate DSL" type="object" class="oe_highlight"/>
+                    <button name="action_preview" string="Preview" type="object"/>
+                    <button name="action_publish" string="Publish" type="object" class="oe_highlight" invisible="state != 'draft' and state != 'preview'"/>
+                    <button name="action_export_wizard" string="Export" type="object" icon="fa-download"/>
+                    <button name="action_check_health" string="Health Check" type="object" icon="fa-heartbeat"/>
+                    <button name="action_rollback" string="Rollback" type="object" icon="fa-undo" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,preview,testing,published,archived"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="key" placeholder="scholarship"/>
+                        <field name="icon"/>
+                        <field name="category"/>
+                        <field name="version" readonly="1"/>
+                        <field name="dsl_hash" readonly="1"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="campus_ids" widget="many2many_tags"/>
+                    </group>
+                    <notebook>
+                        <page string="DSL JSON" name="dsl">
+                            <field name="dsl_json" widget="ace" options="{'mode':'json'}"/>
+                            <div class="alert alert-info" role="alert">
+                                DSL 1.0 — see <code>docs/studio_plan.md §3</code> and <code>data/dsl_schema.json</code>. AI emits only this. Validate → Preview → Publish.
+                            </div>
+                        </page>
+                        <page string="Models" name="models">
+                            <field name="model_ids" readonly="1"/>
+                        </page>
+                        <page string="Versions" name="versions">
+                            <field name="version_ids" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_ids"/>
+                    <field name="activity_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_studio_app_list" model="ir.ui.view">
+        <field name="name">studio.app.list</field>
+        <field name="model">studio.app</field>
+        <field name="arch" type="xml">
+            <list string="Studio Apps">
+                <field name="name"/>
+                <field name="key"/>
+                <field name="state" widget="badge" decoration-success="state=='published'" decoration-info="state=='draft'"/>
+                <field name="version"/>
+                <field name="dsl_hash"/>
+                <field name="company_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_studio_app_search" model="ir.ui.view">
+        <field name="name">studio.app.search</field>
+        <field name="model">studio.app</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="key"/>
+                <field name="state"/>
+                <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Published" name="published" domain="[('state','=','published')]"/>
+                <separator/>
+                <filter string="Archived" name="archived" domain="[('active','=',False)]"/>
+            </search>
+        </field>
+    </record>
+    <record id="action_studio_app" model="ir.actions.act_window">
+        <field name="name">Forge Studio — Apps</field>
+        <field name="res_model">studio.app</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first Studio App</p>
+            <p>Apps are DSL-driven. Validate → Preview → Publish. See docs/studio_plan.md.</p>
+        </field>
+    </record>
+</odoo>

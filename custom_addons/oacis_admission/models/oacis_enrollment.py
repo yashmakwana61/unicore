@@ -442,6 +442,18 @@ class OacisEnrollment(models.Model):
             rec.message_post(
                 body=_('Enrolled in %s.') % rec.course_id.display_name,
             )
+            # Notify the student (and guardians) of the
+            # successful enrollment.
+            if 'oacis.notification.engine' in self.env:
+                self.env['oacis.notification.engine']._safe_emit(
+                    rec.student_id,
+                    'enrollment_confirmed',
+                    {
+                        'course_name': rec.course_id.display_name,
+                        'semester_name': rec.semester_id.name or '',
+                    },
+                    include_guardians=True,
+                )
 
         return created_records
 

@@ -9,6 +9,7 @@
     'depends': ['oacis_student', 'oacis_grading', 'website'],
     'data': [
         'security/ir.model.access.csv',
+        'security/oacis_secure_transcript_record_rules.xml',
         'views/transcript_views.xml',
         'views/menu.xml',
     ],

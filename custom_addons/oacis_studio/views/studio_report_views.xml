@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_studio_report_list" model="ir.ui.view">
+        <field name="name">studio.report.list</field>
+        <field name="model">studio.report</field>
+        <field name="arch" type="xml">
+            <list string="Report Studio (Phase 5 — 22 types)">
+                <field name="name"/>
+                <field name="key" optional="hide"/>
+                <field name="report_type" widget="badge" decoration-success="report_type in ['report_card','academic_transcript']"/>
+                <field name="app_id"/>
+                <field name="dataset_id" optional="show"/>
+                <field name="state" widget="badge" decoration-success="state=='published'"/>
+                <field name="active" widget="boolean_toggle" optional="hide"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_studio_report_form" model="ir.ui.view">
+        <field name="name">studio.report.form</field>
+        <field name="model">studio.report</field>
+        <field name="arch" type="xml">
+            <form string="Report Studio">
+                <header>
+                    <button name="action_preview" string="Preview HTML" type="object" class="oe_highlight"/>
+                    <button name="action_generate_pdf" string="Generate PDF (stub)" type="object"/>
+                    <button name="action_publish" string="Publish" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_duplicate" string="Duplicate" type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,published,archived"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        Phase 5 Report Studio — 22 types: Grade/Progression/Profile/Transcript/Report Card/Attendance/Fee/Behaviour/Assessment/Class/Teacher/Parent/Admission/Certificate/Recommendation/Transfer/Invoice/SLC/Custom Letter/Analytics/Dashboard PDF/Custom. Layout DSL: header/body/footer with field/table/conditional/formula/image/qr/signature/page_number.
+                    </div>
+                    <group>
+                        <field name="name" placeholder="Semester Report Card"/>
+                        <field name="key" placeholder="report_card_sem1"/>
+                        <field name="app_id" options="{'no_create': True}"/>
+                        <field name="model_id" options="{'no_create': True}" domain="[('app_id','=',app_id)]" placeholder="Optional: bind to studio.model"/>
+                        <field name="report_type"/>
+                        <field name="dataset_id" options="{'no_create': True}" placeholder="oacis.student dataset"/>
+                        <field name="paperformat_id" options="{'no_create': True}"/>
+                        <field name="active"/>
+                    </group>
+                    <group string="Description"><field name="description" nolabel="1" placeholder="Official semester report card with grades, attendance, conduct"/></group>
+                    <notebook>
+                        <page string="Layout (DSL)" name="layout">
+                            <field name="layout_json" widget="ace" options="{'mode':'json'}" nolabel="1" placeholder='{"header":[{"type":"text","value":"SCHOOL"}],"body":[{"type":"field","path":"record.display_name"}],"footer":[{"type":"page_number"}]}'/>
+                            <div class="alert alert-light">
+                                Components: <code>text</code> <code>field(path)</code> <code>table(columns)</code> <code>conditional(condition)</code> <code>formula(expr)</code> <code>image</code> <code>qr</code> <code>signature</code> <code>page_break</code>. See <code>models/studio_report.py:_render_component</code> for docs.
+                            </div>
+                        </page>
+                        <page string="Preview (HTML)" name="preview">
+                            <field name="preview_html" readonly="1" nolabel="1" widget="html"/>
+                        </page>
+                        <page string="Compiled" name="compiled" invisible="not ir_report_id">
+                            <field name="ir_report_id" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter"><field name="message_ids"/><field name="activity_ids"/></div>
+            </form>
+        </field>
+    </record>
+    <record id="view_studio_report_search" model="ir.ui.view">
+        <field name="name">studio.report.search</field>
+        <field name="model">studio.report</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="key"/>
+                <field name="report_type"/>
+                <field name="app_id"/>
+                <field name="dataset_id"/>
+                <filter string="Published" name="published" domain="[('state','=','published')]"/>
+                <filter string="Report Card" name="report_card" domain="[('report_type','=','report_card')]"/>
+                <filter string="Transcript" name="transcript" domain="[('report_type','=','academic_transcript')]"/>
+                <separator/>
+                <filter string="Archived" name="archived" domain="[('active','=',False)]"/>
+            </search>
+        </field>
+    </record>
+    <record id="action_studio_report" model="ir.actions.act_window">
+        <field name="name">Report Studio</field>
+        <field name="res_model">studio.report</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Create first report — e.g. Report Card, Fee Statement, Certificate</p></field>
+    </record>
+    <record id="view_studio_report_template_list" model="ir.ui.view">
+        <field name="name">studio.report.template.list</field>
+        <field name="model">studio.report.template</field>
+        <field name="arch" type="xml">
+            <list string="Report Templates (Marketplace)">
+                <field name="name"/>
+                <field name="report_type" widget="badge"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_studio_report_builder" model="ir.actions.client">
+        <field name="name">Report Builder</field>
+        <field name="tag">studio.report_builder</field>
+    </record>
+</odoo>

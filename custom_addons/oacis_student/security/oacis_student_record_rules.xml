@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<odoo noupdate="1">
+<odoo>
+    <data noupdate="1">
 
     <!-- STUDENT: company isolation -->
     <record id="rule_oacis_student_company" model="ir.rule">
@@ -58,6 +59,42 @@
         <field name="domain_force">[('company_id', 'in', company_ids)]</field>
     </record>
 
+    <!-- DOCUMENT: self-view (own documents only) -->
+    <record id="rule_oacis_student_document_self" model="ir.rule">
+        <field name="name">oacis.student.document: self-view only</field>
+        <field name="model_id" ref="model_oacis_student_document"/>
+        <field name="global" eval="False"/>
+        <field name="groups" eval="[(4, ref('oacis_base.group_oacis_student'))]"/>
+        <field name="domain_force">[('student_id.partner_id.user_ids', 'in', [user.id])]</field>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- EMERGENCY CONTACT: self-view (own contacts only) -->
+    <record id="rule_oacis_student_emergency_contact_self" model="ir.rule">
+        <field name="name">oacis.student.emergency.contact: self-view only</field>
+        <field name="model_id" ref="model_oacis_student_emergency_contact"/>
+        <field name="global" eval="False"/>
+        <field name="groups" eval="[(4, ref('oacis_base.group_oacis_student'))]"/>
+        <field name="domain_force">[('student_id.partner_id.user_ids', 'in', [user.id])]</field>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- ACADEMIC HISTORY: self-view (own history only) -->
+    <record id="rule_oacis_student_academic_history_self" model="ir.rule">
+        <field name="name">oacis.student.academic.history: self-view only</field>
+        <field name="model_id" ref="model_oacis_student_academic_history"/>
+        <field name="global" eval="False"/>
+        <field name="groups" eval="[(4, ref('oacis_base.group_oacis_student'))]"/>
+        <field name="domain_force">[('student_id.partner_id.user_ids', 'in', [user.id])]</field>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
     <!-- ADMIN BYPASS: Full access for admin group -->
     <record id="rule_oacis_student_admin" model="ir.rule">
         <field name="name">oacis.student: admin bypass</field>
@@ -103,4 +140,5 @@
         <field name="perm_unlink" eval="True"/>
     </record>
 
+    </data>
 </odoo>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ════════════════════════════════════════════════════════════════════
+         Forge Studio 2.0 — Clean Top-Level Navigation (§7, §44)
+         P0: Removed ~27 technical menus from main nav; progressive disclosure.
+         Primary UX: Builder → Documents → Automations → Analytics → AI
+         Technical models live under Administration (admin-only)
+         ════════════════════════════════════════════════════════════════════ -->
+    <menuitem id="menu_studio_root" name="Forge Studio" web_icon="oacis_studio,static/description/icon.png" sequence="90"/>
+
+    <!-- Home is the default landing -->
+    <menuitem id="menu_studio_home" name="Home" parent="menu_studio_root" action="action_studio_home" sequence="1"/>
+
+    <!-- 1. BUILDER — App & View building -->
+    <menuitem id="menu_studio_builder" name="Builder" parent="menu_studio_root" sequence="10"/>
+    <menuitem id="menu_studio_builder_apps" name="Apps" parent="menu_studio_builder" action="action_studio_app" sequence="1"/>
+    <menuitem id="menu_studio_builder_shell" name="Forge Builder" parent="menu_studio_builder" action="action_studio_shell" sequence="2"/>
+    <menuitem id="menu_studio_builder_views" name="Views" parent="menu_studio_builder" action="action_studio_view" sequence="3"/>
+
+    <!-- 2. DOCUMENTS — Report Studio -->
+    <menuitem id="menu_studio_documents" name="Documents" parent="menu_studio_root" sequence="15"/>
+    <menuitem id="menu_studio_documents_reports" name="Reports" parent="menu_studio_documents" action="action_studio_report" sequence="1"/>
+    <menuitem id="menu_studio_documents_report_builder" name="Report Builder" parent="menu_studio_documents" action="view_studio_report_builder" sequence="2"/>
+    <!-- Templates share the same Reports listing filtered by type; no separate action needed in 2.0 -->
+
+    <!-- 3. AUTOMATIONS — Workflow + Automation -->
+    <menuitem id="menu_studio_automations" name="Automations" parent="menu_studio_root" sequence="20"/>
+    <menuitem id="menu_studio_automations_workflows" name="Workflows" parent="menu_studio_automations" action="action_studio_workflow" sequence="1"/>
+    <menuitem id="menu_studio_automations_workflow_builder" name="Workflow Builder" parent="menu_studio_automations" action="view_studio_workflow_builder" sequence="2"/>
+    <menuitem id="menu_studio_automations_list" name="Automations" parent="menu_studio_automations" action="action_studio_automation" sequence="3"/>
+    <menuitem id="menu_studio_automations_builder" name="Automation Builder" parent="menu_studio_automations" action="view_studio_automation_builder" sequence="4"/>
+    <menuitem id="menu_studio_automations_instances" name="Workflow Instances" parent="menu_studio_automations" action="action_studio_workflow_instance" sequence="5"/>
+
+    <!-- 4. ANALYTICS — Dashboards -->
+    <menuitem id="menu_studio_analytics" name="Analytics" parent="menu_studio_root" sequence="25"/>
+    <menuitem id="menu_studio_analytics_dashboards" name="Dashboards" parent="menu_studio_analytics" action="action_studio_dashboard" sequence="1"/>
+    <menuitem id="menu_studio_analytics_builder" name="Dashboard Builder" parent="menu_studio_analytics" action="view_studio_dashboard_builder" sequence="2"/>
+
+    <!-- 5. AI -->
+    <menuitem id="menu_studio_ai" name="AI" parent="menu_studio_root" sequence="30"/>
+    <menuitem id="menu_studio_ai_copilot" name="Ask Forge — AI Copilot" parent="menu_studio_ai" action="view_studio_ai_copilot" sequence="1"/>
+    <menuitem id="menu_studio_ai_audit" name="AI Audit Log" parent="menu_studio_ai" action="action_studio_ai_request" sequence="2"/>
+
+    <!-- Settings — Admin only -->
+    <menuitem id="menu_studio_admin" name="Settings" parent="menu_studio_root" sequence="90" groups="oacis_studio.group_studio_admin"/>
+    <!-- Technical / internal — hidden from normal Builder UX (§6, §44) -->
+    <menuitem id="menu_studio_admin_models" name="Models" parent="menu_studio_admin" action="action_studio_model" sequence="1"/>
+    <menuitem id="menu_studio_admin_fields" name="Fields" parent="menu_studio_admin" action="action_studio_field" sequence="2"/>
+    <menuitem id="menu_studio_admin_records" name="Records (JSONB)" parent="menu_studio_admin" action="action_studio_record" sequence="4"/>
+    <menuitem id="menu_studio_admin_dict" name="Data Dictionary" parent="menu_studio_admin" action="action_studio_dd" sequence="5"/>
+    <menuitem id="menu_studio_admin_security_groups" name="Security Groups" parent="menu_studio_admin" action="action_studio_security_group" sequence="10"/>
+    <menuitem id="menu_studio_admin_security_rules" name="Security Rules" parent="menu_studio_admin" action="action_studio_security_rule" sequence="11"/>
+    <menuitem id="menu_studio_admin_field_perms" name="Field Permissions" parent="menu_studio_admin" action="action_studio_field_permission" sequence="12"/>
+    <menuitem id="menu_studio_admin_versions" name="Versions" parent="menu_studio_admin" action="action_studio_version" sequence="20"/>
+    <menuitem id="menu_studio_admin_import" name="Import / Export" parent="menu_studio_admin" action="action_studio_import_wizard" sequence="30"/>
+</odoo>

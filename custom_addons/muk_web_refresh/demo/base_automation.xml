@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo noupdate="1">
+<odoo>
+    <data noupdate="1">
 
     <record id="automation_refresh_on_contact_create" model="base.automation">
         <field name="name">Reload Views on Contact Create</field>
@@ -19,4 +20,5 @@
         <field name="trigger">on_unlink</field>
     </record>
 
+    </data>
 </odoo>

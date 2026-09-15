@@ -1,0 +1,138 @@
+// ============================================
+// Kanban Components - Reusable elements
+// ============================================
+
+// 1. Avatars
+.oacis-avatar {
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: var(--uc-bg-subtle);
+    border: 2px solid var(--uc-surface);
+    box-shadow: var(--uc-shadow-sm);
+    
+    &.oacis-avatar-sm {
+        width: 24px;
+        height: 24px;
+    }
+    &.oacis-avatar-md {
+        width: 32px;
+        height: 32px;
+    }
+    &.oacis-avatar-lg {
+        width: 48px;
+        height: 48px;
+    }
+}
+
+// 2. Badges & Status Indicators
+.oacis-badge,
+.oe_kanban_badge,
+.oe_kanban_card_header .badge,
+.o_kanban_record .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: var(--uc-radius-field);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    
+    // Status Semantic Colors (Light background, darker text for premium SaaS feel)
+    &.oacis-status-success {
+        background-color: rgba(40, 167, 69, 0.1);
+        color: #1e7e34;
+    }
+    &.oacis-status-warning {
+        background-color: rgba(255, 193, 7, 0.15);
+        color: #b38600;
+    }
+    &.oacis-status-danger {
+        background-color: rgba(220, 53, 69, 0.1);
+        color: #bd2130;
+    }
+    &.oacis-status-info {
+        background-color: rgba(0, 123, 255, 0.1);
+        color: #0056b3;
+    }
+    &.oacis-status-neutral {
+        background-color: var(--uc-bg-subtle);
+        color: var(--uc-text-muted);
+    }
+}
+
+// 3. Typography & Information Hierarchy
+.oacis-kanban-title,
+.o_kanban_record_title,
+.oe_kanban_card_header strong {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--uc-text-heading);
+    margin-bottom: 2px;
+    line-height: 1.3;
+    display: block;
+    
+    // Truncation
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.oacis-kanban-subtitle,
+.o_kanban_record_subtitle {
+    font-size: 13px;
+    color: var(--uc-text-muted);
+    font-weight: 400;
+    display: block;
+    
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+// 4. Metadata Rows
+.oacis-meta-row,
+.oe_kanban_field_line,
+.oe_kanban_card_body div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--uc-text-muted);
+    margin-top: 4px;
+    
+    i, .fa {
+        font-size: 14px;
+        color: var(--uc-primary);
+        opacity: 0.8;
+    }
+}
+
+// 4.1 Card bodies
+.oe_kanban_details,
+.oe_kanban_card_body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+// 5. Card Action Area (Dropdowns, Buttons)
+.oacis-kanban-actions {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    gap: 4px;
+    
+    .btn {
+        padding: 2px 6px;
+        background: transparent;
+        color: var(--uc-text-muted);
+        border: none;
+        
+        &:hover {
+            background: var(--uc-bg-subtle);
+            color: var(--uc-text-heading);
+        }
+    }
+}

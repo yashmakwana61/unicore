@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_studio_dataset_list" model="ir.ui.view">
+        <field name="name">studio.dataset.list</field>
+        <field name="model">studio.dataset</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="app_id"/>
+                <field name="key"/>
+                <field name="label"/>
+                <field name="source_model"/>
+            </list>
+        </field>
+    </record>
+</odoo>

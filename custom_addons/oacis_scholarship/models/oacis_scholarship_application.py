@@ -424,6 +424,19 @@ class OacisScholarshipApplication(models.Model):
             body=_('Scholarship application approved '
                    'by %s.') % self.env.user.name,
         )
+        # Notify student + guardians of the approval.
+        if 'oacis.notification.engine' in self.env:
+            self.env['oacis.notification.engine']._safe_emit(
+                self.student_id,
+                'scholarship_approved',
+                {
+                    'scholarship_name':
+                        self.scholarship_program_id.name or '',
+                    'amount': str(self.scholarship_program_id.award_amount
+                                  or 0),
+                },
+                include_guardians=True,
+            )
 
     def action_reject(self):
         self.ensure_one()

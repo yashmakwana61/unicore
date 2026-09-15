@@ -108,6 +108,14 @@ class OacisFeeInvoice(models.Model):
         inverse_name='invoice_id',
         string='Invoice Lines',
     )
+    payment_ids = fields.One2many(
+        comodel_name='oacis.fee.payment',
+        inverse_name='invoice_id',
+        string='Payments',
+        context={'active_test': False},
+        help='Legacy fee payment receipts linked to this invoice, '
+             'including archived (inactive) records.',
+    )
     subtotal = fields.Monetary(
         string='Subtotal',
         compute='_compute_amounts',

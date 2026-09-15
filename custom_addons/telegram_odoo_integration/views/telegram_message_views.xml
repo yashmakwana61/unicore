@@ -7,6 +7,7 @@
             <list string="Telegram Messages">
                 <field name="create_date"/>
                 <field name="state"/>
+                <field name="session_id"/>
                 <field name="telegram_username"/>
                 <field name="chat_id"/>
                 <field name="message_text"/>
@@ -27,6 +28,7 @@
                             <field name="update_id"/>
                             <field name="state"/>
                             <field name="create_date" readonly="1"/>
+                            <field name="session_id"/>
                             <field name="telegram_username"/>
                             <field name="chat_id"/>
                         </group>

@@ -2,7 +2,7 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_question_bank_admin,oacis.question.bank.admin,model_oacis_question_bank,oacis_base.group_oacis_admin,1,1,1,1
 access_question_bank_manager,oacis.question.bank.manager,model_oacis_question_bank,oacis_base.group_oacis_manager,1,1,1,0
 access_question_bank_faculty,oacis.question.bank.faculty,model_oacis_question_bank,oacis_base.group_oacis_faculty,1,1,1,0
-access_question_bank_student,oacis.question.bank.student,model_oacis_question_bank,oacis_base.group_oacis_student,1,0,0,0
+access_question_bank_student,oacis.question.bank.student,model_oacis_question_bank,oacis_base.group_oacis_student,0,0,0,0
 
 access_quiz_admin,oacis.quiz.admin,model_oacis_quiz,oacis_base.group_oacis_admin,1,1,1,1
 access_quiz_manager,oacis.quiz.manager,model_oacis_quiz,oacis_base.group_oacis_manager,1,1,1,0

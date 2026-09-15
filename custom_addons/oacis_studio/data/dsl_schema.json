@@ -1,0 +1,93 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Studio DSL 1.0",
+  "description": "See docs/studio_plan.md §3",
+  "type": "object",
+  "required": ["dsl_version", "app"],
+  "properties": {
+    "dsl_version": {"type": "string", "enum": ["1.0"]},
+    "app": {
+      "type": "object",
+      "required": ["key", "name"],
+      "properties": {
+        "key": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$"},
+        "name": {"type": "string"},
+        "icon": {"type": "string"},
+        "category": {"type": "string", "enum": ["education", "admin", "custom"]}
+      }
+    },
+    "models": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["key", "tech", "label"],
+        "properties": {
+          "key": {"type": "string", "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"},
+          "tech": {"type": "string", "pattern": "^x_[a-z][a-z0-9_]*$"},
+          "label": {"type": "string"},
+          "opts": {"type": "object"}
+        }
+      }
+    },
+    "fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["model", "key", "type", "label"],
+        "properties": {
+          "model": {"type": "string"},
+          "key": {"type": "string"},
+          "type": {"type": "string", "enum": ["char","text","html","integer","float","decimal","monetary","boolean","date","datetime","selection","many2one","one2many","many2many","image","binary","attachment","reference","related","formula","auto_number","signature","qr_code","barcode"]},
+          "label": {"type": "string"},
+          "required": {"type": "boolean"},
+          "relation": {"type": "string"},
+          "selection": {"type": "array"}
+        }
+      }
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["from", "to", "type"],
+        "properties": {
+          "from": {"type": "string"},
+          "to": {"type": "string"},
+          "type": {"type": "string", "enum": ["many2one","one2many","many2many"]},
+          "field": {"type": "string"}
+        }
+      }
+    },
+    "views": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["model", "type"],
+        "properties": {
+          "model": {"type": "string"},
+          "type": {"type": "string", "enum": ["form","list","kanban","search"]},
+          "arch": {"type": "object"}
+        }
+      }
+    },
+    "datasets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["key", "source"],
+        "properties": {
+          "key": {"type": "string"},
+          "source": {"type": "string"},
+          "fields": {"type": "array"},
+          "filters": {"type": "array"},
+          "group_by": {"type": "array"}
+        }
+      }
+    },
+    "reports": {"type": "array"},
+    "dashboards": {"type": "array"},
+    "workflows": {"type": "array"},
+    "automations": {"type": "array"},
+    "security": {"type": "object"}
+  }
+}

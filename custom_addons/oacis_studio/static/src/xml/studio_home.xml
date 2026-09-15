@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+<t t-name="oacis_studio.StudioHome">
+    <div class="h-100 d-flex flex-column" style="font-family:Inter,-apple-system,sans-serif; font-size:13px; background:#f8fafc;">
+        <!-- Compact header -->
+        <div class="o_forge_header">
+            <div class="o_forge_header_section o_forge_header_section--left">
+                <span class="o_forge_breadcrumb"><b>Forge Studio</b></span>
+                <span class="o_forge_badge o_forge_badge--model ms-2" t-if="state.metrics" t-esc="(state.metrics.apps_total || 0) + ' apps'"/>
+            </div>
+            <div class="o_forge_header_section o_forge_header_section--right">
+                <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--sm" t-on-click="openDictionary">Data Dictionary</button>
+                <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--sm" t-on-click="openImport">Import</button>
+            </div>
+        </div>
+
+        <div class="flex-grow-1 overflow-auto">
+            <div style="max-width:960px; margin:0 auto; padding:24px 20px;">
+                <t t-if="state.loading">
+                    <div class="text-center py-5">
+                        <i class="fa fa-spinner fa-spin fa-2x" style="color:#714B67;"/>
+                        <p class="mt-2 text-muted">Loading Forge…</p>
+                    </div>
+                </t>
+                <t t-elif="state.error">
+                    <div class="alert alert-danger d-flex align-items-center gap-2">
+                        <i class="fa fa-exclamation-triangle"/>
+                        <span t-esc="state.error"/>
+                    </div>
+                </t>
+                <t t-else="">
+                    <!-- Ask Forge hero (§8) -->
+                    <div style="background:white; border:1px solid #e2e8f0; border-radius:12px; padding:20px 20px 16px; box-shadow:0 1px 2px rgba(0,0,0,0.04);">
+                        <div class="d-flex align-items-center gap-2 mb-3">
+                            <span style="width:28px; height:28px; border-radius:8px; background:linear-gradient(135deg,#7c3aed 0%,#a78bfa 100%); display:inline-flex; align-items:center; justify-content:center; color:white; font-size:14px;">✨</span>
+                            <span style="font-size:15px; font-weight:700; color:#1e293b;">Ask Forge</span>
+                            <span style="font-size:12px; color:#64748b; margin-left:4px;">Describe what you want to build…</span>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <div style="flex:1; position:relative;">
+                                <i class="fa fa-magic" style="position:absolute; left:10px; top:50%; transform:translateY(-50%); color:#94a3b8; font-size:12px;"/>
+                                <input type="text" placeholder="e.g. Create a scholarship management application with approval workflow"
+                                       t-att-value="state.askPrompt" t-on-input="(ev) => this.state.askPrompt = ev.target.value" t-on-keydown="(ev) => this.onAskKeydown(ev)"
+                                       style="width:100%; height:38px; padding:0 12px 0 30px; border:1px solid #e2e8f0; border-radius:8px; font-size:13px; outline:none; background:#f8fafc;"
+                                       onfocus="this.style.borderColor='#7c3aed'; this.style.background='white'" onblur="this.style.borderColor='#e2e8f0'; this.style.background='#f8fafc'"/>
+                            </div>
+                            <button class="o_forge_btn o_forge_btn--accent" style="height:38px; padding:0 16px; border-radius:8px; font-weight:600;" t-on-click="askForge" t-att-disabled="state.askLoading">
+                                <t t-if="state.askLoading"><i class="fa fa-spinner fa-spin me-1"/> Thinking…</t>
+                                <t t-else="">Ask Forge <i class="fa fa-arrow-right ms-1"/></t>
+                            </button>
+                        </div>
+                        <div class="mt-2 d-flex gap-1 flex-wrap" style="font-size:11px; color:#64748b;">
+                            <span>Try:</span>
+                            <a href="#" class="text-decoration-none" style="color:#7c3aed;" t-on-click.prevent="() => { this.state.askPrompt='Create a scholarship management application'; this.askForge(); }">scholarship app</a>
+                            <span>·</span>
+                            <a href="#" class="text-decoration-none" style="color:#7c3aed;" t-on-click.prevent="() => { this.state.askPrompt='Add attendance warning when percentage is below 75%'; this.askForge(); }">attendance warning</a>
+                            <span>·</span>
+                            <a href="#" class="text-decoration-none" style="color:#7c3aed;" t-on-click.prevent="() => { this.state.askPrompt='Create a fee collection dashboard'; this.askForge(); }">fee dashboard</a>
+                        </div>
+                    </div>
+
+                    <!-- Quick Create (§8) -->
+                    <div class="mt-4">
+                        <div style="font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; color:#64748b; margin-bottom:8px;">Quick Create</div>
+                        <div class="row g-2">
+                            <div class="col-6 col-md-4 col-lg">
+                                <button class="w-100 d-flex align-items-center gap-2" t-on-click="createApp" style="background:white; border:1px solid #e2e8f0; border-radius:8px; padding:12px; text-align:left; transition:all 150ms ease;">
+                                    <span style="width:32px; height:32px; border-radius:6px; background:#f5f3ff; display:inline-flex; align-items:center; justify-content:center; color:#7c3aed;"><i class="fa fa-cube"/></span>
+                                    <span><div style="font-weight:600; font-size:12px; color:#1e293b;">Create App</div><div style="font-size:11px; color:#64748b;">New application</div></span>
+                                </button>
+                            </div>
+                            <div class="col-6 col-md-4 col-lg">
+                                <button class="w-100 d-flex align-items-center gap-2" t-on-click="customizeApp" style="background:white; border:1px solid #e2e8f0; border-radius:8px; padding:12px; text-align:left;">
+                                    <span style="width:32px; height:32px; border-radius:6px; background:#f0fdf4; display:inline-flex; align-items:center; justify-content:center; color:#10b981;"><i class="fa fa-pencil"/></span>
+                                    <span><div style="font-weight:600; font-size:12px; color:#1e293b;">Customize App</div><div style="font-size:11px; color:#64748b;">Edit a model</div></span>
+                                </button>
+                            </div>
+                            <div class="col-6 col-md-4 col-lg">
+                                <button class="w-100 d-flex align-items-center gap-2" t-on-click="createReport" style="background:white; border:1px solid #e2e8f0; border-radius:8px; padding:12px; text-align:left;">
+                                    <span style="width:32px; height:32px; border-radius:6px; background:#fffbeb; display:inline-flex; align-items:center; justify-content:center; color:#f59e0b;"><i class="fa fa-file-pdf-o"/></span>
+                                    <span><div style="font-weight:600; font-size:12px; color:#1e293b;">Create Report</div><div style="font-size:11px; color:#64748b;">Report studio</div></span>
+                                </button>
+                            </div>
+                            <div class="col-6 col-md-4 col-lg">
+                                <button class="w-100 d-flex align-items-center gap-2" t-on-click="createDashboard" style="background:white; border:1px solid #e2e8f0; border-radius:8px; padding:12px; text-align:left;">
+                                    <span style="width:32px; height:32px; border-radius:6px; background:#eff6ff; display:inline-flex; align-items:center; justify-content:center; color:#3b82f6;"><i class="fa fa-bar-chart"/></span>
+                                    <span><div style="font-weight:600; font-size:12px; color:#1e293b;">Create Dashboard</div><div style="font-size:11px; color:#64748b;">Analytics</div></span>
+                                </button>
+                            </div>
+                            <div class="col-6 col-md-4 col-lg">
+                                <button class="w-100 d-flex align-items-center gap-2" t-on-click="createAutomation" style="background:white; border:1px solid #e2e8f0; border-radius:8px; padding:12px; text-align:left;">
+                                    <span style="width:32px; height:32px; border-radius:6px; background:#fef2f2; display:inline-flex; align-items:center; justify-content:center; color:#ef4444;"><i class="fa fa-bolt"/></span>
+                                    <span><div style="font-weight:600; font-size:12px; color:#1e293b;">Create Automation</div><div style="font-size:11px; color:#64748b;">When → then</div></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Your Studio Apps -->
+                    <div class="mt-4">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <div style="font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; color:#64748b;">Your Studio Apps</div>
+                            <a href="#" class="small text-decoration-none" style="color:#7c3aed; font-size:11px;" t-on-click.prevent="openApps">View all →</a>
+                        </div>
+                        <t t-if="state.metrics.recent_apps &amp;&amp; state.metrics.recent_apps.length">
+                            <div class="row g-2">
+                                <t t-foreach="state.metrics.recent_apps" t-as="app" t-key="app.id">
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="d-flex align-items-center gap-2" t-on-click="() => this.openApp(app)" style="background:white; border:1px solid #e2e8f0; border-radius:8px; padding:10px 12px; cursor:pointer;">
+                                            <span style="width:28px; height:28px; border-radius:6px; background:#f8fafc; border:1px solid #e2e8f0; display:inline-flex; align-items:center; justify-content:center; color:#714B67; font-size:12px;"><i class="fa fa-cube"/></span>
+                                            <span style="flex:1; min-width:0;">
+                                                <div style="font-weight:600; font-size:12px; color:#1e293b; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" t-esc="app.name"/>
+                                                <div style="font-size:11px; color:#94a3b8;" t-esc="app.key"/>
+                                            </span>
+                                            <span class="o_forge_badge" t-att-class="app.state === 'published' ? 'o_forge_badge--saved' : 'o_forge_badge--dirty'" t-esc="app.state" style="font-size:10px;"/>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <div style="background:white; border:1px dashed #cbd5e1; border-radius:8px; padding:20px; text-align:center; color:#64748b;">
+                                <i class="fa fa-cube" style="font-size:20px; color:#94a3b8; display:block; margin-bottom:6px;"/>
+                                <div style="font-size:12px;">No Studio apps yet</div>
+                                <div style="font-size:11px; margin-top:4px;">Ask Forge to create one, or <a href="#" style="color:#7c3aed;" t-on-click.prevent="createApp">create an app</a>.</div>
+                            </div>
+                        </t>
+                    </div>
+
+                    <!-- Stats strip (compact, not primary) -->
+                    <div class="mt-3 d-flex gap-2 flex-wrap">
+                        <span class="o_forge_badge o_forge_badge--model"><t t-esc="state.metrics.models_total"/> models</span>
+                        <span class="o_forge_badge o_forge_badge--model"><t t-esc="state.metrics.fields_total"/> fields</span>
+                        <span class="o_forge_badge o_forge_badge--model"><t t-esc="state.metrics.dictionary_models"/> dictionary models</span>
+                        <span class="o_forge_badge o_forge_badge--model"><t t-esc="state.metrics.ai_requests"/> AI requests</span>
+                    </div>
+
+                    <!-- Recent Changes -->
+                    <div class="mt-4">
+                        <div style="font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; color:#64748b; margin-bottom:8px;">Recent Changes</div>
+                        <div style="background:white; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
+                            <t t-if="state.metrics.recent_versions &amp;&amp; state.metrics.recent_versions.length">
+                                <t t-foreach="state.metrics.recent_versions" t-as="ver" t-key="ver.hash">
+                                    <div style="padding:8px 14px; border-bottom:1px solid #f1f5f9; display:flex; align-items:center; gap:8px; font-size:12px;">
+                                        <span style="width:6px; height:6px; border-radius:50%; background:#7c3aed; display:inline-block;"/>
+                                        <span style="color:#1e293b; font-weight:500;" t-esc="ver.app"/> <span style="color:#64748b;">—</span> <span t-esc="ver.name"/>
+                                        <span style="color:#94a3b8; margin-left:auto; font-size:11px;" t-esc="ver.date"/>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-else="">
+                                <div style="padding:20px; text-align:center; color:#94a3b8; font-size:12px;">
+                                    <i class="fa fa-history" style="display:block; font-size:16px; margin-bottom:6px;"/>
+                                    No recent changes yet. Edits you publish will appear here.
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </div>
+</t>
+</templates>

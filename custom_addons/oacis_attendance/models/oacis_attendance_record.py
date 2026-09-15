@@ -136,6 +136,34 @@ class OacisAttendanceRecord(models.Model):
         string='Remarks',
     )
 
+    face_check_in = fields.Boolean(
+        string='Face Check-in',
+        default=False,
+        readonly=True,
+        help='Whether this record was marked via face recognition',
+    )
+
+    face_registration_id = fields.Many2one(
+        'oacis.face.registration',
+        string='Face Registration',
+        ondelete='set null',
+        readonly=True,
+        help='The face registration used for check-in',
+    )
+
+    face_confidence = fields.Float(
+        string='Face Confidence',
+        readonly=True,
+        digits=(5, 4),
+        help='Face recognition confidence score (0.0-1.0)',
+    )
+
+    face_check_in_time = fields.Datetime(
+        string='Face Check-in Time',
+        readonly=True,
+        help='Timestamp when face recognition check-in occurred',
+    )
+
     total_sessions_held = fields.Integer(
         string='Total Sessions Held',
         compute='_compute_student_cumulative_stats',
@@ -273,3 +301,46 @@ class OacisAttendanceRecord(models.Model):
                 )
             if rec.status != 'late' and rec.late_minutes > 0:
                 rec.late_minutes = 0
+
+    def action_face_check_in(self, face_registration_id, confidence):
+        """Mark attendance as present via face recognition.
+        Called from face check-in wizard after successful verification.
+        """
+        self.ensure_one()
+        if self.session_id.session_state != 'open':
+            raise UserError(_('Cannot check in: session is not open for marking.'))
+        if self.face_check_in:
+            raise UserError(_('Already checked in via face recognition.'))
+        self.write({
+            'status': 'present',
+            'face_check_in': True,
+            'face_registration_id': face_registration_id,
+            'face_confidence': confidence,
+            'face_check_in_time': fields.Datetime.now(),
+        })
+        # Record usage on the face registration
+        self.env['oacis.face.registration'].browse(face_registration_id).record_usage()
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Check-in Successful'),
+                'message': _('Face recognized. Attendance marked as Present.'),
+                'type': 'success',
+                'sticky': False,
+            },
+        }
+
+    def action_clear_face_check_in(self):
+        """Admin action to clear face check-in data"""
+        self.ensure_one()
+        if not self.env.context.get('force_write_closed_session'):
+            if self.session_id.session_state == 'closed':
+                raise UserError(_('Cannot modify closed session records.'))
+        self.write({
+            'status': 'absent',
+            'face_check_in': False,
+            'face_registration_id': False,
+            'face_confidence': 0.0,
+            'face_check_in_time': False,
+        })

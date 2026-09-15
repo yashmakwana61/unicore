@@ -16,6 +16,7 @@ class OacisGuardianPortal(CustomerPortal):
             counters,
         )
         guardian = self._get_current_guardian()
+        values['oacis_is_guardian'] = bool(guardian)
         if guardian:
             wards = self._get_ward_relations(guardian)
             if 'oacis_wards' in counters:
@@ -438,7 +439,7 @@ class OacisGuardianPortal(CustomerPortal):
         )
 
         campus_ids = set()
-        for rel in self._get_student_wards(guardian):
+        for rel in self._get_ward_relations(guardian):
             if rel.student_id.campus_id:
                 campus_ids.add(rel.student_id.campus_id.id)
         campus_ids = list(campus_ids)

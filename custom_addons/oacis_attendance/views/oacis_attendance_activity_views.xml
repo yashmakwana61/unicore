@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
-
+<odoo noupdate="1">
     <!-- ============================================================
          Attendance Record Activities
          ============================================================ -->
-    
 
     <record id="oacis_attendance_record_activity_view" model="ir.ui.view">
         <field name="name">oacis.attendance.record.activity</field>

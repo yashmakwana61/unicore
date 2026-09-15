@@ -45,5 +45,20 @@
             <field name="perm_create" eval="False"/>
             <field name="perm_unlink" eval="False"/>
         </record>
+
+        <record id="model_oacis_overview_dashboard" model="ir.model">
+            <field name="name">Oacis Overview Dashboard</field>
+            <field name="model">oacis.overview.dashboard</field>
+        </record>
+
+        <record id="access_oacis_overview_dashboard_staff" model="ir.model.access">
+            <field name="name">oacis.overview.dashboard.staff</field>
+            <field name="model_id" ref="model_oacis_overview_dashboard"/>
+            <field name="group_id" ref="group_oacis_staff"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
     </data>
 </odoo>

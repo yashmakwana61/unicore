@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ========================================== -->
+        <!-- Wizard Form View                             -->
+        <!-- ========================================== -->
+        <record id="view_oacis_generate_timetable_wizard_form" model="ir.ui.view">
+            <field name="name">oacis.generate.timetable.wizard.form</field>
+            <field name="model">oacis.generate.timetable.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Generate Timetable">
+                    <sheet>
+                        <group string="Generation Parameters">
+                            <group>
+                                <field name="company_id" options="{'no_create': True}"/>
+                                <field name="semester_id" options="{'no_create': True}" required="1"/>
+                                <field name="campus_id" options="{'no_create': True}" required="1"/>
+                                <field name="program_id" options="{'no_create': True}"/>
+                            </group>
+                            <group>
+                                <field name="include_saturday"/>
+                                <field name="include_sunday"/>
+                                <field name="auto_confirm"/>
+                            </group>
+                        </group>
+                        <group string="Options">
+                            <group>
+                                <field name="skip_existing"/>
+                                <field name="clear_existing"/>
+                            </group>
+                        </group>
+                        <group string="Statistics" col="4">
+                            <field name="offering_count" readonly="1"/>
+                            <field name="required_sessions" readonly="1"/>
+                            <field name="scheduled_count" readonly="1"/>
+                            <field name="unscheduled_count" readonly="1"/>
+                        </group>
+                        <notebook>
+                            <page name="preview_lines" string="Preview (Editable)">
+                                <p class="text-muted">
+                                    Click Preview to auto-assign slots. You may edit Day, Time Slot, Room and Instructor before generating.
+                                    Warnings indicate capacity or overload issues — generation will still proceed but may fail on constraint.
+                                </p>
+                                <field name="preview_line_ids">
+                                    <list editable="bottom">
+                                        <field name="course_offering_id" readonly="1"/>
+                                        <field name="course_id" readonly="1" optional="hide"/>
+                                        <field name="day_of_week"/>
+                                        <field name="time_slot_id"/>
+                                        <field name="room_id"/>
+                                        <field name="instructor_id"/>
+                                        <field name="required_slot_type" readonly="1"/>
+                                        <field name="line_state" widget="badge" decoration-success="line_state == 'ok'" decoration-warning="line_state == 'warning'"/>
+                                        <field name="warning" readonly="1" optional="show"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page name="unscheduled_lines" string="Unscheduled">
+                                <field name="unscheduled_line_ids" readonly="1">
+                                    <list>
+                                        <field name="course_offering_id" readonly="1"/>
+                                        <field name="course_id" readonly="1" optional="hide"/>
+                                        <field name="required_slot_type" readonly="1"/>
+                                        <field name="reason" readonly="1"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <footer>
+                        <button name="action_preview" type="object" string="Preview" class="btn-primary" icon="fa-eye"/>
+                        <button name="action_generate" type="object" string="Generate Timetable" class="btn-primary" icon="fa-cogs"/>
+                        <button special="cancel" string="Close"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- Wizard Action                                -->
+        <!-- ========================================== -->
+        <record id="action_oacis_generate_timetable_wizard" model="ir.actions.act_window">
+            <field name="name">Generate Timetable</field>
+            <field name="res_model">oacis.generate.timetable.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{}</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- Server action entry on semester (optional)   -->
+        <!-- ========================================== -->
+
+    </data>
+</odoo>

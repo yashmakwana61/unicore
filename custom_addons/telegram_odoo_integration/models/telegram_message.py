@@ -28,6 +28,9 @@ class TelegramMessage(models.Model):
         ('error', 'Error'),
         ('order_created', 'Order Created'),
     ], string='Status', default='received', readonly=True, copy=False)
+    session_id = fields.Many2one(
+        'telegram.order.session', string='Order Session',
+        ondelete='set null', readonly=True)
     partner_id = fields.Many2one(
         'res.partner', string='Customer',
         ondelete='set null', readonly=True)

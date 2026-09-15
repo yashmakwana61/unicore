@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Fee dunning ladder: overdue flip + alerts + due-soon reminders -->
+        <record id="action_cron_fee_dunning" model="ir.actions.server">
+            <field name="name">OACIS: Fee Dunning (Overdue Flip + Alerts)</field>
+            <field name="model_id" ref="oacis_notify.model_oacis_notification_automation"/>
+            <field name="state">code</field>
+            <field name="code">env['oacis.notification.automation'].cron_fee_dunning()</field>
+        </record>
+        <record id="cron_oacis_fee_dunning" model="ir.cron">
+            <field name="name">OACIS: Fee Dunning (Overdue Flip + Alerts)</field>
+            <field name="ir_actions_server_id" ref="action_cron_fee_dunning"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).replace(hour=6, minute=15, second=0).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="priority">5</field>
+        </record>
+
+        <!-- Attendance shortage alerts -->
+        <record id="action_cron_attendance_shortage" model="ir.actions.server">
+            <field name="name">OACIS: Attendance Shortage Alerts</field>
+            <field name="model_id" ref="oacis_notify.model_oacis_notification_automation"/>
+            <field name="state">code</field>
+            <field name="code">env['oacis.notification.automation'].cron_attendance_shortage()</field>
+        </record>
+        <record id="cron_oacis_attendance_shortage" model="ir.cron">
+            <field name="name">OACIS: Attendance Shortage Alerts</field>
+            <field name="ir_actions_server_id" ref="action_cron_attendance_shortage"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).replace(hour=18, minute=0, second=0).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="priority">5</field>
+        </record>
+
+        <!-- Exam reminders (7 days ahead) -->
+        <record id="action_cron_exam_reminders" model="ir.actions.server">
+            <field name="name">OACIS: Exam Reminders</field>
+            <field name="model_id" ref="oacis_notify.model_oacis_notification_automation"/>
+            <field name="state">code</field>
+            <field name="code">env['oacis.notification.automation'].cron_exam_reminders(7)</field>
+        </record>
+        <record id="cron_oacis_exam_reminders" model="ir.cron">
+            <field name="name">OACIS: Exam Reminders</field>
+            <field name="ir_actions_server_id" ref="action_cron_exam_reminders"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).replace(hour=7, minute=0, second=0).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="priority">5</field>
+        </record>
+
+        <!-- Library reservation expiry -->
+        <record id="action_cron_library_housekeeping" model="ir.actions.server">
+            <field name="name">OACIS: Library Reservation Expiry</field>
+            <field name="model_id" ref="oacis_notify.model_oacis_notification_automation"/>
+            <field name="state">code</field>
+            <field name="code">env['oacis.notification.automation'].cron_library_housekeeping()</field>
+        </record>
+        <record id="cron_oacis_library_housekeeping" model="ir.cron">
+            <field name="name">OACIS: Library Reservation Expiry</field>
+            <field name="ir_actions_server_id" ref="action_cron_library_housekeeping"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).replace(hour=23, minute=0, second=0).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="priority">5</field>
+        </record>
+
+        <!-- Admission offer expiry -->
+        <record id="action_cron_admission_offer_expiry" model="ir.actions.server">
+            <field name="name">OACIS: Admission Offer Expiry</field>
+            <field name="model_id" ref="oacis_notify.model_oacis_notification_automation"/>
+            <field name="state">code</field>
+            <field name="code">env['oacis.notification.automation'].cron_admission_offer_expiry()</field>
+        </record>
+        <record id="cron_oacis_admission_offer_expiry" model="ir.cron">
+            <field name="name">OACIS: Admission Offer Expiry</field>
+            <field name="ir_actions_server_id" ref="action_cron_admission_offer_expiry"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).replace(hour=7, minute=30, second=0).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="priority">5</field>
+        </record>
+
+        <!-- Semester result pre-computation (weekly) -->
+        <record id="action_cron_generate_semester_results" model="ir.actions.server">
+            <field name="name">OACIS: Generate Semester Results (Drafts)</field>
+            <field name="model_id" ref="oacis_notify.model_oacis_notification_automation"/>
+            <field name="state">code</field>
+            <field name="code">env['oacis.notification.automation'].cron_generate_semester_results()</field>
+        </record>
+        <record id="cron_oacis_generate_semester_results" model="ir.cron">
+            <field name="name">OACIS: Generate Semester Results (Drafts)</field>
+            <field name="ir_actions_server_id" ref="action_cron_generate_semester_results"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">weeks</field>
+            <field name="active">True</field>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).replace(hour=2, minute=0, second=0).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="priority">5</field>
+        </record>
+
+    </data>
+</odoo>

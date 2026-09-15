@@ -145,35 +145,90 @@ class OacisFinanceKPI(models.Model):
         refresh button and cron job.
         """
         today = date.today()
-        Invoice = self.env['oacis.fee.invoice']
-        Payment = self.env['oacis.fee.payment']
-        Award = self.env['oacis.scholarship.award']
 
-        inv_domain = [
-            ('company_id', '=', company_id),
-            ('invoice_state', 'not in',
-             ['draft', 'cancelled']),
-        ]
-        if semester_id:
-            inv_domain.append(
-                ('semester_id', '=', semester_id),
-            )
+        # Aggregate in SQL: avoids full recordset loads and
+        # counts distinct students correctly; for legacy
+        # payments it also includes archived rows that the
+        # ORM search silently drops.
+        semester_clause = (
+            ' AND semester_id = %s' if semester_id else ''
+        )
+        inv_params = [company_id] + (
+            [semester_id] if semester_id else []
+        )
+        self.env.cr.execute(
+            """
+            SELECT
+                COALESCE(SUM(total_amount), 0),
+                COALESCE(SUM(amount_outstanding), 0),
+                COUNT(DISTINCT CASE WHEN invoice_state
+                    = 'paid' THEN student_id END),
+                COUNT(DISTINCT CASE WHEN invoice_state
+                    = 'overdue' THEN student_id END)
+            FROM oacis_fee_invoice
+            WHERE company_id = %s
+              AND invoice_state NOT IN ('draft', 'cancelled')
+            """ + semester_clause,
+            inv_params,
+        )
+        (total_billed,
+         total_outstanding,
+         paid_student_count,
+         overdue_student_count) = self.env.cr.fetchone()
 
-        invoices = Invoice.search(inv_domain)
-        confirmed_payments = Payment.search([
-            ('company_id', '=', company_id),
-            ('payment_state', '=', 'confirmed'),
-        ])
+        self.env.cr.execute(
+            """
+            SELECT COALESCE(SUM(collected), 0)
+            FROM (
+                SELECT CASE
+                    WHEN fi.account_move_id IS NOT NULL
+                        THEN GREATEST(
+                            fi.total_amount
+                            - fi.amount_outstanding, 0)
+                    ELSE COALESCE((
+                        SELECT SUM(fp.amount)
+                        FROM oacis_fee_payment fp
+                        WHERE fp.invoice_id = fi.id
+                          AND fp.payment_state
+                              = 'confirmed'
+                    ), 0)
+                END AS collected
+                FROM oacis_fee_invoice fi
+                WHERE fi.company_id = %s
+                  AND fi.invoice_state NOT IN
+                      ('draft', 'cancelled')
+            """ + (
+                " AND fi.semester_id = %s"
+                if semester_id else ""
+            ) + """
+            ) sub
+            """,
+            [company_id] + (
+                [semester_id] if semester_id else []
+            ),
+        )
+        # GL-aware collection total: reconciled residual for
+        # GL invoices, confirmed legacy receipts otherwise.
+        total_collected = self.env.cr.fetchone()[0]
 
-        total_billed = sum(
-            i.total_amount for i in invoices
+        self.env.cr.execute(
+            """
+            SELECT
+                COALESCE(SUM(CASE WHEN payment_method
+                    = 'cash' THEN amount ELSE 0 END), 0),
+                COALESCE(SUM(CASE WHEN payment_method IN
+                    ('online', 'upi', 'card')
+                    THEN amount ELSE 0 END), 0),
+                COALESCE(SUM(CASE WHEN payment_method IN
+                    ('bank_transfer', 'cheque', 'dd')
+                    THEN amount ELSE 0 END), 0)
+            FROM oacis_fee_payment
+            WHERE company_id = %s
+              AND payment_state = 'confirmed'
+            """,
+            [company_id],
         )
-        total_collected = sum(
-            p.amount for p in confirmed_payments
-        )
-        total_outstanding = sum(
-            i.amount_outstanding for i in invoices
-        )
+        (cash, online, bank) = self.env.cr.fetchone()
         collection_efficiency = (
             round(
                 total_collected / total_billed * 100, 2,
@@ -181,35 +236,34 @@ class OacisFinanceKPI(models.Model):
             if total_billed > 0 else 0.0
         )
 
-        paid_students = invoices.filtered(
-            lambda i: i.invoice_state == 'paid',
-        ).mapped('student_id')
-        overdue_students = invoices.filtered(
-            lambda i: i.invoice_state == 'overdue',
-        ).mapped('student_id')
-
-        awards = Award.search([
-            ('company_id', '=', company_id),
-            ('award_state', '=', 'disbursed'),
-        ])
-        scholarship_students = set(
-            awards.mapped('student_id').ids,
-        )
-
-        cash = sum(
-            p.amount for p in confirmed_payments
-            if p.payment_method == 'cash'
-        )
-        online = sum(
-            p.amount for p in confirmed_payments
-            if p.payment_method in ('online', 'upi', 'card')
-        )
-        bank = sum(
-            p.amount for p in confirmed_payments
-            if p.payment_method in ('bank_transfer',
-                                     'cheque', 'dd')
-        )
         other = total_collected - cash - online - bank
+
+        self.env.cr.execute(
+            """
+            SELECT COALESCE(SUM(award_amount), 0),
+                   COUNT(DISTINCT student_id)
+            FROM oacis_scholarship_award
+            WHERE company_id = %s
+              AND award_state = 'disbursed'
+            """,
+            [company_id],
+        )
+        scholarship_total, scholarship_students_len = (
+            self.env.cr.fetchone()
+        )
+
+        self.env.cr.execute(
+            """
+            SELECT COUNT(DISTINCT student_id)
+            FROM oacis_fee_invoice
+            WHERE company_id = %s
+              AND invoice_state NOT IN ('draft', 'cancelled')
+            """ + semester_clause,
+            inv_params,
+        )
+        billed_student_count = (
+            self.env.cr.fetchone()[0]
+        )
 
         company = self.env['res.company'].browse(
             company_id,
@@ -220,22 +274,22 @@ class OacisFinanceKPI(models.Model):
             'company_id': company_id,
             'semester_id': semester_id or False,
             'currency_id': company.currency_id.id,
-            'total_billed': total_billed,
-            'total_collected': total_collected,
-            'total_outstanding': total_outstanding,
+            'total_billed': float(total_billed),
+            'total_collected': float(total_collected),
+            'total_outstanding': float(total_outstanding),
             'collection_efficiency': collection_efficiency,
-            'total_students_billed': len(invoices),
-            'total_students_paid': len(paid_students),
-            'total_students_overdue': len(
-                overdue_students,
+            'total_students_billed': billed_student_count,
+            'total_students_paid': paid_student_count,
+            'total_students_overdue': (
+                overdue_student_count
             ),
-            'total_students_scholarship': len(
-                scholarship_students,
+            'total_students_scholarship': (
+                scholarship_students_len
             ),
-            'cash_collected': cash,
-            'online_collected': online,
-            'bank_transfer_collected': bank,
-            'other_collected': other,
+            'cash_collected': float(cash),
+            'online_collected': float(online),
+            'bank_transfer_collected': float(bank),
+            'other_collected': float(other),
         }
 
         existing = self.search([

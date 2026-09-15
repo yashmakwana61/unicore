@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_studio_version_list" model="ir.ui.view">
+        <field name="name">studio.version.list</field>
+        <field name="model">studio.version</field>
+        <field name="arch" type="xml">
+            <list string="Version History (Phase 8: branching, diff)">
+                <field name="app_id"/>
+                <field name="name"/>
+                <field name="branch" optional="show"/>
+                <field name="dsl_hash"/>
+                <field name="parent_id" optional="show"/>
+                <field name="changelog" optional="show"/>
+                <field name="create_date"/>
+                <field name="user_id" optional="hide"/>
+                <button name="action_rollback" string="Rollback" type="object" icon="fa-undo" class="oe_highlight"/>
+                <button name="action_compare" string="Compare" type="object" icon="fa-exchange"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_studio_version_form" model="ir.ui.view">
+        <field name="name">studio.version.form</field>
+        <field name="model">studio.version</field>
+        <field name="arch" type="xml">
+            <form string="Version">
+                <header>
+                    <button name="action_rollback" string="Rollback to this Version" type="object" class="oe_highlight"/>
+                    <button name="action_compare" string="Compare with Parent" type="object"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="app_id" readonly="1"/>
+                        <field name="name"/>
+                        <field name="branch"/>
+                        <field name="parent_id" readonly="1" options="{'no_create': True}"/>
+                        <field name="dsl_hash" readonly="1"/>
+                        <field name="user_id" readonly="1"/>
+                        <field name="create_date" readonly="1"/>
+                    </group>
+                    <group string="Changelog"><field name="changelog" readonly="1" nolabel="1"/></group>
+                    <group string="Diff (vs Parent)"><field name="diff_json" widget="ace" options="{'mode':'json'}" readonly="1" nolabel="1"/></group>
+                    <group string="DSL Snapshot"><field name="dsl_json" widget="ace" options="{'mode':'json'}" readonly="1" nolabel="1"/></group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_studio_version" model="ir.actions.act_window">
+        <field name="name">Version History</field>
+        <field name="res_model">studio.version</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

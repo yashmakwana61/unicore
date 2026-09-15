@@ -1,25 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <data>
+<odoo noupdate="1">
 
-        <!-- ========================================================= -->
-        <!-- Attendance Record Calendar                                 -->
-        <!-- session_date is a related Date field (no end date).        -->
-        <!-- ========================================================= -->
-        
+    <!-- ============================================================
+         Attendance Session Analysis
+         ============================================================ -->
 
-        <record id="oacis_attendance_record_calendar_view" model="ir.ui.view">
-            <field name="name">oacis.attendance.record.calendar</field>
-            <field name="model">oacis.attendance.record</field>
-            <field name="arch" type="xml">
-                <calendar date_start="session_date" color="color" string="Attendance Record Calendar">
-                    <field name="student_id"/>
-                    <field name="session_id"/>
-                    <field name="course_offering_id"/>
-                    <field name="status"/>
-                </calendar>
-            </field>
-        </record>
+    <record id="oacis_attendance_session_pivot_view" model="ir.ui.view">
+        <field name="name">oacis.attendance.session.pivot</field>
+        <field name="model">oacis.attendance.session</field>
+        <field name="arch" type="xml">
+            <pivot string="Attendance Session Analysis">
+                <field name="session_state" type="row"/>
+                <field name="total_students" type="measure"/>
+                <field name="present_count" type="measure"/>
+                <field name="attendance_percentage" type="measure"/>
+            </pivot>
+        </field>
+    </record>
 
-    </data>
+    <record id="oacis_attendance_session_graph_view" model="ir.ui.view">
+        <field name="name">oacis.attendance.session.graph</field>
+        <field name="model">oacis.attendance.session</field>
+        <field name="arch" type="xml">
+            <graph string="Attendance Session Analysis" type="bar">
+                <field name="course_offering_id" type="row"/>
+                <field name="attendance_percentage" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Attendance Record Analysis
+         ============================================================ -->
+
+    <record id="oacis_attendance_record_pivot_view" model="ir.ui.view">
+        <field name="name">oacis.attendance.record.pivot</field>
+        <field name="model">oacis.attendance.record</field>
+        <field name="arch" type="xml">
+            <pivot string="Attendance Record Analysis">
+                <field name="status" type="row"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="oacis_attendance_record_graph_view" model="ir.ui.view">
+        <field name="name">oacis.attendance.record.graph</field>
+        <field name="model">oacis.attendance.record</field>
+        <field name="arch" type="xml">
+            <graph string="Attendance Record Analysis" type="bar">
+                <field name="status" type="row"/>
+            </graph>
+        </field>
+    </record>
+
 </odoo>

@@ -44,5 +44,12 @@
                   sequence="40"
                   groups="oacis_base.group_oacis_faculty,base.group_system"/>
 
+        <menuitem id="menu_oacis_generate_timetable"
+                  name="Generate Timetable"
+                  parent="menu_oacis_timetable"
+                  action="action_oacis_generate_timetable_wizard"
+                  sequence="25"
+                  groups="oacis_base.group_oacis_registrar,oacis_base.group_oacis_manager,oacis_base.group_oacis_admin"/>
+
     </data>
 </odoo>

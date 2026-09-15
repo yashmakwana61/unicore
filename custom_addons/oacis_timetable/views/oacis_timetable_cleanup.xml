@@ -8,6 +8,7 @@
     <delete model="ir.actions.act_window" id="action_oacis_room_booking_kanban"/>
     <delete model="ir.actions.act_window" id="action_oacis_time_slot_kanban"/>
     <delete model="ir.actions.act_window" id="action_oacis_timetable_entry_calendar"/>
+    <delete model="ir.actions.act_window" id="action_oacis_generate_timetable_from_entries"/>
 
     <delete model="ir.ui.menu" id="menu_oacis_room_booking_board"/>
     <delete model="ir.ui.menu" id="menu_oacis_room_booking_calendar"/>

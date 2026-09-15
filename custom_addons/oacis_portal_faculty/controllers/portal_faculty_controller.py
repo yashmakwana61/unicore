@@ -32,6 +32,7 @@ class OacisFacultyPortal(CustomerPortal):
             counters,
         )
         faculty = self._get_current_faculty()
+        values['oacis_is_faculty'] = bool(faculty)
         if faculty:
             if 'oacis_faculty_courses' in counters:
                 values['oacis_faculty_courses'] = (

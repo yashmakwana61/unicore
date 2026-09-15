@@ -23,6 +23,7 @@
     'data': [
         'security/ir.model.access.csv',
         'views/oacis_notice_views.xml',
+        'views/oacis_notice_portal_templates.xml',
         'menus/oacis_notice_menus.xml',
     ],
     'installable': True,

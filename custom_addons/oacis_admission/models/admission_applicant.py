@@ -23,6 +23,26 @@ class AdmissionApplicant(models.Model):
         ],
         string='Gender', required=True,
     )
+    admission_category = fields.Selection(
+        selection=[
+            ('general', 'General'),
+            ('obc', 'OBC'),
+            ('sc', 'SC'),
+            ('st', 'ST'),
+            ('ews', 'EWS'),
+            ('pwd', 'PwD'),
+            ('nri', 'NRI'),
+            ('other', 'Other'),
+        ],
+        string='Admission Category',
+        groups='oacis_base.group_oacis_registrar,'
+               'oacis_base.group_oacis_manager,'
+               'oacis_base.group_oacis_admin',
+        tracking=True,
+        help='Reservation category used for admission '
+             'analytics. Visible to registrars and managers '
+             'only.',
+    )
     date_of_birth = fields.Date(string='Date of Birth', required=True, tracking=True)
     nationality_id = fields.Many2one(comodel_name='res.country', string='Nationality')
     image_1920 = fields.Binary(string='Photo', attachment=True)

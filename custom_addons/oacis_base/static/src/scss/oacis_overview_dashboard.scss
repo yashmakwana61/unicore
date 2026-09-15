@@ -1,0 +1,25 @@
+.o_oacis_overview_dashboard {
+    background: #f8f9fa;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: block;
+    // Ensure client action can scroll – Odoo's o_action has overflow hidden
+    .kpi-card {
+        transition: transform 0.12s ease, box-shadow 0.12s ease;
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15) !important;
+        }
+    }
+    canvas {
+        max-height: 300px;
+    }
+}
+
+// Force scroll on web client wrapper for this action
+.o_action:has(.o_oacis_overview_dashboard) {
+    overflow-y: auto !important;
+    height: 100%;
+    display: block;
+}

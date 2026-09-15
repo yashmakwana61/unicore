@@ -223,6 +223,20 @@ class OacisSemesterResult(models.Model):
                  % (self.semester_gpa,
                     self.result_status),
         )
+        # Notify student + guardians that results are out.
+        if 'oacis.notification.engine' in self.env:
+            self.env['oacis.notification.engine']._safe_emit(
+                self.student_id,
+                'result_published',
+                {
+                    'course_name': (
+                        self.semester_id.name
+                        or _('Semester Results')
+                    ),
+                    'grade': str(self.semester_gpa or ''),
+                },
+                include_guardians=True,
+            )
 
     def action_withhold(self):
         self.ensure_one()

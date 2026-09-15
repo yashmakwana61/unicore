@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+    <!-- Phase 3: OWL templates for Studio Builder -->
+    <t t-name="oacis_studio.BuilderPlaceholder">
+        <div class="o_studio_builder_placeholder alert alert-info m-4">
+            Forge Studio Builder — Phase 3 (View Builder) will mount here. See docs/studio_plan.md §5.
+        </div>
+    </t>
+</templates>

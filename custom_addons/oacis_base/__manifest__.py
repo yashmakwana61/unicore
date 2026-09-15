@@ -18,12 +18,21 @@
         'security/oacis_security.xml',
         'views/oacis_campus_views.xml',
         'views/res_company_views.xml',
+        'views/oacis_overview_dashboard_views.xml',
         'menus/oacis_base_menus.xml',
         'views/oacis_base_view_mode_ext.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'oacis_base/static/src/scss/oacis_overview_dashboard.scss',
+            'oacis_base/static/src/xml/oacis_overview_dashboard.xml',
+            'oacis_base/static/src/js/oacis_overview_dashboard.js',
+        ],
+    },
     'images': ['static/description/icon.png'],
     'web_icon': 'oacis_base,static/description/icon.png',
     'installable': True,
     'application': True,
     'auto_install': False,
+    'post_init_hook': 'post_init_hook',
 }

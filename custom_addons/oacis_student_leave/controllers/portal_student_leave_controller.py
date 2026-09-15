@@ -114,6 +114,23 @@ class OacisStudentLeavePortal(CustomerPortal):
             ])
         )
 
+    def _get_viewable_student_ids(self):
+        """IDs of students whose leave requests the current
+        user may access: self (student) or active wards
+        (guardian). Empty set for everyone else."""
+        student = self._get_current_student()
+        if student:
+            return {student.id}
+        guardian = self._get_current_guardian()
+        if guardian:
+            ward_relations = self._get_ward_relations(
+                guardian,
+            )
+            return set(
+                ward_relations.mapped('student_id').ids
+            )
+        return set()
+
     def _get_viewable_leave_requests(self):
         """Determine which leave requests the current
         user can view based on role."""
@@ -261,11 +278,30 @@ class OacisStudentLeavePortal(CustomerPortal):
                 '?error=Please+fill+all+required+fields',
             )
 
-        # Find the student record
+        # Find the student record and enforce that it is
+        # the current student or one of the guardian's
+        # active wards (never trust the form value alone).
+        try:
+            requested_id = int(student_id)
+        except (TypeError, ValueError):
+            return request.redirect(
+                '/my/oacis/student/leave/new'
+                '?error=Invalid+student+selected',
+            )
+        if requested_id not in self._get_viewable_student_ids():
+            _logger.warning(
+                'Leave portal: user %s tried to submit a '
+                'request for inaccessible student %s',
+                request.env.user.id, requested_id,
+            )
+            return request.redirect(
+                '/my/oacis/student/leave/new'
+                '?error=Invalid+student+selected',
+            )
         target_student = (
             request.env['oacis.student']
             .sudo()
-            .browse(int(student_id))
+            .browse(requested_id)
         )
         if not target_student.exists():
             return request.redirect(
@@ -313,8 +349,14 @@ class OacisStudentLeavePortal(CustomerPortal):
                 uploaded = request.httprequest.files[
                     'supporting_document'
                 ]
+                content = uploaded.read()
+                request.env['oacis.upload.validator'].validate_upload(
+                    uploaded.filename or '',
+                    content,
+                    field_label=_('supporting document'),
+                )
                 leave_request.sudo().write({
-                    'supporting_document': uploaded.read(),
+                    'supporting_document': content,
                     'supporting_document_name': (
                         uploaded.filename
                     ),
@@ -364,6 +406,20 @@ class OacisStudentLeavePortal(CustomerPortal):
             .browse(leave_id)
         )
         if not leave_request.exists():
+            raise NotFound(
+                _('Leave request not found.'),
+            )
+        # Ownership check: the request must belong to the
+        # current student or to a guardian's active ward.
+        if (
+            leave_request.student_id.id
+            not in self._get_viewable_student_ids()
+        ):
+            _logger.warning(
+                'Leave portal: user %s tried to access '
+                'leave request %s without access',
+                request.env.user.id, leave_id,
+            )
             raise NotFound(
                 _('Leave request not found.'),
             )

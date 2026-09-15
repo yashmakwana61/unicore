@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_studio_shell" model="ir.actions.client">
+        <field name="name">Forge Studio (Contextual)</field>
+        <field name="tag">studio.shell</field>
+    </record>
+    <!-- Contextual entry for every oacis.* is handled generically via JS injector
+         static/src/js/studio_contextual.js — no per-model XML needed.
+         This avoids 50+ view extensions and Model not found errors. -->
+</odoo>

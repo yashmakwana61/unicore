@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<odoo noupdate="1">
+<odoo>
+    <data noupdate="1">
     <record id="seq_oacis_bonafide" model="ir.sequence">
         <field name="name">Bonafide Certificate</field>
         <field name="code">oacis.bonafide.certificate</field>
@@ -8,4 +9,5 @@
         <field name="number_next">1</field>
         <field name="company_id" eval="False"/>
     </record>
+    </data>
 </odoo>

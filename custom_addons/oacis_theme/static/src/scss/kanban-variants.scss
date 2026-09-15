@@ -1,0 +1,88 @@
+// ============================================
+// Kanban Variants - Card Layout Configurations
+// ============================================
+
+// 1. Profile Card (Students, Faculty, Employees)
+// Focuses on the Avatar and core personal info
+.oacis-kanban-profile {
+    flex-direction: row !important;
+    align-items: center;
+    gap: 16px;
+    
+    .oacis-profile-avatar {
+        flex-shrink: 0;
+    }
+    
+    .oacis-profile-details {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+    }
+}
+
+// 2. Workflow Card (Admissions, Approvals)
+// Focuses on Status, Stages, and Deadlines
+.oacis-kanban-workflow {
+    .oacis-workflow-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 8px;
+    }
+    
+    .oacis-workflow-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid var(--uc-border-light);
+    }
+}
+
+// 3. Document Card (Transcripts, Certificates)
+// Focuses on File Type Icon and Status
+.oacis-kanban-document {
+    .oacis-document-icon {
+        font-size: 32px;
+        color: var(--uc-text-muted);
+        margin-bottom: 8px;
+    }
+    
+    .oacis-document-status {
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+    }
+}
+
+// 4. Financial Card (Invoices, Fees)
+// Focuses on Amount and Payment Status
+.oacis-kanban-financial {
+    .oacis-financial-amount {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--uc-text-heading);
+        margin: 8px 0;
+    }
+    
+    .oacis-financial-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: auto;
+    }
+}
+
+// 5. Academic Card (Courses, Assignments)
+// Focuses on Metadata (Credits, Department, Faculty)
+.oacis-kanban-academic {
+    .oacis-academic-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 8px;
+    }
+}

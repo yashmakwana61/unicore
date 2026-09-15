@@ -205,43 +205,41 @@
                 <field name="application_number"/>
                 <templates>
                     <t t-name="card">
-                        <div class="oe_kanban_card">
-                            <div class="oe_kanban_card_header">
-                                <strong>
-                                    <t t-esc="record.name.value"/>
-                                </strong>
-                                <span class="oe_kanban_badge">
-                                    <t t-esc="record.rank.value"/>
-                                </span>
-                                <span class="oe_kanban_badge">
+                        <div class="oacis-kanban-workflow w-100 h-100 d-flex flex-column">
+                            <div class="oacis-workflow-header">
+                                <div>
+                                    <div class="oacis-kanban-title"><t t-esc="record.name.value"/></div>
+                                    <div class="oacis-kanban-subtitle"><t t-esc="record.application_number.value"/></div>
+                                </div>
+                                <div class="oacis-badge oacis-status-info">
                                     <t t-esc="record.stage_id.value"/>
-                                </span>
+                                </div>
                             </div>
-                            <div class="oe_kanban_card_body">
-                                <div class="oe_kanban_field_line">
-                                    <span>App #:</span>
-                                    <t t-esc="record.application_number.value"/>
+                            
+                            <div class="flex-grow-1 mt-2">
+                                <div class="oacis-meta-row mb-1">
+                                    <i class="fa fa-graduation-cap"/> 
+                                    <span class="text-truncate"><t t-esc="record.program_id.value"/></span>
                                 </div>
-                                <div class="oe_kanban_field_line">
-                                    <span>Program:</span>
-                                    <t t-esc="record.program_id.value"/>
+                                <div class="oacis-meta-row mb-1">
+                                    <i class="fa fa-envelope"/> 
+                                    <span class="text-truncate"><t t-esc="record.email.value"/></span>
                                 </div>
-                                <div class="oe_kanban_field_line">
-                                    <span>Score:</span>
-                                    <t t-if="record.composite_score.value != undefined &amp;&amp; record.composite_score.value != null">
-                                        <span class="badge badge-info">
+                            </div>
+                            
+                            <div class="oacis-workflow-footer">
+                                <div>
+                                    <span class="text-muted" style="font-size: 11px;">Rank</span>
+                                    <strong class="d-block"><t t-esc="record.rank.value"/></strong>
+                                </div>
+                                <div class="text-end">
+                                    <span class="text-muted" style="font-size: 11px;">Score</span>
+                                    <strong class="d-block text-primary">
+                                        <t t-if="record.composite_score.value != undefined &amp;&amp; record.composite_score.value != null">
                                             <t t-esc="record.composite_score.value"/>
-                                        </span>
-                                    </t>
-                                </div>
-                                <div class="oe_kanban_field_line">
-                                    <span>Gender:</span>
-                                    <t t-esc="record.gender.value"/>
-                                </div>
-                                <div class="oe_kanban_field_line">
-                                    <small>
-                                        <t t-esc="record.email.value"/>
-                                    </small>
+                                        </t>
+                                        <t t-else="">-</t>
+                                    </strong>
                                 </div>
                             </div>
                         </div>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+<t t-name="oacis_studio.StudioAICopilot">
+    <div class="o_forge_shell h-100 d-flex flex-column" style="font-family:Inter,-apple-system,sans-serif;">
+        <!-- Header -->
+        <div class="o_forge_header">
+            <div class="o_forge_header_section o_forge_header_section--left">
+                <button class="o_forge_btn o_forge_btn--ghost o_forge_btn--sm" t-on-click="goToShell">
+                    <i class="fa fa-arrow-left"/> Back to Studio
+                </button>
+                <div class="o_forge_separator"/>
+                <span class="o_forge_breadcrumb"><b>Ask Forge</b> — AI Copilot</span>
+            </div>
+            <div class="o_forge_header_section o_forge_header_section--right">
+                <span class="o_forge_badge o_forge_badge--model">Tool-constrained · RAG · Human Approval</span>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="d-flex flex-grow-1 overflow-hidden" style="min-height:0;">
+            <!-- Main area -->
+            <div class="flex-grow-1 d-flex flex-column" style="background:#f8fafc;">
+                <!-- Prompt area -->
+                <div class="p-3" style="border-bottom:1px solid #e2e8f0;">
+                    <div class="o_forge_field_item" style="padding:8px 12px; border:1px solid #e2e8f0; border-radius:6px; background:white; cursor:default;">
+                        <i class="fa fa-magic" style="color:#7c3aed;"/>
+                        <input type="text" class="o_forge_prop_input"
+                               style="border:none; outline:none; flex:1; font-size:13px;"
+                               placeholder="e.g., Create a scholarship management app, Add attendance tracking..."
+                               t-att-value="state.prompt"
+                               t-on-input="(ev) => this.state.prompt = ev.target.value"
+                               t-on-keydown="onKeydown"/>
+                        <button class="o_forge_btn o_forge_btn--accent o_forge_btn--sm" t-on-click="askForge" t-att-disabled="!isReady or state.loading">
+                            <t t-if="state.loading"><i class="fa fa-spinner fa-spin"/> Thinking…</t>
+                            <t t-else=""><i class="fa fa-paper-plane"/> Ask</t>
+                        </button>
+                    </div>
+                    <div class="mt-1" style="font-size:11px; color:#94a3b8;">
+                        Try: "Create a scholarship system" · "Add attendance tracking" · "Build a transport route app"
+                    </div>
+                </div>
+
+                <!-- Error -->
+                <t t-if="state.error">
+                    <div class="m-3 p-2 rounded" style="background:#fef2f2; border:1px solid #fecaca; color:#991b1b; font-size:12px;">
+                        <i class="fa fa-exclamation-triangle me-1"/>
+                        <t t-esc="state.error"/>
+                    </div>
+                </t>
+
+                <!-- Results -->
+                <t t-if="state.result">
+                    <div class="flex-grow-1 overflow-auto p-3">
+                        <div class="row g-3">
+                            <!-- Checklist -->
+                            <div class="col-lg-4">
+                                <div style="background:white; border:1px solid #e2e8f0; border-radius:6px; overflow:hidden;">
+                                    <div class="px-3 py-2 fw-bold" style="font-size:12px; border-bottom:1px solid #e2e8f0; background:#f8fafc;">
+                                        Proposal Checklist
+                                        <span class="o_forge_badge o_forge_badge--saved ms-1" t-esc="state.checklist.length + ' items'"/>
+                                    </div>
+                                    <div style="max-height:300px; overflow:auto;">
+                                        <t t-foreach="state.checklist" t-as="item" t-key="item_index">
+                                            <div class="px-3 py-1" style="font-size:12px; border-bottom:1px solid #f1f5f9;">
+                                                <t t-esc="item"/>
+                                            </div>
+                                        </t>
+                                    </div>
+                                    <div class="px-3 py-2 d-flex gap-2" style="border-top:1px solid #e2e8f0;">
+                                        <button class="o_forge_btn o_forge_btn--sm flex-grow-1" t-on-click="applyToPreview">
+                                            <i class="fa fa-eye me-1"/> Apply to Preview
+                                        </button>
+                                        <button class="o_forge_btn o_forge_btn--primary o_forge_btn--sm flex-grow-1" t-on-click="publish">
+                                            <i class="fa fa-check me-1"/> Approve &amp; Publish
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- DSL -->
+                            <div class="col-lg-4">
+                                <div style="background:white; border:1px solid #e2e8f0; border-radius:6px; overflow:hidden;">
+                                    <div class="px-3 py-2 fw-bold" style="font-size:12px; border-bottom:1px solid #e2e8f0; background:#f8fafc;">
+                                        DSL Output
+                                    </div>
+                                    <pre class="m-0 p-3" style="max-height:360px; overflow:auto; font-size:10px; background:#f8fafc; color:#334155;" t-esc="dslJson"/>
+                                </div>
+                            </div>
+
+                            <!-- Preview -->
+                            <div class="col-lg-4">
+                                <div style="background:white; border:1px solid #e2e8f0; border-radius:6px; overflow:hidden;">
+                                    <div class="px-3 py-2 fw-bold" style="font-size:12px; border-bottom:1px solid #e2e8f0; background:#f8fafc;">
+                                        Preview
+                                    </div>
+                                    <pre class="m-0 p-3" style="max-height:360px; overflow:auto; font-size:10px; background:#1e293b; color:#e2e8f0;" t-esc="previewJson"/>
+                                    <div class="px-3 py-2" style="font-size:11px; border-top:1px solid #e2e8f0; color:#64748b;">
+                                        Valid: <b t-esc="state.result.valid ? 'Yes' : 'No'"/>
+                                        · <t t-esc="state.result.elapsed_ms"/>ms
+                                        · Request #<t t-esc="state.requestId"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+
+                <!-- Empty state -->
+                <t t-if="!state.result &amp;&amp; !state.error">
+                    <div class="flex-grow-1 d-flex align-items-center justify-content-center p-4">
+                        <div class="text-center" style="max-width:400px;">
+                            <div style="font-size:48px; margin-bottom:12px;">✨</div>
+                            <h5 style="font-weight:600; color:#1e293b;">Ask Forge</h5>
+                            <p style="font-size:13px; color:#64748b;">
+                                Type natural language to create apps, modify views, add fields, or design workflows.
+                                AI proposes changes, you preview and approve.
+                            </p>
+                            <div class="d-flex flex-wrap gap-2 justify-content-center mt-3">
+                                <button class="o_forge_btn o_forge_btn--sm" t-on-click="() => { this.state.prompt = 'Create a scholarship management system'; this.askForge(); }">Scholarship App</button>
+                                <button class="o_forge_btn o_forge_btn--sm" t-on-click="() => { this.state.prompt = 'Add attendance tracking to student model'; this.askForge(); }">Attendance Tracking</button>
+                                <button class="o_forge_btn o_forge_btn--sm" t-on-click="() => { this.state.prompt = 'Create a transport route app'; this.askForge(); }">Transport Routes</button>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </div>
+</t>
+</templates>

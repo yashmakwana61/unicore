@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_studio_field_list" model="ir.ui.view">
+        <field name="name">studio.field.list</field>
+        <field name="model">studio.field</field>
+        <field name="arch" type="xml">
+            <list string="Field Palette">
+                <field name="model_id"/>
+                <field name="sequence" widget="handle"/>
+                <field name="key"/>
+                <field name="tech_name" optional="hide"/>
+                <field name="label"/>
+                <field name="ttype" widget="badge"/>
+                <field name="relation_model" optional="show"/>
+                <field name="required" widget="boolean_toggle"/>
+                <field name="active" widget="boolean_toggle" optional="hide"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_studio_field_form" model="ir.ui.view">
+        <field name="name">studio.field.form</field>
+        <field name="model">studio.field</field>
+        <field name="arch" type="xml">
+            <form string="Field Palette">
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        V1 types: char/text/html/integer/float/monetary/boolean/date/datetime/selection/many2one/one2many/many2many/image/binary/attachment/reference/related. Relations: <code>oacis.student</code>, <code>account.move</code>, or another Studio <code>x_</code> model.
+                    </div>
+                    <group>
+                        <field name="model_id" options="{'no_create': True}"/>
+                        <field name="key" placeholder="amount"/>
+                        <field name="tech_name" placeholder="x_amount"/>
+                        <field name="label"/>
+                        <field name="ttype"/>
+                        <field name="relation_model" invisible="ttype not in ['many2one','one2many','many2many']" placeholder="oacis.student"/>
+                        <field name="selection_json" invisible="ttype != 'selection'" widget="ace" options="{'mode':'json'}"/>
+                        <field name="compute_expr" placeholder="For formula/related"/>
+                        <field name="sequence"/>
+                        <field name="required"/>
+                        <field name="readonly"/>
+                        <field name="help_text"/>
+                        <field name="groups" placeholder="oacis_studio.group_studio_admin"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_studio_field_search" model="ir.ui.view">
+        <field name="name">studio.field.search</field>
+        <field name="model">studio.field</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="model_id"/>
+                <field name="key"/>
+                <field name="ttype"/>
+                <filter string="Required" name="required" domain="[('required','=',True)]"/>
+                <filter string="Relations" name="relations" domain="[('relation_model','!=',False)]"/>
+            </search>
+        </field>
+    </record>
+    <record id="action_studio_field" model="ir.actions.act_window">
+        <field name="name">Studio Fields</field>
+        <field name="res_model">studio.field</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

@@ -1,8 +1,19 @@
+import hashlib
 import secrets
+import time
 from datetime import date, datetime
 
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessDenied
+
+
+class ApiKeyQuotaExceeded(Exception):
+    """Raised when an API key exhausts its daily call limit.
+
+    Distinct from AccessDenied so controllers can answer HTTP 429
+    (with Retry-After) instead of masking the condition as a bad
+    credential (401).
+    """
 
 
 class OacisApiKey(models.Model):
@@ -25,11 +36,17 @@ class OacisApiKey(models.Model):
         ondelete='cascade',
         tracking=True,
     )
-    token = fields.Char(
-        string='API Token',
+    # Only a SHA-256 fingerprint is persisted; the full secret is
+    # shown exactly once via oacis.api.key.token.wizard right after
+    # generation and validated afterwards through its hash.
+    token_hash = fields.Char(
+        string='Key Hash',
         readonly=True,
         copy=False,
+        index=True,
         groups='oacis_api.group_oacis_api_admin',
+        help='SHA-256 fingerprint of the key. The plaintext secret '
+             'is never stored.',
     )
     scope = fields.Selection(
         string='Access Scope',
@@ -77,42 +94,72 @@ class OacisApiKey(models.Model):
     )
 
     _sql_constraints = [
-        ('unique_token',
-         'UNIQUE(token)',
-         'An API key with this token already exists.'),
+        ('unique_token_hash',
+         'UNIQUE(token_hash)',
+         'An API key with this fingerprint already exists.'),
     ]
 
     @api.model_create_multi
     def create(self, vals_list):
+        # A brand-new key has no usable secret until an administrator
+        # presses "Generate Key", which displays it exactly once.
         for vals in vals_list:
-            if not vals.get('token'):
-                vals['token'] = self._generate_token()
+            vals.setdefault('token_hash', False)
         return super().create(vals_list)
 
     @api.model
     def _generate_token(self):
         return 'uck_' + secrets.token_urlsafe(45)
 
-    def action_regenerate_key(self):
+    @api.model
+    def _hash_token(self, token):
+        return hashlib.sha256(token.encode('utf-8')).hexdigest()
+
+    def action_generate_key(self):
+        """(Re)generate the secret and show it exactly once."""
         self.ensure_one()
-        self.token = self._generate_token()
-        self.call_count = 0
-        self.last_usage = False
+        raw = self._generate_token()
+        self.write({
+            'token_hash': self._hash_token(raw),
+            'call_count': 0,
+            'last_usage': False,
+        })
         self.message_post(
-            body=_('API key has been regenerated.'),
+            body=_('API key was generated/regenerated. '
+                   'Any previous secret is now invalid.'),
             message_type='notification',
         )
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Your New API Key'),
+            'res_model': 'oacis.api.key.token.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'default_key_id': self.id,
+                'default_full_token': raw,
+            },
+        }
 
     @api.model
     def validate_key(self, token, ip_address=False):
-        domain = [('token', '=', token), ('active', '=', True)]
-        key = self.sudo().search(domain, limit=1)
+        if not token:
+            raise AccessDenied(_('Invalid or inactive API key.'))
+        token_hash = self._hash_token(token)
+        key = self.sudo().search([
+            ('token_hash', '=', token_hash),
+            ('active', '=', True),
+        ], limit=1)
         if not key:
             raise AccessDenied(_('Invalid or inactive API key.'))
         if key.expires_on and key.expires_on < date.today():
             raise AccessDenied(_('API key has expired.'))
+        # Day boundary in the record's context timezone (UTC for
+        # cron/system users) instead of naive server-local time.
         today_start = fields.Datetime.to_string(
-            datetime.now().replace(hour=0, minute=0, second=0, microsecond=0),
+            datetime.combine(
+                fields.Date.context_today(self), time.min,
+            ),
         )
         usage_count = self.sudo().search_count([
             ('id', '=', key.id),
@@ -121,7 +168,8 @@ class OacisApiKey(models.Model):
         if not usage_count:
             key.sudo().write({'call_count': 1})
         elif key.call_count >= key.daily_limit:
-            raise AccessDenied(_('Daily API call limit reached.'))
+            raise ApiKeyQuotaExceeded(
+                _('Daily API call limit reached.'))
         else:
             key.sudo().write({
                 'call_count': key.call_count + 1,
@@ -131,3 +179,20 @@ class OacisApiKey(models.Model):
             'last_ip': ip_address or False,
         })
         return key.sudo()
+
+
+class OacisApiTokenWizard(models.TransientModel):
+    _name = 'oacis.api.key.token.wizard'
+    _description = 'One-time API Key Display'
+
+    key_id = fields.Many2one('oacis.api.key', readonly=True)
+    full_token = fields.Char(
+        string='API Key (shown only once)',
+        readonly=True,
+        groups='oacis_api.group_oacis_api_admin',
+    )
+
+    def action_done(self):
+        self.ensure_one()
+        self.full_token = False
+        return {'type': 'ir.actions.act_window_close'}

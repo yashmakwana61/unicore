@@ -28,14 +28,23 @@ class OacisAIProvider(models.AbstractModel):
 
     @api.model
     def _get_api_key(self):
-        """Return the configured API key or raise."""
-        key = self.env['ir.config_parameter'].sudo().get_param(
-            'oacis_ai.api_key', default='',
-        )
+        """Return the configured API key or raise.
+
+        Precedence: ``OACIS_AI_API_KEY`` environment variable first,
+        so production deployments can avoid storing the secret in
+        the database at all.
+        """
+        import os
+        key = os.environ.get('OACIS_AI_API_KEY', '')
+        if not key:
+            key = self.env['ir.config_parameter'].sudo().get_param(
+                'oacis_ai.api_key', default='',
+            )
         if not key:
             raise UserError(_(
                 'OpenCode Zen API key is not configured. '
-                'Please go to Settings → Oacis AI and enter your API key.',
+                'Please go to Settings → Oacis AI and enter your API key, '
+                'or set the OACIS_AI_API_KEY environment variable.',
             ))
         return key
 

@@ -6,6 +6,7 @@ error message and timestamp.
 """
 
 import logging
+from datetime import timedelta
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
@@ -150,6 +151,9 @@ class OacisNotificationLog(models.Model):
     )
 
     def write(self, vals):
+        # Retention anonymization is the only sanctioned write path.
+        if self.env.context.get('oacis_retention_anonymize'):
+            return super().write(vals)
         raise UserError(
             _('Notification logs are immutable '
               'and cannot be edited.'),
@@ -158,5 +162,58 @@ class OacisNotificationLog(models.Model):
     def unlink(self):
         raise UserError(
             _('Notification logs cannot be deleted. '
-              'This is an audit compliance requirement.'),
+              'Use the retention policy to anonymize old logs.'),
         )
+
+    # ------------------------------------------------------------------
+    # GDPR / DPDP retention: personal data is scrubbed from logs older
+    # than the configured window instead of deleting audit rows.
+    # ------------------------------------------------------------------
+
+    RETENTION_DAYS_PARAM = 'oacis_notify.log_retention_days'
+    DEFAULT_RETENTION_DAYS = 365
+
+    @api.model
+    def _get_retention_days(self):
+        try:
+            return int(self.env['ir.config_parameter'].sudo().get_param(
+                self.RETENTION_DAYS_PARAM,
+                default=str(self.DEFAULT_RETENTION_DAYS),
+            ))
+        except (TypeError, ValueError):
+            return self.DEFAULT_RETENTION_DAYS
+
+    @api.model
+    def cron_anonymize_old_logs(self):
+        """Scrub PII from notification logs past the retention window.
+
+        Keeps the audit trail (channel, status, timestamps) intact while
+        honouring the right-to-erasure for contact details and message
+        content.
+        """
+        days = self._get_retention_days()
+        if days <= 0:
+            return 0
+        cutoff = fields.Datetime.now() - timedelta(days=days)
+        stale = self.sudo().search([
+            ('sent_at', '<', cutoff),
+            '|', '|',
+            ('recipient_email', '!=', False),
+            ('recipient_mobile', '!=', False),
+            ('message_body', '!=', False),
+        ])
+        if not stale:
+            return 0
+        stale.with_context(
+            oacis_retention_anonymize=True,
+        ).write({
+            'recipient_email': False,
+            'recipient_mobile': False,
+            'message_body': False,
+            'whatsapp_message_id': False,
+        })
+        _logger.info(
+            'Oacis notification log retention: anonymized %d logs '
+            'older than %d days.', len(stale), days,
+        )
+        return len(stale)

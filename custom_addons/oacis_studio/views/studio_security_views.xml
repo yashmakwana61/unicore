@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_studio_security_rule_list" model="ir.ui.view">
+        <field name="name">studio.security.rule.list</field>
+        <field name="model">studio.security.rule</field>
+        <field name="arch" type="xml">
+            <list string="Security Rules (Phase 8: row + field-level)">
+                <field name="app_id"/>
+                <field name="model_id"/>
+                <field name="name"/>
+                <field name="template_key" optional="show"/>
+                <field name="domain_force" optional="show"/>
+                <field name="is_field_level" optional="hide"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_studio_security_rule_form" model="ir.ui.view">
+        <field name="name">studio.security.rule.form</field>
+        <field name="model">studio.security.rule</field>
+        <field name="arch" type="xml">
+            <form string="Security Rule">
+                <header>
+                    <button name="action_compile" string="Compile → ir.rule" type="object" class="oe_highlight"/>
+                    <button name="action_test" string="Test on Sample" type="object"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        Phase 8 hardening: <b>Row-level</b> via <code>ir.rule</code> (multi-tenant <code>campus_id</code> auto-injected for <code>studio.record</code>). Templates: <code>teacher_own / parent_own_children / campus_isolation</code>. <b>Field-level</b> via <code>studio.field.permission</code> (hides fields in views + ORM check).
+                    </div>
+                    <group>
+                        <field name="app_id" options="{'no_create': True}"/>
+                        <field name="model_id" options="{'no_create': True}" domain="[('app_id','=',app_id)]"/>
+                        <field name="name"/>
+                        <field name="template_key" placeholder="e.g. parent_own_children"/>
+                        <field name="domain_force" placeholder="[('campus_id','in',user.campus_ids.ids)]"/>
+                        <field name="group_ids" widget="many2many_tags" placeholder="Empty = global (all users)"/>
+                        <field name="sequence"/>
+                        <field name="active"/>
+                    </group>
+                    <group>
+                        <field name="is_field_level"/>
+                        <field name="field_ids" widget="many2many_tags" invisible="not is_field_level" placeholder="Fields to hide"/>
+                        <field name="perm_read"/>
+                        <field name="perm_write"/>
+                        <field name="perm_create"/>
+                        <field name="perm_unlink"/>
+                    </group>
+                    <group string="Compiled" invisible="not ir_rule_id">
+                        <field name="ir_rule_id" readonly="1"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter"><field name="message_ids"/><field name="activity_ids"/></div>
+            </form>
+        </field>
+    </record>
+    <record id="view_studio_security_group_list" model="ir.ui.view">
+        <field name="name">studio.security.group.list</field>
+        <field name="model">studio.security.group</field>
+        <field name="arch" type="xml">
+            <list string="Security Groups">
+                <field name="app_id"/>
+                <field name="name"/>
+                <field name="key"/>
+                <field name="res_group_id" optional="show"/>
+                <field name="is_multi_tenant" optional="hide"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_studio_security_group_form" model="ir.ui.view">
+        <field name="name">studio.security.group.form</field>
+        <field name="model">studio.security.group</field>
+        <field name="arch" type="xml">
+            <form string="Security Group">
+                <header><button name="action_compile" string="Compile → res.groups" type="object" class="oe_highlight"/></header>
+                <sheet>
+                    <group>
+                        <field name="app_id"/>
+                        <field name="name"/>
+                        <field name="key"/>
+                        <field name="is_multi_tenant"/>
+                        <field name="implied_group_ids" widget="many2many_tags"/>
+                        <field name="res_group_id" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_studio_field_permission_list" model="ir.ui.view">
+        <field name="name">studio.field.permission.list</field>
+        <field name="model">studio.field.permission</field>
+        <field name="arch" type="xml">
+            <list string="Field-level Permissions">
+                <field name="app_id"/>
+                <field name="field_id"/>
+                <field name="group_ids" widget="many2many_tags"/>
+                <field name="perm_read" widget="boolean_toggle"/>
+                <field name="perm_write" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_studio_security_rule" model="ir.actions.act_window">
+        <field name="name">Security Rules</field>
+        <field name="res_model">studio.security.rule</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_studio_security_group" model="ir.actions.act_window">
+        <field name="name">Security Groups</field>
+        <field name="res_model">studio.security.group</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_studio_field_permission" model="ir.actions.act_window">
+        <field name="name">Field Permissions</field>
+        <field name="res_model">studio.field.permission</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

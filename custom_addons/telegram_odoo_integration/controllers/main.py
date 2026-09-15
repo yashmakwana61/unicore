@@ -41,3 +41,61 @@ class TelegramWebhook(http.Controller):
 
         service = TelegramBotService(request.env)
         return service.process_update(data)
+
+
+class AIParserAttachment(http.Controller):
+    """Serve session attachments to the AI Parser via secure tokens."""
+
+    @http.route(
+        '/ai_parser/attachment/<string:token>',
+        type='http', auth='public', csrf=False, methods=['GET'])
+    def serve_attachment(self, token, **kwargs):
+        """Serve an attachment file to the AI Parser.
+
+        The token is a random UUID generated when the attachment is created.
+        Single-use: after serving, the attachment is marked and the token
+        is invalidated. Time-limited: tokens older than the configured TTL
+        are rejected.
+        """
+        from datetime import datetime, timedelta
+        from odoo.addons.telegram_odoo_integration.models.ai_parser_client import (
+            ATTACHMENT_TOKEN_TTL_SECONDS,
+        )
+
+        Attachment = request.env['telegram.session.attachment'].sudo()
+        attachment = Attachment.search([
+            ('secure_token', '=', token),
+            ('is_served', '=', False),
+        ], limit=1)
+
+        if not attachment:
+            _logger.warning(
+                'Attachment not found or already served: %s', token)
+            return request.make_json_response(
+                {'error': 'Not found or already served'}, status=404)
+
+        # Check TTL
+        created = attachment.create_date or datetime.now()
+        if datetime.now() - created > timedelta(seconds=ATTACHMENT_TOKEN_TTL_SECONDS):
+            _logger.warning('Attachment token expired: %s', token)
+            return request.make_json_response(
+                {'error': 'Token expired'}, status=410)
+
+        file_content = attachment.serve_file()
+        if file_content is None:
+            _logger.error(
+                'Attachment file not found on disk: %s', attachment.file_path)
+            return request.make_json_response(
+                {'error': 'File not found on server'}, status=404)
+
+        attachment.mark_served()
+
+        from odoo.http import Response
+        response = Response(file_content, content_type=attachment.mime_type)
+        response.headers['Content-Disposition'] = (
+            'attachment; filename="%s"' % attachment.filename)
+        response.headers['Cache-Control'] = 'no-store'
+        _logger.info(
+            'Served attachment %s for session %s',
+            attachment.filename, attachment.session_id.session_id)
+        return response

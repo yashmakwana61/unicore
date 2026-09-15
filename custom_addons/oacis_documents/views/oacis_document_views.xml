@@ -119,25 +119,31 @@
       <kanban>
         <templates>
           <t t-name="card">
-            <div class="oe_kanban_global_click">
-              <div class="fw-bold">
+            <div class="oacis-kanban-document w-100 h-100 d-flex flex-column position-relative">
+              <div class="oacis-document-icon text-center mt-2">
+                <i class="fa fa-file-text-o"/>
+              </div>
+              
+              <div class="oacis-kanban-title text-center mt-2">
                 <field name="name"/>
               </div>
-              <div class="small text-muted">
+              <div class="oacis-kanban-subtitle text-center">
                 <field name="category_id"/>
               </div>
-              <div class="small mt-1">
+              
+              <div class="oacis-meta-row justify-content-center mt-2">
                 <field name="document_type"/>
               </div>
-              <div class="d-flex gap-1 mt-1">
+
+              <div class="oacis-document-status d-flex gap-1">
                 <t t-if="record.is_verified.raw_value">
-                  <span class="badge bg-success">Verified</span>
+                  <span class="oacis-badge oacis-status-success"><i class="fa fa-check-circle me-1"/>Verified</span>
                 </t>
                 <t t-if="record.is_confidential.raw_value">
-                  <span class="badge bg-danger">Confidential</span>
+                  <span class="oacis-badge oacis-status-danger"><i class="fa fa-lock me-1"/>Confidential</span>
                 </t>
                 <t t-if="record.is_expired.raw_value">
-                  <span class="badge bg-secondary">Expired</span>
+                  <span class="oacis-badge oacis-status-neutral"><i class="fa fa-clock-o me-1"/>Expired</span>
                 </t>
               </div>
             </div>

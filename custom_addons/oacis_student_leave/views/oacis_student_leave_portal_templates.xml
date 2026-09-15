@@ -11,7 +11,7 @@
             priority="31">
     <xpath expr="//div[hasclass('o_portal_docs')]"
            position="inside">
-      <t t-call="portal.portal_docs_entry">
+      <t t-if="oacis_is_student or oacis_is_guardian" t-call="portal.portal_docs_entry">
         <t t-set="icon">/web/image/oacis_portal_student/static/src/img/icon_portal.png</t>
         <t t-set="title">Leave Requests</t>
         <t t-set="url">/my/oacis/student/leave</t>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_studio_ai_list" model="ir.ui.view">
+        <field name="name">studio.ai.request.list</field>
+        <field name="model">studio.ai.request</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="app_id" optional="hide"/>
+                <field name="state" widget="badge"/>
+                <field name="dsl_valid" widget="boolean_toggle"/>
+                <field name="cost_tokens" optional="hide"/>
+                <field name="create_date"/>
+            </list>
+        </field>
+    </record>
+</odoo>

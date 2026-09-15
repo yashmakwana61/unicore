@@ -1,4 +1,4 @@
-"""Add Telegram configuration to the Odoo Settings page."""
+"""Add Telegram and AI Parser configuration to the Odoo Settings page."""
 from odoo import fields, models
 
 
@@ -9,10 +9,32 @@ class ResConfigSettings(models.TransientModel):
         string='Telegram Bot Token',
         config_parameter='telegram_odoo_integration.bot_token',
         help='Token obtained from @BotFather when creating the bot on '
-             'Telegram.')
+             'Telegram. Recommended: set the TELEGRAM_BOT_TOKEN '
+             'environment variable instead; it takes precedence over '
+             'this value.')
     telegram_allowed_chat_id = fields.Char(
         string='Allowed Chat ID',
         config_parameter='telegram_odoo_integration.allowed_chat_id',
         help='Only messages coming from this Telegram chat id will be '
              'processed. Leave empty to reject all chats (fail-closed). '
              'Find your chat id by messaging @userinfobot on Telegram.')
+    ai_parser_url = fields.Char(
+        string='AI Parser URL',
+        config_parameter='telegram_odoo_integration.ai_parser_url',
+        help='Base URL of the independent AI Parser application '
+             '(e.g. https://ai-parser.example.com).')
+    ai_parser_api_key = fields.Char(
+        string='AI Parser API Key',
+        config_parameter='telegram_odoo_integration.ai_parser_api_key',
+        help='API key for authenticating with the AI Parser. '
+             'Do NOT use the Telegram bot token here.')
+    max_file_size_mb = fields.Integer(
+        string='Max File Size (MB)',
+        config_parameter='telegram_odoo_integration.max_file_size_mb',
+        default=10,
+        help='Maximum allowed file size for Telegram attachments in MB.')
+    session_timeout_minutes = fields.Integer(
+        string='Session Timeout (minutes)',
+        config_parameter='telegram_odoo_integration.session_timeout_minutes',
+        default=30,
+        help='Idle order sessions are expired after this many minutes.')

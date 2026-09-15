@@ -11,3 +11,4 @@ access_oacis_notify_log_manager,Notify Log Manager,oacis_notify.model_oacis_noti
 access_oacis_notify_log_registrar,Notify Log Registrar,oacis_notify.model_oacis_notification_log,oacis_base.group_oacis_registrar,1,0,0,0
 access_oacis_notify_log_finance,Notify Log Finance,oacis_notify.model_oacis_notification_log,oacis_base.group_oacis_finance,1,0,0,0
 access_oacis_notify_engine_admin,Notify Engine Admin,oacis_notify.model_oacis_notification_engine,oacis_base.group_oacis_admin,1,1,1,1
+access_oacis_notify_automation_admin,Notify Automation Admin,oacis_notify.model_oacis_notification_automation,oacis_base.group_oacis_admin,1,1,1,1

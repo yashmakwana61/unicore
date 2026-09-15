@@ -379,3 +379,17 @@ class OacisAttendanceSession(models.Model):
         self.message_post(
             body=_('Session cancelled. Reason: %s') % self.cancellation_reason,
         )
+
+    def action_face_checkin(self):
+        """Open face check-in wizard for this session."""
+        self.ensure_one()
+        if self.session_state != 'open':
+            raise UserError(_('Face check-in is only available for open sessions.'))
+        return {
+            'name': _('Face Check-in'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'oacis.face.checkin.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'default_session_id': self.id},
+        }

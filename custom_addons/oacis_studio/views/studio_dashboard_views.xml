@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_studio_dashboard_list" model="ir.ui.view">
+        <field name="name">studio.dashboard.list</field>
+        <field name="model">studio.dashboard</field>
+        <field name="arch" type="xml">
+            <list string="Dashboards (Phase 6)">
+                <field name="name"/>
+                <field name="key" optional="hide"/>
+                <field name="app_id"/>
+                <field name="state" widget="badge" decoration-success="state=='published'"/>
+                <field name="active" widget="boolean_toggle" optional="hide"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_studio_dashboard_form" model="ir.ui.view">
+        <field name="name">studio.dashboard.form</field>
+        <field name="model">studio.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Dashboard Builder">
+                <header>
+                    <button name="action_preview" string="Preview Data" type="object" class="oe_highlight"/>
+                    <button name="action_export_pdf" string="Export PDF" type="object"/>
+                    <button name="action_publish" string="Publish" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,published,archived"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        Phase 6 — 12-col grid, widgets: KPI/Bar/Line/Pie/Donut/Table/Pivot/Gauge/Ranking/Progress/Map/Activity. Each widget binds to <code>studio.dataset</code> (oacis.student, attendance, fees). Data via <code>read_group</code>, 5m cache, PDF off-screen.
+                    </div>
+                    <group>
+                        <field name="name" placeholder="Admissions Overview"/>
+                        <field name="key" placeholder="dash_admissions"/>
+                        <field name="app_id" options="{'no_create': True}"/>
+                        <field name="active"/>
+                    </group>
+                    <group string="Description"><field name="description" nolabel="1" placeholder="Shows admissions, attendance, academic performance via ECharts"/></group>
+                    <group string="Layout (grid JSON)"><field name="layout_json" widget="ace" options="{'mode':'json'}" nolabel="1" placeholder='{"cols":12,"widgets":[{"type":"kpi","col_span":4}]}'/></group>
+                    <notebook>
+                        <page string="Widgets" name="widgets">
+                            <field name="widget_ids" context="{'default_dashboard_id': id}">
+                                <list string="Widgets" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="widget_type" widget="badge"/>
+                                    <field name="dataset_id" optional="show"/>
+                                    <field name="col_span" optional="show"/>
+                                    <field name="row_span" optional="hide"/>
+                                    <field name="active" widget="boolean_toggle" optional="hide"/>
+                                </list>
+                                <form string="Widget">
+                                    <group>
+                                        <field name="name" placeholder="Total Students"/>
+                                        <field name="widget_type"/>
+                                        <field name="dataset_id" placeholder="Admissions dataset" options="{'no_create': True}"/>
+                                        <field name="sequence"/>
+                                        <field name="col_span"/>
+                                        <field name="row_span"/>
+                                        <field name="active"/>
+                                    </group>
+                                    <group string="Config (JSON)">
+                                        <field name="config_json" widget="ace" options="{'mode':'json'}" nolabel="1" placeholder='{"metric":"count","group_by":["program_id"],"filters":[]}'/>
+                                    </group>
+                                    <div class="alert alert-light" colspan="2">
+                                        Config: <code>{"metric":"count|sum","field":"amount","group_by":["program_id"],"filters":[["state","=","done"]],"visual":{"color":"#2563eb"}}</code>
+                                    </div>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter"><field name="message_ids"/><field name="activity_ids"/></div>
+            </form>
+        </field>
+    </record>
+    <record id="view_studio_dashboard_search" model="ir.ui.view">
+        <field name="name">studio.dashboard.search</field>
+        <field name="model">studio.dashboard</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="key"/>
+                <field name="app_id"/>
+                <filter string="Published" name="published" domain="[('state','=','published')]"/>
+                <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+            </search>
+        </field>
+    </record>
+    <record id="action_studio_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboards</field>
+        <field name="res_model">studio.dashboard</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Create dashboard — e.g. Admissions, Attendance, Performance</p></field>
+    </record>
+    <record id="view_studio_dashboard_builder" model="ir.actions.client">
+        <field name="name">Dashboard Builder</field>
+        <field name="tag">studio.dashboard_builder</field>
+    </record>
+    <!-- Widget list -->
+    <record id="view_studio_dashboard_widget_list" model="ir.ui.view">
+        <field name="name">studio.dashboard.widget.list</field>
+        <field name="model">studio.dashboard.widget</field>
+        <field name="arch" type="xml">
+            <list string="Widgets">
+                <field name="dashboard_id"/>
+                <field name="name"/>
+                <field name="widget_type" widget="badge"/>
+                <field name="dataset_id" optional="show"/>
+                <field name="sequence" widget="handle"/>
+            </list>
+        </field>
+    </record>
+</odoo>

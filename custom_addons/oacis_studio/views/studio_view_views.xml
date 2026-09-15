@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_studio_view_list" model="ir.ui.view">
+        <field name="name">studio.view.list</field>
+        <field name="model">studio.view</field>
+        <field name="arch" type="xml">
+            <list string="Studio Views (Phase 3: arch_json → XML)">
+                <field name="model_id"/>
+                <field name="type" widget="badge" decoration-success="type=='form'" decoration-info="type=='list'"/>
+                <field name="name"/>
+                <field name="sequence" widget="handle"/>
+                <field name="active" widget="boolean_toggle" optional="hide"/>
+                <button name="action_compile" string="Compile" type="object" icon="fa-cogs" invisible="type not in ['form','search']"/>
+                <button name="action_preview" string="Preview XML" type="object" icon="fa-eye"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_studio_view_form" model="ir.ui.view">
+        <field name="name">studio.view.form</field>
+        <field name="model">studio.view</field>
+        <field name="arch" type="xml">
+            <form string="View Builder">
+                <header>
+                    <button name="action_compile" string="Compile → ir.ui.view" type="object" class="oe_highlight" invisible="not model_id.extends_model_id"/>
+                    <button name="action_preview" string="Preview XML" type="object"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        Phase 3: <b>arch_json</b> → <b>arch_xml</b> (<code>generate_xml</code> at <code>models/studio_view.py:15</code>). Form/List/Kanban/Search supported. Components: sheet/group/field/button/header/chatter/notebook/page. For <b>extends</b> models (e.g. <code>oacis.student</code>) Compile creates <code>ir.ui.view</code>; for JSONB models XML is preview-only (Phase 3 renders via OWL).
+                    </div>
+                    <group>
+                        <field name="model_id" options="{'no_create': True}" domain="[('app_id','=',app_id)]"/>
+                        <field name="type"/>
+                        <field name="name" placeholder="Scholarship Form"/>
+                        <field name="inherit_view_id" placeholder="Parent view for extends" invisible="not model_id.extends_model_id"/>
+                        <field name="ir_view_id" readonly="1" invisible="not ir_view_id"/>
+                        <field name="sequence"/>
+                        <field name="active"/>
+                    </group>
+                    <notebook>
+                        <page string="Builder (arch_json)" name="builder">
+                            <field name="arch_json" widget="ace" options="{'mode':'json'}" nolabel="1" placeholder='{"type":"sheet","children":[{"type":"group","children":[{"type":"field","name":"name"}]}]}'/>
+                            <div class="alert alert-light">
+                                <b>Palette:</b> form: sheet/group/field/button/header/chatter/notebook | list: field | kanban: field/kanban_box | search: field/filter | Visit <b>View Builder</b> action for drag-drop stub.
+                            </div>
+                        </page>
+                        <page string="XML Preview (arch_xml)" name="xml">
+                            <field name="arch_xml" readonly="1" widget="ace" options="{'mode':'xml'}" nolabel="1"/>
+                            <div class="alert alert-light">Generated via <code>generate_xml()</code>. For JSONB models, this previews OWL rendering; for extends, it compiles to <code>ir.ui.view</code>.</div>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_studio_view_search" model="ir.ui.view">
+        <field name="name">studio.view.search</field>
+        <field name="model">studio.view</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="model_id"/>
+                <field name="type"/>
+                <field name="name"/>
+                <filter string="Active" name="active" domain="[('active','=',True)]"/>
+            </search>
+        </field>
+    </record>
+    <record id="view_studio_view_builder_action" model="ir.actions.client">
+        <field name="name">View Builder</field>
+        <field name="tag">studio.view_builder</field>
+    </record>
+    <record id="action_studio_view" model="ir.actions.act_window">
+        <field name="name">Studio Views</field>
+        <field name="res_model">studio.view</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

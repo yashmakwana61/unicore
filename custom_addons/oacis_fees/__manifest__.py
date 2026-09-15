@@ -39,6 +39,8 @@
         'views/oacis_student_fee_ext_views.xml',
         'views/oacis_fee_receipt_template.xml',
         'data/oacis_fee_receipt_report_action.xml',
+        'views/oacis_fee_statement_template.xml',
+        'data/oacis_fee_statement_report_action.xml',
         'views/oacis_fee_accounting_config_views.xml',
         'views/oacis_fee_batch_wizard_views.xml',
         'views/fee_invoice_search_phase1.xml',

@@ -1,0 +1,39 @@
+// Forge Studio — Builder styles (view builder, report builder, dashboard builder)
+// These are supplementary styles for standalone builder components
+
+.o_studio_builder_placeholder {
+    border: 2px dashed #e2e8f0;
+    border-radius: 6px;
+    background: #f8fafc;
+    padding: 24px;
+    text-align: center;
+    color: #64748b;
+}
+
+// View Builder specific
+.o_studio_view_builder {
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 13px;
+}
+
+// Report Builder specific
+.o_studio_report_builder {
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 13px;
+
+    .o_report_a4_page {
+        background: white;
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0 auto;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        padding: 20mm;
+        border: 1px solid #e2e8f0;
+    }
+}
+
+// Dashboard Builder specific
+.o_studio_dashboard_builder {
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 13px;
+}

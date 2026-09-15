@@ -40,6 +40,7 @@
         'oacis_fees', 'oacis_scholarship',
         'oacis_notify', 'oacis_assignment',
         'oacis_portal_student',
+        'oacis_notice_board',
         'portal',
     ],
     'data': [

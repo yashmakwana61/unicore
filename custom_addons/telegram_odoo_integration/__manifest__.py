@@ -1,34 +1,36 @@
 {
     'name': 'Telegram Odoo Integration',
-    'version': '19.0.1.0.0',
+    'version': '19.0.2.0.0',
     'category': 'Sales/Sales',
-    'summary': 'Create Sales Orders automatically from Telegram bot messages',
+    'summary': 'Collect orders via Telegram and submit to AI Parser for Sales Order creation',
     'description': """
 Telegram Odoo Integration
 =========================
 
-Connect a Telegram bot to Odoo through a webhook and create Sales Orders
-automatically from chat messages.
+Connect a Telegram bot to Odoo through a webhook and collect customer
+orders from internal staff via a session-based flow. Order packages are
+submitted to an independent AI Parser application for processing.
 
 Features
 --------
 * Public JSON webhook endpoint ``/telegram/webhook`` for Telegram updates.
-* Configurable bot token and allowed chat id (Settings > Telegram).
-* Automatic customer (``res.partner``) lookup/creation from the Telegram
-  username and chat id.
-* Order message parser: ``Order: Product Qty:2 Price:100`` (case-insensitive
-  keywords). Multiple products per message are supported with comma or
-  newline separated items.
-* Automatic product lookup/creation with list price.
-* Sales Order + Sales Order Lines creation (draft state).
-* Reply to the user through the Telegram Bot API (``sendMessage``).
-* Full Telegram chat history stored in ``telegram.message`` with a dedicated
-  "Telegram Orders" menu under Sales > Orders and a stat button on the
-  Sales Order form.
+* Session-based order collection: staff can send multiple text messages,
+  images, PDFs, and Excel files belonging to a single order.
+* Bot commands: ``/neworder``, ``/done``, ``/cancel``, ``/status``.
+* Secure attachment serving to the AI Parser via time-limited tokens.
+* Idempotent update processing (duplicate Telegram updates are ignored).
+* Configurable bot token, allowed chat ID, AI Parser URL, and limits.
+* Full Telegram chat history stored in ``telegram.message``.
+* Order session tracking in ``telegram.order.session``.
 * Audit logging of every update and JSON error responses.
 
-Compatibility: Odoo 19 Community Edition (also runs on Odoo 16 / 17 with a
-version prefix change in this manifest).
+AI Parser Integration
+---------------------
+The AI Parser is a **separate independent application**. This module
+communicates with it via a defined API contract. No AI/OCR logic is
+implemented within this module.
+
+Compatibility: Odoo 19 Community Edition.
 """,
     'author': 'Precisefect Solutions Pvt. Ltd.',
     'website': 'https://precisefect.com',
@@ -40,8 +42,10 @@ version prefix change in this manifest).
     'data': [
         'security/ir.model.access.csv',
         'views/res_config_settings_views.xml',
+        'views/telegram_session_views.xml',
         'views/telegram_message_views.xml',
         'views/sale_order_views.xml',
+        'data/ir_cron_data.xml',
     ],
     'demo': [],
     'installable': True,

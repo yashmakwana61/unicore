@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="oacis_base.OacisOverviewDashboard" owl="1">
+        <div class="o_oacis_overview_dashboard p-3">
+            <t t-if="state.loading">
+                <div class="d-flex justify-content-center align-items-center" style="height: 300px;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <span class="ms-2">Loading Overview...</span>
+                </div>
+            </t>
+            <t t-elif="state.error">
+                <div class="alert alert-danger" role="alert">
+                    <t t-esc="state.error"/>
+                    <button class="btn btn-sm btn-outline-danger ms-2" t-on-click="() => this.loadDashboardData()">Retry</button>
+                </div>
+            </t>
+            <t t-elif="state.data">
+                <!-- Filters -->
+                <div class="card mb-3 shadow-sm">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fa fa-filter me-1"/> Filters</h5>
+                        <button class="btn btn-sm btn-outline-secondary" t-on-click="() => this.loadDashboardData()"><i class="fa fa-refresh"/> Refresh</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-2">
+                            <div class="col-md-3">
+                                <label class="form-label">Institution</label>
+                                <select class="form-select" data-filter="company_id" t-on-change="onFilterChange">
+                                    <option value="">All Institutions</option>
+                                    <t t-foreach="state.companies" t-as="c" t-key="c.id">
+                                        <option t-att-value="c.id"><t t-esc="c.name"/></option>
+                                    </t>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Campus</label>
+                                <select class="form-select" data-filter="campus_id" t-on-change="onFilterChange">
+                                    <option value="">All Campuses</option>
+                                    <t t-foreach="state.campuses" t-as="camp" t-key="camp.id">
+                                        <option t-att-value="camp.id"><t t-esc="camp.campus_display_name || camp.name"/></option>
+                                    </t>
+                                </select>
+                            </div>
+                            <div class="col-md-6 d-flex align-items-end text-muted small">
+                                <span>Overview aggregates live via <code>read_group</code> – no SQL VIEW needed. Click KPI cards to drill down.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KPI Strip -->
+                <div class="row g-3 mb-3">
+                    <div class="col-6 col-md-3 col-xl-2">
+                        <div class="card shadow-sm kpi-card border-start border-4 border-primary h-100" style="cursor:pointer" t-on-click="openCampuses">
+                            <div class="card-body text-center">
+                                <div class="text-muted small">Campuses</div>
+                                <div class="h3 mb-0"><t t-esc="state.data.kpis.total_campuses"/></div>
+                                <div class="small text-success"><t t-esc="state.data.kpis.active_campuses"/> active</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 col-xl-2">
+                        <div class="card shadow-sm kpi-card border-start border-4 border-success h-100" style="cursor:pointer" t-on-click="() => this.openStudents()">
+                            <div class="card-body text-center">
+                                <div class="text-muted small">Students</div>
+                                <div class="h3 mb-0"><t t-esc="state.data.kpis.total_students"/></div>
+                                <div class="small"><t t-esc="state.data.kpis.active_students"/> active · <t t-esc="state.data.kpis.on_leave_students"/> on leave</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 col-xl-2">
+                        <div class="card shadow-sm kpi-card border-start border-4 border-info h-100" style="cursor:pointer" t-on-click="openApplicants">
+                            <div class="card-body text-center">
+                                <div class="text-muted small">Applicants</div>
+                                <div class="h3 mb-0"><t t-esc="state.data.kpis.total_applicants"/></div>
+                                <div class="small text-muted"><t t-esc="state.data.kpis.confirmed_applicants"/> confirmed</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 col-xl-2">
+                        <div class="card shadow-sm kpi-card border-start border-4 border-warning h-100" style="cursor:pointer" t-on-click="() => this.openFaculty()">
+                            <div class="card-body text-center">
+                                <div class="text-muted small">Faculty</div>
+                                <div class="h3 mb-0"><t t-esc="state.data.kpis.total_faculty"/></div>
+                                <div class="small"><t t-esc="state.data.kpis.active_faculty"/> active</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 col-xl-2">
+                        <div class="card shadow-sm kpi-card border-start border-4 border-dark h-100" style="cursor:pointer" t-on-click="() => this.openPrograms()">
+                            <div class="card-body text-center">
+                                <div class="text-muted small">Programs</div>
+                                <div class="h3 mb-0"><t t-esc="state.data.kpis.total_programs"/></div>
+                                <div class="small"><t t-esc="state.data.kpis.active_programs"/> active</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 col-xl-2">
+                        <div class="card shadow-sm kpi-card border-start border-4 border-danger h-100" style="cursor:pointer" t-on-click="() => this.openSessions()">
+                            <div class="card-body text-center">
+                                <div class="text-muted small">Sessions</div>
+                                <div class="h3 mb-0"><t t-esc="state.data.kpis.total_sessions"/></div>
+                                <div class="small"><t t-esc="state.data.kpis.open_sessions"/> open · <t t-esc="state.data.kpis.shortage_alerts"/> alerts</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 col-xl-2">
+                        <div class="card shadow-sm kpi-card border-start border-4" style="border-color:#7c7bad !important; cursor:pointer" t-on-click="() => this.openInvoices()">
+                            <div class="card-body text-center">
+                                <div class="text-muted small">Invoices</div>
+                                <div class="h3 mb-0"><t t-esc="state.data.kpis.total_invoices"/></div>
+                                <div class="small text-danger"><t t-esc="state.data.kpis.overdue_invoices"/> overdue</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 col-xl-2">
+                        <div class="card shadow-sm kpi-card border-start border-4 border-secondary h-100" style="cursor:pointer" t-on-click="() => this.openInvoices()">
+                            <div class="card-body text-center">
+                                <div class="text-muted small">Outstanding</div>
+                                <div class="h3 mb-0"><t t-esc="state.data.kpis.outstanding_amount"/></div>
+                                <div class="small text-muted">amount</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row 1 -->
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <div class="card shadow-sm h-100"><div class="card-body"><canvas id="oacisChartStudentsByState" style="max-height:300px"/></div></div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card shadow-sm h-100"><div class="card-body"><canvas id="oacisChartStudentsByCampus" style="max-height:300px"/></div></div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card shadow-sm h-100"><div class="card-body"><canvas id="oacisChartCampusesByType" style="max-height:300px"/></div></div>
+                    </div>
+                </div>
+                <!-- Charts Row 2 -->
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <div class="card shadow-sm h-100"><div class="card-body"><canvas id="oacisChartInvoicesByState" style="max-height:300px"/></div></div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card shadow-sm h-100"><div class="card-body"><canvas id="oacisChartSessionsByState" style="max-height:300px"/></div></div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card shadow-sm h-100"><div class="card-body"><canvas id="oacisChartApplicantsByState" style="max-height:300px"/></div></div>
+                    </div>
+                </div>
+
+                <!-- Tables Row -->
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-header"><h6 class="mb-0">Recent Applicants</h6></div>
+                            <div class="card-body p-0">
+                                <table class="table table-sm mb-0">
+                                    <thead><tr><th>Name</th><th>State</th></tr></thead>
+                                    <tbody>
+                                        <tr t-foreach="state.data.tables.recent_applicants" t-as="r" t-key="r.id">
+                                            <td><t t-esc="r.name"/></td><td><span class="badge bg-secondary"><t t-esc="r.state"/></span></td>
+                                        </tr>
+                                        <tr t-if="!state.data.tables.recent_applicants.length"><td colspan="2" class="text-center text-muted">No data</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-header"><h6 class="mb-0">Overdue Invoices</h6></div>
+                            <div class="card-body p-0">
+                                <table class="table table-sm mb-0">
+                                    <thead><tr><th>Name</th><th>Amount</th></tr></thead>
+                                    <tbody>
+                                        <tr t-foreach="state.data.tables.overdue_invoices" t-as="inv" t-key="inv.id">
+                                            <td><t t-esc="inv.name"/></td><td><t t-esc="inv.amount"/></td>
+                                        </tr>
+                                        <tr t-if="!state.data.tables.overdue_invoices.length"><td colspan="2" class="text-center text-muted">No overdue</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-header"><h6 class="mb-0">Recent Sessions</h6></div>
+                            <div class="card-body p-0">
+                                <table class="table table-sm mb-0">
+                                    <thead><tr><th>Name</th><th>Date</th></tr></thead>
+                                    <tbody>
+                                        <tr t-foreach="state.data.tables.recent_sessions" t-as="s" t-key="s.id">
+                                            <td><t t-esc="s.name"/></td><td><t t-esc="s.date"/></td>
+                                        </tr>
+                                        <tr t-if="!state.data.tables.recent_sessions.length"><td colspan="2" class="text-center text-muted">No sessions</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-muted small mt-3">Like Invoicing Dashboard (<code>account_journal_dashboard_kanban</code>), click KPI cards to drill into list views; graphs use Chart.js via <code>web.chartjs_lib</code>.</div>
+            </t>
+        </div>
+    </t>
+</templates>

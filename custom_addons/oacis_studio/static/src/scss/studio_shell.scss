@@ -1,0 +1,820 @@
+// Forge Studio — Design System (Odoo Studio parity)
+// Compact enterprise UI, clean neutral surfaces, thin borders, subtle shadows
+$o-forge-primary: #714B67;
+$o-forge-primary-light: #8a6b80;
+$o-forge-primary-dark: #5a3a52;
+$o-forge-accent: #7c3aed;
+$o-forge-accent-light: #f5f3ff;
+$o-forge-border: #e2e8f0;
+$o-forge-border-dark: #cbd5e1;
+$o-forge-bg: #f8fafc;
+$o-forge-surface: #ffffff;
+$o-forge-text: #1e293b;
+$o-forge-text-muted: #64748b;
+$o-forge-text-light: #94a3b8;
+$o-forge-success: #10b981;
+$o-forge-warning: #f59e0b;
+$o-forge-danger: #ef4444;
+$o-forge-info: #3b82f6;
+$o-forge-selected: #7c3aed;
+$o-forge-selected-bg: #f5f3ff;
+$o-forge-selected-border: #7c3aed;
+$o-forge-hover-bg: #f1f5f9;
+$o-forge-radius: 4px;
+$o-forge-radius-lg: 6px;
+$o-forge-shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
+$o-forge-shadow-md: 0 2px 8px rgba(0,0,0,0.1);
+$o-forge-shadow-lg: 0 4px 16px rgba(0,0,0,0.12);
+$o-forge-font: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+$o-forge-font-size: 13px;
+$o-forge-font-size-sm: 12px;
+$o-forge-font-size-xs: 11px;
+$o-forge-header-h: 40px;
+$o-forge-sidebar-w: 240px;
+$o-forge-props-w: 280px;
+$o-forge-transition: 150ms ease;
+
+.o_forge_shell {
+  font-family: $o-forge-font;
+  font-size: $o-forge-font-size;
+  color: $o-forge-text;
+  background: $o-forge-bg;
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  // ── Header ──
+  .o_forge_header {
+    height: $o-forge-header-h;
+    background: $o-forge-surface;
+    border-bottom: 1px solid $o-forge-border;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    gap: 4px;
+    flex-shrink: 0;
+    z-index: 10;
+
+    .o_forge_header_section {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .o_forge_header_section--left { flex: 1; min-width: 0; }
+    .o_forge_header_section--center { flex-shrink: 0; }
+    .o_forge_header_section--right { flex: 1; justify-content: flex-end; min-width: 0; }
+  }
+
+  .o_forge_btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    height: 26px;
+    padding: 0 8px;
+    border: 1px solid $o-forge-border;
+    border-radius: $o-forge-radius;
+    background: $o-forge-surface;
+    color: $o-forge-text;
+    font-size: $o-forge-font-size-sm;
+    cursor: pointer;
+    transition: all $o-forge-transition;
+    white-space: nowrap;
+    &:hover { background: $o-forge-hover-bg; border-color: $o-forge-border-dark; }
+    &.active { background: $o-forge-primary; color: white; border-color: $o-forge-primary; }
+    &--primary { background: $o-forge-primary; color: white; border-color: $o-forge-primary; &:hover { background: $o-forge-primary-light; } }
+    &--accent { background: $o-forge-accent; color: white; border-color: $o-forge-accent; &:hover { opacity: 0.9; } }
+    &--danger { color: $o-forge-danger; &:hover { background: #fef2f2; } }
+    &--ghost { border-color: transparent; &:hover { background: $o-forge-hover-bg; } }
+    &--sm { height: 22px; padding: 0 6px; font-size: $o-forge-font-size-xs; }
+    &--icon { padding: 0 5px; width: 26px; justify-content: center; }
+    &--icon-sm { padding: 0 4px; width: 22px; justify-content: center; }
+    i, .fa { font-size: 12px; }
+  }
+
+  .o_forge_separator {
+    width: 1px;
+    height: 20px;
+    background: $o-forge-border;
+    margin: 0 4px;
+    flex-shrink: 0;
+  }
+
+  .o_forge_badge {
+    display: inline-flex;
+    align-items: center;
+    height: 18px;
+    padding: 0 6px;
+    border-radius: 9px;
+    font-size: $o-forge-font-size-xs;
+    font-weight: 500;
+    &--saved { background: #f0fdf4; color: #166534; }
+    &--saving { background: #fffbeb; color: #92400e; }
+    &--dirty { background: #fef2f2; color: #991b1b; }
+    &--model { background: $o-forge-hover-bg; color: $o-forge-text-muted; }
+  }
+
+  .o_forge_breadcrumb {
+    font-size: $o-forge-font-size-sm;
+    color: $o-forge-text-muted;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    b { color: $o-forge-text; font-weight: 600; }
+    .sep { margin: 0 4px; color: $o-forge-text-light; }
+  }
+
+  // ── Sidebar (Left Add Panel) ──
+  .o_forge_sidebar {
+    width: $o-forge-sidebar-w;
+    flex-shrink: 0;
+    background: $o-forge-surface;
+    border-right: 1px solid $o-forge-border;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 5;
+  }
+
+  .o_forge_sidebar_search {
+    padding: 8px;
+    border-bottom: 1px solid $o-forge-border;
+    input {
+      width: 100%;
+      height: 28px;
+      padding: 0 8px 0 28px;
+      border: 1px solid $o-forge-border;
+      border-radius: $o-forge-radius;
+      font-size: $o-forge-font-size-sm;
+      background: $o-forge-bg;
+      outline: none;
+      &:focus { border-color: $o-forge-accent; box-shadow: 0 0 0 1px $o-forge-accent; }
+    }
+    .o_forge_search_icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: $o-forge-text-light;
+      font-size: 11px;
+      pointer-events: none;
+    }
+  }
+
+  .o_forge_sidebar_content {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 4px 0;
+    &::-webkit-scrollbar { width: 4px; }
+    &::-webkit-scrollbar-thumb { background: $o-forge-border-dark; border-radius: 2px; }
+  }
+
+  .o_forge_sidebar_section {
+    margin-bottom: 2px;
+
+    .o_forge_sidebar_section_header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 8px;
+      cursor: pointer;
+      user-select: none;
+      &:hover { background: $o-forge-hover-bg; }
+      .title {
+        font-size: $o-forge-font-size-xs;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: $o-forge-text-muted;
+      }
+      .count {
+        font-size: $o-forge-font-size-xs;
+        color: $o-forge-text-light;
+      }
+      .chevron {
+        font-size: 10px;
+        color: $o-forge-text-light;
+        transition: transform $o-forge-transition;
+        &.collapsed { transform: rotate(-90deg); }
+      }
+    }
+  }
+
+  .o_forge_component_item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px 4px 16px;
+    cursor: grab;
+    font-size: $o-forge-font-size-sm;
+    color: $o-forge-text;
+    transition: background $o-forge-transition;
+    border-left: 2px solid transparent;
+    &:hover { background: $o-forge-hover-bg; border-left-color: $o-forge-accent; }
+    &:active { cursor: grabbing; }
+    i, .fa { width: 14px; text-align: center; color: $o-forge-text-muted; font-size: 11px; }
+    .o_forge_component_label { flex: 1; }
+    .o_forge_component_type { font-size: $o-forge-font-size-xs; color: $o-forge-text-light; }
+  }
+
+  .o_forge_field_item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px 4px 16px;
+    cursor: grab;
+    font-size: $o-forge-font-size-sm;
+    color: $o-forge-text;
+    transition: background $o-forge-transition;
+    border-left: 2px solid transparent;
+    &:hover { background: $o-forge-hover-bg; border-left-color: $o-forge-selected; }
+    &:active { cursor: grabbing; }
+    i, .fa { width: 14px; text-align: center; color: $o-forge-text-muted; font-size: 11px; }
+    .o_forge_field_name { flex: 1; font-weight: 500; }
+    .o_forge_field_ttype {
+      font-size: $o-forge-font-size-xs;
+      color: $o-forge-text-light;
+      background: $o-forge-hover-bg;
+      padding: 1px 4px;
+      border-radius: 2px;
+    }
+  }
+
+  // ── Canvas (Center) ──
+  .o_forge_canvas {
+    flex: 1;
+    overflow: auto;
+    background: $o-forge-bg;
+    padding: 12px;
+    min-width: 0;
+
+    &.o_forge_canvas--mobile { max-width: 375px; margin: 0 auto; }
+    &.o_forge_canvas--tablet { max-width: 768px; margin: 0 auto; }
+  }
+
+  .o_forge_canvas_inner {
+    background: $o-forge-surface;
+    border: 1px solid $o-forge-border;
+    border-radius: $o-forge-radius-lg;
+    min-height: 400px;
+    padding: 16px;
+    box-shadow: $o-forge-shadow-sm;
+  }
+
+  // Semantic node rendering
+  .o_forge_node {
+    position: relative;
+    border: 1px solid transparent;
+    border-radius: $o-forge-radius;
+    transition: border-color $o-forge-transition, background $o-forge-transition;
+    margin-bottom: 4px;
+
+    &:hover {
+      border-color: $o-forge-border-dark;
+      .o_forge_node_toolbar { opacity: 1; pointer-events: auto; }
+    }
+
+    &.selected {
+      border-color: $o-forge-selected-border;
+      background: $o-forge-selected-bg;
+      box-shadow: 0 0 0 1px $o-forge-selected;
+    }
+
+    &.drop-target {
+      border-color: $o-forge-accent;
+      background: $o-forge-selected-bg;
+    }
+  }
+
+  .o_forge_node_header {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 6px;
+    min-height: 24px;
+    .o_forge_node_type {
+      font-size: 9px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: $o-forge-accent;
+      background: $o-forge-selected-bg;
+      padding: 1px 4px;
+      border-radius: 2px;
+      position: absolute;
+      top: -8px;
+      left: 8px;
+    }
+  }
+
+  // Field nodes
+  .o_forge_field_node {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border: 1px solid $o-forge-border;
+    border-radius: $o-forge-radius;
+    background: $o-forge-surface;
+    cursor: pointer;
+    transition: all $o-forge-transition;
+
+    &:hover { border-color: $o-forge-border-dark; background: $o-forge-hover-bg; }
+    &.selected { border-color: $o-forge-selected-border; background: $o-forge-selected-bg; box-shadow: 0 0 0 1px $o-forge-selected; }
+
+    .o_forge_field_widget {
+      width: 32px;
+      height: 24px;
+      border: 1px solid $o-forge-border;
+      border-radius: 3px;
+      background: $o-forge-bg;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: $o-forge-text-muted;
+      flex-shrink: 0;
+    }
+
+    .o_forge_field_info { flex: 1; min-width: 0; }
+    .o_forge_field_label {
+      font-size: $o-forge-font-size-sm;
+      font-weight: 500;
+      color: $o-forge-text;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .o_forge_field_meta {
+      font-size: $o-forge-font-size-xs;
+      color: $o-forge-text-light;
+    }
+
+    .o_forge_field_required {
+      color: $o-forge-danger;
+      font-size: 10px;
+    }
+
+    input.o_forge_inline_edit {
+      border: none;
+      background: transparent;
+      padding: 0;
+      font-size: $o-forge-font-size-sm;
+      font-weight: 500;
+      color: $o-forge-text;
+      outline: none;
+      width: 100%;
+      &:focus { border-bottom: 1px solid $o-forge-accent; }
+    }
+  }
+
+  // Group nodes
+  .o_forge_group_node {
+    border: 1px solid $o-forge-border;
+    border-radius: $o-forge-radius;
+    margin-bottom: 8px;
+    .o_forge_group_header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
+      background: $o-forge-bg;
+      border-bottom: 1px solid $o-forge-border;
+      border-radius: $o-forge-radius $o-forge-radius 0 0;
+      font-size: $o-forge-font-size-xs;
+      font-weight: 600;
+      color: $o-forge-text-muted;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      &:hover { background: $o-forge-hover-bg; }
+    }
+    .o_forge_group_body {
+      padding: 8px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      min-height: 32px;
+    }
+    &.drop-target .o_forge_group_body {
+      background: $o-forge-selected-bg;
+      border: 1px dashed $o-forge-accent;
+      border-radius: 0 0 $o-forge-radius $o-forge-radius;
+    }
+  }
+
+  // Notebook/Page nodes
+  .o_forge_notebook_node {
+    border: 1px solid $o-forge-border;
+    border-radius: $o-forge-radius;
+    margin-bottom: 8px;
+    .o_forge_notebook_tabs {
+      display: flex;
+      border-bottom: 1px solid $o-forge-border;
+      background: $o-forge-bg;
+      border-radius: $o-forge-radius $o-forge-radius 0 0;
+    }
+    .o_forge_notebook_tab {
+      padding: 6px 12px;
+      font-size: $o-forge-font-size-sm;
+      color: $o-forge-text-muted;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all $o-forge-transition;
+      &:hover { color: $o-forge-text; }
+      &.active { color: $o-forge-accent; border-bottom-color: $o-forge-accent; font-weight: 500; }
+    }
+    .o_forge_notebook_page {
+      padding: 8px;
+      min-height: 32px;
+    }
+  }
+
+  // Button nodes
+  .o_forge_button_node {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border: 1px solid $o-forge-border;
+    border-radius: $o-forge-radius;
+    font-size: $o-forge-font-size-sm;
+    cursor: pointer;
+    transition: all $o-forge-transition;
+    &:hover { border-color: $o-forge-border-dark; background: $o-forge-hover-bg; }
+    &.selected { border-color: $o-forge-selected-border; background: $o-forge-selected-bg; }
+  }
+
+  // Section/Separator nodes
+  .o_forge_separator_node {
+    height: 1px;
+    background: $o-forge-border;
+    margin: 8px 0;
+    position: relative;
+    cursor: pointer;
+    &:hover { background: $o-forge-accent; }
+    &.selected { background: $o-forge-accent; box-shadow: 0 0 0 1px $o-forge-accent; }
+  }
+
+  // Chatter node
+  .o_forge_chatter_node {
+    border: 1px solid $o-forge-border;
+    border-radius: $o-forge-radius;
+    padding: 8px;
+    background: $o-forge-bg;
+    margin-top: 8px;
+    .o_forge_chatter_header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: $o-forge-font-size-xs;
+      color: $o-forge-text-muted;
+      font-weight: 500;
+    }
+  }
+
+  // Drop indicator
+  .o_forge_drop_indicator {
+    height: 3px;
+    background: $o-forge-accent;
+    border-radius: 2px;
+    margin: 2px 0;
+    opacity: 0;
+    transition: opacity $o-forge-transition;
+    &.visible { opacity: 1; }
+  }
+
+  .o_forge_drop_placeholder {
+    border: 2px dashed $o-forge-accent;
+    background: $o-forge-selected-bg;
+    border-radius: $o-forge-radius;
+    padding: 8px;
+    text-align: center;
+    font-size: $o-forge-font-size-xs;
+    color: $o-forge-accent;
+    margin: 4px 0;
+  }
+
+  .o_forge_empty_canvas {
+    border: 2px dashed $o-forge-border;
+    border-radius: $o-forge-radius-lg;
+    background: $o-forge-bg;
+    padding: 40px 24px;
+    text-align: center;
+    color: $o-forge-text-muted;
+    .fa { font-size: 24px; margin-bottom: 8px; color: $o-forge-text-light; display: block; }
+    p { margin: 4px 0; font-size: $o-forge-font-size-sm; }
+    a { color: $o-forge-accent; }
+  }
+
+  // ── Properties Panel (Right) ──
+  .o_forge_properties {
+    width: $o-forge-props-w;
+    flex-shrink: 0;
+    background: $o-forge-surface;
+    border-left: 1px solid $o-forge-border;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 5;
+  }
+
+  .o_forge_props_header {
+    padding: 8px 12px;
+    border-bottom: 1px solid $o-forge-border;
+    .o_forge_props_title {
+      font-size: $o-forge-font-size-sm;
+      font-weight: 600;
+      color: $o-forge-text;
+    }
+    .o_forge_props_subtitle {
+      font-size: $o-forge-font-size-xs;
+      color: $o-forge-text-muted;
+    }
+  }
+
+  .o_forge_props_content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 12px;
+    &::-webkit-scrollbar { width: 4px; }
+    &::-webkit-scrollbar-thumb { background: $o-forge-border-dark; border-radius: 2px; }
+  }
+
+  .o_forge_prop_group {
+    margin-bottom: 12px;
+
+    .o_forge_prop_label {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: $o-forge-font-size-xs;
+      font-weight: 500;
+      color: $o-forge-text-muted;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      .fa-question-circle { font-size: 10px; cursor: help; }
+    }
+
+    .o_forge_prop_input {
+      width: 100%;
+      height: 28px;
+      padding: 0 8px;
+      border: 1px solid $o-forge-border;
+      border-radius: $o-forge-radius;
+      font-size: $o-forge-font-size-sm;
+      color: $o-forge-text;
+      background: $o-forge-surface;
+      outline: none;
+      transition: border-color $o-forge-transition;
+      &:focus { border-color: $o-forge-accent; box-shadow: 0 0 0 1px $o-forge-accent; }
+      &:readonly { background: $o-forge-bg; color: $o-forge-text-muted; }
+    }
+
+    .o_forge_prop_select {
+      @extend .o_forge_prop_input;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%2364748b' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 6px center;
+      padding-right: 24px;
+    }
+
+    .o_forge_prop_textarea {
+      @extend .o_forge_prop_input;
+      height: auto;
+      min-height: 60px;
+      padding: 6px 8px;
+      resize: vertical;
+    }
+
+    .o_forge_prop_check {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 0;
+      cursor: pointer;
+      input[type="checkbox"] {
+        width: 14px;
+        height: 14px;
+        accent-color: $o-forge-accent;
+        cursor: pointer;
+      }
+      label {
+        font-size: $o-forge-font-size-sm;
+        color: $o-forge-text;
+        cursor: pointer;
+        margin: 0;
+      }
+    }
+  }
+
+  .o_forge_props_advanced {
+    border-top: 1px solid $o-forge-border;
+    padding-top: 8px;
+    margin-top: 8px;
+    .o_forge_props_advanced_header {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: $o-forge-font-size-xs;
+      font-weight: 600;
+      color: $o-forge-text-muted;
+      cursor: pointer;
+      padding: 4px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      .chevron {
+        font-size: 10px;
+        transition: transform $o-forge-transition;
+        &.expanded { transform: rotate(90deg); }
+      }
+    }
+  }
+
+  .o_forge_props_empty {
+    text-align: center;
+    padding: 24px 12px;
+    color: $o-forge-text-muted;
+    font-size: $o-forge-font-size-sm;
+    .fa { font-size: 20px; display: block; margin-bottom: 8px; color: $o-forge-text-light; }
+  }
+
+  // ── Contextual Toolbar ──
+  .o_forge_node_toolbar {
+    position: absolute;
+    top: -32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 1px;
+    background: $o-forge-surface;
+    border: 1px solid $o-forge-border;
+    border-radius: $o-forge-radius;
+    box-shadow: $o-forge-shadow-md;
+    padding: 2px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity $o-forge-transition;
+    z-index: 20;
+  }
+
+  .o_forge_node.selected > .o_forge_node_toolbar {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  // ── Preview Mode ──
+  .o_forge_preview_bar {
+    background: #1e293b;
+    color: white;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: $o-forge-font-size-sm;
+    border-radius: $o-forge-radius-lg $o-forge-radius-lg 0 0;
+    .o_forge_btn { color: white; border-color: rgba(255,255,255,0.2); &:hover { background: rgba(255,255,255,0.1); } }
+  }
+
+  // ── Publish Dialog ──
+  .o_forge_dialog_overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050;
+  }
+
+  .o_forge_dialog {
+    background: $o-forge-surface;
+    border-radius: $o-forge-radius-lg;
+    box-shadow: $o-forge-shadow-lg;
+    width: 480px;
+    max-width: 90vw;
+    padding: 20px;
+    h5 { margin: 0 0 8px; font-size: 16px; font-weight: 600; }
+    p { margin: 0 0 12px; font-size: $o-forge-font-size-sm; color: $o-forge-text-muted; }
+  }
+
+  // ── AI Integration ──
+  .o_forge_ai_panel {
+    position: fixed;
+    bottom: 12px;
+    right: $o-forge-props-w + 12px;
+    width: 380px;
+    background: $o-forge-surface;
+    border: 1px solid $o-forge-border;
+    border-radius: $o-forge-radius-lg;
+    box-shadow: $o-forge-shadow-lg;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    max-height: 480px;
+
+    .o_forge_ai_header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-bottom: 1px solid $o-forge-border;
+      font-size: $o-forge-font-size-sm;
+      font-weight: 600;
+      .fa { color: $o-forge-accent; }
+    }
+
+    .o_forge_ai_messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 12px;
+      max-height: 300px;
+    }
+
+    .o_forge_ai_input {
+      display: flex;
+      gap: 6px;
+      padding: 8px 12px;
+      border-top: 1px solid $o-forge-border;
+      input {
+        flex: 1;
+        height: 30px;
+        padding: 0 8px;
+        border: 1px solid $o-forge-border;
+        border-radius: $o-forge-radius;
+        font-size: $o-forge-font-size-sm;
+        outline: none;
+        &:focus { border-color: $o-forge-accent; }
+      }
+    }
+
+    .o_forge_ai_change {
+      padding: 6px 8px;
+      border: 1px solid $o-forge-border;
+      border-radius: $o-forge-radius;
+      margin-bottom: 4px;
+      font-size: $o-forge-font-size-sm;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      .fa-check { color: $o-forge-success; font-size: 11px; }
+    }
+
+    .o_forge_ai_actions {
+      display: flex;
+      gap: 4px;
+      padding: 6px 0;
+      flex-wrap: wrap;
+    }
+  }
+
+  // ── View Switcher ──
+  .o_forge_view_switcher {
+    display: flex;
+    gap: 1px;
+    background: $o-forge-border;
+    border-radius: $o-forge-radius;
+    padding: 1px;
+    .o_forge_view_tab {
+      padding: 3px 8px;
+      font-size: $o-forge-font-size-xs;
+      font-weight: 500;
+      color: $o-forge-text-muted;
+      background: $o-forge-surface;
+      border: none;
+      cursor: pointer;
+      transition: all $o-forge-transition;
+      border-radius: $o-forge-radius;
+      &:hover { color: $o-forge-text; }
+      &.active { color: $o-forge-accent; background: $o-forge-selected-bg; }
+    }
+  }
+
+  // ── History Timeline ──
+  .o_forge_history {
+    padding: 8px 12px;
+    border-top: 1px solid $o-forge-border;
+    .o_forge_history_item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 0;
+      font-size: $o-forge-font-size-xs;
+      color: $o-forge-text-muted;
+      border-bottom: 1px solid $o-forge-bg;
+      .fa { font-size: 10px; }
+      .time { margin-left: auto; color: $o-forge-text-light; }
+    }
+  }
+
+  // ── Scrollbar ──
+  &::-webkit-scrollbar { width: 6px; height: 6px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: $o-forge-border-dark; border-radius: 3px; &:hover { background: $o-forge-text-light; } }
+
+  // ── Transitions ──
+  .o_forge_fade-in { animation: o_forge_fadeIn 150ms ease; }
+  @keyframes o_forge_fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+}

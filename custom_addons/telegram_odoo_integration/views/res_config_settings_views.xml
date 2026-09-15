@@ -9,12 +9,32 @@
                 <app data-string="Telegram" string="Telegram" name="telegram">
                     <block title="Telegram Bot Configuration">
                         <setting string="Bot Token"
-                                 help="Token obtained from @BotFather when creating the bot on Telegram.">
-                            <field name="telegram_bot_token"/>
+                                 help="Token obtained from @BotFather. Recommended: set the TELEGRAM_BOT_TOKEN environment variable instead (it takes precedence).">
+                            <field name="telegram_bot_token" password="True"/>
                         </setting>
                         <setting string="Allowed Chat ID"
                                  help="Only this chat id can place orders. Find your chat id by messaging @userinfobot on Telegram.">
                             <field name="telegram_allowed_chat_id"/>
+                        </setting>
+                    </block>
+                    <block title="AI Parser Configuration">
+                        <setting string="AI Parser URL"
+                                 help="Base URL of the independent AI Parser application (e.g. https://ai-parser.example.com).">
+                            <field name="ai_parser_url"/>
+                        </setting>
+                        <setting string="AI Parser API Key"
+                                 help="API key for the AI Parser. Do NOT use the Telegram bot token.">
+                            <field name="ai_parser_api_key" password="True"/>
+                        </setting>
+                    </block>
+                    <block title="Limits &amp; Timeouts">
+                        <setting string="Max File Size (MB)"
+                                 help="Maximum allowed file size for Telegram attachments.">
+                            <field name="max_file_size_mb"/>
+                        </setting>
+                        <setting string="Session Timeout (minutes)"
+                                 help="Idle order sessions expire after this period.">
+                            <field name="session_timeout_minutes"/>
                         </setting>
                     </block>
                 </app>
