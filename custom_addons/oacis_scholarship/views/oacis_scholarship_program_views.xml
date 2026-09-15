@@ -16,11 +16,7 @@
                 <field name="total_quota"/>
                 <field name="application_count"/>
                 <field name="approved_count"/>
-                <field name="program_state" widget="badge" 
-                       decoration-info="program_state == 'draft'" 
-                       decoration-success="program_state == 'open'" 
-                       decoration-warning="program_state == 'closed'" 
-                       decoration-muted="program_state == 'completed'"/>
+                <field name="program_state" widget="badge" decoration-info="program_state == 'draft'" decoration-success="program_state == 'open'" decoration-warning="program_state == 'closed'" decoration-muted="program_state == 'completed'"/>
             </list>
         </field>
     </record>
@@ -40,11 +36,7 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="%(oacis_scholarship.action_oacis_scholarship_application)d" 
-                                type="action" 
-                                class="oe_stat_button" 
-                                icon="fa-file-text-o"
-                                context="{'search_default_scholarship_program_id': id}">
+                        <button name="%(oacis_scholarship.action_oacis_scholarship_application)d" type="action" class="oe_stat_button" icon="fa-file-text-o" context="{'search_default_scholarship_program_id': id}">
                             <div class="o_field_widget o_stat_info">
                                 <span class="o_stat_value"><field name="application_count"/></span>
                                 <span class="o_stat_text">Applications</span>

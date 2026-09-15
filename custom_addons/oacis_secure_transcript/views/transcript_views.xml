@@ -5,49 +5,54 @@
       <field name="name">oacis.secure.transcript.tree</field>
       <field name="model">oacis.secure.transcript</field>
       <field name="arch" type="xml">
-        <list string="Secure Transcripts">
+        <list string="Secure Transcripts" default_order="issued_date desc">
+          <field name="name" class="fw-bold"/>
           <field name="student_id" widget="many2one_avatar"/>
           <field name="issued_date"/>
-          <field name="verification_hash" optional="hide"/>
+          <field name="verification_hash" optional="show"/>
           <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'issued'" decoration-danger="state == 'revoked'"/>
         </list>
       </field>
     </record>
+
     <record id="view_oacis_secure_transcript_form" model="ir.ui.view">
       <field name="name">oacis.secure.transcript.form</field>
       <field name="model">oacis.secure.transcript</field>
       <field name="arch" type="xml">
         <form string="Secure Transcript">
           <header>
-            <button name="action_issue" string="Issue Transcript" type="object" class="oe_highlight" invisible="state != 'draft'"/>
-            <button name="action_revoke" string="Revoke" type="object" class="btn-danger" invisible="state != 'issued'"/>
+            <button name="action_issue" string="Issue Transcript &amp; Generate QR" type="object" class="btn-primary" invisible="state != 'draft'"/>
+            <button name="action_revoke" string="Revoke Transcript" type="object" class="btn-secondary" invisible="state != 'issued'"/>
             <field name="state" widget="statusbar" statusbar_visible="draft,issued"/>
           </header>
           <sheet>
+            <widget name="web_ribbon" title="Issued" bg_color="text-bg-success" invisible="state != 'issued'"/>
+            <widget name="web_ribbon" title="Revoked" bg_color="text-bg-danger" invisible="state != 'revoked'"/>
             <div class="oe_title">
+              <label for="name" string="Transcript Reference" class="oe_edit_only"/>
               <h1>
-                <field name="name"/>
+                <field name="name" readonly="1"/>
               </h1>
             </div>
             <group>
-              <group>
-                <field name="student_id" widget="many2one_avatar"/>
+              <group name="left" string="Student &amp; Date">
+                <field name="student_id" widget="many2one_avatar" options="{'no_create_edit': True}"/>
+                <field name="issued_date" readonly="state != 'draft'"/>
                 <field name="company_id" invisible="1"/>
-                <field name="issued_date"/>
               </group>
-              <group>
-                <field name="verification_hash" invisible="state == 'draft'"/>
+              <group name="right" string="Digital Verification">
+                <field name="verification_hash" invisible="state == 'draft'" readonly="1"/>
                 <field name="qr_code" widget="image" invisible="state == 'draft'" class="oe_avatar"/>
               </group>
             </group>
             <notebook>
-              <page string="Semester Results" name="results">
+              <page string="Certified Semester Results" name="results">
                 <field name="semester_result_ids">
                   <list string="Semester Results" create="0" delete="0">
                     <field name="semester_id"/>
                     <field name="semester_gpa"/>
                     <field name="credits_earned"/>
-                    <field name="result_status"/>
+                    <field name="result_status" widget="badge" decoration-success="result_status == 'pass'" decoration-danger="result_status == 'fail'"/>
                   </list>
                 </field>
               </page>
@@ -57,11 +62,74 @@
         </form>
       </field>
     </record>
+
+    <record id="view_oacis_secure_transcript_kanban" model="ir.ui.view">
+      <field name="name">oacis.secure.transcript.kanban</field>
+      <field name="model">oacis.secure.transcript</field>
+      <field name="arch" type="xml">
+        <kanban class="o_kanban_mobile" default_group_by="state">
+          <field name="id"/>
+          <field name="name"/>
+          <field name="student_id" widget="many2one_avatar"/>
+          <field name="issued_date"/>
+          <field name="qr_code"/>
+          <field name="state" widget="badge"/>
+          <templates>
+            <t t-name="card" class="flex-row">
+              <aside class="o_kanban_aside_full" t-if="record.qr_code.raw_value">
+                <img t-att-src="'/web/image?model=oacis.secure.transcript&amp;field=qr_code&amp;id=' + record.id.raw_value" alt="QR" style="width:50px; height:50px;"/>
+              </aside>
+              <main class="ps-2 flex-grow-1">
+                <div class="d-flex justify-content-between align-items-start">
+                  <field name="name" class="fw-bold fs-6"/>
+                  <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'issued'" decoration-danger="state == 'revoked'"/>
+                </div>
+                <div class="mt-2 d-flex align-items-center gap-2">
+                  <field name="student_id" widget="many2one_avatar"/>
+                  <span><field name="student_id" widget="many2one_avatar"/></span>
+                </div>
+                <div class="mt-2 small text-muted">
+                  <i class="fa fa-calendar me-1" title="Calendar"/><field name="issued_date"/>
+                </div>
+              </main>
+            </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
+
+    <record id="view_oacis_secure_transcript_search" model="ir.ui.view">
+      <field name="name">oacis.secure.transcript.search</field>
+      <field name="model">oacis.secure.transcript</field>
+      <field name="arch" type="xml">
+        <search string="Search Transcripts">
+          <field name="name" string="Transcript / Student" filter_domain="['|', ('name', 'ilike', self), ('student_id.name', 'ilike', self)]"/>
+          <field name="student_id" widget="many2one_avatar"/>
+          <field name="verification_hash"/>
+
+          <searchpanel>
+            <field name="state" icon="fa-filter" select="multi" enable_counters="1"/>
+          </searchpanel>
+
+          <filter name="filter_issued" string="Issued Transcripts" domain="[('state', '=', 'issued')]"/>
+          <filter name="filter_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+          <separator/>
+
+          <group name="groupby">
+            <filter name="group_student" string="Student" context="{'group_by': 'student_id'}"/>
+            <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+            <filter name="group_date" string="Issued Date" context="{'group_by': 'issued_date:month'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
     <record id="action_oacis_secure_transcript" model="ir.actions.act_window">
       <field name="name">Secure Transcripts</field>
       <field name="res_model">oacis.secure.transcript</field>
-      <field name="view_mode">list,form</field>
+      <field name="view_mode">kanban,list,form</field>
     </record>
+
     <!-- Public verification page template -->
     <template id="transcript_verify_page" name="Transcript Verification">
       <t t-call="website.layout">
@@ -70,32 +138,22 @@
             <div class="col-md-8">
               <t t-if="verified">
                 <div class="alert alert-success text-center" role="alert">
-                  <h2>
-                    <i class="fa fa-check-circle"/> Transcript Verified</h2>
+                  <h2><i class="fa fa-check-circle" title="Check Circle"/> Transcript Verified</h2>
                   <p>This transcript is authentic and has been issued by the institution.</p>
                 </div>
                 <div class="card mt-3">
                   <div class="card-body">
-                    <h5 class="card-title">Student: <t t-esc="transcript.student_id.display_name"/>
-                    </h5>
-                    <p>Issued Date: <t t-esc="transcript.issued_date"/>
-                    </p>
-                    <p>Hash: <code>
-                        <t t-esc="hash_code"/>
-                      </code>
-                    </p>
+                    <h5 class="card-title">Student: <t t-esc="transcript.student_id.display_name"/></h5>
+                    <p>Issued Date: <t t-esc="transcript.issued_date"/></p>
+                    <p>Hash: <code><t t-esc="hash_code"/></code></p>
                   </div>
                 </div>
               </t>
               <t t-else="">
                 <div class="alert alert-danger text-center" role="alert">
-                  <h2>
-                    <i class="fa fa-times-circle"/> Verification Failed</h2>
+                  <h2><i class="fa fa-times-circle" title="Times Circle"/> Verification Failed</h2>
                   <p>No valid transcript was found for the provided hash. This document may be forged or revoked.</p>
-                  <p>Hash: <code>
-                      <t t-esc="hash_code"/>
-                    </code>
-                  </p>
+                  <p>Hash: <code><t t-esc="hash_code"/></code></p>
                 </div>
               </t>
             </div>

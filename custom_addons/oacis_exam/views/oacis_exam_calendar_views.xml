@@ -28,7 +28,7 @@
         <field name="model">oacis.exam.hall.ticket</field>
         <field name="arch" type="xml">
             <calendar date_start="exam_date" color="color" string="Hall Ticket Calendar">
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="exam_schedule_id"/>
                 <field name="eligibility_status"/>
                 <field name="ticket_state"/>
@@ -46,7 +46,7 @@
         <field name="model">oacis.exam.seating</field>
         <field name="arch" type="xml">
             <calendar date_start="exam_date" color="color" string="Exam Seating Calendar">
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="room_id"/>
                 <field name="seat_label"/>
                 <field name="course_id"/>

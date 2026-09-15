@@ -8,17 +8,13 @@
         <field name="arch" type="xml">
 
             <xpath expr="//filter[@name='issued']" position="after">
-                <filter name="filter_returned" string="Returned"
-                    domain="[('issue_state','=','returned')]"/>
-                <filter name="filter_lost" string="Lost"
-                    domain="[('issue_state','=','lost')]"/>
-                <filter name="filter_cancelled" string="Cancelled"
-                    domain="[('issue_state','=','cancelled')]"/>
+                <filter name="filter_returned" string="Returned" domain="[('issue_state','=','returned')]"/>
+                <filter name="filter_lost" string="Lost" domain="[('issue_state','=','lost')]"/>
+                <filter name="filter_cancelled" string="Cancelled" domain="[('issue_state','=','cancelled')]"/>
             </xpath>
 
             <xpath expr="//group[@name='group_by']" position="inside">
-                <filter name="group_by_book" string="Book"
-                    context="{'group_by': 'book_id'}"/>
+                <filter name="group_by_book" string="Book" context="{'group_by': 'book_id'}"/>
             </xpath>
 
         </field>

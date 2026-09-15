@@ -6,40 +6,19 @@
         <!-- LEVEL 2 MENU                                  -->
         <!-- ============================================= -->
 
-        <menuitem id="menu_oacis_curriculum"
-                  name="Curriculum"
-                  parent="oacis_base.menu_oacis_root"
-                  sequence="50"
-                  groups="oacis_base.group_oacis_staff"/>
+        <menuitem id="menu_oacis_curriculum" name="Curriculum" parent="oacis_base.menu_oacis_root" sequence="50" groups="oacis_base.group_oacis_staff"/>
 
         <!-- ============================================= -->
         <!-- LEVEL 3 MENUS                                 -->
         <!-- ============================================= -->
 
-        <menuitem id="menu_oacis_course_list"
-                  name="Courses"
-                  parent="menu_oacis_curriculum"
-                  action="action_oacis_course"
-                  sequence="10"/>
+        <menuitem id="menu_oacis_course_list" name="Courses" parent="menu_oacis_curriculum" action="action_oacis_course" sequence="10"/>
 
-        <menuitem id="menu_oacis_curriculum_list"
-                  name="Curricula"
-                  parent="menu_oacis_curriculum"
-                  action="action_oacis_curriculum"
-                  sequence="20"/>
+        <menuitem id="menu_oacis_curriculum_list" name="Curricula" parent="menu_oacis_curriculum" action="action_oacis_curriculum" sequence="20"/>
 
-        <menuitem id="menu_oacis_curriculum_line_list"
-                  name="Curriculum Lines"
-                  parent="menu_oacis_curriculum"
-                  action="action_oacis_curriculum_line"
-                  sequence="30"
-                  groups="oacis_base.group_oacis_registrar"/>
+        <menuitem id="menu_oacis_curriculum_line_list" name="Curriculum Lines" parent="menu_oacis_curriculum" action="action_oacis_curriculum_line" sequence="30" groups="oacis_base.group_oacis_registrar"/>
 
-        <menuitem id="menu_oacis_course_offering_list"
-                  name="Course Offerings"
-                  parent="menu_oacis_curriculum"
-                  action="action_oacis_course_offering"
-                  sequence="40"/>
+        <menuitem id="menu_oacis_course_offering_list" name="Course Offerings" parent="menu_oacis_curriculum" action="action_oacis_course_offering" sequence="40"/>
 
     </data>
 </odoo>

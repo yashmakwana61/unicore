@@ -2,17 +2,9 @@
 <odoo>
 
     <!-- Academic Units under Oacis Configuration -->
-    <menuitem id="menu_oacis_academic_unit_list"
-              name="Academic Units"
-              parent="oacis_base.menu_oacis_configuration"
-              action="action_oacis_academic_unit"
-              sequence="110"/>
+    <menuitem id="menu_oacis_academic_unit_list" name="Academic Units" parent="oacis_base.menu_oacis_configuration" action="action_oacis_academic_unit" sequence="110"/>
 
     <!-- Unit Types under Oacis Configuration -->
-    <menuitem id="menu_oacis_academic_unit_type_list"
-              name="Unit Types"
-              parent="oacis_base.menu_oacis_configuration"
-              action="action_oacis_academic_unit_type"
-              sequence="111"/>
+    <menuitem id="menu_oacis_academic_unit_type_list" name="Unit Types" parent="oacis_base.menu_oacis_configuration" action="action_oacis_academic_unit_type" sequence="111"/>
 
 </odoo>

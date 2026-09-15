@@ -1,26 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <!-- Main menu: Oacis -> Students -->
-    <menuitem id="menu_oacis_student_root"
-              name="Students"
-              parent="oacis_base.menu_oacis_root"
-              sequence="50"/>
+    <menuitem id="menu_oacis_student_root" name="Students" parent="oacis_base.menu_oacis_root" sequence="50"/>
 
-    <menuitem id="menu_oacis_student_overview"
-              name="All Students"
-              parent="menu_oacis_student_root"
-              action="action_oacis_student"
-              sequence="10"/>
+    <menuitem id="menu_oacis_student_overview" name="All Students" parent="menu_oacis_student_root" action="action_oacis_student" sequence="10"/>
 
-    <menuitem id="menu_oacis_student_documents"
-              name="Documents"
-              parent="menu_oacis_student_root"
-              action="action_oacis_student_document"
-              sequence="20"/>
+    <menuitem id="menu_oacis_student_documents" name="Documents" parent="menu_oacis_student_root" action="action_oacis_student_document" sequence="20"/>
 
-    <menuitem id="menu_oacis_student_academic_history"
-              name="Academic History"
-              parent="menu_oacis_student_root"
-              action="action_oacis_student_academic_history"
-              sequence="30"/>
+    <menuitem id="menu_oacis_student_academic_history" name="Academic History" parent="menu_oacis_student_root" action="action_oacis_student_academic_history" sequence="30"/>
 </odoo>

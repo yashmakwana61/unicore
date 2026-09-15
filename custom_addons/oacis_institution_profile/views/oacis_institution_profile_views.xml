@@ -5,7 +5,7 @@
     <record id="action_oacis_institution_profile" model="ir.actions.act_window">
         <field name="name">Institution Profiles</field>
         <field name="res_model">oacis.institution.profile</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">kanban,list,form</field>
         <field name="domain">[]</field>
     </record>
 
@@ -15,12 +15,13 @@
         <field name="model">oacis.institution.profile</field>
         <field name="arch" type="xml">
             <list string="Institution Profiles">
-                <field name="name"/>
+                <field name="name" class="fw-bold"/>
                 <field name="code"/>
-                <field name="institution_type"/>
+                <field name="institution_type" widget="badge"/>
                 <field name="calendar_mode" optional="show"/>
-                <field name="grading_scheme" optional="show"/>
-                <field name="is_legacy_university" optional="show"/>
+                <field name="effective_grading_scheme" optional="show"/>
+                <field name="is_legacy_university" widget="boolean_toggle" optional="hide"/>
+                <field name="active" widget="boolean_toggle" optional="show"/>
             </list>
         </field>
     </record>
@@ -32,25 +33,24 @@
         <field name="arch" type="xml">
             <form string="Institution Profile">
                 <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Profile Name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="e.g. Modern K-12 Academy Profile"/></h1>
+                        <div class="d-flex align-items-center gap-2 mt-1">
+                            <field name="code" placeholder="CODE" class="fw-bold text-muted"/>
+                            <field name="institution_type" widget="badge"/>
+                        </div>
+                    </div>
                     <group>
-                        <group name="left">
-                            <field name="name"/>
-                            <field name="code"/>
+                        <group name="left" string="Classification">
                             <field name="institution_type"/>
-                        </group>
-                        <group name="right">
                             <field name="is_legacy_university"/>
-                            <field name="active"/>
+                            <field name="active" widget="boolean_toggle"/>
                         </group>
-                    </group>
-                    <group string="Operational Configuration">
-                        <group name="calendar">
+                        <group name="right" string="Calendar &amp; Grading">
                             <field name="calendar_mode"/>
-                        </group>
-                        <group name="grading">
                             <field name="grading_scheme_id" options="{'no_create': True}"/>
                             <field name="effective_grading_scheme" readonly="1"/>
-                            <field name="grading_scheme"/>
                             <field name="terminology_profile_id" options="{'no_create': True}"/>
                         </group>
                     </group>
@@ -58,25 +58,75 @@
                         <page name="unit_levels" string="Academic Unit Levels">
                             <field name="academic_unit_level_ids" widget="many2many_tags"/>
                             <div class="text-muted mt-2">
-                                Unit types this institution may use in its hierarchy.
-                                University: Faculty + Department. School: Grade Level.
-                                Training: none (flat).
+                                Unit types this institution may use in its hierarchy (e.g. University: Faculty + Department; School: Grade Level; Training: flat).
                             </div>
                         </page>
-                        <page name="features" string="Relevant Features">
+                        <page name="features" string="Enabled Features">
                             <field name="feature_toggle_ids" widget="many2many_tags"/>
                             <div class="text-muted mt-2">
-                                Optional Oacis modules relevant for this institution type.
-                                Pre-selected by the type template (Phase 5); adjustable here.
+                                Optional Oacis modules active for this institution type.
                             </div>
                         </page>
                         <page name="description" string="Description">
-                            <field name="description"/>
-                            <field name="notes"/>
+                            <field name="description" widget="html"/>
+                            <field name="notes" placeholder="Internal administrator notes..."/>
                         </page>
                     </notebook>
                 </sheet>
             </form>
+        </field>
+    </record>
+
+    <!-- Kanban View -->
+    <record id="oacis_institution_profile_kanban_view" model="ir.ui.view">
+        <field name="name">oacis.institution.profile.kanban</field>
+        <field name="model">oacis.institution.profile</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="institution_type"/>
+                <field name="calendar_mode"/>
+                <field name="effective_grading_scheme"/>
+                <templates>
+                    <t t-name="card" class="flex-column">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <field name="name" class="fw-bold fs-6"/>
+                            <field name="institution_type" widget="badge"/>
+                        </div>
+                        <div class="mt-2 d-flex justify-content-between align-items-center small text-muted">
+                            <span><i class="fa fa-calendar me-1" title="Calendar"/><field name="calendar_mode"/></span>
+                            <span><i class="fa fa-bar-chart me-1" title="Analytics"/><field name="effective_grading_scheme"/></span>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="oacis_institution_profile_search_view" model="ir.ui.view">
+        <field name="name">oacis.institution.profile.search</field>
+        <field name="model">oacis.institution.profile</field>
+        <field name="arch" type="xml">
+            <search string="Search Institution Profiles">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="institution_type"/>
+
+                <searchpanel>
+                    <field name="institution_type" icon="fa-university" enable_counters="1"/>
+                    <field name="calendar_mode" icon="fa-calendar" enable_counters="1"/>
+                </searchpanel>
+
+                <filter name="filter_active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="filter_archived" string="Archived" domain="[('active', '=', False)]"/>
+                <group name="groupby">
+                    <filter name="group_type" string="Institution Type" context="{'group_by': 'institution_type'}"/>
+                    <filter name="group_calendar" string="Calendar Mode" context="{'group_by': 'calendar_mode'}"/>
+                </group>
+            </search>
         </field>
     </record>
 

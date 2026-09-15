@@ -6,13 +6,9 @@
   PORTAL HOME — Add Oacis Student links to /my/ page
   =====================================================
   -->
-  <template id="portal_my_home_oacis_student"
-            name="Oacis Student Portal Home"
-            inherit_id="portal.portal_my_home"
-            priority="30">
-    <xpath expr="//div[hasclass('o_portal_docs')]"
-           position="inside">
-      <t t-if="oacis_is_student" t-call="portal.portal_docs_entry">
+  <template id="portal_my_home_oacis_student" name="Oacis Student Portal Home" inherit_id="portal.portal_my_home" priority="30">
+    <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+      <t t-call="portal.portal_docs_entry">
         <t t-set="icon">/web/image/oacis_portal_student/static/src/img/icon_portal.png</t>
         <t t-set="title">My Academic Portal</t>
         <t t-set="url">/my/oacis/student</t>
@@ -21,9 +17,8 @@
         <t t-set="text">Active Courses</t>
       </t>
     </xpath>
-    <xpath expr="//div[hasclass('o_portal_docs')]"
-           position="inside">
-      <t t-if="oacis_is_student" t-call="portal.portal_docs_entry">
+    <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+      <t t-call="portal.portal_docs_entry">
         <t t-set="title">Assignments</t>
         <t t-set="url">/my/oacis/student/assignments</t>
         <t t-set="placeholder_count">oacis_assignments</t>
@@ -38,8 +33,7 @@
   BASE LAYOUT for all student portal pages
   =====================================================
   -->
-  <template id="portal_student_layout"
-            name="Student Portal Base Layout">
+  <template id="portal_student_layout" name="Student Portal Base Layout">
     <t t-call="portal.portal_layout">
       <t t-set="breadcrumbs_searchbar" t-value="True"/>
       <t t-call="portal.portal_searchbar">
@@ -47,9 +41,7 @@
       </t>
       <div class="oacis-portal-layout">
         <!-- Sidebar Toggle (mobile) -->
-        <button class="btn btn-primary d-md-none oacis-sidebar-toggle mb-2" type="button"
-                data-bs-toggle="collapse" data-bs-target="#oacisSidebar"
-                aria-expanded="false" aria-controls="oacisSidebar">
+        <button class="btn btn-primary d-md-none oacis-sidebar-toggle mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#oacisSidebar" aria-expanded="false" aria-controls="oacisSidebar">
           <i class="fa fa-bars"></i> Menu
         </button>
 
@@ -57,59 +49,37 @@
           <!-- Sidebar -->
           <div class="oacis-sidebar collapse d-md-block" id="oacisSidebar">
             <nav class="nav flex-column">
-              <a class="nav-link oacis-nav-item"
-                 t-att-class="'active' if page_name == 'student_dashboard' else ''"
-                 href="/my/oacis/student">
+              <a class="nav-link oacis-nav-item" t-att-class="'active' if page_name == 'student_dashboard' else ''" href="/my/oacis/student">
                 <i class="fa fa-tachometer fa-fw"></i>
                 <span>Dashboard</span>
               </a>
-              <a class="nav-link oacis-nav-item"
-                 t-att-class="'active' if page_name == 'student_courses' else ''"
-                 href="/my/oacis/student/courses">
+              <a class="nav-link oacis-nav-item" t-att-class="'active' if page_name == 'student_courses' else ''" href="/my/oacis/student/courses">
                 <i class="fa fa-book fa-fw"></i>
                 <span>My Courses</span>
               </a>
-              <a class="nav-link oacis-nav-item"
-                 t-att-class="'active' if page_name == 'student_attendance' else ''"
-                 href="/my/oacis/student/attendance">
+              <a class="nav-link oacis-nav-item" t-att-class="'active' if page_name == 'student_attendance' else ''" href="/my/oacis/student/attendance">
                 <i class="fa fa-calendar-check-o fa-fw"></i>
                 <span>Attendance</span>
               </a>
-              <a class="nav-link oacis-nav-item"
-                 t-att-class="'active' if page_name in ('student_assignments','student_assignment_detail') else ''"
-                 href="/my/oacis/student/assignments">
+              <a class="nav-link oacis-nav-item" t-att-class="'active' if page_name in ('student_assignments','student_assignment_detail') else ''" href="/my/oacis/student/assignments">
                 <i class="fa fa-tasks fa-fw"></i>
                 <span>Assignments</span>
               </a>
-              <a class="nav-link oacis-nav-item"
-                 t-att-class="'active' if page_name == 'student_exams' else ''"
-                 href="/my/oacis/student/exams">
+              <a class="nav-link oacis-nav-item" t-att-class="'active' if page_name == 'student_exams' else ''" href="/my/oacis/student/exams">
                 <i class="fa fa-ticket fa-fw"></i>
                 <span>Exams</span>
               </a>
-              <a class="nav-link oacis-nav-item"
-                 t-att-class="'active' if page_name == 'student_results' else ''"
-                 href="/my/oacis/student/results">
+              <a class="nav-link oacis-nav-item" t-att-class="'active' if page_name == 'student_results' else ''" href="/my/oacis/student/results">
                 <i class="fa fa-graduation-cap fa-fw"></i>
                 <span>Results</span>
               </a>
-              <a class="nav-link oacis-nav-item"
-                 t-att-class="'active' if page_name == 'student_fees' else ''"
-                 href="/my/oacis/student/fees">
+              <a class="nav-link oacis-nav-item" t-att-class="'active' if page_name == 'student_fees' else ''" href="/my/oacis/student/fees">
                 <i class="fa fa-money fa-fw"></i>
                 <span>Fees</span>
               </a>
-              <a class="nav-link oacis-nav-item"
-                 t-att-class="'active' if page_name == 'student_scholarships' else ''"
-                 href="/my/oacis/student/scholarships">
+              <a class="nav-link oacis-nav-item" t-att-class="'active' if page_name == 'student_scholarships' else ''" href="/my/oacis/student/scholarships">
                 <i class="fa fa-trophy fa-fw"></i>
                 <span>Scholarships</span>
-              </a>
-              <a class="nav-link oacis-nav-item"
-                 t-att-class="'active' if page_name == 'student_notices' else ''"
-                 href="/my/oacis/student/notices">
-                <i class="fa fa-bullhorn fa-fw"></i>
-                <span>Notices</span>
               </a>
             </nav>
           </div>
@@ -127,8 +97,7 @@
   TEMPLATE 1: STUDENT DASHBOARD
   =====================================================
   -->
-  <template id="portal_student_dashboard"
-            name="Student Dashboard">
+  <template id="portal_student_dashboard" name="Student Dashboard">
     <t t-call="oacis_portal_student.portal_student_layout">
       <div class="container">
 
@@ -192,9 +161,9 @@
 
           <!-- Attendance Alerts Card -->
           <div class="col-6 col-md-3">
-            <div t-att-class="'card text-center h-100 ' + ('border-danger' if shortage_count > 0 else 'border-secondary')">
+            <div > 0 else 'border-secondary')">
               <div class="card-body">
-                <h2 t-att-class="'mb-0 ' + ('text-danger' if shortage_count > 0 else 'text-secondary')">
+                <h2 > 0 else 'text-secondary')">
                   <t t-esc="shortage_count"/>
                 </h2>
                 <small class="text-muted">
@@ -206,9 +175,9 @@
 
           <!-- Outstanding Fees Card -->
           <div class="col-6 col-md-3">
-            <div t-att-class="'card text-center h-100 ' + ('border-warning' if outstanding_amount > 0 else 'border-secondary')">
+            <div > 0 else 'border-secondary')">
               <div class="card-body">
-                <h2 t-att-class="'mb-0 ' + ('text-warning' if outstanding_amount > 0 else 'text-secondary')">
+                <h2 > 0 else 'text-secondary')">
                   <t t-esc="outstanding_invoice_count"/>
                 </h2>
                 <small class="text-muted">
@@ -221,7 +190,7 @@
         </div>
 
         <!-- Alerts Section -->
-        <t t-if="shortage_count > 0">
+        <t > 0">
           <div class="alert alert-danger" role="alert">
             <strong>⚠ Attendance Warning:</strong>
             You have
@@ -231,18 +200,16 @@
             course(s) with attendance below the
             required minimum. You may be ineligible
             for examinations.
-            <a href="/my/oacis/student/attendance"
-               class="alert-link">
+            <a href="/my/oacis/student/attendance" class="alert-link">
               View Attendance →
             </a>
           </div>
         </t>
-        <t t-if="outstanding_amount > 0">
+        <t > 0">
           <div class="alert alert-warning" role="alert">
             <strong>📋 Fee Due:</strong>
             You have outstanding fee payments.
-            <a href="/my/oacis/student/fees"
-               class="alert-link">
+            <a href="/my/oacis/student/fees" class="alert-link">
               View Fees →
             </a>
           </div>
@@ -251,10 +218,9 @@
         <!-- Quick Links -->
         <div class="row mt-2 g-3">
           <div class="col-6 col-md-4">
-            <a href="/my/oacis/student/courses"
-               class="card text-center text-decoration-none h-100">
+            <a href="/my/oacis/student/courses" class="card text-center text-decoration-none h-100">
               <div class="card-body">
-                <i class="fa fa-book fa-2x text-primary mb-2"/>
+                <i class="fa fa-book fa-2x text-primary mb-2" title="Book"/>
                 <p class="mb-0">
                   <strong>My Courses</strong>
                 </p>
@@ -262,10 +228,9 @@
             </a>
           </div>
           <div class="col-6 col-md-4">
-            <a href="/my/oacis/student/exams"
-               class="card text-center text-decoration-none h-100">
+            <a href="/my/oacis/student/exams" class="card text-center text-decoration-none h-100">
               <div class="card-body">
-                <i class="fa fa-ticket fa-2x text-info mb-2"/>
+                <i class="fa fa-ticket fa-2x text-info mb-2" title="Ticket"/>
                 <p class="mb-0">
                   <strong>Hall Tickets</strong>
                 </p>
@@ -273,10 +238,9 @@
             </a>
           </div>
           <div class="col-6 col-md-4">
-            <a href="/my/oacis/student/results"
-               class="card text-center text-decoration-none h-100">
+            <a href="/my/oacis/student/results" class="card text-center text-decoration-none h-100">
               <div class="card-body">
-                <i class="fa fa-graduation-cap fa-2x text-success mb-2"/>
+                <i class="fa fa-graduation-cap fa-2x text-success mb-2" title="Academic"/>
                 <p class="mb-0">
                   <strong>My Results</strong>
                 </p>
@@ -294,8 +258,7 @@
   TEMPLATE 2: MY COURSES
   =====================================================
   -->
-  <template id="portal_student_courses"
-            name="My Courses">
+  <template id="portal_student_courses" name="My Courses">
     <t t-call="oacis_portal_student.portal_student_layout">
       <div class="container">
         <h4 class="mb-3">My Enrolled Courses</h4>
@@ -345,7 +308,7 @@
                     <ul class="list-unstyled mb-0">
                       <t t-foreach="entries" t-as="entry">
                         <li class="small">
-                          <i class="fa fa-clock-o"/>
+                          <i class="fa fa-clock-o" title="Time"/>
                           <t t-esc="dict([('0','Mon'),('1','Tue'),('2','Wed'),('3','Thu'),('4','Fri'),('5','Sat'),('6','Sun')]).get(entry.day_of_week, '')"/>
                           —
                           <t t-esc="entry.time_slot_id.display_label"/>
@@ -370,8 +333,7 @@
   TEMPLATE 3: MY ATTENDANCE
   =====================================================
   -->
-  <template id="portal_student_attendance"
-            name="My Attendance">
+  <template id="portal_student_attendance" name="My Attendance">
     <t t-call="oacis_portal_student.portal_student_layout">
       <div class="container">
         <h4 class="mb-3">My Attendance Records</h4>
@@ -461,8 +423,7 @@
   TEMPLATE 4: MY EXAMS (Hall Tickets)
   =====================================================
   -->
-  <template id="portal_student_exams"
-            name="My Exam Hall Tickets">
+  <template id="portal_student_exams" name="My Exam Hall Tickets">
     <t t-call="oacis_portal_student.portal_student_layout">
       <div class="container">
         <h4 class="mb-3">My Exam Hall Tickets</h4>
@@ -593,8 +554,7 @@
   TEMPLATE 5: MY RESULTS
   =====================================================
   -->
-  <template id="portal_student_results"
-            name="My Results">
+  <template id="portal_student_results" name="My Results">
     <t t-call="oacis_portal_student.portal_student_layout">
       <div class="container">
         <h4 class="mb-3">My Academic Results</h4>
@@ -630,8 +590,7 @@
               </tr>
             </thead>
             <tbody>
-              <t t-foreach="semester_results"
-                 t-as="result">
+              <t t-foreach="semester_results" t-as="result">
                 <tr t-att-class="'table-success' if result.result_status == 'pass' else ('table-danger' if result.result_status == 'fail' else 'table-warning')">
                   <td>
                     <t t-esc="result.semester_id.name"/>
@@ -735,8 +694,7 @@
   TEMPLATE 6: MY FEES
   =====================================================
   -->
-  <template id="portal_student_fees"
-            name="My Fee Invoices">
+  <template id="portal_student_fees" name="My Fee Invoices">
     <t t-call="oacis_portal_student.portal_student_layout">
       <div class="container">
         <h4 class="mb-3">My Fee Invoices</h4>
@@ -754,9 +712,9 @@
             </div>
           </div>
           <div class="col-6">
-            <div t-att-class="'card text-center ' + ('border-danger' if total_outstanding > 0 else 'border-secondary')">
+            <div > 0 else 'border-secondary')">
               <div class="card-body">
-                <h4 t-att-class="'mb-0 ' + ('text-danger' if total_outstanding > 0 else 'text-secondary')">
+                <h4 > 0 else 'text-secondary')">
                   <t t-esc="total_outstanding"/>
                 </h4>
                 <small class="text-muted">
@@ -801,7 +759,7 @@
                         </td>
                       </tr>
                     </t>
-                    <t t-if="inv.discount_amount > 0">
+                    <t > 0">
                       <tr class="text-success">
                         <td>
                           Scholarship / Discount
@@ -838,21 +796,19 @@
                   </p>
                   <p class="mb-1">
                     <strong>Outstanding:</strong>
-                    <span t-att-class="'text-danger fw-bold' if inv.amount_outstanding > 0 else 'text-success'">
+                    <span > 0 else 'text-success'">
                       <t t-esc="inv.amount_outstanding"/>
                     </span>
                   </p>
 
                   <!-- Payments -->
-                  <t t-set="confirmed_pmts"
-                     t-value="inv.payment_ids.filtered(lambda p: p.payment_state == 'confirmed')"/>
+                  <t t-set="confirmed_pmts" t-value="inv.payment_ids.filtered(lambda p: p.payment_state == 'confirmed')"/>
                   <t t-if="confirmed_pmts">
                     <p class="mt-2 mb-1">
                       <strong>Payments:</strong>
                     </p>
                     <ul class="list-unstyled small">
-                      <t t-foreach="confirmed_pmts"
-                         t-as="pmt">
+                      <t t-foreach="confirmed_pmts" t-as="pmt">
                         <li>
                           <t t-esc="pmt.payment_date"/>
                           — <t t-esc="pmt.amount"/>
@@ -861,21 +817,10 @@
                           <code class="small">
                             <t t-esc="pmt.receipt_number"/>
                           </code>
-                          <a class="btn btn-sm btn-outline-secondary ms-2 py-0 px-1"
-                             t-attf-href="/report/pdf/oacis_fees.action_report_fee_receipt/#{pmt.id}"
-                             target="_blank">
-                            Receipt PDF
-                          </a>
                         </li>
                       </t>
                     </ul>
                   </t>
-
-                  <a class="btn btn-primary btn-sm mt-3"
-                     t-attf-href="/report/pdf/oacis_fees.action_report_fee_statement/#{inv.id}"
-                     target="_blank">
-                    <i class="fa fa-download me-1"></i>Download Statement (PDF)
-                  </a>
                 </div>
               </div>
             </div>
@@ -891,8 +836,7 @@
   TEMPLATE 7: MY SCHOLARSHIPS
   =====================================================
   -->
-  <template id="portal_student_scholarships"
-            name="My Scholarships">
+  <template id="portal_student_scholarships" name="My Scholarships">
     <t t-call="oacis_portal_student.portal_student_layout">
       <div class="container">
         <h4 class="mb-3">My Scholarship Applications</h4>
@@ -911,8 +855,7 @@
         <t t-if="not applications">
           <div class="alert alert-info">
             No scholarship applications found.
-            <a href="/my/oacis/student"
-               class="alert-link">
+            <a href="/my/oacis/student" class="alert-link">
               Return to Dashboard
             </a>
           </div>
@@ -958,8 +901,7 @@
                     <p class="mb-1">
                       <strong>Awards:</strong>
                     </p>
-                    <t t-foreach="app.award_ids"
-                       t-as="award">
+                    <t t-foreach="app.award_ids" t-as="award">
                       <t t-if="award.award_state == 'disbursed'">
                         <div class="alert alert-success p-2 mb-1">
                           <small>

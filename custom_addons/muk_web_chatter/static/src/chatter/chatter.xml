@@ -9,9 +9,8 @@
     >
         <xpath expr="//button[hasclass('o-mail-Chatter-sendMessage')]" position="replace">
             <button
-                class="o-mail-Chatter-sendMessage btn text-nowrap me-1"
+                class="o-mail-Chatter-sendMessage mk_btn_external btn text-nowrap me-1"
                 t-att-class="{
-                    'btn-danger': !state.composerType,
                     'btn-primary': state.composerType === 'message',
                     'btn-secondary': state.composerType !== 'message',
                     'active': state.composerType === 'message',
@@ -21,13 +20,12 @@
                 data-hotkey="m"
                 t-on-click="() => (this.toggleComposer('message'), state.notifyInternalFollowers = false)"
             >
-                <i t-if="env.isSmall" class="fa fa-envelope me-sm-1" />
-                <span class="d-none d-sm-inline">External</span>
+                <i class="fa fa-paper-plane-o me-1 text-primary" />
+                <span class="d-none d-sm-inline">Send Message</span>
             </button>
             <button
-                class="o-mail-Chatter-sendInternal btn text-nowrap me-1"
+                class="o-mail-Chatter-sendInternal mk_btn_internal btn text-nowrap me-1"
                 t-att-class="{
-                    'btn-success': !state.composerType,
                     'btn-primary': state.composerType === 'note' and state.notifyInternalFollowers,
                     'btn-secondary': !(state.composerType === 'note' and state.notifyInternalFollowers),
                     'active': state.composerType === 'note' and state.notifyInternalFollowers,
@@ -36,8 +34,8 @@
                 t-att-disabled="!state.thread.hasWriteAccess and !(state.thread.hasReadAccess and state.thread.canPostOnReadonly) and props.threadId"
                 t-on-click="() => (this.toggleComposer('note', { force: !state.notifyInternalFollowers }), state.notifyInternalFollowers = true)"
             >
-                <i t-if="env.isSmall" class="fa fa-envelope me-sm-1" />
-                <span class="d-none d-sm-inline">Internal</span>
+                <i class="fa fa-users me-1 text-success" />
+                <span class="d-none d-sm-inline">Notify Team</span>
             </button>
         </xpath>
         <xpath expr="//button[hasclass('o-mail-Chatter-logNote')]" position="replace">

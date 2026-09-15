@@ -76,19 +76,13 @@
                 <field name="code"/>
                 <field name="campus_id"/>
                 <field name="building_id"/>
-                <filter name="filter_available" string="Available"
-                        domain="[('room_state', '=', 'available')]"/>
-                <filter name="filter_maintenance" string="Under Maintenance"
-                        domain="[('room_state', '=', 'maintenance')]"/>
-                <filter name="filter_room_type" string="Room Type"
-                        context="{'group_by': 'room_type'}"/>
+                <filter name="filter_available" string="Available" domain="[('room_state', '=', 'available')]"/>
+                <filter name="filter_maintenance" string="Under Maintenance" domain="[('room_state', '=', 'maintenance')]"/>
+                <filter name="filter_room_type" string="Room Type" context="{'group_by': 'room_type'}"/>
                 <group name="groupby">
-                    <filter name="groupby_room_type" string="Room Type"
-                            context="{'group_by': 'room_type'}"/>
-                    <filter name="groupby_campus" string="Campus"
-                            context="{'group_by': 'campus_id'}"/>
-                    <filter name="groupby_building" string="Building"
-                            context="{'group_by': 'building_id'}"/>
+                    <filter name="groupby_room_type" string="Room Type" context="{'group_by': 'room_type'}"/>
+                    <filter name="groupby_campus" string="Campus" context="{'group_by': 'campus_id'}"/>
+                    <filter name="groupby_building" string="Building" context="{'group_by': 'building_id'}"/>
                 </group>
             </search>
         </field>

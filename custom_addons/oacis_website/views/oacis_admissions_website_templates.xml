@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="oacis_admissions_programs_template" model="ir.ui.view">
+        <field name="name">Oacis Admission Programs</field>
+        <field name="type">qweb</field>
+        <field name="key">oacis_website.oacis_admissions_programs</field>
+        <field name="arch" type="xml">
+            <t t-name="oacis_admissions_programs">
+                <t t-call="website.layout">
+                    <t t-set="title" t-value="'Admission Programs'"/>
+                    <div id="wrap" class="oe_structure oe_empty">
+                        <section class="s_text_block pt40 pb40 o_colored_level" data-snippet="s_text_block">
+                            <div class="container s_allow_columns">
+                                <h1 class="mb-1">Admission Programs</h1>
+                                <p class="text-muted mb-4">Choose an open admission cycle and apply for a program online.</p>
+                                <t t-foreach="cycles" t-as="cycle">
+                                    <div class="card mb-4">
+                                        <div class="card-header d-flex justify-content-between align-items-center">
+                                            <span class="h5 mb-0" t-esc="cycle.name"/>
+                                            <span class="text-muted" t-esc="cycle.code"/>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="text-muted mb-3">
+                                                <t t-if="cycle.academic_year_id">
+                                                    <span t-esc="cycle.academic_year_id.name"/>
+                                                    <t t-if="cycle.start_date"> · </t>
+                                                </t>
+                                                <t t-if="cycle.start_date">
+                                                    <span t-esc="cycle.start_date"/> to <span t-esc="cycle.end_date"/>
+                                                </t>
+                                                <t t-if="cycle.campus_id"> · <span t-esc="cycle.campus_id.name"/></t>
+                                            </p>
+                                            <t t-if="programs_by_cycle.get(cycle.id)">
+                                                <table class="table table-striped table-hover mb-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Program</th>
+                                                            <th>Degree Title</th>
+                                                            <th>Duration</th>
+                                                            <th>Available Seats</th>
+                                                            <th class="text-end">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <t t-foreach="programs_by_cycle.get(cycle.id)" t-as="entry">
+                                                            <tr>
+                                                                <td>
+                                                                    <span t-esc="entry['program'].name"/>
+                                                                    <span class="text-muted" t-if="entry['program'].code"> (<span t-esc="entry['program'].code"/>)</span>
+                                                                </td>
+                                                                <td t-esc="entry['program'].degree_title or ''"/>
+                                                                <td>
+                                                                    <t t-if="entry['program'].duration_years">
+                                                                        <span t-esc="entry['program'].duration_years"/> Years
+                                                                    </t>
+                                                                    <t t-else="">-</t>
+                                                                </td>
+                                                                <td>
+                                                                    <t t-if="entry['available'] &gt; 0">
+                                                                        <span class="text-success" t-esc="entry['available']"/>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        <span class="text-danger">Full</span>
+                                                                    </t>
+                                                                </td>
+                                                                <td class="text-end">
+                                                                    <t t-if="entry['available'] &gt; 0">
+                                                                        <a t-att-href="entry['apply_url']" class="btn btn-primary btn-sm">Apply</a>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        <span class="text-muted">No seats available</span>
+                                                                    </t>
+                                                                </td>
+                                                            </tr>
+                                                        </t>
+                                                    </tbody>
+                                                </table>
+                                            </t>
+                                            <p t-else="" class="text-muted mb-0">No open programs for this cycle yet.</p>
+                                        </div>
+                                    </div>
+                                </t>
+                                <div class="alert alert-info" t-if="not cycles">
+                                    No admission cycles are currently open. Please check back later.
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </t>
+            </t>
+        </field>
+    </record>
+
+    <record id="oacis_admissions_apply_template" model="ir.ui.view">
+        <field name="name">Oacis Admission Apply</field>
+        <field name="type">qweb</field>
+        <field name="key">oacis_website.oacis_admissions_apply</field>
+        <field name="arch" type="xml">
+            <t t-name="oacis_admissions_apply">
+                <t t-call="website.layout">
+                    <t t-set="title" t-value="'Apply Online'"/>
+                    <t t-set="f" t-value="form"/>
+                    <t t-set="e" t-value="errors"/>
+                    <div id="wrap" class="oe_structure oe_empty">
+                        <section class="s_text_block pt40 pb40 o_colored_level" data-snippet="s_text_block">
+                            <div class="container s_allow_columns" style="max-width: 760px;">
+                                <h1 class="mb-1">Apply for Admission</h1>
+                                <p class="text-muted mb-4">Fields marked * are required.</p>
+                                <form method="post" action="/admissions/apply" class="row g-3">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <div class="col-12">
+                                        <label class="form-label">Full Name *</label>
+                                        <input type="text" class="form-control" name="name" t-att-value="f.get('name', '')" required="required"/>
+                                        <div class="invalid-feedback d-block" t-if="e.get('name')" t-esc="e['name']"/>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label">Email *</label>
+                                        <input type="email" class="form-control" name="email" t-att-value="f.get('email', '')" required="required"/>
+                                        <div class="invalid-feedback d-block" t-if="e.get('email')" t-esc="e['email']"/>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label">Mobile Number *</label>
+                                        <input type="text" class="form-control" name="mobile" t-att-value="f.get('mobile', '')" required="required"/>
+                                        <div class="invalid-feedback d-block" t-if="e.get('mobile')" t-esc="e['mobile']"/>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label">Gender *</label>
+                                        <select class="form-select" name="gender" required="required">
+                                            <option value="">Select...</option>
+                                            <option value="male" t-att-selected="f.get('gender') == 'male'">Male</option>
+                                            <option value="female" t-att-selected="f.get('gender') == 'female'">Female</option>
+                                            <option value="other" t-att-selected="f.get('gender') == 'other'">Other</option>
+                                            <option value="prefer_not" t-att-selected="f.get('gender') == 'prefer_not'">Prefer Not to Say</option>
+                                        </select>
+                                        <div class="invalid-feedback d-block" t-if="e.get('gender')" t-esc="e['gender']"/>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label">Date of Birth *</label>
+                                        <input type="date" class="form-control" name="date_of_birth" t-att-value="f.get('date_of_birth', '')" required="required"/>
+                                        <div class="invalid-feedback d-block" t-if="e.get('date_of_birth')" t-esc="e['date_of_birth']"/>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <label class="form-label">Nationality</label>
+                                        <select class="form-select" name="nationality_id">
+                                            <option value="">Select...</option>
+                                            <t t-foreach="countries" t-as="country">
+                                                <option t-attf-value="#{country.id}" t-att-selected="f.get('nationality_id') and int(f['nationality_id']) == country.id">
+                                                    <t t-esc="country.name"/>
+                                                </option>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label">Admission Cycle *</label>
+                                        <select class="form-select" name="cycle_id" required="required">
+                                            <option value="">Select...</option>
+                                            <t t-foreach="cycles" t-as="cycle">
+                                                <option t-attf-value="#{cycle.id}" t-att-selected="int(f['cycle_id']) == cycle.id">
+                                                    <t t-esc="cycle.name"/>
+                                                    <t t-if="cycle.academic_year_id"> - <t t-esc="cycle.academic_year_id.name"/></t>
+                                                </option>
+                                            </t>
+                                        </select>
+                                        <div class="invalid-feedback d-block" t-if="e.get('cycle_id')" t-esc="e['cycle_id']"/>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label">Program *</label>
+                                        <select class="form-select" name="program_id" required="required">
+                                            <option value="">Select...</option>
+                                            <t t-foreach="cycles" t-as="cycle">
+                                                <t t-set="cycle_programs" t-value="programs_by_cycle.get(cycle.id, [])"/>
+                                                <optgroup t-attf-label="#{cycle.name}" t-if="cycle_programs">
+                                                    <t t-foreach="cycle_programs" t-as="entry">
+                                                        <option t-attf-value="#{entry['program'].id}" t-att-selected="int(f['program_id']) == entry['program'].id">
+                                                            <t t-esc="entry['program'].name"/>
+                                                            <t t-if="entry['available'] &lt;= 0"> (Full)</t>
+                                                        </option>
+                                                    </t>
+                                                </optgroup>
+                                            </t>
+                                        </select>
+                                        <div class="invalid-feedback d-block" t-if="e.get('program_id')" t-esc="e['program_id']"/>
+                                    </div>
+                                    <div class="col-12 d-flex justify-content-between align-items-center">
+                                        <a href="/admissions/programs" class="btn btn-link">Back to Programs</a>
+                                        <button type="submit" class="btn btn-primary">Submit Application</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </section>
+                    </div>
+                </t>
+            </t>
+        </field>
+    </record>
+
+    <record id="oacis_admissions_thank_you_template" model="ir.ui.view">
+        <field name="name">Oacis Admission Thank You</field>
+        <field name="type">qweb</field>
+        <field name="key">oacis_website.oacis_admissions_thank_you</field>
+        <field name="arch" type="xml">
+            <t t-name="oacis_admissions_thank_you">
+                <t t-call="website.layout">
+                    <t t-set="title" t-value="'Application Submitted'"/>
+                    <div id="wrap" class="oe_structure oe_empty">
+                        <section class="s_text_block pt40 pb40 o_colored_level" data-snippet="s_text_block">
+                            <div class="container s_allow_columns" style="max-width: 760px;">
+                                <div class="alert alert-success">
+                                    <h1 class="h4 mb-2">Application Submitted</h1>
+                                    <p class="mb-2" t-if="application">
+                                        Your application number is <strong t-esc="application"/>.
+                                    </p>
+                                    <p class="mb-2" t-else="">
+                                        Thank you for applying.
+                                    </p>
+                                    <p class="mb-0">The admissions office will review your application and contact you shortly.</p>
+                                </div>
+                                <a href="/admissions/programs" class="btn btn-primary mt-2">Back to Programs</a>
+                            </div>
+                        </section>
+                    </div>
+                </t>
+            </t>
+        </field>
+    </record>
+
+</odoo>

@@ -82,6 +82,9 @@
     <field name="model">oacis.library.issue</field>
     <field name="arch" type="xml">
       <search>
+        <searchpanel>
+          <field name="state" icon="fa-filter" select="multi" enable_counters="1"/>
+        </searchpanel>
         <field name="issue_number"/>
         <field name="member_id"/>
         <field name="book_id"/>

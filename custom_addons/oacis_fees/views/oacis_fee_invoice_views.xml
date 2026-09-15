@@ -21,7 +21,7 @@
           <group>
             <group name="invoice_details" string="Invoice Details">
               <field name="invoice_number" readonly="1"/>
-              <field name="student_id"/>
+              <field name="student_id" widget="many2one_avatar"/>
               <field name="company_id"/>
               <field name="academic_year_id"/>
               <field name="semester_id"/>
@@ -64,7 +64,7 @@
     <field name="arch" type="xml">
       <list decoration-success="invoice_state == 'paid'" decoration-danger="invoice_state == 'overdue'" decoration-warning="invoice_state == 'partial'" decoration-muted="invoice_state == 'cancelled'">
         <field name="invoice_number"/>
-        <field name="student_id"/>
+        <field name="student_id" widget="many2one_avatar"/>
         <field name="semester_id"/>
         <field name="invoice_date"/>
         <field name="due_date"/>
@@ -80,8 +80,12 @@
     <field name="model">oacis.fee.invoice</field>
     <field name="arch" type="xml">
       <search>
+        <searchpanel>
+          <field name="academic_year_id" icon="fa-calendar" enable_counters="1"/>
+          <field name="invoice_state" icon="fa-filter" select="multi" enable_counters="1"/>
+        </searchpanel>
         <field name="invoice_number"/>
-        <field name="student_id"/>
+        <field name="student_id" widget="many2one_avatar"/>
         <field name="semester_id"/>
         <separator/>
         <filter name="paid" string="Paid" domain="[('invoice_state','=','paid')]"/>

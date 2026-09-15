@@ -12,4 +12,9 @@ from . import (
     oacis_enrollment_log,
     oacis_enrollment_waitlist,
     oacis_student_ext_enrollment,
+    oacis_admission_automation_rule,
+    oacis_admission_automation_engine,
+    oacis_admission_applicant_automation_ext,
+    oacis_admission_entrance_test_ext,
+    oacis_admission_offer_letter_ext,
 )

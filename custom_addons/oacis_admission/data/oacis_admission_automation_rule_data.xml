@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!--
+        Seeded admission automation rules (Phase A.4).
+
+        All rules are seeded INACTIVE (active=False) so nothing fires until a
+        registrar reviews them, wires the Email Template and activates them.
+
+        The referenced mail.template records are intentionally NOT created
+        here (no fabricated variable names): each rule links its template by
+        external id below. The registrar picks/creates a mail.template bound to
+        model 'oacis.admission.applicant' and selects it on the rule form, or
+        references the xmlids once they exist.
+
+        Template variables must use ONLY fields confirmed on
+        oacis.admission.applicant in Step 1: name, email, mobile,
+        program_id.name, campus_id.name, cycle_id.name, date_of_birth,
+        entrance_test_date, application_number, company_id.name.
+
+        TODO(Phase C): the offer_sent rule is intended to attach the offer
+        letter PDF built in Phase C (models/oacis_admission_offer_letter_ext.py
+        + reports/oacis_admission_offer_letter_report.xml). Wire the PDF as a
+        mail.template attachment once the report xmlid is created.
+    -->
+
+    <record id="automation_rule_inquiry_confirmation" model="oacis.admission.automation.rule">
+        <field name="name">Inquiry Received — Applicant Confirmation Email</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="trigger_type">on_state_change</field>
+        <field name="trigger_state">inquiry</field>
+        <field name="channel">email</field>
+        <field name="active">False</field>
+        <field name="sequence">10</field>
+        <field name="notes">Placeholder. Link a mail.template
+            ('oacis.admission.applicant') that confirms the inquiry and tells
+            the applicant the next steps (documents pending).</field>
+    </record>
+
+    <record id="automation_rule_entrance_scheduled" model="oacis.admission.automation.rule">
+        <field name="name">Entrance Scheduled — Test Details Email</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="trigger_type">on_state_change</field>
+        <field name="trigger_state">entrance_scheduled</field>
+        <field name="channel">email</field>
+        <field name="active">False</field>
+        <field name="sequence">20</field>
+        <field name="notes">Placeholder. Template should use the applicant's
+            entrance_test_date and mention date, venue and reporting time.</field>
+    </record>
+
+    <record id="automation_rule_offer_sent" model="oacis.admission.automation.rule">
+        <field name="name">Offer Sent — Offer Email</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="trigger_type">on_state_change</field>
+        <field name="trigger_state">offer_sent</field>
+        <field name="channel">email</field>
+        <field name="active">False</field>
+        <field name="sequence">30</field>
+        <field name="notes">Placeholder. TODO(Phase C): attach the offer letter
+            PDF (reports/oacis_admission_offer_letter_report.xml) to this
+            template once the report xmlid exists.</field>
+    </record>
+
+    <record id="automation_rule_entrance_reminder" model="oacis.admission.automation.rule">
+        <field name="name">Entrance Test Reminder (−3 Days)</field>
+        <field name="company_id" ref="base.main_company"/>
+        <field name="trigger_type">date_based</field>
+        <field name="date_field">entrance_test_date</field>
+        <field name="date_offset_days">-3</field>
+        <field name="channel">email</field>
+        <field name="active">False</field>
+        <field name="sequence">40</field>
+        <field name="notes">Placeholder. Fired daily by the cron for applicants
+            whose entrance test is 3 days away. Link a reminder mail.template.</field>
+    </record>
+
+</odoo>

@@ -26,7 +26,7 @@
               <field name="member_id" readonly="1"/>
               <field name="company_id"/>
               <field name="member_type"/>
-              <field name="student_id" invisible="member_type != 'student'"/>
+              <field name="student_id" invisible="member_type != 'student'" widget="many2one_avatar"/>
               <field name="faculty_member_id" invisible="member_type != 'faculty'"/>
               <field name="display_name" readonly="1"/>
             </group>
@@ -69,7 +69,7 @@
       <search>
         <field name="member_id"/>
         <field name="display_name"/>
-        <field name="student_id"/>
+        <field name="student_id" widget="many2one_avatar"/>
         <field name="faculty_member_id"/>
         <filter name="active" string="Active" domain="[('member_state','=','active')]"/>
         <filter name="has_books" string="Has Borrowed Books" domain="[('current_issue_count','&gt;',0)]"/>

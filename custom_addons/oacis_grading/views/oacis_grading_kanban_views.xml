@@ -13,7 +13,7 @@
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="entry_state">
                 <field name="display_name"/>
                 <field name="entry_state"/>
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="course_id"/>
                 <field name="internal_marks"/>
                 <field name="external_marks"/>
@@ -29,7 +29,7 @@
                                 <field name="entry_state" widget="badge"/>
                             </div>
                             <div class="text-muted mt-1">
-                                <field name="student_id"/> · <field name="course_id"/>
+                                <field name="student_id" widget="many2one_avatar"/> · <field name="course_id"/>
                             </div>
                             <div class="row mt-3 text-center">
                                 <div class="col-4">
@@ -67,7 +67,7 @@
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="result_status">
                 <field name="display_name"/>
                 <field name="result_status"/>
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="semester_id"/>
                 <field name="semester_gpa"/>
                 <field name="courses_passed"/>
@@ -81,7 +81,7 @@
                                 <field name="result_status" widget="badge"/>
                             </div>
                             <div class="text-muted mt-1">
-                                <field name="student_id"/> · <field name="semester_id"/>
+                                <field name="student_id" widget="many2one_avatar"/> · <field name="semester_id"/>
                             </div>
                             <div class="row mt-3 text-center">
                                 <div class="col-4">

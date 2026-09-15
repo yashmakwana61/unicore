@@ -10,7 +10,7 @@
         <field name="arch" type="xml">
             <search>
                 <field name="award_number"/>
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="scholarship_program_id"/>
                 <field name="semester_id"/>
                 <field name="award_amount"/>

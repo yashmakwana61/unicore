@@ -41,7 +41,7 @@
             <page string="Current Residents">
               <field name="allocation_ids" readonly="1">
                 <list>
-                  <field name="student_id"/>
+                  <field name="student_id" widget="many2one_avatar"/>
                   <field name="actual_checkin"/>
                   <field name="expected_checkout"/>
                   <field name="allocation_state"/>
@@ -77,6 +77,11 @@
     <field name="model">oacis.hostel.room</field>
     <field name="arch" type="xml">
       <search>
+        <searchpanel>
+          <field name="block_id" icon="fa-building-o" enable_counters="1"/>
+          <field name="room_type" icon="fa-bed" enable_counters="1"/>
+          <field name="state" icon="fa-filter" select="multi" enable_counters="1"/>
+        </searchpanel>
         <field name="room_number"/>
         <field name="block_id"/>
         <filter name="available" string="Available" domain="[('room_state','in',['available','partial']),             ('available_beds','&gt;',0)]"/>

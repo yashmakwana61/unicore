@@ -12,24 +12,16 @@
                         <group>
                             <group string="Oacis Assignment">
                                 <field name="is_oacis_assignment"/>
-                                <field name="oacis_assignment_id" 
-                                       invisible="not is_oacis_assignment"
-                                       required="is_oacis_assignment"/>
+                                <field name="oacis_assignment_id" invisible="not is_oacis_assignment" required="is_oacis_assignment"/>
                             </group>
                             <group string="Oacis Quiz">
                                 <field name="is_oacis_quiz"/>
-                                <field name="oacis_quiz_id" 
-                                       invisible="not is_oacis_quiz"
-                                       required="is_oacis_quiz"/>
+                                <field name="oacis_quiz_id" invisible="not is_oacis_quiz" required="is_oacis_quiz"/>
                             </group>
                             <group string="Live Class Integration">
                                 <field name="is_live_class"/>
-                                <field name="meeting_url" 
-                                       invisible="not is_live_class"
-                                       required="is_live_class"/>
-                                <field name="meeting_datetime" 
-                                       invisible="not is_live_class"
-                                       required="is_live_class"/>
+                                <field name="meeting_url" invisible="not is_live_class" required="is_live_class"/>
+                                <field name="meeting_datetime" invisible="not is_live_class" required="is_live_class"/>
                             </group>
                         </group>
                     </page>

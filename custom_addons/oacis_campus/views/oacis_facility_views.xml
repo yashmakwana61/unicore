@@ -60,13 +60,10 @@
             <search>
                 <field name="name"/>
                 <field name="campus_id"/>
-                <filter name="filter_facility_type" string="Facility Type"
-                        context="{'group_by': 'facility_type'}"/>
+                <filter name="filter_facility_type" string="Facility Type" context="{'group_by': 'facility_type'}"/>
                 <group name="groupby">
-                    <filter name="groupby_facility_type" string="Facility Type"
-                            context="{'group_by': 'facility_type'}"/>
-                    <filter name="groupby_campus" string="Campus"
-                            context="{'group_by': 'campus_id'}"/>
+                    <filter name="groupby_facility_type" string="Facility Type" context="{'group_by': 'facility_type'}"/>
+                    <filter name="groupby_campus" string="Campus" context="{'group_by': 'campus_id'}"/>
                 </group>
             </search>
         </field>

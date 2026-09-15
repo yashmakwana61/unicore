@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Configuration submenu under the Admission root -->
+    <menuitem id="menu_oacis_admission_configuration" name="Configuration" parent="menu_oacis_admission_root" sequence="90" groups="oacis_base.group_oacis_admin,oacis_base.group_oacis_registrar"/>
+
+    <menuitem id="menu_oacis_admission_automation_rules" name="Automation Rules" parent="menu_oacis_admission_configuration" action="action_oacis_admission_automation_rule" sequence="10" groups="oacis_base.group_oacis_admin,oacis_base.group_oacis_registrar"/>
+
+</odoo>

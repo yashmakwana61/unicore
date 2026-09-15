@@ -9,12 +9,6 @@
   </record>
 
   <!-- Add the Dashboard to the menu -->
-  <menuitem
-    id="menu_oacis_analytics_admission_dashboard"
-    name="Admission Dashboard"
-    parent="oacis_analytics.menu_oacis_analytics_admission"
-    action="action_oacis_admission_dashboard"
-    sequence="5"
-    groups="oacis_base.group_oacis_manager"/>
+  <menuitem id="menu_oacis_analytics_admission_dashboard" name="Admission Dashboard" parent="oacis_analytics.menu_oacis_analytics_admission" action="action_oacis_admission_dashboard" sequence="5" groups="oacis_base.group_oacis_manager"/>
 
 </odoo>

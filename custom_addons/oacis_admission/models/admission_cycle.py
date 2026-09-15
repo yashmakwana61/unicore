@@ -62,6 +62,10 @@ class AdmissionCycle(models.Model):
     applicant_count = fields.Integer(
         string='Applicant Count', compute='_compute_applicant_count', store=False,
     )
+    website_cycle_count = fields.Integer(
+        string='Active Website Cycles', compute='_compute_website_cycle_count', store=False,
+        help='Number of active admission cycles published on the website.',
+    )
 
     @api.constrains('weight_aggregate', 'weight_entrance', 'weight_interview')
     def _check_weights(self):
@@ -86,11 +90,28 @@ class AdmissionCycle(models.Model):
                     % total,
                 ))
 
-    @api.depends('seat_ids')
+    @api.depends('applicant_ids')
     def _compute_applicant_count(self):
         Applicant = self.env['oacis.admission.applicant']
         for record in self:
             record.applicant_count = Applicant.search_count([('cycle_id', '=', record.id)])
+
+    def _compute_website_cycle_count(self):
+        Cycle = self.env['oacis.admission.cycle']
+        for record in self:
+            record.website_cycle_count = Cycle.search_count([
+                ('state', '=', 'active'),
+                ('company_id', '=', record.company_id.id),
+            ])
+
+    def action_open_website_admissions(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_url',
+            'name': _('Open Admission Programs'),
+            'url': '/admissions/programs',
+            'target': 'new',
+        }
 
     def action_activate(self):
         for record in self:

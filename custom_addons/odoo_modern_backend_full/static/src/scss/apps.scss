@@ -1,0 +1,7 @@
+/* Application-aware visual accents. They intentionally rely on stable high-level containers/classes. */
+.o_modern_backend [class*="o_mail"] .o_activity_title, .o_modern_backend [class*="o_project"] .o_activity_title { color: var(--ob-primary-strong); }
+.o_modern_backend .o_app[data-menu-xmlid*="crm"] .o_app_icon { border-radius: 12px; }
+.o_modern_backend .o_app[data-menu-xmlid*="sale"] .o_app_icon { border-radius: 12px; }
+.o_modern_backend .o_app[data-menu-xmlid*="stock"] .o_app_icon { border-radius: 12px; }
+.o_modern_backend .o_app { border-radius: 12px; }
+.o_modern_backend .o_app:hover { background: var(--ob-surface-muted); }

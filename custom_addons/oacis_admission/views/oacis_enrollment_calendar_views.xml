@@ -14,7 +14,7 @@
             <calendar date_start="registration_date" color="color" string="Enrollment Calendar">
                 <field name="enrollment_state"/>
                 <field name="registration_type"/>
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="course_offering_id"/>
             </calendar>
         </field>
@@ -32,7 +32,7 @@
         <field name="arch" type="xml">
             <calendar date_start="waitlist_date" color="color" string="Enrollment Waitlist Calendar">
                 <field name="waitlist_state"/>
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="course_offering_id"/>
                 <field name="position"/>
             </calendar>

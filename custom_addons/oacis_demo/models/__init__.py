@@ -1,0 +1,1 @@
+from . import demo_accounting_setup

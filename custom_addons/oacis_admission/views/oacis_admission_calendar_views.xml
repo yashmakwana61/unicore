@@ -12,7 +12,7 @@
         <field name="type">calendar</field>
         <field name="arch" type="xml">
             <calendar date_start="start_date" date_stop="end_date" color="color" string="Admission Cycle Calendar">
-                <field name="state"/>
+                <field name="state" widget="badge"/>
                 <field name="campus_id"/>
                 <field name="academic_year_id"/>
             </calendar>
@@ -30,7 +30,7 @@
         <field name="type">calendar</field>
         <field name="arch" type="xml">
             <calendar date_start="test_date" color="color" string="Entrance Test Calendar">
-                <field name="state"/>
+                <field name="state" widget="badge"/>
                 <field name="cycle_id"/>
                 <field name="venue"/>
             </calendar>
@@ -48,7 +48,7 @@
         <field name="type">calendar</field>
         <field name="arch" type="xml">
             <calendar date_start="offer_date" date_stop="valid_until" color="color" string="Offer Letter Calendar">
-                <field name="state"/>
+                <field name="state" widget="badge"/>
                 <field name="applicant_id"/>
                 <field name="program_name"/>
             </calendar>

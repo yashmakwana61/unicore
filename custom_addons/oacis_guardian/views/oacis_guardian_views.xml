@@ -77,7 +77,7 @@
             <page name="ward_students" string="Ward Students">
               <field name="student_rel_ids">
                 <list editable="bottom">
-                  <field name="student_id"/>
+                  <field name="student_id" widget="many2one_avatar"/>
                   <field name="relationship_type"/>
                   <field name="is_primary_guardian"/>
                   <field name="is_financial_guarantor"/>

@@ -31,7 +31,7 @@
             <group name="left">
               <field name="name"/>
               <field name="code"/>
-              <field name="faculty_id" options="{'no_create': True}"/>
+              <field name="faculty_id" options="{'no_create': True}" widget="many2one_avatar"/>
               <field name="company_id"/>
               <field name="hod_id" options="{'no_create': True}"/>
               <field name="sequence"/>
@@ -74,7 +74,7 @@
       <list>
         <field name="code"/>
         <field name="name"/>
-        <field name="faculty_id"/>
+        <field name="faculty_id" widget="many2one_avatar"/>
         <field name="hod_id"/>
         <field name="program_count"/>
         <field name="dept_state"/>
@@ -87,9 +87,12 @@
     <field name="model">oacis.department</field>
     <field name="arch" type="xml">
       <search>
+        <searchpanel>
+          <field name="faculty_id" icon="fa-university" enable_counters="1" widget="many2one_avatar"/>
+        </searchpanel>
         <field name="name"/>
         <field name="code"/>
-        <field name="faculty_id"/>
+        <field name="faculty_id" widget="many2one_avatar"/>
         <filter name="filter_operational" string="Operational" domain="[('dept_state', '=', 'active')]"/>
         <filter name="filter_draft" string="Draft" domain="[('dept_state', '=', 'draft')]"/>
         <group name="groupby">

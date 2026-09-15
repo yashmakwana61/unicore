@@ -20,7 +20,7 @@
               <field name="request_number" readonly="1"/>
               <field name="room_id"/>
               <field name="block_id" readonly="1"/>
-              <field name="student_id"/>
+              <field name="student_id" widget="many2one_avatar"/>
               <field name="request_date" readonly="1"/>
             </group>
             <group string="Issue Details">
@@ -52,7 +52,7 @@
         <field name="block_id"/>
         <field name="issue_type"/>
         <field name="priority"/>
-        <field name="student_id"/>
+        <field name="student_id" widget="many2one_avatar"/>
         <field name="assigned_to"/>
         <field name="request_date"/>
         <field name="resolution_days"/>
@@ -68,7 +68,7 @@
         <field name="request_number"/>
         <field name="room_id"/>
         <field name="block_id"/>
-        <field name="student_id"/>
+        <field name="student_id" widget="many2one_avatar"/>
         <filter name="open" string="Open" domain="[('maintenance_state','=','open')]"/>
         <filter name="urgent" string="Urgent" domain="[('priority','=','urgent')]"/>
         <filter name="in_progress" string="In Progress" domain="[('maintenance_state','=','in_progress')]"/>

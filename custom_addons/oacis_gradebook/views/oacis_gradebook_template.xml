@@ -40,10 +40,7 @@
                         <thead>
                             <tr>
                                 <th>Student</th>
-                                <th t-foreach="gb['assignments']" t-as="a"
-                                    t-att-title="a['title']"
-                                    style="text-align:center;"
-                                    t-esc="a['title']"/>
+                                <th t-foreach="gb['assignments']" t-as="a" t-att-title="a['title']" style="text-align:center;" t-esc="a['title']"/>
                                 <th style="width:12mm;">Graded</th>
                                 <th style="width:12mm;">Obtained</th>
                                 <th style="width:12mm;">Possible</th>
@@ -56,16 +53,13 @@
                                 <tr>
                                     <td t-esc="r['student'].display_name"/>
                                     <t t-foreach="gb['assignments']" t-as="a">
-                                        <td style="text-align:center;"
-                                            t-esc="r['scores'].get(a['id'], '')"/>
+                                        <td style="text-align:center;" t-esc="r['scores'].get(a['id'], '')"/>
                                     </t>
                                     <td style="text-align:center;" t-esc="r['graded_count']"/>
                                     <td style="text-align:center;" t-esc="r['total_obtained']"/>
                                     <td style="text-align:center;" t-esc="r['total_possible']"/>
                                     <td style="text-align:center;" t-esc="r['percentage']"/>
-                                    <td style="text-align:center;"
-                                        t-att-class="'gb-synced' if r['is_synced'] else 'gb-pending'"
-                                        t-esc="r['ca_component']"/>
+                                    <td style="text-align:center;" t-att-class="'gb-synced' if r['is_synced'] else 'gb-pending'" t-esc="r['ca_component']"/>
                                 </tr>
                             </t>
                             <t t-if="not gb['rows']">

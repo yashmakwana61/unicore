@@ -4,3 +4,7 @@ access_oacis_ai_chat_message_user,oacis.ai.chat.message user,model_oacis_ai_chat
 access_oacis_ai_generate_wizard_user,oacis.ai.generate.wizard user,model_oacis_ai_generate_wizard,group_oacis_ai_user,1,1,1,1
 access_oacis_ai_chat_session_manager,oacis.ai.chat.session manager,model_oacis_ai_chat_session,group_oacis_ai_manager,1,1,1,1
 access_oacis_ai_chat_message_manager,oacis.ai.chat.message manager,model_oacis_ai_chat_message,group_oacis_ai_manager,1,1,1,1
+access_oacis_ai_prompt_user,oacis.ai.prompt user,model_oacis_ai_prompt,group_oacis_ai_user,1,0,0,0
+access_oacis_ai_prompt_manager,oacis.ai.prompt manager,model_oacis_ai_prompt,group_oacis_ai_manager,1,1,1,1
+access_oacis_ai_usage_user,oacis.ai.usage.log user,model_oacis_ai_usage_log,group_oacis_ai_user,1,0,0,0
+access_oacis_ai_usage_manager,oacis.ai.usage.log manager,model_oacis_ai_usage_log,group_oacis_ai_manager,1,1,1,1

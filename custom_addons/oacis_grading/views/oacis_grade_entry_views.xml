@@ -22,7 +22,7 @@
           <group>
             <group string="Academic Details">
               <field name="enrollment_id"/>
-              <field name="student_id" readonly="1"/>
+              <field name="student_id" readonly="1" widget="many2one_avatar"/>
               <field name="course_id" readonly="1"/>
               <field name="semester_id" readonly="1"/>
               <field name="course_offering_id" readonly="1"/>
@@ -66,7 +66,7 @@
     <field name="model">oacis.grade.entry</field>
     <field name="arch" type="xml">
       <list decoration-success="is_pass == True" decoration-danger="is_pass == False and               entry_state in ('published','locked')" decoration-muted="entry_state == 'draft'">
-        <field name="student_id"/>
+        <field name="student_id" widget="many2one_avatar"/>
         <field name="course_id"/>
         <field name="semester_id"/>
         <field name="internal_marks"/>
@@ -86,7 +86,7 @@
     <field name="model">oacis.grade.entry</field>
     <field name="arch" type="xml">
       <search>
-        <field name="student_id"/>
+        <field name="student_id" widget="many2one_avatar"/>
         <field name="course_id"/>
         <field name="semester_id"/>
         <filter name="published" string="Published" domain="[('entry_state','=','published')]"/>

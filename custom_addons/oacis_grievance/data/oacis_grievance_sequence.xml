@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_oacis_grievance_request" model="ir.sequence">
+            <field name="name">Grievance Request</field>
+            <field name="code">oacis.grievance.request</field>
+            <field name="prefix">GRV-%(year)s-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

@@ -11,26 +11,12 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_submit" type="object"
-                            string="Submit" class="oe_highlight"
-                            invisible="state != 'draft'"/>
-                    <button name="action_approve" type="object"
-                            string="Approve" class="oe_highlight"
-                            invisible="state != 'submitted'"
-                            groups="oacis_base.group_oacis_admin,oacis_base.group_oacis_manager"/>
-                    <button name="action_reject" type="object"
-                            string="Reject" class="oe_highlight"
-                            invisible="state != 'submitted'"
-                            groups="oacis_base.group_oacis_admin,oacis_base.group_oacis_manager"/>
-                    <button name="action_fulfill" type="object"
-                            string="Mark Fulfilled" class="oe_highlight"
-                            invisible="state != 'approved'"
-                            groups="oacis_base.group_oacis_admin,oacis_base.group_oacis_manager,oacis_base.group_oacis_staff"/>
-                    <button name="action_reset_to_draft" type="object"
-                            string="Reset to Draft"
-                            invisible="state not in ('submitted', 'rejected')"/>
-                    <field name="state" widget="statusbar"
-                           statusbar_visible="draft,submitted,approved,fulfilled"/>
+                    <button name="action_submit" type="object" string="Submit" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_approve" type="object" string="Approve" class="oe_highlight" invisible="state != 'submitted'" groups="oacis_base.group_oacis_admin,oacis_base.group_oacis_manager"/>
+                    <button name="action_reject" type="object" string="Reject" class="oe_highlight" invisible="state != 'submitted'" groups="oacis_base.group_oacis_admin,oacis_base.group_oacis_manager"/>
+                    <button name="action_fulfill" type="object" string="Mark Fulfilled" class="oe_highlight" invisible="state != 'approved'" groups="oacis_base.group_oacis_admin,oacis_base.group_oacis_manager,oacis_base.group_oacis_staff"/>
+                    <button name="action_reset_to_draft" type="object" string="Reset to Draft" invisible="state not in ('submitted', 'rejected')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved,fulfilled"/>
                 </header>
                 <sheet>
                     <div class="oe_title">
@@ -49,8 +35,7 @@
                         </group>
                         <group string="Asset Information">
                             <field name="asset_id"/>
-                            <field name="asset_description"
-                                   invisible="asset_id"/>
+                            <field name="asset_description" invisible="asset_id"/>
                             <field name="asset_type"/>
                             <field name="requested_quantity"/>
                         </group>
@@ -58,10 +43,9 @@
                     <group string="Reason / Justification">
                         <field name="reason" widget="text" nolabel="1" rows="3"/>
                     </group>
-                    <group string="Approval"
-                           invisible="state in ('draft',)">
+                    <group string="Approval" invisible="state in ('draft',)">
                         <group>
-                            <field name="approver_id"/>
+                            <field name="approver_id" widget="many2one_avatar"/>
                             <field name="approved_date" readonly="1"/>
                         </group>
                         <group invisible="state == 'rejected'">
@@ -97,12 +81,8 @@
                 <field name="asset_type"/>
                 <field name="requested_quantity"/>
                 <field name="needed_by_date"/>
-                <field name="approver_id" optional="show"/>
-                <field name="state" widget="badge"
-                       decoration-danger="state == 'rejected'"
-                       decoration-warning="state == 'draft'"
-                       decoration-info="state == 'submitted'"
-                       decoration-success="state in ('approved', 'fulfilled')"/>
+                <field name="approver_id" optional="show" widget="many2one_avatar"/>
+                <field name="state" widget="badge" decoration-danger="state == 'rejected'" decoration-warning="state == 'draft'" decoration-info="state == 'submitted'" decoration-success="state in ('approved', 'fulfilled')"/>
             </list>
         </field>
     </record>
@@ -117,38 +97,25 @@
                 <field name="requested_by"/>
                 <field name="asset_id"/>
                 <field name="campus_id"/>
-                <field name="approver_id"/>
+                <field name="approver_id" widget="many2one_avatar"/>
                 <separator/>
-                <filter string="My Requests" name="my_requests"
-                        domain="[('requested_by', '=', uid)]"/>
+                <filter string="My Requests" name="my_requests" domain="[('requested_by', '=', uid)]"/>
                 <separator/>
-                <filter string="Draft" name="draft"
-                        domain="[('state', '=', 'draft')]"/>
-                <filter string="Submitted" name="submitted"
-                        domain="[('state', '=', 'submitted')]"/>
-                <filter string="Approved" name="approved"
-                        domain="[('state', '=', 'approved')]"/>
-                <filter string="Rejected" name="rejected"
-                        domain="[('state', '=', 'rejected')]"/>
-                <filter string="Fulfilled" name="fulfilled"
-                        domain="[('state', '=', 'fulfilled')]"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Submitted" name="submitted" domain="[('state', '=', 'submitted')]"/>
+                <filter string="Approved" name="approved" domain="[('state', '=', 'approved')]"/>
+                <filter string="Rejected" name="rejected" domain="[('state', '=', 'rejected')]"/>
+                <filter string="Fulfilled" name="fulfilled" domain="[('state', '=', 'fulfilled')]"/>
                 <separator/>
-                <filter string="Overdue" name="overdue"
-                        domain="[('needed_by_date', '&lt;', today()), ('state', 'in', ['submitted', 'approved'])]"/>
+                <filter string="Overdue" name="overdue" domain="[('needed_by_date', '&lt;', today()), ('state', 'in', ['submitted', 'approved'])]"/>
                 <separator/>
                 <group>
-                    <filter string="Status" name="group_state"
-                            context="{'group_by': 'state'}"/>
-                    <filter string="Requested By" name="group_requested_by"
-                            context="{'group_by': 'requested_by'}"/>
-                    <filter string="Campus" name="group_campus"
-                            context="{'group_by': 'campus_id'}"/>
-                    <filter string="Asset Type" name="group_asset_type"
-                            context="{'group_by': 'asset_type'}"/>
-                    <filter string="Approver" name="group_approver"
-                            context="{'group_by': 'approver_id'}"/>
-                    <filter string="Needed By" name="group_needed_by"
-                            context="{'group_by': 'needed_by_date'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Requested By" name="group_requested_by" context="{'group_by': 'requested_by'}"/>
+                    <filter string="Campus" name="group_campus" context="{'group_by': 'campus_id'}"/>
+                    <filter string="Asset Type" name="group_asset_type" context="{'group_by': 'asset_type'}"/>
+                    <filter string="Approver" name="group_approver" context="{'group_by': 'approver_id'}"/>
+                    <filter string="Needed By" name="group_needed_by" context="{'group_by': 'needed_by_date'}"/>
                 </group>
             </search>
         </field>
@@ -167,7 +134,7 @@
                 <field name="asset_description"/>
                 <field name="asset_type"/>
                 <field name="needed_by_date"/>
-                <field name="state"/>
+                <field name="state" widget="badge"/>
                 <field name="campus_id"/>
                 <templates>
                     <t t-name="card">
@@ -206,7 +173,6 @@
         <field name="name">Asset Requests</field>
         <field name="res_model">oacis.asset.request</field>
         <field name="view_mode">kanban,list,form</field>
-        <field name="search_view_id" ref="view_oacis_asset_request_search"/>
         <field name="context">{'search_default_submitted': 0}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

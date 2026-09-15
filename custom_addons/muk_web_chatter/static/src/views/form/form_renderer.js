@@ -1,6 +1,7 @@
 import { useState, useRef } from '@odoo/owl';
 import { patch } from '@web/core/utils/patch';
 import { browser } from '@web/core/browser/browser';
+import { SIZES } from '@web/core/ui/ui_service';
 
 import { FormRenderer } from '@web/views/form/form_renderer';
 
@@ -12,6 +13,34 @@ patch(FormRenderer.prototype, {
             width: browser.localStorage.getItem('muk_web_chatter.width'),
         });
         this.chatterContainer = useRef('chatterContainer');
+    },
+    get isChatterBottom() {
+        // If sidebar is open/uncollapsed, chatter MUST shift to bottom in every form view
+        const isSidebarLarge = document.body.classList.contains('mk_sidebar_type_large');
+        if (isSidebarLarge) {
+            return true;
+        }
+        // If sidebar is collapsed (small), chatter is on the right side as default on desktop screens (>= 992px)
+        const isDesktop = (this.uiService?.size >= SIZES.LG) || (typeof window !== 'undefined' && window.innerWidth >= 992);
+        return !isDesktop;
+    },
+    mailLayout(hasAttachmentContainer) {
+        const hasChatter = !!this.mailStore;
+        if (!hasChatter) {
+            return "NONE";
+        }
+        if (this.isChatterBottom) {
+            return "BOTTOM_CHATTER";
+        }
+        const hasFile = this.hasFile();
+        const hasExternalWindow = !!this.mailPopoutService?.externalWindow;
+        if (hasExternalWindow && hasFile && hasAttachmentContainer) {
+            return "EXTERNAL_COMBO_XXL";
+        }
+        if (hasAttachmentContainer && hasFile) {
+            return "COMBO";
+        }
+        return "SIDE_CHATTER";
     },
     onStartChatterResize(ev) {
         if (ev.button !== 0) {

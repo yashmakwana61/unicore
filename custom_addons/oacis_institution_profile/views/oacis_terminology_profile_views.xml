@@ -15,10 +15,12 @@
         <field name="model">oacis.terminology.profile</field>
         <field name="arch" type="xml">
             <list string="Terminology Profiles">
-                <field name="name"/>
+                <field name="name" class="fw-bold"/>
                 <field name="code"/>
                 <field name="term_program" optional="show"/>
-                <field name="term_student" optional="hide"/>
+                <field name="term_student" optional="show"/>
+                <field name="term_faculty_staff" optional="show"/>
+                <field name="active" widget="boolean_toggle" optional="show"/>
             </list>
         </field>
     </record>
@@ -30,43 +32,52 @@
         <field name="arch" type="xml">
             <form string="Terminology Profile">
                 <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Profile Name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="e.g. Higher Education University Terms"/></h1>
+                        <div class="d-flex align-items-center gap-2">
+                            <field name="code" placeholder="CODE" class="fw-bold text-muted"/>
+                        </div>
+                    </div>
                     <group>
                         <group name="left">
-                            <field name="name"/>
-                            <field name="code"/>
-                        </group>
-                        <group name="right">
-                            <field name="active"/>
+                            <field name="active" widget="boolean_toggle"/>
                         </group>
                     </group>
                     <group string="Terminology Substitutions">
                         <group name="terms">
-                            <field name="term_faculty"
-                                   placeholder="Faculty, Wing, Division... (blank = hidden)"/>
-                            <field name="term_department"
-                                   placeholder="Department, Grade Level... (blank = hidden)"/>
-                            <field name="term_program"
-                                   placeholder="Program, Class/Section, Batch..."/>
-                            <field name="term_student"
-                                   placeholder="Student, Learner, Trainee..."/>
+                            <field name="term_faculty" placeholder="Faculty, Wing, Division... (blank = hidden)"/>
+                            <field name="term_department" placeholder="Department, Grade Level... (blank = hidden)"/>
+                            <field name="term_program" placeholder="Program, Class/Section, Batch..."/>
+                            <field name="term_student" placeholder="Student, Learner, Trainee..."/>
                         </group>
                         <group name="terms_2">
-                            <field name="term_faculty_staff"
-                                   placeholder="Faculty, Teacher, Trainer, Instructor..."/>
-                            <field name="term_semester"
-                                   placeholder="Semester, Term, Cycle..."/>
-                            <field name="term_academic_year"
-                                   placeholder="Academic Year, Session..."/>
+                            <field name="term_faculty_staff" placeholder="Faculty, Teacher, Trainer, Instructor..."/>
+                            <field name="term_semester" placeholder="Semester, Term, Cycle..."/>
+                            <field name="term_academic_year" placeholder="Academic Year, Session..."/>
                         </group>
                     </group>
                     <group string="Applied Labels (read-only preview)">
                         <field name="label_summary" readonly="1"/>
                     </group>
                     <group string="Description">
-                        <field name="description"/>
+                        <field name="description" placeholder="Rationale and use cases for this vocabulary set..."/>
                     </group>
                 </sheet>
             </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="oacis_terminology_profile_search_view" model="ir.ui.view">
+        <field name="name">oacis.terminology.profile.search</field>
+        <field name="model">oacis.terminology.profile</field>
+        <field name="arch" type="xml">
+            <search string="Search Terminology Profiles">
+                <field name="name"/>
+                <field name="code"/>
+                <filter name="filter_active" string="Active" domain="[('active', '=', True)]"/>
+            </search>
         </field>
     </record>
 

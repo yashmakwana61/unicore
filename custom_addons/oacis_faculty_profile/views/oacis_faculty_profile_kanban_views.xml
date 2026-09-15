@@ -20,8 +20,7 @@
                 <field name="color"/>
                 <templates>
                     <t t-name="card" class="flex-row">
-                        <img t-att-src="record.image_1920.raw_value ? 'data:image/png;base64,'+record.image_1920.raw_value : '/oacis_base/static/description/icon.png'"
-                             class="o_kanban_image rounded shadow-sm me-3" alt="staff"/>
+                        <img t-att-src="record.image_1920.raw_value ? 'data:image/png;base64,'+record.image_1920.raw_value : '/oacis_base/static/description/icon.png'" class="o_kanban_image rounded shadow-sm me-3" alt="staff"/>
                         <main>
                             <div class="d-flex justify-content-between align-items-start">
                                 <field name="display_name" class="fw-bold fs-5"/>

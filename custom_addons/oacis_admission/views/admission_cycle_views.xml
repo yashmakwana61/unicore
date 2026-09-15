@@ -26,6 +26,11 @@
           <button name="action_archive" type="object" string="Archive" invisible="state not in ('closed', 'archived')" class="btn-secondary"/>
         </header>
         <sheet>
+          <div class="oe_button_box" name="button_box">
+            <button name="action_open_website_admissions" type="object" class="oe_stat_button" icon="fa-globe">
+              <field string="Active on Website" name="website_cycle_count" widget="statinfo"/>
+            </button>
+          </div>
           <div class="oe_title">
             <h1>
               <field name="name" placeholder="Cycle Name..."/>
@@ -93,9 +98,9 @@
     <field name="name">oacis.admission.cycle.kanban</field>
     <field name="model">oacis.admission.cycle</field>
     <field name="arch" type="xml">
-      <kanban class="o_kanban_small_cards">
+      <kanban class="o_kanban_small_cards oa_admission_kanban oa_cycle_kanban">
         <field name="id"/>
-        <field name="state"/>
+        <field name="state" widget="badge"/>
         <field name="name"/>
         <field name="code"/>
         <field name="campus_id"/>
@@ -105,42 +110,57 @@
         <field name="applicant_count"/>
         <templates>
           <t t-name="card">
-            <div class="oe_kanban_card">
-              <div class="oe_kanban_card_header" t-att-class="'state-' + record.state.value">
-                <strong>
-                  <t t-esc="record.name.value"/>
-                </strong>
-                <span class="state-badge">
+            <div class="oa_cycle_card" t-attf-class="oa_state_{{ record.state.raw_value or 'draft' }}">
+              <div class="oa_cycle_card_top">
+                <span class="oa_cycle_state_badge" t-attf-class="oa_state_{{ record.state.raw_value or 'draft' }}">
                   <t t-esc="record.state.value"/>
                 </span>
-              </div>
-              <div class="oe_kanban_card_body">
-                <div class="oe_kanban_field_line">
-                  <span>Code:</span>
+                <span class="oa_cycle_code" t-if="record.code.value">
                   <t t-esc="record.code.value"/>
+                </span>
+              </div>
+              <div class="oa_cycle_card_body">
+                <div class="oa_cycle_name">
+                  <t t-esc="record.name.value"/>
                 </div>
-                <div class="oe_kanban_field_line">
-                  <span>Campus:</span>
-                  <t t-esc="record.campus_id.value"/>
-                </div>
-                <div class="oe_kanban_field_line">
-                  <span>Academic Year:</span>
-                  <t t-esc="record.academic_year_id.value"/>
-                </div>
-                <div class="oe_kanban_field_line">
-                  <span>Start:</span>
-                  <t t-esc="record.start_date.value"/>
-                </div>
-                <div class="oe_kanban_field_line">
-                  <span>End:</span>
-                  <t t-esc="record.end_date.value"/>
-                </div>
-                <div class="oe_kanban_field_line">
-                  <span>Applicants:</span>
-                  <span class="badge badge-info">
-                    <t t-esc="record.applicant_count.value"/>
+                <div class="oa_cycle_meta" t-if="record.campus_id.value">
+                  <i class="fa fa-building-o" title="Building"/>
+                  <span class="text-truncate">
+                    <t t-esc="record.campus_id.value"/>
                   </span>
                 </div>
+                <div class="oa_cycle_meta" t-if="record.academic_year_id.value">
+                  <i class="fa fa-calendar" title="Calendar"/>
+                  <span class="text-truncate">
+                    <t t-esc="record.academic_year_id.value"/>
+                  </span>
+                </div>
+                <div class="oa_cycle_dates">
+                  <span class="oa_cycle_date">
+                    <i class="fa fa-sign-in" title="Sign In"/>
+                    <t t-if="record.start_date.value">
+                      <t t-esc="record.start_date.value"/>
+                    </t>
+                    <t t-else="">
+                      <span class="text-muted">—</span>
+                    </t>
+                  </span>
+                  <span class="oa_cycle_date">
+                    <i class="fa fa-sign-out" title="Sign Out"/>
+                    <t t-if="record.end_date.value">
+                      <t t-esc="record.end_date.value"/>
+                    </t>
+                    <t t-else="">
+                      <span class="text-muted">—</span>
+                    </t>
+                  </span>
+                </div>
+              </div>
+              <div class="oa_cycle_card_foot">
+                <span class="oa_cycle_applicants">
+                  <i class="fa fa-users" title="Users"/>
+                  <t t-esc="record.applicant_count.value"/> Applicants
+                </span>
               </div>
             </div>
           </t>
@@ -153,6 +173,10 @@
     <field name="model">oacis.admission.cycle</field>
     <field name="arch" type="xml">
       <search>
+        <searchpanel>
+          <field name="campus_id" icon="fa-university" enable_counters="1"/>
+          <field name="academic_year_id" icon="fa-calendar" enable_counters="1"/>
+        </searchpanel>
         <field name="name"/>
         <field name="code"/>
         <field name="campus_id"/>
@@ -166,7 +190,6 @@
     <field name="name">Admission Cycles</field>
     <field name="res_model">oacis.admission.cycle</field>
     <field name="view_mode">kanban,list,form</field>
-    <field name="search_view_id" ref="admission_cycle_search_view"/>
     <field name="help" type="html">
       <p>Create and manage admission cycles here. Each cycle represents a
             defined admission period with seat allocations per program. Use the Kanban

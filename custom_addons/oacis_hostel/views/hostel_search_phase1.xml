@@ -8,12 +8,9 @@
         <field name="arch" type="xml">
 
             <xpath expr="//filter[@name='no_deposit']" position="after">
-                <filter name="filter_checked_out" string="Checked Out"
-                    domain="[('allocation_state','=','checked_out')]"/>
-                <filter name="filter_cancelled" string="Cancelled"
-                    domain="[('allocation_state','=','cancelled')]"/>
-                <filter name="filter_no_show" string="No Show"
-                    domain="[('allocation_state','=','no_show')]"/>
+                <filter name="filter_checked_out" string="Checked Out" domain="[('allocation_state','=','checked_out')]"/>
+                <filter name="filter_cancelled" string="Cancelled" domain="[('allocation_state','=','cancelled')]"/>
+                <filter name="filter_no_show" string="No Show" domain="[('allocation_state','=','no_show')]"/>
             </xpath>
 
         </field>
@@ -26,8 +23,7 @@
         <field name="arch" type="xml">
 
             <xpath expr="//filter[@name='resolved']" position="after">
-                <filter name="filter_cancelled" string="Cancelled"
-                    domain="[('maintenance_state','=','cancelled')]"/>
+                <filter name="filter_cancelled" string="Cancelled" domain="[('maintenance_state','=','cancelled')]"/>
             </xpath>
 
         </field>

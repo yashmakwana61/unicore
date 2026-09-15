@@ -2,11 +2,7 @@
 <odoo>
 
     <!-- Oacis Root Menu -->
-    <menuitem id="menu_oacis_root"
-              name="Oacis"
-              sequence="1"
-              web_icon="oacis_base,static/description/icon.png"
-              groups="oacis_base.group_oacis_staff"/>
+    <menuitem id="menu_oacis_root" name="Oacis" sequence="1" web_icon="oacis_base,static/description/icon.png" groups="oacis_base.group_oacis_staff"/>
 
     <!-- Oacis Overview Dashboard (like Invoicing Dashboard) -->
     <menuitem id="menu_oacis_overview"
@@ -17,17 +13,9 @@
               groups="oacis_base.group_oacis_staff"/>
 
     <!-- Oacis Campuses Menu -->
-    <menuitem id="menu_oacis_campuses"
-              name="Campuses"
-              parent="menu_oacis_root"
-              action="action_oacis_campus"
-              sequence="5"/>
+    <menuitem id="menu_oacis_campuses" name="Campuses" parent="menu_oacis_root" action="action_oacis_campus" sequence="5"/>
 
     <!-- Oacis Configuration Menu -->
-    <menuitem id="menu_oacis_configuration"
-              name="Configuration"
-              parent="menu_oacis_root"
-              sequence="999"
-              groups="oacis_base.group_oacis_admin"/>
+    <menuitem id="menu_oacis_configuration" name="Configuration" parent="menu_oacis_root" sequence="999" groups="oacis_base.group_oacis_admin"/>
 
 </odoo>

@@ -13,7 +13,7 @@
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="dept_state">
                 <field name="code"/>
                 <field name="name"/>
-                <field name="faculty_id"/>
+                <field name="faculty_id" widget="many2one_avatar"/>
                 <field name="dept_state"/>
                 <field name="program_count"/>
                 <field name="established_year"/>
@@ -26,7 +26,7 @@
                                 <field name="dept_state" widget="badge"/>
                             </div>
                             <field name="name"/>
-                            <field name="faculty_id"/>
+                            <field name="faculty_id" widget="many2one_avatar"/>
                             <div class="text-muted mt-1 small">
                                 <t t-if="record.established_year.raw_value">
                                     Established: <field name="established_year"/>

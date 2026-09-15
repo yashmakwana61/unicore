@@ -7,10 +7,12 @@
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         </record>
 
-        <!-- AI Manager — can configure settings and view all sessions -->
+        <!-- AI Manager — can configure settings and view all sessions.
+             NOTE: intentionally does NOT imply AI User, so the "own only"
+             record rules on AI User do not restrict managers.
+             Give managers BOTH groups to let them also use the chatbot. -->
         <record id="group_oacis_ai_manager" model="res.groups">
             <field name="name">AI Manager</field>
-            <field name="implied_ids" eval="[(4, ref('group_oacis_ai_user'))]"/>
         </record>
     </data>
 </odoo>

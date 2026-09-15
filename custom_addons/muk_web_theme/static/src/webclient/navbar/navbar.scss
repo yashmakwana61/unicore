@@ -1,9 +1,44 @@
 .o_main_navbar {
-    border-bottom: none !important;
+    border-bottom: 1px solid var(--mk-sidebar-border, rgba(255, 255, 255, 0.08)) !important;
+    background-color: var(--mk-sidebar-bg, #0F172A) !important;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15) !important;
+    font-family: var(--mk-font-family);
 
     > .o_menu_sections {
         margin-right: 1rem;
+        
+        .o_nav_entry, .dropdown-toggle {
+            font-size: 13.5px;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: var(--mk-radius-xs, 6px);
+            transition: all 160ms ease;
+            
+            &:hover, &:focus {
+                background-color: rgba(255, 255, 255, 0.08) !important;
+                color: #FFFFFF !important;
+            }
+        }
     }
+
+    > .o_menu_systray {
+        .o_nav_entry, .dropdown-toggle, button.o_nav_entry {
+            border-radius: var(--mk-radius-xs, 6px);
+            transition: all 160ms ease;
+            
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.08);
+            }
+        }
+        
+        // Badge styling
+        .badge {
+            font-size: 10px;
+            font-weight: 600;
+            border-radius: var(--mk-radius-pill, 9999px);
+        }
+    }
+
     @include media-breakpoint-down(md) {
         > .o_menu_systray {
             flex-shrink: 1 !important;

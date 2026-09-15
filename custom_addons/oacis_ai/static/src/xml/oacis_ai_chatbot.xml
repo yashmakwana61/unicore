@@ -7,10 +7,8 @@
     <t t-name="oacis_ai.ChatbotSystray">
         <div class="o_oacis_ai_systray">
             <!-- Systray button -->
-            <button class="btn o_nav_entry o-no-caret position-relative"
-                    title="Oacis AI Chatbot"
-                    t-on-click="togglePanel">
-                <i class="fa fa-magic"/>
+            <button class="btn o_nav_entry o-no-caret position-relative" title="Oacis AI Chatbot" t-on-click="togglePanel">
+                <i class="fa fa-magic" title="Magic"/>
             </button>
 
             <!-- Slide-out panel (always in DOM, toggled via CSS class) -->
@@ -19,21 +17,21 @@
                 <!-- Header -->
                 <div class="o_oacis_ai_panel_header">
                     <div class="o_oacis_ai_panel_title">
-                        <i class="fa fa-magic me-2"/>
+                        <i class="fa fa-magic me-2" title="Magic"/>
                         <span>Oacis AI</span>
                     </div>
                     <div class="o_oacis_ai_panel_actions">
-                        <button class="btn btn-sm btn-link text-white" title="New Chat"
-                                t-on-click="newSession">
-                            <i class="fa fa-plus"/>
+                        <button class="btn btn-sm btn-link text-white" title="Ask about this record" t-on-click="askAboutRecord">
+                            <i class="fa fa-crosshairs" title="Record"/>
                         </button>
-                        <button class="btn btn-sm btn-link text-white" title="Chat History"
-                                t-on-click="toggleHistory">
-                            <i class="fa fa-history"/>
+                        <button class="btn btn-sm btn-link text-white" title="New Chat" t-on-click="newSession">
+                            <i class="fa fa-plus" title="Add"/>
                         </button>
-                        <button class="btn btn-sm btn-link text-white" title="Close"
-                                t-on-click="togglePanel">
-                            <i class="fa fa-times"/>
+                        <button class="btn btn-sm btn-link text-white" title="Chat History" t-on-click="toggleHistory">
+                            <i class="fa fa-history" title="History"/>
+                        </button>
+                        <button class="btn btn-sm btn-link text-white" title="Close" t-on-click="togglePanel">
+                            <i class="fa fa-times" title="Close"/>
                         </button>
                     </div>
                 </div>
@@ -44,25 +42,24 @@
                         <div class="o_oacis_ai_history_header">
                             <span class="fw-bold">Chat History</span>
                             <button class="btn btn-sm btn-link" t-on-click="toggleHistory">
-                                <i class="fa fa-arrow-left"/>
+                                <i class="fa fa-arrow-left" title="Arrow Left"/>
                             </button>
                         </div>
+                        <div class="px-2 pb-1">
+                            <input class="form-control form-control-sm o_oacis_ai_search" placeholder="Search chats…" t-model="state.searchText"/>
+                        </div>
                         <div class="o_oacis_ai_history_list">
-                            <t t-foreach="state.sessions" t-as="session" t-key="session.id">
-                                <div class="o_oacis_ai_history_item"
-                                     t-att-class="{ 'active': state.currentSessionId === session.id }"
-                                     t-on-click="() => this.loadSession(session.id)">
-                                    <span class="o_oacis_ai_history_item_title text-truncate"
-                                          t-esc="session.title"/>
-                                    <button class="btn btn-sm btn-link text-danger o_delete_session"
-                                            t-on-click.stop="() => this.deleteSession(session.id)"
+                            <t t-foreach="filteredSessions" t-as="session" t-key="session.id">
+                                <div class="o_oacis_ai_history_item" t-att-class="{ 'active': state.currentSessionId === session.id }" t-on-click="() => this.loadSession(session.id)">
+                                    <span class="o_oacis_ai_history_item_title text-truncate" t-esc="session.title"/>
+                                    <button class="btn btn-sm btn-link text-danger o_delete_session" t-on-click.stop="() => this.deleteSession(session.id)"
                                             title="Delete">
-                                        <i class="fa fa-trash-o"/>
+                                        <i class="fa fa-trash-o" title="Trash O"/>
                                     </button>
                                 </div>
                             </t>
-                            <div t-if="!state.sessions.length" class="text-center text-muted p-3">
-                                <i class="fa fa-comments-o fa-2x mb-2 d-block"/>
+                            <div t-if="!filteredSessions.length" class="text-center text-muted p-3">
+                                <i class="fa fa-comments-o fa-2x mb-2 d-block" title="Comments O"/>
                                 No chat history yet.
                             </div>
                         </div>
@@ -76,33 +73,36 @@
                         <t t-if="!state.messages.length">
                             <div class="o_oacis_ai_welcome">
                                 <div class="o_oacis_ai_welcome_icon">
-                                    <i class="fa fa-magic"/>
+                                    <i class="fa fa-magic" title="Magic"/>
                                 </div>
                                 <h4>Hello! I'm Oacis AI</h4>
                                 <p class="text-muted">
                                     Ask me anything about academics, administration,
-                                    or let me help you draft content.
+                                    or let me help you draft content. Tip: open a
+                                    student / admission record, then click the
+                                    crosshair icon to summarize it.
                                 </p>
                                 <div class="o_oacis_ai_suggestions">
-                                    <button class="o_oacis_ai_suggestion"
-                                            t-on-click="() => this.sendSuggestion('Draft a notice for upcoming exams')">
+                                    <button class="o_oacis_ai_suggestion" t-on-click="() => this.sendSuggestion('Draft a notice for upcoming exams')">
                                         📝 Draft exam notice
                                     </button>
-                                    <button class="o_oacis_ai_suggestion"
-                                            t-on-click="() => this.sendSuggestion('Summarize key academic policies')">
-                                        📋 Summarize policies
+                                    <button class="o_oacis_ai_suggestion" t-on-click="() => this.sendSuggestion('Create 5 medium-level quiz questions with answer key. Topic: ')">
+                                        ❓ Create a quiz
                                     </button>
-                                    <button class="o_oacis_ai_suggestion"
-                                            t-on-click="() => this.sendSuggestion('Generate a course description for Introduction to Computer Science')">
-                                        📚 Generate course description
+                                    <button class="o_oacis_ai_suggestion" t-on-click="askAboutRecord">
+                                        🎯 Summarize this record
                                     </button>
+                                    <t t-foreach="state.prompts.slice(0, 4)" t-as="pr" t-key="pr.id">
+                                        <button class="o_oacis_ai_suggestion o_oacis_ai_prompt_chip" t-on-click="() => this.sendSuggestion(pr.prompt_text)">
+                                            ✨ <t t-esc="pr.name"/>
+                                        </button>
+                                    </t>
                                 </div>
                             </div>
                         </t>
                         <!-- Message bubbles -->
                         <t t-foreach="state.messages" t-as="msg" t-key="msg_index">
-                            <div class="o_oacis_ai_msg"
-                                 t-att-class="'o_oacis_ai_msg_' + msg.role">
+                            <div class="o_oacis_ai_msg" t-att-class="'o_oacis_ai_msg_' + msg.role">
                                 <div class="o_oacis_ai_msg_avatar">
                                     <i t-if="msg.role === 'assistant'" class="fa fa-magic"/>
                                     <i t-else="" class="fa fa-user"/>
@@ -111,6 +111,17 @@
                                     <div class="o_oacis_ai_msg_content">
                                         <t t-out="formatMessage(msg.content)"/>
                                     </div>
+                                    <div t-if="msg.role === 'assistant'" class="o_oacis_ai_msg_tools">
+                                        <button class="btn btn-sm btn-link o_oacis_ai_tool" title="Copy" t-on-click="() => this.copyText(msg.content)">
+                                            <i class="fa fa-copy"/> Copy
+                                        </button>
+                                        <button class="btn btn-sm btn-link o_oacis_ai_tool" title="Helpful" t-on-click="() => this.sendFeedback(msg, 'up')">
+                                            <i class="fa fa-thumbs-o-up"/>
+                                        </button>
+                                        <button class="btn btn-sm btn-link o_oacis_ai_tool" title="Not helpful" t-on-click="() => this.sendFeedback(msg, 'down')">
+                                            <i class="fa fa-thumbs-o-down"/>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </t>
@@ -118,7 +129,7 @@
                         <t t-if="state.isLoading">
                             <div class="o_oacis_ai_msg o_oacis_ai_msg_assistant">
                                 <div class="o_oacis_ai_msg_avatar">
-                                    <i class="fa fa-magic"/>
+                                    <i class="fa fa-magic" title="Magic"/>
                                 </div>
                                 <div class="o_oacis_ai_msg_body">
                                     <div class="o_oacis_ai_typing">
@@ -131,18 +142,11 @@
 
                     <!-- Input area -->
                     <div class="o_oacis_ai_input">
+                        <div class="text-muted small px-1 pb-1">Enter to send • Shift+Enter for new line</div>
                         <div class="o_oacis_ai_input_wrapper">
-                            <textarea
-                                t-ref="inputArea"
-                                class="o_oacis_ai_textarea"
-                                placeholder="Ask Oacis AI anything…"
-                                t-on-keydown="onKeydown"
-                                t-att-disabled="state.isLoading"
-                                rows="1"
+                            <textarea t-ref="inputArea" class="o_oacis_ai_textarea" placeholder="Ask Oacis AI anything…" t-on-keydown="onKeydown" t-att-disabled="state.isLoading" rows="1"
                             />
-                            <button class="o_oacis_ai_send_btn"
-                                    t-on-click="sendMessage"
-                                    t-att-disabled="state.isLoading">
+                            <button class="o_oacis_ai_send_btn" t-on-click="sendMessage" t-att-disabled="state.isLoading">
                                 <i t-if="!state.isLoading" class="fa fa-paper-plane"/>
                                 <i t-else="" class="fa fa-spinner fa-spin"/>
                             </button>

@@ -11,10 +11,7 @@
 
                         <div class="id-card-body">
                             <div class="id-card-photo">
-                                <img t-if="student.image_1920"
-                                     t-att-src="'data:image/png;base64,' + student.image_1920.decode('utf-8')"
-                                     style="width:100%;height:100%;object-fit:cover"
-                                     alt="Photo"/>
+                                <img t-if="student.image_1920" t-att-src="'data:image/png;base64,' + student.image_1920.decode('utf-8')" style="width:100%;height:100%;object-fit:cover" alt="Photo"/>
                                 <span t-else="">PHOTO</span>
                             </div>
 

@@ -23,18 +23,9 @@
       <form>
         <sheet>
           <div class="oe_button_box" name="button_box">
-            <button name="action_generate_key"
-                    type="object"
-                    string="Generate Key"
-                    class="oe_stat_button"
-                    icon="fa-refresh"
-                    groups="oacis_api.group_oacis_api_admin"
-                    help="Generate a new secret. It is shown once and never stored in plaintext."/>
+            <button name="action_regenerate_key" type="object" string="Regenerate Key" class="oe_stat_button" icon="fa-refresh" groups="oacis_api.group_oacis_api_admin"/>
           </div>
-          <widget name="web_ribbon"
-                  text="Expired"
-                  bg_color="danger"
-                  invisible="expires_on == False or expires_on &gt; current_date()"/>
+          <widget name="web_ribbon" text="Expired" bg_color="danger" invisible="expires_on == False or expires_on &gt; current_date()"/>
           <group>
             <group>
               <field name="name"/>
@@ -43,14 +34,10 @@
               <field name="active"/>
             </group>
             <group>
-              <field name="token_hash"
-                     readonly="1"
-                     password="True"
-                     groups="oacis_api.group_oacis_api_admin"/>
+              <field name="token" readonly="1" password="True" groups="oacis_api.group_oacis_api_admin"/>
               <field name="expires_on"/>
               <field name="daily_limit"/>
-              <field name="company_id"
-                     groups="base.group_multi_company"/>
+              <field name="company_id" groups="base.group_multi_company"/>
             </group>
           </group>
           <notebook>
@@ -81,29 +68,15 @@
         <field name="name"/>
         <field name="user_id"/>
         <field name="scope"/>
-        <filter name="active"
-                string="Active"
-                domain="[('active','=',True)]"/>
-        <filter name="expired"
-                string="Expired"
-                domain="[('expires_on','&lt;=',context_today().isoformat())]"/>
+        <filter name="active" string="Active" domain="[('active','=',True)]"/>
+        <filter name="expired" string="Expired" domain="[('expires_on','&lt;=',context_today().isoformat())]"/>
         <separator/>
-        <filter name="read_scope"
-                string="Read Only"
-                domain="[('scope','=','read')]"/>
-        <filter name="write_scope"
-                string="Read &amp; Write"
-                domain="[('scope','=','write')]"/>
-        <filter name="admin_scope"
-                string="Full Access"
-                domain="[('scope','=','admin')]"/>
+        <filter name="read_scope" string="Read Only" domain="[('scope','=','read')]"/>
+        <filter name="write_scope" string="Read &amp; Write" domain="[('scope','=','write')]"/>
+        <filter name="admin_scope" string="Full Access" domain="[('scope','=','admin')]"/>
         <group name="group_by">
-          <filter name="group_by_scope"
-                  string="Scope"
-                  context="{'group_by': 'scope'}"/>
-          <filter name="group_by_user"
-                  string="User"
-                  context="{'group_by': 'user_id'}"/>
+          <filter name="group_by_scope" string="Scope" context="{'group_by': 'scope'}"/>
+          <filter name="group_by_user" string="User" context="{'group_by': 'user_id'}"/>
         </group>
       </search>
     </field>
@@ -134,29 +107,6 @@
           </t>
         </templates>
       </kanban>
-    </field>
-  </record>
-
-  <record id="view_oacis_api_key_token_wizard_form" model="ir.ui.view">
-    <field name="name">oacis.api.key.token.wizard.form</field>
-    <field name="model">oacis.api.key.token.wizard</field>
-    <field name="arch" type="xml">
-      <form string="Your New API Key">
-        <div class="alert alert-warning" role="alert">
-          Copy this key now. For security it will
-          <b>never be shown again</b> and is not stored on the server.
-        </div>
-        <group>
-          <field name="key_id"/>
-          <field name="full_token" password="False" readonly="1"/>
-        </group>
-        <footer>
-          <button name="action_done"
-                  type="object"
-                  string="I have saved the key"
-                  class="btn-primary"/>
-        </footer>
-      </form>
     </field>
   </record>
 

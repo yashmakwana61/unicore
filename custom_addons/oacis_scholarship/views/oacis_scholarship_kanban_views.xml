@@ -68,7 +68,7 @@
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="application_state">
                 <field name="display_name"/>
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="scholarship_program_id"/>
                 <field name="application_date"/>
                 <field name="application_state"/>
@@ -81,7 +81,7 @@
                                 <field name="application_state" widget="badge"/>
                             </div>
                             <div class="text-muted mt-1">
-                                <field name="student_id"/>
+                                <field name="student_id" widget="many2one_avatar"/>
                             </div>
                             <div class="text-muted small mt-1">
                                 <field name="scholarship_program_id"/>
@@ -107,7 +107,7 @@
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="award_state">
                 <field name="display_name"/>
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="scholarship_program_id"/>
                 <field name="semester_id"/>
                 <field name="award_amount"/>
@@ -122,7 +122,7 @@
                                 <field name="award_state" widget="badge"/>
                             </div>
                             <div class="text-muted mt-1">
-                                <field name="student_id"/>
+                                <field name="student_id" widget="many2one_avatar"/>
                             </div>
                             <div class="text-muted small mt-1">
                                 <field name="scholarship_program_id"/>

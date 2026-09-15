@@ -1,0 +1,51 @@
+<odoo>
+    <!-- Add "AI Assistant" link inside My Account -->
+    <template id="portal_my_home_ai_assistant" name="Portal My Home: AI Assistant"
+              inherit_id="portal.portal_my_home">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="request.env.user.has_group('oacis_ai.group_oacis_ai_user')">
+                <a href="/my/ai-assistant"
+                   class="list-group-item list-group-item-action d-flex align-items-center gap-2">
+                    <i class="fa fa-magic text-primary"/>
+                    <span>AI Assistant</span>
+                    <small class="text-muted ms-auto">Ask about fees, timetable, homework</small>
+                </a>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- Standalone chat page for portal users (students / guardians) -->
+    <template id="portal_ai_assistant_page" name="AI Assistant">
+        <t t-call="portal.portal_layout">
+            <div class="container my-4 o_oacis_ai_portal">
+                <h3><i class="fa fa-magic text-primary me-2"/>AI Assistant</h3>
+                <p class="text-muted">
+                    Ask about your fees, timetable, homework, or request help drafting content.
+                    Your chats are private to your account.
+                </p>
+                <div id="oacisAiPortalChat" class="card">
+                    <div class="card-body">
+                        <div id="oacisAiMsgs" class="d-flex flex-column gap-2 mb-3"
+                             style="max-height: 50vh; overflow-y: auto;"/>
+                        <div class="d-flex flex-wrap gap-2 mb-3">
+                            <button class="btn btn-sm btn-outline-primary oacis-ai-suggest"
+                                    data-q="Summarize my pending fees in simple words.">My fees</button>
+                            <button class="btn btn-sm btn-outline-primary oacis-ai-suggest"
+                                    data-q="Help me plan my study timetable for exams.">Study plan</button>
+                            <button class="btn btn-sm btn-outline-primary oacis-ai-suggest"
+                                    data-q="Draft a polite leave request for one day.">Leave request</button>
+                        </div>
+                        <div class="input-group">
+                            <input id="oacisAiInput" class="form-control"
+                                   placeholder="Ask Oacis AI anything… (Enter to send)"/>
+                            <button id="oacisAiSend" class="btn btn-primary">
+                                <i class="fa fa-paper-plane"/>
+                            </button>
+                        </div>
+                        <small class="text-muted d-block mt-2">Enter to send • Your school data is only used when you ask about it.</small>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

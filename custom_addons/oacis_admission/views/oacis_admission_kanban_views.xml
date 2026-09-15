@@ -16,7 +16,7 @@
                 <field name="program_name"/>
                 <field name="offer_date"/>
                 <field name="valid_until"/>
-                <field name="state"/>
+                <field name="state" widget="badge"/>
                 <field name="color"/>
                 <templates>
                     <t t-name="card" class="flex-row">
@@ -61,7 +61,7 @@
                 <field name="cycle_id"/>
                 <field name="test_date"/>
                 <field name="max_marks"/>
-                <field name="state"/>
+                <field name="state" widget="badge"/>
                 <field name="color"/>
                 <templates>
                     <t t-name="card" class="flex-row">

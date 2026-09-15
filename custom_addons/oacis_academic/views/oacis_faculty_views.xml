@@ -35,7 +35,7 @@
               <field name="name"/>
               <field name="code"/>
               <field name="company_id" options="{'no_create': True}"/>
-              <field name="dean_id" options="{'no_create': True}"/>
+              <field name="dean_id" options="{'no_create': True}" widget="many2one_avatar"/>
               <field name="sequence"/>
               <field name="established_year"/>
             </group>
@@ -75,7 +75,7 @@
         <field name="code"/>
         <field name="name"/>
         <field name="company_id"/>
-        <field name="dean_id"/>
+        <field name="dean_id" widget="many2one_avatar"/>
         <field name="department_count"/>
         <field name="program_count"/>
         <field name="faculty_state"/>
@@ -91,7 +91,7 @@
         <field name="name"/>
         <field name="code"/>
         <field name="company_id"/>
-        <field name="dean_id"/>
+        <field name="dean_id" widget="many2one_avatar"/>
         <filter name="filter_operational" string="Operational" domain="[('faculty_state', '=', 'active')]"/>
         <filter name="filter_draft" string="Draft" domain="[('faculty_state', '=', 'draft')]"/>
         <group name="groupby">
@@ -109,7 +109,7 @@
       <kanban class="o_kanban_mobile" highlight_color="color">
         <field name="code"/>
         <field name="name"/>
-        <field name="dean_id"/>
+        <field name="dean_id" widget="many2one_avatar"/>
         <field name="department_count"/>
         <field name="faculty_state"/>
         <field name="color"/>
@@ -118,7 +118,7 @@
             <main>
               <field name="code" class="fw-bold fs-5"/>
               <field name="name"/>
-              <field name="dean_id"/>
+              <field name="dean_id" widget="many2one_avatar"/>
               <field name="department_count"/>
               <field name="faculty_state" widget="badge"/>
             </main>

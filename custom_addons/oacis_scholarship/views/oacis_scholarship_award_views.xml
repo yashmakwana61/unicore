@@ -8,16 +8,13 @@
         <field name="arch" type="xml">
             <list string="Scholarship Awards">
                 <field name="award_number"/>
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="scholarship_program_id"/>
                 <field name="semester_id"/>
                 <field name="award_amount" sum="Total"/>
                 <field name="disbursement_method"/>
                 <field name="disbursement_date"/>
-                <field name="award_state" widget="badge" 
-                       decoration-info="award_state == 'approved'" 
-                       decoration-success="award_state == 'disbursed'" 
-                       decoration-danger="award_state == 'cancelled'"/>
+                <field name="award_state" widget="badge" decoration-info="award_state == 'approved'" decoration-success="award_state == 'disbursed'" decoration-danger="award_state == 'cancelled'"/>
             </list>
         </field>
     </record>
@@ -43,7 +40,7 @@
                     <group>
                         <group>
                             <field name="application_id" readonly="award_state != 'draft'"/>
-                            <field name="student_id"/>
+                            <field name="student_id" widget="many2one_avatar"/>
                             <field name="scholarship_program_id"/>
                             <field name="semester_id" readonly="award_state != 'draft'"/>
                             <field name="company_id" groups="base.group_multi_company"/>

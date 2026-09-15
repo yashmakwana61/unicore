@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="view_im_livechat_channel_form_admissions_ext"
-            model="ir.ui.view">
+    <record id="view_im_livechat_channel_form_admissions_ext" model="ir.ui.view">
         <field name="name">im.livechat.channel.form.admissions.ext</field>
         <field name="model">im_livechat.channel</field>
         <field name="inherit_id" ref="im_livechat.im_livechat_channel_view_form"/>

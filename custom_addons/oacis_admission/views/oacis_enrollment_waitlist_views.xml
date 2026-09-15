@@ -13,24 +13,14 @@
                 <form>
                     <header>
                         <field name="waitlist_state" widget="statusbar" clickable="False"/>
-                        <button name="action_promote_to_enrollment" type="object"
-                                string="Promote to Enrollment"
-                                class="btn-primary"
-                                invisible="waitlist_state != 'waiting'"
-                                groups="oacis_base.group_oacis_registrar"/>
-                        <button name="action_decline" type="object"
-                                string="Mark Declined"
-                                invisible="waitlist_state != 'waiting'"
-                                groups="oacis_base.group_oacis_registrar"/>
-                        <button name="action_expire" type="object"
-                                string="Mark Expired"
-                                invisible="waitlist_state != 'waiting'"
-                                groups="oacis_base.group_oacis_registrar"/>
+                        <button name="action_promote_to_enrollment" type="object" string="Promote to Enrollment" class="btn-primary" invisible="waitlist_state != 'waiting'" groups="oacis_base.group_oacis_registrar"/>
+                        <button name="action_decline" type="object" string="Mark Declined" invisible="waitlist_state != 'waiting'" groups="oacis_base.group_oacis_registrar"/>
+                        <button name="action_expire" type="object" string="Mark Expired" invisible="waitlist_state != 'waiting'" groups="oacis_base.group_oacis_registrar"/>
                     </header>
                     <sheet>
                         <group>
                             <group>
-                                <field name="student_id"/>
+                                <field name="student_id" widget="many2one_avatar"/>
                                 <field name="course_offering_id"/>
                                 <field name="company_id" readonly="1"/>
                             </group>
@@ -38,8 +28,7 @@
                                 <field name="position"/>
                                 <field name="waitlist_date" readonly="1"/>
                                 <field name="waitlist_state" readonly="1" widget="badge"/>
-                                <field name="promoted_enrollment_id" readonly="1"
-                                       invisible="not promoted_enrollment_id"/>
+                                <field name="promoted_enrollment_id" readonly="1" invisible="not promoted_enrollment_id"/>
                             </group>
                         </group>
                     </sheet>
@@ -56,11 +45,9 @@
             <field name="name">oacis.enrollment.waitlist.list</field>
             <field name="model">oacis.enrollment.waitlist</field>
             <field name="arch" type="xml">
-                <list decoration-warning="waitlist_state == 'waiting'"
-                      decoration-success="waitlist_state == 'promoted'"
-                      decoration-muted="waitlist_state in ('expired','declined')">
+                <list decoration-warning="waitlist_state == 'waiting'" decoration-success="waitlist_state == 'promoted'" decoration-muted="waitlist_state in ('expired','declined')">
                     <field name="position"/>
-                    <field name="student_id"/>
+                    <field name="student_id" widget="many2one_avatar"/>
                     <field name="course_offering_id"/>
                     <field name="company_id"/>
                     <field name="waitlist_date"/>
@@ -78,17 +65,13 @@
             <field name="model">oacis.enrollment.waitlist</field>
             <field name="arch" type="xml">
                 <search>
-                    <field name="student_id"/>
+                    <field name="student_id" widget="many2one_avatar"/>
                     <field name="course_offering_id"/>
-                    <filter name="waiting" string="Waiting"
-                            domain="[('waitlist_state', '=', 'waiting')]"/>
-                    <filter name="promoted" string="Promoted"
-                            domain="[('waitlist_state', '=', 'promoted')]"/>
+                    <filter name="waiting" string="Waiting" domain="[('waitlist_state', '=', 'waiting')]"/>
+                    <filter name="promoted" string="Promoted" domain="[('waitlist_state', '=', 'promoted')]"/>
                     <group>
-                        <filter name="group_by_offering" string="Course Offering"
-                                context="{'group_by': 'course_offering_id'}"/>
-                        <filter name="group_by_state" string="Status"
-                                context="{'group_by': 'waitlist_state'}"/>
+                        <filter name="group_by_offering" string="Course Offering" context="{'group_by': 'course_offering_id'}"/>
+                        <filter name="group_by_state" string="Status" context="{'group_by': 'waitlist_state'}"/>
                     </group>
                 </search>
             </field>

@@ -1,8 +1,533 @@
+// ==============================================================================
+// MuK Modern Responsive Form View Styling & Conditional Chatter Layout (Odoo 19)
+// ==============================================================================
+
 .o_form_view {
-    &:not(.o_field_highlight) .o_field_widget:not(.o_field_invalid):not(.o_field_highlight) .o_input:not(:hover):not(:focus) {
-        --o-input-border-color: #{$gray-200};
+    background-color: var(--mk-surface-app, #F8FAFC);
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    
+    // Statusbar / Action Header
+    .o_form_statusbar {
+        background-color: var(--mk-surface-card, #FFFFFF);
+        border-bottom: 1px solid var(--mk-border-color, #E2E8F0);
+        padding: 8px 16px;
+        min-height: 52px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        
+        @include media-breakpoint-down(md) {
+            padding: 8px 12px;
+            min-height: 48px;
+            gap: 8px;
+        }
+        
+        // Statusbar pipeline buttons (stages)
+        .o_statusbar_status {
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            max-width: 100%;
+            
+            &::-webkit-scrollbar {
+                display: none;
+            }
+            
+            .o_arrow_button {
+                font-size: 12px;
+                font-weight: 500;
+                border-radius: var(--mk-radius-pill, 9999px);
+                margin: 0 3px;
+                padding: 5px 14px;
+                border: 1px solid var(--mk-border-color, #E2E8F0);
+                background-color: var(--mk-surface-muted, #F1F5F9);
+                color: var(--mk-text-muted, #64748B);
+                white-space: nowrap;
+                flex-shrink: 0;
+                transition: all 160ms ease;
+                
+                &:before, &:after {
+                    display: none !important; // remove old triangular arrows
+                }
+                
+                &:hover {
+                    background-color: var(--mk-border-color, #E2E8F0);
+                    color: var(--mk-text-heading, #0F172A);
+                }
+                
+                &.disabled {
+                    opacity: 0.85;
+                    cursor: default;
+                }
+                
+                &.btn-primary, &[aria-current="step"] {
+                    background-color: var(--mk-primary, #6366F1) !important;
+                    border-color: var(--mk-primary, #6366F1) !important;
+                    color: #FFFFFF !important;
+                    font-weight: 600;
+                    box-shadow: 0 2px 6px rgba(99, 102, 241, 0.35);
+                }
+            }
+        }
+        
+        .o_statusbar_buttons {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            
+            .btn {
+                border-radius: var(--mk-radius-sm, 6px);
+                font-weight: 500;
+                font-size: 13px;
+                padding: 6px 14px;
+                min-height: 34px;
+                transition: all 160ms ease;
+                
+                @include media-breakpoint-down(md) {
+                    padding: 5px 10px;
+                    font-size: 12.5px;
+                    min-height: 32px;
+                }
+            }
+        }
     }
-	&:not(.o_field_highlight) .o_required_modifier.o_field_widget:not(.o_field_invalid):not(.o_field_highlight) .o_input:not(:hover):not(:focus) {
-        --o-input-border-color: #{$gray-400};
-	}
+    
+    // Form Sheet Container
+    .o_form_sheet_bg {
+        background-color: var(--mk-surface-app, #F8FAFC);
+        padding: 24px 20px;
+        transition: padding 200ms ease;
+        
+        @include media-breakpoint-down(lg) {
+            padding: 16px 12px;
+        }
+        @include media-breakpoint-down(sm) {
+            padding: 12px 8px;
+        }
+        
+        .o_form_sheet {
+            background-color: var(--mk-surface-card, #FFFFFF);
+            border: 1px solid var(--mk-border-color, #E2E8F0);
+            border-radius: var(--mk-radius-lg, 12px);
+            box-shadow: var(--mk-shadow-sm);
+            padding: 32px 36px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            
+            @include media-breakpoint-down(lg) {
+                padding: 24px 20px;
+                border-radius: var(--mk-radius-md, 10px);
+            }
+            @include media-breakpoint-down(sm) {
+                padding: 16px 12px;
+                border-radius: var(--mk-radius-sm, 8px);
+                border-left: none;
+                border-right: none;
+            }
+        }
+    }
+    
+    // Stat Buttons (KPI ribbon)
+    .oe_button_box {
+        margin-bottom: 24px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        
+        @include media-breakpoint-down(md) {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 6px;
+            margin-bottom: 16px;
+            width: 100%;
+        }
+        
+        .oe_stat_button {
+            border: 1px solid var(--mk-border-color, #E2E8F0) !important;
+            border-radius: var(--mk-radius-sm, 8px) !important;
+            background-color: var(--mk-surface-card, #FFFFFF) !important;
+            padding: 8px 14px !important;
+            height: auto !important;
+            min-height: 48px;
+            box-shadow: var(--mk-shadow-xs);
+            transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+            
+            @include media-breakpoint-down(md) {
+                padding: 6px 10px !important;
+                min-height: 42px;
+                width: 100% !important;
+            }
+            
+            .o_stat_info {
+                .o_stat_value {
+                    font-size: 16px;
+                    font-weight: 700;
+                    color: var(--mk-primary, #6366F1);
+                    line-height: 1.2;
+                }
+                .o_stat_text {
+                    font-size: 11px;
+                    font-weight: 500;
+                    color: var(--mk-text-muted, #64748B);
+                    text-transform: uppercase;
+                    letter-spacing: 0.04em;
+                }
+            }
+            
+            .o_button_icon {
+                font-size: 20px;
+                color: var(--mk-primary, #6366F1);
+                opacity: 0.85;
+                margin-right: 8px;
+            }
+            
+            &:hover {
+                background-color: var(--mk-surface-muted, #F1F5F9) !important;
+                border-color: var(--mk-border-focus, #818CF8) !important;
+                transform: translateY(-2px);
+                box-shadow: var(--mk-shadow-md);
+            }
+        }
+    }
+    
+    // Title and Avatar
+    .oe_title {
+        h1, h2, h3 {
+            font-weight: 700;
+            color: var(--mk-text-heading, #0F172A);
+            letter-spacing: -0.02em;
+        }
+    }
+    
+    .oe_avatar {
+        .img {
+            border-radius: var(--mk-radius-md, 10px);
+            border: 2px solid var(--mk-border-color, #E2E8F0);
+            box-shadow: var(--mk-shadow-sm);
+        }
+    }
+    
+    // Notebook Tabs
+    .o_notebook {
+        margin-top: 28px;
+        
+        @include media-breakpoint-down(md) {
+            margin-top: 18px;
+        }
+        
+        .nav-tabs {
+            border-bottom: 2px solid var(--mk-border-color, #E2E8F0);
+            gap: 4px;
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            
+            &::-webkit-scrollbar {
+                display: none;
+            }
+            
+            .nav-item {
+                margin-bottom: -2px;
+                flex-shrink: 0;
+                
+                .nav-link {
+                    border: none;
+                    border-bottom: 2px solid transparent;
+                    color: var(--mk-text-muted, #64748B);
+                    font-size: 13.5px;
+                    font-weight: 500;
+                    padding: 10px 18px;
+                    background: transparent;
+                    border-radius: 0;
+                    white-space: nowrap;
+                    transition: all 160ms ease;
+                    
+                    @include media-breakpoint-down(md) {
+                        padding: 8px 12px;
+                        font-size: 13px;
+                    }
+                    
+                    &:hover {
+                        color: var(--mk-text-heading, #0F172A);
+                        border-bottom-color: var(--mk-text-subtle, #CBD5E1);
+                    }
+                    
+                    &.active {
+                        color: var(--mk-primary, #6366F1);
+                        border-bottom-color: var(--mk-primary, #6366F1);
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+        
+        .tab-content {
+            padding-top: 20px;
+            
+            @include media-breakpoint-down(md) {
+                padding-top: 14px;
+            }
+        }
+    }
+    
+    // Field Groups & Grids
+    .o_group {
+        gap: 16px;
+        
+        @include media-breakpoint-down(md) {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px;
+            
+            .o_inner_group {
+                grid-template-columns: 1fr !important;
+                gap: 8px !important;
+                
+                .o_cell {
+                    width: 100% !important;
+                    max-width: 100% !important;
+                }
+                
+                .o_form_label {
+                    margin-bottom: 4px;
+                    display: block;
+                    font-size: 12.5px;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+    
+    // Fields & Inputs
+    .o_field_widget {
+        .o_input {
+            border-radius: var(--mk-radius-xs, 6px);
+            border: 1px solid var(--mk-border-color, #E2E8F0);
+            padding: 7px 12px;
+            font-size: 13px;
+            transition: border-color 150ms ease, box-shadow 150ms ease;
+            
+            @include media-breakpoint-down(md) {
+                min-height: 38px;
+                font-size: 14px;
+                padding: 8px 12px;
+            }
+            
+            &:focus {
+                border-color: var(--mk-border-focus, #818CF8);
+                box-shadow: 0 0 0 3px var(--mk-primary-ring, rgba(99, 102, 241, 0.22));
+                outline: none;
+            }
+        }
+    }
+    
+    &:not(.o_field_highlight) .o_field_widget:not(.o_field_invalid):not(.o_field_highlight) .o_input:not(:hover):not(:focus) {
+        --o-input-border-color: var(--mk-border-color, #E2E8F0);
+    }
+    &:not(.o_field_highlight) .o_required_modifier.o_field_widget:not(.o_field_invalid):not(.o_field_highlight) .o_input:not(:hover):not(:focus) {
+        --o-input-border-color: var(--mk-text-subtle, #94A3B8);
+    }
+    
+    // Horizontal separator
+    .o_horizontal_separator {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--mk-text-heading, #0F172A);
+        margin: 20px 0 12px 0;
+        border-bottom: 1px solid var(--mk-border-color, #E2E8F0);
+        padding-bottom: 6px;
+    }
+}
+
+// ==============================================================================
+// Conditional Chatter Positioning based on Sidebar State & Device
+// ==============================================================================
+
+// ------------------------------------------------------------------------------
+// CASE 1: Sidebar is OPEN / UNCOLLAPSED (Large sidebar = 220px)
+// Shift chatter to bottom in EVERY form view!
+// ------------------------------------------------------------------------------
+body.mk_sidebar_type_large {
+    .o_form_view {
+        height: auto;
+        min-height: 100%;
+        overflow-y: auto;
+        
+        .o_form_renderer {
+            display: flex !important;
+            flex-direction: column !important;
+            flex-wrap: nowrap !important;
+            height: auto !important;
+            min-height: 100%;
+            overflow: visible !important;
+            
+            .o_form_sheet_bg {
+                width: 100% !important;
+                max-width: 100% !important;
+                flex: 0 0 auto !important;
+                height: auto !important;
+                overflow: visible !important;
+                
+                .o_form_sheet {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                }
+            }
+            
+            .o-mail-Form-chatter {
+                display: flex !important;
+                flex-direction: column !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                flex: 0 0 auto !important;
+                height: auto !important;
+                overflow: visible !important;
+                border-left: none !important;
+                border-top: 1px solid var(--mk-border-color, #E2E8F0) !important;
+                margin: 0 auto !important;
+                padding: 24px 16px 40px 16px;
+                background-color: var(--mk-surface-app, #F8FAFC);
+                
+                .o-mail-Chatter {
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    width: 100%;
+                    background-color: var(--mk-surface-card, #FFFFFF);
+                    border: 1px solid var(--mk-border-color, #E2E8F0);
+                    border-radius: var(--mk-radius-lg, 12px);
+                    box-shadow: var(--mk-shadow-sm);
+                    overflow: visible;
+                }
+                
+                .mk_chatter_resize {
+                    display: none !important;
+                }
+            }
+        }
+    }
+}
+
+// ------------------------------------------------------------------------------
+// CASE 2: Sidebar is COLLAPSED (Small sidebar = 54px icon mode)
+// Chatter stays on the RIGHT SIDE AS DEFAULT on desktop (>= 992px)
+// ------------------------------------------------------------------------------
+body.mk_sidebar_type_small {
+    @media (min-width: 992px) {
+        .o_form_view {
+            height: 100%;
+            overflow: hidden;
+            
+            .o_form_renderer {
+                display: flex !important;
+                flex-direction: row !important;
+                flex-wrap: nowrap !important;
+                height: 100% !important;
+                overflow: hidden;
+                
+                .o_form_sheet_bg {
+                    flex: 1 1 0% !important;
+                    min-width: 0 !important;
+                    height: 100% !important;
+                    overflow-y: auto !important;
+                    overflow-x: hidden;
+                    max-width: none !important;
+                    padding: 24px 28px;
+                    
+                    .o_form_sheet {
+                        max-width: 100%;
+                        margin: 0 auto;
+                    }
+                }
+                
+                .o-mail-Form-chatter {
+                    display: flex !important;
+                    flex-direction: column !important;
+                    flex-shrink: 0 !important;
+                    height: 100% !important;
+                    overflow-y: auto !important;
+                    overflow-x: hidden;
+                    border-left: 1px solid var(--mk-border-color, #E2E8F0) !important;
+                    border-top: none !important;
+                    padding: 0 !important;
+                    width: var(--mk-chatter-width, 420px);
+                    max-width: 50vw;
+                    min-width: 320px;
+                    background-color: var(--mk-surface-card, #FFFFFF);
+                    
+                    .o-mail-Chatter {
+                        width: 100% !important;
+                        max-width: 100% !important;
+                        height: 100% !important;
+                        border: none !important;
+                        border-radius: 0 !important;
+                        box-shadow: none !important;
+                    }
+                    
+                    .mk_chatter_resize {
+                        display: block !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// ------------------------------------------------------------------------------
+// CASE 3: Small screens & mobile (< 992px)
+// Chatter ALWAYS stacks to the bottom naturally
+// ------------------------------------------------------------------------------
+@media (max-width: 991.98px) {
+    .o_form_view {
+        height: auto;
+        min-height: 100%;
+        overflow-y: auto;
+        
+        .o_form_renderer {
+            display: flex !important;
+            flex-direction: column !important;
+            flex-wrap: nowrap !important;
+            height: auto !important;
+            overflow: visible !important;
+            
+            .o_form_sheet_bg {
+                width: 100% !important;
+                max-width: 100% !important;
+                flex: 0 0 auto !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+            
+            .o-mail-Form-chatter {
+                width: 100% !important;
+                max-width: 100% !important;
+                flex: 0 0 auto !important;
+                height: auto !important;
+                overflow: visible !important;
+                border-left: none !important;
+                border-top: 1px solid var(--mk-border-color, #E2E8F0) !important;
+                padding: 16px 10px 32px 10px;
+                
+                .o-mail-Chatter {
+                    max-width: 100%;
+                    width: 100%;
+                    border-radius: var(--mk-radius-md, 10px);
+                }
+                
+                .mk_chatter_resize {
+                    display: none !important;
+                }
+            }
+        }
+    }
 }

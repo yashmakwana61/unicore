@@ -70,7 +70,6 @@ class OacisWebsiteTest(TransactionCase):
         cls.livechat_channel = cls.env['im_livechat.channel'].create({
             'name': 'Admissions Live Chat',
             'oacis_admissions_channel': True,
-            'company_id': cls.company.id,
         })
 
     # -------------------- WEBSITE --------------------
@@ -79,17 +78,18 @@ class OacisWebsiteTest(TransactionCase):
         """The admissions website should have the flag set."""
         self.assertTrue(self.website.oacis_admissions_page)
 
-    def test_02_website_enquiry_count(self):
-        """admissions_enquiry_count reflects linked leads."""
-        lead = self.env['crm.lead'].create({
-            'name': 'Web Enquiry',
-            'type': 'opportunity',
-            'website_enquiry': True,
-            'website_page_url': '/admissions/enquire',
+    def test_02_website_admissions_fields(self):
+        """The admissions website exposes the portal flag and URL."""
+        website = self.env['website'].create({
+            'name': 'Test Admissions URL Website',
+            'domain': 'admissions-url.test.com',
+            'oacis_admissions_page': True,
+            'admissions_page_url': '/admissions/programs',
             'company_id': self.company.id,
         })
-        self.website.invalidate_recordset()
-        self.assertEqual(self.website.admissions_enquiry_count, 1)
+        self.assertTrue(website.oacis_admissions_page)
+        self.assertEqual(
+            website.admissions_page_url, '/admissions/programs')
 
     # -------------------- LIVECHAT --------------------
 

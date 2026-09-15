@@ -15,7 +15,7 @@
                             <group>
                                 <field name="exam_schedule_id"/>
                                 <field name="hall_ticket_id"/>
-                                <field name="student_id" readonly="1"/>
+                                <field name="student_id" readonly="1" widget="many2one_avatar"/>
                                 <field name="course_id" readonly="1"/>
                             </group>
                             <group>
@@ -42,7 +42,7 @@
             <field name="arch" type="xml">
                 <list default_order="room_id asc, seat_number asc">
                     <field name="seat_label"/>
-                    <field name="student_id"/>
+                    <field name="student_id" widget="many2one_avatar"/>
                     <field name="room_id"/>
                     <field name="seat_number"/>
                     <field name="exam_schedule_id"/>
@@ -60,7 +60,7 @@
             <field name="model">oacis.exam.seating</field>
             <field name="arch" type="xml">
                 <search>
-                    <field name="student_id"/>
+                    <field name="student_id" widget="many2one_avatar"/>
                     <field name="room_id"/>
                     <field name="exam_schedule_id"/>
                     <separator/>

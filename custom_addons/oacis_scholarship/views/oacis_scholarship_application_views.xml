@@ -8,16 +8,11 @@
         <field name="arch" type="xml">
             <list string="Scholarship Applications">
                 <field name="application_number"/>
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="scholarship_program_id"/>
                 <field name="application_date"/>
                 <field name="is_eligible" widget="boolean_toggle" readonly="1"/>
-                <field name="application_state" widget="badge" 
-                       decoration-info="application_state == 'submitted'" 
-                       decoration-warning="application_state == 'under_review'" 
-                       decoration-primary="application_state == 'shortlisted'" 
-                       decoration-success="application_state == 'approved'" 
-                       decoration-danger="application_state == 'rejected'"/>
+                <field name="application_state" widget="badge" decoration-info="application_state == 'submitted'" decoration-warning="application_state == 'under_review'" decoration-primary="application_state == 'shortlisted'" decoration-success="application_state == 'approved'" decoration-danger="application_state == 'rejected'"/>
             </list>
         </field>
     </record>
@@ -39,11 +34,7 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button name="%(oacis_scholarship.action_oacis_scholarship_award)d" 
-                                type="action" 
-                                class="oe_stat_button" 
-                                icon="fa-money"
-                                context="{'search_default_application_id': id}">
+                        <button name="%(oacis_scholarship.action_oacis_scholarship_award)d" type="action" class="oe_stat_button" icon="fa-money" context="{'search_default_application_id': id}">
                             <div class="o_field_widget o_stat_info">
                                 <span class="o_stat_value"><field name="award_count"/></span>
                                 <span class="o_stat_text">Awards</span>
@@ -57,7 +48,7 @@
                     </div>
                     <group>
                         <group>
-                            <field name="student_id" readonly="application_state != 'draft'"/>
+                            <field name="student_id" readonly="application_state != 'draft'" widget="many2one_avatar"/>
                             <field name="scholarship_program_id" readonly="application_state != 'draft'"/>
                             <field name="academic_year_id"/>
                             <field name="company_id" groups="base.group_multi_company" readonly="application_state != 'draft'"/>

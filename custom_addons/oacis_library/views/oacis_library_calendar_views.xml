@@ -49,7 +49,7 @@
             <calendar date_start="registration_date" date_stop="valid_until" color="color" string="Library Member Calendar">
                 <field name="member_state"/>
                 <field name="member_type"/>
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="faculty_member_id"/>
             </calendar>
         </field>

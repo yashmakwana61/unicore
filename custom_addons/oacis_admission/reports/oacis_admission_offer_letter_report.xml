@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="action_report_offer_letter" model="ir.actions.report">
+        <field name="name">Offer Letter</field>
+        <field name="model">oacis.admission.offer.letter</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">oacis_admission.offer_letter_report_template</field>
+        <field name="report_file">oacis_admission.offer_letter_report_template</field>
+        <field name="print_report_name">'Offer-Letter-%s' % (object.letter_number or object.id)</field>
+        <field name="binding_model_id" ref="oacis_admission.model_oacis_admission_offer_letter"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="base.paperformat_euro"/>
+    </record>
+
+    <template id="offer_letter_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="offer">
+                <t t-call="web.external_layout">
+                    <style>
+                        .offer-container { font-family: Arial, sans-serif; font-size: 10pt; padding: 8mm; color: #222; }
+                        .offer-title { text-align: center; font-size: 15pt; font-weight: bold; color: #1e3a5f; letter-spacing: 1pt; border-bottom: 2pt solid #1e3a5f; padding-bottom: 3mm; margin-bottom: 5mm; }
+                        .offer-meta-table { width: 100%; border-collapse: collapse; margin-bottom: 5mm; }
+                        .offer-meta-table td { padding: 1.5mm 1mm; border-bottom: 0.5pt solid #ddd; }
+                        .label-cell { font-weight: bold; color: #555; width: 34mm; vertical-align: top; }
+                        .section-title { font-size: 12pt; font-weight: bold; color: #1e3a5f; margin: 4mm 0 2mm 0; border-bottom: 1pt solid #1e3a5f; }
+                        .offer-body { margin: 4mm 0; line-height: 1.5; }
+                        .terms-box { border: 0.5pt solid #ccc; padding: 3mm; margin: 3mm 0; }
+                        .signatory-section { margin-top: 10mm; text-align: right; }
+                        .signatory-line { margin: 2mm 0; font-size: 10pt; }
+                        .signatory-line:first-child { margin-top: 8mm; border-top: 1pt solid #333; padding-top: 2mm; }
+                    </style>
+                    <div class="offer-container">
+                        <div class="offer-title">OFFER OF ADMISSION</div>
+
+                        <table class="offer-meta-table">
+                            <tr>
+                                <td class="label-cell">Letter No.</td>
+                                <td t-esc="offer.letter_number"/>
+                                <td class="label-cell">Offer Date</td>
+                                <td t-esc="offer.offer_date"/>
+                            </tr>
+                            <tr>
+                                <td class="label-cell">Applicant</td>
+                                <td t-esc="offer.applicant_id.name"/>
+                                <td class="label-cell">Application No.</td>
+                                <td t-esc="offer.applicant_id.application_number"/>
+                            </tr>
+                            <tr>
+                                <td class="label-cell">Program</td>
+                                <td t-esc="offer.applicant_id.program_id.name"/>
+                                <td class="label-cell">Campus</td>
+                                <td t-esc="offer.applicant_id.campus_id.name"/>
+                            </tr>
+                            <tr>
+                                <td class="label-cell">Admission Cycle</td>
+                                <td t-esc="offer.applicant_id.cycle_id.name"/>
+                                <td class="label-cell">Valid Until</td>
+                                <td t-esc="offer.valid_until"/>
+                            </tr>
+                        </table>
+
+                        <div class="offer-body">
+                            <p>Dear <span t-esc="offer.applicant_id.name"/>,</p>
+                            <p>Congratulations! On the basis of your application and merit
+                            for the programme <strong t-esc="offer.applicant_id.program_id.name"/>
+                            offered by <strong t-esc="offer.company_id.name"/>, we are pleased to
+                            offer you admission for the academic session
+                            <strong t-esc="offer.applicant_id.cycle_id.name"/>.</p>
+                            <p>This offer is subject to the terms and conditions below. To accept
+                            this offer, please respond before the validity date shown above and
+                            complete the fee formalities.</p>
+                        </div>
+
+                        <div class="section-title">Terms &amp; Conditions</div>
+                        <div class="terms-box">
+                            <t t-esc="offer.terms"/>
+                        </div>
+
+                        <div class="signatory-section">
+                            <div class="signatory-line">Authorised Signatory</div>
+                            <div class="signatory-line">Admissions Office</div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

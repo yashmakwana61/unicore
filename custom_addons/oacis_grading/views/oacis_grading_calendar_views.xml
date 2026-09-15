@@ -11,7 +11,7 @@
         <field name="model">oacis.semester.result</field>
         <field name="arch" type="xml">
             <calendar date_start="published_on" color="color" string="Semester Result Calendar">
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="semester_id"/>
                 <field name="result_status"/>
             </calendar>

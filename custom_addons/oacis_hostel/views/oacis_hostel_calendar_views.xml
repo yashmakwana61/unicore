@@ -12,7 +12,7 @@
         <field name="type">calendar</field>
         <field name="arch" type="xml">
             <calendar date_start="allocation_date" color="color" string="Hostel Allocation Calendar">
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="room_id"/>
                 <field name="block_id"/>
                 <field name="allocation_state"/>

@@ -24,7 +24,7 @@
             <field name="model">oacis.assignment.submission</field>
             <field name="arch" type="xml">
                 <graph string="Submission Analysis">
-                    <field name="state"/>
+                    <field name="state" widget="badge"/>
                 </graph>
             </field>
         </record>

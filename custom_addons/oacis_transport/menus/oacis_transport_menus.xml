@@ -2,84 +2,28 @@
 <odoo>
 
   <!-- ROOT MENU — Standalone App -->
-  <menuitem
-    id="menu_oacis_transport_root"
-    name="Transport"
-    sequence="190"
-    web_icon="oacis_transport,static/description/icon.png"
-    groups="oacis_base.group_oacis_staff,oacis_base.group_oacis_admin"/>
+  <menuitem id="menu_oacis_transport_root" name="Transport" sequence="190" web_icon="oacis_transport,static/description/icon.png" groups="oacis_base.group_oacis_staff,oacis_base.group_oacis_admin"/>
 
   <!-- Passes -->
-  <menuitem
-    id="menu_oacis_transport_passes"
-    name="Transport Passes"
-    parent="menu_oacis_transport_root"
-    sequence="10"
-    groups="oacis_base.group_oacis_staff"/>
+  <menuitem id="menu_oacis_transport_passes" name="Transport Passes" parent="menu_oacis_transport_root" sequence="10" groups="oacis_base.group_oacis_staff"/>
 
-  <menuitem
-    id="menu_oacis_transport_pass_active"
-    name="Active Passes"
-    parent="menu_oacis_transport_passes"
-    action="action_oacis_transport_pass"
-    sequence="10"
-    groups="oacis_base.group_oacis_staff"/>
+  <menuitem id="menu_oacis_transport_pass_active" name="Active Passes" parent="menu_oacis_transport_passes" action="action_oacis_transport_pass" sequence="10" groups="oacis_base.group_oacis_staff"/>
 
-  <menuitem
-    id="menu_oacis_transport_fee_pending"
-    name="Fee Pending"
-    parent="menu_oacis_transport_passes"
-    action="action_oacis_transport_fee_pending"
-    sequence="20"
-    groups="oacis_base.group_oacis_staff"/>
+  <menuitem id="menu_oacis_transport_fee_pending" name="Fee Pending" parent="menu_oacis_transport_passes" action="action_oacis_transport_fee_pending" sequence="20" groups="oacis_base.group_oacis_staff"/>
 
   <!-- Trip Logs -->
-  <menuitem
-    id="menu_oacis_transport_trips"
-    name="Trip Logs"
-    parent="menu_oacis_transport_root"
-    sequence="20"
-    groups="oacis_base.group_oacis_staff"/>
+  <menuitem id="menu_oacis_transport_trips" name="Trip Logs" parent="menu_oacis_transport_root" sequence="20" groups="oacis_base.group_oacis_staff"/>
 
-  <menuitem
-    id="menu_oacis_transport_trip_today"
-    name="Today's Trips"
-    parent="menu_oacis_transport_trips"
-    action="action_oacis_transport_trip"
-    sequence="10"
-    groups="oacis_base.group_oacis_staff"/>
+  <menuitem id="menu_oacis_transport_trip_today" name="Today's Trips" parent="menu_oacis_transport_trips" action="action_oacis_transport_trip" sequence="10" groups="oacis_base.group_oacis_staff"/>
 
-  <menuitem
-    id="menu_oacis_transport_incidents"
-    name="Incident Reports"
-    parent="menu_oacis_transport_trips"
-    action="action_oacis_transport_trip_incidents"
-    sequence="20"
-    groups="oacis_base.group_oacis_staff"/>
+  <menuitem id="menu_oacis_transport_incidents" name="Incident Reports" parent="menu_oacis_transport_trips" action="action_oacis_transport_trip_incidents" sequence="20" groups="oacis_base.group_oacis_staff"/>
 
   <!-- Routes -->
-  <menuitem
-    id="menu_oacis_transport_routes"
-    name="Routes"
-    parent="menu_oacis_transport_root"
-    action="action_oacis_transport_route"
-    sequence="30"
-    groups="oacis_base.group_oacis_staff"/>
+  <menuitem id="menu_oacis_transport_routes" name="Routes" parent="menu_oacis_transport_root" action="action_oacis_transport_route" sequence="30" groups="oacis_base.group_oacis_staff"/>
 
   <!-- Configuration -->
-  <menuitem
-    id="menu_oacis_transport_config"
-    name="Configuration"
-    parent="menu_oacis_transport_root"
-    sequence="90"
-    groups="oacis_base.group_oacis_admin"/>
+  <menuitem id="menu_oacis_transport_config" name="Configuration" parent="menu_oacis_transport_root" sequence="90" groups="oacis_base.group_oacis_admin"/>
 
-  <menuitem
-    id="menu_oacis_transport_vehicles"
-    name="Vehicles"
-    parent="menu_oacis_transport_config"
-    action="action_oacis_transport_vehicle"
-    sequence="10"
-    groups="oacis_base.group_oacis_admin"/>
+  <menuitem id="menu_oacis_transport_vehicles" name="Vehicles" parent="menu_oacis_transport_config" action="action_oacis_transport_vehicle" sequence="10" groups="oacis_base.group_oacis_admin"/>
 
 </odoo>

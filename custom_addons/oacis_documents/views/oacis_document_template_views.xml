@@ -7,8 +7,7 @@
     <field name="arch" type="xml">
       <form>
         <sheet>
-          <widget name="web_ribbon" title="System"
-            invisible="not is_system_template" bg_color="text-bg-secondary"/>
+          <widget name="web_ribbon" title="System" invisible="not is_system_template" bg_color="text-bg-secondary"/>
           <group>
             <group string="Template Details">
               <field name="name"/>

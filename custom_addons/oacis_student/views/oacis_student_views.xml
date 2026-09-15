@@ -8,56 +8,85 @@
       <form>
         <header>
           <field name="student_state" widget="statusbar" statusbar_visible="prospect,admitted,enrolled,active,graduated,alumni" clickable="False"/>
-          <button name="action_enroll" type="object" string="Enroll" invisible="student_state != 'admitted'" class="btn-primary"/>
+          <!-- Primary action progression CTAs -->
+          <button name="action_enroll" type="object" string="Enroll Student" invisible="student_state != 'admitted'" class="btn-primary"/>
           <button name="action_activate" type="object" string="Activate" invisible="student_state != 'enrolled'" class="btn-primary"/>
-          <button name="action_place_on_leave" type="object" string="Place on Leave" invisible="student_state != 'active'" class="btn-warning"/>
-          <button name="action_return_from_leave" type="object" string="Return from Leave" invisible="student_state != 'on_leave'" class="btn-success"/>
           <button name="action_graduate" type="object" string="Graduate" invisible="student_state != 'active'" class="btn-success"/>
-          <button name="action_convert_to_alumni" type="object" string="Convert to Alumni" invisible="student_state != 'graduated'" class="btn-primary"/>
-          <button name="action_withdraw" type="object" string="Withdraw" invisible="student_state not in ('admitted', 'enrolled', 'active')" class="btn-danger"/>
+          <button name="action_return_from_leave" type="object" string="Return from Leave" invisible="student_state != 'on_leave'" class="btn-success"/>
+          <!-- Secondary lifecycle CTAs -->
+          <button name="action_convert_to_alumni" type="object" string="Convert to Alumni" invisible="student_state != 'graduated'" class="btn-secondary"/>
+          <button name="action_place_on_leave" type="object" string="Place on Leave" invisible="student_state != 'active'" class="btn-warning"/>
+          <button name="action_reactivate" type="object" string="Reactivate" invisible="student_state not in ('withdrawn', 'expelled', 'cancelled')" class="btn-secondary"/>
+          <!-- Exception & Exit actions -->
+          <button name="action_withdraw" type="object" string="Withdraw" invisible="student_state not in ('admitted', 'enrolled', 'active')" class="btn-secondary"/>
           <button name="action_expel" type="object" string="Expel" invisible="student_state not in ('active', 'on_leave')" class="btn-danger"/>
-          <button name="action_mark_deceased" type="object" string="Mark Deceased" invisible="student_state not in ('admitted', 'enrolled', 'active', 'on_leave')" class="btn-danger"/>
           <button name="action_cancel" type="object" string="Cancel" invisible="student_state not in ('prospect', 'admitted', 'enrolled')" class="btn-secondary"/>
-          <button name="action_reactivate" type="object" string="Reactivate" invisible="student_state not in ('withdrawn', 'expelled', 'cancelled')" class="btn-primary"/>
+          <button name="action_mark_deceased" type="object" string="Mark Deceased" invisible="student_state not in ('admitted', 'enrolled', 'active', 'on_leave')" class="btn-secondary" groups="base.group_no_one"/>
         </header>
         <sheet>
+          <!-- Web Ribbons for definitive status badges -->
+          <widget name="web_ribbon" title="Alumni" bg_color="text-bg-success" invisible="student_state != 'alumni'"/>
+          <widget name="web_ribbon" title="Graduated" bg_color="text-bg-info" invisible="student_state != 'graduated'"/>
+          <widget name="web_ribbon" title="On Leave" bg_color="text-bg-warning" invisible="student_state != 'on_leave'"/>
+          <widget name="web_ribbon" title="Expelled" bg_color="text-bg-danger" invisible="student_state != 'expelled'"/>
+          <widget name="web_ribbon" title="Withdrawn" bg_color="text-bg-danger" invisible="student_state != 'withdrawn'"/>
+          <widget name="web_ribbon" title="Deceased" bg_color="text-bg-secondary" invisible="student_state != 'deceased'"/>
+          <widget name="web_ribbon" title="Cancelled" bg_color="text-bg-secondary" invisible="student_state != 'cancelled'"/>
+
+          <!-- Smart Button Box -->
           <div class="oe_button_box" name="button_box">
-            <button name="action_open_documents" type="object" class="oe_stat_button" icon="fa-file-alt">
-              <field string="Documents" name="document_count" widget="statinfo"/>
-            </button>
-            <button name="action_open_academic_history" type="object" class="oe_stat_button" icon="fa-history">
+            <button name="action_open_academic_history" type="object" class="oe_stat_button" icon="fa-graduation-cap">
               <field string="History" name="academic_history_count" widget="statinfo"/>
+            </button>
+            <button name="action_open_documents" type="object" class="oe_stat_button" icon="fa-file-text-o">
+              <field string="Documents" name="document_count" widget="statinfo"/>
             </button>
             <button name="action_open_cohort_members" type="object" class="oe_stat_button" icon="fa-users">
               <field string="Cohort" name="cohort_members_count" widget="statinfo"/>
             </button>
           </div>
+
+          <!-- Avatar -->
+          <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}"/>
+
+          <!-- Clean Title Header -->
           <div class="oe_title">
-            <label for="name" string="Student Name" class="oe_edit_only"/>
+            <label for="name" string="Student Full Name" class="oe_edit_only"/>
             <h1>
-              <field name="display_name" placeholder="Full name..." class="oe_inline" readonly="0"/>
+              <field name="display_name" placeholder="e.g. Alexander Pierce" readonly="0"/>
             </h1>
-            <group>
-              <group>
-                <field name="student_id_number"/>
-                <field name="partner_id" readonly="1" options="{'force_email': True}"/>
-                <field name="institutional_email" placeholder="institutional@university.edu"/>
-                <field name="image_1920" widget="image" class="oe_avatar"/>
-              </group>
-              <group>
-                <field name="campus_id" options="{'no_create_edit': True}"/>
-                <field name="program_id" options="{'no_create_edit': True}"/>
-                <field name="specialisation_id" options="{'no_create_edit': True}"/>
-                <field name="batch_year"/>
-                <field name="current_semester_id" options="{'no_create_edit': True}"/>
-              </group>
-            </group>
+            <div class="d-flex align-items-center gap-2 mt-1">
+              <span class="badge text-bg-light border">
+                <i class="fa fa-id-badge me-1" title="ID"/> <field name="student_id_number" readonly="1" class="fw-bold"/>
+              </span>
+              <field name="student_state" widget="badge" decoration-primary="student_state == 'active'" decoration-success="student_state in ('graduated','alumni')" decoration-warning="student_state in ('admitted','enrolled')" decoration-danger="student_state in ('withdrawn','expelled','deceased','cancelled')" decoration-info="student_state in ('prospect','on_leave')"/>
+            </div>
           </div>
+
+          <!-- Primary Placement & Contact 2-Column Summary -->
+          <group>
+            <group name="placement_primary" string="Academic Placement">
+              <field name="program_id" options="{'no_create_edit': True}"/>
+              <field name="specialisation_id" options="{'no_create_edit': True}" invisible="not specialisation_id"/>
+              <field name="batch_year"/>
+              <field name="current_semester_id" options="{'no_create_edit': True}"/>
+              <field name="campus_id" options="{'no_create_edit': True}"/>
+              <field name="company_id" invisible="1"/>
+            </group>
+            <group name="contact_primary" string="Contact Summary">
+              <field name="institutional_email" widget="email" placeholder="student@university.edu"/>
+              <field name="email" widget="email"/>
+              <field name="mobile" widget="phone"/>
+              <field name="partner_id" readonly="1" options="{'force_email': True}" groups="base.group_no_one"/>
+            </group>
+          </group>
+
+          <!-- Main Notebook Navigation -->
           <notebook>
-            <page name="personal" string="Personal">
-              <group string="Personal Information">
-                <group>
-                  <field name="name"/>
+            <page name="personal" string="Personal Profile">
+              <group>
+                <group string="Personal Information">
+                  <field name="name" string="First Name"/>
                   <field name="middle_name"/>
                   <field name="last_name"/>
                   <field name="gender"/>
@@ -68,74 +97,56 @@
                   <field name="religion"/>
                   <field name="blood_group"/>
                 </group>
-                <group>
-                  <field name="country_id" options="{'no_create_edit': True}"/>
-                  <field name="state_id" options="{'no_create_edit': True}"/>
+                <group string="Address &amp; Location">
+                  <label for="address_street" string="Residential Address"/>
+                  <div class="o_address_format">
+                    <field name="address_street" placeholder="Street..." class="o_address_street"/>
+                    <field name="address_street2" placeholder="Street 2..." class="o_address_street"/>
+                    <field name="address_city" placeholder="City" class="o_address_city"/>
+                    <field name="address_state_id" class="o_address_state" placeholder="State" options="{'no_open': True, 'no_quick_create': True}"/>
+                    <field name="address_zip" placeholder="ZIP" class="o_address_zip"/>
+                    <field name="address_country_id" placeholder="Country" class="o_address_country" options="{'no_open': True, 'no_quick_create': True}"/>
+                  </div>
+                  <field name="phone"/>
                   <field name="disability_status"/>
                   <field name="disability_details" invisible="disability_status == 'none'" required="disability_status != 'none'"/>
                 </group>
               </group>
-              <group string="Contact Information">
-                <group>
-                  <field name="email"/>
-                  <field name="mobile"/>
-                  <field name="phone"/>
-                </group>
-                <group>
-                  <field name="address_street"/>
-                  <field name="address_street2"/>
-                  <field name="address_city"/>
-                  <field name="address_zip"/>
-                  <field name="address_state_id" options="{'no_create_edit': True}"/>
-                  <field name="address_country_id" options="{'no_create_edit': True}"/>
-                </group>
-              </group>
-              <group string="Identification Documents">
-                <group>
-                  <field name="is_international"/>
-                  <field name="passport_number" invisible="is_international == False" required="is_international == True"/>
-                  <field name="passport_expiry"/>
-                </group>
+              <group string="Identification &amp; Citizenship">
                 <group>
                   <field name="national_id"/>
-                  <field name="visa_number" invisible="is_international == False"/>
-                  <field name="visa_expiry" invisible="is_international == False"/>
+                  <field name="is_international"/>
+                </group>
+                <group invisible="not is_international">
+                  <field name="passport_number" required="is_international == True"/>
+                  <field name="passport_expiry"/>
+                  <field name="visa_number"/>
+                  <field name="visa_expiry"/>
                 </group>
               </group>
             </page>
-            <page name="academic" string="Academic">
-              <group string="Placement">
-                <group>
-                  <field name="faculty_id" readonly="1"/>
+
+            <page name="academic" string="Academic &amp; Progress">
+              <group>
+                <group string="Faculty &amp; Department">
+                  <field name="faculty_id" readonly="1" widget="many2one_avatar"/>
                   <field name="department_id" readonly="1"/>
-                  <field name="program_id" options="{'no_create_edit': True}"/>
-                  <field name="specialisation_id" options="{'no_create_edit': True}"/>
-                </group>
-                <group>
-                  <field name="batch_year"/>
                   <field name="current_year_of_study"/>
-                  <field name="current_semester_id" options="{'no_create_edit': True}"/>
-                </group>
-                <group>
                   <field name="cohort_kind" readonly="1"/>
                   <field name="grade_level_id" options="{'no_create_edit': True}" invisible="cohort_kind != 'grade_batch'" required="cohort_kind == 'grade_batch'"/>
                   <field name="cohort_start_date" invisible="cohort_kind != 'rolling'" required="cohort_kind == 'rolling'"/>
                   <field name="cohort_label" readonly="1"/>
                 </group>
-              </group>
-              <group string="Admission Details">
-                <group>
-                  <field name="admission_date"/>
+                <group string="Admission &amp; Timeline">
                   <field name="admission_number"/>
-                </group>
-                <group>
+                  <field name="admission_date"/>
                   <field name="expected_graduation_date"/>
-                  <field name="actual_graduation_date"/>
+                  <field name="actual_graduation_date" invisible="student_state != 'graduated'"/>
                 </group>
               </group>
-              <group string="Academic Performance">
+              <group string="Academic Standing &amp; Credit Metrics">
                 <group>
-                  <field name="cgpa"/>
+                  <field name="cgpa" widget="badge" decoration-success="cgpa &gt;= 3.5" decoration-info="cgpa &gt;= 2.5 and cgpa &lt; 3.5" decoration-warning="cgpa &gt;= 2.0 and cgpa &lt; 2.5" decoration-danger="cgpa &lt; 2.0"/>
                   <field name="completion_percentage" widget="progressbar"/>
                 </group>
                 <group>
@@ -143,55 +154,58 @@
                   <field name="total_credits_required"/>
                 </group>
               </group>
-              <separator string="Academic History"/>
+              <separator string="Term History &amp; Transcript Records"/>
               <field name="academic_history_ids" readonly="0">
-                <list editable="bottom" limit="20">
+                <list editable="bottom" limit="20" decoration-success="enrollment_state == 'passed'" decoration-danger="enrollment_state == 'failed'" decoration-info="is_current == True">
                   <field name="academic_year_id" options="{'no_create_edit': True}"/>
                   <field name="semester_id" options="{'no_create_edit': True}"/>
                   <field name="year_of_study"/>
                   <field name="semester_gpa"/>
                   <field name="cumulative_gpa"/>
-                  <field name="credits_attempted"/>
+                  <field name="credits_attempted" optional="show"/>
                   <field name="credits_earned"/>
-                  <field name="enrollment_state"/>
-                  <field name="is_current"/>
+                  <field name="enrollment_state" widget="badge" decoration-success="enrollment_state == 'passed'" decoration-danger="enrollment_state == 'failed'" decoration-info="enrollment_state == 'enrolled'"/>
+                  <field name="is_current" widget="boolean_toggle"/>
                 </list>
               </field>
             </page>
-            <page name="documents" string="Documents">
+
+            <page name="documents" string="Verification Documents">
               <field name="document_ids" readonly="0">
                 <list editable="bottom" limit="20">
                   <field name="document_type"/>
                   <field name="name"/>
                   <field name="file_name"/>
-                  <field name="is_verified"/>
-                  <field name="verified_by"/>
-                  <field name="issue_date"/>
-                  <field name="expiry_date"/>
+                  <field name="is_verified" widget="badge" decoration-success="is_verified == True" decoration-warning="is_verified == False"/>
+                  <field name="verified_by" optional="show"/>
+                  <field name="issue_date" optional="show"/>
+                  <field name="expiry_date" optional="hide"/>
                 </list>
               </field>
             </page>
-            <page name="guardians" string="Guardians / Emergency">
+
+            <page name="guardians" string="Guardians &amp; Emergency">
               <field name="guardian_ids" readonly="0">
                 <list editable="bottom" limit="20">
                   <field name="name"/>
                   <field name="relationship"/>
-                  <field name="is_primary"/>
-                  <field name="mobile"/>
-                  <field name="email"/>
-                  <field name="is_emergency_only"/>
+                  <field name="is_primary" widget="boolean_toggle"/>
+                  <field name="mobile" widget="phone"/>
+                  <field name="email" widget="email"/>
+                  <field name="is_emergency_only" optional="show"/>
                 </list>
               </field>
             </page>
-            <page name="tracking" string="Tracking">
+
+            <page name="tracking" string="Lifecycle &amp; System">
               <group>
-                <group>
-                  <field name="status_change_date"/>
-                  <field name="status_change_reason"/>
+                <group string="Status Tracking">
+                  <field name="status_change_date" readonly="1"/>
+                  <field name="status_change_reason" readonly="1"/>
                 </group>
-                <group>
-                  <field name="has_portal_access"/>
-                  <field name="sequence"/>
+                <group string="System &amp; Portal">
+                  <field name="has_portal_access" widget="boolean_toggle" readonly="1"/>
+                  <field name="sequence" groups="base.group_no_one"/>
                 </group>
               </group>
             </page>
@@ -201,129 +215,163 @@
       </form>
     </field>
   </record>
-  <!-- ==================== STUDENT TREE VIEW ==================== -->
+
+  <!-- ==================== STUDENT LIST VIEW ==================== -->
   <record id="oacis_student_tree_view" model="ir.ui.view">
     <field name="name">oacis.student.tree</field>
     <field name="model">oacis.student</field>
     <field name="arch" type="xml">
-      <list limit="40">
+      <list limit="40" default_order="student_id_number desc">
         <field name="student_id_number"/>
-        <field name="display_name"/>
-        <field name="program_id"/>
-        <field name="campus_id"/>
+        <field name="display_name" class="fw-bold"/>
+        <field name="program_id" optional="show"/>
+        <field name="campus_id" optional="show"/>
         <field name="student_state" widget="badge" decoration-primary="student_state == 'active'" decoration-success="student_state in ('graduated','alumni')" decoration-warning="student_state in ('admitted','enrolled')" decoration-danger="student_state in ('withdrawn','expelled','deceased','cancelled')" decoration-info="student_state in ('prospect','on_leave')"/>
-        <field name="batch_year"/>
+        <field name="batch_year" optional="show"/>
+        <field name="current_semester_id" optional="show"/>
         <field name="cohort_kind" optional="hide"/>
         <field name="cohort_label" optional="hide"/>
-        <field name="email"/>
-        <field name="mobile"/>
-        <field name="cgpa"/>
+        <field name="email" optional="show" widget="email"/>
+        <field name="mobile" optional="show" widget="phone"/>
+        <field name="cgpa" optional="show" widget="badge" decoration-success="cgpa &gt;= 3.5" decoration-info="cgpa &gt;= 2.5 and cgpa &lt; 3.5" decoration-warning="cgpa &gt;= 2.0 and cgpa &lt; 2.5" decoration-danger="cgpa &lt; 2.0"/>
+        <field name="completion_percentage" optional="hide" widget="progressbar"/>
       </list>
     </field>
   </record>
+
   <!-- ==================== STUDENT SEARCH VIEW ==================== -->
   <record id="oacis_student_search_view" model="ir.ui.view">
     <field name="name">oacis.student.search</field>
     <field name="model">oacis.student</field>
     <field name="arch" type="xml">
       <search>
-        <field name="name"/>
+        <field name="name" filter_domain="['|', '|', ('name', 'ilike', self), ('display_name', 'ilike', self), ('student_id_number', 'ilike', self)]" string="Student (Name/ID)"/>
         <field name="student_id_number"/>
         <field name="email"/>
         <field name="mobile"/>
+        <field name="program_id"/>
+        <field name="campus_id"/>
         <field name="nationality_id"/>
         <field name="cohort_kind"/>
-        <filter name="filter_active" string="Active" domain="[('student_state', '=', 'active')]"/>
+
+        <!-- Faceted Left Searchpanel -->
+        <searchpanel>
+          <field name="campus_id" icon="fa-university" enable_counters="1"/>
+          <field name="program_id" icon="fa-graduation-cap" select="multi" enable_counters="1"/>
+          <field name="student_state" icon="fa-filter" select="multi" enable_counters="1"/>
+        </searchpanel>
+
+        <!-- Semantic Filter Shortcuts -->
+        <filter name="filter_active" string="Active Students" domain="[('student_state', '=', 'active')]"/>
         <filter name="filter_enrolled" string="Enrolled" domain="[('student_state', '=', 'enrolled')]"/>
+        <filter name="filter_admitted" string="Admitted" domain="[('student_state', '=', 'admitted')]"/>
+        <filter name="filter_on_leave" string="On Leave" domain="[('student_state', '=', 'on_leave')]"/>
         <filter name="filter_graduated" string="Graduated" domain="[('student_state', '=', 'graduated')]"/>
         <filter name="filter_alumni" string="Alumni" domain="[('student_state', '=', 'alumni')]"/>
         <separator/>
-        <filter name="group_program" string="Program" context="{'group_by': 'program_id'}"/>
-        <filter name="group_campus" string="Campus" context="{'group_by': 'campus_id'}"/>
-        <filter name="group_state" string="Status" context="{'group_by': 'student_state'}"/>
+        <filter name="filter_high_performers" string="Dean's List (CGPA ≥ 3.5)" domain="[('cgpa', '&gt;=', 3.5)]"/>
+        <filter name="filter_at_risk" string="Academic Alert (CGPA &lt; 2.0)" domain="[('cgpa', '&gt;', 0.0), ('cgpa', '&lt;', 2.0)]"/>
         <separator/>
-        <filter name="filter_international" string="International" domain="[('is_international', '=', True)]"/>
+        <filter name="filter_international" string="International Students" domain="[('is_international', '=', True)]"/>
         <separator/>
+
+        <!-- Group By Contexts -->
         <group name="groupby">
+          <filter name="group_program" string="Program" context="{'group_by': 'program_id'}"/>
+          <filter name="group_campus" string="Campus" context="{'group_by': 'campus_id'}"/>
+          <filter name="group_state" string="Status" context="{'group_by': 'student_state'}"/>
           <filter name="group_batch_year" string="Batch Year" context="{'group_by': 'batch_year'}"/>
+          <filter name="group_current_semester" string="Semester" context="{'group_by': 'current_semester_id'}"/>
           <filter name="group_cohort_kind" string="Cohort Kind" context="{'group_by': 'cohort_kind'}"/>
           <filter name="group_grade_level" string="Grade Level" context="{'group_by': 'grade_level_id'}"/>
-          <filter name="group_cohort_start" string="Intake Date" context="{'group_by': 'cohort_start_date'}"/>
           <filter name="group_gender" string="Gender" context="{'group_by': 'gender'}"/>
-          <filter name="group_company" string="Company" context="{'group_by': 'company_id'}"/>
+          <filter name="group_company" string="Institution" context="{'group_by': 'company_id'}"/>
         </group>
       </search>
     </field>
   </record>
+
   <!-- ==================== STUDENT KANBAN VIEW ==================== -->
   <record id="oacis_student_kanban_view" model="ir.ui.view">
     <field name="name">oacis.student.kanban</field>
     <field name="model">oacis.student</field>
     <field name="arch" type="xml">
-      <kanban class="o_kanban_mobile" highlight_color="color">
+      <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="student_state">
+        <field name="id"/>
         <field name="student_id_number"/>
         <field name="display_name"/>
         <field name="student_state"/>
+        <field name="program_id"/>
         <field name="email"/>
+        <field name="mobile"/>
         <field name="cgpa"/>
         <field name="image_1920"/>
         <field name="color"/>
+        <progressbar field="student_state" colors='{"active": "success", "enrolled": "info", "admitted": "warning", "on_leave": "muted", "graduated": "success"}'/>
         <templates>
-          <t t-name="card">
-            <!-- Apply Profile variant class -->
-            <div class="oacis-kanban-profile w-100 h-100 d-flex">
-              
-              <!-- Avatar Area -->
-              <div class="oacis-profile-avatar">
-                <img t-if="record.image_1920.raw_value" t-att-src="'/web/image?model=oacis.student&amp;field=image_1920&amp;id=' + record.id.raw_value" alt="Student Photo" class="oacis-avatar oacis-avatar-lg"/>
-                <t t-if="!record.image_1920.raw_value">
-                  <div class="oacis-avatar oacis-avatar-lg d-flex align-items-center justify-content-center text-muted" style="background:#f0eff3; font-size:18px;">
-                    <span t-esc="record.display_name.value[0]"/>
-                  </div>
-                </t>
-              </div>
-              
-              <!-- Details Area -->
-              <div class="oacis-profile-details">
-                <div class="oacis-kanban-title"><field name="display_name"/></div>
-                <div class="oacis-kanban-subtitle"><field name="student_id_number"/></div>
-                
-                <div class="mt-1">
-                  <!-- Use Odoo widget but we can style it via global CSS later if needed, or use manual badges. For now let's use the field widget but add our badge class wrapper or just leave as widget -->
-                  <field name="student_state" widget="badge" decoration-success="student_state == 'active'" decoration-info="student_state == 'enrolled'" decoration-muted="student_state == 'draft'" decoration-danger="student_state in ('suspended', 'expelled')"/>
+          <t t-name="card" class="flex-row">
+            <aside class="o_kanban_aside_full">
+              <t t-if="record.image_1920.raw_value">
+                <img t-att-src="'/web/image?model=oacis.student&amp;field=image_1920&amp;id=' + record.id.raw_value" alt="Student Photo" class="o_kanban_image_fill rounded-circle" style="width: 64px; height: 64px; object-fit: cover;"/>
+              </t>
+              <t t-else="">
+                <div class="rounded-circle bg-light text-primary d-flex align-items-center justify-content-center fw-bold fs-4 border" style="width: 64px; height: 64px;">
+                  <i class="fa fa-user" title="User"/>
                 </div>
-
-                <div class="oacis-meta-row mt-2">
-                  <i class="fa fa-envelope" title="Email"/>
-                  <field name="email"/>
+              </t>
+            </aside>
+            <main class="ps-2 flex-grow-1">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <field name="display_name" class="fw-bold fs-6 text-truncate d-block"/>
+                  <span class="text-muted small">
+                    <i class="fa fa-id-card-o me-1" title="ID Card"/> <field name="student_id_number"/>
+                  </span>
                 </div>
-                <div class="oacis-meta-row">
-                  <i class="fa fa-graduation-cap" title="CGPA"/>
-                  <span>CGPA: <field name="cgpa"/></span>
-                </div>
+                <field name="student_state" widget="badge" decoration-primary="student_state == 'active'" decoration-success="student_state in ('graduated','alumni')" decoration-warning="student_state in ('admitted','enrolled')" decoration-danger="student_state in ('withdrawn','expelled','deceased','cancelled')" decoration-info="student_state in ('prospect','on_leave')"/>
               </div>
 
-            </div>
+              <div class="text-muted small mt-1">
+                <i class="fa fa-graduation-cap me-1" title="Academic"/> <field name="program_id"/>
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center mt-2 pt-1 border-top small">
+                <div>
+                  <span t-if="record.cgpa.raw_value &gt; 0" class="badge text-bg-light border">
+                    CGPA: <field name="cgpa"/>
+                  </span>
+                </div>
+                <div class="d-flex gap-2">
+                  <a t-if="record.email.raw_value" t-att-href="'mailto:' + record.email.raw_value" class="text-decoration-none text-muted" title="Send Email">
+                    <i class="fa fa-envelope" title="Email"/>
+                  </a>
+                  <a t-if="record.mobile.raw_value" t-att-href="'tel:' + record.mobile.raw_value" class="text-decoration-none text-muted" title="Call Mobile">
+                    <i class="fa fa-phone" title="Phone"/>
+                  </a>
+                </div>
+              </div>
+            </main>
           </t>
         </templates>
       </kanban>
     </field>
   </record>
+
   <!-- ==================== ACTIONS ==================== -->
   <record id="action_oacis_student" model="ir.actions.act_window">
     <field name="name">Students</field>
     <field name="type">ir.actions.act_window</field>
     <field name="res_model">oacis.student</field>
     <field name="view_mode">kanban,list,form</field>
-    <field name="search_view_id" ref="oacis_student_search_view"/>
+    <field name="context">{'search_default_filter_active': 1}</field>
     <field name="help" type="html">
       <p class="o_view_nocontent_smiling_face">
-                Start managing students
-            </p>
+        Start managing students
+      </p>
       <p>
-                Create a new student record to track the complete student lifecycle
-                from admission through graduation and alumni status.
-            </p>
+        Create a new student record to track the complete student lifecycle
+        from admission through graduation and alumni status.
+      </p>
     </field>
   </record>
 </odoo>

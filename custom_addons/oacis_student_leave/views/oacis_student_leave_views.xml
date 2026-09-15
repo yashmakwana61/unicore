@@ -9,7 +9,7 @@
     <field name="arch" type="xml">
       <list string="Leave Requests" decoration-danger="state == 'rejected'" decoration-success="state == 'approved'" decoration-info="state == 'submitted'" decoration-muted="state == 'cancelled'">
         <field name="name"/>
-        <field name="student_id" string="Student"/>
+        <field name="student_id" string="Student" widget="many2one_avatar"/>
         <field name="student_number" string="Student ID"/>
         <field name="submitted_by" string="Submitted By"/>
         <field name="guardian_name" string="Guardian"/>
@@ -52,7 +52,7 @@
           </div>
           <group>
             <group string="Student Information">
-              <field name="student_id"/>
+              <field name="student_id" widget="many2one_avatar"/>
               <field name="student_number"/>
               <field name="submitted_by"/>
               <field name="guardian_id" invisible="not guardian_id"/>
@@ -70,7 +70,7 @@
           </group>
           <group string="Approval" invisible="state not in ('approved', 'rejected')">
             <group>
-              <field name="approver_id" readonly="1"/>
+              <field name="approver_id" readonly="1" widget="many2one_avatar"/>
               <field name="approval_date" readonly="1"/>
             </group>
             <group>
@@ -96,7 +96,7 @@
     <field name="arch" type="xml">
       <search string="Search Leave Requests">
         <field name="name"/>
-        <field name="student_id"/>
+        <field name="student_id" widget="many2one_avatar"/>
         <field name="student_number"/>
         <field name="guardian_name"/>
         <separator/>
@@ -129,7 +129,7 @@
         <field name="student_number"/>
         <field name="date_from"/>
         <field name="date_to"/>
-        <field name="state"/>
+        <field name="state" widget="badge"/>
         <field name="leave_duration"/>
         <field name="submitted_by"/>
         <templates>
@@ -150,21 +150,21 @@
               </div>
               <div class="o_kanban_record_body">
                 <div>
-                  <i class="fa fa-user"/>
+                  <i class="fa fa-user" title="User"/>
                   <field name="student_name"/>
                 </div>
                 <div>
-                  <i class="fa fa-calendar"/>
+                  <i class="fa fa-calendar" title="Calendar"/>
                   <field name="date_from"/>
                                     to <field name="date_to"/>
                 </div>
                 <div>
-                  <i class="fa fa-clock-o"/>
+                  <i class="fa fa-clock-o" title="Time"/>
                   <field name="leave_duration"/>
                                     days
                                 </div>
                 <div t-if="record.submitted_by.raw_value == 'guardian'">
-                  <i class="fa fa-users"/> Submitted by guardian
+                  <i class="fa fa-users" title="Users"/> Submitted by guardian
                                 </div>
               </div>
             </div>
@@ -180,7 +180,6 @@
     <field name="name">Leave Requests</field>
     <field name="res_model">oacis.student.leave.request</field>
     <field name="view_mode">list,kanban,form</field>
-    <field name="search_view_id" ref="oacis_student_leave_request_search_view"/>
     <field name="context">{'search_default_state_submitted': 1}</field>
     <field name="help" type="html">
       <p class="o_view_nocontent_smiling_face">

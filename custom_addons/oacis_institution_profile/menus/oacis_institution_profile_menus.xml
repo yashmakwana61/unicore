@@ -2,24 +2,12 @@
 <odoo>
 
     <!-- Institution Profiles under Oacis Configuration -->
-    <menuitem id="menu_oacis_institution_profile_list"
-              name="Institution Profiles"
-              parent="oacis_base.menu_oacis_configuration"
-              action="action_oacis_institution_profile"
-              sequence="105"/>
+    <menuitem id="menu_oacis_institution_profile_list" name="Institution Profiles" parent="oacis_base.menu_oacis_configuration" action="action_oacis_institution_profile" sequence="105"/>
 
     <!-- Terminology Profiles under Oacis Configuration -->
-    <menuitem id="menu_oacis_terminology_profile_list"
-              name="Terminology Profiles"
-              parent="oacis_base.menu_oacis_configuration"
-              action="action_oacis_terminology_profile"
-              sequence="106"/>
+    <menuitem id="menu_oacis_terminology_profile_list" name="Terminology Profiles" parent="oacis_base.menu_oacis_configuration" action="action_oacis_terminology_profile" sequence="106"/>
 
     <!-- Grading Schemes under Oacis Configuration -->
-    <menuitem id="menu_oacis_grading_scheme_list"
-              name="Grading Schemes"
-              parent="oacis_base.menu_oacis_configuration"
-              action="action_oacis_grading_scheme"
-              sequence="107"/>
+    <menuitem id="menu_oacis_grading_scheme_list" name="Grading Schemes" parent="oacis_base.menu_oacis_configuration" action="action_oacis_grading_scheme" sequence="107"/>
 
 </odoo>

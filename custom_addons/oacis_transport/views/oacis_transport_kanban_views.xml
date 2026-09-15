@@ -115,7 +115,7 @@
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="pass_state">
                 <field name="display_name"/>
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="route_id"/>
                 <field name="valid_from"/>
                 <field name="valid_until"/>
@@ -131,7 +131,7 @@
                                 <field name="pass_state" widget="badge"/>
                             </div>
                             <div class="text-muted mt-1 small">
-                                <field name="student_id"/> → <field name="route_id"/>
+                                <field name="student_id" widget="many2one_avatar"/> → <field name="route_id"/>
                             </div>
                             <div class="mt-2 text-muted small">
                                 Valid: <field name="valid_from"/> → <field name="valid_until"/>

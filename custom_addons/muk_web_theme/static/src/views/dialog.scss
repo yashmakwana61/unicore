@@ -1,0 +1,58 @@
+// ==============================================================================
+// MuK Modern Dialog / Modal Styling (Odoo 19)
+// ==============================================================================
+
+.modal-dialog {
+    font-family: var(--mk-font-family);
+    
+    .modal-content {
+        border-radius: var(--mk-radius-lg, 12px);
+        border: 1px solid var(--mk-border-color, #E2E8F0);
+        box-shadow: var(--mk-shadow-xl);
+        overflow: hidden;
+        
+        .modal-header {
+            background-color: var(--mk-surface-card, #FFFFFF);
+            border-bottom: 1px solid var(--mk-border-color, #E2E8F0);
+            padding: 14px 20px;
+            
+            .modal-title {
+                font-size: 16px;
+                font-weight: 600;
+                color: var(--mk-text-heading, #0F172A);
+            }
+            
+            .btn-close, .mk_btn_dialog_size {
+                border-radius: var(--mk-radius-xs, 4px);
+                transition: all 140ms ease;
+                
+                &:hover {
+                    background-color: var(--mk-surface-muted, #F1F5F9);
+                }
+            }
+        }
+        
+        .modal-body {
+            background-color: var(--mk-surface-card, #FFFFFF);
+            padding: 20px;
+        }
+        
+        .modal-footer {
+            background-color: var(--mk-surface-muted, #F8FAFC);
+            border-top: 1px solid var(--mk-border-color, #E2E8F0);
+            padding: 12px 20px;
+            
+            .btn {
+                border-radius: var(--mk-radius-xs, 6px);
+                font-size: 13px;
+                font-weight: 500;
+                padding: 6px 16px;
+            }
+        }
+    }
+}
+
+.modal-backdrop.show {
+    backdrop-filter: blur(4px);
+    opacity: 0.45;
+}

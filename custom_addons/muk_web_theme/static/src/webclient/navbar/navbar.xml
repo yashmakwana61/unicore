@@ -9,38 +9,50 @@
 	>
 		<xpath expr="//Dropdown" position="replace">
 			<AppsMenu menuClass="'mk_app_menu'">
-				<button data-hotkey="h" title="Home Menu">
+				<button data-hotkey="h" title="Home Menu" class="mk_apps_toggle_trigger btn">
 					<i class="oi oi-apps" />
 				</button>
           		<t t-set-slot="content">
-					<DropdownItem
-						t-foreach="this.appMenuService.getAppsMenuItems()"
-						t-as="app"
-						t-key="app.id"
-						class="'o_app'"
-						attrs="{ href: app.href, 'data-menu-xmlid': app.xmlid, 'data-section': app.id }"
-						onSelected="() => this.onNavBarDropdownItemSelection(app)"
-						closingMode="'none'"
-					>
-						<a 
-							t-att-href="app.href" 
-							t-on-click.prevent=""
-						>
-							<img 
-								t-if="app.webIconData"          		
-								class="mk_app_icon" 
-								t-att-src="app.webIconData"
-							/>
-							<img  
-								t-else="" 
-								class="mk_app_icon" 
-								src="/base/static/description/icon.png"
-							/>
-							<span class="mk_app_name">
-								<t t-out="app.label"/>
-							</span>
-						</a>
-					</DropdownItem>
+					<div class="mk_appsmenu_wrapper">
+						<div class="mk_appsmenu_search_box" t-on-click="() => this.env.services.command.openMainPalette({ searchValue: '/' })">
+							<i class="oi oi-search mk_search_icon" />
+							<span class="mk_search_placeholder">Type to search apps, menus, settings...</span>
+							<span class="mk_search_badge">Ctrl K</span>
+						</div>
+						
+						<div class="mk_appsmenu_grid">
+							<DropdownItem
+								t-foreach="this.appMenuService.getAppsMenuItems()"
+								t-as="app"
+								t-key="app.id"
+								class="'o_app'"
+								attrs="{ href: app.href, 'data-menu-xmlid': app.xmlid, 'data-section': app.id }"
+								onSelected="() => this.onNavBarDropdownItemSelection(app)"
+								closingMode="'none'"
+							>
+								<a 
+									t-att-href="app.href" 
+									t-on-click.prevent=""
+								>
+									<img 
+										t-if="app.webIconData"          		
+										class="mk_app_icon" 
+										t-att-src="app.webIconData"
+										t-att-alt="app.label"
+									/>
+									<img  
+										t-else="" 
+										class="mk_app_icon" 
+										src="/base/static/description/icon.png"
+										t-att-alt="app.label"
+									/>
+									<span class="mk_app_name">
+										<t t-out="app.label"/>
+									</span>
+								</a>
+							</DropdownItem>
+						</div>
+					</div>
          		</t>
 			</AppsMenu>
 		</xpath>

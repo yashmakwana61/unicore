@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="access_oacis_admission_automation_rule_admin" model="ir.model.access">
+        <field name="name">oacis.admission.automation.rule admin</field>
+        <field name="model_id" ref="model_oacis_admission_automation_rule"/>
+        <field name="group_id" ref="oacis_base.group_oacis_admin"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+    <record id="access_oacis_admission_automation_rule_manager" model="ir.model.access">
+        <field name="name">oacis.admission.automation.rule manager</field>
+        <field name="model_id" ref="model_oacis_admission_automation_rule"/>
+        <field name="group_id" ref="oacis_base.group_oacis_manager"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="access_oacis_admission_automation_rule_registrar" model="ir.model.access">
+        <field name="name">oacis.admission.automation.rule registrar</field>
+        <field name="model_id" ref="model_oacis_admission_automation_rule"/>
+        <field name="group_id" ref="oacis_base.group_oacis_registrar"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+</odoo>

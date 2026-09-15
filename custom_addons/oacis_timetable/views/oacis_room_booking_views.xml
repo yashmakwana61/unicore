@@ -13,18 +13,9 @@
                 <form>
                     <header>
                         <field name="booking_state" widget="statusbar" clickable="True"/>
-                        <button name="action_approve" type="object"
-                                string="Approve"
-                                invisible="booking_state != 'requested'"
-                                class="btn-primary"
-                                groups="oacis_base.group_oacis_registrar"/>
-                        <button name="action_cancel" type="object"
-                                string="Cancel"
-                                invisible="booking_state == 'cancelled'"/>
-                        <button name="action_reset_requested" type="object"
-                                string="Reset to Requested"
-                                invisible="booking_state != 'cancelled'"
-                                groups="oacis_base.group_oacis_admin"/>
+                        <button name="action_approve" type="object" string="Approve" invisible="booking_state != 'requested'" class="btn-primary" groups="oacis_base.group_oacis_registrar"/>
+                        <button name="action_cancel" type="object" string="Cancel" invisible="booking_state == 'cancelled'"/>
+                        <button name="action_reset_requested" type="object" string="Reset to Requested" invisible="booking_state != 'cancelled'" groups="oacis_base.group_oacis_admin"/>
                     </header>
                     <sheet>
                         <group string="Booking Details">
@@ -68,9 +59,7 @@
             <field name="name">oacis.room.booking.list</field>
             <field name="model">oacis.room.booking</field>
             <field name="arch" type="xml">
-                <list decoration-success="booking_state == 'approved'"
-                      decoration-muted="booking_state == 'cancelled'"
-                      decoration-warning="booking_state == 'requested'">
+                <list decoration-success="booking_state == 'approved'" decoration-muted="booking_state == 'cancelled'" decoration-warning="booking_state == 'requested'">
                     <field name="name"/>
                     <field name="booking_date"/>
                     <field name="room_id"/>
@@ -91,22 +80,20 @@
             <field name="model">oacis.room.booking</field>
             <field name="arch" type="xml">
                 <search>
+        <searchpanel>
+          <field name="room_id" icon="fa-building" enable_counters="1"/>
+          <field name="booking_state" icon="fa-filter" select="multi" enable_counters="1"/>
+        </searchpanel>
                     <field name="name"/>
                     <field name="room_id"/>
                     <field name="requested_by_id"/>
-                    <filter name="filter_pending_approval" string="Pending Approval"
-                            domain="[('booking_state', '=', 'requested')]"/>
-                    <filter name="filter_approved" string="Approved Bookings"
-                            domain="[('booking_state', '=', 'approved')]"/>
-                    <filter name="filter_my_requests" string="My Requests"
-                            domain="[('requested_by_id.partner_id.user_ids', 'in', [uid])]"/>
+                    <filter name="filter_pending_approval" string="Pending Approval" domain="[('booking_state', '=', 'requested')]"/>
+                    <filter name="filter_approved" string="Approved Bookings" domain="[('booking_state', '=', 'approved')]"/>
+                    <filter name="filter_my_requests" string="My Requests" domain="[('requested_by_id.partner_id.user_ids', 'in', [uid])]"/>
                     <group name="group_by">
-                        <filter name="group_by_room" string="Room"
-                                context="{'group_by': 'room_id'}"/>
-                        <filter name="group_by_purpose" string="Purpose"
-                                context="{'group_by': 'purpose'}"/>
-                        <filter name="group_by_status" string="Status"
-                                context="{'group_by': 'booking_state'}"/>
+                        <filter name="group_by_room" string="Room" context="{'group_by': 'room_id'}"/>
+                        <filter name="group_by_purpose" string="Purpose" context="{'group_by': 'purpose'}"/>
+                        <filter name="group_by_status" string="Status" context="{'group_by': 'booking_state'}"/>
                     </group>
                 </search>
             </field>

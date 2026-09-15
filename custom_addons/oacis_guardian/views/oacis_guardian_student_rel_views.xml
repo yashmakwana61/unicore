@@ -9,7 +9,7 @@
                     <group>
                         <group>
                             <field name="guardian_id"/>
-                            <field name="student_id"/>
+                            <field name="student_id" widget="many2one_avatar"/>
                             <field name="relationship_type"/>
                             <field name="start_date"/>
                             <field name="end_date"/>
@@ -37,7 +37,7 @@
         <field name="arch" type="xml">
             <list string="Guardian-Student Relationships">
                 <field name="guardian_id"/>
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="relationship_type"/>
                 <field name="is_primary_guardian"/>
                 <field name="is_financial_guarantor"/>
@@ -55,7 +55,7 @@
         <field name="arch" type="xml">
             <search string="Search Relationships">
                 <field name="guardian_id"/>
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="relationship_type"/>
                 
                 <filter name="filter_primary" string="Primary Guardians" domain="[('is_primary_guardian', '=', True)]"/>

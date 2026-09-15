@@ -1,0 +1,71 @@
+// ==============================================================================
+// MuK Modern Kanban View Styling (Odoo 19)
+// ==============================================================================
+
+.o_kanban_renderer {
+    background-color: var(--mk-surface-app, #F8FAFC);
+    padding: 16px;
+    
+    // Columns
+    .o_kanban_group {
+        background-color: var(--mk-surface-muted, #F1F5F9);
+        border-radius: var(--mk-radius-md, 10px);
+        padding: 10px;
+        border: 1px solid transparent;
+        transition: border-color 160ms ease;
+        
+        .o_kanban_header {
+            padding: 4px 6px 12px 6px;
+            
+            .o_kanban_header_title {
+                font-size: 13.5px;
+                font-weight: 600;
+                color: var(--mk-text-heading, #0F172A);
+            }
+            
+            .o_kanban_counter {
+                .badge {
+                    border-radius: var(--mk-radius-pill, 9999px);
+                    padding: 3px 8px;
+                    font-size: 11px;
+                    font-weight: 600;
+                    background-color: var(--mk-border-color, #E2E8F0);
+                    color: var(--mk-text-muted, #64748B);
+                }
+            }
+        }
+        
+        // Kanban Records / Cards
+        .o_kanban_record {
+            background-color: var(--mk-surface-card, #FFFFFF);
+            border: 1px solid var(--mk-border-color, #E2E8F0);
+            border-radius: var(--mk-radius-md, 10px);
+            box-shadow: var(--mk-shadow-xs);
+            padding: 14px;
+            margin-bottom: 10px;
+            transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            
+            &:hover {
+                border-color: var(--mk-border-focus, #818CF8);
+                box-shadow: var(--mk-shadow-md);
+                transform: translateY(-2px);
+            }
+            
+            // Color badges & tags inside cards
+            .badge {
+                border-radius: var(--mk-radius-xs, 4px);
+                font-size: 11px;
+                font-weight: 500;
+                padding: 3px 6px;
+            }
+            
+            // Avatars
+            img.oe_kanban_avatar, .o_kanban_image_inner_pic {
+                border-radius: var(--mk-radius-pill, 9999px);
+                border: 1.5px solid var(--mk-surface-card, #FFFFFF);
+                box-shadow: var(--mk-shadow-xs);
+            }
+        }
+    }
+}

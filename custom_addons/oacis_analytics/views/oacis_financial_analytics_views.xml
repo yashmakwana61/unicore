@@ -3,8 +3,7 @@
 
   <!-- FEE COLLECTION REPORT -->
 
-  <record id="view_oacis_fee_coll_report_pivot"
-          model="ir.ui.view">
+  <record id="view_oacis_fee_coll_report_pivot" model="ir.ui.view">
     <field name="name">oacis.fee.collection.report.pivot</field>
     <field name="model">oacis.fee.collection.report</field>
     <field name="arch" type="xml">
@@ -20,24 +19,19 @@
     </field>
   </record>
 
-  <record id="view_oacis_fee_coll_report_graph"
-          model="ir.ui.view">
+  <record id="view_oacis_fee_coll_report_graph" model="ir.ui.view">
     <field name="name">oacis.fee.collection.report.graph</field>
     <field name="model">oacis.fee.collection.report</field>
     <field name="arch" type="xml">
-      <graph string="Fee Collection Trend"
-             type="bar"
-             stacked="1">
+      <graph string="Fee Collection Trend" type="bar" stacked="1">
         <field name="semester_id"/>
         <field name="total_collected" type="measure"/>
-        <field name="total_outstanding"
-               type="measure"/>
+        <field name="total_outstanding" type="measure"/>
       </graph>
     </field>
   </record>
 
-  <record id="view_oacis_fee_coll_report_list"
-          model="ir.ui.view">
+  <record id="view_oacis_fee_coll_report_list" model="ir.ui.view">
     <field name="name">oacis.fee.collection.report.list</field>
     <field name="model">oacis.fee.collection.report</field>
     <field name="arch" type="xml">
@@ -53,8 +47,7 @@
     </field>
   </record>
 
-  <record id="action_oacis_fee_coll_report"
-          model="ir.actions.act_window">
+  <record id="action_oacis_fee_coll_report" model="ir.actions.act_window">
     <field name="name">Fee Collection Analytics</field>
     <field name="res_model">oacis.fee.collection.report</field>
     <field name="view_mode">graph,pivot,list</field>
@@ -62,8 +55,7 @@
 
   <!-- PAYMENT METHOD REPORT -->
 
-  <record id="view_oacis_payment_method_pivot"
-          model="ir.ui.view">
+  <record id="view_oacis_payment_method_pivot" model="ir.ui.view">
     <field name="name">oacis.payment.method.report.pivot</field>
     <field name="model">oacis.payment.method.report</field>
     <field name="arch" type="xml">
@@ -76,21 +68,18 @@
     </field>
   </record>
 
-  <record id="view_oacis_payment_method_graph"
-          model="ir.ui.view">
+  <record id="view_oacis_payment_method_graph" model="ir.ui.view">
     <field name="name">oacis.payment.method.report.graph</field>
     <field name="model">oacis.payment.method.report</field>
     <field name="arch" type="xml">
-      <graph string="Payment Method Distribution"
-             type="pie">
+      <graph string="Payment Method Distribution" type="pie">
         <field name="payment_method"/>
         <field name="total_amount" type="measure"/>
       </graph>
     </field>
   </record>
 
-  <record id="view_oacis_payment_method_list"
-          model="ir.ui.view">
+  <record id="view_oacis_payment_method_list" model="ir.ui.view">
     <field name="name">oacis.payment.method.report.list</field>
     <field name="model">oacis.payment.method.report</field>
     <field name="arch" type="xml">
@@ -103,8 +92,7 @@
     </field>
   </record>
 
-  <record id="action_oacis_payment_method_report"
-          model="ir.actions.act_window">
+  <record id="action_oacis_payment_method_report" model="ir.actions.act_window">
     <field name="name">Payment Method Analytics</field>
     <field name="res_model">oacis.payment.method.report</field>
     <field name="view_mode">graph,pivot,list</field>

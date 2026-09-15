@@ -27,34 +27,27 @@
                         <div class="row">
                             <div class="col-md-2">
                                 <label>Date From</label>
-                                <input type="date" class="form-control"
-                                    t-att-value="state.filters.date_from or ''"
-                                    t-on-change.bind="onFilterChange" data-field="date_from"/>
+                                <input type="date" class="form-control" t-att-value="state.filters.date_from or ''" bind="onFilterChange" data-field="date_from"/>
                             </div>
                             <div class="col-md-2">
                                 <label>Date To</label>
-                                <input type="date" class="form-control"
-                                    t-att-value="state.filters.date_to or ''"
-                                    t-on-change.bind="onFilterChange" data-field="date_to"/>
+                                <input type="date" class="form-control" t-att-value="state.filters.date_to or ''" bind="onFilterChange" data-field="date_to"/>
                             </div>
                             <div class="col-md-2">
                                 <label>Campus</label>
-                                <select class="form-control"
-                                    t-on-change.bind="onFilterChange" data-field="campus_id">
+                                <select class="form-control" bind="onFilterChange" data-field="campus_id">
                                     <option value="">All Campuses</option>
                                 </select>
                             </div>
                             <div class="col-md-2">
                                 <label>Program</label>
-                                <select class="form-control"
-                                    t-on-change.bind="onFilterChange" data-field="program_id">
+                                <select class="form-control" bind="onFilterChange" data-field="program_id">
                                     <option value="">All Programs</option>
                                 </select>
                             </div>
                             <div class="col-md-2">
                                 <label>Status</label>
-                                <select class="form-control"
-                                    t-on-change.bind="onFilterChange" data-field="state">
+                                <select class="form-control" bind="onFilterChange" data-field="state">
                                     <option value="">All States</option>
                                     <option value="inquiry">Inquiry</option>
                                     <option value="applied">Applied</option>

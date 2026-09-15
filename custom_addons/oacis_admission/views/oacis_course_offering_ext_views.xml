@@ -26,7 +26,7 @@
             <page string="Enrolled Students" groups="oacis_base.group_oacis_staff">
               <field name="enrollment_ids" editable="0">
                 <list>
-                  <field name="student_id"/>
+                  <field name="student_id" widget="many2one_avatar"/>
                   <field name="registration_type"/>
                   <field name="credit_hours"/>
                   <field name="grade_status"/>
@@ -38,7 +38,7 @@
               <field name="waitlist_ids" editable="0">
                 <list>
                   <field name="position"/>
-                  <field name="student_id"/>
+                  <field name="student_id" widget="many2one_avatar"/>
                   <field name="waitlist_date"/>
                   <field name="waitlist_state"/>
                 </list>

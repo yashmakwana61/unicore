@@ -2,76 +2,32 @@
 <odoo>
 
   <!-- Top-level Menu -->
-  <menuitem id="menu_oacis_finance_report_root"
-            name="Finance Reports"
-            web_icon="oacis_finance_report,static/description/icon.png"
-            sequence="50"/>
+  <menuitem id="menu_oacis_finance_report_root" name="Finance Reports" web_icon="oacis_finance_report,static/description/icon.png" sequence="50"/>
 
   <!-- Dashboard -->
-  <menuitem id="menu_oacis_finance_dashboard"
-            name="Dashboard"
-            parent="menu_oacis_finance_report_root"
-            action="action_oacis_finance_dashboard"
-            sequence="10"/>
+  <menuitem id="menu_oacis_finance_dashboard" name="Dashboard" parent="menu_oacis_finance_report_root" action="action_oacis_finance_dashboard" sequence="10"/>
 
   <!-- Analytics -->
-  <menuitem id="menu_oacis_finance_analytics"
-            name="Analytics"
-            parent="menu_oacis_finance_report_root"
-            sequence="20"/>
+  <menuitem id="menu_oacis_finance_analytics" name="Analytics" parent="menu_oacis_finance_report_root" sequence="20"/>
 
-  <menuitem id="menu_oacis_fee_invoice_analysis"
-            name="Fee Collection Analysis"
-            parent="menu_oacis_finance_analytics"
-            action="action_oacis_fee_invoice_analysis"
-            sequence="10"/>
+  <menuitem id="menu_oacis_fee_invoice_analysis" name="Fee Collection Analysis" parent="menu_oacis_finance_analytics" action="action_oacis_fee_invoice_analysis" sequence="10"/>
 
-  <menuitem id="menu_oacis_fee_payment_analysis"
-            name="Payment Analytics"
-            parent="menu_oacis_finance_analytics"
-            action="action_oacis_fee_payment_analysis"
-            sequence="20"/>
+  <menuitem id="menu_oacis_fee_payment_analysis" name="Payment Analytics" parent="menu_oacis_finance_analytics" action="action_oacis_fee_payment_analysis" sequence="20"/>
 
-  <menuitem id="menu_oacis_finance_snapshot"
-            name="Financial Snapshots"
-            parent="menu_oacis_finance_analytics"
-            action="action_oacis_finance_snapshot"
-            sequence="30"/>
+  <menuitem id="menu_oacis_finance_snapshot" name="Financial Snapshots" parent="menu_oacis_finance_analytics" action="action_oacis_finance_snapshot" sequence="30"/>
 
   <!-- Reports -->
-  <menuitem id="menu_oacis_finance_reports"
-            name="Reports"
-            parent="menu_oacis_finance_report_root"
-            sequence="30"/>
+  <menuitem id="menu_oacis_finance_reports" name="Reports" parent="menu_oacis_finance_report_root" sequence="30"/>
 
-  <menuitem id="menu_oacis_fee_summary"
-            name="Fee Summary"
-            parent="menu_oacis_finance_reports"
-            action="action_oacis_fee_summary"
-            sequence="10"/>
+  <menuitem id="menu_oacis_fee_summary" name="Fee Summary" parent="menu_oacis_finance_reports" action="action_oacis_fee_summary" sequence="10"/>
 
-  <menuitem id="menu_oacis_overdue_dashboard"
-            name="Overdue Analysis"
-            parent="menu_oacis_finance_reports"
-            action="action_oacis_overdue_dashboard"
-            sequence="20"/>
+  <menuitem id="menu_oacis_overdue_dashboard" name="Overdue Analysis" parent="menu_oacis_finance_reports" action="action_oacis_overdue_dashboard" sequence="20"/>
 
-  <menuitem id="menu_oacis_scholarship_spend"
-            name="Scholarship Spend"
-            parent="menu_oacis_finance_reports"
-            action="action_oacis_scholarship_spend"
-            sequence="30"/>
+  <menuitem id="menu_oacis_scholarship_spend" name="Scholarship Spend" parent="menu_oacis_finance_reports" action="action_oacis_scholarship_spend" sequence="30"/>
 
   <!-- Configuration -->
-  <menuitem id="menu_oacis_finance_config"
-            name="Configuration"
-            parent="menu_oacis_finance_report_root"
-            sequence="100"/>
+  <menuitem id="menu_oacis_finance_config" name="Configuration" parent="menu_oacis_finance_report_root" sequence="100"/>
 
-  <menuitem id="menu_oacis_finance_kpi"
-            name="Financial KPIs"
-            parent="menu_oacis_finance_config"
-            action="action_oacis_finance_kpi"
-            sequence="10"/>
+  <menuitem id="menu_oacis_finance_kpi" name="Financial KPIs" parent="menu_oacis_finance_config" action="action_oacis_finance_kpi" sequence="10"/>
 
 </odoo>

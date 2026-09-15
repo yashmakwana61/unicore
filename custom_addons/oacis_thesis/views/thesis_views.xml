@@ -1,55 +1,60 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <data>
+    <!-- ==================== THESIS VIEWS ==================== -->
     <record id="view_oacis_thesis_tree" model="ir.ui.view">
       <field name="name">oacis.thesis.tree</field>
       <field name="model">oacis.thesis</field>
       <field name="arch" type="xml">
-        <list string="Theses">
-          <field name="title"/>
+        <list string="Theses" default_order="create_date desc">
+          <field name="title" class="fw-bold"/>
           <field name="student_id" widget="many2one_avatar"/>
           <field name="supervisor_id" widget="many2one_avatar"/>
           <field name="status" widget="badge" decoration-info="status in ('proposal', 'research', 'draft', 'submitted')" decoration-primary="status == 'defended'" decoration-success="status == 'approved'" decoration-danger="status == 'rejected'"/>
         </list>
       </field>
     </record>
+
     <record id="view_oacis_thesis_form" model="ir.ui.view">
       <field name="name">oacis.thesis.form</field>
       <field name="model">oacis.thesis</field>
       <field name="arch" type="xml">
         <form string="Thesis">
           <header>
-            <button name="action_approve" string="Approve" type="object" class="oe_highlight" invisible="status != 'defended'"/>
-            <button name="action_reject" string="Reject" type="object" invisible="status in ('approved', 'rejected')"/>
+            <button name="action_approve" string="Approve Thesis" type="object" class="btn-success" invisible="status != 'defended'"/>
+            <button name="action_reject" string="Reject" type="object" class="btn-secondary" invisible="status in ('approved', 'rejected')"/>
             <field name="status" widget="statusbar" statusbar_visible="proposal,research,draft,submitted,defended,approved"/>
           </header>
           <sheet>
+            <widget name="web_ribbon" title="Approved" bg_color="text-bg-success" invisible="status != 'approved'"/>
+            <widget name="web_ribbon" title="Rejected" bg_color="text-bg-danger" invisible="status != 'rejected'"/>
             <div class="oe_title">
+              <label for="title" string="Thesis Title" class="oe_edit_only"/>
               <h1>
-                <field name="title" placeholder="Thesis Title..."/>
+                <field name="title" placeholder="Enter Thesis Title..."/>
               </h1>
             </div>
             <group>
-              <group>
-                <field name="student_id" widget="many2one_avatar"/>
+              <group name="left" string="Candidate &amp; Supervisor">
+                <field name="student_id" widget="many2one_avatar" options="{'no_create_edit': True}"/>
+                <field name="supervisor_id" widget="many2one_avatar" options="{'no_create_edit': True}"/>
                 <field name="company_id" invisible="1"/>
               </group>
-              <group>
-                <field name="supervisor_id" widget="many2one_avatar"/>
-                <field name="document" filename="document_filename"/>
+              <group name="right" string="Document">
+                <field name="document" filename="document_filename" widget="binary"/>
                 <field name="document_filename" invisible="1"/>
               </group>
             </group>
             <notebook>
-              <page string="Abstract" name="abstract">
-                <field name="abstract" widget="html" placeholder="Write the abstract here..."/>
+              <page string="Abstract &amp; Scope" name="abstract_tab">
+                <field name="abstract" placeholder="Thesis abstract and research problem summary..." widget="html"/>
               </page>
-              <page string="Reviews" name="reviews">
+              <page string="Review Committee Evaluations" name="reviews_tab">
                 <field name="review_ids">
-                  <list string="Reviews">
+                  <list string="Reviews" editable="bottom">
                     <field name="reviewer_id" widget="many2one_avatar"/>
-                    <field name="decision"/>
-                    <field name="create_date"/>
+                    <field name="decision" widget="badge" decoration-success="decision == 'approve'" decoration-warning="decision == 'revise'" decoration-danger="decision == 'reject'"/>
+                    <field name="comments"/>
                   </list>
                 </field>
               </page>
@@ -59,18 +64,79 @@
         </form>
       </field>
     </record>
+
+    <record id="view_oacis_thesis_kanban" model="ir.ui.view">
+      <field name="name">oacis.thesis.kanban</field>
+      <field name="model">oacis.thesis</field>
+      <field name="arch" type="xml">
+        <kanban class="o_kanban_mobile" default_group_by="status">
+          <field name="id"/>
+          <field name="title"/>
+          <field name="student_id" widget="many2one_avatar"/>
+          <field name="supervisor_id" widget="many2one_avatar"/>
+          <field name="status" widget="badge"/>
+          <progressbar field="status" colors='{"proposal": "info", "research": "info", "draft": "warning", "submitted": "warning", "defended": "primary", "approved": "success", "rejected": "danger"}'/>
+          <templates>
+            <t t-name="card" class="flex-column">
+              <div class="d-flex justify-content-between align-items-start">
+                <field name="title" class="fw-bold fs-6"/>
+                <field name="status" widget="badge" decoration-info="status in ('proposal', 'research', 'draft', 'submitted')" decoration-primary="status == 'defended'" decoration-success="status == 'approved'" decoration-danger="status == 'rejected'"/>
+              </div>
+              <div class="mt-2 d-flex align-items-center gap-2">
+                <field name="student_id" widget="many2one_avatar"/>
+                <span class="text-truncate"><field name="student_id" widget="many2one_avatar"/></span>
+              </div>
+              <div class="mt-2 small text-muted">
+                <i class="fa fa-user-circle-o me-1" title="User Circle O"/>Supervisor: <field name="supervisor_id" widget="many2one_avatar"/>
+              </div>
+            </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
+
+    <record id="view_oacis_thesis_search" model="ir.ui.view">
+      <field name="name">oacis.thesis.search</field>
+      <field name="model">oacis.thesis</field>
+      <field name="arch" type="xml">
+        <search string="Search Theses">
+          <field name="title" string="Thesis / Student / Supervisor" filter_domain="['|', '|', ('title', 'ilike', self), ('student_id.name', 'ilike', self), ('supervisor_id.name', 'ilike', self)]"/>
+          <field name="student_id" widget="many2one_avatar"/>
+          <field name="supervisor_id" widget="many2one_avatar"/>
+
+          <searchpanel>
+            <field name="supervisor_id" icon="fa-user-circle" enable_counters="1" widget="many2one_avatar"/>
+            <field name="status" icon="fa-filter" select="multi" enable_counters="1"/>
+          </searchpanel>
+
+          <filter name="filter_in_progress" string="Active Research" domain="[('status', 'in', ('proposal', 'research', 'draft', 'submitted'))]"/>
+          <filter name="filter_defended" string="Defended" domain="[('status', '=', 'defended')]"/>
+          <filter name="filter_approved" string="Approved" domain="[('status', '=', 'approved')]"/>
+          <separator/>
+
+          <group name="groupby">
+            <filter name="group_supervisor" string="Supervisor" context="{'group_by': 'supervisor_id'}"/>
+            <filter name="group_student" string="Student" context="{'group_by': 'student_id'}"/>
+            <filter name="group_status" string="Status" context="{'group_by': 'status'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+    <!-- ==================== THESIS REVIEW VIEWS ==================== -->
     <record id="view_oacis_thesis_review_tree" model="ir.ui.view">
       <field name="name">oacis.thesis.review.tree</field>
       <field name="model">oacis.thesis.review</field>
       <field name="arch" type="xml">
         <list string="Thesis Reviews">
+          <field name="name" class="fw-bold"/>
           <field name="thesis_id"/>
           <field name="reviewer_id" widget="many2one_avatar"/>
           <field name="decision" widget="badge" decoration-success="decision == 'approve'" decoration-warning="decision == 'revise'" decoration-danger="decision == 'reject'"/>
-          <field name="create_date"/>
         </list>
       </field>
     </record>
+
     <record id="view_oacis_thesis_review_form" model="ir.ui.view">
       <field name="name">oacis.thesis.review.form</field>
       <field name="model">oacis.thesis.review</field>
@@ -78,33 +144,53 @@
         <form string="Thesis Review">
           <sheet>
             <div class="oe_title">
+              <label for="name" string="Review Title" class="oe_edit_only"/>
               <h1>
-                <field name="name"/>
+                <field name="name" readonly="1"/>
               </h1>
             </div>
             <group>
-              <group>
-                <field name="thesis_id"/>
+              <group name="left">
+                <field name="thesis_id" options="{'no_create_edit': True}"/>
+                <field name="reviewer_id" widget="many2one_avatar" options="{'no_create_edit': True}"/>
                 <field name="company_id" invisible="1"/>
               </group>
-              <group>
-                <field name="reviewer_id" widget="many2one_avatar"/>
-                <field name="decision"/>
+              <group name="right">
+                <field name="decision" widget="radio"/>
               </group>
             </group>
-            <group string="Comments">
-              <field name="comments" nolabel="1" placeholder="Reviewer comments..."/>
+            <group string="Comments &amp; Detailed Feedback">
+              <field name="comments" placeholder="Enter evaluation report, revision points, and committee recommendations..." nolabel="1" widget="html"/>
             </group>
           </sheet>
           <chatter/>
         </form>
       </field>
     </record>
+
+    <record id="view_oacis_thesis_review_search" model="ir.ui.view">
+      <field name="name">oacis.thesis.review.search</field>
+      <field name="model">oacis.thesis.review</field>
+      <field name="arch" type="xml">
+        <search string="Search Reviews">
+          <field name="thesis_id"/>
+          <field name="reviewer_id" widget="many2one_avatar"/>
+          <group name="groupby">
+            <filter name="group_thesis" string="Thesis" context="{'group_by': 'thesis_id'}"/>
+            <filter name="group_reviewer" string="Reviewer" context="{'group_by': 'reviewer_id'}"/>
+            <filter name="group_decision" string="Decision" context="{'group_by': 'decision'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+    <!-- ==================== ACTIONS ==================== -->
     <record id="action_oacis_thesis" model="ir.actions.act_window">
       <field name="name">Theses</field>
       <field name="res_model">oacis.thesis</field>
-      <field name="view_mode">list,form</field>
+      <field name="view_mode">kanban,list,form</field>
     </record>
+
     <record id="action_oacis_thesis_review" model="ir.actions.act_window">
       <field name="name">Thesis Reviews</field>
       <field name="res_model">oacis.thesis.review</field>

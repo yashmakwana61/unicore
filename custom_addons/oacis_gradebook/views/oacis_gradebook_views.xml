@@ -65,7 +65,7 @@
                 <group string="Per-Student Assignment Roll-up">
                   <field name="student_line_ids" readonly="1">
                     <list decoration-muted="is_synced == False and can_apply_ca_marks == False" decoration-success="is_synced == True">
-                      <field name="student_id"/>
+                      <field name="student_id" widget="many2one_avatar"/>
                       <field name="graded_assignment_count" string="Graded"/>
                       <field name="total_obtained_marks" string="Obtained"/>
                       <field name="total_possible_marks" string="Possible"/>
@@ -80,7 +80,7 @@
                     <form string="Student Grade Book">
                       <group>
                         <group string="Student">
-                          <field name="student_id" readonly="1"/>
+                          <field name="student_id" readonly="1" widget="many2one_avatar"/>
                           <field name="enrollment_id" readonly="1"/>
                           <field name="course_offering_id" readonly="1"/>
                         </group>

@@ -120,7 +120,7 @@
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="allocation_state">
                 <field name="display_name"/>
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="room_id"/>
                 <field name="block_id"/>
                 <field name="expected_checkin"/>
@@ -135,7 +135,7 @@
                                 <field name="allocation_state" widget="badge"/>
                             </div>
                             <div class="text-muted mt-1 small">
-                                <field name="student_id"/> → <field name="room_id"/>
+                                <field name="student_id" widget="many2one_avatar"/> → <field name="room_id"/>
                             </div>
                             <div class="mt-2 text-muted small">
                                 Check-In: <field name="expected_checkin"/> ·

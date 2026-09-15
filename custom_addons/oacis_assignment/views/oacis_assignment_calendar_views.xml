@@ -10,10 +10,7 @@
             <field name="name">oacis.assignment.calendar</field>
             <field name="model">oacis.assignment</field>
             <field name="arch" type="xml">
-                <calendar string="Assignments"
-                          date_start="due_date"
-                          color="color"
-                          event_limit="8">
+                <calendar string="Assignments" date_start="due_date" color="color" event_limit="8">
                     <field name="title"/>
                     <field name="course_id"/>
                     <field name="assignment_state"/>

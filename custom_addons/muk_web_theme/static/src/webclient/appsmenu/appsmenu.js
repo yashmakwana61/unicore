@@ -6,14 +6,15 @@ import { useBus, useService } from '@web/core/utils/hooks';
 import { Dropdown } from '@web/core/dropdown/dropdown';
 
 /**
- * Apps-menu dropdown that renders the full-screen app grid over a configurable
- * background image and opens the command palette as the user types.
+ * Modernized Apps-menu dropdown that renders a frosted acrylic app grid
+ * with a quick command palette launcher and keyboard search integration.
  */
 export class AppsMenu extends Dropdown {
     setup() {
         super.setup();
         this.commandPaletteOpen = false;
         this.commandService = useService('command');
+        
         if (user.activeCompany.has_background_image) {
             this.imageUrl = url('/web/image', {
                 model: 'res.company',
@@ -21,8 +22,9 @@ export class AppsMenu extends Dropdown {
                 id: user.activeCompany.id,
             });
         } else {
-            this.imageUrl = '/muk_web_theme/static/src/img/background.png';
+            this.imageUrl = null;
         }
+
         useEffect(
             (isOpen) => {
                 if (isOpen) {
@@ -51,15 +53,22 @@ export class AppsMenu extends Dropdown {
             },
             () => [this.state.isOpen],
         );
+
         useBus(this.env.bus, 'ACTION_MANAGER:UI-UPDATED', () => {
             if (this.state.isOpen) {
                 this.state.close();
             }
         });
     }
+
+    openCommandPalette() {
+        this.state.close();
+        this.commandService.openMainPalette({ searchValue: '/' });
+    }
+
     onOpened() {
         super.onOpened();
-        if (this.menuRef && this.menuRef.el) {
+        if (this.menuRef && this.menuRef.el && this.imageUrl) {
             this.menuRef.el.style.backgroundImage = `url('${this.imageUrl}')`;
         }
     }

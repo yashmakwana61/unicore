@@ -6,25 +6,14 @@
     <!-- ================================================== -->
 
     <!-- Menu item under existing Oacis Students root -->
-    <menuitem id="menu_student_leave_request_parent"
-              name="Leave Requests"
-              parent="oacis_student.menu_oacis_student_root"
-              sequence="20"/>
+    <menuitem id="menu_student_leave_request_parent" name="Leave Requests" parent="oacis_student.menu_oacis_student_root" sequence="20"/>
 
     <!-- ================================================== -->
     <!-- SUB-MENUS                                            -->
     <!-- ================================================== -->
 
-    <menuitem id="menu_student_leave_request_all"
-              name="All Leave Requests"
-              parent="menu_student_leave_request_parent"
-              action="action_student_leave_request"
-              sequence="10"/>
+    <menuitem id="menu_student_leave_request_all" name="All Leave Requests" parent="menu_student_leave_request_parent" action="action_student_leave_request" sequence="10"/>
 
-    <menuitem id="menu_student_leave_request_submitted"
-              name="Pending Approval"
-              parent="menu_student_leave_request_parent"
-              action="action_student_leave_request"
-              sequence="20"/>
+    <menuitem id="menu_student_leave_request_submitted" name="Pending Approval" parent="menu_student_leave_request_parent" action="action_student_leave_request" sequence="20"/>
 
 </odoo>

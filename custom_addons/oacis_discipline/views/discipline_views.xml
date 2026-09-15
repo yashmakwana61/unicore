@@ -1,86 +1,210 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <odoo>
-    <data>
-        <record id="view_oacis_misbehaviour_category_tree" model="ir.ui.view">
-            <field name="name">oacis.misbehaviour.category.tree</field>
-            <field name="model">oacis.misbehaviour.category</field>
-            <field name="arch" type="xml">
-                <list string="Misbehaviour Categories">
-                    <field name="name"/>
-                    <field name="severity_level"/>
-                </list>
-            </field>
-        </record>
+  <data>
+    <!-- ==================== MISBEHAVIOUR CATEGORY VIEWS ==================== -->
+    <record id="view_oacis_misbehaviour_category_tree" model="ir.ui.view">
+      <field name="name">oacis.misbehaviour.category.tree</field>
+      <field name="model">oacis.misbehaviour.category</field>
+      <field name="arch" type="xml">
+        <list string="Misbehaviour Categories" default_order="severity_level desc, name asc">
+          <field name="name" class="fw-bold"/>
+          <field name="severity_level" widget="badge" decoration-success="severity_level == 'minor'" decoration-warning="severity_level == 'moderate'" decoration-danger="severity_level in ('major', 'severe')"/>
+          <field name="description" optional="show"/>
+        </list>
+      </field>
+    </record>
 
-        <record id="view_oacis_discipline_record_tree" model="ir.ui.view">
-            <field name="name">oacis.discipline.record.tree</field>
-            <field name="model">oacis.discipline.record</field>
-            <field name="arch" type="xml">
-                <list string="Discipline Records">
-                    <field name="student_id" widget="many2one_avatar"/>
-                    <field name="category_id"/>
-                    <field name="reported_by"/>
-                    <field name="incident_date"/>
-                    <field name="state" widget="badge"
-                           decoration-info="state == 'draft'"
-                           decoration-warning="state == 'under_review'"
-                           decoration-danger="state == 'action_taken'"
-                           decoration-success="state == 'closed'"/>
-                </list>
-            </field>
-        </record>
+    <record id="view_oacis_misbehaviour_category_form" model="ir.ui.view">
+      <field name="name">oacis.misbehaviour.category.form</field>
+      <field name="model">oacis.misbehaviour.category</field>
+      <field name="arch" type="xml">
+        <form string="Misbehaviour Category">
+          <sheet>
+            <div class="oe_title">
+              <label for="name" string="Category Name" class="oe_edit_only"/>
+              <h1>
+                <field name="name" placeholder="e.g. Academic Dishonesty"/>
+              </h1>
+            </div>
+            <group>
+              <group>
+                <field name="severity_level" widget="badge" decoration-success="severity_level == 'minor'" decoration-warning="severity_level == 'moderate'" decoration-danger="severity_level in ('major', 'severe')"/>
+                <field name="company_id" invisible="1"/>
+              </group>
+            </group>
+            <group string="Description">
+              <field name="description" placeholder="Provide guidelines for classifying this misbehaviour category..." nolabel="1"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
 
-        <record id="view_oacis_discipline_record_form" model="ir.ui.view">
-            <field name="name">oacis.discipline.record.form</field>
-            <field name="model">oacis.discipline.record</field>
-            <field name="arch" type="xml">
-                <form string="Discipline Record">
-                    <header>
-                        <button name="action_under_review" string="Submit for Review" type="object" class="oe_highlight" invisible="state != 'draft'"/>
-                        <button name="action_take_action" string="Record Action Taken" type="object" class="oe_highlight" invisible="state != 'under_review'"/>
-                        <button name="action_close" string="Close" type="object" invisible="state != 'action_taken'"/>
-                        <button name="action_cancel" string="Cancel" type="object" invisible="state in ('closed', 'cancelled')"/>
-                        <field name="state" widget="statusbar" statusbar_visible="draft,under_review,action_taken,closed"/>
-                    </header>
-                    <sheet>
-                        <group>
-                            <group>
-                                <field name="student_id" widget="many2one_avatar"/>
-                                <field name="company_id" invisible="1"/>
-                                <field name="category_id"/>
-                            </group>
-                            <group>
-                                <field name="reported_by"/>
-                                <field name="incident_date"/>
-                            </group>
-                        </group>
-                        <group string="Incident Details">
-                            <field name="description" nolabel="1" placeholder="Describe the incident..."/>
-                        </group>
-                        <group string="Action Taken" invisible="state == 'draft'">
-                            <field name="action_taken" nolabel="1" placeholder="Describe the action taken..."/>
-                        </group>
-                    </sheet>
-                    <chatter/>
-                </form>
-            </field>
-        </record>
+    <record id="view_oacis_misbehaviour_category_search" model="ir.ui.view">
+      <field name="name">oacis.misbehaviour.category.search</field>
+      <field name="model">oacis.misbehaviour.category</field>
+      <field name="arch" type="xml">
+        <search string="Search Categories">
+          <field name="name"/>
+          <field name="severity_level"/>
+          <filter name="filter_severe" string="Severe / Major" domain="[('severity_level', 'in', ('major', 'severe'))]"/>
+          <filter name="filter_minor" string="Minor" domain="[('severity_level', '=', 'minor')]"/>
+          <group name="groupby">
+            <filter name="group_severity" string="Severity Level" context="{'group_by': 'severity_level'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
 
-        <record id="action_oacis_discipline_record" model="ir.actions.act_window">
-            <field name="name">Discipline Records</field>
-            <field name="res_model">oacis.discipline.record</field>
-            <field name="view_mode">list,form</field>
-            <field name="help" type="html">
-              <p class="o_view_nocontent_smiling_face">
-                Create a new discipline record
-              </p>
-            </field>
-        </record>
+    <!-- ==================== DISCIPLINE RECORD VIEWS ==================== -->
+    <record id="view_oacis_discipline_record_tree" model="ir.ui.view">
+      <field name="name">oacis.discipline.record.tree</field>
+      <field name="model">oacis.discipline.record</field>
+      <field name="arch" type="xml">
+        <list string="Discipline Records" default_order="incident_date desc">
+          <field name="name" class="fw-bold"/>
+          <field name="student_id" widget="many2one_avatar"/>
+          <field name="category_id" widget="badge"/>
+          <field name="incident_date"/>
+          <field name="reported_by" optional="show"/>
+          <field name="action_taken" optional="show"/>
+          <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-warning="state in ('under_investigation', 'hearing')" decoration-danger="state == 'action_taken'" decoration-success="state == 'closed'"/>
+        </list>
+      </field>
+    </record>
 
-        <record id="action_oacis_misbehaviour_category" model="ir.actions.act_window">
-            <field name="name">Misbehaviour Categories</field>
-            <field name="res_model">oacis.misbehaviour.category</field>
-            <field name="view_mode">list,form</field>
-        </record>
-    </data>
+    <record id="view_oacis_discipline_record_form" model="ir.ui.view">
+      <field name="name">oacis.discipline.record.form</field>
+      <field name="model">oacis.discipline.record</field>
+      <field name="arch" type="xml">
+        <form string="Discipline Incident">
+          <header>
+            <button name="action_investigate" string="Start Investigation" type="object" class="btn-primary" invisible="state != 'draft'"/>
+            <button name="action_schedule_hearing" string="Schedule Hearing" type="object" class="btn-primary" invisible="state != 'under_investigation'"/>
+            <button name="action_enact" string="Enact Action" type="object" class="btn-warning" invisible="state != 'hearing'"/>
+            <button name="action_close" string="Close Case" type="object" class="btn-success" invisible="state != 'action_taken'"/>
+            <button name="action_cancel" string="Cancel" type="object" class="btn-secondary" invisible="state in ('closed', 'cancelled')"/>
+            <field name="state" widget="statusbar" statusbar_visible="draft,under_investigation,hearing,action_taken,closed"/>
+          </header>
+          <sheet>
+            <widget name="web_ribbon" title="Case Closed" bg_color="text-bg-success" invisible="state != 'closed'"/>
+            <widget name="web_ribbon" title="Action Enacted" bg_color="text-bg-danger" invisible="state != 'action_taken'"/>
+            <div class="oe_title">
+              <label for="name" string="Incident Reference" class="oe_edit_only"/>
+              <h1>
+                <field name="name" placeholder="e.g. INC-2026-001"/>
+              </h1>
+            </div>
+            <group>
+              <group name="incident_core" string="Incident Details">
+                <field name="student_id" widget="many2one_avatar" options="{'no_create_edit': True}"/>
+                <field name="category_id" options="{'no_create_edit': True}"/>
+                <field name="company_id" invisible="1"/>
+              </group>
+              <group name="incident_logistics" string="Reporting &amp; Date">
+                <field name="incident_date"/>
+                <field name="reported_by"/>
+              </group>
+            </group>
+            <notebook>
+              <page name="description_tab" string="Incident Description">
+                <field name="description" placeholder="Describe the incident facts, witnesses, and context..." widget="html"/>
+              </page>
+              <page name="action_tab" string="Action &amp; Resolution" invisible="state in ('draft', 'under_investigation')">
+                <group>
+                  <field name="action_taken" placeholder="Specify punitive or corrective actions taken (e.g. Warning, Suspension, Community Service)..."/>
+                </group>
+              </page>
+            </notebook>
+          </sheet>
+          <chatter/>
+        </form>
+      </field>
+    </record>
+
+    <record id="view_oacis_discipline_record_kanban" model="ir.ui.view">
+      <field name="name">oacis.discipline.record.kanban</field>
+      <field name="model">oacis.discipline.record</field>
+      <field name="arch" type="xml">
+        <kanban class="o_kanban_mobile" default_group_by="state">
+          <field name="id"/>
+          <field name="name"/>
+          <field name="student_id" widget="many2one_avatar"/>
+          <field name="category_id"/>
+          <field name="incident_date"/>
+          <field name="state" widget="badge"/>
+          <progressbar field="state" colors='{"draft": "info", "under_investigation": "warning", "hearing": "warning", "action_taken": "danger", "closed": "success"}'/>
+          <templates>
+            <t t-name="card" class="flex-column">
+              <div class="d-flex justify-content-between align-items-start">
+                <field name="name" class="fw-bold fs-6"/>
+                <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-warning="state in ('under_investigation', 'hearing')" decoration-danger="state == 'action_taken'" decoration-success="state == 'closed'"/>
+              </div>
+              <div class="mt-2 d-flex align-items-center gap-2">
+                <field name="student_id" widget="many2one_avatar"/>
+                <span class="text-truncate"><field name="student_id" widget="many2one_avatar"/></span>
+              </div>
+              <div class="mt-2 d-flex justify-content-between align-items-center small text-muted">
+                <span><i class="fa fa-tag me-1" title="Tag"/><field name="category_id"/></span>
+                <span><i class="fa fa-calendar me-1" title="Calendar"/><field name="incident_date"/></span>
+              </div>
+            </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
+
+    <record id="view_oacis_discipline_record_search" model="ir.ui.view">
+      <field name="name">oacis.discipline.record.search</field>
+      <field name="model">oacis.discipline.record</field>
+      <field name="arch" type="xml">
+        <search string="Search Discipline Records">
+          <field name="name" string="Incident Reference / Student" filter_domain="['|', ('name', 'ilike', self), ('student_id.name', 'ilike', self)]"/>
+          <field name="student_id" widget="many2one_avatar"/>
+          <field name="category_id"/>
+          <field name="reported_by"/>
+
+          <searchpanel>
+            <field name="category_id" icon="fa-tags" enable_counters="1"/>
+            <field name="state" icon="fa-filter" select="multi" enable_counters="1"/>
+          </searchpanel>
+
+          <filter name="filter_active_cases" string="Open / In Progress" domain="[('state', 'in', ('draft', 'under_investigation', 'hearing', 'action_taken'))]"/>
+          <filter name="filter_under_investigation" string="Under Investigation" domain="[('state', '=', 'under_investigation')]"/>
+          <filter name="filter_hearing" string="Hearing Scheduled" domain="[('state', '=', 'hearing')]"/>
+          <filter name="filter_closed" string="Closed Cases" domain="[('state', '=', 'closed')]"/>
+          <separator/>
+
+          <group name="groupby">
+            <filter name="group_student" string="Student" context="{'group_by': 'student_id'}"/>
+            <filter name="group_category" string="Category" context="{'group_by': 'category_id'}"/>
+            <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+            <filter name="group_date" string="Incident Date" context="{'group_by': 'incident_date:month'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+    <!-- ==================== ACTIONS ==================== -->
+    <record id="action_oacis_misbehaviour_category" model="ir.actions.act_window">
+      <field name="name">Misbehaviour Categories</field>
+      <field name="res_model">oacis.misbehaviour.category</field>
+      <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_oacis_discipline_record" model="ir.actions.act_window">
+      <field name="name">Discipline Records</field>
+      <field name="res_model">oacis.discipline.record</field>
+      <field name="view_mode">kanban,list,form</field>
+      <field name="context">{'search_default_filter_active_cases': 1}</field>
+      <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+          Record a new disciplinary incident
+        </p>
+        <p>
+          Track disciplinary reports, student investigations, hearing committees, and resolution actions.
+        </p>
+      </field>
+    </record>
+  </data>
 </odoo>

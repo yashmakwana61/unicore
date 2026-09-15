@@ -7,10 +7,7 @@
             <field name="inherit_id" ref="oacis_lms.view_slide_channel_form_inherit_oacis_lms"/>
             <field name="arch" type="xml">
                 <xpath expr="//page[@name='oacis_academic']/div" position="inside">
-                    <button name="action_view_gradebook" 
-                            type="object" 
-                            string="View Academic Gradebook" 
-                            class="btn-secondary ml-2"/>
+                    <button name="action_view_gradebook" type="object" string="View Academic Gradebook" class="btn-secondary ml-2"/>
                 </xpath>
             </field>
         </record>

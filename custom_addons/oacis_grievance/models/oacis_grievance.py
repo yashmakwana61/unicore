@@ -45,6 +45,14 @@ class GrievanceRequest(models.Model):
         tracking=True,
         default=lambda self: self.env.user.partner_id,
     )
+    name = fields.Char(
+        string='Grievance Reference',
+        required=True,
+        copy=False,
+        readonly=True,
+        default='New',
+        tracking=True,
+    )
     company_id = fields.Many2one(
         'res.company',
         string='Institution',
@@ -74,6 +82,15 @@ class GrievanceRequest(models.Model):
     ], string='Status', default='new', required=True, tracking=True)
     resolution_notes = fields.Text(string='Resolution Notes')
     resolution_date = fields.Date(string='Resolution Date', tracking=True)
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if not vals.get('name') or vals.get('name') == 'New':
+                vals['name'] = (
+                    self.env['ir.sequence'].next_by_code('oacis.grievance.request') or 'New'
+                )
+        return super().create(vals_list)
 
     @api.constrains('state', 'resolution_notes')
     def _check_resolution_notes(self):

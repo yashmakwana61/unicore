@@ -62,8 +62,8 @@
             <separator string="Submissions"/>
             <field name="submission_ids" readonly="1">
               <list>
-                <field name="student_id"/>
-                <field name="state"/>
+                <field name="student_id" widget="many2one_avatar"/>
+                <field name="state" widget="badge"/>
                 <field name="submission_date"/>
                 <field name="is_late"/>
                 <field name="marks_obtained"/>

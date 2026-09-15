@@ -10,30 +10,28 @@
                 <group>
                     <group>
                         <field name="action" widget="radio"/>
+                        <field name="prompt_id" placeholder="Or pick a template…" options="{'no_create': True}"/>
                     </group>
                     <group>
-                        <field name="target_language"
-                               invisible="action != 'translate'"/>
+                        <field name="target_language" invisible="action != 'translate'"/>
+                        <field name="target_language_custom" invisible="action != 'translate'" placeholder="e.g. Kannada (optional override)"/>
                     </group>
                 </group>
                 <group>
-                    <field name="prompt"
-                           placeholder="e.g. Write a professional notice about the upcoming semester exam schedule…"
-                           invisible="action in ('summarize',)"/>
-                    <field name="source_text"
-                           placeholder="Paste the text you want the AI to work with…"
-                           invisible="action == 'generate'"/>
+                    <field name="prompt" placeholder="e.g. Write a professional notice about the upcoming semester exam schedule…" invisible="action in ('summarize',)"/>
+                    <field name="source_text" placeholder="Paste the text you want the AI to work with…" invisible="action in ('generate', 'quiz', 'notice')"/>
                 </group>
                 <separator string="Generated Result"/>
                 <group>
-                    <field name="result_text" nolabel="1" readonly="1"
-                           placeholder="Click 'Generate' to see the AI output here…"/>
+                    <field name="result_text" nolabel="1" placeholder="Click 'Generate' to see the AI output here…"/>
+                </group>
+                <group invisible="not res_model">
+                    <field name="res_model" readonly="1"/>
+                    <field name="target_field" readonly="1" placeholder="e.g. description (for Insert)"/>
                 </group>
                 <footer>
-                    <button name="action_generate"
-                            string="✨ Generate"
-                            type="object"
-                            class="btn-primary"/>
+                    <button name="action_generate" string="✨ Generate" type="object" class="btn-primary"/>
+                    <button name="action_insert_into_record" string="Insert into Record" type="object" class="btn-secondary" invisible="not res_model or not result_text"/>
                     <button string="Close" class="btn-secondary" special="cancel"/>
                 </footer>
             </form>

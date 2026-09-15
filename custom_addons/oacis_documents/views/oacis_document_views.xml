@@ -7,28 +7,16 @@
     <field name="arch" type="xml">
       <form>
         <header>
-          <button name="action_activate" string="Activate" type="object"
-            invisible="document_state != 'draft'" class="btn-primary"
-            groups="oacis_base.group_oacis_registrar,oacis_base.group_oacis_faculty"/>
-          <button name="action_verify" string="Verify Document" type="object"
-            invisible="document_state != 'active' or is_verified"
-            groups="oacis_base.group_oacis_registrar"/>
-          <button name="action_create_new_version" string="New Version" type="object"
-            invisible="document_state != 'active'"
-            groups="oacis_base.group_oacis_registrar"/>
-          <button name="action_archive_document" string="Archive" type="object"
-            invisible="document_state in ('archived','draft')"
-            groups="oacis_base.group_oacis_admin"/>
-          <field name="document_state" widget="statusbar"
-            statusbar_visible="draft,active,archived" clickable="False"/>
+          <button name="action_activate" string="Activate" type="object" invisible="document_state != 'draft'" class="btn-primary" groups="oacis_base.group_oacis_registrar,oacis_base.group_oacis_faculty"/>
+          <button name="action_verify" string="Verify Document" type="object" invisible="document_state != 'active' or is_verified" groups="oacis_base.group_oacis_registrar"/>
+          <button name="action_create_new_version" string="New Version" type="object" invisible="document_state != 'active'" groups="oacis_base.group_oacis_registrar"/>
+          <button name="action_archive_document" string="Archive" type="object" invisible="document_state in ('archived','draft')" groups="oacis_base.group_oacis_admin"/>
+          <field name="document_state" widget="statusbar" statusbar_visible="draft,active,archived" clickable="False"/>
         </header>
         <sheet>
-          <widget name="web_ribbon" title="VERIFIED"
-            invisible="not is_verified" bg_color="text-bg-success"/>
-          <widget name="web_ribbon" title="CONFIDENTIAL"
-            invisible="not is_confidential" bg_color="text-bg-danger"/>
-          <widget name="web_ribbon" title="EXPIRED"
-            invisible="not is_expired" bg_color="text-bg-secondary"/>
+          <widget name="web_ribbon" title="VERIFIED" invisible="not is_verified" bg_color="text-bg-success"/>
+          <widget name="web_ribbon" title="CONFIDENTIAL" invisible="not is_confidential" bg_color="text-bg-danger"/>
+          <widget name="web_ribbon" title="EXPIRED" invisible="not is_expired" bg_color="text-bg-secondary"/>
           <group>
             <group string="Document Identity">
               <field name="name"/>
@@ -39,7 +27,7 @@
               <field name="tags"/>
             </group>
             <group string="Linked Record">
-              <field name="student_id"/>
+              <field name="student_id" widget="many2one_avatar"/>
               <field name="faculty_member_id"/>
               <field name="applicant_id"/>
             </group>
@@ -56,16 +44,14 @@
               <field name="is_confidential"/>
               <field name="version" readonly="1"/>
               <field name="is_latest_version" readonly="1"/>
-              <field name="previous_version_id"
-                invisible="not previous_version_id" readonly="1"/>
+              <field name="previous_version_id" invisible="not previous_version_id" readonly="1"/>
             </group>
           </group>
           <notebook>
             <page string="Files">
               <field name="attachment_ids" widget="many2many_binary"/>
               <group class="mt-2">
-                <field name="primary_attachment_id"
-                  domain="[('id','in',attachment_ids)]"/>
+                <field name="primary_attachment_id" domain="[('id','in',attachment_ids)]"/>
                 <field name="file_type" readonly="1"/>
                 <field name="file_size" readonly="1"/>
                 <field name="file_count" readonly="1"/>
@@ -93,14 +79,11 @@
     <field name="name">oacis.document.list</field>
     <field name="model">oacis.document</field>
     <field name="arch" type="xml">
-      <list decoration-success="is_verified and document_state == 'active'"
-            decoration-warning="not is_verified and document_state == 'active'"
-            decoration-muted="document_state == 'archived'"
-            decoration-danger="is_expired">
+      <list decoration-success="is_verified and document_state == 'active'" decoration-warning="not is_verified and document_state == 'active'" decoration-muted="document_state == 'archived'" decoration-danger="is_expired">
         <field name="name"/>
         <field name="category_id"/>
         <field name="document_type"/>
-        <field name="student_id"/>
+        <field name="student_id" widget="many2one_avatar"/>
         <field name="faculty_member_id"/>
         <field name="upload_date"/>
         <field name="expiry_date"/>
@@ -159,28 +142,20 @@
     <field name="arch" type="xml">
       <search>
         <field name="name"/>
-        <field name="student_id"/>
+        <field name="student_id" widget="many2one_avatar"/>
         <field name="faculty_member_id"/>
         <field name="document_type"/>
         <field name="category_id"/>
         <field name="tags"/>
-        <filter name="active" string="Active"
-          domain="[('document_state','=','active')]"/>
-        <filter name="verified" string="Verified"
-          domain="[('is_verified','=',True)]"/>
-        <filter name="unverified" string="Unverified"
-          domain="[('is_verified','=',False),('document_state','=','active')]"/>
-        <filter name="expired" string="Expired"
-          domain="[('expiry_date','&lt;',context_today().strftime('%Y-%m-%d')),('expiry_date','!=',False)]"/>
-        <filter name="student_visible" string="Student Visible"
-          domain="[('is_student_visible','=',True)]"/>
+        <filter name="active" string="Active" domain="[('document_state','=','active')]"/>
+        <filter name="verified" string="Verified" domain="[('is_verified','=',True)]"/>
+        <filter name="unverified" string="Unverified" domain="[('is_verified','=',False),('document_state','=','active')]"/>
+        <filter name="expired" string="Expired" domain="[('expiry_date','&lt;',context_today().strftime('%Y-%m-%d')),('expiry_date','!=',False)]"/>
+        <filter name="student_visible" string="Student Visible" domain="[('is_student_visible','=',True)]"/>
         <group name="group_by">
-          <filter name="group_by_category" string="Category"
-            context="{'group_by':'category_id'}"/>
-          <filter name="group_by_type" string="Document Type"
-            context="{'group_by':'document_type'}"/>
-          <filter name="group_by_student" string="Student"
-            context="{'group_by':'student_id'}"/>
+          <filter name="group_by_category" string="Category" context="{'group_by':'category_id'}"/>
+          <filter name="group_by_type" string="Document Type" context="{'group_by':'document_type'}"/>
+          <filter name="group_by_student" string="Student" context="{'group_by':'student_id'}"/>
         </group>
       </search>
     </field>
@@ -223,9 +198,7 @@
     <field name="inherit_id" ref="oacis_student.oacis_student_form_view"/>
     <field name="arch" type="xml">
       <xpath expr="//div[@name='button_box']" position="inside">
-        <button type="object" name="action_view_documents"
-          class="oe_stat_button" icon="fa-file-text"
-          groups="oacis_base.group_oacis_registrar">
+        <button type="object" name="action_view_documents" class="oe_stat_button" icon="fa-file-text" groups="oacis_base.group_oacis_registrar">
           <field name="document_count" widget="statinfo" string="Documents"/>
         </button>
       </xpath>
@@ -239,9 +212,7 @@
     <field name="inherit_id" ref="oacis_faculty_profile.oacis_faculty_member_form_view"/>
     <field name="arch" type="xml">
       <xpath expr="//div[@name='button_box']" position="inside">
-        <button type="object" name="action_view_documents"
-          class="oe_stat_button" icon="fa-file-text"
-          groups="oacis_base.group_oacis_admin">
+        <button type="object" name="action_view_documents" class="oe_stat_button" icon="fa-file-text" groups="oacis_base.group_oacis_admin">
           <field name="document_count" widget="statinfo" string="Documents"/>
         </button>
       </xpath>

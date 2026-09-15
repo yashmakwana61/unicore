@@ -78,8 +78,7 @@
                 <field name="color"/>
                 <templates>
                     <t t-name="card" class="flex-row">
-                        <img t-att-src="record.image.raw_value ? 'data:image/png;base64,'+record.image.raw_value : '/oacis_campus/static/description/icon.png'"
-                             class="o_kanban_image rounded shadow-sm me-3" alt="building"/>
+                        <img t-att-src="record.image.raw_value ? 'data:image/png;base64,'+record.image.raw_value : '/oacis_campus/static/description/icon.png'" class="o_kanban_image rounded shadow-sm me-3" alt="building"/>
                         <main>
                             <field name="code" class="fw-bold fs-5"/>
                             <field name="name"/>

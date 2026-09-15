@@ -14,7 +14,7 @@
             <field name="arch" type="xml">
                 <calendar date_start="date_start" date_stop="date_end" color="color" string="Timetable Entry Calendar">
                     <field name="course_offering_id"/>
-                    <field name="instructor_id"/>
+                    <field name="instructor_id" widget="many2one_avatar"/>
                     <field name="room_id"/>
                     <field name="entry_state"/>
                 </calendar>

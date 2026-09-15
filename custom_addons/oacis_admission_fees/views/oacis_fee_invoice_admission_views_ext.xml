@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Fee Invoice: show the admission applicant link + search by it -->
+    <record id="oacis_fee_invoice_admission_form_ext" model="ir.ui.view">
+        <field name="name">oacis.fee.invoice.form.fees.bridge</field>
+        <field name="model">oacis.fee.invoice</field>
+        <field name="inherit_id" ref="oacis_fees.view_oacis_fee_invoice_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='student_id']" position="after">
+                <field name="applicant_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="oacis_fee_invoice_admission_search_ext" model="ir.ui.view">
+        <field name="name">oacis.fee.invoice.search.fees.bridge</field>
+        <field name="model">oacis.fee.invoice</field>
+        <field name="inherit_id" ref="oacis_fees.view_oacis_fee_invoice_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='student_id']" position="after">
+                <field name="applicant_id"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

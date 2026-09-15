@@ -16,12 +16,12 @@
                                     <div class="card-body">
                                         <h5 class="card-title text-primary"><t t-esc="quiz.title"/></h5>
                                         <p class="card-text">
-                                            <i class="fa fa-clock-o mr-2"/> Time Limit: <t t-esc="quiz.time_limit"/> minutes
+                                            <i class="fa fa-clock-o mr-2" title="Time"/> Time Limit: <t t-esc="quiz.time_limit"/> minutes
                                         </p>
                                     </div>
                                     <div class="card-footer bg-transparent border-top-0 text-center pb-3">
                                         <button class="btn btn-primary" t-on-click="() => this.startQuiz(quiz.id)">
-                                            <i class="fa fa-play mr-2"/> Start Quiz
+                                            <i class="fa fa-play mr-2" title="Play"/> Start Quiz
                                         </button>
                                     </div>
                                 </div>
@@ -37,10 +37,10 @@
                         <h3 class="m-0"><t t-esc="state.selectedQuiz.title"/></h3>
                         <div class="d-flex align-items-center">
                             <div class="badge badge-warning text-dark p-2 mr-3" t-if="state.tabSwitches > 0">
-                                <i class="fa fa-exclamation-triangle mr-1"/> Tab Switches: <t t-esc="state.tabSwitches"/>
+                                <i class="fa fa-exclamation-triangle mr-1" title="Exclamation Triangle"/> Tab Switches: <t t-esc="state.tabSwitches"/>
                             </div>
                             <div class="badge badge-primary p-2" t-att-class="state.timeRemaining &lt; 60 ? 'badge-danger' : 'badge-primary'">
-                                <i class="fa fa-clock-o mr-1"/> Time: <t t-esc="formatTime(state.timeRemaining)"/>
+                                <i class="fa fa-clock-o mr-1" title="Time"/> Time: <t t-esc="formatTime(state.timeRemaining)"/>
                             </div>
                         </div>
                     </div>
@@ -90,7 +90,7 @@
                     
                     <div class="text-center mt-4 mb-5">
                         <button class="btn btn-success btn-lg px-5" t-on-click="submitQuiz">
-                            <i class="fa fa-paper-plane mr-2"/> Submit Quiz
+                            <i class="fa fa-paper-plane mr-2" title="Paper Plane"/> Submit Quiz
                         </button>
                     </div>
                 </div>
@@ -103,12 +103,12 @@
                             <div class="card shadow">
                                 <div class="card-body py-5">
                                     <div class="mb-4">
-                                        <i class="fa fa-check-circle text-success" style="font-size: 5rem;"/>
+                                        <i class="fa fa-check-circle text-success" style="font-size: 5rem;" title="Check Circle"/>
                                     </div>
                                     <h2 class="mb-4">Quiz Submitted Successfully!</h2>
                                     <p class="lead text-muted mb-4">Your responses have been recorded.</p>
                                     <button class="btn btn-primary" t-on-click="goBack">
-                                        <i class="fa fa-arrow-left mr-2"/> Back to Quizzes
+                                        <i class="fa fa-arrow-left mr-2" title="Arrow Left"/> Back to Quizzes
                                     </button>
                                 </div>
                             </div>

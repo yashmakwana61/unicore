@@ -23,7 +23,7 @@
           <group name="enrollment" string="Program Enrollment">
             <group>
               <field name="applicant_id" options="{'no_create_edit': True}"/>
-              <field name="student_id" readonly="1"/>
+              <field name="student_id" readonly="1" widget="many2one_avatar"/>
               <field name="cycle_id" options="{'no_create_edit': True}"/>
             </group>
             <group>
@@ -59,7 +59,7 @@
       <list>
         <field name="name"/>
         <field name="applicant_id"/>
-        <field name="student_id"/>
+        <field name="student_id" widget="many2one_avatar"/>
         <field name="program_id"/>
         <field name="semester_id"/>
         <field name="enrollment_state" widget="badge" decoration-success="enrollment_state == 'enrolled'" decoration-info="enrollment_state == 'pending'" decoration-danger="enrollment_state in ('withdrawn', 'cancelled')"/>
@@ -77,9 +77,13 @@
     <field name="model">oacis.admission.enrollment</field>
     <field name="arch" type="xml">
       <search>
+        <searchpanel>
+          <field name="program_id" icon="fa-graduation-cap" select="multi" enable_counters="1"/>
+          <field name="semester_id" icon="fa-calendar" enable_counters="1"/>
+        </searchpanel>
         <field name="name"/>
         <field name="applicant_id"/>
-        <field name="student_id"/>
+        <field name="student_id" widget="many2one_avatar"/>
         <field name="program_id"/>
         <field name="semester_id"/>
         <filter name="pending" string="Pending" domain="[('enrollment_state', '=', 'pending')]"/>
@@ -98,7 +102,6 @@
     <field name="name">Admission Enrollments</field>
     <field name="res_model">oacis.admission.enrollment</field>
     <field name="view_mode">list,form</field>
-    <field name="search_view_id" ref="admission_enrollment_search_view"/>
     <field name="help" type="html">
       <p>Program-level enrollments created from the admission pipeline.
             Each record ties a confirmed applicant (and their student) to a
@@ -116,7 +119,7 @@
         <group>
           <group>
             <field name="applicant_id"/>
-            <field name="student_id"/>
+            <field name="student_id" widget="many2one_avatar"/>
             <field name="program_id"/>
           </group>
           <group>

@@ -12,7 +12,7 @@
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="invoice_state">
                 <field name="display_name"/>
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="semester_id"/>
                 <field name="total_amount"/>
                 <field name="amount_outstanding"/>
@@ -20,33 +20,33 @@
                 <field name="invoice_state"/>
                 <field name="color"/>
                 <templates>
-                    <t t-name="card">
-                        <div class="oacis-kanban-financial w-100 h-100 d-flex flex-column">
+                    <t t-name="card" class="flex-row">
+                        <main>
                             <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <div class="oacis-kanban-title"><field name="display_name"/></div>
-                                    <div class="oacis-kanban-subtitle"><field name="student_id"/></div>
+                                <field name="display_name" class="fw-bold fs-5"/>
+                                <field name="invoice_state" widget="badge"/>
+                            </div>
+                            <div class="text-muted mt-1">
+                                <field name="student_id" widget="many2one_avatar"/>
+                                <t t-if="record.semester_id.raw_value">
+                                    · <field name="semester_id"/>
+                                </t>
+                            </div>
+                            <div class="row mt-3 text-center">
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="total_amount"/></span>
+                                    <span class="text-muted small">Total</span>
                                 </div>
-                                <div class="mt-1">
-                                    <field name="invoice_state" widget="badge"/>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="amount_outstanding"/></span>
+                                    <span class="text-muted small">Outstanding</span>
+                                </div>
+                                <div class="col-4">
+                                    <span class="fw-bold d-block"><field name="due_date"/></span>
+                                    <span class="text-muted small">Due Date</span>
                                 </div>
                             </div>
-                            
-                            <div class="oacis-financial-amount text-center">
-                                <field name="total_amount"/>
-                            </div>
-                            
-                            <div class="oacis-financial-footer">
-                                <div>
-                                    <span class="text-muted" style="font-size: 11px;">Outstanding</span>
-                                    <strong class="d-block text-danger"><field name="amount_outstanding"/></strong>
-                                </div>
-                                <div class="text-end">
-                                    <span class="text-muted" style="font-size: 11px;">Due Date</span>
-                                    <strong class="d-block"><field name="due_date"/></strong>
-                                </div>
-                            </div>
-                        </div>
+                        </main>
                     </t>
                 </templates>
             </kanban>

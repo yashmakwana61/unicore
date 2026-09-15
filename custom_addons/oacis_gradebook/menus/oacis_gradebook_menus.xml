@@ -2,46 +2,17 @@
 <odoo>
 
   <!-- Student self-service: my assignment scores -->
-  <menuitem id="menu_oacis_my_assignment_scores"
-    name="My Assignment Scores"
-    parent="oacis_grading.menu_oacis_grading"
-    action="action_oacis_gradebook_assignment_line_my"
-    sequence="25"
-    groups="oacis_base.group_oacis_student"/>
+  <menuitem id="menu_oacis_my_assignment_scores" name="My Assignment Scores" parent="oacis_grading.menu_oacis_grading" action="action_oacis_gradebook_assignment_line_my" sequence="25" groups="oacis_base.group_oacis_student"/>
 
   <!-- Grade Book (faculty / admin) -->
-  <menuitem id="menu_oacis_gradebook"
-    name="Grade Book"
-    parent="oacis_grading.menu_oacis_grading"
-    sequence="55"
-    groups="oacis_base.group_oacis_faculty,oacis_base.group_oacis_admin"/>
+  <menuitem id="menu_oacis_gradebook" name="Grade Book" parent="oacis_grading.menu_oacis_grading" sequence="55" groups="oacis_base.group_oacis_faculty,oacis_base.group_oacis_admin"/>
 
-  <menuitem id="menu_oacis_gradebook_all"
-    name="All Grade Books"
-    parent="menu_oacis_gradebook"
-    action="action_oacis_gradebook_all"
-    sequence="10"
-    groups="oacis_base.group_oacis_faculty,oacis_base.group_oacis_admin"/>
+  <menuitem id="menu_oacis_gradebook_all" name="All Grade Books" parent="menu_oacis_gradebook" action="action_oacis_gradebook_all" sequence="10" groups="oacis_base.group_oacis_faculty,oacis_base.group_oacis_admin"/>
 
-  <menuitem id="menu_oacis_gradebook_my"
-    name="My Grade Books"
-    parent="menu_oacis_gradebook"
-    action="action_oacis_gradebook_my"
-    sequence="20"
-    groups="oacis_base.group_oacis_faculty"/>
+  <menuitem id="menu_oacis_gradebook_my" name="My Grade Books" parent="menu_oacis_gradebook" action="action_oacis_gradebook_my" sequence="20" groups="oacis_base.group_oacis_faculty"/>
 
-  <menuitem id="menu_oacis_gradebook_pending"
-    name="Pending Grade Entry Sync"
-    parent="menu_oacis_gradebook"
-    action="action_oacis_gradebook_student_line_pending"
-    sequence="30"
-    groups="oacis_base.group_oacis_faculty,oacis_base.group_oacis_admin"/>
+  <menuitem id="menu_oacis_gradebook_pending" name="Pending Grade Entry Sync" parent="menu_oacis_gradebook" action="action_oacis_gradebook_student_line_pending" sequence="30" groups="oacis_base.group_oacis_faculty,oacis_base.group_oacis_admin"/>
 
-  <menuitem id="menu_oacis_gradebook_scores"
-    name="Assignment Scores"
-    parent="menu_oacis_gradebook"
-    action="action_oacis_gradebook_assignment_line_all"
-    sequence="40"
-    groups="oacis_base.group_oacis_faculty,oacis_base.group_oacis_admin"/>
+  <menuitem id="menu_oacis_gradebook_scores" name="Assignment Scores" parent="menu_oacis_gradebook" action="action_oacis_gradebook_assignment_line_all" sequence="40" groups="oacis_base.group_oacis_faculty,oacis_base.group_oacis_admin"/>
 
 </odoo>

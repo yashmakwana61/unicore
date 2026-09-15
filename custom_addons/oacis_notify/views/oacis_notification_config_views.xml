@@ -3,24 +3,18 @@
 
     <!-- ==================== FORM VIEW ==================== -->
 
-    <record id="view_oacis_notification_config_form"
-            model="ir.ui.view">
+    <record id="view_oacis_notification_config_form" model="ir.ui.view">
       <field name="name">oacis.notification.config.form</field>
       <field name="model">oacis.notification.config</field>
       <field name="arch" type="xml">
         <form>
           <header>
-            <button name="action_test_whatsapp"
-                    string="Test WhatsApp Connection"
-                    type="object"
-                    class="btn-primary"
-                    invisible="not whatsapp_enabled"/>
+            <button name="action_test_whatsapp" string="Test WhatsApp Connection" type="object" class="btn-primary" invisible="not whatsapp_enabled"/>
           </header>
           <sheet>
             <div class="oe_title">
               <h1>
-                <field name="name"
-                       placeholder="Config Name"/>
+                <field name="name" placeholder="Config Name"/>
               </h1>
             </div>
             <group>
@@ -30,48 +24,36 @@
               </group>
             </group>
             <notebook>
-              <page string="Email Settings"
-                    name="email_settings">
+              <page string="Email Settings" name="email_settings">
                 <group>
                   <group string="Email Configuration">
                     <field name="email_enabled"/>
-                    <field name="email_from_name"
-                           invisible="not email_enabled"/>
+                    <field name="email_from_name" invisible="not email_enabled"/>
                   </group>
                 </group>
                 <group invisible="not email_enabled">
-                  <field name="email_footer_text"
-                         placeholder="Standard footer for all emails"/>
+                  <field name="email_footer_text" placeholder="Standard footer for all emails"/>
                 </group>
               </page>
-              <page string="WhatsApp Settings"
-                    name="whatsapp_settings">
+              <page string="WhatsApp Settings" name="whatsapp_settings">
                 <group>
                   <group string="WhatsApp Configuration">
                     <field name="whatsapp_enabled"/>
-                    <field name="whatsapp_api_url"
-                           invisible="not whatsapp_enabled"/>
-                    <field name="whatsapp_phone_number_id"
-                           invisible="not whatsapp_enabled"
-                           password="True"/>
-                    <field name="whatsapp_access_token"
-                           invisible="not whatsapp_enabled"
-                           password="True"/>
-                    <field name="whatsapp_business_account_id"
-                           invisible="not whatsapp_enabled"/>
+                    <field name="whatsapp_api_url" invisible="not whatsapp_enabled"/>
+                    <field name="whatsapp_phone_number_id" invisible="not whatsapp_enabled" password="True"/>
+                    <field name="whatsapp_access_token" invisible="not whatsapp_enabled" password="True"/>
+                    <field name="whatsapp_business_account_id" invisible="not whatsapp_enabled"/>
                   </group>
                 </group>
               </page>
-              <page string="In-App Settings"
-                    name="inapp_settings">
+              <page string="In-App Settings" name="inapp_settings">
                 <group>
                   <group string="In-App Configuration">
                     <field name="inapp_enabled"/>
                   </group>
                 </group>
               </page>
-              <page string="Notification Preferences"
-                    name="preferences">
+              <page string="Notification Preferences" name="preferences">
                 <group>
                   <group string="Enable Triggers">
                     <field name="notify_on_fee_due"/>
@@ -87,8 +69,7 @@
                 </group>
               </page>
               <page string="Notes" name="notes">
-                <field name="notes"
-                       placeholder="Internal notes..."/>
+                <field name="notes" placeholder="Internal notes..."/>
               </page>
             </notebook>
           </sheet>
@@ -98,8 +79,7 @@
 
     <!-- ==================== LIST VIEW ==================== -->
 
-    <record id="view_oacis_notification_config_list"
-            model="ir.ui.view">
+    <record id="view_oacis_notification_config_list" model="ir.ui.view">
       <field name="name">oacis.notification.config.list</field>
       <field name="model">oacis.notification.config</field>
       <field name="arch" type="xml">
@@ -118,8 +98,7 @@
 
     <!-- ==================== SEARCH VIEW ==================== -->
 
-    <record id="view_oacis_notification_config_search"
-            model="ir.ui.view">
+    <record id="view_oacis_notification_config_search" model="ir.ui.view">
       <field name="name">oacis.notification.config.search</field>
       <field name="model">oacis.notification.config</field>
       <field name="arch" type="xml">
@@ -127,27 +106,18 @@
           <field name="name"/>
           <field name="company_id"/>
           <separator/>
-          <filter name="email_enabled"
-                  string="Email Enabled"
-                  domain="[('email_enabled','=',True)]"/>
-          <filter name="whatsapp_enabled"
-                  string="WhatsApp Enabled"
-                  domain="[('whatsapp_enabled','=',True)]"/>
-          <filter name="inapp_enabled"
-                  string="In-App Enabled"
-                  domain="[('inapp_enabled','=',True)]"/>
+          <filter name="email_enabled" string="Email Enabled" domain="[('email_enabled','=',True)]"/>
+          <filter name="whatsapp_enabled" string="WhatsApp Enabled" domain="[('whatsapp_enabled','=',True)]"/>
+          <filter name="inapp_enabled" string="In-App Enabled" domain="[('inapp_enabled','=',True)]"/>
           <separator/>
-          <filter name="group_by_company"
-                  string="Institution"
-                  context="{'group_by':'company_id'}"/>
+          <filter name="group_by_company" string="Institution" context="{'group_by':'company_id'}"/>
         </search>
       </field>
     </record>
 
     <!-- ==================== ACTION ==================== -->
 
-    <record id="action_oacis_notification_config"
-            model="ir.actions.act_window">
+    <record id="action_oacis_notification_config" model="ir.actions.act_window">
       <field name="name">Notification Config</field>
       <field name="res_model">oacis.notification.config</field>
       <field name="view_mode">list,form</field>

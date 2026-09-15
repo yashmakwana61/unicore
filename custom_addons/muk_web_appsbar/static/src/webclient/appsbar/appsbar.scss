@@ -1,95 +1,240 @@
 .mk_apps_sidebar_panel {
     @include mk-disable-scrollbar();
-    background-color: $mk-appbar-background;
+    background-color: var(--mk-sidebar-bg, $mk-appbar-background);
+    border-right: 1px solid var(--mk-sidebar-border, rgba(255, 255, 255, 0.08));
     width: var(--mk-sidebar-width, 0);
     overflow-y: auto;
+    overflow-x: hidden;
+    transition: width 240ms cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 100;
+    
     .mk_apps_sidebar {
         height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-	    white-space: nowrap;
-	    .mk_apps_sidebar_menu {
-	    	padding: 0;
-		    > li > a {
-		        cursor: pointer;
-	            font-size: 13px;
-	            font-weight: 300;
-	            overflow: hidden;
-	            padding: 8px 11px;
-	            text-decoration: none;
-	            color: $mk-appbar-color;
-	            text-overflow: ellipsis;
-	            .mk_apps_sidebar_icon {
-				    width: 22px;
-				    height: 22px;
-	    			margin-right: 5px;
-				}
-		    }
-	        > li.active > a {
-			    background: $mk-appbar-active;
-	        }
-	        > li:hover > a {
-			    background: $mk-appbar-active;
-	        }
-	    }
-	}
+        white-space: nowrap;
+        padding-bottom: 8px;
+        
+        .mk_apps_sidebar_header {
+            padding: 14px 16px 8px 16px;
+            
+            .mk_apps_sidebar_title {
+                font-size: 11px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                color: var(--mk-text-subtle, #64748B);
+            }
+        }
+        
+        .mk_apps_sidebar_menu {
+            padding: 0 6px;
+            margin: 0;
+            list-style: none;
+            flex: 1 1 auto;
+            
+            > li {
+                position: relative;
+                margin-bottom: 3px;
+                
+                > a.nav-link {
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    font-size: 13.5px;
+                    font-weight: 500;
+                    padding: 8px 10px;
+                    border-radius: var(--mk-radius-sm, 8px);
+                    text-decoration: none;
+                    color: var(--mk-sidebar-text, $mk-appbar-color);
+                    text-overflow: ellipsis;
+                    transition: all 180ms ease;
+                    position: relative;
+                    
+                    .mk_apps_sidebar_icon {
+                        width: 24px;
+                        height: 24px;
+                        margin-right: 10px;
+                        border-radius: 6px;
+                        flex-shrink: 0;
+                        transition: transform 180ms ease;
+                    }
+                    
+                    .mk_apps_sidebar_name {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                    
+                    .mk_sidebar_floating_tooltip {
+                        display: none;
+                    }
+                }
+                
+                &:hover > a.nav-link {
+                    background-color: rgba(255, 255, 255, 0.06);
+                    color: var(--mk-sidebar-text-hover, #FFFFFF);
+                    transform: translateX(2px);
+                    
+                    .mk_apps_sidebar_icon {
+                        transform: scale(1.08);
+                    }
+                }
+                
+                &.active > a.nav-link {
+                    background-color: var(--mk-sidebar-active-bg, rgba(99, 102, 241, 0.16));
+                    color: var(--mk-sidebar-active-text, #A5B4FC) !important;
+                    font-weight: 600;
+                    box-shadow: inset 3px 0 0 var(--mk-sidebar-active-bar, #6366F1);
+                }
+            }
+        }
+        
+        .mk_apps_sidebar_bottom_section {
+            border-top: 1px solid var(--mk-sidebar-border, rgba(255, 255, 255, 0.08));
+            padding-top: 8px;
+            margin-top: auto;
+            
+            .mk_apps_sidebar_logo {
+                padding: 8px 12px;
+                text-align: center;
+                
+                img {
+                    max-height: 36px;
+                    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+                }
+            }
+            
+            .mk_apps_sidebar_toggle_wrapper {
+                padding: 4px 8px;
+                
+                .mk_apps_sidebar_toggle_btn {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                    background: transparent;
+                    border: none;
+                    border-radius: var(--mk-radius-sm, 6px);
+                    color: var(--mk-sidebar-text, #94A3B8);
+                    padding: 8px 10px;
+                    font-size: 13px;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: all 160ms ease;
+                    
+                    i {
+                        font-size: 15px;
+                        margin-right: 8px;
+                        width: 20px;
+                        text-align: center;
+                    }
+                    
+                    &:hover {
+                        background-color: rgba(255, 255, 255, 0.08);
+                        color: #FFFFFF;
+                    }
+                }
+            }
+        }
+    }
 }
 
+// Modes
 .mk_sidebar_type_large {
-	--mk-sidebar-width: #{$mk-sidebar-large-width};
+    --mk-sidebar-width: #{$mk-sidebar-large-width};
 }
 
 .mk_sidebar_type_small {
-	--mk-sidebar-width: #{$mk-sidebar-small-width};
-	.mk_apps_sidebar_name {
-		display: none;
-	}
-	.mk_apps_sidebar_icon {
-		margin-right: 0 !important;
-	}
-   	.mk_apps_sidebar_logo {
-		display: none;
-	}
+    --mk-sidebar-width: #{$mk-sidebar-small-width};
+    
+    .mk_apps_sidebar_panel {
+        .mk_apps_sidebar {
+            .mk_apps_sidebar_header {
+                display: none;
+            }
+            
+            .mk_apps_sidebar_menu > li {
+                > a.nav-link {
+                    justify-content: center;
+                    padding: 9px 0;
+                    
+                    .mk_apps_sidebar_icon {
+                        margin-right: 0 !important;
+                    }
+                    
+                    .mk_apps_sidebar_name {
+                        display: none;
+                    }
+                    
+                    .mk_sidebar_floating_tooltip {
+                        display: block;
+                        position: absolute;
+                        left: calc(100% + 10px);
+                        top: 50%;
+                        transform: translateY(-50%) translateX(-4px);
+                        background-color: #1E293B;
+                        color: #FFFFFF;
+                        font-size: 12px;
+                        font-weight: 500;
+                        padding: 6px 12px;
+                        border-radius: var(--mk-radius-xs, 6px);
+                        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1);
+                        white-space: nowrap;
+                        pointer-events: none;
+                        opacity: 0;
+                        transition: opacity 160ms ease, transform 160ms ease;
+                        z-index: 1060;
+                    }
+                }
+                
+                &:hover > a.nav-link .mk_sidebar_floating_tooltip {
+                    opacity: 1;
+                    transform: translateY(-50%) translateX(0);
+                }
+            }
+            
+            .mk_apps_sidebar_bottom_section {
+                .mk_apps_sidebar_logo {
+                    display: none;
+                }
+                
+                .mk_apps_sidebar_toggle_wrapper .mk_apps_sidebar_toggle_btn {
+                    justify-content: center;
+                    padding: 8px 0;
+                    
+                    i {
+                        margin-right: 0;
+                    }
+                    
+                    .mk_apps_sidebar_toggle_label {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
 }
 
 .mk_sidebar_type_invisible {
-	--mk-sidebar-width: 0;
+    --mk-sidebar-width: 0;
 }
 
 .editor_has_snippets_hide_backend_navbar,
 .o_home_menu_background,
 .o_fullscreen {
-	--mk-sidebar-width: 0;
-}
-
-.editor_has_snippets_hide_backend_navbar .mk_apps_sidebar_panel {
-    transition: width 300ms;
-}
-
-@include media-breakpoint-only(md) {
-	.mk_sidebar_type_large {
-		--mk-sidebar-width: #{$mk-sidebar-small-width};
-		.mk_apps_sidebar_name {
-			display: none;
-		}
-		.mk_apps_sidebar_icon {
-			margin-right: 0 !important;
-		}
-	   	.mk_apps_sidebar_logo {
-			display: none;
-		}
-	}
+    --mk-sidebar-width: 0;
 }
 
 @include media-breakpoint-down(md) {
-	.mk_sidebar_type_large, .mk_sidebar_type_small {
-		--mk-sidebar-width: 0;
-	}
+    .mk_sidebar_type_large, .mk_sidebar_type_small {
+        --mk-sidebar-width: 0;
+    }
 }
 
 @media print {
-	.mk_sidebar_type_large, .mk_sidebar_type_small {
-		--mk-sidebar-width: 0;
-	}
+    .mk_sidebar_type_large, .mk_sidebar_type_small {
+        --mk-sidebar-width: 0;
+    }
 }

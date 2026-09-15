@@ -136,6 +136,10 @@
     <field name="model">oacis.library.book</field>
     <field name="arch" type="xml">
       <search>
+        <searchpanel>
+          <field name="category_id" icon="fa-bookmark" enable_counters="1"/>
+          <field name="campus_id" icon="fa-university" enable_counters="1"/>
+        </searchpanel>
         <field name="title"/>
         <field name="isbn"/>
         <field name="author_ids"/>

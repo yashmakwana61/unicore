@@ -1,6 +1,7 @@
 services:
   web:
     build: .
+    image: oacis-odoo:19.0
     depends_on:
       - db
     ports:
@@ -8,9 +9,8 @@ services:
       - "8071:8071"
       - "8072:8072"
     volumes:
-      - ./custom_addons:/mnt/extra-addons
-      - ./config/odoo-staging.conf:/etc/odoo/odoo.conf
       - odoo-web-data:/var/lib/odoo
+      - ./custom_addons:/mnt/extra-addons
     environment:
       - HOST=db
       - USER=${OACIS_DB_USER:-odoo}

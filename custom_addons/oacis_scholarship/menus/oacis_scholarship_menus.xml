@@ -2,37 +2,18 @@
 <odoo>
 
     <!-- Root Menu -->
-    <menuitem id="menu_oacis_scholarship_root"
-              name="Scholarships"
-              sequence="55"
-              web_icon="oacis_scholarship,static/description/icon.png"/>
+    <menuitem id="menu_oacis_scholarship_root" name="Scholarships" sequence="55" web_icon="oacis_scholarship,static/description/icon.png"/>
 
     <!-- Main Menus -->
-    <menuitem id="menu_oacis_scholarship_programs"
-              name="Scholarship Programs"
-              parent="menu_oacis_scholarship_root"
-              action="action_oacis_scholarship_program"
-              sequence="10"/>
+    <menuitem id="menu_oacis_scholarship_programs" name="Scholarship Programs" parent="menu_oacis_scholarship_root" action="action_oacis_scholarship_program" sequence="10"/>
 
-    <menuitem id="menu_oacis_scholarship_applications"
-              name="Applications"
-              parent="menu_oacis_scholarship_root"
-              action="action_oacis_scholarship_application"
-              sequence="20"/>
+    <menuitem id="menu_oacis_scholarship_applications" name="Applications" parent="menu_oacis_scholarship_root" action="action_oacis_scholarship_application" sequence="20"/>
 
-    <menuitem id="menu_oacis_scholarship_awards"
-              name="Awards"
-              parent="menu_oacis_scholarship_root"
-              action="action_oacis_scholarship_award"
-              sequence="30"/>
+    <menuitem id="menu_oacis_scholarship_awards" name="Awards" parent="menu_oacis_scholarship_root" action="action_oacis_scholarship_award" sequence="30"/>
 
     <!-- Board Menus -->
 
     <!-- Configuration Menu -->
-    <menuitem id="menu_oacis_scholarship_config"
-              name="Configuration"
-              parent="menu_oacis_scholarship_root"
-              groups="oacis_base.group_oacis_admin,oacis_base.group_oacis_manager"
-              sequence="100"/>
+    <menuitem id="menu_oacis_scholarship_config" name="Configuration" parent="menu_oacis_scholarship_root" groups="oacis_base.group_oacis_admin,oacis_base.group_oacis_manager" sequence="100"/>
 
 </odoo>

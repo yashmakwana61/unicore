@@ -13,7 +13,7 @@
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="member_state">
                 <field name="display_name"/>
                 <field name="member_type"/>
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="faculty_member_id"/>
                 <field name="valid_until"/>
                 <field name="member_state"/>
@@ -29,7 +29,7 @@
                             <div class="text-muted mt-1">
                                 <field name="member_type"/>
                                 <t t-if="record.student_id.raw_value">
-                                    · <field name="student_id"/>
+                                    · <field name="student_id" widget="many2one_avatar"/>
                                 </t>
                                 <t t-if="record.faculty_member_id.raw_value">
                                     · <field name="faculty_member_id"/>

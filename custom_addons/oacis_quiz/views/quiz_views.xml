@@ -1,82 +1,109 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <data>
+    <!-- ==================== QUESTION BANK VIEWS ==================== -->
     <record id="view_oacis_question_bank_tree" model="ir.ui.view">
       <field name="name">oacis.question.bank.tree</field>
       <field name="model">oacis.question.bank</field>
       <field name="arch" type="xml">
         <list string="Question Bank">
-          <field name="question_text"/>
-          <field name="correct_answer"/>
+          <field name="question_text" class="fw-bold"/>
+          <field name="correct_answer" widget="badge" decoration-success="1"/>
+          <field name="option_a" optional="show"/>
+          <field name="option_b" optional="show"/>
+          <field name="option_c" optional="hide"/>
+          <field name="option_d" optional="hide"/>
         </list>
       </field>
     </record>
+
     <record id="view_oacis_question_bank_form" model="ir.ui.view">
       <field name="name">oacis.question.bank.form</field>
       <field name="model">oacis.question.bank</field>
       <field name="arch" type="xml">
         <form string="Question">
           <sheet>
-            <group string="Question">
-              <field name="question_text" nolabel="1"/>
+            <group string="Question Statement">
+              <field name="question_text" nolabel="1" placeholder="Enter the question text here..."/>
               <field name="company_id" invisible="1"/>
             </group>
-            <group string="Options">
+            <group string="Multiple Choice Options">
               <group>
-                <field name="option_a"/>
-                <field name="option_b"/>
+                <field name="option_a" placeholder="Option A"/>
+                <field name="option_b" placeholder="Option B"/>
               </group>
               <group>
-                <field name="option_c"/>
-                <field name="option_d"/>
+                <field name="option_c" placeholder="Option C (Optional)"/>
+                <field name="option_d" placeholder="Option D (Optional)"/>
               </group>
             </group>
-            <group string="Answer">
-              <field name="correct_answer" widget="radio"/>
+            <group string="Correct Answer Key">
+              <field name="correct_answer" widget="radio" options="{'horizontal': true}"/>
             </group>
           </sheet>
         </form>
       </field>
     </record>
+
+    <record id="view_oacis_question_bank_search" model="ir.ui.view">
+      <field name="name">oacis.question.bank.search</field>
+      <field name="model">oacis.question.bank</field>
+      <field name="arch" type="xml">
+        <search string="Search Question Bank">
+          <field name="question_text"/>
+          <field name="correct_answer"/>
+          <group name="groupby">
+            <filter name="group_answer" string="Correct Answer" context="{'group_by': 'correct_answer'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+    <!-- ==================== QUIZ VIEWS ==================== -->
     <record id="view_oacis_quiz_tree" model="ir.ui.view">
       <field name="name">oacis.quiz.tree</field>
       <field name="model">oacis.quiz</field>
       <field name="arch" type="xml">
         <list string="Quizzes">
-          <field name="title"/>
+          <field name="title" class="fw-bold"/>
           <field name="time_limit"/>
-          <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'active'" decoration-danger="state == 'closed'"/>
+          <field name="question_ids" widget="many2many_tags"/>
+          <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'active'" decoration-muted="state == 'closed'"/>
         </list>
       </field>
     </record>
+
     <record id="view_oacis_quiz_form" model="ir.ui.view">
       <field name="name">oacis.quiz.form</field>
       <field name="model">oacis.quiz</field>
       <field name="arch" type="xml">
         <form string="Quiz">
           <header>
-            <button name="action_activate" string="Activate" type="object" class="oe_highlight" invisible="state != 'draft'"/>
-            <button name="action_close" string="Close" type="object" invisible="state != 'active'"/>
+            <button name="action_activate" string="Publish Quiz" type="object" class="btn-primary" invisible="state != 'draft'"/>
+            <button name="action_close" string="Close Quiz" type="object" class="btn-secondary" invisible="state != 'active'"/>
             <field name="state" widget="statusbar" statusbar_visible="draft,active,closed"/>
           </header>
           <sheet>
+            <widget name="web_ribbon" title="Active" bg_color="text-bg-success" invisible="state != 'active'"/>
+            <widget name="web_ribbon" title="Closed" bg_color="text-bg-secondary" invisible="state != 'closed'"/>
             <div class="oe_title">
+              <label for="title" string="Quiz Title" class="oe_edit_only"/>
               <h1>
-                <field name="title" placeholder="Quiz Title..."/>
+                <field name="title" placeholder="e.g. Mid-term Physics Quiz"/>
               </h1>
             </div>
             <group>
-              <group>
+              <group name="left" string="Settings">
                 <field name="time_limit"/>
                 <field name="company_id" invisible="1"/>
               </group>
             </group>
             <notebook>
-              <page string="Questions" name="questions">
+              <page string="Questions" name="questions_tab">
                 <field name="question_ids">
-                  <list>
+                  <list string="Questions">
                     <field name="question_text"/>
-                    <field name="correct_answer"/>
+                    <field name="correct_answer" widget="badge"/>
                   </list>
                 </field>
               </page>
@@ -86,60 +113,141 @@
         </form>
       </field>
     </record>
+
+    <record id="view_oacis_quiz_kanban" model="ir.ui.view">
+      <field name="name">oacis.quiz.kanban</field>
+      <field name="model">oacis.quiz</field>
+      <field name="arch" type="xml">
+        <kanban class="o_kanban_mobile" default_group_by="state">
+          <field name="id"/>
+          <field name="title"/>
+          <field name="time_limit"/>
+          <field name="question_ids"/>
+          <field name="state" widget="badge"/>
+          <progressbar field="state" colors='{"draft": "info", "active": "success", "closed": "muted"}'/>
+          <templates>
+            <t t-name="card" class="flex-column">
+              <div class="d-flex justify-content-between align-items-start">
+                <field name="title" class="fw-bold fs-6"/>
+                <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-success="state == 'active'" decoration-muted="state == 'closed'"/>
+              </div>
+              <div class="mt-2 d-flex justify-content-between align-items-center small text-muted">
+                <span><i class="fa fa-clock-o me-1" title="Time"/><field name="time_limit"/> mins</span>
+                <span class="badge text-bg-light border"><i class="fa fa-question-circle me-1" title="Question Circle"/><field name="question_ids"/> questions</span>
+              </div>
+            </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
+
+    <record id="view_oacis_quiz_search" model="ir.ui.view">
+      <field name="name">oacis.quiz.search</field>
+      <field name="model">oacis.quiz</field>
+      <field name="arch" type="xml">
+        <search string="Search Quizzes">
+          <field name="title"/>
+          <filter name="filter_active" string="Active Quizzes" domain="[('state', '=', 'active')]"/>
+          <filter name="filter_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+          <group name="groupby">
+            <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+    <!-- ==================== QUIZ ATTEMPT VIEWS ==================== -->
     <record id="view_oacis_quiz_attempt_tree" model="ir.ui.view">
       <field name="name">oacis.quiz.attempt.tree</field>
       <field name="model">oacis.quiz.attempt</field>
       <field name="arch" type="xml">
-        <list string="Quiz Attempts" create="0" delete="0">
-          <field name="student_id" widget="many2one_avatar"/>
+        <list string="Quiz Attempts" default_order="create_date desc">
           <field name="quiz_id"/>
+          <field name="student_id" widget="many2one_avatar"/>
           <field name="score" widget="progressbar"/>
-          <field name="tab_switches"/>
-          <field name="state" widget="badge" decoration-warning="state == 'in_progress'" decoration-success="state == 'submitted'"/>
-          <field name="create_date"/>
+          <field name="tab_switches" optional="show" widget="badge" decoration-danger="tab_switches &gt; 2" decoration-warning="tab_switches &gt; 0 and tab_switches &lt;= 2"/>
+          <field name="state" widget="badge" decoration-info="state == 'in_progress'" decoration-success="state == 'submitted'"/>
+          <field name="create_date" string="Attempt Date" optional="show"/>
         </list>
       </field>
     </record>
+
     <record id="view_oacis_quiz_attempt_form" model="ir.ui.view">
       <field name="name">oacis.quiz.attempt.form</field>
       <field name="model">oacis.quiz.attempt</field>
       <field name="arch" type="xml">
-        <form string="Quiz Attempt" create="0" delete="0" edit="0">
+        <form string="Quiz Attempt">
+          <header>
+            <field name="state" widget="statusbar" statusbar_visible="in_progress,submitted"/>
+          </header>
           <sheet>
+            <widget name="web_ribbon" title="Completed" bg_color="text-bg-success" invisible="state != 'submitted'"/>
             <group>
-              <group>
-                <field name="student_id" widget="many2one_avatar"/>
-                <field name="quiz_id"/>
+              <group name="left" string="Candidate &amp; Quiz">
+                <field name="quiz_id" options="{'no_create_edit': True}"/>
+                <field name="student_id" widget="many2one_avatar" options="{'no_create_edit': True}"/>
                 <field name="company_id" invisible="1"/>
               </group>
-              <group>
+              <group name="right" string="Performance &amp; Integrity">
                 <field name="score" widget="progressbar"/>
-                <field name="tab_switches"/>
-                <field name="state"/>
+                <field name="tab_switches" widget="badge" decoration-danger="tab_switches &gt; 2" decoration-warning="tab_switches &gt; 0 and tab_switches &lt;= 2"/>
+                <field name="create_date" string="Submitted On" readonly="1"/>
               </group>
             </group>
           </sheet>
         </form>
       </field>
     </record>
+
+    <record id="view_oacis_quiz_attempt_search" model="ir.ui.view">
+      <field name="name">oacis.quiz.attempt.search</field>
+      <field name="model">oacis.quiz.attempt</field>
+      <field name="arch" type="xml">
+        <search string="Search Quiz Attempts">
+          <field name="quiz_id"/>
+          <field name="student_id" widget="many2one_avatar"/>
+
+          <searchpanel>
+            <field name="quiz_id" icon="fa-question-circle" enable_counters="1"/>
+            <field name="state" icon="fa-filter" select="multi" enable_counters="1"/>
+          </searchpanel>
+
+          <filter name="filter_submitted" string="Submitted" domain="[('state', '=', 'submitted')]"/>
+          <filter name="filter_in_progress" string="In Progress" domain="[('state', '=', 'in_progress')]"/>
+          <filter name="filter_high_tab_switches" string="Integrity Flag (&gt;2 Tab Switches)" domain="[('tab_switches', '&gt;', 2)]"/>
+          <separator/>
+
+          <group name="groupby">
+            <filter name="group_quiz" string="Quiz" context="{'group_by': 'quiz_id'}"/>
+            <filter name="group_student" string="Student" context="{'group_by': 'student_id'}"/>
+            <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+    <!-- ==================== ACTIONS ==================== -->
     <record id="action_oacis_question_bank" model="ir.actions.act_window">
       <field name="name">Question Bank</field>
       <field name="res_model">oacis.question.bank</field>
       <field name="view_mode">list,form</field>
     </record>
+
     <record id="action_oacis_quiz" model="ir.actions.act_window">
-      <field name="name">Quizzes</field>
+      <field name="name">Manage Quizzes</field>
       <field name="res_model">oacis.quiz</field>
-      <field name="view_mode">list,form</field>
+      <field name="view_mode">kanban,list,form</field>
     </record>
+
     <record id="action_oacis_quiz_attempt" model="ir.actions.act_window">
       <field name="name">Quiz Attempts</field>
       <field name="res_model">oacis.quiz.attempt</field>
       <field name="view_mode">list,form</field>
     </record>
+
     <record id="action_oacis_quiz_take" model="ir.actions.client">
       <field name="name">Take Quiz</field>
-      <field name="tag">oacis_quiz.take_quiz_client_action</field>
+      <field name="tag">oacis_quiz_portal</field>
     </record>
   </data>
 </odoo>

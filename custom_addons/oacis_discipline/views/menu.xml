@@ -1,26 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <menuitem id="menu_oacis_discipline_root"
-                  name="Discipline"
-                  
-                  sequence="60"/>
+        <menuitem id="menu_oacis_discipline_root" name="Discipline" sequence="60"/>
 
-        <menuitem id="menu_oacis_discipline_records"
-                  name="Discipline Records"
-                  parent="menu_oacis_discipline_root"
-                  action="action_oacis_discipline_record"
-                  sequence="10"/>
+        <menuitem id="menu_oacis_discipline_records" name="Discipline Records" parent="menu_oacis_discipline_root" action="action_oacis_discipline_record" sequence="10"/>
 
-        <menuitem id="menu_oacis_discipline_config"
-                  name="Configuration"
-                  parent="menu_oacis_discipline_root"
-                  sequence="100"/>
+        <menuitem id="menu_oacis_discipline_config" name="Configuration" parent="menu_oacis_discipline_root" sequence="100"/>
 
-        <menuitem id="menu_oacis_misbehaviour_category"
-                  name="Misbehaviour Categories"
-                  parent="menu_oacis_discipline_config"
-                  action="action_oacis_misbehaviour_category"
-                  sequence="10"/>
+        <menuitem id="menu_oacis_misbehaviour_category" name="Misbehaviour Categories" parent="menu_oacis_discipline_config" action="action_oacis_misbehaviour_category" sequence="10"/>
     </data>
 </odoo>

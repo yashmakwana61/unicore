@@ -6,15 +6,12 @@
         <field name="arch" type="xml">
             <form>
                 <group>
-                    <field name="student_id"/>
+                    <field name="student_id" widget="many2one_avatar"/>
                     <field name="purpose" widget="radio"/>
-                    <field name="purpose_other"
-                           attrs="{'invisible': [('purpose', '!=', 'other')],
-                                   'required': [('purpose', '=', 'other')]}"/>
+                    <field name="purpose_other"/>
                 </group>
                 <footer>
-                    <button name="action_print" type="object"
-                            string="Generate Bonafide" class="btn-primary"/>
+                    <button name="action_print" type="object" string="Generate Bonafide" class="btn-primary"/>
                     <button string="Cancel" class="btn-secondary" special="cancel"/>
                 </footer>
             </form>

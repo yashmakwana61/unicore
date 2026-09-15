@@ -2,45 +2,24 @@
 <odoo>
 
     <!-- Top-level Oacis AI menu -->
-    <menuitem
-        id="menu_oacis_ai_root"
-        name="Oacis AI"
-        web_icon="oacis_ai,static/description/icon.png"
-        sequence="95"
+    <menuitem id="menu_oacis_ai_root" name="Oacis AI" web_icon="oacis_ai,static/description/icon.png" sequence="95"
     />
 
     <!-- Sub-menus -->
-    <menuitem
-        id="menu_oacis_ai_chatbot"
-        name="Chat History"
-        parent="menu_oacis_ai_root"
-        action="action_oacis_ai_chat_sessions"
-        sequence="10"
+    <menuitem id="menu_oacis_ai_chatbot" name="Chat History" parent="menu_oacis_ai_root" action="action_oacis_ai_chat_sessions" sequence="10"
     />
 
-    <menuitem
-        id="menu_oacis_ai_generate"
-        name="AI Text Generator"
-        parent="menu_oacis_ai_root"
-        action="action_oacis_ai_generate_wizard"
-        sequence="20"
+    <menuitem id="menu_oacis_ai_generate" name="AI Text Generator" parent="menu_oacis_ai_root" action="action_oacis_ai_generate_wizard" sequence="20"
     />
 
-    <menuitem
-        id="menu_oacis_ai_config"
-        name="Configuration"
-        parent="menu_oacis_ai_root"
-        sequence="100"
-        groups="oacis_ai.group_oacis_ai_manager"
+    <menuitem id="menu_oacis_ai_prompts" name="Prompt Library" parent="menu_oacis_ai_root" action="action_oacis_ai_prompts" sequence="30"/>
+
+    <menuitem id="menu_oacis_ai_config" name="Configuration" parent="menu_oacis_ai_root" sequence="100" groups="oacis_ai.group_oacis_ai_manager"
     />
 
-    <menuitem
-        id="menu_oacis_ai_settings"
-        name="Settings"
-        parent="menu_oacis_ai_config"
-        action="base_setup.action_general_configuration"
-        sequence="10"
-        groups="oacis_ai.group_oacis_ai_manager"
+    <menuitem id="menu_oacis_ai_usage" name="Usage Logs" parent="menu_oacis_ai_config" action="action_oacis_ai_usage" sequence="10" groups="oacis_ai.group_oacis_ai_manager"/>
+
+    <menuitem id="menu_oacis_ai_settings" name="Settings" parent="menu_oacis_ai_config" action="base_setup.action_general_configuration" sequence="20" groups="oacis_ai.group_oacis_ai_manager"
     />
 
 </odoo>

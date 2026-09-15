@@ -19,7 +19,7 @@
           <group>
             <group string="Pass Details">
               <field name="pass_number" readonly="1"/>
-              <field name="student_id"/>
+              <field name="student_id" widget="many2one_avatar"/>
               <field name="route_id"/>
               <field name="vehicle_id" readonly="1"/>
               <field name="boarding_stop_id"/>
@@ -57,7 +57,7 @@
     <field name="arch" type="xml">
       <list decoration-success="pass_state == 'active' and fee_paid" decoration-warning="pass_state == 'active' and                not fee_paid" decoration-muted="pass_state in               ('cancelled','expired')">
         <field name="pass_number"/>
-        <field name="student_id"/>
+        <field name="student_id" widget="many2one_avatar"/>
         <field name="route_id"/>
         <field name="boarding_stop_id"/>
         <field name="vehicle_id"/>
@@ -74,8 +74,12 @@
     <field name="model">oacis.transport.pass</field>
     <field name="arch" type="xml">
       <search>
+        <searchpanel>
+          <field name="route_id" icon="fa-bus" enable_counters="1"/>
+          <field name="state" icon="fa-filter" select="multi" enable_counters="1"/>
+        </searchpanel>
         <field name="pass_number"/>
-        <field name="student_id"/>
+        <field name="student_id" widget="many2one_avatar"/>
         <field name="route_id"/>
         <filter name="active" string="Active Passes" domain="[('pass_state','=','active')]"/>
         <filter name="fee_pending" string="Fee Pending" domain="[('fee_paid','=',False),('pass_state','=','active')]"/>

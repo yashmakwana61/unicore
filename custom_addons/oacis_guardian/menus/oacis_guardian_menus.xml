@@ -16,16 +16,7 @@
         <field name="context">{}</field>
     </record>
 
-    <menuitem id="menu_oacis_guardian_all"
-              name="Guardians"
-              parent="oacis_student.menu_oacis_student_root"
-              action="action_oacis_guardian"
-              sequence="40"/>
+    <menuitem id="menu_oacis_guardian_all" name="Guardians" parent="oacis_student.menu_oacis_student_root" action="action_oacis_guardian" sequence="40"/>
 
-    <menuitem id="menu_oacis_guardian_student_rel"
-              name="Guardian-Student Links"
-              parent="oacis_student.menu_oacis_student_root"
-              action="action_oacis_guardian_student_rel"
-              sequence="50"
-              groups="oacis_base.group_oacis_registrar"/>
+    <menuitem id="menu_oacis_guardian_student_rel" name="Guardian-Student Links" parent="oacis_student.menu_oacis_student_root" action="action_oacis_guardian_student_rel" sequence="50" groups="oacis_base.group_oacis_registrar"/>
 </odoo>

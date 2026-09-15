@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="oacis_ai_prompt_tree" model="ir.ui.view">
+        <field name="name">oacis.ai.prompt.tree</field>
+        <field name="model">oacis.ai.prompt</field>
+        <field name="arch" type="xml">
+            <list default_order="category, name">
+                <field name="name" class="fw-bold"/>
+                <field name="category" widget="badge"/>
+                <field name="is_shared" widget="boolean_toggle"/>
+                <field name="active" widget="boolean_toggle" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="oacis_ai_prompt_form" model="ir.ui.view">
+        <field name="name">oacis.ai.prompt.form</field>
+        <field name="model">oacis.ai.prompt</field>
+        <field name="arch" type="xml">
+            <form string="AI Prompt Template">
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" placeholder="e.g. Draft exam notice"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="category"/>
+                        </group>
+                        <group>
+                            <field name="is_shared"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="prompt_text" nolabel="1" placeholder="Write the reusable instruction, e.g. Draft a formal notice about…"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="oacis_ai_prompt_search" model="ir.ui.view">
+        <field name="name">oacis.ai.prompt.search</field>
+        <field name="model">oacis.ai.prompt</field>
+        <field name="arch" type="xml">
+            <search string="Search Prompts">
+                <field name="name"/>
+                <field name="prompt_text"/>
+                <filter name="f_admission" string="Admission" domain="[('category','=','admission')]"/>
+                <filter name="f_academic" string="Academic" domain="[('category','=','academic')]"/>
+                <filter name="f_fees" string="Fees" domain="[('category','=','fees')]"/>
+                <filter name="f_general" string="General" domain="[('category','=','general')]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_oacis_ai_prompts" model="ir.actions.act_window">
+        <field name="name">Prompt Library</field>
+        <field name="res_model">oacis.ai.prompt</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No prompt templates yet.</p>
+            <p>Save reusable instructions here (e.g. “Draft a fee reminder”, “Create a 5-question quiz”) so every user gets one-click starters in the chatbot.</p>
+        </field>
+    </record>
+
+    <record id="oacis_ai_usage_tree" model="ir.ui.view">
+        <field name="name">oacis.ai.usage.log.tree</field>
+        <field name="model">oacis.ai.usage.log</field>
+        <field name="arch" type="xml">
+            <list default_order="create_date desc">
+                <field name="create_date" string="When"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="feature" widget="badge"/>
+                <field name="model_used"/>
+                <field name="tokens_estimate"/>
+                <field name="latency_ms" string="Latency ms" optional="hide"/>
+                <field name="success" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="oacis_ai_usage_search" model="ir.ui.view">
+        <field name="name">oacis.ai.usage.log.search</field>
+        <field name="model">oacis.ai.usage.log</field>
+        <field name="arch" type="xml">
+            <search string="Search AI Usage">
+                <field name="user_id"/>
+                <field name="feature"/>
+                <field name="model_used"/>
+                <filter name="f_today" string="Today" domain="[('create_date','&gt;=', (context_today() + ' 00:00:00'))]"/>
+                <filter name="f_failed" string="Failed" domain="[('success','=',False)]"/>
+                <group name="groupby">
+                    <filter name="g_user" string="User" context="{'group_by': 'user_id'}"/>
+                    <filter name="g_feature" string="Feature" context="{'group_by': 'feature'}"/>
+                    <filter name="g_day" string="Day" context="{'group_by': 'create_date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_oacis_ai_usage" model="ir.actions.act_window">
+        <field name="name">AI Usage</field>
+        <field name="res_model">oacis.ai.usage.log</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No AI usage yet.</p>
+            <p>Every chatbot / wizard call is logged here with an estimated token count so admins can monitor cost and failures.</p>
+        </field>
+    </record>
+</odoo>

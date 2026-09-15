@@ -12,7 +12,7 @@
         <field name="type">calendar</field>
         <field name="arch" type="xml">
             <calendar date_start="invoice_date" date_stop="due_date" color="color" string="Fee Invoice Calendar">
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="semester_id"/>
                 <field name="invoice_state"/>
             </calendar>

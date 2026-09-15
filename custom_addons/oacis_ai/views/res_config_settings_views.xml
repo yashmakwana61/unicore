@@ -25,17 +25,30 @@
                                 </div>
                             </div>
                         </setting>
-                        <setting string="Model" help="The AI model to use for text generation.">
+                        <setting string="Model" help="OpenCode Zen model for chatbot and text generation. Click Refresh Models to fetch the latest list.">
                             <div class="content-group">
-                                <div class="row mt16">
+                                <div class="row mt16 align-items-center">
                                     <label for="oacis_ai_model" class="col-lg-3 o_light_label"/>
                                     <field name="oacis_ai_model" class="col-lg-4"/>
+                                    <button name="action_oacis_ai_refresh_models" string="Refresh Models" type="object" class="btn-secondary col-lg-3" icon="fa-refresh"/>
                                 </div>
+                            </div>
+                        </setting>
+                        <setting string="Connection" help="Verify the API key, URL and model work.">
+                            <div class="content-group">
+                                <button name="action_oacis_ai_test_connection" string="Test Connection" type="object" class="btn-primary"/>
+                            </div>
+                        </setting>
+                    </block>
+                    <block title="Assistant Behaviour" name="oacis_ai_behaviour">
+                        <setting string="Assistant Personality" help="Default instruction for the chatbot and text generator.">
+                            <div class="content-group">
+                                <field name="oacis_ai_system_prompt" class="col-lg-9" widget="text" placeholder="You are Oacis AI, a helpful assistant…"/>
                             </div>
                         </setting>
                     </block>
                     <block title="Advanced Settings" name="oacis_ai_advanced">
-                        <setting string="Temperature" help="Controls randomness. Lower = more focused, Higher = more creative.">
+                        <setting string="Temperature" help="Controls randomness. Lower = more focused, Higher = more creative (0–2).">
                             <div class="content-group">
                                 <div class="row mt16">
                                     <label for="oacis_ai_temperature" class="col-lg-3 o_light_label"/>
@@ -43,11 +56,19 @@
                                 </div>
                             </div>
                         </setting>
-                        <setting string="Max Tokens" help="Maximum response length in tokens.">
+                        <setting string="Max Tokens" help="Maximum response length in tokens (128–32000).">
                             <div class="content-group">
                                 <div class="row mt16">
                                     <label for="oacis_ai_max_tokens" class="col-lg-3 o_light_label"/>
                                     <field name="oacis_ai_max_tokens" class="col-lg-2"/>
+                                </div>
+                            </div>
+                        </setting>
+                        <setting string="Rate Limit" help="Max AI requests per user per hour. 0 = unlimited.">
+                            <div class="content-group">
+                                <div class="row mt16">
+                                    <label for="oacis_ai_rate_limit" class="col-lg-3 o_light_label"/>
+                                    <field name="oacis_ai_rate_limit" class="col-lg-2"/>
                                 </div>
                             </div>
                         </setting>

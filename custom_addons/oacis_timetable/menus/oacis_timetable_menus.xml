@@ -6,43 +6,19 @@
         <!-- TOP MENU (Section under Oacis root)       -->
         <!-- ========================================== -->
 
-        <menuitem id="menu_oacis_timetable"
-                  name="Timetable"
-                  sequence="60"
-                  web_icon="oacis_timetable,static/description/icon.png"
-                  groups="oacis_base.group_oacis_faculty,base.group_system"/>
+        <menuitem id="menu_oacis_timetable" name="Timetable" sequence="60" web_icon="oacis_timetable,static/description/icon.png" groups="oacis_base.group_oacis_faculty,base.group_system"/>
 
         <!-- ========================================== -->
         <!-- SUB MENUS                                   -->
         <!-- ========================================== -->
 
-        <menuitem id="menu_oacis_timetable_my_schedule"
-                  name="My Schedule"
-                  parent="menu_oacis_timetable"
-                  action="action_oacis_timetable_my_schedule"
-                  sequence="10"
-                  groups="oacis_base.group_oacis_faculty"/>
+        <menuitem id="menu_oacis_timetable_my_schedule" name="My Schedule" parent="menu_oacis_timetable" action="action_oacis_timetable_my_schedule" sequence="10" groups="oacis_base.group_oacis_faculty"/>
 
-        <menuitem id="menu_oacis_timetable_full_schedule"
-                  name="Full Timetable"
-                  parent="menu_oacis_timetable"
-                  action="action_oacis_timetable_entry"
-                  sequence="20"
-                  groups="oacis_base.group_oacis_staff,base.group_system"/>
+        <menuitem id="menu_oacis_timetable_full_schedule" name="Full Timetable" parent="menu_oacis_timetable" action="action_oacis_timetable_entry" sequence="20" groups="oacis_base.group_oacis_staff,base.group_system"/>
 
-        <menuitem id="menu_oacis_time_slot_list"
-                  name="Time Slots"
-                  parent="menu_oacis_timetable"
-                  action="action_oacis_time_slot"
-                  sequence="30"
-                  groups="oacis_base.group_oacis_registrar,base.group_system"/>
+        <menuitem id="menu_oacis_time_slot_list" name="Time Slots" parent="menu_oacis_timetable" action="action_oacis_time_slot" sequence="30" groups="oacis_base.group_oacis_registrar,base.group_system"/>
 
-        <menuitem id="menu_oacis_room_booking_list"
-                  name="Room Bookings"
-                  parent="menu_oacis_timetable"
-                  action="action_oacis_room_booking"
-                  sequence="40"
-                  groups="oacis_base.group_oacis_faculty,base.group_system"/>
+        <menuitem id="menu_oacis_room_booking_list" name="Room Bookings" parent="menu_oacis_timetable" action="action_oacis_room_booking" sequence="40" groups="oacis_base.group_oacis_faculty,base.group_system"/>
 
         <menuitem id="menu_oacis_generate_timetable"
                   name="Generate Timetable"

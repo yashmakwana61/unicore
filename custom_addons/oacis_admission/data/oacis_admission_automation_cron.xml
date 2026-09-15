@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Server Action: Run date-based admission automation rules -->
+        <record id="action_oacis_admission_run_date_based_rules" model="ir.actions.server">
+            <field name="name">Oacis Admission: Run Date Based Automation Rules</field>
+            <field name="model_id" ref="oacis_admission.model_oacis_admission_applicant"/>
+            <field name="state">code</field>
+            <field name="code">env['oacis.admission.automation.engine']._run_date_based_rules()</field>
+        </record>
+
+        <!-- Cron Job: daily scan of date-based rules -->
+        <record id="cron_oacis_admission_date_based_rules" model="ir.cron">
+            <field name="name">Oacis Admission: Date Based Automation Rules</field>
+            <field name="ir_actions_server_id" ref="action_oacis_admission_run_date_based_rules"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+            <field name="nextcall" eval="DateTime.now().strftime('%Y-%m-%d 02:00:00')"/>
+            <field name="priority">5</field>
+        </record>
+
+    </data>
+</odoo>

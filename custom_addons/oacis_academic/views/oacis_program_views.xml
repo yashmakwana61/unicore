@@ -35,7 +35,7 @@
               <field name="is_legacy_institution" invisible="1"/>
               <field name="department_id" options="{'no_create': True}" required="is_legacy_institution"/>
               <field name="academic_unit_id" options="{'no_create': True}" invisible="is_legacy_institution"/>
-              <field name="faculty_id"/>
+              <field name="faculty_id" widget="many2one_avatar"/>
               <field name="company_id"/>
               <field name="coordinator_id" options="{'no_create': True}"/>
               <field name="sequence"/>
@@ -107,7 +107,7 @@
         <field name="name"/>
         <field name="department_id"/>
         <field name="academic_unit_id" optional="hide"/>
-        <field name="faculty_id"/>
+        <field name="faculty_id" widget="many2one_avatar"/>
         <field name="program_type"/>
         <field name="cohort_kind" optional="hide"/>
         <field name="duration_years"/>
@@ -123,11 +123,16 @@
     <field name="model">oacis.program</field>
     <field name="arch" type="xml">
       <search>
+        <searchpanel>
+          <field name="faculty_id" icon="fa-university" enable_counters="1" widget="many2one_avatar"/>
+          <field name="department_id" icon="fa-building-o" enable_counters="1"/>
+          <field name="program_type" icon="fa-graduation-cap" enable_counters="1"/>
+        </searchpanel>
         <field name="name"/>
         <field name="code"/>
         <field name="department_id"/>
         <field name="academic_unit_id"/>
-        <field name="faculty_id"/>
+        <field name="faculty_id" widget="many2one_avatar"/>
         <field name="program_type"/>
         <field name="cohort_kind"/>
         <filter name="filter_active" string="Active Programs" domain="[('program_state', '=', 'active')]"/>

@@ -18,7 +18,7 @@
           <group>
             <group string="Allocation Details">
               <field name="allocation_number" readonly="1"/>
-              <field name="student_id"/>
+              <field name="student_id" widget="many2one_avatar"/>
               <field name="room_id"/>
               <field name="block_id" readonly="1"/>
               <field name="academic_year_id"/>
@@ -61,7 +61,7 @@
     <field name="arch" type="xml">
       <list decoration-success="allocation_state == 'checked_in'" decoration-info="allocation_state == 'allocated'" decoration-muted="allocation_state in               ('checked_out','cancelled')">
         <field name="allocation_number"/>
-        <field name="student_id"/>
+        <field name="student_id" widget="many2one_avatar"/>
         <field name="room_id"/>
         <field name="block_id"/>
         <field name="academic_year_id"/>
@@ -78,8 +78,12 @@
     <field name="model">oacis.hostel.allocation</field>
     <field name="arch" type="xml">
       <search>
+        <searchpanel>
+          <field name="academic_year_id" icon="fa-calendar" enable_counters="1"/>
+          <field name="state" icon="fa-filter" select="multi" enable_counters="1"/>
+        </searchpanel>
         <field name="allocation_number"/>
-        <field name="student_id"/>
+        <field name="student_id" widget="many2one_avatar"/>
         <field name="room_id"/>
         <field name="block_id"/>
         <filter name="checked_in" string="Currently Checked In" domain="[('allocation_state','=','checked_in')]"/>

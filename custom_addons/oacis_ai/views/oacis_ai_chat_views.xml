@@ -5,13 +5,16 @@
     <field name="name">oacis.ai.chat.session.tree</field>
     <field name="model">oacis.ai.chat.session</field>
     <field name="arch" type="xml">
-      <list>
-        <field name="title"/>
-        <field name="user_id"/>
+      <list default_order="write_date desc">
+        <field name="title" class="fw-bold"/>
+        <field name="user_id" widget="many2one_avatar_user"/>
+        <field name="message_count" string="# Msgs" optional="show"/>
+        <field name="create_date" string="Started On" optional="show"/>
         <field name="write_date" string="Last Activity"/>
       </list>
     </field>
   </record>
+
   <!-- Chat Session Form View -->
   <record id="oacis_ai_chat_session_form" model="ir.ui.view">
     <field name="name">oacis.ai.chat.session.form</field>
@@ -19,10 +22,14 @@
     <field name="arch" type="xml">
       <form string="AI Chat Session">
         <sheet>
+          <div class="oe_title">
+            <label for="title" string="Session Title" class="oe_edit_only"/>
+            <h1><field name="title"/></h1>
+          </div>
           <group>
             <group>
-              <field name="title"/>
-              <field name="user_id" readonly="1"/>
+              <field name="user_id" widget="many2one_avatar_user" readonly="1"/>
+              <field name="message_count" readonly="1"/>
             </group>
             <group>
               <field name="create_date" readonly="1"/>
@@ -30,12 +37,14 @@
             </group>
           </group>
           <notebook>
-            <page string="Conversation" name="messages">
+            <page string="Conversation History" name="messages">
               <field name="message_ids" nolabel="1">
                 <list>
                   <field name="sequence" widget="handle"/>
-                  <field name="role"/>
+                  <field name="role" widget="badge" decoration-info="role == 'user'" decoration-success="role == 'assistant'"/>
                   <field name="content"/>
+                  <field name="rating" widget="badge" optional="show"/>
+                  <field name="tokens_estimate" optional="hide"/>
                 </list>
               </field>
             </page>
@@ -44,19 +53,67 @@
       </form>
     </field>
   </record>
+
+  <!-- Chat Session Kanban View -->
+  <record id="oacis_ai_chat_session_kanban" model="ir.ui.view">
+    <field name="name">oacis.ai.chat.session.kanban</field>
+    <field name="model">oacis.ai.chat.session</field>
+    <field name="arch" type="xml">
+      <kanban class="o_kanban_mobile">
+        <field name="id"/>
+        <field name="title"/>
+        <field name="user_id"/>
+        <field name="write_date"/>
+        <field name="message_count"/>
+        <templates>
+          <t t-name="card" class="flex-column">
+            <div class="d-flex justify-content-between align-items-start">
+              <field name="title" class="fw-bold fs-6"/>
+            </div>
+            <div class="mt-2 d-flex justify-content-between align-items-center small text-muted">
+              <span><field name="user_id" widget="many2one_avatar_user"/> <field name="user_id"/></span>
+              <span><i class="fa fa-comments-o me-1"/><field name="message_count"/> msgs</span>
+            </div>
+            <div class="mt-1 small text-muted">
+              <i class="fa fa-clock-o me-1" title="Time"/><field name="write_date"/>
+            </div>
+          </t>
+        </templates>
+      </kanban>
+    </field>
+  </record>
+
+  <!-- Chat Session Search View -->
+  <record id="oacis_ai_chat_session_search" model="ir.ui.view">
+    <field name="name">oacis.ai.chat.session.search</field>
+    <field name="model">oacis.ai.chat.session</field>
+    <field name="arch" type="xml">
+      <search string="Search AI Chat History">
+        <field name="title"/>
+        <field name="user_id"/>
+        <filter name="filter_my_chats" string="My Chats" domain="[('user_id', '=', uid)]"/>
+        <group name="groupby">
+          <filter name="group_user" string="User" context="{'group_by': 'user_id'}"/>
+          <filter name="group_date" string="Last Activity" context="{'group_by': 'write_date:day'}"/>
+        </group>
+      </search>
+    </field>
+  </record>
+
   <!-- Chat Session Action -->
   <record id="action_oacis_ai_chat_sessions" model="ir.actions.act_window">
     <field name="name">AI Chat History</field>
     <field name="res_model">oacis.ai.chat.session</field>
-    <field name="view_mode">list,form</field>
-    <field name="domain">[('user_id', '=', uid)]</field>
+    <field name="view_mode">kanban,list,form</field>
+    <field name="context">{'search_default_filter_my_chats': 1}</field>
     <field name="help" type="html">
       <p class="o_view_nocontent_smiling_face">
-                No AI chat sessions yet.
-            </p>
+        No AI chat sessions yet.
+      </p>
       <p>
-                Use the AI Chatbot from the top bar to start a conversation!
-            </p>
+        Use the AI Chatbot (magic icon in the top bar) to assist with student queries, lesson plans, or summaries.
+        Tip: open any student / admission / assignment record and ask “Summarize this record”.
+      </p>
     </field>
   </record>
 </odoo>

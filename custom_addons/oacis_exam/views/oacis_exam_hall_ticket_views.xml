@@ -26,7 +26,7 @@
                             <group>
                                 <field name="ticket_number" readonly="1" class="o_field_emphasize"/>
                                 <field name="exam_schedule_id"/>
-                                <field name="student_id"/>
+                                <field name="student_id" widget="many2one_avatar"/>
                                 <field name="enrollment_id"/>
                             </group>
                             <group>
@@ -66,7 +66,7 @@
             <field name="arch" type="xml">
                 <list decoration-success="ticket_state == 'approved' and eligibility_status == 'eligible'" decoration-danger="eligibility_status in ('ineligible','ineligible_fees')" decoration-warning="eligibility_status == 'override'" decoration-muted="ticket_state in ('blocked','cancelled')">
                     <field name="ticket_number"/>
-                    <field name="student_id"/>
+                    <field name="student_id" widget="many2one_avatar"/>
                     <field name="exam_schedule_id"/>
                     <field name="exam_date"/>
                     <field name="course_id"/>
@@ -85,7 +85,7 @@
             <field name="arch" type="xml">
                 <search>
                     <field name="ticket_number"/>
-                    <field name="student_id"/>
+                    <field name="student_id" widget="many2one_avatar"/>
                     <field name="exam_schedule_id"/>
                     <field name="course_id"/>
                     <separator/>

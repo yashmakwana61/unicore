@@ -1,44 +1,49 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <odoo>
   <data>
+    <!-- ==================== APPOINTMENT SLOT VIEWS ==================== -->
     <record id="view_oacis_appointment_slot_tree" model="ir.ui.view">
       <field name="name">oacis.appointment.slot.tree</field>
       <field name="model">oacis.appointment.slot</field>
       <field name="arch" type="xml">
-        <list string="Appointment Slots">
+        <list string="Appointment Slots" default_order="date desc, start_time asc">
           <field name="faculty_id" widget="many2one_avatar"/>
           <field name="date"/>
           <field name="start_time" widget="float_time"/>
           <field name="end_time" widget="float_time"/>
           <field name="max_bookings"/>
           <field name="booking_count"/>
-          <field name="is_available" widget="boolean"/>
+          <field name="is_available" widget="badge" decoration-success="is_available == True" decoration-danger="is_available == False"/>
         </list>
       </field>
     </record>
+
     <record id="view_oacis_appointment_slot_form" model="ir.ui.view">
       <field name="name">oacis.appointment.slot.form</field>
       <field name="model">oacis.appointment.slot</field>
       <field name="arch" type="xml">
         <form string="Appointment Slot">
           <sheet>
+            <widget name="web_ribbon" title="Available" bg_color="text-bg-success" invisible="not is_available"/>
+            <widget name="web_ribbon" title="Fully Booked" bg_color="text-bg-danger" invisible="is_available"/>
             <div class="oe_title">
+              <label for="name" string="Slot Reference" class="oe_edit_only"/>
               <h1>
                 <field name="name"/>
               </h1>
             </div>
             <group>
-              <group>
-                <field name="faculty_id" widget="many2one_avatar"/>
+              <group name="left" string="Faculty &amp; Date">
+                <field name="faculty_id" widget="many2one_avatar" options="{'no_create_edit': True}"/>
                 <field name="company_id" invisible="1"/>
                 <field name="date"/>
               </group>
-              <group>
+              <group name="right" string="Timing &amp; Capacity">
                 <field name="start_time" widget="float_time"/>
                 <field name="end_time" widget="float_time"/>
                 <field name="max_bookings"/>
-                <field name="booking_count"/>
-                <field name="is_available"/>
+                <field name="booking_count" readonly="1"/>
+                <field name="is_available" widget="boolean_toggle" readonly="1"/>
               </group>
             </group>
             <notebook>
@@ -56,11 +61,49 @@
         </form>
       </field>
     </record>
+
+    <record id="view_oacis_appointment_slot_calendar" model="ir.ui.view">
+      <field name="name">oacis.appointment.slot.calendar</field>
+      <field name="model">oacis.appointment.slot</field>
+      <field name="arch" type="xml">
+        <calendar string="Office Hours Slots" date_start="date" color="faculty_id" mode="week">
+          <field name="faculty_id" widget="many2one_avatar"/>
+          <field name="booking_count"/>
+        </calendar>
+      </field>
+    </record>
+
+    <record id="view_oacis_appointment_slot_search" model="ir.ui.view">
+      <field name="name">oacis.appointment.slot.search</field>
+      <field name="model">oacis.appointment.slot</field>
+      <field name="arch" type="xml">
+        <search string="Search Appointment Slots">
+          <field name="faculty_id" widget="many2one_avatar"/>
+          <field name="date"/>
+
+          <searchpanel>
+            <field name="faculty_id" icon="fa-user-circle" enable_counters="1" widget="many2one_avatar"/>
+          </searchpanel>
+
+          <filter name="filter_available" string="Available Slots" domain="[('is_available', '=', True)]"/>
+          <filter name="filter_future" string="Future Slots" domain="[('date', '&gt;=', context_today().strftime('%Y-%m-%d'))]"/>
+          <separator/>
+
+          <group name="groupby">
+            <filter name="group_faculty" string="Faculty" context="{'group_by': 'faculty_id'}"/>
+            <filter name="group_date" string="Date" context="{'group_by': 'date:day'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+    <!-- ==================== APPOINTMENT BOOKING VIEWS ==================== -->
     <record id="view_oacis_appointment_booking_tree" model="ir.ui.view">
       <field name="name">oacis.appointment.booking.tree</field>
       <field name="model">oacis.appointment.booking</field>
       <field name="arch" type="xml">
-        <list string="Appointment Bookings">
+        <list string="Appointment Bookings" default_order="create_date desc">
+          <field name="name" class="fw-bold"/>
           <field name="student_id" widget="many2one_avatar"/>
           <field name="slot_id"/>
           <field name="purpose"/>
@@ -68,34 +111,40 @@
         </list>
       </field>
     </record>
+
     <record id="view_oacis_appointment_booking_form" model="ir.ui.view">
       <field name="name">oacis.appointment.booking.form</field>
       <field name="model">oacis.appointment.booking</field>
       <field name="arch" type="xml">
         <form string="Appointment Booking">
           <header>
-            <button name="action_confirm" string="Confirm" type="object" class="oe_highlight" invisible="state != 'draft'"/>
-            <button name="action_complete" string="Complete" type="object" invisible="state != 'confirmed'"/>
-            <button name="action_no_show" string="No Show" type="object" invisible="state != 'confirmed'"/>
-            <button name="action_cancel" string="Cancel" type="object" invisible="state in ('completed', 'cancelled', 'no_show')"/>
+            <button name="action_confirm" string="Confirm Booking" type="object" class="btn-primary" invisible="state != 'draft'"/>
+            <button name="action_complete" string="Mark Completed" type="object" class="btn-success" invisible="state != 'confirmed'"/>
+            <button name="action_no_show" string="Mark No Show" type="object" class="btn-secondary" invisible="state != 'confirmed'"/>
+            <button name="action_cancel" string="Cancel Booking" type="object" class="btn-secondary" invisible="state in ('completed', 'cancelled', 'no_show')"/>
             <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,completed"/>
           </header>
           <sheet>
+            <widget name="web_ribbon" title="Confirmed" bg_color="text-bg-success" invisible="state != 'confirmed'"/>
+            <widget name="web_ribbon" title="Completed" bg_color="text-bg-info" invisible="state != 'completed'"/>
+            <widget name="web_ribbon" title="No Show" bg_color="text-bg-danger" invisible="state != 'no_show'"/>
+            <widget name="web_ribbon" title="Cancelled" bg_color="text-bg-secondary" invisible="state != 'cancelled'"/>
             <div class="oe_title">
+              <label for="name" string="Booking Reference" class="oe_edit_only"/>
               <h1>
                 <field name="name"/>
               </h1>
             </div>
             <group>
-              <group>
-                <field name="student_id" widget="many2one_avatar"/>
+              <group name="left" string="Student">
+                <field name="student_id" widget="many2one_avatar" options="{'no_create_edit': True}"/>
                 <field name="company_id" invisible="1"/>
               </group>
-              <group>
-                <field name="slot_id"/>
+              <group name="right" string="Appointment Slot">
+                <field name="slot_id" options="{'no_create_edit': True}"/>
               </group>
             </group>
-            <group string="Purpose">
+            <group string="Purpose of Meeting">
               <field name="purpose" nolabel="1" placeholder="State the purpose of the appointment..."/>
             </group>
           </sheet>
@@ -103,11 +152,40 @@
         </form>
       </field>
     </record>
+
+    <record id="view_oacis_appointment_booking_search" model="ir.ui.view">
+      <field name="name">oacis.appointment.booking.search</field>
+      <field name="model">oacis.appointment.booking</field>
+      <field name="arch" type="xml">
+        <search string="Search Bookings">
+          <field name="name" string="Booking / Student" filter_domain="['|', ('name', 'ilike', self), ('student_id.name', 'ilike', self)]"/>
+          <field name="student_id" widget="many2one_avatar"/>
+          <field name="slot_id"/>
+
+          <searchpanel>
+            <field name="state" icon="fa-filter" select="multi" enable_counters="1"/>
+          </searchpanel>
+
+          <filter name="filter_confirmed" string="Confirmed" domain="[('state', '=', 'confirmed')]"/>
+          <filter name="filter_draft" string="Pending Confirmation" domain="[('state', '=', 'draft')]"/>
+          <separator/>
+
+          <group name="groupby">
+            <filter name="group_slot" string="Slot" context="{'group_by': 'slot_id'}"/>
+            <filter name="group_student" string="Student" context="{'group_by': 'student_id'}"/>
+            <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+    <!-- ==================== ACTIONS ==================== -->
     <record id="action_oacis_appointment_slot" model="ir.actions.act_window">
       <field name="name">Appointment Slots</field>
       <field name="res_model">oacis.appointment.slot</field>
-      <field name="view_mode">list,form</field>
+      <field name="view_mode">list,form,calendar</field>
     </record>
+
     <record id="action_oacis_appointment_booking" model="ir.actions.act_window">
       <field name="name">Appointment Bookings</field>
       <field name="res_model">oacis.appointment.booking</field>

@@ -26,8 +26,7 @@
                                 <field name="course_category" readonly="1"/>
                                 <field name="course_type" readonly="1"/>
                                 <field name="is_elective"/>
-                                <field name="elective_group"
-                                       invisible="not is_elective"/>
+                                <field name="elective_group" invisible="not is_elective"/>
                                 <field name="is_mandatory"/>
                             </group>
                         </group>
@@ -68,12 +67,9 @@
                     <field name="curriculum_id"/>
                     <field name="course_id"/>
                     <group name="group_by">
-                        <filter name="group_by_curriculum" string="Curriculum"
-                                context="{'group_by': 'curriculum_id'}"/>
-                        <filter name="group_by_semester" string="Semester Number"
-                                context="{'group_by': 'semester_number'}"/>
-                        <filter name="group_by_category" string="Course Category"
-                                context="{'group_by': 'course_category'}"/>
+                        <filter name="group_by_curriculum" string="Curriculum" context="{'group_by': 'curriculum_id'}"/>
+                        <filter name="group_by_semester" string="Semester Number" context="{'group_by': 'semester_number'}"/>
+                        <filter name="group_by_category" string="Course Category" context="{'group_by': 'course_category'}"/>
                     </group>
                 </search>
             </field>

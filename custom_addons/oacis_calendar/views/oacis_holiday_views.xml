@@ -70,17 +70,12 @@
                 <field name="name"/>
                 <field name="academic_year_id"/>
                 <field name="holiday_type"/>
-                <filter name="filter_affects_attendance" string="Affects Attendance"
-                        domain="[('affects_attendance', '=', True)]"/>
-                <filter name="filter_compensatory" string="Compensatory Required"
-                        domain="[('is_compensatory', '=', True)]"/>
+                <filter name="filter_affects_attendance" string="Affects Attendance" domain="[('affects_attendance', '=', True)]"/>
+                <filter name="filter_compensatory" string="Compensatory Required" domain="[('is_compensatory', '=', True)]"/>
                 <group name="groupby">
-                    <filter name="groupby_type" string="Holiday Type"
-                            context="{'group_by': 'holiday_type'}"/>
-                    <filter name="groupby_year" string="Academic Year"
-                            context="{'group_by': 'academic_year_id'}"/>
-                    <filter name="groupby_semester" string="Semester"
-                            context="{'group_by': 'semester_id'}"/>
+                    <filter name="groupby_type" string="Holiday Type" context="{'group_by': 'holiday_type'}"/>
+                    <filter name="groupby_year" string="Academic Year" context="{'group_by': 'academic_year_id'}"/>
+                    <filter name="groupby_semester" string="Semester" context="{'group_by': 'semester_id'}"/>
                 </group>
             </search>
         </field>

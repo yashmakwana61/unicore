@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Admission Applicant: show the linked fee invoices + manual regenerate -->
+    <record id="admission_applicant_fee_views_ext" model="ir.ui.view">
+        <field name="name">oacis.admission.applicant.form.fees.bridge</field>
+        <field name="model">oacis.admission.applicant</field>
+        <field name="inherit_id" ref="oacis_admission.admission_applicant_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']/button[@name='action_open_offer_letters']" position="after">
+                <button name="action_open_fee_invoices" type="object" class="oe_stat_button" icon="fa-money-bill-wave">
+                    <field string="Fee Invoices" name="fee_invoice_count" widget="statinfo"/>
+                </button>
+            </xpath>
+            <xpath expr="//button[@name='action_confirm_admission']" position="before">
+                <button name="action_generate_fee_invoice" type="object" string="Generate Fee Invoice" invisible="state != 'fee_pending'" class="btn-secondary"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

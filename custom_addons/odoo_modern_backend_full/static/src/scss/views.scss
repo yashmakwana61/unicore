@@ -1,0 +1,288 @@
+/* Control Panel & Breadcrumbs */
+.o_modern_backend .o_control_panel {
+  padding: 14px 20px 10px;
+  background: transparent;
+  border-bottom: 0;
+  gap: 12px;
+}
+
+.o_modern_backend .o_breadcrumb {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.o_modern_backend .o_breadcrumb .breadcrumb-item.active {
+  color: var(--ob-text);
+  font-weight: 700;
+}
+
+.o_modern_backend .o_breadcrumb .breadcrumb-item a {
+  color: var(--ob-text-muted);
+  text-decoration: none;
+}
+
+.o_modern_backend .o_breadcrumb .breadcrumb-item a:hover {
+  color: var(--ob-primary-strong);
+}
+
+/* Search View */
+.o_modern_backend .o_searchview {
+  min-height: 38px;
+  border: 1px solid var(--ob-border);
+  border-radius: var(--ob-radius-sm);
+  background: var(--ob-surface);
+  padding: 3px 8px;
+  box-shadow: var(--ob-shadow-xs);
+  transition: border-color var(--ob-transition-fast), box-shadow var(--ob-transition-fast);
+}
+
+.o_modern_backend .o_searchview:focus-within {
+  border-color: var(--ob-primary);
+  box-shadow: 0 0 0 3px var(--ob-primary-glow);
+}
+
+.o_modern_backend .o_searchview .o_searchview_facet {
+  border-radius: calc(var(--ob-radius-sm) - 4px);
+  background: var(--ob-primary-soft);
+  color: var(--ob-primary-strong);
+  border: 1px solid color-mix(in srgb, var(--ob-primary) 20%, transparent);
+  margin: 2px 4px 2px 0;
+  padding: 2px 6px;
+}
+
+.o_modern_backend .o_searchview .o_searchview_facet .o_searchview_facet_label {
+  background: var(--ob-primary-strong);
+  color: #ffffff;
+  border-radius: 3px;
+  padding: 1px 4px;
+}
+
+/* View Containers (List, Form, Kanban) */
+.o_modern_backend .o_list_view,
+.o_modern_backend .o_form_view,
+.o_modern_backend .o_kanban_view {
+  background: var(--ob-surface);
+  border: 1px solid var(--ob-border);
+  border-radius: var(--ob-radius-lg);
+  margin: 4px 18px 18px;
+  overflow: hidden;
+  box-shadow: var(--ob-shadow-xs);
+}
+
+/* List View */
+.o_modern_backend .o_list_table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.o_modern_backend .o_list_table thead th {
+  background: var(--ob-surface-muted);
+  color: var(--ob-text-soft);
+  text-transform: uppercase;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid var(--ob-border);
+  padding: 10px var(--ob-row-pad);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.o_modern_backend .o_list_table tbody td {
+  padding: var(--ob-row-pad);
+  border-bottom: 1px solid var(--ob-border-subtle);
+  border-top: 0;
+  color: var(--ob-text);
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.o_modern_backend .o_list_table tbody tr {
+  transition: background var(--ob-transition-fast);
+}
+
+.o_modern_backend .o_list_table tbody tr:hover {
+  background: color-mix(in srgb, var(--ob-primary) 4%, var(--ob-surface));
+}
+
+.o_modern_backend .o_list_table tbody tr.o_data_row_selected {
+  background: var(--ob-primary-soft) !important;
+}
+
+/* Form View */
+.o_modern_backend .o_form_sheet_bg {
+  background: var(--ob-bg) !important;
+  border: 0;
+  padding: 16px 0;
+}
+
+.o_modern_backend .o_form_view .o_form_sheet {
+  margin: 0 auto;
+  max-width: 1200px;
+  border: 1px solid var(--ob-border);
+  box-shadow: var(--ob-shadow-sm);
+  border-radius: var(--ob-radius-lg);
+  padding: var(--ob-panel-pad);
+  background: var(--ob-surface);
+}
+
+.o_modern_backend .o_form_statusbar {
+  background: var(--ob-surface-muted);
+  border-bottom: 1px solid var(--ob-border);
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.o_modern_backend .o_form_statusbar .o_statusbar_status {
+  margin-left: auto;
+  display: flex;
+  gap: 4px;
+}
+
+.o_modern_backend .o_form_statusbar .o_arrow_button {
+  border-radius: var(--ob-radius-sm);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  transition: all var(--ob-transition-fast);
+}
+
+.o_modern_backend .o_form_statusbar .o_arrow_button.btn-primary.disabled,
+.o_modern_backend .o_form_statusbar .o_arrow_button.disabled {
+  background: var(--ob-primary-soft) !important;
+  color: var(--ob-primary-strong) !important;
+  border: 1px solid color-mix(in srgb, var(--ob-primary) 30%, transparent) !important;
+  font-weight: 700;
+}
+
+/* Notebook Tabs */
+.o_modern_backend .o_form_view .o_notebook .nav-tabs {
+  border-bottom: 1px solid var(--ob-border);
+  gap: 8px;
+  padding: 0 4px;
+}
+
+.o_modern_backend .o_form_view .o_notebook .nav-link {
+  border: 0;
+  color: var(--ob-text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: var(--ob-radius-sm) var(--ob-radius-sm) 0 0;
+  transition: color var(--ob-transition-fast), background var(--ob-transition-fast);
+  position: relative;
+}
+
+.o_modern_backend .o_form_view .o_notebook .nav-link:hover {
+  color: var(--ob-text);
+  background: var(--ob-surface-muted);
+}
+
+.o_modern_backend .o_form_view .o_notebook .nav-link.active {
+  color: var(--ob-primary-strong);
+  font-weight: 700;
+  background: transparent;
+}
+
+.o_modern_backend .o_form_view .o_notebook .nav-link.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--ob-primary);
+  border-radius: 2px 2px 0 0;
+}
+
+/* Kanban View */
+.o_modern_backend .o_kanban_renderer {
+  padding: 16px;
+  gap: 14px;
+  background: var(--ob-surface-muted);
+}
+
+.o_modern_backend .o_kanban_header {
+  padding: 6px 8px 10px;
+}
+
+.o_modern_backend .o_kanban_header_title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ob-text);
+}
+
+.o_modern_backend .o_kanban_record {
+  border: 1px solid var(--ob-border);
+  border-radius: var(--ob-radius-md);
+  background: var(--ob-surface);
+  box-shadow: var(--ob-shadow-xs);
+  padding: 12px;
+  margin-bottom: 10px;
+  transition: transform var(--ob-transition-fast), box-shadow var(--ob-transition-fast), border-color var(--ob-transition-fast);
+}
+
+.o_modern_backend .o_kanban_record:hover {
+  box-shadow: var(--ob-shadow-md);
+  border-color: color-mix(in srgb, var(--ob-primary) 35%, var(--ob-border));
+  transform: translateY(-2px);
+}
+
+/* Chatter */
+.o_modern_backend .o_chatter {
+  border-left: 1px solid var(--ob-border);
+  background: var(--ob-surface);
+}
+
+.o_modern_backend .o_ChatterTopbar {
+  border-bottom: 1px solid var(--ob-border);
+  padding: 8px 12px;
+}
+
+.o_modern_backend .o-mail-Message {
+  border-radius: var(--ob-radius-sm);
+  margin: 6px 12px;
+  padding: 10px 14px;
+  background: var(--ob-surface-muted);
+  border: 1px solid var(--ob-border);
+}
+
+.o_modern_backend .o-mail-Composer {
+  border: 1px solid var(--ob-border);
+  border-radius: var(--ob-radius-md);
+  background: var(--ob-surface);
+  overflow: hidden;
+  box-shadow: var(--ob-shadow-xs);
+}
+
+/* Form Field Badges & Tags */
+.o_modern_backend .o_field_widget.o_field_many2many_tags .badge {
+  border-radius: 99px;
+  font-weight: 600;
+  padding: 3px 8px;
+  font-size: 11px;
+}
+
+/* Modal Dialogs */
+.o_modern_backend .modal-content {
+  border: 1px solid var(--ob-border);
+  border-radius: var(--ob-radius-lg);
+  background: var(--ob-surface);
+  box-shadow: var(--ob-shadow-lg);
+  overflow: hidden;
+}
+
+.o_modern_backend .modal-header {
+  border-bottom: 1px solid var(--ob-border);
+  padding: 16px 22px;
+  background: var(--ob-surface);
+}
+
+.o_modern_backend .modal-footer {
+  border-top: 1px solid var(--ob-border);
+  padding: 14px 22px;
+  background: var(--ob-surface-muted);
+}

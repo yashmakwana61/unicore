@@ -21,7 +21,7 @@
             <group name="submission_identity" string="Submission">
               <group>
                 <field name="assignment_id"/>
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="enrollment_id" readonly="1"/>
               </group>
               <group>
@@ -100,7 +100,7 @@
       <field name="model">oacis.assignment.submission</field>
       <field name="arch" type="xml">
         <list string="Submissions">
-          <field name="student_id"/>
+          <field name="student_id" widget="many2one_avatar"/>
           <field name="assignment_id"/>
           <field name="course_id" optional="hide"/>
           <field name="submission_date"/>
@@ -122,7 +122,7 @@
       <field name="model">oacis.assignment.submission</field>
       <field name="arch" type="xml">
         <search string="Submissions">
-          <field name="student_id"/>
+          <field name="student_id" widget="many2one_avatar"/>
           <field name="assignment_id"/>
           <field name="course_id"/>
           <filter name="submission_pending" string="Pending Grading" domain="[('state', 'in', ['submitted','late'])]"/>

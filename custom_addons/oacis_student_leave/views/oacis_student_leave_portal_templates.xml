@@ -5,13 +5,9 @@
   <!-- PORTAL HOME — Add Leave Requests link to /my/ page     -->
   <!-- ===================================================== -->
 
-  <template id="portal_my_home_oacis_leave"
-            name="Oacis Leave Portal Home"
-            inherit_id="portal.portal_my_home"
-            priority="31">
-    <xpath expr="//div[hasclass('o_portal_docs')]"
-           position="inside">
-      <t t-if="oacis_is_student or oacis_is_guardian" t-call="portal.portal_docs_entry">
+  <template id="portal_my_home_oacis_leave" name="Oacis Leave Portal Home" inherit_id="portal.portal_my_home" priority="31">
+    <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+      <t t-call="portal.portal_docs_entry">
         <t t-set="icon">/web/image/oacis_portal_student/static/src/img/icon_portal.png</t>
         <t t-set="title">Leave Requests</t>
         <t t-set="url">/my/oacis/student/leave</t>
@@ -26,14 +22,9 @@
   <!-- SIDEBAR — Add Leave Requests to student portal sidebar -->
   <!-- ===================================================== -->
 
-  <template id="portal_student_layout_leave_nav"
-            name="Student Portal Leave Nav"
-            inherit_id="oacis_portal_student.portal_student_layout">
-    <xpath expr="//a[@href='/my/oacis/student/results']"
-           position="after">
-      <a class="nav-link oacis-nav-item"
-         t-att-class="'active' if page_name in ('student_leave_requests', 'student_leave_request_new', 'student_leave_request_detail') else ''"
-         href="/my/oacis/student/leave">
+  <template id="portal_student_layout_leave_nav" name="Student Portal Leave Nav" inherit_id="oacis_portal_student.portal_student_layout">
+    <xpath expr="//a[@href='/my/oacis/student/results']" position="after">
+      <a class="nav-link oacis-nav-item" t-att-class="'active' if page_name in ('student_leave_requests', 'student_leave_request_new', 'student_leave_request_detail') else ''" href="/my/oacis/student/leave">
         <i class="fa fa-calendar-times-o fa-fw"></i>
         <span>Leave Requests</span>
       </a>
@@ -44,28 +35,25 @@
   <!-- LEAVE REQUESTS LIST                                    -->
   <!-- ===================================================== -->
 
-  <template id="portal_leave_request_list"
-            name="Portal Leave Requests List">
+  <template id="portal_leave_request_list" name="Portal Leave Requests List">
     <t t-call="portal.portal_layout">
 
       <!-- Page Header -->
       <div class="container py-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h3 class="mb-0">
-            <i class="fa fa-calendar-times-o me-2"/>
+            <i class="fa fa-calendar-times-o me-2" title="Calendar Times O"/>
             Leave Requests
           </h3>
-          <a href="/my/oacis/student/leave/new"
-             class="btn btn-primary">
-            <i class="fa fa-plus me-1"/>
+          <a href="/my/oacis/student/leave/new" class="btn btn-primary">
+            <i class="fa fa-plus me-1" title="Add"/>
             New Leave Request
           </a>
         </div>
 
         <!-- Empty State -->
-        <div t-if="not leave_requests"
-             class="text-center py-5">
-          <i class="fa fa-calendar-times-o fa-3x text-muted mb-3"/>
+        <div t-if="not leave_requests" class="text-center py-5">
+          <i class="fa fa-calendar-times-o fa-3x text-muted mb-3" title="Calendar Times O"/>
           <h5 class="text-muted">No leave requests yet</h5>
           <p class="text-muted">
             Submit a leave request using the button above.
@@ -81,28 +69,20 @@
                   <div class="d-flex justify-content-between align-items-start">
                     <div>
                       <h5 class="card-title mb-1">
-                        <a t-attf-href="/my/oacis/student/leave/{{ lr.id }}"
-                           class="text-decoration-none">
+                        <a t-attf-href="/my/oacis/student/leave/{{ lr.id }}" class="text-decoration-none">
                           <span t-esc="lr.name"/>
                         </a>
                       </h5>
                       <p class="text-muted mb-2">
-                        <i class="fa fa-user me-1"/>
+                        <i class="fa fa-user me-1" title="User"/>
                         <span t-esc="lr.student_id.display_name"/>
-                        <span t-if="lr.submitted_by == 'guardian'"
-                              class="badge bg-info ms-2">
+                        <span t-if="lr.submitted_by == 'guardian'" class="badge bg-info ms-2">
                           Submitted by guardian
                         </span>
                       </p>
                     </div>
                     <div>
-                      <span class="badge"
-                            t-att-class="{
-                                'bg-success': lr.state == 'approved',
-                                'bg-danger': lr.state == 'rejected',
-                                'bg-warning text-dark': lr.state == 'submitted',
-                                'bg-secondary': lr.state in ('draft', 'cancelled'),
-                            }">
+                      <span class="badge">
                         <t t-esc="lr.state.replace('_', ' ').title()"/>
                       </span>
                     </div>
@@ -110,7 +90,7 @@
                   <div class="row mt-2">
                     <div class="col-sm-4">
                       <small class="text-muted">
-                        <i class="fa fa-calendar me-1"/>Dates:
+                        <i class="fa fa-calendar me-1" title="Calendar"/>Dates:
                       </small>
                       <br/>
                       <span t-esc="lr.date_from"/>
@@ -120,11 +100,11 @@
                     </div>
                     <div class="col-sm-8">
                       <small class="text-muted">
-                        <i class="fa fa-info-circle me-1"/>Reason:
+                        <i class="fa fa-info-circle me-1" title="Info Circle"/>Reason:
                       </small>
                       <br/>
                       <span t-esc="lr.reason[:120]"/>
-                      <span t-if="len(lr.reason) > 120">...</span>
+                      <span > 120">...</span>
                     </div>
                   </div>
                 </div>
@@ -140,63 +120,51 @@
   <!-- NEW LEAVE REQUEST FORM                                 -->
   <!-- ===================================================== -->
 
-  <template id="portal_leave_request_form"
-            name="Portal Leave Request Form">
+  <template id="portal_leave_request_form" name="Portal Leave Request Form">
     <t t-call="portal.portal_layout">
       <div class="container py-4">
         <div class="row justify-content-center">
           <div class="col-lg-8">
             <h3 class="mb-4">
-              <i class="fa fa-plus me-2"/>
+              <i class="fa fa-plus me-2" title="Add"/>
               New Leave Request
             </h3>
 
             <!-- Error Alert -->
-            <div t-if="error"
-                 class="alert alert-danger alert-dismissible fade show"
-                 role="alert">
-              <i class="fa fa-exclamation-triangle me-2"/>
+            <div t-if="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+              <i class="fa fa-exclamation-triangle me-2" title="Exclamation Triangle"/>
               <span t-esc="error"/>
-              <button type="button" class="btn-close"
-                      data-bs-dismiss="alert"
-                      aria-label="Close"/>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"/>
             </div>
 
             <div class="card">
               <div class="card-body">
-                <form method="post"
-                      action="/my/oacis/student/leave/submit"
-                      enctype="multipart/form-data">
+                <form method="post" action="/my/oacis/student/leave/submit" enctype="multipart/form-data">
 
-                  <input type="hidden" name="csrf_token"
-                         t-att-value="request.csrf_token()"/>
+                  <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
 
                   <!-- Student Selection (guardian only) -->
-                  <div t-if="guardian and len(available_students) > 1"
+                  <div > 1"
                        class="mb-3">
                     <label for="student_id" class="form-label fw-bold">
                       Select Student *
                     </label>
-                    <select name="student_id" id="student_id"
-                            class="form-select" required="required">
+                    <select name="student_id" id="student_id" class="form-select" required="required">
                       <option value="">-- Select Student --</option>
                       <t t-foreach="available_students" t-as="s">
-                        <option t-att-value="s.id"
-                                t-esc="s.display_name"/>
+                        <option t-att-value="s.id" t-esc="s.display_name"/>
                       </t>
                     </select>
                   </div>
 
                   <!-- Hidden student field if only one student -->
                   <div t-if="student">
-                    <input type="hidden" name="student_id"
-                           t-att-value="student.id"/>
+                    <input type="hidden" name="student_id" t-att-value="student.id"/>
                   </div>
 
                   <!-- Hidden student field if guardian with 1 ward -->
                   <div t-if="guardian and len(available_students) == 1">
-                    <input type="hidden" name="student_id"
-                           t-att-value="available_students[0].id"/>
+                    <input type="hidden" name="student_id" t-att-value="available_students[0].id"/>
                   </div>
 
                   <!-- Date Fields -->
@@ -205,19 +173,13 @@
                       <label for="date_from" class="form-label fw-bold">
                         Leave Start Date *
                       </label>
-                      <input type="date" name="date_from"
-                             id="date_from"
-                             class="form-control"
-                             required="required"/>
+                      <input type="date" name="date_from" id="date_from" class="form-control" required="required"/>
                     </div>
                     <div class="col-md-6">
                       <label for="date_to" class="form-label fw-bold">
                         Leave End Date *
                       </label>
-                      <input type="date" name="date_to"
-                             id="date_to"
-                             class="form-control"
-                             required="required"/>
+                      <input type="date" name="date_to" id="date_to" class="form-control" required="required"/>
                     </div>
                   </div>
 
@@ -226,22 +188,15 @@
                     <label for="reason" class="form-label fw-bold">
                       Reason for Leave *
                     </label>
-                    <textarea name="reason" id="reason"
-                              class="form-control" rows="4"
-                              placeholder="Please describe the reason for your leave request..."
-                              required="required"/>
+                    <textarea name="reason" id="reason" class="form-control" rows="4" placeholder="Please describe the reason for your leave request..." required="required"/>
                   </div>
 
                   <!-- Supporting Document -->
                   <div class="mb-3">
-                    <label for="supporting_document"
-                           class="form-label fw-bold">
+                    <label for="supporting_document" class="form-label fw-bold">
                       Supporting Document (optional)
                     </label>
-                    <input type="file"
-                           name="supporting_document"
-                           id="supporting_document"
-                           class="form-control"/>
+                    <input type="file" name="supporting_document" id="supporting_document" class="form-control"/>
                     <small class="text-muted">
                       Upload any supporting documents
                       (medical certificate, etc.)
@@ -250,13 +205,11 @@
 
                   <!-- Submit -->
                   <div class="d-flex justify-content-end">
-                    <a href="/my/oacis/student/leave"
-                       class="btn btn-secondary me-2">
+                    <a href="/my/oacis/student/leave" class="btn btn-secondary me-2">
                       Cancel
                     </a>
-                    <button type="submit"
-                            class="btn btn-primary">
-                      <i class="fa fa-paper-plane me-1"/>
+                    <button type="submit" class="btn btn-primary">
+                      <i class="fa fa-paper-plane me-1" title="Paper Plane"/>
                       Submit Leave Request
                     </button>
                   </div>
@@ -273,17 +226,15 @@
   <!-- LEAVE REQUEST DETAIL                                   -->
   <!-- ===================================================== -->
 
-  <template id="portal_leave_request_detail"
-            name="Portal Leave Request Detail">
+  <template id="portal_leave_request_detail" name="Portal Leave Request Detail">
     <t t-call="portal.portal_layout">
       <div class="container py-4">
         <div class="row justify-content-center">
           <div class="col-lg-8">
 
             <!-- Back Link -->
-            <a href="/my/oacis/student/leave"
-               class="text-decoration-none mb-3 d-inline-block">
-              <i class="fa fa-arrow-left me-1"/>
+            <a href="/my/oacis/student/leave" class="text-decoration-none mb-3 d-inline-block">
+              <i class="fa fa-arrow-left me-1" title="Arrow Left"/>
               Back to Leave Requests
             </a>
 
@@ -291,7 +242,7 @@
             <div class="d-flex justify-content-between align-items-start mb-4">
               <div>
                 <h3 class="mb-1">
-                  <i class="fa fa-file-text me-2"/>
+                  <i class="fa fa-file-text me-2" title="File Text"/>
                   <span t-esc="leave_request.name"/>
                 </h3>
                 <p class="text-muted mb-0">
@@ -302,13 +253,7 @@
                 </p>
               </div>
               <div>
-                <span class="badge fs-6"
-                      t-att-class="{
-                          'bg-success': leave_request.state == 'approved',
-                          'bg-danger': leave_request.state == 'rejected',
-                          'bg-warning text-dark': leave_request.state == 'submitted',
-                          'bg-secondary': leave_request.state in ('draft', 'cancelled'),
-                      }">
+                <span class="badge fs-6">
                   <t t-esc="leave_request.state.replace('_', ' ').title()"/>
                 </span>
               </div>
@@ -323,21 +268,19 @@
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label class="form-label text-muted">
-                      <i class="fa fa-calendar me-1"/>Leave Start Date
+                      <i class="fa fa-calendar me-1" title="Calendar"/>Leave Start Date
                     </label>
-                    <p class="fw-bold mb-0"
-                       t-esc="leave_request.date_from"/>
+                    <p class="fw-bold mb-0" t-esc="leave_request.date_from"/>
                   </div>
                   <div class="col-md-6 mb-3">
                     <label class="form-label text-muted">
-                      <i class="fa fa-calendar me-1"/>Leave End Date
+                      <i class="fa fa-calendar me-1" title="Calendar"/>Leave End Date
                     </label>
-                    <p class="fw-bold mb-0"
-                       t-esc="leave_request.date_to"/>
+                    <p class="fw-bold mb-0" t-esc="leave_request.date_to"/>
                   </div>
                   <div class="col-md-6 mb-3">
                     <label class="form-label text-muted">
-                      <i class="fa fa-clock-o me-1"/>Duration
+                      <i class="fa fa-clock-o me-1" title="Time"/>Duration
                     </label>
                     <p class="fw-bold mb-0">
                       <span t-esc="leave_request.leave_duration"/>
@@ -346,12 +289,11 @@
                   </div>
                   <div class="col-md-6 mb-3">
                     <label class="form-label text-muted">
-                      <i class="fa fa-user me-1"/>Submitted By
+                      <i class="fa fa-user me-1" title="User"/>Submitted By
                     </label>
                     <p class="fw-bold mb-0">
                       <t t-esc="leave_request.submitted_by.replace('_', ' ').title()"/>
-                      <span t-if="leave_request.guardian_id"
-                            class="ms-1">
+                      <span t-if="leave_request.guardian_id" class="ms-1">
                         (<span t-esc="leave_request.guardian_id.display_name"/>)
                       </span>
                     </p>
@@ -360,17 +302,15 @@
                 <hr/>
                 <div class="mb-0">
                   <label class="form-label text-muted">
-                    <i class="fa fa-info-circle me-1"/>Reason
+                    <i class="fa fa-info-circle me-1" title="Info Circle"/>Reason
                   </label>
-                  <p class="mb-0"
-                     t-esc="leave_request.reason"/>
+                  <p class="mb-0" t-esc="leave_request.reason"/>
                 </div>
               </div>
             </div>
 
             <!-- Supporting Document -->
-            <div t-if="leave_request.supporting_document"
-                 class="card mb-4">
+            <div t-if="leave_request.supporting_document" class="card mb-4">
               <div class="card-header">
                 <h5 class="card-title mb-0">
                   Supporting Document
@@ -378,15 +318,14 @@
               </div>
               <div class="card-body">
                 <p>
-                  <i class="fa fa-paperclip me-2"/>
+                  <i class="fa fa-paperclip me-2" title="Paperclip"/>
                   <span t-esc="leave_request.supporting_document_name or 'Document'"/>
                 </p>
               </div>
             </div>
 
             <!-- Approval Information -->
-            <div t-if="leave_request.state in ('approved', 'rejected')"
-                 class="card mb-4">
+            <div t-if="leave_request.state in ('approved', 'rejected')" class="card mb-4">
               <div class="card-header">
                 <h5 class="card-title mb-0">Decision</h5>
               </div>
@@ -394,25 +333,22 @@
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label class="form-label text-muted">
-                      <i class="fa fa-user me-1"/>Reviewed By
+                      <i class="fa fa-user me-1" title="User"/>Reviewed By
                     </label>
-                    <p class="fw-bold mb-0"
-                       t-esc="leave_request.approver_id.name or 'N/A'"/>
+                    <p class="fw-bold mb-0" t-esc="leave_request.approver_id.name or 'N/A'"/>
                   </div>
                   <div class="col-md-6 mb-3">
                     <label class="form-label text-muted">
-                      <i class="fa fa-calendar me-1"/>Decision Date
+                      <i class="fa fa-calendar me-1" title="Calendar"/>Decision Date
                     </label>
-                    <p class="fw-bold mb-0"
-                       t-esc="leave_request.approval_date or 'N/A'"/>
+                    <p class="fw-bold mb-0" t-esc="leave_request.approval_date or 'N/A'"/>
                   </div>
                 </div>
                 <div t-if="leave_request.approval_notes">
                   <label class="form-label text-muted">
-                    <i class="fa fa-sticky-note me-1"/>Notes
+                    <i class="fa fa-sticky-note me-1" title="Sticky Note"/>Notes
                   </label>
-                  <p class="mb-0"
-                     t-esc="leave_request.approval_notes"/>
+                  <p class="mb-0" t-esc="leave_request.approval_notes"/>
                 </div>
               </div>
             </div>

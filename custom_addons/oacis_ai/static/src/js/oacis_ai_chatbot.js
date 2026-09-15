@@ -6,6 +6,8 @@ import { rpc } from "@web/core/network/rpc";
 
 // ─────────────────────────────────────────────────────────────────
 //  Oacis AI Chatbot — systray icon + slide-out panel
+//  Features: history, prompt templates, record grounding,
+//  copy buttons, feedback, per-role suggestions.
 // ─────────────────────────────────────────────────────────────────
 export class OacisAIChatbot extends Component {
     static template = "oacis_ai.ChatbotSystray";
@@ -18,10 +20,21 @@ export class OacisAIChatbot extends Component {
             showHistory: false,
             messages: [],
             sessions: [],
+            prompts: [],
             currentSessionId: null,
+            searchText: "",
         });
         this.messagesRef = useRef("messagesContainer");
         this.inputRef = useRef("inputArea");
+        onMounted(() => this.loadPrompts());
+    }
+
+    get filteredSessions() {
+        const q = (this.state.searchText || "").toLowerCase();
+        if (!q) return this.state.sessions;
+        return this.state.sessions.filter((s) =>
+            (s.title || "").toLowerCase().includes(q)
+        );
     }
 
     // ── helpers ──────────────────────────────────────────────────
@@ -34,23 +47,92 @@ export class OacisAIChatbot extends Component {
         }
     }
 
-    formatMessage(content) {
-        if (!content) return "";
-        let html = content
+    escapeHtml(s) {
+        return (s || "")
             .replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/```([\s\S]*?)```/g, '<pre class="o_oacis_ai_code">$1</pre>')
+            .replace(/>/g, "&gt;");
+    }
+
+    formatMessage(content) {
+        if (!content) return "";
+        // 1. Extract code blocks first (protect from other transforms)
+        const codeBlocks = [];
+        let html = this.escapeHtml(content);
+        html = html.replace(/```([\s\S]*?)```/g, (m, code) => {
+            codeBlocks.push(
+                `<pre class="o_oacis_ai_code">${code.replace(/^\n+|\n+$/g, "")}</pre>`
+            );
+            return `\u0000CODE${codeBlocks.length - 1}\u0000`;
+        });
+        // 2. Inline code, bold, italic
+        html = html
             .replace(/`([^`]+)`/g, "<code>$1</code>")
             .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-            .replace(/\*(.+?)\*/g, "<em>$1</em>")
-            .replace(/\n/g, "<br/>");
+            .replace(/(^|\W)\*(.+?)\*/g, "$1<em>$2</em>");
+        // 3. Headings (###, ##, #)
+        html = html
+            .replace(/^### (.+)$/gm, "<h5>$1</h5>")
+            .replace(/^## (.+)$/gm, "<h4>$1</h4>")
+            .replace(/^# (.+)$/gm, "<h4>$1</h4>");
+        // 4. Lists: "- " / "* " / "1. "
+        html = html.replace(
+            /((?:^(?:- |\* |\d+\. ).+$\n?)+)/gm,
+            (block) => {
+                const items = block
+                    .trim()
+                    .split("\n")
+                    .map((line) =>
+                        `<li>${line.replace(/^(?:- |\* |\d+\. )/, "")}</li>`
+                    )
+                    .join("");
+                return `<ul>${items}</ul>`;
+            }
+        );
+        // 5. Line breaks
+        html = html.replace(/\n/g, "<br/>");
+        // 6. Restore code blocks
+        html = html.replace(/\u0000CODE(\d+)\u0000/g, (m, i) => codeBlocks[+i]);
         return markup(html);
+    }
+
+    async copyText(text) {
+        try {
+            await navigator.clipboard.writeText(text || "");
+        } catch {
+            const ta = document.createElement("textarea");
+            ta.value = text || "";
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand("copy");
+            ta.remove();
+        }
+    }
+
+    currentRecordContext() {
+        // Best-effort: read current record from URL hash (#id=..&model=..&view_type=form).
+        try {
+            const hash = window.location.hash || "";
+            const idMatch = hash.match(/[?&]id=(\d+)/);
+            const modelMatch = hash.match(/[?&]model=([\w.]+)/);
+            if (idMatch && modelMatch) {
+                return {
+                    res_model: decodeURIComponent(modelMatch[1]),
+                    res_id: parseInt(idMatch[1], 10),
+                };
+            }
+        } catch {
+            // ignore — grounding is optional
+        }
+        return {};
     }
 
     // ── panel visibility ────────────────────────────────────────
     togglePanel() {
         this.state.isOpen = !this.state.isOpen;
+        if (this.state.isOpen) {
+            this.loadPrompts();
+        }
     }
 
     // ── session management ──────────────────────────────────────
@@ -63,6 +145,14 @@ export class OacisAIChatbot extends Component {
 
     async loadSessions() {
         this.state.sessions = await rpc("/oacis_ai/chat/sessions", {});
+    }
+
+    async loadPrompts() {
+        try {
+            this.state.prompts = await rpc("/oacis_ai/chat/prompts", {});
+        } catch {
+            this.state.prompts = [];
+        }
     }
 
     async loadSession(sessionId) {
@@ -93,11 +183,34 @@ export class OacisAIChatbot extends Component {
         this.state.showHistory = !this.state.showHistory;
     }
 
+    async sendFeedback(msg, rating) {
+        if (!msg.id) return;
+        try {
+            await rpc("/oacis_ai/chat/feedback", {
+                message_id: msg.id,
+                rating,
+            });
+            msg.rating = rating;
+        } catch {
+            // non-blocking
+        }
+    }
+
     // ── messaging ───────────────────────────────────────────────
     async sendSuggestion(text) {
-        // Set the text and send
-        this.state._pendingSuggestion = text;
         await this._doSend(text);
+    }
+
+    async askAboutRecord() {
+        const ctx = this.currentRecordContext();
+        if (!ctx.res_model) {
+            await this._doSend("Summarize what you can help me with.");
+            return;
+        }
+        await this._doSend(
+            `Summarize this ${ctx.res_model} record (id ${ctx.res_id}) in 5 bullet points.`,
+            ctx
+        );
     }
 
     async sendMessage() {
@@ -108,7 +221,7 @@ export class OacisAIChatbot extends Component {
         await this._doSend(text);
     }
 
-    async _doSend(text) {
+    async _doSend(text, recordCtx = null) {
         // Create session lazily
         if (!this.state.currentSessionId) {
             const res = await rpc("/oacis_ai/chat/new_session", {});
@@ -121,9 +234,12 @@ export class OacisAIChatbot extends Component {
         this.scrollToBottom();
 
         try {
+            const ctx = recordCtx || this.currentRecordContext();
             const res = await rpc("/oacis_ai/chat/send", {
                 session_id: this.state.currentSessionId,
                 message: text,
+                res_model: ctx.res_model || null,
+                res_id: ctx.res_id || null,
             });
             if (res.error) {
                 this.state.messages = [

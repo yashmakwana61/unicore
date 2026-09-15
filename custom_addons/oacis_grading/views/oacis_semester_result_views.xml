@@ -15,7 +15,7 @@
           <widget name="web_ribbon" title="Withheld" invisible="result_status != 'withheld'" bg_color="text-bg-danger"/>
           <group>
             <group string="Result Details">
-              <field name="student_id"/>
+              <field name="student_id" widget="many2one_avatar"/>
               <field name="semester_id"/>
               <field name="company_id"/>
               <field name="result_status" widget="badge"/>
@@ -45,7 +45,7 @@
     <field name="model">oacis.semester.result</field>
     <field name="arch" type="xml">
       <list decoration-success="result_status == 'pass'" decoration-danger="result_status == 'fail'" decoration-warning="result_status ==               'supplementary'" decoration-muted="result_status ==               'withheld'">
-        <field name="student_id"/>
+        <field name="student_id" widget="many2one_avatar"/>
         <field name="semester_id"/>
         <field name="semester_gpa"/>
         <field name="credits_attempted"/>
@@ -63,7 +63,11 @@
     <field name="model">oacis.semester.result</field>
     <field name="arch" type="xml">
       <search>
-        <field name="student_id"/>
+        <searchpanel>
+          <field name="semester_id" icon="fa-clock-o" enable_counters="1"/>
+          <field name="result_status" icon="fa-filter" select="multi" enable_counters="1"/>
+        </searchpanel>
+        <field name="student_id" widget="many2one_avatar"/>
         <field name="semester_id"/>
         <filter name="published" string="Published" domain="[('is_published','=',True)]"/>
         <filter name="pass_result" string="Pass" domain="[('result_status','=','pass')]"/>

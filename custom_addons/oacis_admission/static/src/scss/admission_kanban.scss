@@ -1,314 +1,443 @@
-// Oacis Admission Kanban View Styling
-// Custom kanban cards for the admission funnel workflow
+// // ============================================================
+// // Oacis Admission - Modern Kanban Design
+// // ============================================================
 
-:root {
-    --uc-primary: #714B67;
-    --uc-primary-dark: #5a3c53;
-    --uc-primary-light: #a671a8;
-    --uc-gray-100: #f8f9fa;
-    --uc-gray-200: #e9ecef;
-    --uc-gray-600: #6c757d;
-    --uc-success: #28a745;
-    --uc-danger: #dc3545;
-    --uc-warning: #ffc107;
-    --uc-info: #17a2b8;
-}
+// :root {
+//     --oa-kanban-bg: #eef1f5;
+//     --oa-card-bg: #ffffff;
+//     --oa-card-border: #e4e7ec;
+//     --oa-card-radius: 12px;
+//     --oa-card-shadow: 0 1px 2px rgba(16, 24, 40, 0.05), 0 1px 3px rgba(16, 24, 40, 0.08);
+//     --oa-card-shadow-hover: 0 10px 28px rgba(16, 24, 40, 0.14);
+//     --oa-text: #1d2939;
+//     --oa-text-muted: #667085;
+//     --oa-brand: #714b67;
+//     --oa-brand-dark: #5a3c53;
+// }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --uc-gray-100: #2b2d31;
-        --uc-gray-200: #383b42;
-        --uc-gray-600: #adb5bd;
-    }
-}
+// // ------------------------------------------------------------------
+// // State palette
+// // ------------------------------------------------------------------
 
-.o_kanban_view {
-    .o_kanban_header {
-        background-color: var(--uc-gray-100);
-        border-bottom: 2px solid var(--uc-primary);
+// $oa-states: (
+//     'draft': #667085,
+//     'active': #12b76a,
+//     'closed': #f79009,
+//     'archived': #d92d20,
+//     'inquiry': #98a2b3,
+//     'applied': #2e90fa,
+//     'documents_pending': #6172f3,
+//     'under_review': #15b79e,
+//     'shortlisted': #06aed4,
+//     'entrance_scheduled': #9e77ed,
+//     'merit_listed': #17b26a,
+//     'offer_sent': #1570ef,
+//     'fee_pending': #f79009,
+//     'confirmed': #12b76a,
+//     'rejected': #f04438,
+//     'withdrawn': #98a2b3,
+//     'waitlisted': #fdb022,
+// );
 
-        .o_kanban_header_title {
-            font-weight: 600;
-            color: var(--uc-primary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-    }
+// .oa_admission_kanban {
+//     @each $name, $color in $oa-states {
+//         .oa_state_#{$name} {
+//             --oa-state-color: #{$color};
+//             --oa-state-soft: #{mix(white, $color, 92%)};
+//             --oa-state-light: #{mix(white, $color, 85%)};
+//             --oa-state-dark: #{mix(black, $color, 25%)};
+//         }
+//     }
+// }
 
-    // Kanban column styling
-    .o_kanban_column {
-        background-color: var(--uc-gray-100);
-        border-radius: 4px;
+// .oa_state_placeholder {
+//     --oa-state-color: #{$primary};
+//     --oa-state-soft: #{mix(white, $primary, 92%)};
+//     --oa-state-light: #{mix(white, $primary, 85%)};
+//     --oa-state-dark: #{mix(black, $primary, 25%)};
+// }
 
-        &.o_column_folded {
-            background-color: var(--uc-gray-200);
-        }
-    }
+// // ------------------------------------------------------------------
+// // View container / renderer
+// // ------------------------------------------------------------------
 
-    // Kanban card styling
-    .oe_kanban_card {
-        background-color: white;
-        border: 1px solid var(--uc-gray-200);
-        border-radius: 6px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-        overflow: hidden;
+// .oa_admission_kanban {
+//     .o_kanban_renderer {
+//         padding: 12px;
+//         gap: 12px;
+//         background: var(--oa-kanban-bg);
+//     }
 
-        &:hover {
-            box-shadow: 0 4px 12px rgba(113, 75, 103, 0.2);
-            border-color: var(--uc-primary);
-            transform: translateY(-2px);
-        }
+//     // ------------------------------------------------------------------
+//     // Grouped columns (applicant pipeline)
+//     // ------------------------------------------------------------------
+//     .o_kanban_group {
+//         background: #f4f6f9;
+//         border: 1px solid #e9ebef;
+//         border-radius: 14px;
+//         padding: 8px;
 
-        // Card header
-        .oe_kanban_card_header {
-            background: linear-gradient(135deg, var(--uc-primary), var(--uc-primary-light));
-            color: white;
-            padding: 12px;
-            border-bottom: 2px solid var(--uc-primary-dark);
+//         .o_kanban_header {
+//             background: transparent;
+//             padding: 4px 4px 10px;
 
-            .oe_kanban_name {
-                margin: 0;
-                font-size: 14px;
-                font-weight: 600;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-        }
+//             .o_kanban_header_title {
+//                 .o_column_title {
+//                     font-size: 13px;
+//                     font-weight: 700;
+//                     color: var(--oa-text);
+//                     align-items: center;
+//                     gap: 7px;
+//                     letter-spacing: 0.1px;
 
-        // Card body
-        .oe_kanban_card_body {
-            padding: 12px;
-            font-size: 13px;
+//                     // colored dot
+//                     &::before {
+//                         content: '';
+//                         width: 8px;
+//                         height: 8px;
+//                         border-radius: 50%;
+//                         background: var(--oa-brand);
+//                         box-shadow: 0 0 0 3px var(--oa-state-soft, #{mix(white, #714b67, 90%)});
+//                         flex-shrink: 0;
+//                     }
 
-            .oe_kanban_field_line {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 8px;
-                gap: 8px;
+//                     // count pill
+//                     span:last-child {
+//                         background: #ffffff;
+//                         border: 1px solid var(--oa-card-border);
+//                         color: var(--oa-text-muted);
+//                         border-radius: 999px;
+//                         padding: 0 9px;
+//                         font-size: 11px;
+//                         font-weight: 600;
+//                         line-height: 20px;
+//                         margin-left: auto;
+//                     }
+//                 }
 
-                &:last-child {
-                    margin-bottom: 0;
-                }
+//                 .o_group_config .btn,
+//                 .o_kanban_quick_add {
+//                     color: var(--oa-text-muted);
+//                     &:hover {
+//                         color: var(--oa-brand);
+//                     }
+//                 }
+//             }
+//         }
 
-                .oe_kanban_label {
-                    font-weight: 600;
-                    color: var(--uc-gray-600);
-                    min-width: 70px;
-                }
+//         .o_kanban_record {
+//             padding: 0 0 8px;
+//         }
+//     }
+// }
 
-                .badge {
-                    font-size: 12px;
-                    padding: 4px 8px;
-                }
-            }
+// // ------------------------------------------------------------------
+// // Applicant cards
+// // ------------------------------------------------------------------
 
-            .oe_kanban_email {
-                margin-top: 8px;
-                padding-top: 8px;
-                border-top: 1px solid var(--uc-gray-200);
+// .oa_kanban_card {
+//     position: relative;
+//     display: flex;
+//     flex-direction: column;
+//     width: 100%;
+//     height: 100%;
+//     background: var(--oa-card-bg);
+//     border: 1px solid var(--oa-card-border);
+//     border-radius: var(--oa-card-radius);
+//     box-shadow: var(--oa-card-shadow);
+//     overflow: hidden;
+//     transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 
-                small {
-                    display: block;
-                    word-break: break-word;
-                }
-            }
-        }
+//     &::before {
+//         content: '';
+//         position: absolute;
+//         top: 0;
+//         left: 0;
+//         right: 0;
+//         height: 3px;
+//         background: linear-gradient(90deg, var(--oa-state-color, var(--oa-brand)), var(--oa-state-light, var(--oa-brand-dark)));
+//     }
 
-        // Card footer
-        .oe_kanban_footer {
-            padding: 8px 12px;
-            background-color: var(--uc-gray-100);
-            border-top: 1px solid var(--uc-gray-200);
-            text-align: center;
+//     &:hover {
+//         box-shadow: var(--oa-card-shadow-hover);
+//         border-color: var(--oa-state-light, var(--oa-brand));
+//         transform: translateY(-2px);
+//     }
+// }
 
-            .oe_kanban_action {
-                font-size: 12px;
-                font-weight: 600;
-                color: var(--uc-primary);
-                text-decoration: none;
-                transition: color 0.2s ease;
+// .oa_kanban_card_head {
+//     display: flex;
+//     align-items: center;
+//     gap: 10px;
+//     padding: 14px 12px 6px;
+//     min-width: 0;
+// }
 
-                &:hover {
-                    color: var(--uc-primary-dark);
-                    text-decoration: underline;
-                }
-            }
-        }
+// .oa_kanban_avatar {
+//     width: 38px;
+//     height: 38px;
+//     border-radius: 50%;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     color: #fff;
+//     font-weight: 700;
+//     font-size: 13px;
+//     letter-spacing: 0.5px;
+//     flex-shrink: 0;
+//     box-shadow: 0 1px 3px rgba(16, 24, 40, 0.2);
 
-        // State-specific card styling
-        &.oe_kanban_color_0 {
-            border-left: 4px solid var(--uc-info);
-        }
+//     &[data-color="0"] { background: linear-gradient(135deg, #714b67, #a671a8); }
+//     &[data-color="1"] { background: linear-gradient(135deg, #2e90fa, #7fc1ff); }
+//     &[data-color="2"] { background: linear-gradient(135deg, #12b76a, #6ce9a9); }
+//     &[data-color="3"] { background: linear-gradient(135deg, #f79009, #fdb022); }
+//     &[data-color="4"] { background: linear-gradient(135deg, #9e77ed, #c6b1f7); }
+//     &[data-color="5"] { background: linear-gradient(135deg, #f04438, #f88f88); }
+// }
 
-        &.oe_kanban_color_1 {
-            border-left: 4px solid var(--uc-primary);
-        }
+// .oa_kanban_head_info {
+//     flex: 1;
+//     min-width: 0;
+// }
 
-        &.oe_kanban_color_2 {
-            border-left: 4px solid var(--uc-warning);
-        }
+// .oa_kanban_name {
+//     font-weight: 700;
+//     color: var(--oa-text);
+//     font-size: 13.5px;
+//     line-height: 1.25;
+//     white-space: nowrap;
+//     overflow: hidden;
+//     text-overflow: ellipsis;
+// }
 
-        &.oe_kanban_color_3 {
-            border-left: 4px solid var(--uc-success);
-        }
+// .oa_kanban_app_no {
+//     font-size: 11px;
+//     color: var(--oa-text-muted);
+//     margin-top: 1px;
+// }
 
-        &.oe_kanban_color_4 {
-            border-left: 4px solid var(--uc-danger);
-        }
-    }
+// .oa_kanban_rank {
+//     width: 22px;
+//     height: 22px;
+//     border-radius: 50%;
+//     display: inline-flex;
+//     align-items: center;
+//     justify-content: center;
+//     font-size: 11px;
+//     font-weight: 700;
+//     background: #eef1f5;
+//     color: var(--oa-text-muted);
+//     flex-shrink: 0;
 
-    // Kanban group header styling
-    .o_kanban_group_header {
-        background-color: var(--uc-primary);
-        color: white;
-        font-weight: 600;
-        padding: 12px;
-        border-radius: 4px 4px 0 0;
-        text-transform: capitalize;
+//     &.oa_rank_top {
+//         background: #fef0c7;
+//         color: #b54708;
+//     }
+// }
 
-        .o_group_name {
-            font-size: 14px;
-        }
+// .oa_kanban_card_body {
+//     display: flex;
+//     flex-direction: column;
+//     gap: 5px;
+//     padding: 6px 12px 10px;
+//     flex: 1;
+//     min-width: 0;
+// }
 
-        .o_group_count {
-            background-color: rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-    }
+// .oa_kanban_meta {
+//     display: flex;
+//     align-items: flex-start;
+//     gap: 8px;
+//     font-size: 12px;
+//     color: var(--oa-text-muted);
+//     min-width: 0;
 
-    // Drag and drop styling
-    .oe_kanban_global_click:hover {
-        cursor: move;
-    }
+//     i {
+//         width: 14px;
+//         text-align: center;
+//         color: #98a2b3;
+//         margin-top: 2px;
+//         flex-shrink: 0;
+//     }
 
-    // Empty state styling
-    .o_kanban_column_empty {
-        min-height: 200px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+//     &.oa_kanban_program {
+//         color: var(--oa-text);
+//         font-weight: 600;
+//         font-size: 12.5px;
 
-        .o_empty_state {
-            text-align: center;
-            color: var(--uc-gray-600);
-            font-size: 13px;
-        }
-    }
+//         i {
+//             color: var(--oa-brand);
+//         }
+//     }
+// }
 
-    // Mobile responsive adjustments
-    @media (max-width: 768px) {
-        .oe_kanban_card {
-            .oe_kanban_card_header {
-                padding: 10px;
+// .oa_kanban_card_foot {
+//     display: flex;
+//     align-items: center;
+//     justify-content: space-between;
+//     gap: 8px;
+//     padding: 8px 12px;
+//     border-top: 1px solid #f2f4f7;
+//     background: #fcfcfd;
+// }
 
-                .oe_kanban_name {
-                    font-size: 13px;
-                }
-            }
+// .oa_kanban_score {
+//     display: inline-flex;
+//     align-items: baseline;
+//     gap: 5px;
 
-            .oe_kanban_card_body {
-                padding: 10px;
-                font-size: 12px;
+//     .oa_kanban_score_value {
+//         font-weight: 800;
+//         font-size: 14px;
+//         color: var(--oa-state-color, var(--oa-brand));
+//     }
 
-                .oe_kanban_field_line {
-                    margin-bottom: 6px;
-                }
-            }
+//     .oa_kanban_score_label {
+//         font-size: 10px;
+//         color: var(--oa-text-muted);
+//         text-transform: uppercase;
+//         letter-spacing: 0.4px;
+//     }
+// }
 
-            .oe_kanban_footer {
-                padding: 6px 10px;
+// .oa_kanban_state_chip {
+//     font-size: 10.5px;
+//     font-weight: 600;
+//     padding: 3px 9px;
+//     border-radius: 999px;
+//     color: var(--oa-state-dark, var(--oa-text-muted));
+//     background: var(--oa-state-soft, #eef1f5);
+//     text-transform: capitalize;
+//     white-space: nowrap;
+// }
 
-                .oe_kanban_action {
-                    font-size: 11px;
-                }
-            }
-        }
+// // ------------------------------------------------------------------
+// // Admission cycle cards (ungrouped / small cards)
+// // ------------------------------------------------------------------
 
-        .o_kanban_group_header {
-            padding: 10px;
+// .oa_cycle_card {
+//     position: relative;
+//     display: flex;
+//     flex-direction: column;
+//     width: 100%;
+//     height: 100%;
+//     background: var(--oa-card-bg);
+//     border: 1px solid var(--oa-card-border);
+//     border-radius: var(--oa-card-radius);
+//     box-shadow: var(--oa-card-shadow);
+//     overflow: hidden;
+//     transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 
-            .o_group_name {
-                font-size: 12px;
-            }
-        }
-    }
-}
+//     &::before {
+//         content: '';
+//         position: absolute;
+//         top: 0;
+//         left: 0;
+//         right: 0;
+//         height: 4px;
+//         background: linear-gradient(90deg, var(--oa-state-color, var(--oa-brand)), var(--oa-state-light, var(--oa-brand-dark)));
+//     }
 
-// Cycle-specific column colors (for admission cycles kanban)
-.o_kanban_column {
-    // Admission cycle states
-    &[data-group-by-value="draft"],
-    &[data-group-by-value="'draft'"] {
-        .o_kanban_group_header {
-            background-color: #6c757d;
-        }
-    }
+//     &:hover {
+//         box-shadow: var(--oa-card-shadow-hover);
+//         border-color: var(--oa-state-light, var(--oa-brand));
+//         transform: translateY(-2px);
+//     }
+// }
 
-    &[data-group-by-value="active"],
-    &[data-group-by-value="'active'"] {
-        .o_kanban_group_header {
-            background-color: #28a745;
-        }
-    }
+// .oa_cycle_card_top {
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//     gap: 8px;
+//     padding: 16px 12px 0;
+// }
 
-    &[data-group-by-value="closed"],
-    &[data-group-by-value="'closed'"] {
-        .o_kanban_group_header {
-            background-color: #fd7e14;
-        }
-    }
+// .oa_cycle_state_badge {
+//     font-size: 10.5px;
+//     font-weight: 600;
+//     padding: 3px 9px;
+//     border-radius: 999px;
+//     color: var(--oa-state-dark, var(--oa-text-muted));
+//     background: var(--oa-state-soft, #eef1f5);
+//     text-transform: capitalize;
+// }
 
-    &[data-group-by-value="archived"],
-    &[data-group-by-value="'archived'"] {
-        .o_kanban_group_header {
-            background-color: #dc3545;
-        }
-    }
-}
+// .oa_cycle_code {
+//     font-size: 11px;
+//     font-weight: 600;
+//     color: var(--oa-text-muted);
+//     font-family: $font-family-monospace;
+// }
 
-// Cycle cards view (non-grouped) styling
-.o_kanban_small_cards {
-    .oe_kanban_card {
-        .oe_kanban_card_header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 8px;
+// .oa_cycle_card_body {
+//     display: flex;
+//     flex-direction: column;
+//     gap: 7px;
+//     padding: 10px 12px 8px;
+//     flex: 1;
+//     min-width: 0;
+// }
 
-            .state-badge {
-                font-size: 11px;
-                font-weight: 600;
-                padding: 2px 8px;
-                border-radius: 12px;
-                text-transform: capitalize;
-                white-space: nowrap;
-                background-color: rgba(255, 255, 255, 0.3);
-                color: white;
-            }
+// .oa_cycle_name {
+//     font-weight: 700;
+//     font-size: 14px;
+//     color: var(--oa-text);
+//     line-height: 1.3;
+// }
 
-            // State-specific header colors
-            &.state-draft {
-                background: linear-gradient(135deg, #6c757d, #5a6268);
-            }
+// .oa_cycle_meta {
+//     display: flex;
+//     align-items: flex-start;
+//     gap: 8px;
+//     font-size: 12px;
+//     color: var(--oa-text-muted);
+//     min-width: 0;
 
-            &.state-active {
-                background: linear-gradient(135deg, #28a745, #20c997);
-            }
+//     i {
+//         width: 14px;
+//         text-align: center;
+//         color: #98a2b3;
+//         margin-top: 2px;
+//         flex-shrink: 0;
+//     }
+// }
 
-            &.state-closed {
-                background: linear-gradient(135deg, #fd7e14, #ffc107);
-            }
+// .oa_cycle_dates {
+//     display: flex;
+//     gap: 14px;
+//     margin-top: 2px;
+// }
 
-            &.state-archived {
-                background: linear-gradient(135deg, #dc3545, #e74c3c);
-            }
-        }
-    }
-}
+// .oa_cycle_date {
+//     display: inline-flex;
+//     align-items: center;
+//     gap: 6px;
+//     font-size: 11.5px;
+//     color: var(--oa-text-muted);
+
+//     i {
+//         color: #98a2b3;
+//     }
+// }
+
+// .oa_cycle_card_foot {
+//     display: flex;
+//     align-items: center;
+//     padding: 9px 12px;
+//     border-top: 1px solid #f2f4f7;
+//     background: #fcfcfd;
+// }
+
+// .oa_cycle_applicants {
+//     display: inline-flex;
+//     align-items: center;
+//     gap: 7px;
+//     font-size: 12px;
+//     font-weight: 600;
+//     color: var(--oa-text);
+
+//     i {
+//         color: var(--oa-brand);
+//     }
+// }

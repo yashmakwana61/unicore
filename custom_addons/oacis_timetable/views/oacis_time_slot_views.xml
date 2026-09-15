@@ -63,15 +63,11 @@
                 <search>
                     <field name="name"/>
                     <field name="campus_id"/>
-                    <filter name="filter_lecture_slots" string="Lecture Slots"
-                            domain="[('slot_type', '=', 'lecture')]"/>
-                    <filter name="filter_break_periods" string="Break Periods"
-                            domain="[('is_break', '=', True)]"/>
+                    <filter name="filter_lecture_slots" string="Lecture Slots" domain="[('slot_type', '=', 'lecture')]"/>
+                    <filter name="filter_break_periods" string="Break Periods" domain="[('is_break', '=', True)]"/>
                     <group name="group_by">
-                        <filter name="group_by_campus" string="Campus"
-                                context="{'group_by': 'campus_id'}"/>
-                        <filter name="group_by_slot_type" string="Slot Type"
-                                context="{'group_by': 'slot_type'}"/>
+                        <filter name="group_by_campus" string="Campus" context="{'group_by': 'campus_id'}"/>
+                        <filter name="group_by_slot_type" string="Slot Type" context="{'group_by': 'slot_type'}"/>
                     </group>
                 </search>
             </field>

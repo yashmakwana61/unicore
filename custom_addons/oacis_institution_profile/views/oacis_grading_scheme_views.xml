@@ -14,12 +14,13 @@
         <field name="name">oacis.grading.scheme.list</field>
         <field name="model">oacis.grading.scheme</field>
         <field name="arch" type="xml">
-            <list string="Grading Schemes">
+            <list string="Grading Schemes" default_order="sequence, name">
                 <field name="sequence" widget="handle"/>
-                <field name="name"/>
+                <field name="name" class="fw-bold"/>
                 <field name="code"/>
-                <field name="scheme_type" optional="show"/>
-                <field name="is_default" optional="show"/>
+                <field name="scheme_type" widget="badge"/>
+                <field name="is_default" widget="boolean_toggle" optional="show"/>
+                <field name="active" widget="boolean_toggle" optional="show"/>
             </list>
         </field>
     </record>
@@ -31,23 +32,45 @@
         <field name="arch" type="xml">
             <form string="Grading Scheme">
                 <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Scheme Name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="e.g. 4.0 Credit GPA Scale"/></h1>
+                        <div class="d-flex align-items-center gap-2">
+                            <field name="code" placeholder="CODE" class="fw-bold text-muted"/>
+                            <field name="scheme_type" widget="badge"/>
+                        </div>
+                    </div>
                     <group>
                         <group name="left">
-                            <field name="name"/>
-                            <field name="code"/>
                             <field name="scheme_type"/>
+                            <field name="sequence"/>
                         </group>
                         <group name="right">
-                            <field name="is_default"/>
-                            <field name="sequence"/>
-                            <field name="active"/>
+                            <field name="is_default" widget="boolean_toggle"/>
+                            <field name="active" widget="boolean_toggle"/>
                         </group>
                     </group>
                     <group string="Description">
-                        <field name="description"/>
+                        <field name="description" placeholder="Explanation of formula, grade boundaries, and point calculations..." nolabel="1"/>
                     </group>
                 </sheet>
             </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="oacis_grading_scheme_search_view" model="ir.ui.view">
+        <field name="name">oacis.grading.scheme.search</field>
+        <field name="model">oacis.grading.scheme</field>
+        <field name="arch" type="xml">
+            <search string="Search Grading Schemes">
+                <field name="name"/>
+                <field name="code"/>
+                <filter name="filter_active" string="Active" domain="[('active', '=', True)]"/>
+                <group name="groupby">
+                    <filter name="group_type" string="Scheme Type" context="{'group_by': 'scheme_type'}"/>
+                </group>
+            </search>
         </field>
     </record>
 

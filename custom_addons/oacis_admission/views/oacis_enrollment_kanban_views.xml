@@ -12,7 +12,7 @@
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="waitlist_state">
                 <field name="display_name"/>
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="course_offering_id"/>
                 <field name="position"/>
                 <field name="waitlist_state"/>
@@ -26,7 +26,7 @@
                                 <field name="waitlist_state" widget="badge"/>
                             </div>
                             <div class="text-muted mt-1">
-                                <field name="student_id"/>
+                                <field name="student_id" widget="many2one_avatar"/>
                             </div>
                             <div class="text-muted mt-1 small">
                                 <field name="course_offering_id"/>

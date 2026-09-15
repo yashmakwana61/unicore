@@ -39,7 +39,7 @@
                 </span>
                 <a t-attf-href="/my/oacis/faculty/assignments/new/#{off_data['offering'].id}"
                    class="btn btn-sm btn-primary">
-                  <i class="fa fa-plus"/> New Assignment
+                  <i class="fa fa-plus" title="Add"/> New Assignment
                 </a>
               </div>
             </div>
@@ -221,11 +221,11 @@
               <div class="d-flex gap-2">
                 <button type="submit" name="action" value="save"
                         class="btn btn-primary">
-                  <i class="fa fa-save"/> Save as Draft
+                  <i class="fa fa-save" title="Save"/> Save as Draft
                 </button>
                 <button type="submit" name="action" value="publish"
                         class="btn btn-success">
-                  <i class="fa fa-paper-plane"/> Save &amp; Publish
+                  <i class="fa fa-paper-plane" title="Paper Plane"/> Save &amp; Publish
                 </button>
                 <a href="/my/oacis/faculty/assignments"
                    class="btn btn-outline-secondary">Cancel</a>
@@ -301,7 +301,7 @@
             <div class="d-flex justify-content-end mb-2">
               <a t-attf-href="/my/oacis/faculty/assignments/new/#{assignment.course_offering_id.id}"
                  class="btn btn-sm btn-outline-primary">
-                <i class="fa fa-plus"/> New Assignment
+                <i class="fa fa-plus" title="Add"/> New Assignment
               </a>
             </div>
           </div>
@@ -346,7 +346,7 @@
                     </td>
                     <td>
                       <t t-if="sub and sub.is_late">
-                        <i class="fa fa-exclamation-triangle text-danger"/>
+                        <i class="fa fa-exclamation-triangle text-danger" title="Exclamation Triangle"/>
                       </t>
                       <t t-else="">—</t>
                     </td>
@@ -438,7 +438,7 @@
                 <t t-if="submission.submission_file">
                   <a t-attf-href="/web/content/oacis.assignment.submission/#{submission.id}/submission_file?download=true&amp;filename=#{submission.submission_filename}"
                      class="btn btn-outline-primary btn-sm mt-2">
-                    <i class="fa fa-download"/> Download submission
+                    <i class="fa fa-download" title="Download"/> Download submission
                   </a>
                 </t>
                 <t t-else="">
@@ -550,7 +550,7 @@
 
                   <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-success">
-                      <i class="fa fa-check"/> Save Grade
+                      <i class="fa fa-check" title="Done"/> Save Grade
                     </button>
                     <a t-attf-href="/my/oacis/faculty/assignments/#{assignment.id}"
                        class="btn btn-outline-secondary">Back</a>

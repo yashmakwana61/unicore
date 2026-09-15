@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="prompt_exam_notice" model="oacis.ai.prompt">
+            <field name="name">Draft exam notice</field>
+            <field name="category">academic</field>
+            <field name="prompt_text">Draft a formal exam notice: include title, exam dates, reporting time, hall-ticket note, and a polite closing.</field>
+        </record>
+        <record id="prompt_quiz_5q" model="oacis.ai.prompt">
+            <field name="name">Create 5-question quiz</field>
+            <field name="category">academic</field>
+            <field name="prompt_text">Create 5 medium-level quiz questions with 4 options each and an answer key at the end. Topic: </field>
+        </record>
+        <record id="prompt_course_desc" model="oacis.ai.prompt">
+            <field name="name">Course description</field>
+            <field name="category">academic</field>
+            <field name="prompt_text">Write a 120-word course description with objectives, prerequisites, and outcomes. Course: </field>
+        </record>
+        <record id="prompt_fee_reminder" model="oacis.ai.prompt">
+            <field name="name">Polite fee reminder</field>
+            <field name="category">fees</field>
+            <field name="prompt_text">Write a polite fee reminder SMS + email (under 60 words each) with due date, amount placeholder, and payment link note.</field>
+        </record>
+        <record id="prompt_admission_reply" model="oacis.ai.prompt">
+            <field name="name">Admission enquiry reply</field>
+            <field name="category">admission</field>
+            <field name="prompt_text">Draft a warm, professional reply to an admission enquiry: thank them, list next 3 steps, and invite for campus visit.</field>
+        </record>
+        <record id="prompt_summarize_record" model="oacis.ai.prompt">
+            <field name="name">Summarize this record</field>
+            <field name="category">general</field>
+            <field name="prompt_text">Summarize this record in 5 bullet points for a staff member. Only use the facts given.</field>
+        </record>
+        <record id="prompt_parent_update" model="oacis.ai.prompt">
+            <field name="name">Parent update message</field>
+            <field name="category">general</field>
+            <field name="prompt_text">Write a short, caring update message for parents about student progress (4-5 lines, no jargon).</field>
+        </record>
+        <record id="prompt_lesson_plan" model="oacis.ai.prompt">
+            <field name="name">Lesson plan outline</field>
+            <field name="category">academic</field>
+            <field name="prompt_text">Create a 45-minute lesson plan outline: objectives, warm-up, main activity, assessment, homework.</field>
+        </record>
+    </data>
+</odoo>

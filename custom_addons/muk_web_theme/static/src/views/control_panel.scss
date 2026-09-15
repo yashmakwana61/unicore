@@ -1,0 +1,136 @@
+// ==============================================================================
+// MuK Modern Control Panel & Search Styling (Odoo 19)
+// ==============================================================================
+
+.o_control_panel {
+    background-color: var(--mk-surface-card, #FFFFFF) !important;
+    border-bottom: 1px solid var(--mk-border-color, #E2E8F0) !important;
+    padding: 10px 18px !important;
+    font-family: var(--mk-font-family);
+    
+    // Breadcrumbs
+    .o_breadcrumb {
+        .breadcrumb {
+            margin-bottom: 0;
+            
+            .breadcrumb-item {
+                font-size: 15px;
+                font-weight: 500;
+                color: var(--mk-text-muted, #64748B);
+                
+                a {
+                    color: var(--mk-text-muted, #64748B);
+                    text-decoration: none;
+                    transition: color 150ms ease;
+                    
+                    &:hover {
+                        color: var(--mk-primary, #6366F1);
+                    }
+                }
+                
+                &.active {
+                    color: var(--mk-text-heading, #0F172A);
+                    font-weight: 700;
+                }
+            }
+        }
+    }
+    
+    // Search Box & Facets
+    .o_searchview {
+        border: 1px solid var(--mk-border-color, #E2E8F0);
+        border-radius: var(--mk-radius-pill, 9999px);
+        padding: 4px 12px;
+        background-color: var(--mk-surface-muted, #F8FAFC);
+        transition: all 160ms ease;
+        
+        &:focus-within {
+            background-color: var(--mk-surface-card, #FFFFFF);
+            border-color: var(--mk-border-focus, #818CF8);
+            box-shadow: 0 0 0 3px var(--mk-primary-ring, rgba(99, 102, 241, 0.22));
+        }
+        
+        .o_searchview_facet {
+            background-color: var(--mk-primary-light, #EEF2FF);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: var(--mk-radius-pill, 9999px);
+            padding: 2px 8px;
+            margin: 2px 3px;
+            font-size: 12px;
+            
+            .o_searchview_facet_label {
+                background: transparent;
+                color: var(--mk-primary, #6366F1);
+                font-weight: 600;
+                padding-right: 4px;
+            }
+            
+            .o_facet_value {
+                color: var(--mk-text-heading, #0F172A);
+                font-weight: 500;
+            }
+            
+            .o_facet_remove {
+                color: var(--mk-text-muted, #64748B);
+                cursor: pointer;
+                transition: color 140ms ease;
+                
+                &:hover {
+                    color: var(--mk-primary, #6366F1);
+                }
+            }
+        }
+        
+        .o_searchview_input {
+            font-size: 13px;
+            background: transparent;
+        }
+    }
+    
+    // View Switcher Icons (List, Kanban, etc.)
+    .o_cp_switch_buttons {
+        .btn {
+            border-radius: var(--mk-radius-xs, 6px);
+            padding: 5px 9px;
+            font-size: 13px;
+            color: var(--mk-text-muted, #64748B);
+            border: 1px solid transparent;
+            transition: all 150ms ease;
+            
+            &:hover {
+                background-color: var(--mk-surface-muted, #F1F5F9);
+                color: var(--mk-text-heading, #0F172A);
+            }
+            
+            &.active {
+                background-color: var(--mk-primary-light, #EEF2FF);
+                color: var(--mk-primary, #6366F1);
+                border-color: rgba(99, 102, 241, 0.25);
+                font-weight: 600;
+            }
+        }
+    }
+    
+    // Action & Pager Buttons
+    .o_cp_buttons {
+        .btn {
+            border-radius: var(--mk-radius-xs, 6px);
+            font-size: 13px;
+            font-weight: 500;
+            padding: 6px 14px;
+            transition: all 160ms ease;
+            
+            &.btn-primary {
+                background-color: var(--mk-primary, #6366F1);
+                border-color: var(--mk-primary, #6366F1);
+                box-shadow: 0 1px 3px rgba(99, 102, 241, 0.3);
+                
+                &:hover {
+                    background-color: var(--mk-primary-hover, #4F46E5);
+                    border-color: var(--mk-primary-hover, #4F46E5);
+                    box-shadow: 0 3px 8px rgba(99, 102, 241, 0.4);
+                }
+            }
+        }
+    }
+}

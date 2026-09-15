@@ -37,9 +37,11 @@
     'data': [
         'security/ir.model.access.csv',
         'data/website_data.xml',
+        'data/oacis_admissions_website_data.xml',
         'views/website_views.xml',
         'views/im_livechat_views.xml',
         'views/crm_lead_views.xml',
+        'views/oacis_admissions_website_templates.xml',
     ],
     'images': ['static/description/icon.png'],
     'web_icon': 'oacis_website,static/description/icon.png',

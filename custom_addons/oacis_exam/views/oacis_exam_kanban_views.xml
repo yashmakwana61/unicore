@@ -13,7 +13,7 @@
             <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="ticket_state">
                 <field name="display_name"/>
                 <field name="ticket_state"/>
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="eligibility_status"/>
                 <field name="exam_schedule_id"/>
                 <field name="course_id"/>
@@ -27,7 +27,7 @@
                                 <field name="ticket_state" widget="badge"/>
                             </div>
                             <div class="text-muted mt-1">
-                                <field name="student_id"/>
+                                <field name="student_id" widget="many2one_avatar"/>
                                 <t t-if="record.eligibility_status.raw_value">
                                     · <field name="eligibility_status"/>
                                 </t>
@@ -56,7 +56,7 @@
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" highlight_color="color">
                 <field name="display_name"/>
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="room_id"/>
                 <field name="seat_label"/>
                 <field name="course_id"/>
@@ -66,7 +66,7 @@
                     <t t-name="card" class="flex-row">
                         <main>
                             <field name="display_name" class="fw-bold fs-5"/>
-                            <field name="student_id"/>
+                            <field name="student_id" widget="many2one_avatar"/>
                             <div class="text-muted mt-1 small">
                                 <field name="room_id"/> · Seat <field name="seat_label"/>
                             </div>

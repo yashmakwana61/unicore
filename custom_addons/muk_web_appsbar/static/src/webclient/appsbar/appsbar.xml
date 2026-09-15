@@ -3,8 +3,11 @@
 <templates xml:space="preserve">
 
 	<t t-name="muk_web_appsbar.AppsBar">
-		<div class="mk_apps_sidebar_panel">
+		<div class="mk_apps_sidebar_panel" t-att-class="{ 'mk_sidebar_is_collapsed': this.state.isCollapsed }">
 			<div class="mk_apps_sidebar">
+				<div class="mk_apps_sidebar_header">
+					<span class="mk_apps_sidebar_title">Apps</span>
+				</div>
 				<ul class="mk_apps_sidebar_menu">
 				    <t t-foreach="this.appMenuService.getAppsMenuItems()" t-as="app" t-key="app.id">
 			            <li t-attf-class="nav-item {{ app.id === this.appMenuService.getCurrentApp()?.id ? 'active' : '' }}">
@@ -13,6 +16,7 @@
 		            			t-att-data-menu-id="app.id" 
 		            			t-att-data-menu-xmlid="app.xmlid" 
 		            			t-att-data-action-id="app.actionID"
+								t-att-title="this.state.isCollapsed ? app.label : ''"
 								t-on-click.prevent="() => this._onAppClick(app)"
 		            			class="nav-link" 
 		            			role="menuitem"
@@ -21,21 +25,39 @@
 			                		t-if="app.webIconData" 
 			                		class="mk_apps_sidebar_icon" 
 			                		t-att-src="app.webIconData"
+									t-att-alt="app.label"
 			                	/>
 			                	<img  
 			                		t-else="" 
 			                		class="mk_apps_sidebar_icon" 
 			                		src="/base/static/description/icon.png"
+									t-att-alt="app.label"
 			                	/>
 						        <span class="mk_apps_sidebar_name">
 						            <t t-out="app.label"/>
 						        </span>
+								<span class="mk_sidebar_floating_tooltip" t-out="app.label"/>
 			            	 </a>
 			            </li>
 			    	</t>
 				</ul>
-				<div t-if="sidebarImageUrl" class="mk_apps_sidebar_logo p-2">
-					<img class="img-fluid mx-auto" t-att-src="sidebarImageUrl" alt="Logo"/>
+				
+				<div class="mk_apps_sidebar_bottom_section">
+					<div t-if="sidebarImageUrl" class="mk_apps_sidebar_logo">
+						<img class="img-fluid mx-auto" t-att-src="sidebarImageUrl" alt="Logo"/>
+					</div>
+					
+					<div class="mk_apps_sidebar_toggle_wrapper">
+						<button 
+							type="button" 
+							class="mk_apps_sidebar_toggle_btn"
+							t-on-click="() => this.toggleSidebar()"
+							t-att-title="this.state.isCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'"
+						>
+							<i t-attf-class="fa {{ this.state.isCollapsed ? 'fa-angle-double-right' : 'fa-angle-double-left' }}" />
+							<span class="mk_apps_sidebar_toggle_label">Collapse</span>
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>

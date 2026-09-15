@@ -26,9 +26,7 @@
                                     </td>
                                     <td style="text-align:right;vertical-align:top;">
                                         <div class="ht-photo-box">
-                                            <img t-if="student.image_1920"
-                                                 t-att-src="'data:image/png;base64,' + student.image_1920.decode('utf-8')"
-                                                 style="width:28mm;height:33mm;object-fit:cover;display:block;"/>
+                                            <img t-if="student.image_1920" t-att-src="'data:image/png;base64,' + student.image_1920.decode('utf-8')" style="width:28mm;height:33mm;object-fit:cover;display:block;"/>
                                             <span t-else="" class="ht-photo-placeholder">Affix<br/>Photo</span>
                                         </div>
                                     </td>
@@ -214,9 +212,7 @@
                                         </td>
                                         <td style="text-align:right;vertical-align:top;">
                                             <div class="ht-photo-box">
-                                                <img t-if="student.image_1920"
-                                                     t-att-src="'data:image/png;base64,' + student.image_1920.decode('utf-8')"
-                                                     style="width:28mm;height:33mm;object-fit:cover;display:block;"/>
+                                                <img t-if="student.image_1920" t-att-src="'data:image/png;base64,' + student.image_1920.decode('utf-8')" style="width:28mm;height:33mm;object-fit:cover;display:block;"/>
                                                 <span t-else="" class="ht-photo-placeholder">Affix<br/>Photo</span>
                                             </div>
                                         </td>

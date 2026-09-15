@@ -12,12 +12,11 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
-                        <widget name="web_ribbon" title="Audit Record"
-                                bg_color="text-bg-secondary"/>
+                        <widget name="web_ribbon" title="Audit Record" bg_color="text-bg-secondary"/>
                         <group>
                             <group>
                                 <field name="enrollment_id" readonly="1"/>
-                                <field name="student_id" readonly="1"/>
+                                <field name="student_id" readonly="1" widget="many2one_avatar"/>
                                 <field name="course_offering_id" readonly="1"/>
                                 <field name="company_id" readonly="1"/>
                             </group>
@@ -41,11 +40,9 @@
             <field name="name">oacis.enrollment.log.list</field>
             <field name="model">oacis.enrollment.log</field>
             <field name="arch" type="xml">
-                <list decoration-success="action == 'registered'"
-                      decoration-muted="action in ('dropped','withdrawn','cancelled')"
-                      decoration-info="action == 'completed'">
+                <list decoration-success="action == 'registered'" decoration-muted="action in ('dropped','withdrawn','cancelled')" decoration-info="action == 'completed'">
                     <field name="action_date"/>
-                    <field name="student_id"/>
+                    <field name="student_id" widget="many2one_avatar"/>
                     <field name="course_offering_id"/>
                     <field name="action"/>
                     <field name="performed_by_id"/>
@@ -63,22 +60,16 @@
             <field name="model">oacis.enrollment.log</field>
             <field name="arch" type="xml">
                 <search>
-                    <field name="student_id"/>
+                    <field name="student_id" widget="many2one_avatar"/>
                     <field name="course_offering_id"/>
                     <field name="performed_by_id"/>
-                    <filter name="registrations" string="Registrations"
-                            domain="[('action', '=', 'registered')]"/>
-                    <filter name="drops" string="Drops"
-                            domain="[('action', '=', 'dropped')]"/>
-                    <filter name="withdrawals" string="Withdrawals"
-                            domain="[('action', '=', 'withdrawn')]"/>
+                    <filter name="registrations" string="Registrations" domain="[('action', '=', 'registered')]"/>
+                    <filter name="drops" string="Drops" domain="[('action', '=', 'dropped')]"/>
+                    <filter name="withdrawals" string="Withdrawals" domain="[('action', '=', 'withdrawn')]"/>
                     <group>
-                        <filter name="group_by_student" string="Student"
-                                context="{'group_by': 'student_id'}"/>
-                        <filter name="group_by_action" string="Action"
-                                context="{'group_by': 'action'}"/>
-                        <filter name="group_by_performer" string="Performed By"
-                                context="{'group_by': 'performed_by_id'}"/>
+                        <filter name="group_by_student" string="Student" context="{'group_by': 'student_id'}"/>
+                        <filter name="group_by_action" string="Action" context="{'group_by': 'action'}"/>
+                        <filter name="group_by_performer" string="Performed By" context="{'group_by': 'performed_by_id'}"/>
                     </group>
                 </search>
             </field>

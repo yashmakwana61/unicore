@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Append-only extension of the entrance test form: surface the
+         Marks Entered flag as a checkbox column in the applicant line list.
+         Does NOT modify entrance_test_views.xml. -->
+    <record id="entrance_test_form_view_ext" model="ir.ui.view">
+        <field name="name">oacis.admission.entrance.test.form.ext</field>
+        <field name="model">oacis.admission.entrance.test</field>
+        <field name="inherit_id" ref="oacis_admission.entrance_test_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='applicant_line_ids']/list/field[@name='marks_obtained']" position="after">
+                <field name="marks_entered"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

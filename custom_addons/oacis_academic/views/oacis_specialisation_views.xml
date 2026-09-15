@@ -23,7 +23,7 @@
                             <field name="code"/>
                             <field name="program_id" options="{'no_create': True}"/>
                             <field name="department_id"/>
-                            <field name="faculty_id"/>
+                            <field name="faculty_id" widget="many2one_avatar"/>
                             <field name="sequence"/>
                         </group>
                         <group name="right">
@@ -67,15 +67,11 @@
                 <field name="name"/>
                 <field name="code"/>
                 <field name="program_id"/>
-                <filter name="filter_active" string="Active"
-                        domain="[('active', '=', True)]"/>
-                <filter name="filter_default" string="Is Default"
-                        domain="[('is_default', '=', True)]"/>
+                <filter name="filter_active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="filter_default" string="Is Default" domain="[('is_default', '=', True)]"/>
                 <group name="groupby">
-                    <filter name="groupby_program" string="Program"
-                            context="{'group_by': 'program_id'}"/>
-                    <filter name="groupby_department" string="Department"
-                            context="{'group_by': 'department_id'}"/>
+                    <filter name="groupby_program" string="Program" context="{'group_by': 'program_id'}"/>
+                    <filter name="groupby_department" string="Department" context="{'group_by': 'department_id'}"/>
                 </group>
             </search>
         </field>

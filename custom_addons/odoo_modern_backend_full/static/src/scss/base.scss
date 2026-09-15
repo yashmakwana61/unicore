@@ -1,0 +1,150 @@
+.o_web_client.o_modern_backend,
+.o_modern_backend .o_web_client,
+body.o_modern_backend {
+  font-family: var(--ob-font);
+  color: var(--ob-text);
+  background: var(--ob-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Modern Buttons */
+.o_modern_backend .btn {
+  border-radius: var(--ob-radius-sm);
+  font-weight: 600;
+  font-size: 13px;
+  padding: 6px 14px;
+  transition: transform var(--ob-transition-fast), box-shadow var(--ob-transition-fast), background var(--ob-transition-fast), border-color var(--ob-transition-fast);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.o_modern_backend .btn-primary {
+  background: var(--ob-primary) !important;
+  border-color: var(--ob-primary) !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--ob-primary) 28%, transparent);
+}
+
+.o_modern_backend .btn-primary:hover:not(:disabled) {
+  background: var(--ob-primary-strong) !important;
+  border-color: var(--ob-primary-strong) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--ob-primary) 40%, transparent);
+}
+
+.o_modern_backend .btn-secondary,
+.o_modern_backend .btn-outline-secondary,
+.o_modern_backend .btn-light {
+  background: var(--ob-surface) !important;
+  border-color: var(--ob-border) !important;
+  color: var(--ob-text) !important;
+}
+
+.o_modern_backend .btn-secondary:hover:not(:disabled),
+.o_modern_backend .btn-outline-secondary:hover:not(:disabled),
+.o_modern_backend .btn-light:hover:not(:disabled) {
+  background: var(--ob-surface-muted) !important;
+  border-color: var(--ob-border) !important;
+  color: var(--ob-text) !important;
+}
+
+/* Inputs & Form Controls */
+.o_modern_backend input,
+.o_modern_backend select,
+.o_modern_backend textarea,
+.o_modern_backend .o_input,
+.o_modern_backend .form-control,
+.o_modern_backend .form-select {
+  border: 1px solid var(--ob-border) !important;
+  border-radius: var(--ob-radius-sm) !important;
+  background: var(--ob-surface) !important;
+  color: var(--ob-text) !important;
+  min-height: 36px;
+  padding: 6px 12px;
+  font-size: 13px;
+  transition: border-color var(--ob-transition-fast), box-shadow var(--ob-transition-fast);
+}
+
+.o_modern_backend input:focus,
+.o_modern_backend select:focus,
+.o_modern_backend textarea:focus,
+.o_modern_backend .o_input:focus,
+.o_modern_backend .form-control:focus,
+.o_modern_backend .form-select:focus {
+  border-color: var(--ob-primary) !important;
+  box-shadow: 0 0 0 3px var(--ob-primary-glow) !important;
+  outline: none;
+}
+
+/* Dropdowns & Popovers */
+.o_modern_backend .dropdown-menu,
+.o_modern_backend .popover {
+  border: 1px solid var(--ob-border);
+  border-radius: var(--ob-radius-md);
+  background: var(--ob-surface);
+  box-shadow: var(--ob-shadow-md);
+  padding: 6px;
+  overflow: hidden;
+}
+
+.o_modern_backend .dropdown-item {
+  border-radius: calc(var(--ob-radius-sm) - 2px);
+  color: var(--ob-text);
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background var(--ob-transition-fast), color var(--ob-transition-fast);
+}
+
+.o_modern_backend .dropdown-item:hover,
+.o_modern_backend .dropdown-item:focus {
+  background: var(--ob-surface-muted);
+  color: var(--ob-text);
+}
+
+.o_modern_backend .dropdown-item.active {
+  background: var(--ob-primary-soft);
+  color: var(--ob-primary-strong);
+  font-weight: 600;
+}
+
+/* Notifications */
+.o_modern_backend .o_notification {
+  border-radius: var(--ob-radius-md);
+  box-shadow: var(--ob-shadow-lg);
+  border: 1px solid var(--ob-border);
+}
+
+/* Badges */
+.o_modern_backend .badge {
+  font-weight: 600;
+}
+
+/* -----------------------------------------------------------
+ * Global Layout Fixes
+ * ----------------------------------------------------------- */
+
+/* Prevent horizontal scroll caused by fixed sidebar */
+.o_modern_backend,
+body.o_modern_backend,
+.o_web_client.o_modern_backend {
+  overflow-x: hidden;
+}
+
+/* The Odoo webclient root must fill viewport */
+.o_modern_backend.o_web_client {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Control panel sits below the navbar — remove extra top padding 
+   since the navbar is already at var(--ob-topbar) height */
+.o_modern_backend .o_control_panel {
+  padding-top: 10px;
+}
+

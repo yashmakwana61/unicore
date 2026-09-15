@@ -67,9 +67,7 @@
             <field name="name">Fee Accounting Configuration</field>
             <field name="res_model">oacis.fee.accounting.config</field>
             <field name="view_mode">list,form</field>
-            <field name="view_ids" eval="[(5, 0, 0),
-                                         (0, 0, {'sequence': 1, 'view_mode': 'list', 'view_id': ref('oacis_fee_accounting_config_tree')}),
-                                         (0, 0, {'sequence': 2, 'view_mode': 'form', 'view_id': ref('oacis_fee_accounting_config_form')})]"/>
+            <field name="view_ids"/>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Create a new Fee Accounting Configuration

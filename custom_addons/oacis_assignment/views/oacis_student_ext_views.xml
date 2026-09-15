@@ -26,7 +26,7 @@
               <list>
                 <field name="assignment_id"/>
                 <field name="course_id"/>
-                <field name="state"/>
+                <field name="state" widget="badge"/>
                 <field name="submission_date"/>
                 <field name="is_late"/>
                 <field name="marks_obtained"/>

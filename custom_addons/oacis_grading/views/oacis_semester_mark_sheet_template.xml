@@ -48,12 +48,10 @@
                                         </td>
                                         <td style="text-align:center;" t-esc="r['percentage']"/>
                                         <td style="text-align:center;">
-                                            <span t-att-class="'ms-pass' if r['is_pass'] else 'ms-fail'"
-                                                  t-esc="r['letter_grade']"/>
+                                            <span t-att-class="'ms-pass' if r['is_pass'] else 'ms-fail'" t-esc="r['letter_grade']"/>
                                         </td>
                                         <td style="text-align:center;" t-esc="r['grade_point']"/>
-                                        <td style="text-align:center;"
-                                            t-esc="'Pass' if r['is_pass'] else 'Fail'"/>
+                                        <td style="text-align:center;" t-esc="'Pass' if r['is_pass'] else 'Fail'"/>
                                     </tr>
                                 </t>
                                 <t t-if="not off['rows']">

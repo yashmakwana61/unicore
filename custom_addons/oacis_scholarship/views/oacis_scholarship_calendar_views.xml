@@ -13,7 +13,7 @@
         <field name="arch" type="xml">
             <calendar date_start="application_date" color="color" string="Scholarship Application Calendar">
                 <field name="application_state"/>
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="scholarship_program_id"/>
             </calendar>
         </field>
@@ -32,7 +32,7 @@
             <calendar date_start="disbursement_date" color="color" string="Scholarship Award Calendar">
                 <field name="award_state"/>
                 <field name="disbursement_method"/>
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="semester_id"/>
             </calendar>
         </field>

@@ -1,28 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="view_oacis_student_form_convocation_ext"
-            model="ir.ui.view">
+    <record id="view_oacis_student_form_convocation_ext" model="ir.ui.view">
         <field name="name">oacis.student.form.convocation.ext</field>
         <field name="model">oacis.student</field>
         <field name="inherit_id" ref="oacis_student.oacis_student_form_view"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@name='button_box']" position="inside">
-                <button name="action_view_convocation_event"
-                        type="object"
-                        class="oe_stat_button"
-                        icon="fa-graduation-cap"
-                        invisible="not convocation_event_id">
+                <button name="action_view_convocation_event" type="object" class="oe_stat_button" icon="fa-graduation-cap" invisible="not convocation_event_id">
                     <div class="o_stat_info">
                         <span class="o_stat_text">Convocation</span>
                     </div>
                 </button>
-                <button name="action_register_convocation"
-                        type="object"
-                        class="oe_stat_button"
-                        icon="fa-link"
-                        invisible="convocation_event_id"
-                        groups="oacis_base.group_oacis_admin,oacis_base.group_oacis_manager">
+                <button name="action_register_convocation" type="object" class="oe_stat_button" icon="fa-link" invisible="convocation_event_id" groups="oacis_base.group_oacis_admin,oacis_base.group_oacis_manager">
                     <div class="o_stat_info">
                         <span class="o_stat_text">Register</span>
                     </div>

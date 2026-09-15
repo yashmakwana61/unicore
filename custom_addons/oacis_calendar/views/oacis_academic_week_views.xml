@@ -64,17 +64,12 @@
                 <field name="name"/>
                 <field name="semester_id"/>
                 <field name="academic_year_id"/>
-                <filter name="filter_current" string="Current Week"
-                        domain="[('is_current', '=', True)]"/>
-                <filter name="filter_teaching" string="Teaching Weeks"
-                        domain="[('week_type', '=', 'teaching')]"/>
-                <filter name="filter_exam" string="Exam Weeks"
-                        domain="[('week_type', '=', 'exam')]"/>
+                <filter name="filter_current" string="Current Week" domain="[('is_current', '=', True)]"/>
+                <filter name="filter_teaching" string="Teaching Weeks" domain="[('week_type', '=', 'teaching')]"/>
+                <filter name="filter_exam" string="Exam Weeks" domain="[('week_type', '=', 'exam')]"/>
                 <group name="groupby">
-                    <filter name="groupby_semester" string="Semester"
-                            context="{'group_by': 'semester_id'}"/>
-                    <filter name="groupby_type" string="Week Type"
-                            context="{'group_by': 'week_type'}"/>
+                    <filter name="groupby_semester" string="Semester" context="{'group_by': 'semester_id'}"/>
+                    <filter name="groupby_type" string="Week Type" context="{'group_by': 'week_type'}"/>
                 </group>
             </search>
         </field>

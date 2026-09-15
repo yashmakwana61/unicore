@@ -31,7 +31,7 @@
         <field name="type">calendar</field>
         <field name="arch" type="xml">
             <calendar date_start="valid_from" date_stop="valid_until" color="color" string="Transport Pass Calendar">
-                <field name="student_id"/>
+                <field name="student_id" widget="many2one_avatar"/>
                 <field name="route_id"/>
                 <field name="pass_state"/>
             </calendar>

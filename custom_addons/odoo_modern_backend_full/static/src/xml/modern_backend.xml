@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <!-- Modern Shell Sidebar & Topbar Component -->
+    <t t-name="odoo_modern_backend.ModernShell">
+        <aside t-att-class="'ob-sidebar ' + (state.mobileOpen ? 'ob-mobile-open' : '')">
+            <div class="ob-brand">
+                <div class="ob-brand-mark"><i class="fa fa-bolt"/></div>
+                <div class="ob-brand-copy">
+                    <strong>Odoo</strong>
+                    <span>Modern Workspace</span>
+                </div>
+            </div>
+            <button class="ob-sidebar-toggle" t-on-click="toggleSidebar" title="Toggle sidebar">
+                <i class="fa fa-angle-left"/>
+            </button>
+            <nav class="ob-nav">
+                <a href="#" t-att-class="'ob-nav-item ' + (isDashboardActive ? 'ob-nav-active' : '')" t-on-click.prevent="openDashboard" title="Modern Dashboard">
+                    <i class="fa fa-th-large"/><span>Dashboard</span>
+                </a>
+                <div class="ob-nav-label" t-if="apps.length">APPLICATIONS</div>
+                <t t-foreach="apps" t-as="app" t-key="app.id">
+                    <a href="#" t-att-class="'ob-nav-item ' + (state.activeMenuId === app.id ? 'ob-nav-active' : '')" t-on-click.prevent="() => this.selectApp(app)" t-att-title="app.name">
+                        <t t-if="app.webIconData">
+                            <img t-att-src="app.webIconData" class="ob-app-img-icon" alt=""/>
+                        </t>
+                        <t t-else="">
+                            <i class="fa fa-cube"/>
+                        </t>
+                        <span t-esc="app.name"/>
+                    </a>
+                </t>
+                <div class="ob-nav-label">TOOLS</div>
+                <a href="#" class="ob-nav-item" t-on-click.prevent="openCommands" title="Command Center (⌘K)">
+                    <i class="fa fa-search"/><span>Command center</span><kbd>⌘K</kbd>
+                </a>
+                <a href="#" class="ob-nav-item" t-on-click.prevent="openCustomizer" title="Appearance Settings">
+                    <i class="fa fa-sliders"/><span>Appearance</span>
+                </a>
+            </nav>
+            <div class="ob-sidebar-footer">
+                <div class="ob-mini-profile">
+                    <div class="ob-avatar">
+                        <t t-if="userAvatar">
+                            <img t-att-src="userAvatar" class="ob-avatar-img" alt="Avatar"/>
+                        </t>
+                        <t t-else="">
+                            <span t-esc="userInitial"/>
+                        </t>
+                    </div>
+                    <div>
+                        <strong t-esc="userName"/>
+                        <span>Administrator</span>
+                    </div>
+                </div>
+                <button class="ob-footer-button" t-on-click="openCustomizer" title="Workspace Settings">
+                    <i class="fa fa-cog"/><span>Theme Settings</span>
+                </button>
+            </div>
+        </aside>
+        <button class="ob-mobile-trigger" t-on-click="toggleMobile" title="Open Menu">
+            <i class="fa fa-bars"/>
+        </button>
+        <div t-if="state.mobileOpen" class="ob-mobile-scrim" t-on-click="closeMobile"/>
+    </t>
+
+    <!-- Command Palette (Ctrl+K) -->
+    <t t-name="odoo_modern_backend.CommandPalette">
+        <div t-if="state.open" class="ob-overlay" t-on-click="close">
+            <div class="ob-command-modal" t-on-click.stop="">
+                <div class="ob-command-search">
+                    <i class="fa fa-search"/>
+                    <input t-ref="search" t-att-value="state.query" t-on-input="onInput" placeholder="Search apps, menus, themes, actions..."/>
+                    <kbd t-if="state.query" t-on-click="() => this.onInput({ target: { value: '' } })" class="ob-clear-btn">Clear</kbd>
+                </div>
+                <div class="ob-command-results">
+                    <t t-if="results.length === 0">
+                        <div class="ob-command-empty">
+                            <i class="fa fa-search"/>
+                            <p>No results found for "<strong t-esc="state.query"/>"</p>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="ob-command-section" t-esc="state.query ? 'Search Results' : 'Suggestions &amp; Quick Actions'"/>
+                        <t t-foreach="results" t-as="item" t-key="item.id">
+                            <button t-att-class="'ob-command-item ' + (state.selectedIndex === item_index ? 'ob-selected' : '')" t-on-click="() => this.selectItem(item)">
+                                <i t-att-class="'fa ' + item.icon" t-att-style="item.iconStyle || ''"/>
+                                <span>
+                                    <strong t-esc="item.title"/>
+                                    <small t-if="item.subtitle" t-esc="item.subtitle"/>
+                                </span>
+                                <span class="ob-item-badge" t-if="item.badge" t-esc="item.badge"/>
+                                <kbd t-if="state.selectedIndex === item_index">↵</kbd>
+                            </button>
+                        </t>
+                    </t>
+                </div>
+                <div class="ob-command-hint">
+                    <span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span>
+                    <span><kbd>↵</kbd> Select</span>
+                    <span><kbd>Esc</kbd> Close</span>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <!-- Live Theme Customizer Drawer -->
+    <t t-name="odoo_modern_backend.ThemeCustomizer">
+        <div t-if="state.open" class="ob-drawer-layer" t-on-click="close">
+            <aside class="ob-customizer" t-on-click.stop="">
+                <div class="ob-drawer-head">
+                    <div>
+                        <span>WORKSPACE</span>
+                        <h3>Appearance</h3>
+                    </div>
+                    <button t-on-click="close" title="Close"><i class="fa fa-times"/></button>
+                </div>
+                <div class="ob-customizer-body">
+                    <section>
+                        <label>Accent Color</label>
+                        <div class="ob-accent-grid">
+                            <button t-foreach="Object.entries(theme.accents)" t-as="pair" t-key="pair[0]" t-att-class="theme.state.accent === pair[0] ? 'active' : ''" t-on-click="() => this.set('accent', pair[0])">
+                                <span t-att-style="'background:' + pair[1].primary"/>
+                                <small t-esc="pair[1].name || pair[0]"/>
+                            </button>
+                        </div>
+                    </section>
+                    <section>
+                        <label>Theme Mode</label>
+                        <div class="ob-segmented">
+                            <button t-att-class="theme.state.theme === 'light' ? 'active' : ''" t-on-click="() => this.set('theme','light')"><i class="fa fa-sun-o me-1"/> Light</button>
+                            <button t-att-class="theme.state.theme === 'dark' ? 'active' : ''" t-on-click="() => this.set('theme','dark')"><i class="fa fa-moon-o me-1"/> Dark</button>
+                            <button t-att-class="theme.state.theme === 'system' ? 'active' : ''" t-on-click="() => this.set('theme','system')"><i class="fa fa-desktop me-1"/> Auto</button>
+                        </div>
+                    </section>
+                    <section>
+                        <label>Display Density</label>
+                        <div class="ob-segmented">
+                            <button t-att-class="theme.state.density === 'compact' ? 'active' : ''" t-on-click="() => this.set('density','compact')">Compact</button>
+                            <button t-att-class="theme.state.density === 'comfortable' ? 'active' : ''" t-on-click="() => this.set('density','comfortable')">Comfortable</button>
+                            <button t-att-class="theme.state.density === 'spacious' ? 'active' : ''" t-on-click="() => this.set('density','spacious')">Spacious</button>
+                        </div>
+                    </section>
+                    <section>
+                        <label>Corner Radius</label>
+                        <div class="ob-segmented">
+                            <button t-att-class="theme.state.radius === 'small' ? 'active' : ''" t-on-click="() => this.set('radius','small')">Soft</button>
+                            <button t-att-class="theme.state.radius === 'medium' ? 'active' : ''" t-on-click="() => this.set('radius','medium')">Modern</button>
+                            <button t-att-class="theme.state.radius === 'large' ? 'active' : ''" t-on-click="() => this.set('radius','large')">Pill</button>
+                        </div>
+                    </section>
+                    <section>
+                        <label>Sidebar Layout</label>
+                        <div class="ob-segmented">
+                            <button t-att-class="theme.state.sidebar === 'expanded' ? 'active' : ''" t-on-click="() => this.set('sidebar','expanded')">Expanded</button>
+                            <button t-att-class="theme.state.sidebar === 'collapsed' ? 'active' : ''" t-on-click="() => this.set('sidebar','collapsed')">Compact</button>
+                        </div>
+                    </section>
+                    <section class="ob-setting-row">
+                        <div>
+                            <strong>Compact Topbar</strong>
+                            <small>Reduce navigation header height</small>
+                        </div>
+                        <button class="ob-switch" t-att-class="theme.state.compactTopbar ? 'on' : ''" t-on-click="() => this.theme.toggle('compactTopbar')">
+                            <span/>
+                        </button>
+                    </section>
+                    <section class="ob-setting-row">
+                        <div>
+                            <strong>Micro-animations</strong>
+                            <small>Smooth transitions and interactions</small>
+                        </div>
+                        <button class="ob-switch" t-att-class="theme.state.motion ? 'on' : ''" t-on-click="() => this.theme.toggle('motion')">
+                            <span/>
+                        </button>
+                    </section>
+                </div>
+                <div class="ob-drawer-foot">
+                    <button class="btn btn-outline-secondary" t-on-click="reset"><i class="fa fa-refresh me-1"/> Reset</button>
+                    <button class="btn btn-primary" t-on-click="close">Done</button>
+                </div>
+            </aside>
+        </div>
+    </t>
+
+    <!-- Systray Button Component -->
+    <t t-name="odoo_modern_backend.ModernThemeSystray">
+        <button class="ob-systray-button" title="Customize Workspace Theme" t-on-click="openCustomizer">
+            <i class="fa fa-sliders"/>
+        </button>
+        <button class="ob-systray-button" title="Command Center (⌘K)" t-on-click="openCommands">
+            <i class="fa fa-search"/>
+        </button>
+    </t>
+
+    <!-- Dashboard KPI Card -->
+    <t t-name="odoo_modern_backend.KPI">
+        <article class="ob-kpi-card">
+            <div class="ob-kpi-icon">
+                <i t-att-class="'fa ' + props.icon"/>
+            </div>
+            <div class="ob-kpi-copy">
+                <span t-esc="props.label"/>
+                <strong t-esc="props.value"/>
+                <small>
+                    <i class="fa fa-arrow-up"/> <t t-esc="props.delta"/> <em>vs previous period</em>
+                </small>
+            </div>
+        </article>
+    </t>
+
+    <!-- Dashboard Progress Card -->
+    <t t-name="odoo_modern_backend.ProgressCard">
+        <article class="ob-dashboard-card">
+            <div class="ob-card-head">
+                <div>
+                    <span class="ob-eyebrow">GOAL TRACKING</span>
+                    <h4 t-esc="props.label"/>
+                </div>
+                <strong t-esc="props.value + '%'"/>
+            </div>
+            <div class="ob-progress">
+                <span t-att-style="'width:' + props.value + '%'"/>
+            </div>
+            <small t-esc="props.meta"/>
+        </article>
+    </t>
+
+    <!-- Dashboard Activity Card -->
+    <t t-name="odoo_modern_backend.ActivityCard">
+        <div class="ob-activity-item">
+            <div t-att-class="'ob-activity-icon ob-type-' + (props.type || 'primary')">
+                <i t-att-class="'fa ' + props.icon"/>
+            </div>
+            <div class="ob-activity-body">
+                <strong t-esc="props.title"/>
+                <span t-esc="props.text"/>
+            </div>
+            <time t-esc="props.time"/>
+        </div>
+    </t>
+
+    <!-- Dashboard Quick Action Button -->
+    <t t-name="odoo_modern_backend.QuickAction">
+        <button class="ob-quick-action" t-on-click="onClick">
+            <i t-att-class="'fa ' + props.icon"/>
+            <span t-esc="props.label"/>
+            <i class="fa fa-arrow-right ob-action-arrow"/>
+        </button>
+    </t>
+
+    <!-- SaaS Workspace Dashboard Client Action -->
+    <t t-name="odoo_modern_backend.ModernDashboard">
+        <main class="ob-dashboard-page">
+            <div class="ob-page-heading">
+                <div>
+                    <span class="ob-eyebrow">SAAS WORKSPACE</span>
+                    <h1 t-esc="greeting"/>
+                    <p>Here’s the latest real-time pulse across your operations.</p>
+                </div>
+                <div class="ob-heading-actions">
+                    <div class="ob-period-switcher">
+                        <button t-foreach="periods" t-as="p" t-key="p.id" t-att-class="state.period === p.id ? 'active' : ''" t-on-click="() => this.setPeriod(p.id)" t-esc="p.label"/>
+                    </div>
+                    <button class="btn btn-primary" t-on-click="createContact">
+                        <i class="fa fa-plus me-1"/> New Contact
+                    </button>
+                </div>
+            </div>
+
+            <!-- KPI Cards Grid -->
+            <div class="ob-kpi-grid">
+                <t t-foreach="kpis" t-as="kpi" t-key="kpi.label">
+                    <KPI label="kpi.label" value="kpi.value" delta="kpi.delta" icon="kpi.icon" trend="kpi.trend"/>
+                </t>
+            </div>
+
+            <!-- Performance Overview & Recent Activities -->
+            <div class="ob-dashboard-grid">
+                <section class="ob-panel ob-wide">
+                    <div class="ob-panel-head">
+                        <div>
+                            <span class="ob-eyebrow">BUSINESS PULSE</span>
+                            <h3>Performance Overview</h3>
+                        </div>
+                        <span class="ob-badge">Live Trends</span>
+                    </div>
+                    <div class="ob-chart-placeholder">
+                        <div class="ob-chart-bars">
+                            <span t-foreach="chartBars" t-as="bar" t-key="bar_index" t-att-style="'height:' + bar + '%'" t-att-title="bar + '%'"/>
+                        </div>
+                        <div class="ob-chart-axis">
+                            <span t-foreach="chartLabels" t-as="lbl" t-key="lbl_index" t-esc="lbl"/>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="ob-panel">
+                    <div class="ob-panel-head">
+                        <div>
+                            <span class="ob-eyebrow">FEED</span>
+                            <h3>Recent Activities</h3>
+                        </div>
+                        <button class="ob-link-button" t-on-click="openSearch">Search</button>
+                    </div>
+                    <div class="ob-activities">
+                        <t t-foreach="activities" t-as="item" t-key="item.title">
+                            <ActivityCard title="item.title" text="item.text" time="item.time" icon="item.icon" type="item.type"/>
+                        </t>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Goals Progress Grid -->
+            <div class="ob-dashboard-grid ob-secondary-grid">
+                <t t-foreach="progress" t-as="item" t-key="item.label">
+                    <ProgressCard label="item.label" value="item.value" meta="item.meta"/>
+                </t>
+            </div>
+
+            <!-- Quick Action Shortcuts -->
+            <section class="ob-panel">
+                <div class="ob-panel-head">
+                    <div>
+                        <span class="ob-eyebrow">SHORTCUTS</span>
+                        <h3>Quick Actions</h3>
+                    </div>
+                </div>
+                <div class="ob-actions-grid">
+                    <QuickAction icon="fa-user-plus" label="New Contact" action="() => this.createContact()"/>
+                    <QuickAction icon="fa-file-text-o" label="New Quotation" action="() => this.createQuotation()"/>
+                    <QuickAction icon="fa-sliders" label="Customize Theme" action="() => this.openSettings()"/>
+                    <QuickAction icon="fa-search" label="Command Center" action="() => this.openSearch()"/>
+                </div>
+            </section>
+        </main>
+    </t>
+
+    <!-- OWL Reusable Component Library -->
+    <t t-name="odoo_modern_backend.ModernBadge">
+        <span t-att-class="'ob-badge ob-badge-' + (props.variant || 'primary')" t-esc="props.label"/>
+    </t>
+
+    <t t-name="odoo_modern_backend.ModernStat">
+        <div class="ob-stat">
+            <span t-esc="props.label"/>
+            <strong t-esc="props.value"/>
+        </div>
+    </t>
+
+    <t t-name="odoo_modern_backend.ModernEmptyState">
+        <div class="ob-empty-state">
+            <div class="ob-empty-icon">
+                <i t-att-class="'fa ' + (props.icon || 'fa-inbox')"/>
+            </div>
+            <h3 t-esc="props.title"/>
+            <p t-esc="props.description"/>
+        </div>
+    </t>
+
+    <t t-name="odoo_modern_backend.ModernSectionHeader">
+        <div class="ob-section-header">
+            <div>
+                <span t-if="props.eyebrow" t-esc="props.eyebrow" class="ob-eyebrow"/>
+                <h3 t-esc="props.title"/>
+            </div>
+            <div class="ob-section-actions">
+                <t t-slot="actions"/>
+            </div>
+        </div>
+    </t>
+</templates>

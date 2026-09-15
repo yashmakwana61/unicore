@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Users see only their own sessions; managers see all -->
+    <record id="rule_oacis_ai_chat_session_own" model="ir.rule">
+        <field name="name">AI Chat Session: own only</field>
+        <field name="model_id" ref="model_oacis_ai_chat_session"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('oacis_ai.group_oacis_ai_user'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- Messages follow parent session ownership -->
+    <record id="rule_oacis_ai_chat_message_own" model="ir.rule">
+        <field name="name">AI Chat Message: own session only</field>
+        <field name="model_id" ref="model_oacis_ai_chat_message"/>
+        <field name="domain_force">[('session_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('oacis_ai.group_oacis_ai_user'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+
+    <!-- Prompt library: all AI users can read active shared prompts -->
+    <record id="rule_oacis_ai_prompt_shared" model="ir.rule">
+        <field name="name">AI Prompt: shared active visible to all users</field>
+        <field name="model_id" ref="model_oacis_ai_prompt"/>
+        <field name="domain_force">['|', ('is_shared', '=', True), ('create_uid', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('oacis_ai.group_oacis_ai_user'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Usage logs: users see own, managers see all -->
+    <record id="rule_oacis_ai_usage_own" model="ir.rule">
+        <field name="name">AI Usage Log: own only</field>
+        <field name="model_id" ref="model_oacis_ai_usage_log"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('oacis_ai.group_oacis_ai_user'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+</odoo>

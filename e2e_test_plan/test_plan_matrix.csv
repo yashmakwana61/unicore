@@ -1,0 +1,92 @@
+TC_ID,Module,Scenario,Type,Role,Priority,Automation,Phase
+SMOKE-01,all,Install all 55 oacis_* in dependency order with no errors,install,Admin,P0,odoo-native,Phase0
+SMOKE-02,all,Upgrade oacis_demo seed (PreciseFect) re-runnable without duplicates,install,Admin,P0,odoo-native,Phase0
+SMOKE-03,all,All root menus load for Admin with no missing ACL/model errors,ui-smoke,Admin,P0,playwright,Phase0
+SMOKE-04,all,Health endpoints up: /api/oacis/v1/health and /web/login,api-smoke,Anonymous,P0,odoo-native,Phase0
+SMOKE-05,all,Create one record per core model (campus/program/student/offering) as Registrar,unit,Registrar,P0,odoo-native,Phase0
+FND-01,oacis_base,Role matrix: Admin/Manager/Registrar/Finance/Staff/Student/Faculty groups imply correct base groups,security,Admin,P0,odoo-native,Phase0
+FND-02,oacis_security,Campus isolation: user limited to campus A cannot read campus B records,security,Registrar,P0,odoo-native,Phase1
+FND-03,oacis_security,Portal student sees only own student/enrollment/grades/fees (published only),security,Student,P0,odoo-native+playwright,Phase1
+FND-04,oacis_campus,Campus→Building→Floor→Room→Facility hierarchy creation + capacity>=0 constraint,unit,Registrar,P1,odoo-native,Phase1
+FND-05,oacis_institution_profile,Switch institution_type university/college/school preserves legacy behavior + terminology labels,integration,Admin,P1,odoo-native,Phase2
+FND-06,oacis_academic_generic,Unit tree: allowed_child_type enforced + cycle detection + UNIQUE(code),unit,Registrar,P1,odoo-native,Phase1
+ACD-01,oacis_academic,Faculty→Department→Program→Specialisation draft>approved>active + operational guards,unit,Registrar,P0,odoo-native,Phase1
+ACD-02,oacis_academic,Program cohort_kind academic_year/grade_batch/rolling validation,unit,Registrar,P1,odoo-native,Phase1
+ACD-03,oacis_calendar,Year→Semester→Generate Weeks→Holidays + get_current_semester,unit,Registrar,P0,odoo-native,Phase1
+ACD-04,oacis_curriculum,Course draft>approved>active + prerequisite cycle rejection,unit,Registrar,P0,odoo-native,Phase1
+ACD-05,oacis_curriculum,Offering draft>open>ongoing>completed + instructor required + UNIQUE(course/semester/section/program),unit,Registrar,P0,odoo-native,Phase1
+ACD-06,oacis_student,Student prospect>admitted>enrolled>active + DOB/age>=14 + UNIQUE email/student_id,unit,Registrar,P0,odoo-native,Phase1
+ACD-07,oacis_student,Student graduate requires credits>=required + convert_to_alumni creates mailing contact,integration,Registrar,P1,odoo-native,Phase2
+ACD-08,oacis_guardian,Guardian link multiple students + primary/guarantor flags + portal grant/revoke,unit,Registrar,P1,odoo-native,Phase2
+ACD-09,oacis_faculty_profile,Faculty draft>active>on_leave>suspend>terminate + partner/user auto-create,unit,Registrar,P1,odoo-native,Phase2
+ADM-01,oacis_admission,Cycle create + seats per program + weight validation 0-100,unit,Registrar,P0,odoo-native,Phase1
+ADM-02,oacis_admission,Applicant inquiry>applied>review>shortlist>entrance>merit>offer full pipeline with composite scoring,integration,Registrar,P0,odoo-native,Phase1
+ADM-03,oacis_admission_fees,Offer accepted → fee_pending creates student + idempotent fee invoice (+30d due),integration,Registrar,P0,odoo-native,Phase1
+ADM-04,oacis_admission,Confirm blocked while open (unpaid/non-cancelled) invoices exist,integration,Registrar,P0,odoo-native,Phase1
+ADM-05,oacis_admission,Enroll creates admission.enrollment + course enrollments; prereq/capacity/timetable-conflict checks → waitlist+log,integration,Registrar,P0,odoo-native,Phase1
+ADM-06,oacis_crm,Applicant create auto-creates CRM lead; lead stage syncs applicant state both ways,integration,Staff,P1,odoo-native,Phase2
+ADM-07,oacis_website,GET /admissions/programs lists only active cycles with seats + apply URLs,e2e,Anonymous,P0,playwright,Phase1
+ADM-08,oacis_website,POST /admissions/apply valid creates applicant(inquiry)+number; invalid shows errors; draft cycle excluded,e2e,Anonymous,P0,playwright,Phase1
+TT-01,oacis_timetable,Entry confirm + room+slot+day overlap rejected (ValidationError),unit,Registrar,P0,odoo-native,Phase1
+TT-02,oacis_timetable,Instructor double-booking same slot+day rejected,unit,Registrar,P0,odoo-native,Phase1
+TT-03,oacis_timetable,RoomBooking cross-check vs timetable entries; request>approved>cancelled,unit,Registrar,P1,odoo-native,Phase1
+ATT-01,oacis_attendance,Generate sessions from timetable range + auto-create absent records on open,integration,Faculty,P0,odoo-native,Phase1
+ATT-02,oacis_attendance,Close locks records; reopen allowed; shortage% vs policy + exam-eligibility link,integration,Faculty,P0,odoo-native,Phase1
+EXM-01,oacis_exam,Schedule publish → generate hall tickets with attendance% check (eligible/ineligible_attendance),integration,Registrar,P0,odoo-native,Phase1
+EXM-02,oacis_exam,Hall ticket approve blocked if ineligible; override_approve + block/cancel/mark_used,unit,Registrar,P0,odoo-native,Phase1
+EXM-03,oacis_exam,Seating generation respects room capacity + UNIQUE seat per room,unit,Registrar,P1,odoo-native,Phase1
+ASN-01,oacis_assignment,Assignment draft>published>closed; publish notifies enrolled students,integration,Faculty,P0,odoo-native,Phase1
+ASN-02,oacis_assignment,"Submission late detection vs due_datetime, rubric sum grading, return/reopen",unit,Student,P1,odoo-native,Phase1
+ASN-03,oacis_gradebook,Batch roll-up submission→gradebook lines; apply_ca_marks writes only draft/submitted entries within internal_max,integration,Faculty,P0,odoo-native,Phase1
+QZ-01,oacis_quiz,Quiz activate requires questions; single attempt per (student/quiz); % scoring + tab_switch count,unit,Faculty,P1,odoo-native,Phase2
+GRD-01,oacis_grading,Grade entry draft>submitted>verified>published>locked + marks [0/max] guards,unit,Faculty,P0,odoo-native,Phase1
+GRD-02,oacis_grading,Semester result SGPA/CGPA aggregates only published/locked entries; withhold flow,integration,Registrar,P0,odoo-native,Phase1
+GRD-03,oacis_secure_transcript,Issue transcript (published results only) → SHA256 + QR + /transcript/verify/<hash>; revoke,e2e,Registrar,P1,playwright,Phase2
+PRG-01,oacis_progression,Record promote/repeat/probation/dismiss stamps decided_by+date; pending requires no stamp,unit,Registrar,P0,odoo-native,Phase1
+LMS-01,oacis_lms,Channel sync_academic_enrollments adds offering partners; view gradebook link,integration,Faculty,P1,odoo-native,Phase2
+FEE-01,oacis_fees,Structure draft>active>archived; batch generate invoices for registered enrollments only,integration,Finance,P0,odoo-native,Phase1
+FEE-02,oacis_fees,Invoice draft>sent (GL move posted)>partial/paid/overdue via residual; cancel/reset guards,integration,Finance,P0,odoo-native,Phase1
+FEE-03,oacis_fees,Overdue cron flags due_date<today; fee statement QWeb correct totals,integration,Finance,P1,odoo-native,Phase2
+PAY-01,oacis_payment,Backend payment link → portal Pay Online → native checkout → reconcile → invoice_state sync,e2e,Student,P0,playwright,Phase1
+SCH-01,oacis_scholarship,Program open → application submit (CGPA/income/attendance/deadline checks) → approve → award disburse fee_adjustment discount,integration,Finance,P1,odoo-native,Phase2
+FIN-01,oacis_finance_report,Daily snapshot cron per company/semester: invoiced/collected/outstanding + net_revenue; KPI refresh,integration,Finance,P1,odoo-native,Phase2
+HOS-01,oacis_hostel,Block→Room capacity → Allocation → checkin (gender compatible + UNIQUE student/year) → checkout/cancel,unit,Staff,P1,odoo-native,Phase3
+HOS-02,oacis_hostel,Maintenance start>resolve>reopen for room/block,unit,Staff,P2,odoo-native,Phase3
+TRN-01,oacis_transport,Vehicle→Route+Stops+fee → Pass active (auto fee + UNIQUE student/route/semester) → suspend/reactivate/fee_paid,unit,Staff,P1,odoo-native,Phase3
+TRN-02,oacis_transport_fleet,Transport vehicle create mirrors fleet.vehicle + bidirectional sync + smart buttons,integration,Staff,P2,odoo-native,Phase3
+LIB-01,oacis_library,Member active → Issue (copy→issued + due=issue+loan) → return (fine calc) / renew / lost / waive; reservation fulfill,unit,Staff,P1,odoo-native,Phase3
+LIB-02,oacis_digital_library,Upload material + access_level all/enrolled_only/faculty_only enforcement,security,Student,P2,odoo-native,Phase3
+SRV-01,oacis_asset_request,Request draft>submitted>approved>fulfilled + reject/reset guards; admin approver assigned,unit,Faculty,P2,odoo-native,Phase3
+SRV-02,oacis_discipline,Record draft>under_review>action_taken (notes required)>closed; future-date blocked,unit,Staff,P2,odoo-native,Phase3
+SRV-03,oacis_grievance,Grievance new>in_progress>resolved (notes required + notify)>escalated/cancelled via portal,integration,Student,P1,odoo-native+playwright,Phase2
+SRV-04,oacis_student_leave,Portal leave submit → approve triggers student on_leave; reject/resubmit/cancel; double-leave blocked,e2e,Guardian,P1,playwright,Phase2
+SRV-05,oacis_mentor,"Allocation draft>active>done + meeting logs (future blocked)",unit,Faculty,P2,odoo-native,Phase3
+SRV-06,oacis_appointment,Slot create → booking confirm (capacity+duplicate check) → complete/cancel/no_show,e2e,Student,P2,playwright,Phase3
+SRV-07,oacis_notice_board,Notice publish/expiry validation + audience (all/students/faculty/guardians/specific) + campus/program filter in portal,e2e,Staff,P1,playwright,Phase2
+SRV-08,oacis_documents,Upload multi-file → verify (by/on) → version chain → template generate-for-student placeholders,unit,Registrar,P1,odoo-native,Phase3
+OUT-01,oacis_placement,Company→Drive active → apply (eligibility+duplicate check) → shortlist>offer/reject → complete,unit,Staff,P2,odoo-native,Phase3
+OUT-02,oacis_alumni,Student→alumni auto-creates mailing list + contact; event registration sync both ways,integration,Staff,P2,odoo-native,Phase3
+OUT-03,oacis_convocation,Convocation auto-creates event + auto-registers graduates; smart buttons,integration,Staff,P2,odoo-native,Phase3
+OUT-04,oacis_thesis,Thesis proposal>research>draft>submitted>defended + reviews approve/revise/reject,unit,Faculty,P2,odoo-native,Phase3
+OUT-05,oacis_skill_assessment,Skill assessment create (future blocked) + proficiency display; placement signal,unit,Faculty,P2,odoo-native,Phase3
+NTF-01,oacis_notify,Config per company + 16 system templates render (fee_due/overdue/paid/shortage/exam/result/enrollment/welcome),unit,Admin,P0,odoo-native,Phase1
+NTF-02,oacis_notify,send_batch_fee_reminders cron notifies student+guardian once per due invoice; log immutable (write/unlink blocked),integration,Finance,P0,odoo-native,Phase1
+NTF-03,oacis_notify,send_attendance_shortage_alerts dedup per student; WhatsApp mocked (10s timeout path),integration,Faculty,P0,odoo-native,Phase1
+ANL-01,oacis_analytics,Enrollment/attendance/grade/fee/funnel VIEWs reconcile to source tables + read_group by program/semester,integration,Manager,P1,odoo-native,Phase2
+ANL-02,oacis_analytics,Admission dashboard KPIs (funnel/conversion/admission_rate/avg scores) match applicant states,integration,Manager,P1,odoo-native,Phase2
+API-01,oacis_api,GET /health public UP; GET /info requires valid X-Oacis-Key (401 without/invalid),api,Anonymous,P0,odoo-native,Phase1
+API-02,oacis_api,Scope matrix: read_only→403 on POST notify; notify_only→201 send + 403 on write; expired/daily-limit 401/429,security,Admin,P0,odoo-native,Phase1
+API-03,oacis_api,Students list/get/enrollments/attendance/grades/fees pagination + invalid/SQL-injection → INVALID_PARAM not 500,api,Admin,P0,odoo-native,Phase1
+API-04,oacis_api,Programs/semesters-current/courses endpoints return scoped company data,api,Admin,P1,odoo-native,Phase2
+AI-01,oacis_ai,Chat sessions list/create/messages/send/delete enforce ownership; wizard generate/rewrite/summarize,integration,Staff,P2,odoo-native,Phase3
+PS-01,oacis_portal_student,Dashboard counters (courses/assignments/invoices) + CGPA/shortage/fees correct,e2e,Student,P0,playwright,Phase1
+PS-02,oacis_portal_student,Courses + timetable map; attendance dedup per course+semester with shortage/warning,e2e,Student,P0,playwright,Phase1
+PS-03,oacis_portal_student,Exams hall tickets upcoming/past; results only published|locked + published semester,e2e,Student,P0,playwright,Phase1
+PS-04,oacis_portal_student,"Fees list + assignment submit with late detection and faculty notify",e2e,Student,P0,playwright,Phase1
+PF-01,oacis_portal_faculty,Home today-classes + open sessions + draft grades; schedule Mon-Sat grouped,e2e,Faculty,P0,playwright,Phase1
+PF-02,oacis_portal_faculty,Attendance save (present/absent/late+minutes) persists to records,e2e,Faculty,P0,playwright,Phase1
+PF-03,oacis_portal_faculty,Grades save vs submit; assignment create→publish notifies students; grade submission,integration,Faculty,P0,playwright,Phase1
+PG-01,oacis_portal_guardian,Ward gating: no-permission template when can_view_* false; attendance/academic/fees per ward,e2e,Guardian,P1,playwright,Phase2
+PG-02,oacis_portal_guardian,Exams tickets + upcoming schedules via ward enrollments; notices audience filter,security,Guardian,P1,playwright,Phase2
+PERF-01,all,Batch fee generation 500 enrollments < 60s; seating generation 300 tickets; dashboard read_group < 3s,perf,Admin,P1,manual,Phase3
+SEC-01,all,Cross-role negative: Student cannot write grades/attendance/fees; Faculty cannot post GL moves; portal .sudo() paths still enforce ownership,security,Student,P0,odoo-native+playwright,Phase2

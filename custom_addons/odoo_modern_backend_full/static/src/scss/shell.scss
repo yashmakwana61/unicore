@@ -1,0 +1,551 @@
+.o_modern_backend .ob-sidebar {
+  position: fixed;
+  z-index: 1050;
+  inset: 0 auto 0 0;
+  width: var(--ob-sidebar);
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  background: var(--ob-surface);
+  border-right: 1px solid var(--ob-border);
+  transition: width var(--ob-transition-normal), transform var(--ob-transition-normal);
+  box-sizing: border-box;
+  box-shadow: var(--ob-shadow-xs);
+}
+
+.o_modern_backend .ob-brand {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 8px;
+  margin-bottom: 4px;
+}
+
+.o_modern_backend .ob-brand-mark {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--ob-radius-sm);
+  background: linear-gradient(135deg, var(--ob-primary), var(--ob-primary-strong));
+  color: #ffffff;
+  box-shadow: var(--ob-shadow-glow);
+  font-size: 15px;
+}
+
+.o_modern_backend .ob-brand-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.o_modern_backend .ob-brand-copy strong {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ob-text);
+}
+
+.o_modern_backend .ob-brand-copy span {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--ob-text-soft);
+  margin-top: 1px;
+  white-space: nowrap;
+}
+
+.o_modern_backend .ob-sidebar-toggle {
+  position: absolute;
+  top: 20px;
+  right: -13px;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--ob-border);
+  background: var(--ob-surface);
+  color: var(--ob-text-muted);
+  border-radius: 50%;
+  box-shadow: var(--ob-shadow-sm);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform var(--ob-transition-fast), background var(--ob-transition-fast), color var(--ob-transition-fast);
+  z-index: 10;
+}
+
+.o_modern_backend .ob-sidebar-toggle:hover {
+  background: var(--ob-surface-muted);
+  color: var(--ob-primary-strong);
+}
+
+.o_modern_backend .ob-nav {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 2px;
+}
+
+.o_modern_backend .ob-nav::-webkit-scrollbar {
+  width: 4px;
+}
+.o_modern_backend .ob-nav::-webkit-scrollbar-thumb {
+  background: var(--ob-border);
+  border-radius: 99px;
+}
+
+.o_modern_backend .ob-nav-label {
+  margin: 16px 10px 6px;
+  font-size: 9px;
+  font-weight: 800;
+  color: var(--ob-text-soft);
+  letter-spacing: 0.1em;
+}
+
+.o_modern_backend .ob-nav-item,
+.o_modern_backend .ob-footer-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 38px;
+  padding: 0 12px;
+  border-radius: var(--ob-radius-sm);
+  color: var(--ob-text-muted);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  border: 0;
+  background: transparent;
+  transition: background var(--ob-transition-fast), color var(--ob-transition-fast), transform var(--ob-transition-fast);
+  cursor: pointer;
+}
+
+.o_modern_backend .ob-nav-item:hover,
+.o_modern_backend .ob-footer-button:hover {
+  background: var(--ob-surface-muted);
+  color: var(--ob-text);
+}
+
+.o_modern_backend .ob-nav-item.ob-nav-active {
+  background: var(--ob-primary-soft);
+  color: var(--ob-primary-strong);
+  font-weight: 700;
+  box-shadow: inset 3px 0 0 var(--ob-primary);
+}
+
+.o_modern_backend .ob-nav-item > i {
+  width: 20px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.o_modern_backend .ob-app-img-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.o_modern_backend .ob-nav-item kbd {
+  margin-left: auto;
+  padding: 2px 6px;
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--ob-text-soft);
+  background: var(--ob-surface);
+  border: 1px solid var(--ob-border);
+  border-radius: 4px;
+}
+
+.o_modern_backend .ob-sidebar-footer {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--ob-border);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.o_modern_backend .ob-mini-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: var(--ob-radius-sm);
+}
+
+.o_modern_backend .ob-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--ob-primary-soft);
+  color: var(--ob-primary-strong);
+  font-weight: 800;
+  font-size: 12px;
+  overflow: hidden;
+  flex: 0 0 32px;
+}
+
+.o_modern_backend .ob-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.o_modern_backend .ob-mini-profile div:last-child {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.o_modern_backend .ob-mini-profile strong {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ob-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.o_modern_backend .ob-mini-profile span {
+  font-size: 10px;
+  color: var(--ob-text-soft);
+}
+
+.o_modern_backend .ob-footer-button {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+
+
+.o_modern_backend .ob-mobile-trigger {
+  display: none;
+}
+
+/* Collapsed Sidebar */
+.o_modern_backend.ob-sidebar-collapsed .ob-sidebar {
+  width: var(--ob-sidebar-collapsed);
+  padding: 16px 8px;
+}
+
+.o_modern_backend.ob-sidebar-collapsed .ob-brand {
+  justify-content: center;
+  padding: 0;
+}
+
+.o_modern_backend.ob-sidebar-collapsed .ob-brand-copy,
+.o_modern_backend.ob-sidebar-collapsed .ob-nav-label,
+.o_modern_backend.ob-sidebar-collapsed .ob-nav-item span,
+.o_modern_backend.ob-sidebar-collapsed .ob-nav-item kbd,
+.o_modern_backend.ob-sidebar-collapsed .ob-mini-profile div:last-child,
+.o_modern_backend.ob-sidebar-collapsed .ob-footer-button span {
+  display: none;
+}
+
+.o_modern_backend.ob-sidebar-collapsed .ob-nav-item,
+.o_modern_backend.ob-sidebar-collapsed .ob-footer-button {
+  justify-content: center;
+  padding: 0;
+}
+
+.o_modern_backend.ob-sidebar-collapsed .ob-sidebar-toggle i {
+  transform: rotate(180deg);
+}
+
+
+.o_modern_backend .o_action_manager {
+  /* The native .o_main_navbar is in the document flow and already pushes
+     content down by var(--ob-topbar). Do NOT add margin-top here or the
+     content would be double-offset and leave a large white gap. */
+  margin-top: 0;
+  margin-left: var(--ob-sidebar);
+  background: var(--ob-bg);
+  min-height: calc(100vh - var(--ob-topbar));
+  transition: margin-left var(--ob-transition-normal);
+}
+
+.o_modern_backend.ob-sidebar-collapsed .o_action_manager {
+  margin-left: var(--ob-sidebar-collapsed);
+}
+
+/* -----------------------------------------------------------
+ * Native Odoo Navbar Overrides & Modern Sub-Menus
+ * ----------------------------------------------------------- */
+.o_modern_backend .o_navbar {
+  position: relative;
+  z-index: 1020;
+  overflow: visible !important;
+}
+
+.o_modern_backend .o_main_navbar {
+  /* Push navbar right of sidebar */
+  margin-left: var(--ob-sidebar);
+  position: relative;
+  z-index: 1020;
+  /* Match theme topbar height */
+  min-height: var(--ob-topbar);
+  height: var(--ob-topbar);
+  /* Theme surface & border */
+  border-bottom: 1px solid var(--ob-border);
+  background: var(--ob-surface) !important;
+  transition: margin-left var(--ob-transition-normal);
+  /* Flex alignment */
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  box-sizing: border-box;
+  overflow: visible !important;
+
+  /* Deep Odoo Navbar CSS variables overrides */
+  --o-navbar-height: var(--ob-topbar);
+  --NavBar-entry-color: var(--ob-text-muted);
+  --NavBar-entry-color--hover: var(--ob-text);
+  --NavBar-entry-color--active: var(--ob-primary-strong);
+  --NavBar-entry-backgroundColor: transparent;
+  --NavBar-entry-backgroundColor--hover: var(--ob-surface-muted);
+  --NavBar-entry-backgroundColor--active: var(--ob-primary-soft);
+  --NavBar-entry-borderColor-active: color-mix(in srgb, var(--ob-primary) 20%, transparent);
+}
+
+/* Collapsed sidebar shift */
+.o_modern_backend.ob-sidebar-collapsed .o_main_navbar {
+  margin-left: var(--ob-sidebar-collapsed);
+}
+
+/* Hide native 9-dots home menu icon (apps are permanently in sidebar) */
+.o_modern_backend .o_main_navbar .o_navbar_apps_menu,
+.o_modern_backend .o_main_navbar .o_main_navbar_expand {
+  display: none !important;
+}
+
+/* Active App Brand Title */
+.o_modern_backend .o_main_navbar .o_menu_brand {
+  display: inline-flex !important;
+  align-items: center !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  color: var(--ob-text) !important;
+  background: transparent !important;
+  padding: 4px 10px !important;
+  margin-right: 6px !important;
+  text-decoration: none !important;
+  border-radius: var(--ob-radius-sm) !important;
+  border: none !important;
+  box-shadow: none !important;
+  letter-spacing: -0.01em !important;
+  cursor: pointer !important;
+  transition: background var(--ob-transition-fast), color var(--ob-transition-fast) !important;
+  position: relative !important;
+
+  &:hover {
+    background: var(--ob-surface-muted) !important;
+    color: var(--ob-primary-strong) !important;
+  }
+
+  &::after {
+    content: "";
+    display: inline-block;
+    height: 16px;
+    width: 1px;
+    background: var(--ob-border);
+    margin-left: 10px;
+  }
+}
+
+/* Breadcrumbs in navbar */
+.o_modern_backend .o_main_navbar .o_navbar_breadcrumbs {
+  display: flex;
+  align-items: center;
+}
+
+/* Current App Sub-Menus Container */
+.o_modern_backend .o_main_navbar .o_menu_sections {
+  display: flex !important;
+  align-items: center !important;
+  gap: 2px !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  overflow-x: auto !important;
+  scrollbar-width: none !important;
+  &::-webkit-scrollbar {
+    display: none !important;
+  }
+}
+
+/* Sub-menu buttons and links (NO dark block, clean modern pill styles) */
+.o_modern_backend .o_main_navbar .o_menu_sections .o_nav_entry,
+.o_modern_backend .o_main_navbar .o_menu_sections .dropdown-toggle,
+.o_modern_backend .o_main_navbar .o_menu_sections button,
+.o_modern_backend .o_main_navbar .o_menu_sections a {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  background: transparent !important;
+  color: var(--ob-text-muted) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  padding: 5px 10px !important;
+  border-radius: var(--ob-radius-sm) !important;
+  border: 1px solid transparent !important;
+  box-shadow: none !important;
+  line-height: 1.4 !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  transition: background var(--ob-transition-fast), color var(--ob-transition-fast), border-color var(--ob-transition-fast) !important;
+
+  &:hover {
+    background: var(--ob-surface-muted) !important;
+    color: var(--ob-text) !important;
+  }
+
+  &.active, &:focus, &[aria-expanded="true"] {
+    background: var(--ob-primary-soft) !important;
+    color: var(--ob-primary-strong) !important;
+    border-color: color-mix(in srgb, var(--ob-primary) 20%, transparent) !important;
+    font-weight: 600 !important;
+  }
+
+  &::after {
+    border-top-color: currentColor !important;
+    opacity: 0.6;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+}
+
+.o_modern_backend .o_main_navbar .o_menu_sections .dropdown.show > button,
+.o_modern_backend .o_main_navbar .o_menu_sections .dropdown.show > a {
+  background: var(--ob-primary-soft) !important;
+  color: var(--ob-primary-strong) !important;
+  border-color: color-mix(in srgb, var(--ob-primary) 20%, transparent) !important;
+  font-weight: 600 !important;
+}
+
+/* Dropdown Menus from Sub-menu Items */
+.o_modern_backend .o_main_navbar .dropdown-menu {
+  background: var(--ob-surface) !important;
+  border: 1px solid var(--ob-border) !important;
+  border-radius: var(--ob-radius-md) !important;
+  box-shadow: var(--ob-shadow-md) !important;
+  padding: 6px !important;
+  margin-top: 4px !important;
+  min-width: 190px !important;
+}
+
+.o_modern_backend .o_main_navbar .dropdown-menu .dropdown-item {
+  color: var(--ob-text) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  padding: 7px 12px !important;
+  border-radius: var(--ob-radius-sm) !important;
+  background: transparent !important;
+  transition: background var(--ob-transition-fast), color var(--ob-transition-fast) !important;
+
+  &:hover, &:focus {
+    background: var(--ob-primary-soft) !important;
+    color: var(--ob-primary-strong) !important;
+  }
+}
+
+.o_modern_backend .o_main_navbar .dropdown-menu .dropdown-header {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  color: var(--ob-text-soft) !important;
+  padding: 8px 12px 4px !important;
+}
+
+.o_modern_backend .o_main_navbar .dropdown-menu .dropdown-divider {
+  border-top: 1px solid var(--ob-border) !important;
+  margin: 4px 0 !important;
+  opacity: 1 !important;
+}
+
+/* Systray (right side of navbar) */
+.o_modern_backend .o_main_navbar .o_menu_systray {
+  margin-left: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  padding-left: 12px !important;
+  background: transparent !important;
+}
+
+/* Explicitly hide duplicate mobile burger menu avatar in systray */
+.o_modern_backend .o_main_navbar .o_menu_systray .o_mobile_menu_toggle,
+.o_modern_backend .o_main_navbar .o_menu_systray .o_burger_menu_avatar,
+.o_modern_backend .o_main_navbar .o_menu_systray .o_burger_menu,
+.o_modern_backend .o_main_navbar .o_menu_systray .d-md-none {
+  display: none !important;
+}
+
+.o_modern_backend .o_main_navbar .o_menu_systray > li:not(.d-none):not(.d-md-none),
+.o_modern_backend .o_main_navbar .o_menu_systray > div:not(.d-none):not(.d-md-none) {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.o_modern_backend .o_main_navbar .o_menu_systray a:not(.d-none):not(.d-md-none),
+.o_modern_backend .o_main_navbar .o_menu_systray button:not(.d-none):not(.d-md-none),
+.o_modern_backend .o_main_navbar .o_menu_systray .o_nav_entry:not(.d-none):not(.d-md-none) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  padding: 0 8px;
+  border-radius: var(--ob-radius-sm);
+  color: var(--ob-text-muted);
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  transition: background var(--ob-transition-fast), color var(--ob-transition-fast);
+  text-decoration: none;
+
+  &:hover {
+    background: var(--ob-surface-muted);
+    color: var(--ob-text);
+  }
+}
+
+/* Single User Profile Menu in Systray */
+.o_modern_backend .o_main_navbar .o_user_menu {
+  display: flex !important;
+  align-items: center !important;
+  margin-left: 6px !important;
+
+  .o_user_avatar {
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: var(--ob-radius-sm) !important;
+    object-fit: cover !important;
+    border: 1px solid var(--ob-border) !important;
+    box-shadow: var(--ob-shadow-xs) !important;
+    transition: border-color var(--ob-transition-fast), transform var(--ob-transition-fast) !important;
+  }
+
+  &:hover .o_user_avatar {
+    border-color: var(--ob-primary) !important;
+    transform: scale(1.04);
+  }
+
+  button {
+    padding: 0 4px !important;
+    background: transparent !important;
+    border: none !important;
+  }
+}
+

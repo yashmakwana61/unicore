@@ -10,6 +10,7 @@
     'data': [
         'security/ir.model.access.csv',
         'security/security_rules.xml',
+        'data/oacis_grievance_sequence.xml',
         'views/grievance_views.xml',
         'views/menu.xml',
         'views/portal_templates.xml',

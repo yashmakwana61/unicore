@@ -1,0 +1,103 @@
+// ==============================================================================
+// MuK Modern List View Styling (Odoo 19)
+// ==============================================================================
+
+.o_list_renderer {
+    background-color: var(--mk-surface-card, #FFFFFF);
+    
+    .o_list_table {
+        border-collapse: separate;
+        border-spacing: 0;
+        font-family: var(--mk-font-family);
+        
+        thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            
+            tr {
+                border-bottom: 1px solid var(--mk-border-color, #E2E8F0);
+                
+                th {
+                    background-color: var(--mk-surface-muted, #F8FAFC);
+                    color: var(--mk-text-muted, #64748B);
+                    font-size: 11.5px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                    padding: 10px 12px;
+                    border: none;
+                    border-bottom: 1px solid var(--mk-border-color, #E2E8F0);
+                    white-space: nowrap;
+                    vertical-align: middle;
+                    
+                    &:focus, &:active {
+                        outline: none;
+                    }
+                }
+            }
+        }
+        
+        tbody {
+            tr.o_data_row {
+                transition: background-color 140ms ease;
+                
+                > td {
+                    padding: 10px 12px;
+                    font-size: 13px;
+                    color: var(--mk-text-body, #334155);
+                    border-top: none;
+                    border-bottom: 1px solid var(--mk-border-subtle, #F1F5F9);
+                    vertical-align: middle;
+                }
+                
+                &:hover {
+                    background-color: rgba(99, 102, 241, 0.04) !important;
+                    
+                    > td {
+                        color: var(--mk-text-heading, #0F172A);
+                    }
+                }
+                
+                &.o_data_row_selected {
+                    background-color: rgba(99, 102, 241, 0.08) !important;
+                }
+            }
+            
+            // Group headers in list views
+            tr.o_group_header {
+                background-color: var(--mk-surface-muted, #F1F5F9) !important;
+                font-weight: 600;
+                font-size: 13px;
+                color: var(--mk-text-heading, #0F172A);
+                
+                th, td {
+                    padding: 10px 14px;
+                    border-top: 1px solid var(--mk-border-color, #E2E8F0);
+                    border-bottom: 1px solid var(--mk-border-color, #E2E8F0);
+                }
+                
+                .o_group_name {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 6px;
+                }
+            }
+        }
+    }
+}
+
+// Custom Checkbox Styling
+.o_list_table .form-check-input {
+    border-radius: var(--mk-radius-xs, 4px);
+    border-color: var(--mk-border-color, #CBD5E1);
+    
+    &:checked {
+        background-color: var(--mk-primary, #6366F1);
+        border-color: var(--mk-primary, #6366F1);
+    }
+    
+    &:focus {
+        box-shadow: 0 0 0 2px var(--mk-primary-ring, rgba(99, 102, 241, 0.25));
+    }
+}

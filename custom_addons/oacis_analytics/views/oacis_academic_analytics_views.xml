@@ -3,8 +3,7 @@
 
   <!-- GRADE DISTRIBUTION REPORT -->
 
-  <record id="view_oacis_grade_dist_pivot"
-          model="ir.ui.view">
+  <record id="view_oacis_grade_dist_pivot" model="ir.ui.view">
     <field name="name">oacis.grade.distribution.report.pivot</field>
     <field name="model">oacis.grade.distribution.report</field>
     <field name="arch" type="xml">
@@ -17,22 +16,18 @@
     </field>
   </record>
 
-  <record id="view_oacis_grade_dist_graph"
-          model="ir.ui.view">
+  <record id="view_oacis_grade_dist_graph" model="ir.ui.view">
     <field name="name">oacis.grade.distribution.report.graph</field>
     <field name="model">oacis.grade.distribution.report</field>
     <field name="arch" type="xml">
-      <graph string="Grade Distribution"
-             type="bar"
-             stacked="0">
+      <graph string="Grade Distribution" type="bar" stacked="0">
         <field name="letter_grade"/>
         <field name="student_count" type="measure"/>
       </graph>
     </field>
   </record>
 
-  <record id="view_oacis_grade_dist_list"
-          model="ir.ui.view">
+  <record id="view_oacis_grade_dist_list" model="ir.ui.view">
     <field name="name">oacis.grade.distribution.report.list</field>
     <field name="model">oacis.grade.distribution.report</field>
     <field name="arch" type="xml">
@@ -50,8 +45,7 @@
     </field>
   </record>
 
-  <record id="action_oacis_grade_dist_report"
-          model="ir.actions.act_window">
+  <record id="action_oacis_grade_dist_report" model="ir.actions.act_window">
     <field name="name">Grade Distribution Analytics</field>
     <field name="res_model">oacis.grade.distribution.report</field>
     <field name="view_mode">graph,pivot,list</field>
@@ -59,8 +53,7 @@
 
   <!-- SEMESTER RESULT REPORT -->
 
-  <record id="view_oacis_sem_result_report_pivot"
-          model="ir.ui.view">
+  <record id="view_oacis_sem_result_report_pivot" model="ir.ui.view">
     <field name="name">oacis.semester.result.report.pivot</field>
     <field name="model">oacis.semester.result.report</field>
     <field name="arch" type="xml">
@@ -73,22 +66,18 @@
     </field>
   </record>
 
-  <record id="view_oacis_sem_result_report_graph"
-          model="ir.ui.view">
+  <record id="view_oacis_sem_result_report_graph" model="ir.ui.view">
     <field name="name">oacis.semester.result.report.graph</field>
     <field name="model">oacis.semester.result.report</field>
     <field name="arch" type="xml">
-      <graph string="Semester Pass / Fail Analysis"
-             type="bar"
-             stacked="1">
+      <graph string="Semester Pass / Fail Analysis" type="bar" stacked="1">
         <field name="program_id"/>
         <field name="student_count" type="measure"/>
       </graph>
     </field>
   </record>
 
-  <record id="view_oacis_sem_result_report_list"
-          model="ir.ui.view">
+  <record id="view_oacis_sem_result_report_list" model="ir.ui.view">
     <field name="name">oacis.semester.result.report.list</field>
     <field name="model">oacis.semester.result.report</field>
     <field name="arch" type="xml">
@@ -103,8 +92,7 @@
     </field>
   </record>
 
-  <record id="action_oacis_sem_result_report"
-          model="ir.actions.act_window">
+  <record id="action_oacis_sem_result_report" model="ir.actions.act_window">
     <field name="name">Semester Result Analytics</field>
     <field name="res_model">oacis.semester.result.report</field>
     <field name="view_mode">graph,pivot,list</field>

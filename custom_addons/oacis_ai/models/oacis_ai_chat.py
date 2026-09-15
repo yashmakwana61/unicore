@@ -31,6 +31,15 @@ class OacisAIChatSession(models.Model):
         string='Messages',
     )
     active = fields.Boolean(default=True)
+    message_count = fields.Integer(
+        string='Messages',
+        compute='_compute_message_count',
+    )
+
+    @api.depends('message_ids')
+    def _compute_message_count(self):
+        for rec in self:
+            rec.message_count = len(rec.message_ids)
 
     @api.model
     def _auto_title(self, session_id, first_user_message):
@@ -72,3 +81,21 @@ class OacisAIChatMessage(models.Model):
         string='Sequence',
         default=10,
     )
+    # --- Usefulness loop ---
+    rating = fields.Selection(
+        selection=[('up', '👍 Helpful'), ('down', '👎 Not helpful')],
+        string='Rating',
+    )
+    feedback_note = fields.Char(string='Feedback Note')
+    tokens_estimate = fields.Integer(
+        string='Tokens (est.)',
+        help='Rough estimate (chars / 4) for cost awareness.',
+    )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            content = vals.get('content') or ''
+            if not vals.get('tokens_estimate') and content:
+                vals['tokens_estimate'] = max(1, len(content) // 4)
+        return super().create(vals_list)

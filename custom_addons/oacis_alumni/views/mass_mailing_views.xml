@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="view_mass_mailing_list_form_alumni_ext"
-            model="ir.ui.view">
+    <record id="view_mass_mailing_list_form_alumni_ext" model="ir.ui.view">
         <field name="name">mailing.list.form.alumni.ext</field>
         <field name="model">mailing.list</field>
         <field name="inherit_id" ref="mass_mailing.mailing_list_view_form"/>
@@ -13,8 +12,7 @@
         </field>
     </record>
 
-    <record id="view_mass_mailing_list_tree_alumni_ext"
-            model="ir.ui.view">
+    <record id="view_mass_mailing_list_tree_alumni_ext" model="ir.ui.view">
         <field name="name">mailing.list.tree.alumni.ext</field>
         <field name="model">mailing.list</field>
         <field name="inherit_id" ref="mass_mailing.mailing_list_view_tree"/>
