@@ -23,9 +23,9 @@
       <form>
         <sheet>
           <div class="oe_button_box" name="button_box">
-            <button name="action_regenerate_key" type="object" string="Regenerate Key" class="oe_stat_button" icon="fa-refresh" groups="oacis_api.group_oacis_api_admin"/>
+            <button name="action_generate_key" type="object" string="Regenerate Key" class="oe_stat_button" icon="fa-refresh" groups="oacis_api.group_oacis_api_admin"/>
           </div>
-          <widget name="web_ribbon" text="Expired" bg_color="danger" invisible="expires_on == False or expires_on &gt; current_date()"/>
+          <widget name="web_ribbon" title="Expired" bg_color="danger" invisible="expires_on == False or expires_on &gt; current_date()"/>
           <group>
             <group>
               <field name="name"/>
@@ -34,7 +34,7 @@
               <field name="active"/>
             </group>
             <group>
-              <field name="token" readonly="1" password="True" groups="oacis_api.group_oacis_api_admin"/>
+              <field name="token_hash" readonly="1" password="True" groups="oacis_api.group_oacis_api_admin"/>
               <field name="expires_on"/>
               <field name="daily_limit"/>
               <field name="company_id" groups="base.group_multi_company"/>

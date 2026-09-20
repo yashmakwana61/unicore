@@ -62,7 +62,6 @@
       <field name="model">oacis.discipline.record</field>
       <field name="arch" type="xml">
         <list string="Discipline Records" default_order="incident_date desc">
-          <field name="name" class="fw-bold"/>
           <field name="student_id" widget="many2one_avatar"/>
           <field name="category_id" widget="badge"/>
           <field name="incident_date"/>
@@ -79,9 +78,9 @@
       <field name="arch" type="xml">
         <form string="Discipline Incident">
           <header>
-            <button name="action_investigate" string="Start Investigation" type="object" class="btn-primary" invisible="state != 'draft'"/>
-            <button name="action_schedule_hearing" string="Schedule Hearing" type="object" class="btn-primary" invisible="state != 'under_investigation'"/>
-            <button name="action_enact" string="Enact Action" type="object" class="btn-warning" invisible="state != 'hearing'"/>
+          <button name="action_under_review" string="Start Investigation" type="object" class="btn-primary" invisible="state != 'draft'"/>
+          <button name="action_under_review" string="Schedule Hearing" type="object" class="btn-primary" invisible="state != 'under_review'"/>
+          <button name="action_take_action" string="Enact Action" type="object" class="btn-warning" invisible="state != 'under_review'"/>
             <button name="action_close" string="Close Case" type="object" class="btn-success" invisible="state != 'action_taken'"/>
             <button name="action_cancel" string="Cancel" type="object" class="btn-secondary" invisible="state in ('closed', 'cancelled')"/>
             <field name="state" widget="statusbar" statusbar_visible="draft,under_investigation,hearing,action_taken,closed"/>
@@ -90,9 +89,9 @@
             <widget name="web_ribbon" title="Case Closed" bg_color="text-bg-success" invisible="state != 'closed'"/>
             <widget name="web_ribbon" title="Action Enacted" bg_color="text-bg-danger" invisible="state != 'action_taken'"/>
             <div class="oe_title">
-              <label for="name" string="Incident Reference" class="oe_edit_only"/>
+              <label for="student_id" string="Student" class="oe_edit_only"/>
               <h1>
-                <field name="name" placeholder="e.g. INC-2026-001"/>
+                <field name="student_id" widget="many2one_avatar"/>
               </h1>
             </div>
             <group>
@@ -128,7 +127,6 @@
       <field name="arch" type="xml">
         <kanban class="o_kanban_mobile" default_group_by="state">
           <field name="id"/>
-          <field name="name"/>
           <field name="student_id" widget="many2one_avatar"/>
           <field name="category_id"/>
           <field name="incident_date"/>
@@ -137,7 +135,7 @@
           <templates>
             <t t-name="card" class="flex-column">
               <div class="d-flex justify-content-between align-items-start">
-                <field name="name" class="fw-bold fs-6"/>
+                <field name="student_id" widget="many2one_avatar" class="fw-bold fs-6"/>
                 <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-warning="state in ('under_investigation', 'hearing')" decoration-danger="state == 'action_taken'" decoration-success="state == 'closed'"/>
               </div>
               <div class="mt-2 d-flex align-items-center gap-2">
@@ -159,7 +157,7 @@
       <field name="model">oacis.discipline.record</field>
       <field name="arch" type="xml">
         <search string="Search Discipline Records">
-          <field name="name" string="Incident Reference / Student" filter_domain="['|', ('name', 'ilike', self), ('student_id.name', 'ilike', self)]"/>
+          <field name="student_id" string="Student" widget="many2one_avatar"/>
           <field name="student_id" widget="many2one_avatar"/>
           <field name="category_id"/>
           <field name="reported_by"/>

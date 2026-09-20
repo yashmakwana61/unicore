@@ -17,6 +17,10 @@ class MisbehaviourCategory(models.Model):
         ('critical', 'Critical'),
     ], string='Severity Level', required=True, default='low')
     company_id = fields.Many2one('res.company', string='Institution', default=lambda self: self.env.company)
+    description = fields.Text(
+        string='Description',
+        help='Guidelines for classifying this misbehaviour category.',
+    )
 
 
 class DisciplineRecord(models.Model):

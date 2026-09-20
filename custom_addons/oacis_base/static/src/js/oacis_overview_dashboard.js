@@ -111,13 +111,30 @@ export class OacisOverviewDashboard extends Component {
 
     _getChart() { return window.Chart; }
 
+    _requireChart(canvasId) {
+        const canvas = document.querySelector(canvasId);
+        if (!canvas) return null;
+        const Chart = this._getChart();
+        if (!Chart) {
+            // Fail loudly: a missing Chart.js means the asset bundle is
+            // misconfigured. Previously every renderer silently returned,
+            // leaving blank canvases with no diagnosable error.
+            this.notification.add(
+                "Chart.js library is not loaded; overview graphs cannot render. " +
+                "Ensure 'web.chartjs_lib' is included in backend assets.",
+                { type: "warning" },
+            );
+            return null;
+        }
+        return { canvas, Chart };
+    }
+
     _renderStudentsByState() {
-        const canvas = document.querySelector("#oacisChartStudentsByState");
-        if (!canvas) return;
         const data = this.state.data.charts?.students_by_state || [];
         if (!data.length) return;
-        const Chart = this._getChart();
-        if (!Chart) return;
+        const found = this._requireChart("#oacisChartStudentsByState");
+        if (!found) return;
+        const { canvas, Chart } = found;
         const ctx = canvas.getContext("2d");
         this.chartInstances.studentsByState = new Chart(ctx, {
             type: "doughnut",
@@ -130,12 +147,11 @@ export class OacisOverviewDashboard extends Component {
     }
 
     _renderStudentsByCampus() {
-        const canvas = document.querySelector("#oacisChartStudentsByCampus");
-        if (!canvas) return;
         const data = this.state.data.charts?.students_by_campus || [];
         if (!data.length) return;
-        const Chart = this._getChart();
-        if (!Chart) return;
+        const found = this._requireChart("#oacisChartStudentsByCampus");
+        if (!found) return;
+        const { canvas, Chart } = found;
         const ctx = canvas.getContext("2d");
         this.chartInstances.studentsByCampus = new Chart(ctx, {
             type: "bar",
@@ -145,12 +161,11 @@ export class OacisOverviewDashboard extends Component {
     }
 
     _renderCampusesByType() {
-        const canvas = document.querySelector("#oacisChartCampusesByType");
-        if (!canvas) return;
         const data = this.state.data.charts?.campuses_by_type || [];
         if (!data.length) return;
-        const Chart = this._getChart();
-        if (!Chart) return;
+        const found = this._requireChart("#oacisChartCampusesByType");
+        if (!found) return;
+        const { canvas, Chart } = found;
         const ctx = canvas.getContext("2d");
         this.chartInstances.campusesByType = new Chart(ctx, {
             type: "pie",
@@ -160,12 +175,11 @@ export class OacisOverviewDashboard extends Component {
     }
 
     _renderInvoicesByState() {
-        const canvas = document.querySelector("#oacisChartInvoicesByState");
-        if (!canvas) return;
         const data = this.state.data.charts?.invoices_by_state || [];
         if (!data.length) return;
-        const Chart = this._getChart();
-        if (!Chart) return;
+        const found = this._requireChart("#oacisChartInvoicesByState");
+        if (!found) return;
+        const { canvas, Chart } = found;
         const ctx = canvas.getContext("2d");
         this.chartInstances.invoicesByState = new Chart(ctx, {
             type: "bar",
@@ -175,12 +189,11 @@ export class OacisOverviewDashboard extends Component {
     }
 
     _renderSessionsByState() {
-        const canvas = document.querySelector("#oacisChartSessionsByState");
-        if (!canvas) return;
         const data = this.state.data.charts?.sessions_by_state || [];
         if (!data.length) return;
-        const Chart = this._getChart();
-        if (!Chart) return;
+        const found = this._requireChart("#oacisChartSessionsByState");
+        if (!found) return;
+        const { canvas, Chart } = found;
         const ctx = canvas.getContext("2d");
         this.chartInstances.sessionsByState = new Chart(ctx, {
             type: "doughnut",
@@ -190,12 +203,11 @@ export class OacisOverviewDashboard extends Component {
     }
 
     _renderApplicantsByState() {
-        const canvas = document.querySelector("#oacisChartApplicantsByState");
-        if (!canvas) return;
         const data = this.state.data.charts?.applicants_by_state || [];
         if (!data.length) return;
-        const Chart = this._getChart();
-        if (!Chart) return;
+        const found = this._requireChart("#oacisChartApplicantsByState");
+        if (!found) return;
+        const { canvas, Chart } = found;
         const ctx = canvas.getContext("2d");
         this.chartInstances.applicantsByState = new Chart(ctx, {
             type: "bar",

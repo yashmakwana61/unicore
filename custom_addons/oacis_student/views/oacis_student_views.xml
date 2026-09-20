@@ -296,7 +296,7 @@
     <field name="name">oacis.student.kanban</field>
     <field name="model">oacis.student</field>
     <field name="arch" type="xml">
-      <kanban class="o_kanban_mobile" highlight_color="color" default_group_by="student_state">
+      <kanban class="o_kanban_mobile" highlight_color="color">
         <field name="id"/>
         <field name="student_id_number"/>
         <field name="display_name"/>
@@ -307,7 +307,6 @@
         <field name="cgpa"/>
         <field name="image_1920"/>
         <field name="color"/>
-        <progressbar field="student_state" colors='{"active": "success", "enrolled": "info", "admitted": "warning", "on_leave": "muted", "graduated": "success"}'/>
         <templates>
           <t t-name="card" class="flex-row">
             <aside class="o_kanban_aside_full">

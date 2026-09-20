@@ -14,9 +14,12 @@ class OacisDemoAccountingSetup(models.AbstractModel):
     _description = 'Oacis Demo Accounting Setup'
 
     @api.model
-    def _setup_accounting(self):
+    def _setup_accounting(self, company=None):
         self = self.sudo()
-        company = self.env.ref('base.main_company')
+        # Legacy XML <function> calls pass no argument: default to the main
+        # company.  The institution-aware generator passes its target company
+        # so demo data stays scoped to one institution in multi-company DBs.
+        company = company or self.env.ref('base.main_company')
 
         if not company.chart_template:
             self.env['account.chart.template'].try_loading('generic_coa', company)

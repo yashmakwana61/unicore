@@ -126,7 +126,7 @@ class OacisAlumniTest(TransactionCase):
             (4, mailing_list.id)]
         action = self.student.action_view_alumni_mailing_lists()
         self.assertEqual(action['res_model'], 'mass_mailing.mailing.list')
-        self.assertEqual(action['view_mode'], 'tree,form')
+        self.assertEqual(action['view_mode'], 'list,form')
 
     def test_06_view_alumni_events_action(self):
         """Smart button action opens alumni events."""
@@ -140,7 +140,7 @@ class OacisAlumniTest(TransactionCase):
         self.student.alumni_event_ids = [(4, event.id)]
         action = self.student.action_view_alumni_events()
         self.assertEqual(action['res_model'], 'event.event')
-        self.assertEqual(action['view_mode'], 'tree,form')
+        self.assertEqual(action['view_mode'], 'list,form')
 
     # -------------------- COUNTS --------------------
 

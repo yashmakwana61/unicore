@@ -8,3 +8,8 @@ dist/
 build/
 # Local secrets for docker-compose (never commit)
 .env
+# Large export bundles - do not commit
+*.zip
+.zip
+# JS deps - do not commit
+**/node_modules/

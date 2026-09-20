@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="demo_profile_university" model="oacis.demo.profile">
+            <field name="name">University Demo</field>
+            <field name="code">DEMO-UNI</field>
+            <field name="sequence">10</field>
+            <field name="institution_type">university</field>
+            <field name="faculty_count">6</field>
+            <field name="staff_count">2</field>
+            <field name="student_count">60</field>
+            <field name="course_count">8</field>
+            <field name="guardian_every_n">3</field>
+            <field name="attendance_sessions_per_offering">2</field>
+            <field name="applicants_count">8</field>
+            <field name="description">Faculties, departments, programs, semesters, hostel, placements.</field>
+        </record>
+        <record id="demo_profile_college" model="oacis.demo.profile">
+            <field name="name">College Demo</field>
+            <field name="code">DEMO-COL</field>
+            <field name="sequence">20</field>
+            <field name="institution_type">college</field>
+            <field name="faculty_count">6</field>
+            <field name="staff_count">1</field>
+            <field name="student_count">60</field>
+            <field name="course_count">6</field>
+            <field name="guardian_every_n">3</field>
+            <field name="attendance_sessions_per_offering">2</field>
+            <field name="applicants_count">6</field>
+            <field name="description">Lighter faculty/department structure with semesters and GPA grading.</field>
+        </record>
+        <record id="demo_profile_school" model="oacis.demo.profile">
+            <field name="name">K-12 School Demo</field>
+            <field name="code">DEMO-SCH</field>
+            <field name="sequence">30</field>
+            <field name="institution_type">school</field>
+            <field name="faculty_count">8</field>
+            <field name="staff_count">1</field>
+            <field name="student_count">75</field>
+            <field name="course_count">5</field>
+            <field name="guardian_every_n">1</field>
+            <field name="attendance_sessions_per_offering">2</field>
+            <field name="applicants_count">6</field>
+            <field name="description">Grade levels, classes, terms, teachers, learners and guardians. No hostel.</field>
+        </record>
+        <record id="demo_profile_training" model="oacis.demo.profile">
+            <field name="name">Training Institute Demo</field>
+            <field name="code">DEMO-TRN</field>
+            <field name="sequence">40</field>
+            <field name="institution_type">training</field>
+            <field name="faculty_count">4</field>
+            <field name="staff_count">1</field>
+            <field name="student_count">40</field>
+            <field name="course_count">4</field>
+            <field name="guardian_every_n">0</field>
+            <field name="attendance_sessions_per_offering">2</field>
+            <field name="applicants_count">6</field>
+            <field name="description">Batches, rolling cycles, trainers and trainees. No hostel.</field>
+        </record>
+        <record id="demo_profile_academy" model="oacis.demo.profile">
+            <field name="name">Academy Demo</field>
+            <field name="code">DEMO-ACA</field>
+            <field name="sequence">50</field>
+            <field name="institution_type">academy</field>
+            <field name="faculty_count">4</field>
+            <field name="staff_count">1</field>
+            <field name="student_count">40</field>
+            <field name="course_count">5</field>
+            <field name="guardian_every_n">2</field>
+            <field name="attendance_sessions_per_offering">2</field>
+            <field name="applicants_count">6</field>
+            <field name="description">Test-prep batches, terms, instructors and pass/fail assessment.</field>
+        </record>
+        <record id="demo_profile_coaching" model="oacis.demo.profile">
+            <field name="name">Coaching Center Demo</field>
+            <field name="code">DEMO-COA</field>
+            <field name="sequence">60</field>
+            <field name="institution_type">coaching</field>
+            <field name="faculty_count">3</field>
+            <field name="staff_count">1</field>
+            <field name="student_count">30</field>
+            <field name="course_count">4</field>
+            <field name="guardian_every_n">0</field>
+            <field name="attendance_sessions_per_offering">2</field>
+            <field name="applicants_count">4</field>
+            <field name="description">Minimal batch/cycle dataset with coaches and completion tracking.</field>
+        </record>
+    </data>
+</odoo>

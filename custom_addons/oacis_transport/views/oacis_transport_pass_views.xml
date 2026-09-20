@@ -76,7 +76,7 @@
       <search>
         <searchpanel>
           <field name="route_id" icon="fa-bus" enable_counters="1"/>
-          <field name="state" icon="fa-filter" select="multi" enable_counters="1"/>
+          <field name="pass_state" icon="fa-filter" select="multi" enable_counters="1"/>
         </searchpanel>
         <field name="pass_number"/>
         <field name="student_id" widget="many2one_avatar"/>

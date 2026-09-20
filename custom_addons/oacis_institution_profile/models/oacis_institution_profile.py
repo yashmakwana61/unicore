@@ -154,6 +154,6 @@ class OacisInstitutionProfile(models.Model):
             'type': 'ir.actions.act_window',
             'name': 'Institution Profiles',
             'res_model': 'oacis.institution.profile',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'target': 'current',
         }

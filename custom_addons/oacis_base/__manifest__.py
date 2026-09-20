@@ -24,6 +24,7 @@
     ],
     'assets': {
         'web.assets_backend': [
+            ('include', 'web.chartjs_lib'),
             'oacis_base/static/src/scss/oacis_overview_dashboard.scss',
             'oacis_base/static/src/xml/oacis_overview_dashboard.xml',
             'oacis_base/static/src/js/oacis_overview_dashboard.js',

@@ -35,7 +35,7 @@ class AlumniExt(models.Model):
             'type': 'ir.actions.act_window',
             'name': _('Alumni Mailing Lists'),
             'res_model': 'mass_mailing.mailing.list',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('id', 'in', self.alumni_mailing_list_ids.ids)],
         }
 
@@ -45,6 +45,6 @@ class AlumniExt(models.Model):
             'type': 'ir.actions.act_window',
             'name': _('Alumni Events'),
             'res_model': 'event.event',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('id', 'in', self.alumni_event_ids.ids)],
         }

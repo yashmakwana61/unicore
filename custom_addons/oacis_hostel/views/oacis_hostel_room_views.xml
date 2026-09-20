@@ -80,7 +80,7 @@
         <searchpanel>
           <field name="block_id" icon="fa-building-o" enable_counters="1"/>
           <field name="room_type" icon="fa-bed" enable_counters="1"/>
-          <field name="state" icon="fa-filter" select="multi" enable_counters="1"/>
+          <field name="room_state" icon="fa-filter" select="multi" enable_counters="1"/>
         </searchpanel>
         <field name="room_number"/>
         <field name="block_id"/>
