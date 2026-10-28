@@ -46,7 +46,7 @@
         <xpath expr="//kanban" position="inside">
           <field name="active_enrollment_count"/>
         </xpath>
-        <xpath expr="//div[@class='d-flex align-items-center gap-2']" position="inside">
+        <xpath expr="//div[contains(@class, 'd-flex') and contains(@class, 'gap-2')]" position="inside">
           <button type="object" name="action_open_enrollments" class="btn btn-sm btn-outline-primary" title="Courses">
             <i class="fa fa-book"/> Courses
           </button>
