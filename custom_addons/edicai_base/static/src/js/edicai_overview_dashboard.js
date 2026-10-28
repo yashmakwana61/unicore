@@ -15,6 +15,8 @@ export class EdicaiOverviewDashboard extends Component {
             data: null,
             loading: true,
             error: null,
+            chartError: null,
+            chartEmpty: {},
             filters: {
                 company_id: null,
                 campus_id: null,
@@ -50,6 +52,17 @@ export class EdicaiOverviewDashboard extends Component {
                 campus_id: campus_id,
             });
             this.state.data = data;
+            // The template guards each chart with state.chartEmpty.<key>:
+            // a chart is "empty" when its dataset has no rows.
+            this.state.chartEmpty = {
+                students_by_state: !(data.charts?.students_by_state || []).length,
+                students_by_campus: !(data.charts?.students_by_campus || []).length,
+                campuses_by_type: !(data.charts?.campuses_by_type || []).length,
+                invoices_by_state: !(data.charts?.invoices_by_state || []).length,
+                sessions_by_state: !(data.charts?.sessions_by_state || []).length,
+                applicants_by_state: !(data.charts?.applicants_by_state || []).length,
+            };
+            this.state.chartError = null;
             this.state.loading = false;
             setTimeout(() => this._renderCharts(), 100);
         } catch (error) {
@@ -101,12 +114,16 @@ export class EdicaiOverviewDashboard extends Component {
     _renderCharts() {
         if (!this.state.data) return;
         this._destroyCharts();
-        this._renderStudentsByState();
-        this._renderStudentsByCampus();
-        this._renderCampusesByType();
-        this._renderInvoicesByState();
-        this._renderSessionsByState();
-        this._renderApplicantsByState();
+        try {
+            this._renderStudentsByState();
+            this._renderStudentsByCampus();
+            this._renderCampusesByType();
+            this._renderInvoicesByState();
+            this._renderSessionsByState();
+            this._renderApplicantsByState();
+        } catch (error) {
+            this.state.chartError = error?.message || "Failed to render overview charts";
+        }
     }
 
     _getChart() { return window.Chart; }
