@@ -90,6 +90,11 @@ _DEFAULT_MODELS = {
     'mock': 'mock-deterministic',
 }
 
+# Static fallback catalog used only when the live provider query fails
+# (see ResConfigSettings._model_selection_fallback).  Kept minimal and
+# anchored to DEFAULT_MODEL: never hardcode a drifting model list here.
+ZEN_STATIC_MODELS = (DEFAULT_MODEL,)
+
 _TRUE_VALUES = ('1', 'true', 'yes', 'on')
 
 # Safe failure category taxonomy for connection tests.  These strings
