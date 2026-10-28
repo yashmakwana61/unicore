@@ -314,13 +314,17 @@ class EdicaiFeeInvoice(models.Model):
                         'subtotal', 'total_amount', 'currency_id',
                         'student_id', 'semester_id'}
         if money_fields.intersection(vals.keys()):
-            for record in self:
-                if record.account_move_id and not self.env.context.get(
-                        'allow_posted_fee_edit'):
-                    raise UserError(_(
-                        'Invoice %s is already posted to GL. Money fields are '
-                        'locked. Reverse the journal entry first.'
-                    ) % record.invoice_number)
+            # Module data loading (demo data re-runs on module upgrade) is
+            # not a user edit: install_mode context marks XML/imports.
+            # Never let the GL lock break registry loading.
+            if not self.env.context.get('install_mode'):
+                for record in self:
+                    if record.account_move_id and not self.env.context.get(
+                            'allow_posted_fee_edit'):
+                        raise UserError(_(
+                            'Invoice %s is already posted to GL. Money fields are '
+                            'locked. Reverse the journal entry first.'
+                        ) % record.invoice_number)
         return super().write(vals)
 
     def _update_payment_state(self):
