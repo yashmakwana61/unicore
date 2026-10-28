@@ -88,6 +88,9 @@
         <field name="res_model">edicai.demo.profile</field>
         <field name="view_mode">list,form</field>
     </record>
+    <!-- Root menu (was referenced but never defined; broke module install) -->
+    <menuitem id="menu_edicai_demo" name="Demo Data"
+              parent="edicai_base.menu_edicai_configuration" sequence="90"/>
     <menuitem id="menu_edicai_demo_generate" name="Generate Demo Data"
               parent="menu_edicai_demo" action="action_edicai_demo_generate_wizard" sequence="10"/>
     <menuitem id="menu_edicai_demo_profiles" name="Demo Profiles"
