@@ -22,8 +22,8 @@ services:
         condition: service_healthy
     # Expose only on localhost when the Caddy proxy profile is used.
     ports:
-      - "${HTTP_BIND:-127.0.0.1}:8069:8069"
-      - "${HTTP_BIND:-127.0.0.1}:8072:8072"
+      - "${HTTP_BIND:-127.0.0.1}:${HTTP_PORT:-8069}:8069"
+      - "${HTTP_BIND:-127.0.0.1}:${HTTP_PORT_LONGPOLLING:-8072}:8072"
     volumes:
       - odoo-web-data:/var/lib/odoo
       - ./config/odoo-prod.conf:/etc/odoo/odoo.conf:ro
