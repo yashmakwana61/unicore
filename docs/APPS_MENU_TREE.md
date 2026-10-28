@@ -1,0 +1,270 @@
+# EDICAI — Odoo Apps Menu Tree
+
+Exactly as rendered by the webclient (ir_ui_menu), custom modules only.
+
+- **Admission** (`edicai_admission.menu_edicai_admission_root`)
+    - **Admission Cycles** (`edicai_admission.menu_edicai_admission_cycles`) `ir.actions.act_window`
+    - **Admission Enrollments** (`edicai_admission.menu_edicai_admission_enrollments`) `ir.actions.act_window`
+    - **Applicants** (`edicai_admission.menu_edicai_admission_applicants`) `ir.actions.act_window`
+    - **Configuration** (`edicai_admission.menu_edicai_admission_configuration`)
+        - **Automation Rules** (`edicai_admission.menu_edicai_admission_automation_rules`) `ir.actions.act_window`
+    - **Enrollments** (`edicai_admission.menu_edicai_enrollment`)
+        - **Active Enrollments** (`edicai_admission.menu_edicai_enrollment_active`) `ir.actions.act_window`
+        - **All Enrollments** (`edicai_admission.menu_edicai_enrollment_all`) `ir.actions.act_window`
+        - **Enrollment Audit Log** (`edicai_admission.menu_edicai_enrollment_log`) `ir.actions.act_window`
+        - **My Registrations** (`edicai_admission.menu_edicai_enrollment_my`) `ir.actions.act_window`
+        - **Waitlist Management** (`edicai_admission.menu_edicai_enrollment_waitlist`) `ir.actions.act_window`
+    - **Entrance Tests** (`edicai_admission.menu_edicai_admission_entrance_tests`) `ir.actions.act_window`
+    - **Offer Letters** (`edicai_admission.menu_edicai_admission_offer_letters`) `ir.actions.act_window`
+    - **Stages** (`edicai_admission.menu_edicai_admission_stages`) `ir.actions.act_window`
+- **Advanced LMS** (`edicai_lms.menu_edicai_lms_root`)
+    - **Configuration** (`edicai_lms.menu_edicai_lms_config`)
+        - **Course Tags** (`edicai_lms.menu_edicai_lms_config_tags`) `ir.actions.act_window`
+    - **Contents (Slides)** (`edicai_lms.menu_edicai_lms_contents`) `ir.actions.act_window`
+    - **Courses** (`edicai_lms.menu_edicai_lms_courses`) `ir.actions.act_window`
+    - **Reporting** (`edicai_lms.menu_edicai_lms_reporting`)
+        - **Course Analytics** (`edicai_lms.menu_edicai_lms_report_courses`) `ir.actions.act_window`
+        - **Reviews** (`edicai_lms.menu_edicai_lms_report_reviews`) `ir.actions.act_window`
+- **Analytics** (`edicai_analytics.menu_edicai_analytics_root`)
+    - **Academic Analytics** (`edicai_analytics.menu_edicai_analytics_academic`)
+        - **Grade Distribution** (`edicai_analytics.menu_edicai_analytics_grades`) `ir.actions.act_window`
+        - **Semester Results** (`edicai_analytics.menu_edicai_analytics_results`) `ir.actions.act_window`
+    - **Admission Analytics** (`edicai_analytics.menu_edicai_analytics_admission`)
+        - **Admission Dashboard** (`edicai_analytics.menu_edicai_analytics_admission_dashboard`) `ir.actions.client`
+        - **Admission Funnel** (`edicai_analytics.menu_edicai_analytics_funnel`) `ir.actions.act_window`
+        - **Category Distribution** (`edicai_analytics.menu_edicai_analytics_categories`) `ir.actions.act_window`
+    - **Financial Analytics** (`edicai_analytics.menu_edicai_analytics_financial`)
+        - **Fee Collection** (`edicai_analytics.menu_edicai_analytics_fee_collection`) `ir.actions.act_window`
+        - **Payment Methods** (`edicai_analytics.menu_edicai_analytics_payment_methods`) `ir.actions.act_window`
+    - **Student Analytics** (`edicai_analytics.menu_edicai_analytics_students`)
+        - **Attendance Analytics** (`edicai_analytics.menu_edicai_analytics_attendance`) `ir.actions.act_window`
+        - **Enrollment Trends** (`edicai_analytics.menu_edicai_analytics_enrollment`) `ir.actions.act_window`
+- **Appointments** (`edicai_appointment.menu_edicai_appointment_root`)
+    - **Bookings** (`edicai_appointment.menu_edicai_appointment_bookings`) `ir.actions.act_window`
+    - **Slots** (`edicai_appointment.menu_edicai_appointment_slots`) `ir.actions.act_window`
+- **Asset Requests** (`edicai_asset_request.menu_edicai_asset_request_root`)
+    - **Asset Catalog** (`edicai_asset_request.menu_edicai_asset_catalog`)
+        - **Assets** (`edicai_asset_request.menu_edicai_asset_list`) `ir.actions.act_window`
+    - **Requests** (`edicai_asset_request.menu_edicai_asset_request_requests`)
+        - **All Requests** (`edicai_asset_request.menu_edicai_asset_request_all`) `ir.actions.act_window`
+        - **Approved** (`edicai_asset_request.menu_edicai_asset_request_approved`) `ir.actions.act_window`
+        - **Draft** (`edicai_asset_request.menu_edicai_asset_request_draft`) `ir.actions.act_window`
+        - **Fulfilled** (`edicai_asset_request.menu_edicai_asset_request_fulfilled`) `ir.actions.act_window`
+        - **New Request** (`edicai_asset_request.menu_edicai_asset_request_new`) `ir.actions.act_window`
+        - **Pending Approval** (`edicai_asset_request.menu_edicai_asset_request_submitted`) `ir.actions.act_window`
+        - **Rejected** (`edicai_asset_request.menu_edicai_asset_request_rejected`) `ir.actions.act_window`
+- **Assignments** (`edicai_assignment.menu_edicai_assignment`)
+    - **Assignment Overview** (`edicai_assignment.menu_edicai_assignment_dashboard`) `ir.actions.act_window`
+    - **My Assignments** (`edicai_assignment.menu_edicai_assignment_my`) `ir.actions.act_window`
+    - **Pending Grading** (`edicai_assignment.menu_edicai_assignment_pending`) `ir.actions.act_window`
+    - **Published Assignments** (`edicai_assignment.menu_edicai_assignment_published`) `ir.actions.act_window`
+    - **Rubrics** (`edicai_assignment.menu_edicai_assignment_rubrics`) `ir.actions.act_window`
+    - **Submissions** (`edicai_assignment.menu_edicai_assignment_submissions`) `ir.actions.act_window`
+- **Attendance** (`edicai_attendance.menu_edicai_attendance`)
+    - **All Records** (`edicai_attendance.menu_edicai_attendance_record_all`) `ir.actions.act_window`
+    - **All Sessions** (`edicai_attendance.menu_edicai_attendance_session_all`) `ir.actions.act_window`
+    - **Attendance Policies** (`edicai_attendance.menu_edicai_attendance_policy`) `ir.actions.act_window`
+    - **Face Registrations** (`edicai_attendance.menu_edicai_face_registration`) `ir.actions.act_window`
+    - **Generate Sessions** (`edicai_attendance.menu_edicai_generate_sessions`) `ir.actions.act_window`
+    - **My Attendance** (`edicai_attendance.menu_edicai_attendance_my`) `ir.actions.act_window`
+    - **Open Sessions** (`edicai_attendance.menu_edicai_attendance_session_open`) `ir.actions.act_window`
+    - **Shortage Alerts** (`edicai_attendance.menu_edicai_attendance_shortage`) `ir.actions.act_window`
+    - **Today's Sessions** (`edicai_attendance.menu_edicai_attendance_session_today`) `ir.actions.act_window`
+- **Digital Library** (`edicai_digital_library.menu_edicai_digital_library_root`)
+    - **Digital Materials** (`edicai_digital_library.menu_edicai_digital_materials`) `ir.actions.act_window`
+- **Discipline** (`edicai_discipline.menu_edicai_discipline_root`)
+    - **Configuration** (`edicai_discipline.menu_edicai_discipline_config`)
+        - **Misbehaviour Categories** (`edicai_discipline.menu_edicai_misbehaviour_category`) `ir.actions.act_window`
+    - **Discipline Records** (`edicai_discipline.menu_edicai_discipline_records`) `ir.actions.act_window`
+- **Documents** (`edicai_documents.menu_edicai_documents_root`)
+    - **All Documents** (`edicai_documents.menu_edicai_docs_all`) `ir.actions.act_window`
+    - **Configuration** (`edicai_documents.menu_edicai_docs_config`)
+        - **Document Categories** (`edicai_documents.menu_edicai_docs_categories`) `ir.actions.act_window`
+    - **Document Templates** (`edicai_documents.menu_edicai_docs_templates`) `ir.actions.act_window`
+    - **Institutional** (`edicai_documents.menu_edicai_docs_institutional`) `ir.actions.act_window`
+    - **Pending Verification** (`edicai_documents.menu_edicai_docs_pending`) `ir.actions.act_window`
+    - **Student Documents** (`edicai_documents.menu_edicai_docs_student`) `ir.actions.act_window`
+- **Edicai** (`edicai_base.menu_edicai_root`)
+    - **Academic Calendar** (`edicai_calendar.menu_edicai_calendar`)
+        - **Academic Weeks** (`edicai_calendar.menu_edicai_academic_week_list`) `ir.actions.act_window`
+        - **Academic Years** (`edicai_calendar.menu_edicai_academic_year_list`) `ir.actions.act_window`
+        - **Holidays & Events** (`edicai_calendar.menu_edicai_holiday_list`) `ir.actions.act_window`
+        - **Semesters** (`edicai_calendar.menu_edicai_semester_list`) `ir.actions.act_window`
+    - **Academic Structure** (`edicai_academic.menu_edicai_academic`)
+        - **Departments** (`edicai_academic.menu_edicai_department_list`) `ir.actions.act_window`
+        - **Faculties** (`edicai_academic.menu_edicai_faculty_list`) `ir.actions.act_window`
+        - **Programs** (`edicai_academic.menu_edicai_program_list`) `ir.actions.act_window`
+        - **Specialisations** (`edicai_academic.menu_edicai_specialisation_list`) `ir.actions.act_window`
+    - **API Management** (`edicai_api.menu_edicai_api_root`)
+        - **API Keys** (`edicai_api.menu_edicai_api_keys`) `ir.actions.act_window`
+    - **Campuses** (`edicai_base.menu_edicai_campuses`) `ir.actions.act_window`
+    - **Configuration** (`edicai_base.menu_edicai_configuration`)
+        - **Academic Units** (`edicai_academic_generic.menu_edicai_academic_unit_list`) `ir.actions.act_window`
+        - **Buildings** (`edicai_campus.menu_edicai_building_list`) `ir.actions.act_window`
+        - **Demo Data** (`edicai_demo.menu_edicai_demo`)
+            - **Demo Profiles** (`edicai_demo.menu_edicai_demo_profiles`) `ir.actions.act_window`
+            - **Generate Demo Data** (`edicai_demo.menu_edicai_demo_generate`) `ir.actions.act_window`
+        - **Facilities** (`edicai_campus.menu_edicai_facility_list`) `ir.actions.act_window`
+        - **Floors** (`edicai_campus.menu_edicai_floor_list`) `ir.actions.act_window`
+        - **Grading Schemes** (`edicai_institution_profile.menu_edicai_grading_scheme_list`) `ir.actions.act_window`
+        - **Institution Profiles** (`edicai_institution_profile.menu_edicai_institution_profile_list`) `ir.actions.act_window`
+        - **Rooms** (`edicai_campus.menu_edicai_room_list`) `ir.actions.act_window`
+        - **Terminology Profiles** (`edicai_institution_profile.menu_edicai_terminology_profile_list`) `ir.actions.act_window`
+        - **Unit Types** (`edicai_academic_generic.menu_edicai_academic_unit_type_list`) `ir.actions.act_window`
+    - **Curriculum** (`edicai_curriculum.menu_edicai_curriculum`)
+        - **Course Offerings** (`edicai_curriculum.menu_edicai_course_offering_list`) `ir.actions.act_window`
+        - **Courses** (`edicai_curriculum.menu_edicai_course_list`) `ir.actions.act_window`
+        - **Curricula** (`edicai_curriculum.menu_edicai_curriculum_list`) `ir.actions.act_window`
+        - **Curriculum Lines** (`edicai_curriculum.menu_edicai_curriculum_line_list`) `ir.actions.act_window`
+    - **Faculty & Staff** (`edicai_faculty_profile.menu_edicai_faculty_staff`)
+        - **Active Faculty** (`edicai_faculty_profile.menu_edicai_faculty_member_active`) `ir.actions.act_window`
+        - **Administrative Staff** (`edicai_faculty_profile.menu_edicai_staff_member_all`) `ir.actions.act_window`
+        - **Faculty Members** (`edicai_faculty_profile.menu_edicai_faculty_member_all`) `ir.actions.act_window`
+        - **Publications** (`edicai_faculty_profile.menu_edicai_faculty_publications`) `ir.actions.act_window`
+        - **Teaching Workload** (`edicai_faculty_profile.menu_edicai_faculty_workload`) `ir.actions.act_window`
+    - **Overview** (`edicai_base.menu_edicai_overview`) `ir.actions.client`
+    - **Students** (`edicai_student.menu_edicai_student_root`)
+        - **Academic History** (`edicai_student.menu_edicai_student_academic_history`) `ir.actions.act_window`
+        - **All Students** (`edicai_student.menu_edicai_student_overview`) `ir.actions.act_window`
+        - **Documents** (`edicai_student.menu_edicai_student_documents`) `ir.actions.act_window`
+        - **Guardian-Student Links** (`edicai_guardian.menu_edicai_guardian_student_rel`) `ir.actions.act_window`
+        - **Guardians** (`edicai_guardian.menu_edicai_guardian_all`) `ir.actions.act_window`
+        - **Leave Requests** (`edicai_student_leave.menu_student_leave_request_parent`)
+            - **All Leave Requests** (`edicai_student_leave.menu_student_leave_request_all`) `ir.actions.act_window`
+            - **Pending Approval** (`edicai_student_leave.menu_student_leave_request_submitted`) `ir.actions.act_window`
+- **Edicai AI** (`edicai_ai.menu_edicai_ai_root`)
+    - **AI Text Generator** (`edicai_ai.menu_edicai_ai_generate`) `ir.actions.act_window`
+    - **Chat History** (`edicai_ai.menu_edicai_ai_chatbot`) `ir.actions.act_window`
+    - **Configuration** (`edicai_ai.menu_edicai_ai_config`)
+        - **AI Audit Log** (`edicai_ai.menu_edicai_ai_audit`) `ir.actions.act_window`
+        - **Settings** (`edicai_ai.menu_edicai_ai_settings`) `ir.actions.act_window`
+    - **Workspace** (`edicai_ai.menu_edicai_ai_workspace`) `ir.actions.client`
+- **Examinations** (`edicai_exam.menu_edicai_exam`)
+    - **All Exam Schedules** (`edicai_exam.menu_edicai_exam_schedule_all`) `ir.actions.act_window`
+    - **Hall Tickets** (`edicai_exam.menu_edicai_exam_hall_ticket_all`) `ir.actions.act_window`
+    - **Ineligible Students** (`edicai_exam.menu_edicai_exam_hall_ticket_ineligible`) `ir.actions.act_window`
+    - **My Hall Tickets** (`edicai_exam.menu_edicai_exam_my_tickets`) `ir.actions.act_window`
+    - **My Seat Assignment** (`edicai_exam.menu_edicai_exam_my_seat`) `ir.actions.act_window`
+    - **Schedule Exams for Program / Grade** (`edicai_exam.menu_edicai_bulk_exam_schedule`) `ir.actions.act_window`
+    - **Seating Plans** (`edicai_exam.menu_edicai_exam_seating_all`) `ir.actions.act_window`
+    - **Upcoming Exams** (`edicai_exam.menu_edicai_exam_upcoming`) `ir.actions.act_window`
+- **Fees** (`edicai_fees.menu_edicai_fees_root`)
+    - **Configuration** (`edicai_fees.menu_edicai_fees_config`)
+        - **Accounting Configuration** (`edicai_fees.edicai_fee_accounting_config_menu`) `ir.actions.act_window`
+        - **Fee Structures** (`edicai_fees.menu_edicai_fee_structure`) `ir.actions.act_window`
+    - **Fee Operations** (`edicai_fees.menu_edicai_fees_operations`)
+        - **All Invoices** (`edicai_fees.menu_edicai_fee_invoice_all`) `ir.actions.act_window`
+        - **Batch GL Migration** (`edicai_fees.menu_edicai_fee_batch_migrate`) `ir.actions.act_window`
+        - **Outstanding Invoices** (`edicai_fees.menu_edicai_fee_invoice_outstanding`) `ir.actions.act_window`
+        - **Overdue Fees** (`edicai_fees.menu_edicai_fee_overdue`) `ir.actions.act_window`
+    - **My Fees** (`edicai_fees.menu_edicai_fees_student`)
+        - **My Fee Invoice** (`edicai_fees.menu_edicai_fee_invoice_my`) `ir.actions.act_window`
+- **Finance Reports** (`edicai_finance_report.menu_edicai_finance_report_root`)
+    - **Analytics** (`edicai_finance_report.menu_edicai_finance_analytics`)
+        - **Fee Collection Analysis** (`edicai_finance_report.menu_edicai_fee_invoice_analysis`) `ir.actions.act_window`
+        - **Financial Snapshots** (`edicai_finance_report.menu_edicai_finance_snapshot`) `ir.actions.act_window`
+        - **Payment Analytics** (`edicai_finance_report.menu_edicai_fee_payment_analysis`) `ir.actions.act_window`
+    - **Configuration** (`edicai_finance_report.menu_edicai_finance_config`)
+        - **Financial KPIs** (`edicai_finance_report.menu_edicai_finance_kpi`) `ir.actions.act_window`
+    - **Dashboard** (`edicai_finance_report.menu_edicai_finance_dashboard`) `ir.actions.act_window`
+    - **Reports** (`edicai_finance_report.menu_edicai_finance_reports`)
+        - **Fee Summary** (`edicai_finance_report.menu_edicai_fee_summary`) `ir.actions.act_window`
+        - **Overdue Analysis** (`edicai_finance_report.menu_edicai_overdue_dashboard`) `ir.actions.act_window`
+        - **Scholarship Spend** (`edicai_finance_report.menu_edicai_scholarship_spend`) `ir.actions.act_window`
+- **Grading** (`edicai_grading.menu_edicai_grading`)
+    - **Grade Book** (`edicai_gradebook.menu_edicai_gradebook`)
+        - **All Grade Books** (`edicai_gradebook.menu_edicai_gradebook_all`) `ir.actions.act_window`
+        - **Assignment Scores** (`edicai_gradebook.menu_edicai_gradebook_scores`) `ir.actions.act_window`
+        - **My Grade Books** (`edicai_gradebook.menu_edicai_gradebook_my`) `ir.actions.act_window`
+        - **Pending Grade Entry Sync** (`edicai_gradebook.menu_edicai_gradebook_pending`) `ir.actions.act_window`
+    - **Grade Entry** (`edicai_grading.menu_edicai_grade_entry_all`) `ir.actions.act_window`
+    - **Grade Scales** (`edicai_grading.menu_edicai_grade_scale`) `ir.actions.act_window`
+    - **My Assignment Scores** (`edicai_gradebook.menu_edicai_my_assignment_scores`) `ir.actions.act_window`
+    - **My Results** (`edicai_grading.menu_edicai_my_results`) `ir.actions.act_window`
+    - **My Semester Results** (`edicai_grading.menu_edicai_my_semester_results`) `ir.actions.act_window`
+    - **Pending Verification** (`edicai_grading.menu_edicai_grade_pending`) `ir.actions.act_window`
+    - **Semester Results** (`edicai_grading.menu_edicai_semester_results`) `ir.actions.act_window`
+- **Grievances** (`edicai_grievance.menu_edicai_grievance_root`)
+    - **Configuration** (`edicai_grievance.menu_edicai_grievance_config`)
+        - **Categories** (`edicai_grievance.menu_edicai_grievance_categories`) `ir.actions.act_window`
+    - **Requests** (`edicai_grievance.menu_edicai_grievance_requests`) `ir.actions.act_window`
+- **Hostel** (`edicai_hostel.menu_edicai_hostel_root`)
+    - **Configuration** (`edicai_hostel.menu_edicai_hostel_config`)
+        - **Hostel Blocks** (`edicai_hostel.menu_edicai_hostel_blocks`) `ir.actions.act_window`
+    - **Maintenance** (`edicai_hostel.menu_edicai_hostel_maintenance`)
+        - **Open Requests** (`edicai_hostel.menu_edicai_hostel_maint_open`) `ir.actions.act_window`
+        - **Urgent / High Priority** (`edicai_hostel.menu_edicai_hostel_maint_urgent`) `ir.actions.act_window`
+    - **Room Allocations** (`edicai_hostel.menu_edicai_hostel_allocations`)
+        - **All Allocations** (`edicai_hostel.menu_edicai_hostel_alloc_all`) `ir.actions.act_window`
+        - **Currently Checked In** (`edicai_hostel.menu_edicai_hostel_alloc_checkedin`) `ir.actions.act_window`
+    - **Rooms** (`edicai_hostel.menu_edicai_hostel_rooms`)
+        - **All Rooms** (`edicai_hostel.menu_edicai_hostel_rooms_all`) `ir.actions.act_window`
+        - **Available Rooms** (`edicai_hostel.menu_edicai_hostel_rooms_available`) `ir.actions.act_window`
+- **Library** (`edicai_library.menu_edicai_library_root`)
+    - **Catalogue** (`edicai_library.menu_edicai_library_catalogue`)
+        - **All Books** (`edicai_library.menu_edicai_library_books`) `ir.actions.act_window`
+        - **Available Now** (`edicai_library.menu_edicai_library_available`) `ir.actions.act_window`
+    - **Circulation** (`edicai_library.menu_edicai_library_circulation`)
+        - **All Issues** (`edicai_library.menu_edicai_library_issues`) `ir.actions.act_window`
+        - **Overdue Books** (`edicai_library.menu_edicai_library_overdue`) `ir.actions.act_window`
+        - **Reservations** (`edicai_library.menu_edicai_library_reservations`) `ir.actions.act_window`
+    - **Configuration** (`edicai_library.menu_edicai_library_config`)
+        - **Authors** (`edicai_library.menu_edicai_library_authors`) `ir.actions.act_window`
+        - **Publishers** (`edicai_library.menu_edicai_library_publishers`) `ir.actions.act_window`
+        - **Subjects** (`edicai_library.menu_edicai_library_subjects`) `ir.actions.act_window`
+    - **Issue Book** (`edicai_library.menu_edicai_library_issue_new`) `ir.actions.act_window`
+    - **Members** (`edicai_library.menu_edicai_library_members`) `ir.actions.act_window`
+- **Mentoring** (`edicai_mentor.menu_edicai_mentor_root`)
+    - **Allocations** (`edicai_mentor.menu_edicai_mentor_allocations`) `ir.actions.act_window`
+    - **Meeting Logs** (`edicai_mentor.menu_edicai_mentor_meeting_logs`) `ir.actions.act_window`
+- **Notice Board** (`edicai_notice_board.menu_edicai_notice_root`)
+    - **Notices** (`edicai_notice_board.menu_edicai_notice`) `ir.actions.act_window`
+- **Notifications** (`edicai_notify.menu_edicai_notify_root`)
+    - **Configuration** (`edicai_notify.menu_edicai_notify_config_root`)
+        - **Notification Settings** (`edicai_notify.menu_edicai_notify_config`) `ir.actions.act_window`
+        - **Notification Templates** (`edicai_notify.menu_edicai_notify_templates`) `ir.actions.act_window`
+    - **Notification Log** (`edicai_notify.menu_edicai_notify_logs`)
+        - **All Notifications** (`edicai_notify.menu_edicai_notify_log_all`) `ir.actions.act_window`
+        - **Failed Notifications** (`edicai_notify.menu_edicai_notify_log_failed`) `ir.actions.act_window`
+        - **Today's Notifications** (`edicai_notify.menu_edicai_notify_log_today`) `ir.actions.act_window`
+- **Placements** (`edicai_placement.menu_edicai_placement_root`)
+    - **Applications** (`edicai_placement.menu_edicai_placement_applications`) `ir.actions.act_window`
+    - **Companies** (`edicai_placement.menu_edicai_placement_companies`) `ir.actions.act_window`
+    - **Placement Drives** (`edicai_placement.menu_edicai_placement_drives`) `ir.actions.act_window`
+- **Progression** (`edicai_progression.menu_edicai_progression_root`)
+    - **Progression Records** (`edicai_progression.menu_edicai_progression_records`) `ir.actions.act_window`
+- **Quizzes** (`edicai_quiz.menu_edicai_quiz_root`)
+    - **Attempts** (`edicai_quiz.menu_edicai_quiz_attempts`) `ir.actions.act_window`
+    - **Manage Quizzes** (`edicai_quiz.menu_edicai_quizzes`) `ir.actions.act_window`
+    - **Question Bank** (`edicai_quiz.menu_edicai_question_bank`) `ir.actions.act_window`
+    - **Take Quiz** (`edicai_quiz.menu_edicai_quiz_take`) `ir.actions.client`
+- **Scholarships** (`edicai_scholarship.menu_edicai_scholarship_root`)
+    - **Applications** (`edicai_scholarship.menu_edicai_scholarship_applications`) `ir.actions.act_window`
+    - **Awards** (`edicai_scholarship.menu_edicai_scholarship_awards`) `ir.actions.act_window`
+    - **Configuration** (`edicai_scholarship.menu_edicai_scholarship_config`)
+    - **Scholarship Programs** (`edicai_scholarship.menu_edicai_scholarship_programs`) `ir.actions.act_window`
+- **Secure Transcripts** (`edicai_secure_transcript.menu_edicai_secure_transcript_root`)
+    - **Transcripts** (`edicai_secure_transcript.menu_edicai_secure_transcript_list`) `ir.actions.act_window`
+- **Skill Assessment** (`edicai_skill_assessment.menu_edicai_skill_root`)
+    - **Assessments** (`edicai_skill_assessment.menu_edicai_skill_assessments`) `ir.actions.act_window`
+    - **Configuration** (`edicai_skill_assessment.menu_edicai_skill_config`)
+        - **Skills** (`edicai_skill_assessment.menu_edicai_skill_list`) `ir.actions.act_window`
+- **Thesis Management** (`edicai_thesis.menu_edicai_thesis_root`)
+    - **Theses** (`edicai_thesis.menu_edicai_theses`) `ir.actions.act_window`
+    - **Thesis Reviews** (`edicai_thesis.menu_edicai_thesis_reviews`) `ir.actions.act_window`
+- **Timetable** (`edicai_timetable.menu_edicai_timetable`)
+    - **Full Timetable** (`edicai_timetable.menu_edicai_timetable_full_schedule`) `ir.actions.act_window`
+    - **Generate Timetable** (`edicai_timetable.menu_edicai_generate_timetable`) `ir.actions.act_window`
+    - **My Schedule** (`edicai_timetable.menu_edicai_timetable_my_schedule`) `ir.actions.act_window`
+    - **Room Bookings** (`edicai_timetable.menu_edicai_room_booking_list`) `ir.actions.act_window`
+    - **Time Slots** (`edicai_timetable.menu_edicai_time_slot_list`) `ir.actions.act_window`
+- **Transport** (`edicai_transport.menu_edicai_transport_root`)
+    - **Configuration** (`edicai_transport.menu_edicai_transport_config`)
+        - **Vehicles** (`edicai_transport.menu_edicai_transport_vehicles`) `ir.actions.act_window`
+    - **Routes** (`edicai_transport.menu_edicai_transport_routes`) `ir.actions.act_window`
+    - **Transport Passes** (`edicai_transport.menu_edicai_transport_passes`)
+        - **Active Passes** (`edicai_transport.menu_edicai_transport_pass_active`) `ir.actions.act_window`
+        - **Fee Pending** (`edicai_transport.menu_edicai_transport_fee_pending`) `ir.actions.act_window`
+    - **Trip Logs** (`edicai_transport.menu_edicai_transport_trips`)
+        - **Incident Reports** (`edicai_transport.menu_edicai_transport_incidents`) `ir.actions.act_window`
+        - **Today's Trips** (`edicai_transport.menu_edicai_transport_trip_today`) `ir.actions.act_window`
