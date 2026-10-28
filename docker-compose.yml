@@ -68,7 +68,7 @@ services:
       - caddy-data:/data
       - caddy-config:/config
     environment:
-      DOMAIN: ${DOMAIN:?Set DOMAIN in .env when using the proxy profile}
+      DOMAIN: ${DOMAIN:-localhost}
       ACME_EMAIL: ${ACME_EMAIL:-}
 
   # Dev variant: live-mounts custom_addons so edits apply on upgrade.
