@@ -51,12 +51,17 @@ Edicai Education Management Suite:
         'views/portal_templates.xml',
         # Menus
         'views/edicai_ai_menus.xml',
+        # Audit trail + Workspace (menuitems hang off menu_edicai_ai_root)
+        'views/edicai_ai_audit_views.xml',
+        'views/edicai_ai_workspace_views.xml',
     ],
     'assets': {
         'web.assets_backend': [
             'edicai_ai/static/src/css/edicai_ai_chatbot.css',
             'edicai_ai/static/src/js/edicai_ai_chatbot.js',
             'edicai_ai/static/src/xml/edicai_ai_chatbot.xml',
+            'edicai_ai/static/src/js/edicai_ai_workspace.js',
+            'edicai_ai/static/src/xml/edicai_ai_workspace.xml',
         ],
         'web.assets_frontend': [
             'edicai_ai/static/src/js/edicai_ai_portal.js',
