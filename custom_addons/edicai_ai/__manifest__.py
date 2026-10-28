@@ -58,6 +58,7 @@ Edicai Education Management Suite:
     'assets': {
         'web.assets_backend': [
             'edicai_ai/static/src/css/edicai_ai_chatbot.css',
+            'edicai_ai/static/src/css/edicai_ai_workspace.css',
             'edicai_ai/static/src/js/edicai_ai_chatbot.js',
             'edicai_ai/static/src/xml/edicai_ai_chatbot.xml',
             'edicai_ai/static/src/js/edicai_ai_workspace.js',
