@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="admission_application_form" name="Admission Application">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <section class="container py-5">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="mb-4">
+                                <h1>Apply for Admission</h1>
+                                <p class="text-muted">
+                                    Share your details with
+                                    <t t-esc="company.name"/>. Our admissions
+                                    team will review your enquiry and contact
+                                    your family about the next steps.
+                                </p>
+                            </div>
+                            <div t-if="error" class="alert alert-danger" role="alert">
+                                <t t-esc="error"/>
+                            </div>
+                            <div t-if="not cycles" class="alert alert-info">
+                                Online applications are not currently open.
+                                Please contact the school office for assistance.
+                            </div>
+                            <form t-if="cycles" action="/admissions/apply/submit"
+                                  method="post" class="row g-3">
+                                <input type="hidden" name="csrf_token"
+                                       t-att-value="request.csrf_token()"/>
+                                <div class="visually-hidden" aria-hidden="true">
+                                    <label for="website">Website</label>
+                                    <input id="website" name="website" type="text"
+                                           tabindex="-1" autocomplete="off"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="name">
+                                        Applicant full name *
+                                    </label>
+                                    <input class="form-control" id="name" name="name"
+                                           required="required" maxlength="256"
+                                           t-att-value="submitted.get('name')"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="date_of_birth">
+                                        Date of birth *
+                                    </label>
+                                    <input class="form-control" id="date_of_birth"
+                                           name="date_of_birth" type="date"
+                                           required="required"
+                                           t-att-value="submitted.get('date_of_birth')"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="email">
+                                        Parent/guardian email *
+                                    </label>
+                                    <input class="form-control" id="email" name="email"
+                                           type="email" required="required"
+                                           maxlength="254"
+                                           t-att-value="submitted.get('email')"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="mobile">
+                                        Parent/guardian phone *
+                                    </label>
+                                    <input class="form-control" id="mobile"
+                                           name="mobile" type="tel"
+                                           required="required" maxlength="32"
+                                           t-att-value="submitted.get('mobile')"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="gender">Gender *</label>
+                                    <select class="form-select" id="gender" name="gender"
+                                            required="required">
+                                        <option value="">Select</option>
+                                        <t t-foreach="genders" t-as="choice">
+                                            <option t-att-value="choice[0]"
+                                                    t-att-selected="submitted.get('gender') == choice[0]">
+                                                <t t-esc="choice[1]"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="cycle_id">
+                                        Admission cycle *
+                                    </label>
+                                    <select class="form-select" id="cycle_id"
+                                            name="cycle_id" required="required">
+                                        <option value="">Select a cycle</option>
+                                        <t t-foreach="cycles" t-as="cycle">
+                                            <option t-att-value="cycle.id"
+                                                    t-att-selected="submitted.get('cycle_id') == str(cycle.id)">
+                                                <t t-esc="cycle.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="program_id">
+                                        Applying for class/program *
+                                    </label>
+                                    <select class="form-select" id="program_id"
+                                            name="program_id" required="required">
+                                        <option value="">Select a class/program</option>
+                                        <t t-foreach="programs" t-as="program">
+                                            <option t-att-value="program.id"
+                                                    t-att-selected="submitted.get('program_id') == str(program.id)">
+                                                <t t-esc="program.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="grade_level_id">
+                                        Grade level
+                                    </label>
+                                    <select class="form-select" id="grade_level_id"
+                                            name="grade_level_id">
+                                        <option value="">Select grade (if applicable)</option>
+                                        <t t-foreach="grade_levels" t-as="grade">
+                                            <option t-att-value="grade.id"
+                                                    t-att-selected="submitted.get('grade_level_id') == str(grade.id)">
+                                                <t t-esc="grade.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <hr/>
+                                    <h4>Parent or guardian</h4>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="guardian_name">
+                                        Name
+                                    </label>
+                                    <input class="form-control" id="guardian_name"
+                                           name="guardian_name" maxlength="256"
+                                           t-att-value="submitted.get('guardian_name')"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="guardian_relation">
+                                        Relationship to applicant
+                                    </label>
+                                    <input class="form-control" id="guardian_relation"
+                                           name="guardian_relation" maxlength="64"
+                                           t-att-value="submitted.get('guardian_relation')"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="guardian_mobile">
+                                        Contact phone
+                                    </label>
+                                    <input class="form-control" id="guardian_mobile"
+                                           name="guardian_mobile" type="tel"
+                                           maxlength="32"
+                                           t-att-value="submitted.get('guardian_mobile')"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label" for="guardian_email">
+                                        Contact email
+                                    </label>
+                                    <input class="form-control" id="guardian_email"
+                                           name="guardian_email" type="email"
+                                           maxlength="254"
+                                           t-att-value="submitted.get('guardian_email')"/>
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-primary btn-lg"
+                                            type="submit"
+                                            t-att-disabled="not programs">
+                                        Submit enquiry
+                                    </button>
+                                    <p class="form-text mt-2">
+                                        Submitting this form starts an enquiry;
+                                        it does not confirm admission.
+                                    </p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+
+    <template id="admission_application_thank_you"
+              name="Admission Enquiry Received">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure">
+                <section class="container py-5">
+                    <div class="alert alert-success">
+                        <h1>Thank you for your enquiry</h1>
+                        <p>
+                            <t t-esc="company.name"/> has received your
+                            application enquiry.
+                        </p>
+                        <p class="mb-0">
+                            Reference:
+                            <strong t-esc="application_number"/>
+                        </p>
+                    </div>
+                    <a class="btn btn-outline-primary" href="/">
+                        Return to the school website
+                    </a>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

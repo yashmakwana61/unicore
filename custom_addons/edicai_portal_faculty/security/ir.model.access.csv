@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_edicai_faculty_member_portal,Faculty Member Portal,edicai_faculty_profile.model_edicai_faculty_member,base.group_portal,1,0,0,0
+access_edicai_course_offering_portal_fac,Course Offering Portal Faculty,edicai_curriculum.model_edicai_course_offering,base.group_portal,1,0,0,0
+access_edicai_timetable_entry_portal_fac,Timetable Entry Portal Faculty,edicai_timetable.model_edicai_timetable_entry,base.group_portal,1,0,0,0
+access_edicai_att_session_portal_fac,Attendance Session Portal Faculty,edicai_attendance.model_edicai_attendance_session,base.group_portal,1,1,1,0
+access_edicai_att_record_portal_fac,Attendance Record Portal Faculty,edicai_attendance.model_edicai_attendance_record,base.group_portal,1,1,1,0
+access_edicai_grade_entry_portal_fac,Grade Entry Portal Faculty,edicai_grading.model_edicai_grade_entry,base.group_portal,1,1,1,0
+access_edicai_exam_schedule_portal_fac,Exam Schedule Portal Faculty,edicai_exam.model_edicai_exam_schedule,base.group_portal,1,0,0,0
+access_edicai_faculty_workload_portal,Faculty Workload Portal,edicai_faculty_profile.model_edicai_faculty_workload,base.group_portal,1,0,0,0
+access_edicai_faculty_qual_portal,Faculty Qualification Portal,edicai_faculty_profile.model_edicai_faculty_qualification,base.group_portal,1,0,0,0

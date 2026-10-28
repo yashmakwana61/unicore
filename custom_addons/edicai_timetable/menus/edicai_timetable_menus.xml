@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ========================================== -->
+        <!-- TOP MENU (Section under Edicai root)       -->
+        <!-- ========================================== -->
+
+        <menuitem id="menu_edicai_timetable"
+                  name="Timetable"
+                  sequence="60"
+                  web_icon="edicai_timetable,static/description/icon.png"
+                  groups="edicai_base.group_edicai_faculty,base.group_system"/>
+
+        <!-- ========================================== -->
+        <!-- SUB MENUS                                   -->
+        <!-- ========================================== -->
+
+        <menuitem id="menu_edicai_timetable_my_schedule"
+                  name="My Schedule"
+                  parent="menu_edicai_timetable"
+                  action="action_edicai_timetable_my_schedule"
+                  sequence="10"
+                  groups="edicai_base.group_edicai_faculty"/>
+
+        <menuitem id="menu_edicai_timetable_full_schedule"
+                  name="Full Timetable"
+                  parent="menu_edicai_timetable"
+                  action="action_edicai_timetable_entry"
+                  sequence="20"
+                  groups="edicai_base.group_edicai_staff,base.group_system"/>
+
+        <menuitem id="menu_edicai_time_slot_list"
+                  name="Time Slots"
+                  parent="menu_edicai_timetable"
+                  action="action_edicai_time_slot"
+                  sequence="30"
+                  groups="edicai_base.group_edicai_registrar,base.group_system"/>
+
+        <menuitem id="menu_edicai_room_booking_list"
+                  name="Room Bookings"
+                  parent="menu_edicai_timetable"
+                  action="action_edicai_room_booking"
+                  sequence="40"
+                  groups="edicai_base.group_edicai_faculty,base.group_system"/>
+
+        <menuitem id="menu_edicai_generate_timetable"
+                  name="Generate Timetable"
+                  parent="menu_edicai_timetable"
+                  action="action_edicai_generate_timetable_wizard"
+                  sequence="25"
+                  groups="edicai_base.group_edicai_registrar,edicai_base.group_edicai_manager,edicai_base.group_edicai_admin"/>
+
+    </data>
+</odoo>

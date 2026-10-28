@@ -1,4 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_oacis_demo_record_admin,Oacis Demo Record (Admin),model_oacis_demo_record,oacis_base.group_oacis_admin,1,1,1,1
-access_oacis_demo_profile_admin,Oacis Demo Profile (Admin),model_oacis_demo_profile,oacis_base.group_oacis_admin,1,1,1,1
-access_oacis_demo_wizard_staff,Oacis Demo Wizard (Staff),model_oacis_demo_generate_wizard,oacis_base.group_oacis_staff,1,1,1,0

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Main menu: Edicai -> Students -->
+    <menuitem id="menu_edicai_student_root"
+              name="Students"
+              parent="edicai_base.menu_edicai_root"
+              sequence="50"/>
+
+    <menuitem id="menu_edicai_student_overview"
+              name="All Students"
+              parent="menu_edicai_student_root"
+              action="action_edicai_student"
+              sequence="10"/>
+
+    <menuitem id="menu_edicai_student_documents"
+              name="Documents"
+              parent="menu_edicai_student_root"
+              action="action_edicai_student_document"
+              sequence="20"/>
+
+    <menuitem id="menu_edicai_student_academic_history"
+              name="Academic History"
+              parent="menu_edicai_student_root"
+              action="action_edicai_student_academic_history"
+              sequence="30"/>
+</odoo>

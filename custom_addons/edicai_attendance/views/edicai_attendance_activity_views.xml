@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- ============================================================
+         Attendance Record Activities
+         ============================================================ -->
+
+    <record id="edicai_attendance_record_activity_view" model="ir.ui.view">
+        <field name="name">edicai.attendance.record.activity</field>
+        <field name="model">edicai.attendance.record</field>
+        <field name="arch" type="xml">
+            <activity string="Attendance Record Activities"/>
+        </field>
+    </record>
+
+</odoo>

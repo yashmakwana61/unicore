@@ -1,0 +1,38 @@
+{
+    'name': 'Edicai Curriculum',
+    'version': '19.0.1.0.0',
+    'category': 'Education',
+    'summary': 'Program and Curriculum Management for Edicai ERP',
+    'description': """
+        Program and Curriculum Management for Edicai ERP
+    """,
+    'author': 'Precisefect Solutions Pvt. Ltd.',
+    'license': 'OPL-1',
+    'depends': [
+        'base',
+        'edicai_academic',
+        'edicai_base',
+        'edicai_campus',
+        'edicai_faculty_profile',
+        'edicai_security',
+    ],
+    'data': [
+        'security/security.xml',
+        'security/ir.model.access.csv',
+        'security/edicai_curriculum_record_rules.xml',
+        'data/edicai_curriculum_sequence_data.xml',
+        'data/edicai_course_category_data.xml',
+        'views/edicai_course_views.xml',
+        'views/edicai_course_offering_views.xml',
+        'views/edicai_curriculum_views.xml',
+        'views/edicai_curriculum_line_views.xml',
+        'views/edicai_curriculum_kanban_views.xml',
+        'views/edicai_curriculum_calendar_views.xml',
+        'menus/edicai_curriculum_menus.xml',
+        'views/edicai_curriculum_view_mode_ext.xml',
+        'views/edicai_curriculum_cleanup.xml',
+    ],
+    'installable': True,
+    'application': True,
+    'auto_install': False,
+}

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Fee dunning ladder: overdue flip + alerts + due-soon reminders -->
+        <record id="action_cron_fee_dunning" model="ir.actions.server">
+            <field name="name">EDICAI: Fee Dunning (Overdue Flip + Alerts)</field>
+            <field name="model_id" ref="edicai_notify.model_edicai_notification_automation"/>
+            <field name="state">code</field>
+            <field name="code">env['edicai.notification.automation'].cron_fee_dunning()</field>
+        </record>
+        <record id="cron_edicai_fee_dunning" model="ir.cron">
+            <field name="name">EDICAI: Fee Dunning (Overdue Flip + Alerts)</field>
+            <field name="ir_actions_server_id" ref="action_cron_fee_dunning"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).replace(hour=6, minute=15, second=0).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="priority">5</field>
+        </record>
+
+        <!-- Fee due-date milestone reminders (7d / 3d / 1d, idempotent) -->
+        <record id="action_cron_fee_due_milestones" model="ir.actions.server">
+            <field name="name">EDICAI: Fee Due Milestone Reminders (7d/3d/1d)</field>
+            <field name="model_id" ref="edicai_notify.model_edicai_notification_automation"/>
+            <field name="state">code</field>
+            <field name="code">env['edicai.notification.automation'].cron_fee_due_milestones()</field>
+        </record>
+        <record id="cron_edicai_fee_due_milestones" model="ir.cron">
+            <field name="name">EDICAI: Fee Due Milestone Reminders (7d/3d/1d)</field>
+            <field name="ir_actions_server_id" ref="action_cron_fee_due_milestones"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).replace(hour=8, minute=0, second=0).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="priority">5</field>
+        </record>
+
+        <!-- Attendance shortage alerts -->
+        <record id="action_cron_attendance_shortage" model="ir.actions.server">
+            <field name="name">EDICAI: Attendance Shortage Alerts</field>
+            <field name="model_id" ref="edicai_notify.model_edicai_notification_automation"/>
+            <field name="state">code</field>
+            <field name="code">env['edicai.notification.automation'].cron_attendance_shortage()</field>
+        </record>
+        <record id="cron_edicai_attendance_shortage" model="ir.cron">
+            <field name="name">EDICAI: Attendance Shortage Alerts</field>
+            <field name="ir_actions_server_id" ref="action_cron_attendance_shortage"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).replace(hour=18, minute=0, second=0).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="priority">5</field>
+        </record>
+
+        <!-- Exam reminders (7 days ahead) -->
+        <record id="action_cron_exam_reminders" model="ir.actions.server">
+            <field name="name">EDICAI: Exam Reminders</field>
+            <field name="model_id" ref="edicai_notify.model_edicai_notification_automation"/>
+            <field name="state">code</field>
+            <field name="code">env['edicai.notification.automation'].cron_exam_reminders(7)</field>
+        </record>
+        <record id="cron_edicai_exam_reminders" model="ir.cron">
+            <field name="name">EDICAI: Exam Reminders</field>
+            <field name="ir_actions_server_id" ref="action_cron_exam_reminders"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).replace(hour=7, minute=0, second=0).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="priority">5</field>
+        </record>
+
+        <!-- Library reservation expiry -->
+        <record id="action_cron_library_housekeeping" model="ir.actions.server">
+            <field name="name">EDICAI: Library Reservation Expiry</field>
+            <field name="model_id" ref="edicai_notify.model_edicai_notification_automation"/>
+            <field name="state">code</field>
+            <field name="code">env['edicai.notification.automation'].cron_library_housekeeping()</field>
+        </record>
+        <record id="cron_edicai_library_housekeeping" model="ir.cron">
+            <field name="name">EDICAI: Library Reservation Expiry</field>
+            <field name="ir_actions_server_id" ref="action_cron_library_housekeeping"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).replace(hour=23, minute=0, second=0).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="priority">5</field>
+        </record>
+
+        <!-- Admission offer expiry -->
+        <record id="action_cron_admission_offer_expiry" model="ir.actions.server">
+            <field name="name">EDICAI: Admission Offer Expiry</field>
+            <field name="model_id" ref="edicai_notify.model_edicai_notification_automation"/>
+            <field name="state">code</field>
+            <field name="code">env['edicai.notification.automation'].cron_admission_offer_expiry()</field>
+        </record>
+        <record id="cron_edicai_admission_offer_expiry" model="ir.cron">
+            <field name="name">EDICAI: Admission Offer Expiry</field>
+            <field name="ir_actions_server_id" ref="action_cron_admission_offer_expiry"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).replace(hour=7, minute=30, second=0).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="priority">5</field>
+        </record>
+
+        <!-- Semester result pre-computation (weekly) -->
+        <record id="action_cron_generate_semester_results" model="ir.actions.server">
+            <field name="name">EDICAI: Generate Semester Results (Drafts)</field>
+            <field name="model_id" ref="edicai_notify.model_edicai_notification_automation"/>
+            <field name="state">code</field>
+            <field name="code">env['edicai.notification.automation'].cron_generate_semester_results()</field>
+        </record>
+        <record id="cron_edicai_generate_semester_results" model="ir.cron">
+            <field name="name">EDICAI: Generate Semester Results (Drafts)</field>
+            <field name="ir_actions_server_id" ref="action_cron_generate_semester_results"/>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">weeks</field>
+            <field name="active">True</field>
+            <field name="nextcall" eval="(DateTime.now() + timedelta(days=1)).replace(hour=2, minute=0, second=0).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="priority">5</field>
+        </record>
+
+    </data>
+</odoo>

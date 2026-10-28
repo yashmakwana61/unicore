@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- Student self-service: my assignment scores -->
+  <menuitem id="menu_edicai_my_assignment_scores"
+    name="My Assignment Scores"
+    parent="edicai_grading.menu_edicai_grading"
+    action="action_edicai_gradebook_assignment_line_my"
+    sequence="25"
+    groups="edicai_base.group_edicai_student"/>
+
+  <!-- Grade Book (faculty / admin) -->
+  <menuitem id="menu_edicai_gradebook"
+    name="Grade Book"
+    parent="edicai_grading.menu_edicai_grading"
+    sequence="55"
+    groups="edicai_base.group_edicai_faculty,edicai_base.group_edicai_admin"/>
+
+  <menuitem id="menu_edicai_gradebook_all"
+    name="All Grade Books"
+    parent="menu_edicai_gradebook"
+    action="action_edicai_gradebook_all"
+    sequence="10"
+    groups="edicai_base.group_edicai_faculty,edicai_base.group_edicai_admin"/>
+
+  <menuitem id="menu_edicai_gradebook_my"
+    name="My Grade Books"
+    parent="menu_edicai_gradebook"
+    action="action_edicai_gradebook_my"
+    sequence="20"
+    groups="edicai_base.group_edicai_faculty"/>
+
+  <menuitem id="menu_edicai_gradebook_pending"
+    name="Pending Grade Entry Sync"
+    parent="menu_edicai_gradebook"
+    action="action_edicai_gradebook_student_line_pending"
+    sequence="30"
+    groups="edicai_base.group_edicai_faculty,edicai_base.group_edicai_admin"/>
+
+  <menuitem id="menu_edicai_gradebook_scores"
+    name="Assignment Scores"
+    parent="menu_edicai_gradebook"
+    action="action_edicai_gradebook_assignment_line_all"
+    sequence="40"
+    groups="edicai_base.group_edicai_faculty,edicai_base.group_edicai_admin"/>
+
+</odoo>

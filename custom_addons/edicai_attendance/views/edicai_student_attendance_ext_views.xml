@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- Student form: attendance stat button + summary -->
+  <record id="view_edicai_student_form_attendance_ext" model="ir.ui.view">
+    <field name="name">edicai.student.form.attendance.ext</field>
+    <field name="model">edicai.student</field>
+    <field name="inherit_id" ref="edicai_student.edicai_student_form_view"/>
+    <field name="arch" type="xml">
+      <xpath expr="//div[@name='button_box']" position="inside">
+        <button name="action_open_attendance" type="object" class="oe_stat_button" icon="fa-check-square-o">
+          <field name="attendance_records_count" widget="statinfo" string="Attendance"/>
+        </button>
+      </xpath>
+      <xpath expr="//field[@name='cohort_label']" position="after">
+        <field name="attendance_percentage" widget="progressbar" readonly="1"/>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- Student kanban: attendance fields available (no visual block;
+       card intentionally stays minimal: name, code, activity, courses) -->
+  <record id="view_edicai_student_kanban_attendance_ext" model="ir.ui.view">
+    <field name="name">edicai.student.kanban.attendance.ext</field>
+    <field name="model">edicai.student</field>
+    <field name="inherit_id" ref="edicai_student.edicai_student_kanban_view"/>
+    <field name="arch" type="xml">
+      <xpath expr="//kanban" position="inside">
+        <field name="attendance_percentage"/>
+        <field name="has_attendance_shortage"/>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- Student list: attendance column + at-risk decoration -->
+  <record id="view_edicai_student_list_attendance_ext" model="ir.ui.view">
+    <field name="name">edicai.student.tree.attendance.ext</field>
+    <field name="model">edicai.student</field>
+    <field name="inherit_id" ref="edicai_student.edicai_student_tree_view"/>
+    <field name="arch" type="xml">
+      <xpath expr="//list" position="attributes">
+        <attribute name="decoration-danger">has_attendance_shortage == True</attribute>
+      </xpath>
+      <xpath expr="//field[@name='cgpa']" position="after">
+        <field name="attendance_percentage" widget="progressbar" optional="show"/>
+        <field name="has_attendance_shortage" column_invisible="True"/>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- Student search: shortage filter -->
+  <record id="view_edicai_student_search_attendance_ext" model="ir.ui.view">
+    <field name="name">edicai.student.search.attendance.ext</field>
+    <field name="model">edicai.student</field>
+    <field name="inherit_id" ref="edicai_student.edicai_student_search_view"/>
+    <field name="arch" type="xml">
+      <xpath expr="//filter[@name='filter_international']" position="after">
+        <filter name="filter_attendance_shortage" string="Attendance Shortage" domain="[('has_attendance_shortage', '=', True)]"/>
+      </xpath>
+    </field>
+  </record>
+</odoo>

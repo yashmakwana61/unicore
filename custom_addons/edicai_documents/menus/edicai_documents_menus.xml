@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- ROOT MENU - Standalone App (no parent) -->
+  <menuitem
+    id="menu_edicai_documents_root"
+    name="Documents"
+    sequence="160"
+    web_icon="edicai_documents,static/description/icon.png"
+    groups="edicai_base.group_edicai_registrar,edicai_base.group_edicai_manager,edicai_base.group_edicai_admin"/>
+
+  <!-- All Documents -->
+  <menuitem
+    id="menu_edicai_docs_all"
+    name="All Documents"
+    parent="menu_edicai_documents_root"
+    action="action_edicai_document_all"
+    sequence="10"
+    groups="edicai_base.group_edicai_registrar"/>
+
+  <!-- Student Documents -->
+  <menuitem
+    id="menu_edicai_docs_student"
+    name="Student Documents"
+    parent="menu_edicai_documents_root"
+    action="action_edicai_document_student"
+    sequence="20"
+    groups="edicai_base.group_edicai_registrar"/>
+
+  <!-- Institutional Documents -->
+  <menuitem
+    id="menu_edicai_docs_institutional"
+    name="Institutional"
+    parent="menu_edicai_documents_root"
+    action="action_edicai_document_institutional"
+    sequence="30"
+    groups="edicai_base.group_edicai_staff"/>
+
+  <!-- Pending Verification -->
+  <menuitem
+    id="menu_edicai_docs_pending"
+    name="Pending Verification"
+    parent="menu_edicai_documents_root"
+    action="action_edicai_document_unverified"
+    sequence="40"
+    groups="edicai_base.group_edicai_registrar"/>
+
+  <!-- Templates -->
+  <menuitem
+    id="menu_edicai_docs_templates"
+    name="Document Templates"
+    parent="menu_edicai_documents_root"
+    action="action_edicai_doc_template"
+    sequence="50"
+    groups="edicai_base.group_edicai_manager"/>
+
+  <!-- Configuration -->
+  <menuitem
+    id="menu_edicai_docs_config"
+    name="Configuration"
+    parent="menu_edicai_documents_root"
+    sequence="90"
+    groups="edicai_base.group_edicai_admin"/>
+
+  <menuitem
+    id="menu_edicai_docs_categories"
+    name="Document Categories"
+    parent="menu_edicai_docs_config"
+    action="action_edicai_doc_category"
+    sequence="10"
+    groups="edicai_base.group_edicai_admin"/>
+
+</odoo>

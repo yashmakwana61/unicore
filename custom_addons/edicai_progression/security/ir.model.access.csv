@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_edicai_progression_record_admin,edicai.progression.record.admin,model_edicai_progression_record,edicai_base.group_edicai_admin,1,1,1,1
+access_edicai_progression_record_manager,edicai.progression.record.manager,model_edicai_progression_record,edicai_base.group_edicai_manager,1,1,1,0
+access_edicai_progression_record_registrar,edicai.progression.record.registrar,model_edicai_progression_record,edicai_base.group_edicai_registrar,1,1,1,0
+access_edicai_progression_record_staff,edicai.progression.record.staff,model_edicai_progression_record,edicai_base.group_edicai_staff,1,1,0,0
+access_edicai_progression_record_faculty,edicai.progression.record.faculty,model_edicai_progression_record,edicai_base.group_edicai_faculty,1,0,0,0
+access_edicai_progression_record_student,edicai.progression.record.student,model_edicai_progression_record,edicai_base.group_edicai_student,1,0,0,0

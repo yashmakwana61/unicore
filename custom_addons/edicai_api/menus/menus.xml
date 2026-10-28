@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <menuitem id="menu_edicai_api_root" name="API Management" parent="edicai_base.menu_edicai_root" sequence="90"/>
+
+  <menuitem id="menu_edicai_api_keys" name="API Keys" parent="menu_edicai_api_root" action="action_edicai_api_key" sequence="10"/>
+</odoo>

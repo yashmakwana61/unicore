@@ -2,10 +2,10 @@ import glob
 import re
 
 modules = [
-    "oacis_progression", "oacis_discipline", "oacis_grievance",
-    "oacis_mentor", "oacis_skill_assessment", "oacis_appointment",
-    "oacis_secure_transcript", "oacis_digital_library", "oacis_quiz",
-    "oacis_placement", "oacis_thesis",
+    "edicai_progression", "edicai_discipline", "edicai_grievance",
+    "edicai_mentor", "edicai_skill_assessment", "edicai_appointment",
+    "edicai_secure_transcript", "edicai_digital_library", "edicai_quiz",
+    "edicai_placement", "edicai_thesis",
 ]
 
 for mod in modules:

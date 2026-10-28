@@ -7,3 +7,6 @@ access_telegram_session_message_internal_user,telegram.session.message.internal.
 access_telegram_session_message_sale_manager,telegram.session.message.sale.manager,model_telegram_session_message,sales_team.group_sale_manager,1,1,1,1
 access_telegram_session_attachment_internal_user,telegram.session.attachment.internal.user,model_telegram_session_attachment,base.group_user,1,0,0,0
 access_telegram_session_attachment_sale_manager,telegram.session.attachment.sale.manager,model_telegram_session_attachment,sales_team.group_sale_manager,1,1,1,1
+access_telegram_chat_link_portal,telegram.chat.link.portal,model_telegram_chat_link,base.group_portal,1,1,1,0
+access_telegram_chat_link_internal_user,telegram.chat.link.internal.user,model_telegram_chat_link,base.group_user,1,1,1,0
+access_telegram_chat_link_sale_manager,telegram.chat.link.sale.manager,model_telegram_chat_link,sales_team.group_sale_manager,1,1,1,1

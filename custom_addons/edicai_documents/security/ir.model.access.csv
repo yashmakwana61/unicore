@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_edicai_doc_category_admin,Doc Category Admin,model_edicai_document_category,edicai_base.group_edicai_admin,1,1,1,1
+access_edicai_doc_category_manager,Doc Category Manager,model_edicai_document_category,edicai_base.group_edicai_manager,1,1,1,0
+access_edicai_doc_category_registrar,Doc Category Registrar,model_edicai_document_category,edicai_base.group_edicai_registrar,1,0,0,0
+access_edicai_doc_category_staff,Doc Category Staff,model_edicai_document_category,edicai_base.group_edicai_staff,1,0,0,0
+access_edicai_doc_category_student,Doc Category Student,model_edicai_document_category,edicai_base.group_edicai_student,1,0,0,0
+access_edicai_document_admin,Document Admin,model_edicai_document,edicai_base.group_edicai_admin,1,1,1,1
+access_edicai_document_manager,Document Manager,model_edicai_document,edicai_base.group_edicai_manager,1,1,1,0
+access_edicai_document_registrar,Document Registrar,model_edicai_document,edicai_base.group_edicai_registrar,1,1,1,0
+access_edicai_document_staff,Document Staff,model_edicai_document,edicai_base.group_edicai_staff,1,0,0,0
+access_edicai_document_faculty,Document Faculty,model_edicai_document,edicai_base.group_edicai_faculty,1,1,1,0
+access_edicai_document_student,Document Student,model_edicai_document,edicai_base.group_edicai_student,1,0,0,0
+access_edicai_doc_template_admin,Doc Template Admin,model_edicai_document_template,edicai_base.group_edicai_admin,1,1,1,1
+access_edicai_doc_template_manager,Doc Template Manager,model_edicai_document_template,edicai_base.group_edicai_manager,1,1,1,0
+access_edicai_doc_template_registrar,Doc Template Registrar,model_edicai_document_template,edicai_base.group_edicai_registrar,1,1,0,0
+access_edicai_doc_template_staff,Doc Template Staff,model_edicai_document_template,edicai_base.group_edicai_staff,1,0,0,0

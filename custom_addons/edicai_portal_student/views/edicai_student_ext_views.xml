@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="edicai_student_form_view_portal" model="ir.ui.view">
+        <field name="name">edicai.student.form.portal</field>
+        <field name="model">edicai.student</field>
+        <field name="inherit_id" ref="edicai_student.edicai_student_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_grant_portal_access" type="object" string="Grant Portal Access" invisible="has_portal_user == True" class="btn-secondary"/>
+            </xpath>
+            <xpath expr="//sheet" position="inside">
+                <field name="has_portal_user" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

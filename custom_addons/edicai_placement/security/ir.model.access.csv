@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_placement_company_admin,edicai.placement.company.admin,model_edicai_placement_company,edicai_base.group_edicai_admin,1,1,1,1
+access_placement_company_manager,edicai.placement.company.manager,model_edicai_placement_company,edicai_base.group_edicai_manager,1,1,1,0
+access_placement_company_faculty,edicai.placement.company.faculty,model_edicai_placement_company,edicai_base.group_edicai_faculty,1,0,0,0
+access_placement_company_student,edicai.placement.company.student,model_edicai_placement_company,edicai_base.group_edicai_student,1,0,0,0
+
+access_placement_drive_admin,edicai.placement.drive.admin,model_edicai_placement_drive,edicai_base.group_edicai_admin,1,1,1,1
+access_placement_drive_manager,edicai.placement.drive.manager,model_edicai_placement_drive,edicai_base.group_edicai_manager,1,1,1,0
+access_placement_drive_faculty,edicai.placement.drive.faculty,model_edicai_placement_drive,edicai_base.group_edicai_faculty,1,0,0,0
+access_placement_drive_student,edicai.placement.drive.student,model_edicai_placement_drive,edicai_base.group_edicai_student,1,0,0,0
+
+access_placement_application_admin,edicai.placement.application.admin,model_edicai_placement_application,edicai_base.group_edicai_admin,1,1,1,1
+access_placement_application_manager,edicai.placement.application.manager,model_edicai_placement_application,edicai_base.group_edicai_manager,1,1,1,0
+access_placement_application_faculty,edicai.placement.application.faculty,model_edicai_placement_application,edicai_base.group_edicai_faculty,1,0,0,0
+access_placement_application_student,edicai.placement.application.student,model_edicai_placement_application,edicai_base.group_edicai_student,1,0,1,0

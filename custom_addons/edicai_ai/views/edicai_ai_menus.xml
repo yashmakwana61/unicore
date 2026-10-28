@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Top-level Edicai AI menu -->
+    <menuitem
+        id="menu_edicai_ai_root"
+        name="Edicai AI"
+        web_icon="edicai_ai,static/description/icon.png"
+        sequence="95"
+    />
+
+    <!-- Sub-menus -->
+    <menuitem
+        id="menu_edicai_ai_chatbot"
+        name="Chat History"
+        parent="menu_edicai_ai_root"
+        action="action_edicai_ai_chat_sessions"
+        sequence="10"
+    />
+
+    <menuitem
+        id="menu_edicai_ai_generate"
+        name="AI Text Generator"
+        parent="menu_edicai_ai_root"
+        action="action_edicai_ai_generate_wizard"
+        sequence="20"
+    />
+
+    <menuitem
+        id="menu_edicai_ai_config"
+        name="Configuration"
+        parent="menu_edicai_ai_root"
+        sequence="100"
+        groups="edicai_ai.group_edicai_ai_manager"
+    />
+
+    <menuitem
+        id="menu_edicai_ai_settings"
+        name="Settings"
+        parent="menu_edicai_ai_config"
+        action="base_setup.action_general_configuration"
+        sequence="10"
+        groups="edicai_ai.group_edicai_ai_manager"
+    />
+
+</odoo>

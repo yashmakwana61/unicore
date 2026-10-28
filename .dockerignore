@@ -1,0 +1,12 @@
+# Build context hygiene — keep image small and secrets out.
+.git
+.env
+*.sql
+*.dump
+backups/
+docs/
+prompts/
+pylint-odoo-report.txt
+**/__pycache__
+**/*.py[co]
+docker/caddy/caddy-data/

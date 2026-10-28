@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mentor_allocation_admin,edicai.mentor.allocation.admin,model_edicai_mentor_allocation,edicai_base.group_edicai_admin,1,1,1,1
+access_mentor_allocation_manager,edicai.mentor.allocation.manager,model_edicai_mentor_allocation,edicai_base.group_edicai_manager,1,1,1,0
+access_mentor_allocation_registrar,edicai.mentor.allocation.registrar,model_edicai_mentor_allocation,edicai_base.group_edicai_registrar,1,1,1,0
+access_mentor_allocation_faculty,edicai.mentor.allocation.faculty,model_edicai_mentor_allocation,edicai_base.group_edicai_faculty,1,0,0,0
+access_mentor_allocation_student,edicai.mentor.allocation.student,model_edicai_mentor_allocation,edicai_base.group_edicai_student,1,0,0,0
+
+access_mentor_meeting_log_admin,edicai.mentor.meeting.log.admin,model_edicai_mentor_meeting_log,edicai_base.group_edicai_admin,1,1,1,1
+access_mentor_meeting_log_manager,edicai.mentor.meeting.log.manager,model_edicai_mentor_meeting_log,edicai_base.group_edicai_manager,1,1,1,0
+access_mentor_meeting_log_faculty,edicai.mentor.meeting.log.faculty,model_edicai_mentor_meeting_log,edicai_base.group_edicai_faculty,1,1,1,0
+access_mentor_meeting_log_student,edicai.mentor.meeting.log.student,model_edicai_mentor_meeting_log,edicai_base.group_edicai_student,1,0,0,0

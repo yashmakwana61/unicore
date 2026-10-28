@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_edicai_api_key_admin,edicai.api.key.admin,model_edicai_api_key,group_edicai_api_admin,1,1,1,1
+access_edicai_api_key_user,edicai.api.key.user,model_edicai_api_key,group_edicai_api_user,1,0,0,0
+access_edicai_api_key_token_wizard_admin,edicai.api.key.token.wizard.admin,model_edicai_api_key_token_wizard,group_edicai_api_admin,1,1,1,1

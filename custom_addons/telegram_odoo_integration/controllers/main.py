@@ -1,4 +1,5 @@
 """HTTP controllers for the Telegram integration."""
+import hmac
 import logging
 
 from odoo import http
@@ -30,6 +31,19 @@ class TelegramWebhook(http.Controller):
         envelope; Telegram ignores the response body, the user-facing reply is
         sent back to the chat through the Telegram Bot API by the service.
         """
+        secret = request.httprequest.headers.get(
+            'X-Telegram-Bot-Api-Secret-Token', '')
+        expected = request.env['ir.config_parameter'].sudo().get_param(
+            'telegram.webhook_secret', default='')
+        if not expected:
+            # Fail closed: an unconfigured secret must never leave the
+            # webhook open to forged updates (message spoofing, parser
+            # cost burn). Configure telegram.webhook_secret.
+            _logger.warning('Telegram webhook rejected: secret not configured')
+            return {'success': False, 'error': 'Unauthorized'}
+        if not secret or not hmac.compare_digest(secret, expected):
+            _logger.warning('Telegram webhook rejected: bad secret')
+            return {'success': False, 'error': 'Unauthorized'}
         _logger.info('Telegram webhook received')
 
         try:
@@ -41,6 +55,65 @@ class TelegramWebhook(http.Controller):
 
         service = TelegramBotService(request.env)
         return service.process_update(data)
+
+
+class TelegramHealth(http.Controller):
+    """Health/readiness checks for Telegram integration."""
+
+    @http.route('/telegram/health', type='http', auth='public', csrf=False, methods=['GET'])
+    def health(self, **kwargs):
+        """Return integration health: Telegram config, Parser, Odoo."""
+        import time
+        result = {
+            'status': 'ok',
+            'timestamp': time.strftime('%Y-%m-%dT%H:%M:%SZ'),
+            'checks': {},
+        }
+        # Telegram bot config
+        try:
+            from odoo.addons.telegram_odoo_integration.models.telegram_bot_service import TelegramBotService
+            svc = TelegramBotService(request.env)
+            token_ok = bool(svc.get_bot_token())
+            result['checks']['telegram_bot'] = 'ok' if token_ok else 'not_configured'
+        except Exception:
+            result['checks']['telegram_bot'] = 'error'
+        # Parser
+        try:
+            from odoo.addons.telegram_odoo_integration.models.ai_parser_client import AIParserClient
+            client = AIParserClient(request.env)
+            health = client.check_health()
+            result['checks']['ai_parser'] = health.get('status', 'unknown')
+        except Exception:
+            result['checks']['ai_parser'] = 'error'
+        # Odoo DB
+        try:
+            request.env['telegram.message'].sudo().search([], limit=1)
+            result['checks']['odoo_db'] = 'ok'
+        except Exception:
+            result['checks']['odoo_db'] = 'error'
+            result['status'] = 'degraded'
+        if any('error' in str(v) for v in result['checks'].values()):
+            result['status'] = 'degraded'
+        return request.make_json_response(result)
+
+    @http.route('/telegram/metrics', type='http', auth='public', csrf=False, methods=['GET'])
+    def metrics(self, **kwargs):
+        """Expose metrics as JSON (requires the webhook secret)."""
+        import hmac as _hmac
+        secret = request.httprequest.headers.get(
+            'X-Telegram-Bot-Api-Secret-Token', '')
+        expected = request.env['ir.config_parameter'].sudo().get_param(
+            'telegram.webhook_secret', default='')
+        if not expected or not secret or not _hmac.compare_digest(
+                secret, expected):
+            return request.make_json_response(
+                {'error': 'Unauthorized'}, status=401)
+        try:
+            from odoo.addons.telegram_odoo_integration.models.telegram_metrics import get_all_counters
+            counters = get_all_counters()
+            return request.make_json_response(counters)
+        except Exception as e:
+            return request.make_json_response({'error': str(e)}, status=500)
 
 
 class AIParserAttachment(http.Controller):
@@ -69,26 +142,30 @@ class AIParserAttachment(http.Controller):
         ], limit=1)
 
         if not attachment:
-            _logger.warning(
-                'Attachment not found or already served: %s', token)
+            _logger.warning('Attachment request: no matching token')
             return request.make_json_response(
                 {'error': 'Not found or already served'}, status=404)
 
-        # Check TTL
+        # Check TTL (expired tokens answer 404 like unknown ones so the
+        # endpoint does not oracle token existence via 410 vs 404).
         created = attachment.create_date or datetime.now()
         if datetime.now() - created > timedelta(seconds=ATTACHMENT_TOKEN_TTL_SECONDS):
-            _logger.warning('Attachment token expired: %s', token)
+            _logger.warning('Attachment request: token expired')
+            try:
+                attachment.mark_served()
+            except Exception:
+                pass
             return request.make_json_response(
-                {'error': 'Token expired'}, status=410)
+                {'error': 'Not found or already served'}, status=404)
 
+        # Consume first so concurrent replays of the same single-use
+        # token cannot both succeed.
+        attachment.mark_served()
         file_content = attachment.serve_file()
         if file_content is None:
-            _logger.error(
-                'Attachment file not found on disk: %s', attachment.file_path)
+            _logger.error('Attachment file not found on disk')
             return request.make_json_response(
                 {'error': 'File not found on server'}, status=404)
-
-        attachment.mark_served()
 
         from odoo.http import Response
         response = Response(file_content, content_type=attachment.mime_type)

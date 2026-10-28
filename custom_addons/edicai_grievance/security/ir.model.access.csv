@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_grievance_category_admin,edicai.grievance.category.admin,model_edicai_grievance_category,edicai_base.group_edicai_admin,1,1,1,1
+access_grievance_category_manager,edicai.grievance.category.manager,model_edicai_grievance_category,edicai_base.group_edicai_manager,1,1,1,0
+access_grievance_category_faculty,edicai.grievance.category.faculty,model_edicai_grievance_category,edicai_base.group_edicai_faculty,1,0,0,0
+access_grievance_category_student,edicai.grievance.category.student,model_edicai_grievance_category,edicai_base.group_edicai_student,1,0,0,0
+
+access_grievance_team_admin,edicai.grievance.team.admin,model_edicai_grievance_team,edicai_base.group_edicai_admin,1,1,1,1
+access_grievance_team_manager,edicai.grievance.team.manager,model_edicai_grievance_team,edicai_base.group_edicai_manager,1,1,1,0
+
+access_grievance_request_admin,edicai.grievance.request.admin,model_edicai_grievance_request,edicai_base.group_edicai_admin,1,1,1,1
+access_grievance_request_manager,edicai.grievance.request.manager,model_edicai_grievance_request,edicai_base.group_edicai_manager,1,1,1,0
+access_grievance_request_faculty,edicai.grievance.request.faculty,model_edicai_grievance_request,edicai_base.group_edicai_faculty,1,1,1,0
+access_grievance_request_student,edicai.grievance.request.student,model_edicai_grievance_request,edicai_base.group_edicai_student,1,1,1,0

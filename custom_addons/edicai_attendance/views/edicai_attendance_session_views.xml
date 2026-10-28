@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="view_edicai_attendance_session_form" model="ir.ui.view">
+        <field name="name">edicai.attendance.session.form</field>
+        <field name="model">edicai.attendance.session</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="session_state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group string="Session Details">
+                        <group>
+                            <field name="timetable_entry_id"/>
+                            <field name="course_offering_id"/>
+                            <field name="course_id" readonly="1"/>
+                            <field name="semester_id" readonly="1"/>
+                            <field name="session_date"/>
+                            <field name="day_of_week" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="room_id"/>
+                            <field name="instructor_id"/>
+                            <field name="time_slot_id"/>
+                            <field name="is_holiday"/>
+                            <field name="is_cancelled"/>
+                            <field name="cancellation_reason" invisible="not is_cancelled"/>
+                            <field name="company_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <separator string="Marking Summary"/>
+                    <group>
+                        <group>
+                            <field name="total_students" readonly="1"/>
+                            <field name="present_count" readonly="1"/>
+                            <field name="absent_count" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="late_count" readonly="1"/>
+                            <field name="excused_count" readonly="1"/>
+                            <field name="attendance_percentage" readonly="1" widget="percentage"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Attendance Records">
+                            <field name="attendance_record_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_edicai_attendance_session_list" model="ir.ui.view">
+        <field name="name">edicai.attendance.session.list</field>
+        <field name="model">edicai.attendance.session</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="session_date"/>
+                <field name="course_offering_id"/>
+                <field name="course_id"/>
+                <field name="room_id"/>
+                <field name="total_students"/>
+                <field name="attendance_percentage"/>
+                <field name="session_state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edicai_attendance_session_search" model="ir.ui.view">
+        <field name="name">edicai.attendance.session.search</field>
+        <field name="model">edicai.attendance.session</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="course_offering_id"/>
+                <field name="course_id"/>
+                <field name="semester_id"/>
+                <field name="session_date"/>
+                <field name="session_state"/>
+                <filter string="Open" name="filter_open" domain="[('session_state','=','open')]"/>
+                <filter string="Closed" name="filter_closed" domain="[('session_state','=','closed')]"/>
+                <filter string="Cancelled" name="filter_cancelled" domain="[('session_state','=','cancelled')]"/>
+                <filter string="Holiday" name="filter_holiday" domain="[('is_holiday','=',True)]"/>
+                <separator/>
+                <filter string="Course" name="group_course" context="{'group_by':'course_id'}"/>
+                <filter string="Semester" name="group_semester" context="{'group_by':'semester_id'}"/>
+                <filter string="State" name="group_state" context="{'group_by':'session_state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_edicai_attendance_session_kanban" model="ir.ui.view">
+        <field name="name">edicai.attendance.session.kanban</field>
+        <field name="model">edicai.attendance.session</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_small_cards" sample="1">
+                <field name="session_date"/>
+                <field name="course_id"/>
+                <field name="session_state"/>
+                <field name="attendance_percentage"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click o_academic_kanban_card">
+                            <div class="oe_kanban_details p-2">
+                                <strong class="text-truncate d-block">
+                                    <field name="course_id"/>
+                                </strong>
+                                <div class="text-muted small">
+                                    <field name="session_date"/>
+                                </div>
+                                <div class="small">
+                                    <span t-if="record.session_state.raw_value == 'open'"
+                                        class="badge bg-success">Open</span>
+                                    <span t-elif="record.session_state.raw_value == 'closed'"
+                                        class="badge bg-secondary">Closed</span>
+                                    <span t-else="" class="badge bg-danger">Cancelled</span>
+                                </div>
+                                <div class="small text-muted mt-1">
+                                    Present: <field name="attendance_percentage"/>%
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_edicai_attendance_session" model="ir.actions.act_window">
+        <field name="name">Attendance Sessions</field>
+        <field name="res_model">edicai.attendance.session</field>
+        <field name="view_mode">list,kanban,form,calendar,pivot,graph</field>
+    </record>
+
+    <record id="action_edicai_attendance_session_today" model="ir.actions.act_window">
+        <field name="name">Attendance Sessions Today</field>
+        <field name="res_model">edicai.attendance.session</field>
+        <field name="view_mode">list,form,kanban,calendar,pivot,graph</field>
+    </record>
+
+    <record id="action_edicai_attendance_session_open" model="ir.actions.act_window">
+        <field name="name">Attendance Sessions Open</field>
+        <field name="res_model">edicai.attendance.session</field>
+        <field name="view_mode">list,form,kanban,calendar,pivot,graph</field>
+    </record>
+
+</odoo>

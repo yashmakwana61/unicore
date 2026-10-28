@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Admission Applicant Activities
+         ============================================================ -->
+    
+
+    <record id="edicai_admission_applicant_activity_view" model="ir.ui.view">
+        <field name="name">edicai.admission.applicant.activity</field>
+        <field name="model">edicai.admission.applicant</field>
+        <field name="arch" type="xml">
+            <activity string="Applicant Activities"/>
+        </field>
+    </record>
+
+</odoo>

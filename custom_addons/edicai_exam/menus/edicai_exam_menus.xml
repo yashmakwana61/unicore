@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Level 2 — Top Section -->
+        <menuitem
+            id="menu_edicai_exam"
+            name="Examinations"
+            sequence="90"
+            web_icon="edicai_exam,static/description/icon.png"
+            groups="edicai_base.group_edicai_staff"/>
+
+        <!-- Level 3 — Student Self-Service -->
+        <menuitem
+            id="menu_edicai_exam_my_tickets"
+            name="My Hall Tickets"
+            parent="menu_edicai_exam"
+            action="action_edicai_exam_hall_ticket_my"
+            sequence="10"
+            groups="edicai_base.group_edicai_student"/>
+
+        <menuitem
+            id="menu_edicai_exam_my_seat"
+            name="My Seat Assignment"
+            parent="menu_edicai_exam"
+            action="action_edicai_exam_seating_my"
+            sequence="20"
+            groups="edicai_base.group_edicai_student"/>
+
+        <!-- Level 3 — Faculty -->
+        <menuitem
+            id="menu_edicai_exam_upcoming"
+            name="Upcoming Exams"
+            parent="menu_edicai_exam"
+            action="action_edicai_exam_upcoming"
+            sequence="30"
+            groups="edicai_base.group_edicai_faculty"/>
+
+        <!-- Level 3 — Registrar -->
+        <menuitem
+            id="menu_edicai_exam_schedule_all"
+            name="All Exam Schedules"
+            parent="menu_edicai_exam"
+            action="action_edicai_exam_schedule"
+            sequence="40"
+            groups="edicai_base.group_edicai_registrar"/>
+
+        <menuitem
+            id="menu_edicai_bulk_exam_schedule"
+            name="Schedule Exams for Program / Grade"
+            parent="menu_edicai_exam"
+            action="action_edicai_bulk_exam_schedule_wizard"
+            sequence="45"
+            groups="edicai_base.group_edicai_registrar"/>
+
+        <menuitem
+            id="menu_edicai_exam_hall_ticket_all"
+            name="Hall Tickets"
+            parent="menu_edicai_exam"
+            action="action_edicai_exam_hall_ticket"
+            sequence="50"
+            groups="edicai_base.group_edicai_registrar"/>
+
+        <menuitem
+            id="menu_edicai_exam_hall_ticket_ineligible"
+            name="Ineligible Students"
+            parent="menu_edicai_exam"
+            action="action_edicai_exam_hall_ticket_ineligible"
+            sequence="60"
+            groups="edicai_base.group_edicai_registrar"/>
+
+        <!-- Level 3 — Staff -->
+        <menuitem
+            id="menu_edicai_exam_seating_all"
+            name="Seating Plans"
+            parent="menu_edicai_exam"
+            action="action_edicai_exam_seating"
+            sequence="70"
+            groups="edicai_base.group_edicai_staff"/>
+
+    </data>
+</odoo>

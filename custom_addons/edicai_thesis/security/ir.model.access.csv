@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_thesis_admin,edicai.thesis.admin,model_edicai_thesis,edicai_base.group_edicai_admin,1,1,1,1
+access_thesis_manager,edicai.thesis.manager,model_edicai_thesis,edicai_base.group_edicai_manager,1,1,1,0
+access_thesis_faculty,edicai.thesis.faculty,model_edicai_thesis,edicai_base.group_edicai_faculty,1,1,1,0
+access_thesis_student,edicai.thesis.student,model_edicai_thesis,edicai_base.group_edicai_student,1,1,1,0
+
+access_thesis_review_admin,edicai.thesis.review.admin,model_edicai_thesis_review,edicai_base.group_edicai_admin,1,1,1,1
+access_thesis_review_manager,edicai.thesis.review.manager,model_edicai_thesis_review,edicai_base.group_edicai_manager,1,1,1,0
+access_thesis_review_faculty,edicai.thesis.review.faculty,model_edicai_thesis_review,edicai_base.group_edicai_faculty,1,1,1,0
+access_thesis_review_student,edicai.thesis.review.student,model_edicai_thesis_review,edicai_base.group_edicai_student,1,0,0,0

@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_edicai_convocation_student_admin,edicai.student admin,model_edicai_student,edicai_base.group_edicai_admin,1,1,1,1
+access_edicai_convocation_student_manager,edicai.student manager,model_edicai_student,edicai_base.group_edicai_manager,1,1,1,0
+access_edicai_convocation_student_registrar,edicai.student registrar,model_edicai_student,edicai_base.group_edicai_registrar,1,1,1,0
+access_edicai_convocation_student_staff,edicai.student staff,model_edicai_student,edicai_base.group_edicai_staff,1,0,0,0
+access_edicai_convocation_event_event_admin,event.event admin,model_event_event,edicai_base.group_edicai_admin,1,1,1,1
+access_edicai_convocation_event_event_manager,event.event manager,model_event_event,edicai_base.group_edicai_manager,1,1,1,0

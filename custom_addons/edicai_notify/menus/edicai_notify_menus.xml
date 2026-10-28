@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ROOT MENU — Under Edicai Base app -->
+    <menuitem
+        id="menu_edicai_notify_root"
+        name="Notifications"
+        sequence="250"
+        web_icon="edicai_notify,static/description/icon.png"
+        groups="edicai_base.group_edicai_registrar,edicai_base.group_edicai_admin"/>
+
+    <!-- Level 2: Notification Log -->
+    <menuitem
+        id="menu_edicai_notify_logs"
+        name="Notification Log"
+        parent="menu_edicai_notify_root"
+        sequence="10"
+        groups="edicai_base.group_edicai_registrar"/>
+
+    <menuitem
+        id="menu_edicai_notify_log_all"
+        name="All Notifications"
+        parent="menu_edicai_notify_logs"
+        action="action_edicai_notification_log"
+        sequence="10"
+        groups="edicai_base.group_edicai_registrar"/>
+
+    <menuitem
+        id="menu_edicai_notify_log_today"
+        name="Today's Notifications"
+        parent="menu_edicai_notify_logs"
+        action="action_edicai_notification_log_today"
+        sequence="20"
+        groups="edicai_base.group_edicai_registrar"/>
+
+    <menuitem
+        id="menu_edicai_notify_log_failed"
+        name="Failed Notifications"
+        parent="menu_edicai_notify_logs"
+        action="action_edicai_notification_log_failed"
+        sequence="30"
+        groups="edicai_base.group_edicai_registrar"/>
+
+    <!-- Level 2: Configuration -->
+    <menuitem
+        id="menu_edicai_notify_config_root"
+        name="Configuration"
+        parent="menu_edicai_notify_root"
+        sequence="90"
+        groups="edicai_base.group_edicai_admin"/>
+
+    <menuitem
+        id="menu_edicai_notify_templates"
+        name="Notification Templates"
+        parent="menu_edicai_notify_config_root"
+        action="action_edicai_notification_template"
+        sequence="10"
+        groups="edicai_base.group_edicai_admin"/>
+
+    <menuitem
+        id="menu_edicai_notify_config"
+        name="Notification Settings"
+        parent="menu_edicai_notify_config_root"
+        action="action_edicai_notification_config"
+        sequence="20"
+        groups="edicai_base.group_edicai_admin"/>
+
+</odoo>

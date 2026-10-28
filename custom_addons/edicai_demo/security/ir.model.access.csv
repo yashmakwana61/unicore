@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_edicai_demo_record_admin,Edicai Demo Record (Admin),model_edicai_demo_record,edicai_base.group_edicai_admin,1,1,1,1
+access_edicai_demo_profile_admin,Edicai Demo Profile (Admin),model_edicai_demo_profile,edicai_base.group_edicai_admin,1,1,1,1
+access_edicai_demo_wizard_staff,Edicai Demo Wizard (Staff),model_edicai_demo_generate_wizard,edicai_base.group_edicai_staff,1,1,1,0

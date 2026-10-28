@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_edicai_ai_chat_session_user,edicai.ai.chat.session user,model_edicai_ai_chat_session,group_edicai_ai_user,1,1,1,1
+access_edicai_ai_chat_message_user,edicai.ai.chat.message user,model_edicai_ai_chat_message,group_edicai_ai_user,1,1,1,1
+access_edicai_ai_generate_wizard_user,edicai.ai.generate.wizard user,model_edicai_ai_generate_wizard,group_edicai_ai_user,1,1,1,1
+access_edicai_ai_chat_session_manager,edicai.ai.chat.session manager,model_edicai_ai_chat_session,group_edicai_ai_manager,1,1,1,1
+access_edicai_ai_chat_message_manager,edicai.ai.chat.message manager,model_edicai_ai_chat_message,group_edicai_ai_manager,1,1,1,1
+access_edicai_ai_prompt_user,edicai.ai.prompt user,model_edicai_ai_prompt,group_edicai_ai_user,1,0,0,0
+access_edicai_ai_prompt_manager,edicai.ai.prompt manager,model_edicai_ai_prompt,group_edicai_ai_manager,1,1,1,1
+access_edicai_ai_usage_user,edicai.ai.usage.log user,model_edicai_ai_usage_log,group_edicai_ai_user,1,0,0,0
+access_edicai_ai_usage_manager,edicai.ai.usage.log manager,model_edicai_ai_usage_log,group_edicai_ai_manager,1,1,1,1

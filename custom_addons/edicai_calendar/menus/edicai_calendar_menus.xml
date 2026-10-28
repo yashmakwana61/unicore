@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Academic Calendar Top Menu -->
+    <menuitem id="menu_edicai_calendar"
+              name="Academic Calendar"
+              parent="edicai_base.menu_edicai_root"
+              sequence="20"
+              groups="edicai_base.group_edicai_staff"/>
+
+    <!-- Academic Years -->
+    <menuitem id="menu_edicai_academic_year_list"
+              name="Academic Years"
+              parent="menu_edicai_calendar"
+              action="action_edicai_academic_year"
+              sequence="10"/>
+
+    <!-- Semesters -->
+    <menuitem id="menu_edicai_semester_list"
+              name="Semesters"
+              parent="menu_edicai_calendar"
+              action="action_edicai_semester"
+              sequence="20"/>
+
+    <!-- Academic Weeks -->
+    <menuitem id="menu_edicai_academic_week_list"
+              name="Academic Weeks"
+              parent="menu_edicai_calendar"
+              action="action_edicai_academic_week"
+              sequence="30"/>
+
+    <!-- Holidays & Events -->
+    <menuitem id="menu_edicai_holiday_list"
+              name="Holidays &amp; Events"
+              parent="menu_edicai_calendar"
+              action="action_edicai_holiday"
+              sequence="40"/>
+
+</odoo>

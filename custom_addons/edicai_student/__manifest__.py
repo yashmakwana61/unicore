@@ -1,0 +1,42 @@
+{
+    'name': 'Edicai Students',
+    'version': '19.0.1.0.0',
+    'category': 'Education',
+    'summary': 'Complete student profile and lifecycle management',
+    'description': '''
+Manages the complete student lifecycle in Edicai ERP.
+Covers student profiles, enrollment history,
+document management, emergency contacts,
+academic history and status transitions.
+    ''',
+    'author': 'Precisefect Solutions Pvt. Ltd.',
+    'website': 'https://precisefect.com',
+    'license': 'OPL-1',
+    'depends': [
+        'edicai_base',
+        'edicai_security',
+        'edicai_campus',
+        'edicai_academic',
+        'edicai_academic_generic',
+        'edicai_calendar',
+    ],
+    'data': [
+        'security/edicai_student_record_rules.xml',
+        'security/ir.model.access.csv',
+        'data/edicai_student_sequence_data.xml',
+        'data/edicai_bonafide_sequence.xml',
+        'wizards/edicai_student_status_wizard_views.xml',
+        'wizards/edicai_bonafide_wizard_views.xml',
+        'views/edicai_student_views.xml',
+        'views/edicai_student_document_views.xml',
+        'views/edicai_student_academic_history_views.xml',
+        'views/edicai_student_id_card_template.xml',
+        'views/edicai_bonafide_template.xml',
+        'data/edicai_student_id_card_report.xml',
+        'data/edicai_bonafide_report_action.xml',
+        'menus/edicai_student_menus.xml',
+    ],
+    'installable': True,
+    'application': True,
+    'auto_install': False,
+}

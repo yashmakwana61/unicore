@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_edicai_fee_accounting_config_admin,Fee Accounting Config Admin,edicai_fees.model_edicai_fee_accounting_config,edicai_base.group_edicai_admin,1,1,1,1
+access_edicai_fee_accounting_config_finance,Fee Accounting Config Finance,edicai_fees.model_edicai_fee_accounting_config,edicai_base.group_edicai_finance,1,0,0,0
+access_edicai_fee_accounting_config_registrar,Fee Accounting Config Registrar,edicai_fees.model_edicai_fee_accounting_config,edicai_base.group_edicai_registrar,1,0,0,0

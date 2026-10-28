@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Student Lifecycle — Admission to Graduation</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>body{font-family:system-ui,Segoe UI,Arial;margin:24px;background:#fafafa}h1{font-size:22px}h2{font-size:16px;margin-top:28px}.wrap{background:#fff;border:1px solid #ddd;border-radius:10px;padding:16px}table{border-collapse:collapse;width:100%;font-size:13px}td,th{border:1px solid #ddd;padding:6px 8px;text-align:left}.bad{color:#b00;font-weight:700}.ok{color:#0a6}.mermaid{font-size:13px}</style>
+</head><body>
+<h1>UNICORE — Student Lifecycle: Admission → Graduation</h1>
+<div class="wrap"><div class="mermaid">
+flowchart TD
+  A[Inquiry<br/>edicai_crm + edicai_website<br/>crm, website, im_livechat] --> B[Applicant inquiry<br/>edicai_admission + edicai_crm]
+  B --> C[Docs + Entrance + Merit<br/>edicai_documents + edicai_admission<br/>edicai_academic + edicai_calendar]
+  C --> D[Offer Letter<br/>edicai_admission]
+  D --> E[Fee Pending<br/>edicai_fees + edicai_scholarship<br/>edicai_payment]
+  E --> F[Confirm → Student admitted<br/>edicai_admission + edicai_student<br/>edicai_base/security/campus<br/>edicai_guardian + edicai_documents]
+  F --> G[Program Enrollment<br/>edicai_admission enrollment<br/>edicai_academic + edicai_curriculum<br/>edicai_calendar + edicai_notify]
+  G --> H[Course Offerings<br/>edicai_curriculum + edicai_academic<br/>edicai_faculty_profile]
+  H --> I[Timetable<br/>edicai_timetable + edicai_calendar<br/>edicai_campus room + edicai_curriculum]
+  I --> J[Attendance<br/>edicai_attendance + edicai_timetable]
+  J --> K[Assignments / Quiz / LMS<br/>edicai_assignment + edicai_quiz<br/>edicai_lms + edicai_gradebook]
+  K --> L[Exam + Hall Ticket + Seating<br/>edicai_exam + edicai_attendance<br/>edicai_timetable + edicai_campus]
+  L --> M[Grade Entry → Semester Result<br/>edicai_grading + edicai_gradebook<br/>edicai_exam]
+  M --> N{Progression?<br/>edicai_progression + edicai_grading<br/>edicai_attendance + edicai_curriculum}
+  N -->|Promote| G
+  N -->|Graduate| O[Convocation + Transcript + Alumni<br/>edicai_convocation event<br/>edicai_secure_transcript website<br/>edicai_alumni + edicai_placement]
+  N -->|Repeat/Probation/Dismiss| G
+
+  F -.-> F1[Fees / Scholarship / Payment / Reports<br/>edicai_fees account + edicai_payment<br/>edicai_scholarship + edicai_finance_report<br/>edicai_analytics]
+  G -.-> F1
+  M -.-> F1
+  F -.-> H1[Hostel / Transport / Library<br/>edicai_hostel + edicai_transport fleet<br/>edicai_library digital + edicai_asset_request]
+  J -.-> H1
+  F -.-> S1[Guardian / Mentor / Support<br/>edicai_guardian + edicai_mentor<br/>edicai_leave + edicai_grievance<br/>edicai_discipline + edicai_appointment<br/>edicai_notice_board]
+  A -.-> P1[Portals / Notify / API / Theme<br/>portal_student faculty guardian<br/>edicai_notify + edicai_api + edicai_ai<br/>edicai_design theme + muk_web_theme<br/>edicai_base security + academic_generic<br/>institution_profile + edicai_studio demo]
+
+  classDef broken fill:#fde2e2,stroke:#c00,stroke-width:2px;
+  classDef ok fill:#e2f5e2,stroke:#0a6;
+  class B,C,D,E,F,G,I,J,L,M,N,O broken;
+</div></div>
+
+<h2>Where the workflow is broken (from code audit)</h2>
+<table>
+<tr><th>#</th><th>Stage</th><th>Break</th><th>Fix</th></tr>
+<tr><td>1</td><td>Applicant B→F</td><td class="bad">Kanban drag / write(state) skips docs, merit, fee checks; re-confirm creates 2nd student; no uniqueness; seats race.</td><td>State-machine guard on write, unique(email,program,cycle), SELECT FOR UPDATE on seats, block delete when confirmed.</td></tr>
+<tr><td>2</td><td>Enrollment G</td><td class="bad">Create-only validation, write bypass, search_count overbook, waitlist pos race, student self-enroll via override context.</td><td>Validate on write, DB partial uniques, lock seat check, group-check override, remove student create rights.</td></tr>
+<tr><td>3</td><td>Curriculum/H</td><td class="bad">Approve skips review, reset active to draft, offering max lowered below enrolled.</td><td>Enforce draft→review→approve→activate, block edits with live offerings.</td></tr>
+<tr><td>4</td><td>Timetable I</td><td class="bad">Overlap = same slot-id only; overlapping hours pass; cancel orphans closed sessions.</td><td>Time-range overlap check, block cancel with sessions.</td></tr>
+<tr><td>5</td><td>Attendance J</td><td class="bad">Reopen + context-flag bypass; close-empty = all absent; face-id not matched; late enrollee missed.</td><td>Perm-checked reopen, require reviewed, match face→student, regenerate on reopen.</td></tr>
+<tr><td>6</td><td>Exam L</td><td class="bad">No policy = eligible; single-record %; date warning-only; seating drops overflow silently; override bypass.</td><td>Deny without policy, cumulative %, hard date check, fail loudly on overflow, group-check override.</td></tr>
+<tr><td>7</td><td>Grading M</td><td class="bad">Self verify/publish/lock; publish→reset→publish double credits; gradebook overwrites manual CA.</td><td>Maker-checker, idempotent credit update, additive CA.</td></tr>
+<tr><td>8</td><td>Progression N</td><td class="bad">Pure manual, no CGPA/credit gate, snapshots stale, duplicate decisions, no semester roll.</td><td>Auto-compute eligibility, UNIQUE(student,year), apply semester change.</td></tr>
+<tr><td>9</td><td>Transcript O</td><td class="bad">Issues fail/withheld/unpublished; hash misses courses; old QR valid after revoke; deletable.</td><td>Check published+pass+complete, hash per-course, blacklist revoked, block unlink.</td></tr>
+<tr><td>10</td><td>Fees F1</td><td class="bad">NULL-semester double invoice, concurrent dup, discount post-GL, paid→draft, reverse crashes.</td><td>Partial uniques, lock generator, lock money fields post-send, fix reverse.</td></tr>
+</table>
+<p style="font-size:13px">Red nodes = broken gates. Loop N→G is the repeat-year cycle — currently manual with no guard, so graduation is attestable but not enforceable.</p>
+<script>mermaid.initialize({startOnLoad:true})</script>
+</body></html>

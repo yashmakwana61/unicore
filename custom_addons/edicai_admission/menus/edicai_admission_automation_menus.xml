@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Configuration submenu under the Admission root -->
+    <menuitem id="menu_edicai_admission_configuration" name="Configuration" parent="menu_edicai_admission_root" sequence="90" groups="edicai_base.group_edicai_admin,edicai_base.group_edicai_registrar"/>
+
+    <menuitem id="menu_edicai_admission_automation_rules" name="Automation Rules" parent="menu_edicai_admission_configuration" action="action_edicai_admission_automation_rule" sequence="10" groups="edicai_base.group_edicai_admin,edicai_base.group_edicai_registrar"/>
+
+</odoo>

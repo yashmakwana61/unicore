@@ -1,32 +1,97 @@
+# EDICAI - Odoo 19 production deployment
+# Usage:
+#   Production (image-baked addons):      docker compose up -d
+#   With HTTPS reverse proxy (recommended): docker compose --profile proxy up -d
+#   Dev (live-mounted addons):            docker compose --profile dev up -d web-dev
+#
+# All secrets/values come from .env (see .env.example). Never commit .env.
+
+x-odoo-env: &odoo-env
+  HOST: db
+  PORT: "5432"
+  USER: ${EDICAI_DB_USER:-odoo}
+  PASSWORD: ${EDICAI_DB_PASSWORD:?Set EDICAI_DB_PASSWORD in .env}
+
 services:
   web:
     build: .
-    image: oacis-odoo:19.0
+    image: edicai-odoo:19
+    restart: unless-stopped
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    # Expose only on localhost when the Caddy proxy profile is used.
     ports:
-      - "8069:8069"
-      - "8071:8071"
-      - "8072:8072"
+      - "${HTTP_BIND:-127.0.0.1}:8069:8069"
+      - "${HTTP_BIND:-127.0.0.1}:8072:8072"
     volumes:
       - odoo-web-data:/var/lib/odoo
-      - ./custom_addons:/mnt/extra-addons
-    environment:
-      - HOST=db
-      - USER=${OACIS_DB_USER:-odoo}
-      - PASSWORD=${OACIS_DB_PASSWORD:-odoo}
-    command: odoo -c /etc/odoo/odoo.conf -d oacis -i oacis_design,muk_web_chatter,oacis_base,muk_web_dialog,muk_web_colors,muk_web_refresh,muk_web_appsbar,muk_web_group,telegram_odoo_integration,oacis_security,oacis_ai,muk_web_theme,oacis_campus,oacis_academic_generic,oacis_institution_profile,oacis_academic,oacis_calendar,oacis_student,oacis_placement,oacis_alumni,oacis_convocation,oacis_hostel,oacis_faculty_profile,oacis_quiz,oacis_transport,oacis_thesis,oacis_library,oacis_mentor,oacis_asset_request,oacis_guardian,oacis_discipline,oacis_skill_assessment,oacis_appointment,oacis_curriculum,oacis_transport_fleet,oacis_digital_library,oacis_notice_board,oacis_timetable,oacis_admission,oacis_attendance,oacis_website,oacis_crm,oacis_documents,oacis_exam,oacis_grading,oacis_fees,oacis_progression,oacis_secure_transcript,oacis_scholarship,oacis_notify,oacis_analytics,oacis_finance_report,oacis_assignment,oacis_api,oacis_portal_student,oacis_gradebook,oacis_payment,oacis_portal_faculty,oacis_portal_guardian,oacis_lms,oacis_grievance,oacis_student_leave
+      - ./config/odoo-prod.conf:/etc/odoo/odoo.conf:ro
+    environment: *odoo-env
+    command: odoo -c /etc/odoo/odoo.conf -d ${EDICAI_DB_NAME:-edicai}
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS -o /dev/null http://localhost:8069/web/login || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s
 
   db:
     image: postgres:16
+    restart: unless-stopped
     environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_PASSWORD=${OACIS_DB_PASSWORD:-odoo}
-      - POSTGRES_USER=${OACIS_DB_USER:-odoo}
-      - PGDATA=/var/lib/postgresql/data/pgdata
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+      POSTGRES_USER: ${EDICAI_DB_USER:-odoo}
+      POSTGRES_PASSWORD: ${EDICAI_DB_PASSWORD:?Set EDICAI_DB_PASSWORD in .env}
+      PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - odoo-db-data:/var/lib/postgresql/data/pgdata
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${EDICAI_DB_USER:-odoo} -d ${POSTGRES_DB:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # Automatic HTTPS reverse proxy (Let's Encrypt). Enable with --profile proxy.
+  # Set DOMAIN=your.domain.com in .env first.
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    profiles: ["proxy"]
+    depends_on:
+      - web
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    environment:
+      DOMAIN: ${DOMAIN:?Set DOMAIN in .env when using the proxy profile}
+      ACME_EMAIL: ${ACME_EMAIL:-}
+
+  # Dev variant: live-mounts custom_addons so edits apply on upgrade.
+  web-dev:
+    build: .
+    image: edicai-odoo:19
+    restart: unless-stopped
+    profiles: ["dev"]
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8069:8069"
+      - "8072:8072"
+    volumes:
+      - ./custom_addons:/mnt/extra-addons
+      - ./config/odoo-dev.conf:/etc/odoo/odoo.conf:ro
+      - odoo-web-data:/var/lib/odoo
+    environment: *odoo-env
+    command: odoo -c /etc/odoo/odoo.conf -d ${EDICAI_DB_NAME:-edicai}
 
 volumes:
   odoo-web-data:
   odoo-db-data:
+  caddy-data:
+  caddy-config:

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="edicai_academic_unit_type_view_tree" model="ir.ui.view">
+        <field name="name">edicai.academic.unit.type.tree</field>
+        <field name="model">edicai.academic.unit.type</field>
+        <field name="arch" type="xml">
+            <list string="Unit Types" default_order="sequence, name">
+                <field name="sequence" widget="handle"/>
+                <field name="name" class="fw-bold"/>
+                <field name="code"/>
+                <field name="allowed_child_type_ids" widget="many2many_tags"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="edicai_academic_unit_type_view_form" model="ir.ui.view">
+        <field name="name">edicai.academic.unit.type.form</field>
+        <field name="model">edicai.academic.unit.type</field>
+        <field name="arch" type="xml">
+            <form string="Unit Type">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Unit Type Name" class="oe_edit_only"/>
+                        <h1><field name="name" placeholder="e.g. Faculty / Department / Grade Level"/></h1>
+                        <div class="d-flex align-items-center gap-2">
+                            <field name="code" placeholder="CODE" class="fw-bold text-muted"/>
+                        </div>
+                    </div>
+                    <group>
+                        <group name="left">
+                            <field name="sequence"/>
+                        </group>
+                        <group name="right">
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    <group string="Allowed Child Hierarchy Types">
+                        <field name="allowed_child_type_ids" widget="many2many_tags"/>
+                    </group>
+                    <group string="Description &amp; Purpose">
+                        <field name="description" placeholder="Description of this level in the institution structure..." nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="edicai_academic_unit_type_view_search" model="ir.ui.view">
+        <field name="name">edicai.academic.unit.type.search</field>
+        <field name="model">edicai.academic.unit.type</field>
+        <field name="arch" type="xml">
+            <search string="Search Unit Types">
+                <field name="name"/>
+                <field name="code"/>
+                <filter name="filter_active" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="filter_archived" string="Archived" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_edicai_academic_unit_type" model="ir.actions.act_window">
+        <field name="name">Unit Types</field>
+        <field name="res_model">edicai.academic.unit.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

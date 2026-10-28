@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Attendance Session Analysis
+         ============================================================ -->
+    
+
+    <record id="edicai_attendance_session_pivot_view" model="ir.ui.view">
+        <field name="name">edicai.attendance.session.pivot</field>
+        <field name="model">edicai.attendance.session</field>
+        <field name="arch" type="xml">
+            <pivot string="Attendance Session Analysis">
+                <field name="session_state" type="row"/>
+                <field name="total_students" type="measure"/>
+                <field name="present_count" type="measure"/>
+                <field name="attendance_percentage" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="edicai_attendance_session_graph_view" model="ir.ui.view">
+        <field name="name">edicai.attendance.session.graph</field>
+        <field name="model">edicai.attendance.session</field>
+        <field name="arch" type="xml">
+            <graph string="Attendance Session Analysis" type="bar">
+                <field name="course_offering_id" type="row"/>
+                <field name="attendance_percentage" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Attendance Record Analysis
+         ============================================================ -->
+    
+
+    <record id="edicai_attendance_record_pivot_view" model="ir.ui.view">
+        <field name="name">edicai.attendance.record.pivot</field>
+        <field name="model">edicai.attendance.record</field>
+        <field name="arch" type="xml">
+            <pivot string="Attendance Record Analysis">
+                <field name="status" type="row"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="edicai_attendance_record_graph_view" model="ir.ui.view">
+        <field name="name">edicai.attendance.record.graph</field>
+        <field name="model">edicai.attendance.record</field>
+        <field name="arch" type="xml">
+            <graph string="Attendance Record Analysis" type="bar">
+                <field name="status" type="row"/>
+            </graph>
+        </field>
+    </record>
+
+</odoo>

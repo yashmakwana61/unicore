@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- ROOT MENU — Standalone App -->
+  <menuitem
+    id="menu_edicai_transport_root"
+    name="Transport"
+    sequence="190"
+    web_icon="edicai_transport,static/description/icon.png"
+    groups="edicai_base.group_edicai_staff,edicai_base.group_edicai_admin"/>
+
+  <!-- Passes -->
+  <menuitem
+    id="menu_edicai_transport_passes"
+    name="Transport Passes"
+    parent="menu_edicai_transport_root"
+    sequence="10"
+    groups="edicai_base.group_edicai_staff"/>
+
+  <menuitem
+    id="menu_edicai_transport_pass_active"
+    name="Active Passes"
+    parent="menu_edicai_transport_passes"
+    action="action_edicai_transport_pass"
+    sequence="10"
+    groups="edicai_base.group_edicai_staff"/>
+
+  <menuitem
+    id="menu_edicai_transport_fee_pending"
+    name="Fee Pending"
+    parent="menu_edicai_transport_passes"
+    action="action_edicai_transport_fee_pending"
+    sequence="20"
+    groups="edicai_base.group_edicai_staff"/>
+
+  <!-- Trip Logs -->
+  <menuitem
+    id="menu_edicai_transport_trips"
+    name="Trip Logs"
+    parent="menu_edicai_transport_root"
+    sequence="20"
+    groups="edicai_base.group_edicai_staff"/>
+
+  <menuitem
+    id="menu_edicai_transport_trip_today"
+    name="Today's Trips"
+    parent="menu_edicai_transport_trips"
+    action="action_edicai_transport_trip"
+    sequence="10"
+    groups="edicai_base.group_edicai_staff"/>
+
+  <menuitem
+    id="menu_edicai_transport_incidents"
+    name="Incident Reports"
+    parent="menu_edicai_transport_trips"
+    action="action_edicai_transport_trip_incidents"
+    sequence="20"
+    groups="edicai_base.group_edicai_staff"/>
+
+  <!-- Routes -->
+  <menuitem
+    id="menu_edicai_transport_routes"
+    name="Routes"
+    parent="menu_edicai_transport_root"
+    action="action_edicai_transport_route"
+    sequence="30"
+    groups="edicai_base.group_edicai_staff"/>
+
+  <!-- Configuration -->
+  <menuitem
+    id="menu_edicai_transport_config"
+    name="Configuration"
+    parent="menu_edicai_transport_root"
+    sequence="90"
+    groups="edicai_base.group_edicai_admin"/>
+
+  <menuitem
+    id="menu_edicai_transport_vehicles"
+    name="Vehicles"
+    parent="menu_edicai_transport_config"
+    action="action_edicai_transport_vehicle"
+    sequence="10"
+    groups="edicai_base.group_edicai_admin"/>
+
+</odoo>

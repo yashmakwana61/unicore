@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Institution Profiles under Edicai Configuration -->
+    <menuitem id="menu_edicai_institution_profile_list"
+              name="Institution Profiles"
+              parent="edicai_base.menu_edicai_configuration"
+              action="action_edicai_institution_profile"
+              sequence="105"/>
+
+    <!-- Terminology Profiles under Edicai Configuration -->
+    <menuitem id="menu_edicai_terminology_profile_list"
+              name="Terminology Profiles"
+              parent="edicai_base.menu_edicai_configuration"
+              action="action_edicai_terminology_profile"
+              sequence="106"/>
+
+    <!-- Grading Schemes under Edicai Configuration -->
+    <menuitem id="menu_edicai_grading_scheme_list"
+              name="Grading Schemes"
+              parent="edicai_base.menu_edicai_configuration"
+              action="action_edicai_grading_scheme"
+              sequence="107"/>
+
+</odoo>

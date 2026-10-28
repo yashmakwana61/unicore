@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ============================================================ -->
+        <!-- EXTEND COURSE OFFERING FORM (Grade Book smart button)        -->
+        <!-- ============================================================ -->
+
+        <record id="view_edicai_course_offering_form_ext_gradebook" model="ir.ui.view">
+            <field name="name">edicai.course.offering.form.ext.gradebook</field>
+            <field name="model">edicai.course.offering</field>
+            <field name="inherit_id" ref="edicai_curriculum.view_edicai_course_offering_form"/>
+            <field name="arch" type="xml">
+
+                <!-- Add grade book stat button to the button box -->
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_open_gradebook" type="object" class="oe_stat_button" icon="fa-book" groups="edicai_base.group_edicai_faculty">
+                        <field name="gradebook_config_count" widget="statinfo" string="Grade Book"/>
+                    </button>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

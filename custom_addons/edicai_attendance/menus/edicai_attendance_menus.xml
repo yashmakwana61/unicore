@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="menu_edicai_attendance"
+                  name="Attendance"
+                  sequence="80"
+                  web_icon="edicai_attendance,static/description/icon.png"/>
+
+        <menuitem id="menu_edicai_attendance_my"
+                  name="My Attendance"
+                  parent="menu_edicai_attendance"
+                  action="action_edicai_attendance_my"
+                  sequence="10"
+                  groups="edicai_base.group_edicai_student"/>
+
+        <menuitem id="menu_edicai_attendance_session_open"
+                  name="Open Sessions"
+                  parent="menu_edicai_attendance"
+                  action="action_edicai_attendance_session_open"
+                  sequence="20"
+                  groups="edicai_base.group_edicai_faculty"/>
+
+        <menuitem id="menu_edicai_attendance_session_today"
+                  name="Today's Sessions"
+                  parent="menu_edicai_attendance"
+                  action="action_edicai_attendance_session_today"
+                  sequence="30"
+                  groups="edicai_base.group_edicai_staff"/>
+
+        <menuitem id="menu_edicai_attendance_session_all"
+                  name="All Sessions"
+                  parent="menu_edicai_attendance"
+                  action="action_edicai_attendance_session"
+                  sequence="40"
+                  groups="edicai_base.group_edicai_registrar"/>
+
+        <menuitem id="menu_edicai_attendance_shortage"
+                  name="Shortage Alerts"
+                  parent="menu_edicai_attendance"
+                  action="action_edicai_attendance_shortage"
+                  sequence="50"
+                  groups="edicai_base.group_edicai_staff"/>
+
+        <menuitem id="menu_edicai_attendance_record_all"
+                  name="All Records"
+                  parent="menu_edicai_attendance"
+                  action="action_edicai_attendance_record"
+                  sequence="60"
+                  groups="edicai_base.group_edicai_registrar"/>
+
+        <menuitem id="menu_edicai_attendance_policy"
+                  name="Attendance Policies"
+                  parent="menu_edicai_attendance"
+                  action="action_edicai_attendance_policy"
+                  sequence="70"
+                  groups="edicai_base.group_edicai_manager"/>
+
+        <menuitem id="menu_edicai_generate_sessions"
+                  name="Generate Sessions"
+                  parent="menu_edicai_attendance"
+                  action="action_edicai_generate_sessions_wizard"
+                  sequence="80"
+                  groups="edicai_base.group_edicai_registrar"/>
+
+    </data>
+</odoo>

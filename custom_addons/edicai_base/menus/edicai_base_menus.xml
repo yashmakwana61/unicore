@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Edicai Root Menu -->
+    <menuitem id="menu_edicai_root"
+              name="Edicai"
+              sequence="1"
+              web_icon="edicai_base,static/description/icon.png"
+              groups="edicai_base.group_edicai_staff"/>
+
+    <!-- Edicai Overview Dashboard (like Invoicing Dashboard) -->
+    <menuitem id="menu_edicai_overview"
+              name="Overview"
+              parent="menu_edicai_root"
+              action="action_edicai_overview_dashboard"
+              sequence="1"
+              groups="edicai_base.group_edicai_staff"/>
+
+    <!-- Edicai Campuses Menu -->
+    <menuitem id="menu_edicai_campuses"
+              name="Campuses"
+              parent="menu_edicai_root"
+              action="action_edicai_campus"
+              sequence="5"/>
+
+    <!-- Edicai Configuration Menu -->
+    <menuitem id="menu_edicai_configuration"
+              name="Configuration"
+              parent="menu_edicai_root"
+              sequence="999"
+              groups="edicai_base.group_edicai_admin"/>
+
+</odoo>

@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="edicai_ai.Workspace">
+        <div t-att-class="{ 'o_edicai_ai_ws_workspace': true, 'o_edicai_ai_ws_collapsed': state.sidebarCollapsed }"
+             t-on-keydown="onGlobalKeydown">
+
+            <!-- ── Sidebar: conversation history ─────────────────── -->
+            <aside class="o_edicai_ai_ws_sidebar" aria-label="Conversation history">
+
+                <div class="o_edicai_ai_ws_sidebar_head">
+                    <div class="o_edicai_ai_ws_brand">
+                        <span class="o_edicai_ai_ws_brand_mark">
+                            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <path d="M12 2.6v18.8M3.4 7.3l17.2 9.4M3.4 16.7L20.6 7.3"
+                                      stroke="currentColor" stroke-width="2.4"
+                                      stroke-linecap="round"/>
+                            </svg>
+                        </span>
+                        <span class="o_edicai_ai_ws_brand_name">Edicai AI</span>
+                    </div>
+                    <button type="button" class="o_edicai_ai_ws_icon_btn"
+                            title="Close sidebar (Ctrl+B)" aria-label="Close sidebar"
+                            t-on-click="toggleSidebar">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <rect x="2.8" y="3.8" width="18.4" height="16.4" rx="3"
+                                  stroke="currentColor" stroke-width="1.7"/>
+                            <path d="M9.6 3.8v16.4" stroke="currentColor" stroke-width="1.7"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <button type="button" class="o_edicai_ai_ws_new_chat" t-on-click="newSession"
+                        title="Start a new conversation (Ctrl+K)">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M11.5 5.5H6.7A2.7 2.7 0 0 0 4 8.2v9.1a2.7 2.7 0 0 0 2.7 2.7h9.1a2.7 2.7 0 0 0 2.7-2.7v-4.8"
+                              stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                        <path d="M17.6 3.2a2.05 2.05 0 0 1 2.9 2.9l-7.6 7.6-3.7.9.9-3.7 7.5-7.7z"
+                              stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                    <span>New chat</span>
+                    <span class="o_edicai_ai_ws_kbd">Ctrl K</span>
+                </button>
+
+                <div class="o_edicai_ai_ws_search">
+                    <span class="o_edicai_ai_ws_search_icon">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <circle cx="11" cy="11" r="6.6" stroke="currentColor"
+                                    stroke-width="1.7"/>
+                            <path d="m20 20-3.8-3.8" stroke="currentColor" stroke-width="1.7"
+                                  stroke-linecap="round"/>
+                        </svg>
+                    </span>
+                    <input type="text" class="o_edicai_ai_ws_search_input"
+                           placeholder="Search conversations" aria-label="Search conversations"
+                           t-model="state.search"/>
+                    <button type="button" class="o_edicai_ai_ws_search_clear"
+                            title="Clear search" aria-label="Clear search"
+                            t-if="state.search" t-on-click="clearSearch">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M5 5l14 14M19 5L5 19" stroke="currentColor"
+                                  stroke-width="1.8" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <nav class="o_edicai_ai_ws_sessions" t-if="state.sessions.length">
+                    <t t-foreach="sessionGroups" t-as="group" t-key="group.key">
+                        <div class="o_edicai_ai_ws_group">
+                            <div class="o_edicai_ai_ws_group_label" t-esc="group.label"/>
+                            <div t-foreach="group.items" t-as="session" t-key="session.id"
+                                 t-att-class="{ 'o_edicai_ai_ws_session': true, 'o_edicai_ai_ws_session_active': session.id === state.currentSessionId }"
+                                 t-att-data-session-id="session.id"
+                                 role="button" tabindex="0"
+                                 t-att-title="sessionTooltip(session)"
+                                 t-on-click="loadSession"
+                                 t-on-keydown="onRowKeydown">
+                                <input t-if="state.editingId === session.id"
+                                       type="text" class="o_edicai_ai_ws_rename_input"
+                                       t-model="state.editingTitle"
+                                       t-att-data-session-id="session.id"
+                                       t-att-placeholder="session.title || 'New chat'"
+                                       t-on-click.stop="stopClick"
+                                       t-on-keydown="onRenameKeydown"
+                                       t-on-blur="saveRename"/>
+                                <span t-else="" class="o_edicai_ai_ws_session_title"
+                                      t-esc="session.title || 'New chat'"/>
+                                <span t-if="state.editingId !== session.id and session.message_count"
+                                      class="o_edicai_ai_ws_session_meta"
+                                      t-esc="session.message_count + (session.message_count === 1 ? ' msg' : ' msgs')"/>
+                                <button type="button" t-if="state.editingId !== session.id"
+                                        class="o_edicai_ai_ws_session_menu_btn"
+                                        title="Conversation options"
+                                        t-att-data-session-id="session.id"
+                                        t-on-click.stop="toggleMenu">
+                                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <circle cx="5.1" cy="12" r="1.6" fill="currentColor"/>
+                                        <circle cx="12" cy="12" r="1.6" fill="currentColor"/>
+                                        <circle cx="18.9" cy="12" r="1.6" fill="currentColor"/>
+                                    </svg>
+                                </button>
+                                <t t-if="state.menuId === session.id and state.editingId !== session.id">
+                                    <div class="o_edicai_ai_ws_popmenu" role="menu">
+                                        <button type="button" class="o_edicai_ai_ws_popmenu_item"
+                                                role="menuitem" t-att-data-session-id="session.id"
+                                                t-on-click.stop="startRename">
+                                            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                <path d="M16.9 3.6a2.05 2.05 0 0 1 2.9 2.9L8.3 18l-4.6 1.2L5 14.6z"
+                                                      stroke="currentColor" stroke-width="1.6"
+                                                      stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            <span>Rename</span>
+                                        </button>
+                                        <button type="button"
+                                                class="o_edicai_ai_ws_popmenu_item o_edicai_ai_ws_popmenu_item_danger"
+                                                role="menuitem" t-att-data-session-id="session.id"
+                                                t-on-click.stop="deleteSession">
+                                            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                                <path d="M4 6.2h16M9.7 6V4.6c0-.9.7-1.6 1.6-1.6h1.4c.9 0 1.6.7 1.6 1.6V6M6.5 6.3l.8 12c.06.9.8 1.7 1.7 1.7h6c.9 0 1.64-.8 1.7-1.7l.8-12"
+                                                      stroke="currentColor" stroke-width="1.6"
+                                                      stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            <span>Delete</span>
+                                        </button>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                </nav>
+
+                <div class="o_edicai_ai_ws_sidebar_empty"
+                     t-if="!state.sessions.length &amp;&amp; !state.isLoadingSessions">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M12 2.6v18.8M3.4 7.3l17.2 9.4M3.4 16.7L20.6 7.3"
+                              stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+                    </svg>
+                    <span>No conversations yet. Ask the first question — every
+                        answer is computed from live Odoo data.</span>
+                </div>
+
+                <footer class="o_edicai_ai_ws_sidebar_foot">
+                    <span class="o_edicai_ai_ws_foot_avatar" t-esc="userInitials"/>
+                    <span class="o_edicai_ai_ws_foot_name" t-esc="userName"/>
+                    <span class="o_edicai_ai_ws_foot_badge">Edicai AI</span>
+                </footer>
+            </aside>
+
+            <!-- ── Scrim (mobile drawer) ─────────────────────────── -->
+            <div class="o_edicai_ai_ws_scrim" t-if="!state.sidebarCollapsed"
+                 t-on-click="toggleSidebar" aria-hidden="true"/>
+
+            <!-- ── Main column ──────────────────────────────────── -->
+            <main class="o_edicai_ai_ws_main">
+
+                <header class="o_edicai_ai_ws_topbar">
+                    <button type="button" class="o_edicai_ai_ws_icon_btn"
+                            title="Toggle sidebar (Ctrl+B)" aria-label="Toggle sidebar"
+                            t-on-click="toggleSidebar">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <rect x="2.8" y="3.8" width="18.4" height="16.4" rx="3"
+                                  stroke="currentColor" stroke-width="1.7"/>
+                            <path d="M9.6 3.8v16.4" stroke="currentColor" stroke-width="1.7"/>
+                        </svg>
+                    </button>
+                    <span class="o_edicai_ai_ws_topbar_brand">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M12 2.6v18.8M3.4 7.3l17.2 9.4M3.4 16.7L20.6 7.3"
+                                  stroke="currentColor" stroke-width="2.4"
+                                  stroke-linecap="round"/>
+                        </svg>
+                        <span>Edicai AI</span>
+                    </span>
+                    <div class="o_edicai_ai_ws_topbar_title" t-esc="currentTitle"/>
+                    <div class="o_edicai_ai_ws_topbar_right">
+                        <span class="o_edicai_ai_ws_chip" t-if="state.provider.provider_label">
+                            <span t-att-class="{ 'o_edicai_ai_ws_chip_dot': true, 'o_edicai_ai_ws_chip_dot_ok': state.provider.available, 'o_edicai_ai_ws_chip_dot_off': !state.provider.available }"/>
+                            <span class="o_edicai_ai_ws_chip_label" t-esc="state.provider.provider_label"/>
+                            <span class="o_edicai_ai_ws_chip_model" t-if="state.provider.model" t-esc="state.provider.model"/>
+                        </span>
+                        <span class="o_edicai_ai_ws_chip o_edicai_ai_ws_chip_testmode"
+                              t-if="state.provider.test_mode">Test mode</span>
+                        <span class="o_edicai_ai_ws_chip o_edicai_ai_ws_chip_offline"
+                              t-if="!state.provider.available">Provider unavailable</span>
+                    </div>
+                </header>
+
+                <div t-att-class="{ 'o_edicai_ai_ws_stage': true, 'o_edicai_ai_ws_empty': !state.messages.length }">
+
+                    <div class="o_edicai_ai_ws_thread" t-ref="thread"
+                         role="log" aria-live="polite"
+                         t-on-scroll="onThreadScroll">
+
+                        <div class="o_edicai_ai_ws_welcome" t-if="!state.messages.length">
+                            <div class="o_edicai_ai_ws_welcome_mark">
+                                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="M12 2.6v18.8M3.4 7.3l17.2 9.4M3.4 16.7L20.6 7.3"
+                                          stroke="currentColor" stroke-width="2.4"
+                                          stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <h1 class="o_edicai_ai_ws_welcome_title" t-esc="timeGreeting"/>
+                            <p class="o_edicai_ai_ws_welcome_sub">
+                                Ask about fees, attendance, results, admissions — every
+                                answer is computed from live Odoo data.
+                            </p>
+                        </div>
+
+                        <div class="o_edicai_ai_ws_starters" t-if="!state.messages.length">
+                            <t t-foreach="starters" t-as="starter" t-key="starter_index">
+                                <button type="button" class="o_edicai_ai_ws_starter"
+                                        t-att-data-starter-index="starter_index"
+                                        t-on-click="sendStarter">
+                                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <path d="M12 3.4v17.2M5.2 16.6l13.6-9.2M5.2 7.4l13.6 9.2"
+                                              stroke="currentColor" stroke-width="2.1"
+                                              stroke-linecap="round"/>
+                                    </svg>
+                                    <span t-esc="starter.label"/>
+                                </button>
+                            </t>
+                        </div>
+
+                        <div t-foreach="state.messages" t-as="message" t-key="message_index"
+                             t-att-class="{ 'o_edicai_ai_ws_message': true, 'o_edicai_ai_ws_msg_user': message.role === 'user', 'o_edicai_ai_ws_msg_assistant': message.role !== 'user' }">
+                            <div t-if="message.role !== 'user'" class="o_edicai_ai_ws_avatar">
+                                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="M12 2.6v18.8M3.4 7.3l17.2 9.4M3.4 16.7L20.6 7.3"
+                                          stroke="currentColor" stroke-width="2.4"
+                                          stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <div class="o_edicai_ai_ws_bubble">
+                                <div t-if="message.role === 'user'"
+                                     class="o_edicai_ai_ws_content" t-out="message.content"/>
+                                <div t-else="" class="o_edicai_ai_ws_content o_edicai_ai_ws_md"
+                                     t-out="formatMessage(message.content)"/>
+                                <div t-if="message.source or message.role !== 'user'"
+                                     class="o_edicai_ai_ws_tools">
+                                    <span t-if="message.source"
+                                          class="o_edicai_ai_ws_meta_source"
+                                          t-esc="message.source"/>
+                                    <button type="button" class="o_edicai_ai_ws_tool_btn"
+                                            t-att-class="{ 'o_edicai_ai_ws_tool_btn_copied': state.copiedIndex === message_index }"
+                                            t-att-data-msg-index="message_index"
+                                            t-on-click="copyMessage">
+                                        <svg t-if="state.copiedIndex !== message_index"
+                                             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                            <rect x="8.6" y="8.6" width="11" height="11" rx="2.4"
+                                                  stroke="currentColor" stroke-width="1.6"/>
+                                            <path d="M5.4 14.6V6a2.4 2.4 0 0 1 2.4-2.4h6.4"
+                                                  stroke="currentColor" stroke-width="1.6"
+                                                  stroke-linecap="round"/>
+                                        </svg>
+                                        <svg t-if="state.copiedIndex === message_index"
+                                             viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                            <path d="M20.4 6.6 9.8 17.6l-6.2-5.4" stroke="currentColor"
+                                                  stroke-width="2" stroke-linecap="round"
+                                                  stroke-linejoin="round"/>
+                                        </svg>
+                                        <span t-esc="state.copiedIndex === message_index ? 'Copied' : 'Copy'"/>
+                                    </button>
+                                </div>
+                                <details class="o_edicai_ai_ws_diagnostics" t-if="message.diagnostics">
+                                    <summary>Diagnostics</summary>
+                                    <pre t-esc="diagnosticsText(message)"/>
+                                </details>
+                            </div>
+                        </div>
+
+                        <div class="o_edicai_ai_ws_working" t-if="state.isLoading">
+                            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <path d="M12 2.6v18.8M3.4 7.3l17.2 9.4M3.4 16.7L20.6 7.3"
+                                      stroke="currentColor" stroke-width="2.4"
+                                      stroke-linecap="round"/>
+                            </svg>
+                            <span class="o_edicai_ai_ws_working_label">Edicai AI is thinking…</span>
+                        </div>
+                    </div>
+
+                    <button type="button" class="o_edicai_ai_ws_jump"
+                            t-if="state.showJump and !state.isLoading"
+                            title="Jump to latest" aria-label="Jump to latest"
+                            t-on-click="jumpToLatest">
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M12 5v14M5.4 12.6 12 19.2l6.6-6.6" stroke="currentColor"
+                                  stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+
+                    <div class="o_edicai_ai_ws_composer_wrap">
+                        <div class="o_edicai_ai_ws_composer">
+                            <textarea t-ref="composerInput" t-model="state.input"
+                                      class="o_edicai_ai_ws_composer_input" rows="1"
+                                      placeholder="How can I help today?"
+                                      aria-label="Message Edicai AI"
+                                      t-on-keydown="onComposerKeydown"
+                                      t-on-input="onComposerInput"/>
+                            <div class="o_edicai_ai_ws_composer_bar">
+                                <span class="o_edicai_ai_ws_composer_hint">Answers are computed
+                                    from live Odoo data. Write actions always need
+                                    explicit confirmation.</span>
+                                <button type="button" class="o_edicai_ai_ws_send_btn"
+                                        aria-label="Send message" title="Send (Enter)"
+                                        t-att-disabled="!canSend"
+                                        t-on-click="sendMessage">
+                                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <path d="M12 19V5M5.4 11.6 12 5l6.6 6.6" stroke="currentColor"
+                                              stroke-width="2" stroke-linecap="round"
+                                              stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <p class="o_edicai_ai_ws_fineprint">Enter to send · Shift+Enter for a new line</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </t>
+
+</templates>

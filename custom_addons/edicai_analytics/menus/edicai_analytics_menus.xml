@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- ROOT MENU — Standalone App -->
+  <menuitem
+    id="menu_edicai_analytics_root"
+    name="Analytics"
+    sequence="230"
+    web_icon="edicai_analytics,static/description/icon.png"
+    groups="edicai_base.group_edicai_manager,edicai_base.group_edicai_admin"/>
+
+  <!-- Student Analytics -->
+  <menuitem
+    id="menu_edicai_analytics_students"
+    name="Student Analytics"
+    parent="menu_edicai_analytics_root"
+    sequence="10"
+    groups="edicai_base.group_edicai_manager"/>
+
+  <menuitem
+    id="menu_edicai_analytics_enrollment"
+    name="Enrollment Trends"
+    parent="menu_edicai_analytics_students"
+    action="action_edicai_student_enrollment_report"
+    sequence="10"
+    groups="edicai_base.group_edicai_manager"/>
+
+  <menuitem
+    id="menu_edicai_analytics_attendance"
+    name="Attendance Analytics"
+    parent="menu_edicai_analytics_students"
+    action="action_edicai_attendance_report"
+    sequence="20"
+    groups="edicai_base.group_edicai_manager"/>
+
+  <!-- Academic Analytics -->
+  <menuitem
+    id="menu_edicai_analytics_academic"
+    name="Academic Analytics"
+    parent="menu_edicai_analytics_root"
+    sequence="20"
+    groups="edicai_base.group_edicai_manager"/>
+
+  <menuitem
+    id="menu_edicai_analytics_grades"
+    name="Grade Distribution"
+    parent="menu_edicai_analytics_academic"
+    action="action_edicai_grade_dist_report"
+    sequence="10"
+    groups="edicai_base.group_edicai_manager"/>
+
+  <menuitem
+    id="menu_edicai_analytics_results"
+    name="Semester Results"
+    parent="menu_edicai_analytics_academic"
+    action="action_edicai_sem_result_report"
+    sequence="20"
+    groups="edicai_base.group_edicai_manager"/>
+
+  <!-- Financial Analytics -->
+  <menuitem
+    id="menu_edicai_analytics_financial"
+    name="Financial Analytics"
+    parent="menu_edicai_analytics_root"
+    sequence="30"
+    groups="edicai_base.group_edicai_manager"/>
+
+  <menuitem
+    id="menu_edicai_analytics_fee_collection"
+    name="Fee Collection"
+    parent="menu_edicai_analytics_financial"
+    action="action_edicai_fee_coll_report"
+    sequence="10"
+    groups="edicai_base.group_edicai_manager"/>
+
+  <menuitem
+    id="menu_edicai_analytics_payment_methods"
+    name="Payment Methods"
+    parent="menu_edicai_analytics_financial"
+    action="action_edicai_payment_method_report"
+    sequence="20"
+    groups="edicai_base.group_edicai_manager"/>
+
+  <!-- Admission Analytics -->
+  <menuitem
+    id="menu_edicai_analytics_admission"
+    name="Admission Analytics"
+    parent="menu_edicai_analytics_root"
+    sequence="40"
+    groups="edicai_base.group_edicai_manager"/>
+
+  <menuitem
+    id="menu_edicai_analytics_funnel"
+    name="Admission Funnel"
+    parent="menu_edicai_analytics_admission"
+    action="action_edicai_admission_funnel_report"
+    sequence="10"
+    groups="edicai_base.group_edicai_manager"/>
+
+  <menuitem
+    id="menu_edicai_analytics_categories"
+    name="Category Distribution"
+    parent="menu_edicai_analytics_admission"
+    action="action_edicai_applicant_cat_report"
+    sequence="20"
+    groups="edicai_base.group_edicai_manager"/>
+
+</odoo>

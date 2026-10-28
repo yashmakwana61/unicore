@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Phase 2A — pending WRITE actions: owner-only isolation.
+
+         One user must never read, confirm, cancel or otherwise touch
+         another user's pending action ("cross-user pending action
+         cannot be confirmed", prompt §29). Lifecycle state is bound to
+         (session, user, status) by code; the record rule is the
+         defense-in-depth layer behind it. AI Managers keep the same
+         broader visibility pattern as chat sessions for support, but
+         confirm_and_execute re-binds the requesting user by code, so a
+         manager viewing a foreign pending action still cannot confirm
+         it from the conversational path.
+    -->
+    <data noupdate="1">
+
+        <record id="rule_edicai_ai_pending_action_owner"
+                model="ir.rule">
+            <field name="name">AI Pending Action: Owner Only</field>
+            <field name="model_id"
+                   ref="edicai_ai.model_edicai_ai_pending_action"/>
+            <field name="domain_force">
+                [('user_id', '=', user.id),
+                 ('session_id.user_id', '=', user.id)]
+            </field>
+            <field name="groups"
+                   eval="[(4, ref('edicai_ai.group_edicai_ai_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="rule_edicai_ai_pending_action_manager"
+                model="ir.rule">
+            <field name="name">AI Pending Action: AI Manager Visibility</field>
+            <field name="model_id"
+                   ref="edicai_ai.model_edicai_ai_pending_action"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups"
+                   eval="[(4, ref('edicai_ai.group_edicai_ai_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="rule_edicai_ai_pending_workflow_owner"
+                model="ir.rule">
+            <field name="name">AI Pending Workflow: Owner Only</field>
+            <field name="model_id"
+                   ref="edicai_ai.model_edicai_ai_pending_workflow"/>
+            <field name="domain_force">
+                [('user_id', '=', user.id),
+                 ('session_id.user_id', '=', user.id)]
+            </field>
+            <field name="groups"
+                   eval="[(4, ref('edicai_ai.group_edicai_ai_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="rule_edicai_ai_pending_workflow_manager"
+                model="ir.rule">
+            <field name="name">AI Pending Workflow: AI Manager
+                   Visibility</field>
+            <field name="model_id"
+                   ref="edicai_ai.model_edicai_ai_pending_workflow"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups"
+                   eval="[(4, ref('edicai_ai.group_edicai_ai_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Phase 4 — the ONE approval row: requester-owned until the
+             decision, then the approver authority takes over.
+
+             The OWNER rule isolates the requester (their own preview
+             and waiting status).  The ADMIN rule grants the approval
+             authority (edicai_base.group_edicai_admin — the repository's
+             designated approver group) company-scoped visibility, so
+             the approver can list, inspect, approve and reject rows.
+             Both remain DEFENSE-IN-DEPTH: every state transition and
+             execution re-authorizes in code (fails closed), and the
+             model write guard freezes immutable fields.
+        -->
+        <record id="rule_edicai_ai_pending_approval_owner"
+                model="ir.rule">
+            <field name="name">AI Pending Approval: Owner Only</field>
+            <field name="model_id"
+                   ref="edicai_ai.model_edicai_ai_pending_approval"/>
+            <field name="domain_force">
+                [('requester_id', '=', user.id),
+                 ('session_id.user_id', '=', user.id)]
+            </field>
+            <field name="groups"
+                   eval="[(4, ref('edicai_ai.group_edicai_ai_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <record id="rule_edicai_ai_pending_approval_manager"
+                model="ir.rule">
+            <field name="name">AI Pending Approval: AI Manager
+                   Visibility</field>
+            <field name="model_id"
+                   ref="edicai_ai.model_edicai_ai_pending_approval"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups"
+                   eval="[(4, ref('edicai_ai.group_edicai_ai_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="rule_edicai_ai_pending_approval_admin"
+                model="ir.rule">
+            <field name="name">AI Pending Approval: Approver Authority
+                   (company scope)</field>
+            <field name="model_id"
+                   ref="edicai_ai.model_edicai_ai_pending_approval"/>
+            <field name="domain_force">
+                [('company_id', 'in', company_ids)]
+            </field>
+            <field name="groups"
+                   eval="[(4, ref('edicai_base.group_edicai_admin'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <!-- ============================================ -->
+        <!-- Phase 5: edicai.ai.proactive.insight         -->
+        <!-- (per-user, per-company; owner-only writes)  -->
+        <!-- ============================================ -->
+
+        <record id="rule_edicai_ai_proactive_insight_owner"
+                model="ir.rule">
+            <field name="name">AI Proactive Insight: Owner Own Rows
+                   (company scope)</field>
+            <field name="model_id"
+                   ref="edicai_ai.model_edicai_ai_proactive_insight"/>
+            <field name="domain_force">
+                [('user_id', '=', user.id),
+                 ('company_id', 'in', company_ids)]
+            </field>
+            <field name="groups"
+                   eval="[(4, ref('edicai_ai.group_edicai_ai_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="rule_edicai_ai_proactive_insight_manager"
+                model="ir.rule">
+            <field name="name">AI Proactive Insight: AI Manager
+                   Read-All</field>
+            <field name="model_id"
+                   ref="edicai_ai.model_edicai_ai_proactive_insight"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups"
+                   eval="[(4, ref('edicai_ai.group_edicai_ai_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

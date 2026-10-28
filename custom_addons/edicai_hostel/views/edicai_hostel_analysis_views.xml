@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Hostel Allocation Analysis
+         ============================================================ -->
+    <record id="edicai_hostel_allocation_pivot_view" model="ir.ui.view">
+        <field name="name">edicai.hostel.allocation.pivot</field>
+        <field name="model">edicai.hostel.allocation</field>
+        <field name="arch" type="xml">
+            <pivot string="Hostel Allocation Analysis">
+                <field name="allocation_state" type="row"/>
+                <field name="total_hostel_fee" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="edicai_hostel_allocation_graph_view" model="ir.ui.view">
+        <field name="name">edicai.hostel.allocation.graph</field>
+        <field name="model">edicai.hostel.allocation</field>
+        <field name="arch" type="xml">
+            <graph string="Hostel Allocation Analysis" type="bar">
+                <field name="block_id" type="row"/>
+                <field name="total_hostel_fee" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    
+
+    <!-- ============================================================
+         Hostel Maintenance Analysis
+         ============================================================ -->
+    <record id="edicai_hostel_maintenance_pivot_view" model="ir.ui.view">
+        <field name="name">edicai.hostel.maintenance.pivot</field>
+        <field name="model">edicai.hostel.maintenance</field>
+        <field name="arch" type="xml">
+            <pivot string="Hostel Maintenance Analysis">
+                <field name="maintenance_state" type="row"/>
+                <field name="resolution_days" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="edicai_hostel_maintenance_graph_view" model="ir.ui.view">
+        <field name="name">edicai.hostel.maintenance.graph</field>
+        <field name="model">edicai.hostel.maintenance</field>
+        <field name="arch" type="xml">
+            <graph string="Hostel Maintenance Analysis" type="bar">
+                <field name="issue_type" type="row"/>
+            </graph>
+        </field>
+    </record>
+
+    
+
+    <!-- ============================================================
+         Hostel Block Analysis
+         ============================================================ -->
+    <record id="edicai_hostel_block_pivot_view" model="ir.ui.view">
+        <field name="name">edicai.hostel.block.pivot</field>
+        <field name="model">edicai.hostel.block</field>
+        <field name="arch" type="xml">
+            <pivot string="Hostel Block Analysis">
+                <field name="campus_id" type="row"/>
+                <field name="occupied_beds" type="measure"/>
+                <field name="available_beds" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="edicai_hostel_block_graph_view" model="ir.ui.view">
+        <field name="name">edicai.hostel.block.graph</field>
+        <field name="model">edicai.hostel.block</field>
+        <field name="arch" type="xml">
+            <graph string="Hostel Block Analysis" type="bar">
+                <field name="campus_id" type="row"/>
+                <field name="occupied_beds" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    
+
+    <!-- ============================================================
+         Hostel Room Analysis
+         ============================================================ -->
+    <record id="edicai_hostel_room_pivot_view" model="ir.ui.view">
+        <field name="name">edicai.hostel.room.pivot</field>
+        <field name="model">edicai.hostel.room</field>
+        <field name="arch" type="xml">
+            <pivot string="Hostel Room Analysis">
+                <field name="block_id" type="row"/>
+                <field name="current_occupancy" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="edicai_hostel_room_graph_view" model="ir.ui.view">
+        <field name="name">edicai.hostel.room.graph</field>
+        <field name="model">edicai.hostel.room</field>
+        <field name="arch" type="xml">
+            <graph string="Hostel Room Analysis" type="bar">
+                <field name="block_id" type="row"/>
+                <field name="current_occupancy" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    
+
+</odoo>

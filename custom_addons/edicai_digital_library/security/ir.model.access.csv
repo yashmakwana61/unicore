@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_digital_material_admin,edicai.digital.material.admin,model_edicai_digital_material,edicai_base.group_edicai_admin,1,1,1,1
+access_digital_material_manager,edicai.digital.material.manager,model_edicai_digital_material,edicai_base.group_edicai_manager,1,1,1,0
+access_digital_material_faculty,edicai.digital.material.faculty,model_edicai_digital_material,edicai_base.group_edicai_faculty,1,1,1,0
+access_digital_material_student,edicai.digital.material.student,model_edicai_digital_material,edicai_base.group_edicai_student,1,0,0,0

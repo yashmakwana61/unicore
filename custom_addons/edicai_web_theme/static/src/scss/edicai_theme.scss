@@ -1,0 +1,246 @@
+/* Edicai Web Theme — color-scheme engine.
+ *
+ * Moral contract: the LIGHT theme must stay pixel-identical to stock
+ * EDICAI CSS (all dark rules live under [data-edicai-scheme="dark"] or
+ * rely on bootstrap's own [data-bs-theme="dark"], set by boot.js).
+ *
+ * Tokens are plain CSS custom properties so kanban cards, dashboards
+ * and the AI workspace all follow the scheme with zero rewrites.
+ */
+
+/* ── Token defaults (light) ─────────────────────────────────────── **/
+
+:root {
+    --edicai-bg: #fdfdfb;
+    --edicai-surface: #ffffff;
+    --edicai-surface-2: #faf9f5;
+    --edicai-border: #e8e6dc;
+    --edicai-border-strong: #d9d5c8;
+    --edicai-text: #141413;
+    --edicai-text-soft: #3d3d3a;
+    --edicai-muted: #87867f;
+    --edicai-accent: #d97757;
+    --edicai-accent-strong: #c96442;
+    --edicai-accent-soft: #f4e8e1;
+    --edicai-hover: #eceae0;
+    --edicai-danger: #b3261e;
+    --edicai-ok: #236c4a;
+
+    /* kanban card face (Plan A cards) */
+    --edicai-card-bg: #ffffff;
+    --edicai-card-border: #e8e6dc;
+    --edicai-card-border-strong: #d9d5c8;
+    --edicai-card-title: #141413;
+    --edicai-card-text: #3d3d3a;
+    --edicai-card-muted: #87867f;
+    --edicai-card-chip-bg: #faf9f5;
+    --edicai-card-chip-border: #e8e6dc;
+    --edicai-card-shadow: 0 1px 2px rgba(20, 20, 19, 0.05),
+                         0 1px 3px rgba(20, 20, 19, 0.04);
+    --edicai-card-shadow-hover: 0 6px 16px -4px rgba(20, 20, 19, 0.14);
+}
+
+/* ── Dark remap ─────────────────────────────────────────────────── */
+
+[data-edicai-scheme="dark"] {
+    color-scheme: dark;
+
+    --edicai-bg: #141413;
+    --edicai-surface: #1f1e1d;
+    --edicai-surface-2: #191817;
+    --edicai-border: #34312d;
+    --edicai-border-strong: #4b4741;
+    --edicai-text: #faf9f5;
+    --edicai-text-soft: #d9d7d0;
+    --edicai-muted: #9c9a92;
+    --edicai-accent: #d97757;
+    --edicai-accent-strong: #e08a6b;
+    --edicai-accent-soft: rgba(217, 119, 87, 0.18);
+    --edicai-hover: rgba(255, 255, 255, 0.06);
+    --edicai-danger: #f2827a;
+    --edicai-ok: #6fce9d;
+
+    --edicai-card-bg: #1f1e1d;
+    --edicai-card-border: #34312d;
+    --edicai-card-border-strong: #4b4741;
+    --edicai-card-title: #faf9f5;
+    --edicai-card-text: #d9d7d0;
+    --edicai-card-muted: #9c9a92;
+    --edicai-card-chip-bg: #262422;
+    --edicai-card-chip-border: #34312d;
+    --edicai-card-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --edicai-card-shadow-hover: 0 8px 20px -6px rgba(0, 0, 0, 0.55);
+}
+
+/* ── Odoo chrome pass (scoped, light stays untouched) ───────────── */
+
+[data-edicai-scheme="dark"] .o_web_client {
+    background-color: var(--edicai-bg);
+    color: var(--edicai-text);
+}
+
+/* top navbar */
+[data-edicai-scheme="dark"] .o_main_navbar {
+    background-color: var(--edicai-surface);
+    border-bottom-color: var(--edicai-border);
+    color: var(--edicai-text-soft);
+}
+
+[data-edicai-scheme="dark"] .o_web_client .o_main_navbar,
+[data-edicai-scheme="dark"] .o_main_navbar .o_nav_entry,
+[data-edicai-scheme="dark"] .o_main_navbar .o_menu_brand,
+[data-edicai-scheme="dark"] .o_main_navbar .o_dropdown_toggler_btn,
+[data-edicai-scheme="dark"] .o_main_navbar .o_toggle_dropdown {
+    color: var(--edicai-text-soft);
+}
+
+[data-edicai-scheme="dark"] .o_main_navbar .o_nav_entry:hover,
+[data-edicai-scheme="dark"] .o_main_navbar .o_toggle_dropdown:hover {
+    background-color: var(--edicai-hover);
+}
+
+/* action canvas */
+[data-edicai-scheme="dark"] .o_action,
+[data-edicai-scheme="dark"] .o_action_manager {
+    background-color: var(--edicai-bg);
+    color: var(--edicai-text);
+}
+
+[data-edicai-scheme="dark"] .o_action .o_control_panel {
+    background-color: var(--edicai-bg);
+    border-bottom: 1px solid var(--edicai-border);
+    color: var(--edicai-text-soft);
+}
+
+[data-edicai-scheme="dark"] .o_breadcrumb .o_form_label,
+[data-edicai-scheme="dark"] .o_action .o_control_panel .breadcrumb-item {
+    color: var(--edicai-text-soft);
+}
+
+/* form view */
+[data-edicai-scheme="dark"] .o_form_view .o_form_sheet_bg {
+    background-color: var(--edicai-bg);
+}
+
+[data-edicai-scheme="dark"] .o_form_view .o_form_sheet {
+    background-color: var(--edicai-surface);
+    border-color: var(--edicai-border);
+    color: var(--edicai-text-soft);
+}
+
+[data-edicai-scheme="dark"] .o_form_view .o_group .o_outermost,
+[data-edicai-scheme="dark"] .o_form_view .o_inner_group .o_cell {
+    color: var(--edicai-text-soft);
+}
+
+/* list view (bootstrap dark covers table colors; align the frame) */
+[data-edicai-scheme="dark"] .o_list_view,
+[data-edicai-scheme="dark"] .o_list_table {
+    color: var(--edicai-text-soft);
+    background-color: var(--edicai-bg);
+}
+
+[data-edicai-scheme="dark"] .o_list_view .table th,
+[data-edicai-scheme="dark"] .o_list_view .table td {
+    border-color: var(--edicai-border);
+    color: var(--edicai-text-soft);
+}
+
+[data-edicai-scheme="dark"] .o_list_view.table-hover > tbody > tr:hover,
+[data-edicai-scheme="dark"] .o_list_view > tbody > tr:hover {
+    background-color: var(--edicai-hover);
+}
+
+/* kanban view */
+[data-edicai-scheme="dark"] .o_kanban_view {
+    background-color: var(--edicai-bg);
+}
+
+[data-edicai-scheme="dark"] .o_kanban_view .o_kanban_record {
+    background-color: var(--edicai-card-bg);
+    border: 1px solid var(--edicai-card-border);
+    color: var(--edicai-card-text);
+}
+
+[data-edicai-scheme="dark"] .o_kanban_view .o_kanban_group .o_kanban_header_title,
+[data-edicai-scheme="dark"] .o_kanban_column .o_kanban_header,
+[data-edicai-scheme="dark"] .o_kanban_view .o_kanban_group .o_kanban_header {
+    color: var(--edicai-text-soft);
+}
+
+[data-edicai-scheme="dark"] .o_kanban_view .o_kanban_column,
+[data-edicai-scheme="dark"] .o_kanban_view .o_kanban_group {
+    border-right-color: var(--edicai-border);
+    background-color: var(--edicai-surface-2);
+}
+
+/* search panel & searchbar */
+[data-edicai-scheme="dark"] .o_search_panel,
+[data-edicai-scheme="dark"] .o_search_view {
+    background-color: var(--edicai-surface);
+    border-color: var(--edicai-border);
+    color: var(--edicai-text-soft);
+}
+
+[data-edicai-scheme="dark"] .o_search_panel_section_header {
+    color: var(--edicai-muted);
+}
+
+/* dialogs / popovers (bootstrap native dark mostly covers) */
+[data-edicai-scheme="dark"] .modal .modal-content {
+    background-color: var(--edicai-surface);
+    color: var(--edicai-text-soft);
+    border-color: var(--edicai-border);
+}
+
+/* chatter */
+[data-edicai-scheme="dark"] .o_chatter,
+[data-edicai-scheme="dark"] .o_mail_thread {
+    background-color: transparent;
+    color: var(--edicai-text-soft);
+}
+
+/* generic card-ish widgets */
+[data-edicai-scheme="dark"] .o_field_tags .badge,
+[data-edicai-scheme="dark"] .o_tag_badge {
+    background-color: var(--edicai-card-chip-bg);
+    border: 1px solid var(--edicai-card-chip-border);
+    color: var(--edicai-text-soft);
+}
+
+/* ── AI workspace token flip (workspace is fully var-driven) ────── */
+
+[data-edicai-scheme="dark"] .o_edicai_ai_ws_workspace {
+    --ws-accent: #d97757;
+    --ws-accent-strong: #e08a6b;
+    --ws-accent-soft: rgba(217, 119, 87, 0.18);
+    --ws-bg-sidebar: #191817;
+    --ws-bg-main: #141413;
+    --ws-bg-user: #322e29;
+    --ws-bg-hover: rgba(255, 255, 255, 0.06);
+    --ws-bg-pop: #1f1e1d;
+    --ws-text: #faf9f5;
+    --ws-text-soft: #d9d7d0;
+    --ws-muted: #9c9a92;
+    --ws-border: #34312d;
+    --ws-border-strong: #4b4741;
+    --ws-code-bg: #121110;
+    --ws-code-head: #1c1b19;
+    --ws-danger: #f2827a;
+    --ws-ok: #6fce9d;
+    --ws-warn-ink: #e3c06a;
+    --ws-warn-bg: #3a2f1d;
+    --ws-warn-border: #57431d;
+    --ws-off-ink: #f2827a;
+    --ws-off-bg: rgba(178, 38, 30, 0.16);
+    --ws-off-border: #5a322e;
+    --ws-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.35);
+    --ws-shadow-2: 0 2px 6px rgba(0, 0, 0, 0.45);
+    --ws-shadow-3: 0 12px 32px -8px rgba(0, 0, 0, 0.6),
+                   0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+/* workspace scrollbar thumb in dark */
+[data-edicai-scheme="dark"] .o_edicai_ai_ws_workspace *::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.14);
+}

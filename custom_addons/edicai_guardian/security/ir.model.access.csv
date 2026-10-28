@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_edicai_guardian_admin,edicai.guardian.admin,model_edicai_guardian,edicai_base.group_edicai_admin,1,1,1,1
+access_edicai_guardian_manager,edicai.guardian.manager,model_edicai_guardian,edicai_base.group_edicai_manager,1,1,1,0
+access_edicai_guardian_registrar,edicai.guardian.registrar,model_edicai_guardian,edicai_base.group_edicai_registrar,1,1,1,0
+access_edicai_guardian_staff,edicai.guardian.staff,model_edicai_guardian,edicai_base.group_edicai_staff,1,0,0,0
+access_edicai_guardian_faculty,edicai.guardian.faculty,model_edicai_guardian,edicai_base.group_edicai_faculty,1,0,0,0
+access_edicai_guardian_student,edicai.guardian.student,model_edicai_guardian,edicai_base.group_edicai_student,0,0,0,0
+access_edicai_guardian_student_rel_admin,edicai.guardian.student.rel.admin,model_edicai_guardian_student_rel,edicai_base.group_edicai_admin,1,1,1,1
+access_edicai_guardian_student_rel_manager,edicai.guardian.student.rel.manager,model_edicai_guardian_student_rel,edicai_base.group_edicai_manager,1,1,1,0
+access_edicai_guardian_student_rel_registrar,edicai.guardian.student.rel.registrar,model_edicai_guardian_student_rel,edicai_base.group_edicai_registrar,1,1,1,1
+access_edicai_guardian_student_rel_staff,edicai.guardian.student.rel.staff,model_edicai_guardian_student_rel,edicai_base.group_edicai_staff,1,0,0,0
+access_edicai_guardian_student_rel_faculty,edicai.guardian.student.rel.faculty,model_edicai_guardian_student_rel,edicai_base.group_edicai_faculty,1,0,0,0
+access_edicai_guardian_student_rel_student,edicai.guardian.student.rel.student,model_edicai_guardian_student_rel,edicai_base.group_edicai_student,0,0,0,0

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Full-page conversational workspace (Claude-like interface) -->
+    <record id="action_edicai_ai_workspace" model="ir.actions.client">
+        <field name="name">Edicai AI Workspace</field>
+        <field name="res_model">edicai.ai.chat.session</field>
+        <field name="tag">edicai_ai.Workspace</field>
+    </record>
+
+    <menuitem
+        id="menu_edicai_ai_workspace"
+        name="Workspace"
+        parent="menu_edicai_ai_root"
+        action="action_edicai_ai_workspace"
+        sequence="1"
+    />
+
+</odoo>

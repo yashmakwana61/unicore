@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <data>
+    <!-- ============================================================ -->
+    <!-- EXTEND STUDENT FORM                                           -->
+    <!-- Add enrollments smart button + Enrollments notebook tab       -->
+    <!-- ============================================================ -->
+    <record id="view_edicai_student_form_ext_enrollment" model="ir.ui.view">
+      <field name="name">edicai.student.form.ext.enrollment</field>
+      <field name="model">edicai.student</field>
+      <field name="inherit_id" ref="edicai_student.edicai_student_form_view"/>
+      <field name="arch" type="xml">
+        <!-- Add enrollments stat button to button_box -->
+        <xpath expr="//div[@name='button_box']" position="inside">
+          <button name="action_open_enrollments" type="object" class="oe_stat_button" icon="fa-book">
+            <field name="active_enrollment_count" widget="statinfo" string="Enrollments"/>
+          </button>
+        </xpath>
+        <!-- Add Enrollments notebook page at the end of the notebook -->
+        <xpath expr="//notebook" position="inside">
+          <page string="Enrollments" groups="edicai_base.group_edicai_registrar" name="enrollments">
+            <field name="enrollment_ids" editable="0">
+              <list>
+                <field name="course_id"/>
+                <field name="semester_id"/>
+                <field name="credit_hours"/>
+                <field name="grade_status"/>
+                <field name="enrollment_state"/>
+                <field name="registration_date"/>
+              </list>
+            </field>
+            <group>
+              <field name="total_credits_this_semester" readonly="1"/>
+              <field name="total_credits_earned" readonly="1"/>
+            </group>
+          </page>
+        </xpath>
+      </field>
+    </record>
+    <!-- EXTEND STUDENT KANBAN: Courses button next to activity -->
+    <record id="view_edicai_student_kanban_ext_enrollment" model="ir.ui.view">
+      <field name="name">edicai.student.kanban.ext.enrollment</field>
+      <field name="model">edicai.student</field>
+      <field name="inherit_id" ref="edicai_student.edicai_student_kanban_view"/>
+      <field name="arch" type="xml">
+        <xpath expr="//kanban" position="inside">
+          <field name="active_enrollment_count"/>
+        </xpath>
+        <xpath expr="//div[@class='d-flex align-items-center gap-2']" position="inside">
+          <button type="object" name="action_open_enrollments" class="btn btn-sm btn-outline-primary" title="Courses">
+            <i class="fa fa-book"/> Courses
+          </button>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- Level 2: Grading top menu -->
+  <menuitem id="menu_edicai_grading"
+    name="Grading"
+    sequence="100"
+    web_icon="edicai_grading,static/description/icon.png"
+    groups="edicai_base.group_edicai_faculty,edicai_base.group_edicai_admin"/>
+
+  <!-- Level 3: Student self-service -->
+  <menuitem id="menu_edicai_my_results"
+    name="My Results"
+    parent="menu_edicai_grading"
+    action="action_edicai_grade_entry_my"
+    sequence="10"
+    groups="edicai_base.group_edicai_student"/>
+
+  <menuitem id="menu_edicai_my_semester_results"
+    name="My Semester Results"
+    parent="menu_edicai_grading"
+    action="action_edicai_semester_result_my"
+    sequence="20"
+    groups="edicai_base.group_edicai_student"/>
+
+  <!-- Level 3: Faculty -->
+  <menuitem id="menu_edicai_grade_entry_all"
+    name="Grade Entry"
+    parent="menu_edicai_grading"
+    action="action_edicai_grade_entry"
+    sequence="30"
+    groups="edicai_base.group_edicai_faculty,edicai_base.group_edicai_admin"/>
+
+  <!-- Level 3: Registrar -->
+  <menuitem id="menu_edicai_grade_pending"
+    name="Pending Verification"
+    parent="menu_edicai_grading"
+    action="action_edicai_grade_entry_pending"
+    sequence="40"
+    groups="edicai_base.group_edicai_registrar"/>
+
+  <menuitem id="menu_edicai_semester_results"
+    name="Semester Results"
+    parent="menu_edicai_grading"
+    action="action_edicai_semester_result"
+    sequence="50"
+    groups="edicai_base.group_edicai_registrar"/>
+
+  <!-- Level 3: Manager -->
+  <menuitem id="menu_edicai_grade_scale"
+    name="Grade Scales"
+    parent="menu_edicai_grading"
+    action="action_edicai_grade_scale"
+    sequence="60"
+    groups="edicai_base.group_edicai_manager"/>
+
+</odoo>

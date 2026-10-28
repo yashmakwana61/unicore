@@ -1,0 +1,37 @@
+{
+    'name': 'Edicai Faculty & Staff',
+    'version': '19.0.1.0.0',
+    'category': 'Education',
+    'summary': 'Faculty member and administrative staff profile management',
+    'description': """
+        Faculty member and administrative staff profile management
+    """,
+    'author': 'Precisefect Solutions Pvt. Ltd.',
+    'website': 'https://precisefect.com',
+    'license': 'OPL-1',
+    'depends': [
+        'edicai_academic',
+        'edicai_base',
+        'edicai_calendar',
+        'edicai_campus',
+        'edicai_security',
+        'edicai_student',
+    ],
+    'data': [
+        'security/edicai_faculty_record_rules.xml',
+        'security/ir.model.access.csv',
+        'data/edicai_faculty_sequence_data.xml',
+        'views/edicai_faculty_qualification_views.xml',
+        'views/edicai_faculty_publication_views.xml',
+        'views/edicai_faculty_workload_views.xml',
+        'views/edicai_staff_member_views.xml',
+        'views/edicai_faculty_member_views.xml',
+        'views/edicai_faculty_profile_kanban_views.xml',
+        'menus/edicai_faculty_profile_menus.xml',
+        'views/edicai_faculty_profile_view_mode_ext.xml',
+        'views/edicai_faculty_profile_cleanup.xml',
+    ],
+    'installable': True,
+    'application': True,
+    'auto_install': False,
+}

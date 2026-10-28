@@ -1,19 +1,30 @@
-#!/bin/bash
-# init-db.sh
-# Initializes the Odoo database with the correct module dependency order.
+#!/usr/bin/env bash
+# init-db.sh — one-shot EDICAI database initialization.
+# Installs all EDICAI modules in dependency order, then stops.
+#
+# Usage:
+#   EDICAI_DB_NAME=edicai ./init-db.sh
+set -euo pipefail
+
+DB_NAME="${EDICAI_DB_NAME:-edicai}"
 
 echo "Starting Odoo 19 with empty DB and installing modules in correct dependency order..."
 
-# The calculated correct install order to prevent silent failure during dependency resolution
-INSTALL_ORDER="oacis_design,muk_web_chatter,oacis_base,muk_web_dialog,muk_web_colors,muk_web_refresh,muk_web_appsbar,muk_web_group,telegram_odoo_integration,oacis_theme,oacis_security,oacis_ai,muk_web_theme,oacis_campus,oacis_academic_generic,oacis_institution_profile,oacis_academic,oacis_calendar,oacis_student,oacis_placement,oacis_alumni,oacis_convocation,oacis_hostel,oacis_faculty_profile,oacis_quiz,oacis_transport,oacis_thesis,oacis_library,oacis_mentor,oacis_asset_request,oacis_guardian,oacis_discipline,oacis_skill_assessment,oacis_appointment,oacis_curriculum,oacis_transport_fleet,oacis_digital_library,oacis_notice_board,oacis_timetable,oacis_admission,oacis_attendance,oacis_website,oacis_crm,oacis_documents,oacis_exam,oacis_grading,oacis_fees,oacis_progression,oacis_secure_transcript,oacis_scholarship,oacis_notify,oacis_analytics,oacis_finance_report,oacis_assignment,oacis_api,oacis_portal_student,oacis_gradebook,oacis_demo,oacis_payment,oacis_portal_faculty,oacis_portal_guardian,oacis_lms,oacis_grievance,oacis_student_leave"
+# The calculated correct install order to prevent silent failure during dependency resolution.
+# NOTE: edicai_demo is intentionally excluded; enable it only for
+# demo/staging databases created with demonstration data.
+INSTALL_ORDER="muk_web_chatter,edicai_base,muk_web_dialog,muk_web_colors,muk_web_refresh,muk_web_appsbar,muk_web_group,telegram_odoo_integration,edicai_security,edicai_ai,muk_web_theme,edicai_theme,edicai_studio,edicai_campus,edicai_academic_generic,edicai_institution_profile,edicai_academic,edicai_calendar,edicai_student,edicai_placement,edicai_alumni,edicai_convocation,edicai_hostel,edicai_faculty_profile,edicai_quiz,edicai_transport,edicai_thesis,edicai_library,edicai_mentor,edicai_asset_request,edicai_guardian,edicai_discipline,edicai_skill_assessment,edicai_appointment,edicai_curriculum,edicai_transport_fleet,edicai_digital_library,edicai_notice_board,edicai_timetable,edicai_admission,edicai_attendance,edicai_website,edicai_crm,edicai_documents,edicai_exam,edicai_grading,edicai_fees,edicai_admission_fees,edicai_progression,edicai_secure_transcript,edicai_scholarship,edicai_notify,edicai_analytics,edicai_finance_report,edicai_assignment,edicai_api,edicai_portal_student,edicai_gradebook,edicai_payment,edicai_portal_faculty,edicai_portal_guardian,edicai_lms,edicai_grievance,edicai_student_leave"
 
 docker compose up -d db
 
-# Wait for DB to be ready
+# Wait for DB to be ready (healthchecked in compose, but poll anyway)
 echo "Waiting for PostgreSQL to be ready..."
-sleep 10
+until docker compose exec -T db pg_isready -U "${EDICAI_DB_USER:-odoo}" >/dev/null 2>&1; do
+  sleep 2
+done
 
-echo "Installing modules..."
-docker compose run --rm web odoo -c /etc/odoo/odoo.conf -d postgres -i "$INSTALL_ORDER" --stop-after-init
+echo "Installing modules into database '${DB_NAME}'..."
+docker compose run --rm --no-deps web \
+  odoo -c /etc/odoo/odoo.conf -d "$DB_NAME" -i "$INSTALL_ORDER" --stop-after-init
 
 echo "Initialization complete. You can now run: docker compose up -d web"

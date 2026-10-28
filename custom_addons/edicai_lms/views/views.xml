@@ -1,0 +1,58 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="edicai_lms.list">
+      <field name="name">edicai_lms list</field>
+      <field name="model">edicai_lms.edicai_lms</field>
+      <field name="arch" type="xml">
+        <list>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </list>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="edicai_lms.action_window">
+      <field name="name">edicai_lms window</field>
+      <field name="res_model">edicai_lms.edicai_lms</field>
+      <field name="view_mode">list,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="edicai_lms.action_server">
+      <field name="name">edicai_lms server</field>
+      <field name="model_id" ref="model_edicai_lms_edicai_lms"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "list,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="edicai_lms" id="edicai_lms.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="edicai_lms.menu_1" parent="edicai_lms.menu_root"/>
+    <menuitem name="Menu 2" id="edicai_lms.menu_2" parent="edicai_lms.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="edicai_lms.menu_1_list" parent="edicai_lms.menu_1" action="edicai_lms.action_window"/>
+    <menuitem name="Server to list" id="edicai_lms" parent="edicai_lms.menu_2" action="edicai_lms.action_server"/>
+-->
+  </data>
+</odoo>

@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_question_bank_admin,edicai.question.bank.admin,model_edicai_question_bank,edicai_base.group_edicai_admin,1,1,1,1
+access_question_bank_manager,edicai.question.bank.manager,model_edicai_question_bank,edicai_base.group_edicai_manager,1,1,1,0
+access_question_bank_faculty,edicai.question.bank.faculty,model_edicai_question_bank,edicai_base.group_edicai_faculty,1,1,1,0
+access_question_bank_student,edicai.question.bank.student,model_edicai_question_bank,edicai_base.group_edicai_student,0,0,0,0
+
+access_quiz_admin,edicai.quiz.admin,model_edicai_quiz,edicai_base.group_edicai_admin,1,1,1,1
+access_quiz_manager,edicai.quiz.manager,model_edicai_quiz,edicai_base.group_edicai_manager,1,1,1,0
+access_quiz_faculty,edicai.quiz.faculty,model_edicai_quiz,edicai_base.group_edicai_faculty,1,1,1,0
+access_quiz_student,edicai.quiz.student,model_edicai_quiz,edicai_base.group_edicai_student,1,0,0,0
+
+access_quiz_attempt_admin,edicai.quiz.attempt.admin,model_edicai_quiz_attempt,edicai_base.group_edicai_admin,1,1,1,1
+access_quiz_attempt_manager,edicai.quiz.attempt.manager,model_edicai_quiz_attempt,edicai_base.group_edicai_manager,1,1,1,0
+access_quiz_attempt_faculty,edicai.quiz.attempt.faculty,model_edicai_quiz_attempt,edicai_base.group_edicai_faculty,1,1,1,0
+access_quiz_attempt_student,edicai.quiz.attempt.student,model_edicai_quiz_attempt,edicai_base.group_edicai_student,1,1,1,0

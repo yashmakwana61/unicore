@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_edicai_enrollment_portal,Enrollment Portal,edicai_admission.model_edicai_enrollment,base.group_portal,1,0,0,0
+access_edicai_grade_entry_portal,Grade Entry Portal,edicai_grading.model_edicai_grade_entry,base.group_portal,1,0,0,0
+access_edicai_semester_result_portal,Semester Result Portal,edicai_grading.model_edicai_semester_result,base.group_portal,1,0,0,0
+access_edicai_fee_invoice_portal,Fee Invoice Portal,edicai_fees.model_edicai_fee_invoice,base.group_portal,1,0,0,0
+access_edicai_fee_payment_portal,Fee Payment Portal,edicai_fees.model_edicai_fee_payment,base.group_portal,1,0,0,0
+access_edicai_hall_ticket_portal,Hall Ticket Portal,edicai_exam.model_edicai_exam_hall_ticket,base.group_portal,1,0,0,0
+access_edicai_attendance_record_portal,Attendance Portal,edicai_attendance.model_edicai_attendance_record,base.group_portal,1,0,0,0
+access_edicai_scholarship_app_portal,Scholarship App Portal,edicai_scholarship.model_edicai_scholarship_application,base.group_portal,1,0,0,0
+access_edicai_timetable_entry_portal,Timetable Entry Portal,edicai_timetable.model_edicai_timetable_entry,base.group_portal,1,0,0,0
+access_edicai_student_portal,Student Portal,edicai_student.model_edicai_student,base.group_portal,1,0,0,0
+access_edicai_assignment_portal,Assignment Portal,edicai_assignment.model_edicai_assignment,base.group_portal,1,0,0,0
+access_edicai_assignment_submission_portal,Assignment Submission Portal,edicai_assignment.model_edicai_assignment_submission,base.group_portal,1,1,1,0
+access_edicai_assignment_rubric_portal,Assignment Rubric Portal,edicai_assignment.model_edicai_assignment_rubric,base.group_portal,1,0,0,0
+access_edicai_assignment_rubric_criterion_portal,Assignment Rubric Criterion Portal,edicai_assignment.model_edicai_assignment_rubric_criterion,base.group_portal,1,0,0,0

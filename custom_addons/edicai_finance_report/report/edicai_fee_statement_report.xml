@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <!-- PDF Report Action for Fee Invoice -->
+  <record id="action_edicai_fee_statement_pdf" model="ir.actions.report">
+    <field name="name">Student Fee Statement</field>
+    <field name="model">edicai.fee.invoice</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">edicai_finance_report.report_fee_statement</field>
+    <field name="report_file">edicai_finance_report.report_fee_statement</field>
+    <field name="binding_model_id" ref="edicai_fees.model_edicai_fee_invoice"/>
+    <field name="binding_type">report</field>
+  </record>
+</odoo>

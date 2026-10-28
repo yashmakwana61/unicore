@@ -1,0 +1,22 @@
+{
+    'name': 'Edicai Grievance',
+    'version': '19.0.1.0.0',
+    'category': 'Education',
+    'summary': 'Grievance Management',
+    'author': 'Precisefect Solutions Pvt. Ltd.',
+    'website': 'https://www.precisefect.com',
+    'license': 'OPL-1',
+    'depends': ['edicai_student', 'edicai_faculty_profile', 'edicai_guardian', 'edicai_notify', 'edicai_portal_student', 'edicai_portal_guardian'],
+    'data': [
+        'security/ir.model.access.csv',
+        'data/ai_copilot_prompts.xml',
+        'security/security_rules.xml',
+        'data/edicai_grievance_sequence.xml',
+        'views/grievance_views.xml',
+        'views/menu.xml',
+        'views/portal_templates.xml',
+    ],
+    'installable': True,
+    'application': True,
+    'auto_install': False,
+}

@@ -1,0 +1,142 @@
+.o_portal_my_home .card h2 {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.edicai-attendance-bar {
+    height: 8px;
+    border-radius: 4px;
+    background-color: #e9ecef;
+}
+
+.edicai-attendance-bar .fill {
+    height: 100%;
+    border-radius: 4px;
+    background-color: #28a745;
+}
+
+.edicai-attendance-bar .fill.warning {
+    background-color: #ffc107;
+}
+
+.edicai-attendance-bar .fill.danger {
+    background-color: #dc3545;
+}
+
+.edicai-ticket-card {
+    border-left: 4px solid #007bff;
+}
+
+.edicai-ticket-card.ineligible {
+    border-left-color: #dc3545;
+}
+
+.edicai-grade-table .pass {
+    background-color: rgba(40, 167, 69, 0.1);
+}
+
+.edicai-grade-table .fail {
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+.edicai-fee-paid {
+    border-left: 4px solid #28a745;
+}
+
+.edicai-fee-overdue {
+    border-left: 4px solid #dc3545;
+}
+
+.edicai-fee-partial {
+    border-left: 4px solid #ffc107;
+}
+
+/* Sidebar Layout */
+.edicai-portal-layout {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.edicai-sidebar {
+    min-width: 220px;
+    max-width: 220px;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #e4e7ec;
+    padding: 8px 0;
+    position: sticky;
+    top: 16px;
+}
+
+.edicai-sidebar-toggle {
+    width: 100%;
+    text-align: left;
+}
+
+.edicai-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    color: #475467;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-left: 3px solid transparent;
+    transition: all 0.15s ease;
+    border-radius: 0;
+}
+
+.edicai-nav-item i {
+    width: 18px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.edicai-nav-item:hover {
+    background: #f9fafb;
+    color: #1d2939;
+}
+
+.edicai-nav-item.active {
+    background: #f0f4ff;
+    color: #175cd3;
+    border-left-color: #175cd3;
+    font-weight: 600;
+}
+
+.edicai-sidebar-content {
+    min-width: 0;
+}
+
+/* Sidebar content pages use container-fluid inside */
+.edicai-sidebar-content > .container {
+    max-width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* Assignment cards */
+.edicai-assignment-card {
+    border-left: 4px solid #175cd3;
+}
+
+.edicai-assignment-card.edicai-assignment-due {
+    border-left-color: #dc3545;
+}
+
+.edicai-assignment-card .card-header {
+    background: #f8fafc;
+}
+
+@media (max-width: 767.98px) {
+    .o_portal_my_home .card h2 {
+        font-size: 1.5rem;
+    }
+
+    .edicai-sidebar {
+        min-width: 100%;
+        max-width: 100%;
+        position: static;
+    }
+}

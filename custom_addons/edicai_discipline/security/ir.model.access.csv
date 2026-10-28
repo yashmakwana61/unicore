@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_misbehaviour_category_admin,edicai.misbehaviour.category.admin,model_edicai_misbehaviour_category,edicai_base.group_edicai_admin,1,1,1,1
+access_misbehaviour_category_manager,edicai.misbehaviour.category.manager,model_edicai_misbehaviour_category,edicai_base.group_edicai_manager,1,1,1,0
+access_misbehaviour_category_registrar,edicai.misbehaviour.category.registrar,model_edicai_misbehaviour_category,edicai_base.group_edicai_registrar,1,0,0,0
+access_misbehaviour_category_staff,edicai.misbehaviour.category.staff,model_edicai_misbehaviour_category,edicai_base.group_edicai_staff,1,0,0,0
+access_misbehaviour_category_faculty,edicai.misbehaviour.category.faculty,model_edicai_misbehaviour_category,edicai_base.group_edicai_faculty,1,0,0,0
+
+access_discipline_record_admin,edicai.discipline.record.admin,model_edicai_discipline_record,edicai_base.group_edicai_admin,1,1,1,1
+access_discipline_record_manager,edicai.discipline.record.manager,model_edicai_discipline_record,edicai_base.group_edicai_manager,1,1,1,0
+access_discipline_record_registrar,edicai.discipline.record.registrar,model_edicai_discipline_record,edicai_base.group_edicai_registrar,1,1,1,0
+access_discipline_record_faculty,edicai.discipline.record.faculty,model_edicai_discipline_record,edicai_base.group_edicai_faculty,1,1,1,0
+access_discipline_record_student,edicai.discipline.record.student,model_edicai_discipline_record,edicai_base.group_edicai_student,1,0,0,0

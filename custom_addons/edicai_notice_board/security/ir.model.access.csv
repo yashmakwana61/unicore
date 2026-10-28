@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_edicai_notice_admin,access.edicai.notice.admin,model_edicai_notice,edicai_base.group_edicai_admin,1,1,1,1
+access_edicai_notice_manager,access.edicai.notice.manager,model_edicai_notice,edicai_base.group_edicai_manager,1,1,1,1
+access_edicai_notice_registrar,access.edicai.notice.registrar,model_edicai_notice,edicai_base.group_edicai_registrar,1,1,1,1
+access_edicai_notice_staff,access.edicai.notice.staff,model_edicai_notice,edicai_base.group_edicai_staff,1,0,0,0

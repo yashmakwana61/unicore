@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Enrollment Calendar
+         ============================================================ -->
+    
+
+    <record id="edicai_enrollment_calendar_view" model="ir.ui.view">
+        <field name="name">edicai.enrollment.calendar</field>
+        <field name="model">edicai.enrollment</field>
+        <field name="type">calendar</field>
+        <field name="arch" type="xml">
+            <calendar date_start="registration_date" color="color" string="Enrollment Calendar">
+                <field name="enrollment_state"/>
+                <field name="registration_type"/>
+                <field name="student_id" widget="many2one_avatar"/>
+                <field name="course_offering_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- ============================================================
+         Enrollment Waitlist Calendar
+         ============================================================ -->
+    
+
+    <record id="edicai_enrollment_waitlist_calendar_view" model="ir.ui.view">
+        <field name="name">edicai.enrollment.waitlist.calendar</field>
+        <field name="model">edicai.enrollment.waitlist</field>
+        <field name="type">calendar</field>
+        <field name="arch" type="xml">
+            <calendar date_start="waitlist_date" color="color" string="Enrollment Waitlist Calendar">
+                <field name="waitlist_state"/>
+                <field name="student_id" widget="many2one_avatar"/>
+                <field name="course_offering_id"/>
+                <field name="position"/>
+            </calendar>
+        </field>
+    </record>
+
+</odoo>

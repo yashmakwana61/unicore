@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ============================================= -->
+        <!-- LEVEL 2 MENU                                  -->
+        <!-- ============================================= -->
+
+        <menuitem id="menu_edicai_curriculum"
+                  name="Curriculum"
+                  parent="edicai_base.menu_edicai_root"
+                  sequence="50"
+                  groups="edicai_base.group_edicai_staff"/>
+
+        <!-- ============================================= -->
+        <!-- LEVEL 3 MENUS                                 -->
+        <!-- ============================================= -->
+
+        <menuitem id="menu_edicai_course_list"
+                  name="Courses"
+                  parent="menu_edicai_curriculum"
+                  action="action_edicai_course"
+                  sequence="10"/>
+
+        <menuitem id="menu_edicai_curriculum_list"
+                  name="Curricula"
+                  parent="menu_edicai_curriculum"
+                  action="action_edicai_curriculum"
+                  sequence="20"/>
+
+        <menuitem id="menu_edicai_curriculum_line_list"
+                  name="Curriculum Lines"
+                  parent="menu_edicai_curriculum"
+                  action="action_edicai_curriculum_line"
+                  sequence="30"
+                  groups="edicai_base.group_edicai_registrar"/>
+
+        <menuitem id="menu_edicai_course_offering_list"
+                  name="Course Offerings"
+                  parent="menu_edicai_curriculum"
+                  action="action_edicai_course_offering"
+                  sequence="40"/>
+
+    </data>
+</odoo>

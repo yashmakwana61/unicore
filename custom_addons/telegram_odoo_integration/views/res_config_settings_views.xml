@@ -36,6 +36,26 @@
                                  help="Idle order sessions expire after this period.">
                             <field name="session_timeout_minutes"/>
                         </setting>
+                        <setting string="Additional Allowed Chat IDs"
+                                 help="Comma separated list for multi-user setups.">
+                            <field name="telegram_allowed_chat_ids"/>
+                        </setting>
+                        <setting string="Rate Limit (per minute)"
+                                 help="Maximum Telegram messages per user per minute.">
+                            <field name="rate_limit_per_minute"/>
+                        </setting>
+                        <setting string="Max Concurrent Jobs per User"
+                                 help="Maximum concurrent processing jobs per Telegram user.">
+                            <field name="max_concurrent_jobs"/>
+                        </setting>
+                        <setting string="Parser Poll Interval (minutes)"
+                                 help="Interval for polling AI Parser for pending jobs.">
+                            <field name="poll_interval_minutes"/>
+                        </setting>
+                        <setting string="Job Status Timeout (minutes)"
+                                 help="Timeout for job status polling before marking as failed.">
+                            <field name="job_status_timeout_minutes"/>
+                        </setting>
                     </block>
                 </app>
             </xpath>

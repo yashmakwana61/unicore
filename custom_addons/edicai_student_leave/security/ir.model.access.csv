@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_edicai_student_leave_request_admin,edicai.student.leave.request.admin,model_edicai_student_leave_request,edicai_base.group_edicai_admin,1,1,1,1
+access_edicai_student_leave_request_registrar,edicai.student.leave.request.registrar,model_edicai_student_leave_request,edicai_base.group_edicai_registrar,1,1,1,0
+access_edicai_student_leave_request_manager,edicai.student.leave.request.manager,model_edicai_student_leave_request,edicai_base.group_edicai_manager,1,1,1,0
+access_edicai_student_leave_request_faculty,edicai.student.leave.request.faculty,model_edicai_student_leave_request,edicai_base.group_edicai_faculty,1,1,0,0
+access_edicai_student_leave_request_staff,edicai.student.leave.request.staff,model_edicai_student_leave_request,edicai_base.group_edicai_staff,1,0,0,0
+access_edicai_student_leave_request_student,edicai.student.leave.request.student,model_edicai_student_leave_request,edicai_base.group_edicai_student,1,0,1,0

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Root Menu -->
+    <menuitem id="menu_edicai_scholarship_root"
+              name="Scholarships"
+              sequence="55"
+              web_icon="edicai_scholarship,static/description/icon.png"/>
+
+    <!-- Main Menus -->
+    <menuitem id="menu_edicai_scholarship_programs"
+              name="Scholarship Programs"
+              parent="menu_edicai_scholarship_root"
+              action="action_edicai_scholarship_program"
+              sequence="10"/>
+
+    <menuitem id="menu_edicai_scholarship_applications"
+              name="Applications"
+              parent="menu_edicai_scholarship_root"
+              action="action_edicai_scholarship_application"
+              sequence="20"/>
+
+    <menuitem id="menu_edicai_scholarship_awards"
+              name="Awards"
+              parent="menu_edicai_scholarship_root"
+              action="action_edicai_scholarship_award"
+              sequence="30"/>
+
+    <!-- Board Menus -->
+
+    <!-- Configuration Menu -->
+    <menuitem id="menu_edicai_scholarship_config"
+              name="Configuration"
+              parent="menu_edicai_scholarship_root"
+              groups="edicai_base.group_edicai_admin,edicai_base.group_edicai_manager"
+              sequence="100"/>
+
+</odoo>

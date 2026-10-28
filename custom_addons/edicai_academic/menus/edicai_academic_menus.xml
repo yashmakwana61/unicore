@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Academic Structure Top Menu -->
+    <menuitem id="menu_edicai_academic"
+              name="Academic Structure"
+              parent="edicai_base.menu_edicai_root"
+              sequence="10"
+              groups="edicai_base.group_edicai_staff"/>
+
+    <!-- Faculties -->
+    <menuitem id="menu_edicai_faculty_list"
+              name="Faculties"
+              parent="menu_edicai_academic"
+              action="action_edicai_faculty"
+              sequence="10"/>
+
+    <!-- Departments -->
+    <menuitem id="menu_edicai_department_list"
+              name="Departments"
+              parent="menu_edicai_academic"
+              action="action_edicai_department"
+              sequence="20"/>
+
+    <!-- Programs -->
+    <menuitem id="menu_edicai_program_list"
+              name="Programs"
+              parent="menu_edicai_academic"
+              action="action_edicai_program"
+              sequence="30"/>
+
+    <!-- Specialisations -->
+    <menuitem id="menu_edicai_specialisation_list"
+              name="Specialisations"
+              parent="menu_edicai_academic"
+              action="action_edicai_specialisation"
+              sequence="40"/>
+
+</odoo>

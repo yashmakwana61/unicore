@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_skill_admin,edicai.skill.admin,model_edicai_skill,edicai_base.group_edicai_admin,1,1,1,1
+access_skill_manager,edicai.skill.manager,model_edicai_skill,edicai_base.group_edicai_manager,1,1,1,0
+access_skill_faculty,edicai.skill.faculty,model_edicai_skill,edicai_base.group_edicai_faculty,1,0,0,0
+access_skill_student,edicai.skill.student,model_edicai_skill,edicai_base.group_edicai_student,1,0,0,0
+
+access_skill_assessment_admin,edicai.student.skill.assessment.admin,model_edicai_student_skill_assessment,edicai_base.group_edicai_admin,1,1,1,1
+access_skill_assessment_manager,edicai.student.skill.assessment.manager,model_edicai_student_skill_assessment,edicai_base.group_edicai_manager,1,1,1,0
+access_skill_assessment_faculty,edicai.student.skill.assessment.faculty,model_edicai_student_skill_assessment,edicai_base.group_edicai_faculty,1,1,1,0
+access_skill_assessment_student,edicai.student.skill.assessment.student,model_edicai_student_skill_assessment,edicai_base.group_edicai_student,1,0,0,0

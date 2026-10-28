@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="edicai_bonafide_wizard_form_view" model="ir.ui.view">
+        <field name="name">edicai.bonafide.wizard.form</field>
+        <field name="model">edicai.bonafide.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="student_id" widget="many2one_avatar"/>
+                    <field name="purpose" widget="radio"/>
+                    <field name="purpose_other"/>
+                </group>
+                <footer>
+                    <button name="action_print" type="object" string="Generate Bonafide" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_open_bonafide_wizard" model="ir.actions.act_window">
+        <field name="name">Generate Bonafide Certificate</field>
+        <field name="res_model">edicai.bonafide.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="edicai_student.model_edicai_student"/>
+        <field name="binding_type">action</field>
+        <field name="context">{'active_id': active_id}</field>
+    </record>
+</odoo>

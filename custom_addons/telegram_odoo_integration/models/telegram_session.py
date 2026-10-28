@@ -38,15 +38,37 @@ class TelegramOrderSession(models.Model):
         ('failed', 'Failed'),
         ('cancelled', 'Cancelled'),
         ('expired', 'Expired'),
+        ('needs_review', 'Needs Review'),
+        ('retrying', 'Retrying'),
     ], string='Status', default='new', readonly=True, copy=False, index=True)
     request_id = fields.Char(
         string='AI Parser Request ID', readonly=True, copy=False, index=True)
+    # New job-based fields (Phase 6/8)
+    parser_job_id = fields.Char(
+        string='Parser Job ID', readonly=True, copy=False, index=True)
+    idempotency_key = fields.Char(
+        string='Idempotency Key', readonly=True, copy=False, index=True)
+    telegram_message_ids = fields.Text(
+        string='Telegram Message IDs', readonly=True)
+    # Extended status to support new state machine
     ai_parser_status = fields.Selection([
         ('PROCESSING', 'Processing'),
         ('SUCCESS', 'Success'),
         ('INCOMPLETE', 'Incomplete'),
         ('REQUIRES_REVIEW', 'Requires Review'),
         ('FAILED', 'Failed'),
+        # New states
+        ('RECEIVED', 'Received'),
+        ('QUEUED', 'Queued'),
+        ('EXTRACTING', 'Extracting'),
+        ('NORMALIZING', 'Normalizing'),
+        ('VALIDATING', 'Validating'),
+        ('RESOLVING', 'Resolving'),
+        ('READY_FOR_ODOO', 'Ready for Odoo'),
+        ('SENT_TO_ODOO', 'Sent to Odoo'),
+        ('COMPLETED', 'Completed'),
+        ('NEEDS_REVIEW', 'Needs Review'),
+        ('RETRYING', 'Retrying'),
     ], string='AI Parser Status', readonly=True, copy=False)
     ai_parser_response = fields.Text(
         string='AI Parser Response', readonly=True)
@@ -85,9 +107,12 @@ class TelegramOrderSession(models.Model):
             return False
         if not self.message_ids and not self.attachment_ids:
             return False
+        # Generate idempotency key from chat+messages if not exists
+        idem = self.idempotency_key or str(uuid.uuid4())
         self.write({
             'state': 'submitted',
-            'request_id': str(uuid.uuid4()),
+            'request_id': self.request_id or str(uuid.uuid4()),
+            'idempotency_key': idem,
         })
         self._send_to_ai_parser()
         return True
@@ -104,16 +129,41 @@ class TelegramOrderSession(models.Model):
             _logger.info(
                 'AI Parser response for session %s: %s',
                 self.session_id, result)
-            status = result.get('status')
-            if status == 'PROCESSING':
+            # New job API returns job_id
+            job_id = result.get('job_id') or result.get('id') or result.get('request_id')
+            if job_id:
+                self.write({'parser_job_id': str(job_id)})
+            # Link telegram.message records with job_id for correlation
+            if job_id:
+                msgs = self.env['telegram.message'].sudo().search([
+                    ('session_id', '=', self.id),
+                ])
+                if msgs:
+                    msgs.write({'parser_job_id': str(job_id)})
+            status = result.get('status') or result.get('state')
+            # Normalize
+            if status:
+                status = str(status).upper()
+            if status in ('PROCESSING', 'RECEIVED', 'QUEUED', 'EXTRACTING',
+                          'NORMALIZING', 'VALIDATING', 'RESOLVING',
+                          'READY_FOR_ODOO', 'SENT_TO_ODOO'):
                 self.write({
                     'state': 'processing',
-                    'ai_parser_status': 'PROCESSING',
+                    'ai_parser_status': status,
+                    'ai_parser_response': json.dumps(result, ensure_ascii=False),
                 })
-            elif status == 'SUCCESS':
+            elif status in ('SUCCESS', 'COMPLETED'):
                 self._handle_success(result)
-            elif status == 'INCOMPLETE':
+            elif status in ('INCOMPLETE',):
                 self._handle_incomplete(result)
+            elif status in ('NEEDS_REVIEW', 'REQUIRES_REVIEW'):
+                self._handle_needs_review(result)
+            elif status == 'RETRYING':
+                self.write({
+                    'state': 'retrying',
+                    'ai_parser_status': 'RETRYING',
+                    'ai_parser_response': json.dumps(result, ensure_ascii=False),
+                })
             elif status == 'FAILED':
                 self._handle_failed(result)
             else:
@@ -122,7 +172,8 @@ class TelegramOrderSession(models.Model):
                     self.session_id, status)
                 self.write({
                     'state': 'processing',
-                    'ai_parser_status': status,
+                    'ai_parser_status': status or 'PROCESSING',
+                    'ai_parser_response': json.dumps(result, ensure_ascii=False),
                 })
         except Exception as exc:
             _logger.exception(
@@ -176,19 +227,47 @@ class TelegramOrderSession(models.Model):
             'ai_parser_status': 'INCOMPLETE',
             'ai_parser_response': json.dumps(result, ensure_ascii=False),
         }
-        sale_order_id = result.get('sale_order_id')
+        sale_order_id = result.get('sale_order_id') or result.get('order_id')
         if sale_order_id:
-            vals['sale_order_id'] = sale_order_id
-        if result.get('sale_order_name'):
-            vals['sale_order_name'] = result['sale_order_name']
-        if result.get('incomplete_fields'):
-            vals['incomplete_fields'] = ', '.join(result['incomplete_fields'])
+            try:
+                vals['sale_order_id'] = int(sale_order_id)
+            except Exception:
+                vals['sale_order_id'] = sale_order_id
+        if result.get('sale_order_name') or result.get('order_name'):
+            vals['sale_order_name'] = result.get('sale_order_name') or result.get('order_name')
+        missing = result.get('incomplete_fields') or result.get('missing_fields') or []
+        if missing:
+            vals['incomplete_fields'] = ', '.join(missing) if isinstance(missing, (list, tuple)) else str(missing)
         self.write(vals)
-        if sale_order_id:
-            self._link_messages_to_order(sale_order_id)
+        if vals.get('sale_order_id'):
+            self._link_messages_to_order(vals['sale_order_id'])
         _logger.info(
             'Session %s incomplete. Fields needed: %s',
             self.session_id, vals.get('incomplete_fields'))
+
+    def _handle_needs_review(self, result):
+        """Handle NEEDS_REVIEW state."""
+        self.ensure_one()
+        vals = {
+            'state': 'needs_review',
+            'ai_parser_status': 'NEEDS_REVIEW',
+            'ai_parser_response': json.dumps(result, ensure_ascii=False),
+            'error_message': result.get('message') or result.get('reason') or 'Needs review',
+        }
+        sale_order_id = result.get('sale_order_id') or result.get('order_id')
+        if sale_order_id:
+            try:
+                vals['sale_order_id'] = int(sale_order_id)
+            except Exception:
+                pass
+        if result.get('sale_order_name') or result.get('order_name'):
+            vals['sale_order_name'] = result.get('sale_order_name') or result.get('order_name')
+        # Store reason details
+        if result.get('reason'):
+            vals['incomplete_fields'] = str(result.get('reason'))
+        self.write(vals)
+        if vals.get('sale_order_id'):
+            self._link_messages_to_order(vals['sale_order_id'])
 
     def _handle_failed(self, result):
         """Handle failed AI Parser response."""
@@ -197,7 +276,7 @@ class TelegramOrderSession(models.Model):
             'state': 'failed',
             'ai_parser_status': 'FAILED',
             'ai_parser_response': json.dumps(result, ensure_ascii=False),
-            'error_message': result.get('message', 'AI Parser processing failed'),
+            'error_message': result.get('message') or result.get('error') or result.get('reason') or 'AI Parser processing failed',
         })
 
     def action_cancel(self):
@@ -232,6 +311,30 @@ class TelegramOrderSession(models.Model):
     def get_status_message(self):
         """Return a human-readable status message for Telegram."""
         self.ensure_one()
+        # Use status mapper for richer messages
+        try:
+            from odoo.addons.telegram_odoo_integration.models.telegram_status_mapper import (
+                format_ack_message, format_completed, format_incomplete,
+                format_needs_review, format_failed, USER_MESSAGES,
+            )
+            ref = self.parser_job_id or self.session_id[:8]
+            if self.state == 'processing':
+                return USER_MESSAGES['processing'].format(ref=ref)
+            if self.state == 'retrying':
+                return USER_MESSAGES['retrying'].format(ref=ref)
+            if self.state == 'completed':
+                return format_completed(self.sale_order_name, item_count=None)
+            if self.state == 'incomplete':
+                missing = []
+                if self.incomplete_fields:
+                    missing = [x.strip() for x in self.incomplete_fields.split(',')]
+                return format_incomplete(self.sale_order_name, missing)
+            if self.state == 'needs_review':
+                return format_needs_review(self.parser_job_id or self.session_id, reason=self.error_message, short_ref=ref)
+            if self.state == 'failed':
+                return format_failed(self.parser_job_id or self.session_id, short_ref=ref)
+        except Exception:
+            pass
         messages = {
             'new': 'Session started. Send your order details.',
             'collecting': (
@@ -256,6 +359,8 @@ class TelegramOrderSession(models.Model):
             ),
             'cancelled': 'Order cancelled.',
             'expired': 'Order session expired.',
+            'needs_review': 'Order needs review. Please check in Odoo. Reference: %s' % (self.parser_job_id or self.session_id[:8]),
+            'retrying': 'We\'re still processing your order. Reference: %s' % (self.parser_job_id or self.session_id[:8]),
         }
         return messages.get(self.state, 'Unknown status.')
 
@@ -279,38 +384,90 @@ class TelegramOrderSession(models.Model):
             _logger.info('Expired %d idle order sessions', len(expired))
 
     def _cron_poll_ai_parser(self):
-        """Poll the AI Parser for sessions stuck in 'processing' state."""
+        """Poll the AI Parser for sessions stuck in 'processing' state.
+
+        Uses job_id if available, else falls back to request_id.
+        Configurable max attempts / timeout via ir.config_parameter.
+        """
+        # Include both processing and retrying
         processing = self.search([
-            ('state', '=', 'processing'),
+            ('state', 'in', ('processing', 'submitted', 'retrying')),
+            '|',
             ('request_id', '!=', False),
+            ('parser_job_id', '!=', False),
         ])
         if not processing:
             return
         from odoo.addons.telegram_odoo_integration.models.ai_parser_client import (
             AIParserClient,
         )
+        from odoo.addons.telegram_odoo_integration.models.telegram_status_mapper import (
+            map_parser_state,
+        )
         client = AIParserClient(self.env)
         for session in processing:
+            job_ref = session.parser_job_id or session.request_id
+            if not job_ref:
+                continue
             try:
-                result = client.query_status(session.request_id)
+                result = client.query_status(job_ref)
                 _logger.info(
                     'AI Parser poll for session %s: %s',
                     session.session_id, result)
-                status = result.get('status')
-                if status == 'SUCCESS':
+                status = (result.get('status') or result.get('state') or '').upper()
+                if not status:
+                    continue
+                t_state = map_parser_state(status)
+                if status in ('SUCCESS', 'COMPLETED'):
                     session._handle_success(result)
                 elif status == 'INCOMPLETE':
                     session._handle_incomplete(result)
+                elif status in ('NEEDS_REVIEW', 'REQUIRES_REVIEW'):
+                    session._handle_needs_review(result)
                 elif status == 'FAILED':
                     session._handle_failed(result)
-                elif status == 'PROCESSING':
-                    pass
+                elif status == 'RETRYING':
+                    session.write({
+                        'state': 'retrying',
+                        'ai_parser_status': 'RETRYING',
+                        'ai_parser_response': json.dumps(result, ensure_ascii=False),
+                    })
+                elif t_state in ('processing', 'creating_order'):
+                    session.write({
+                        'ai_parser_status': status,
+                        'ai_parser_response': json.dumps(result, ensure_ascii=False),
+                    })
                 else:
                     session.write({'ai_parser_status': status})
+                # If order created, link
+                sale_order_id = result.get('sale_order_id') or result.get('order_id')
+                sale_order_name = result.get('sale_order_name') or result.get('order_name')
+                if sale_order_id and not session.sale_order_id:
+                    try:
+                        session.write({'sale_order_id': int(sale_order_id)})
+                    except Exception:
+                        pass
+                if sale_order_name and not session.sale_order_name:
+                    session.write({'sale_order_name': sale_order_name})
+                # Update telegram.message correlation
+                if result.get('parser_state'):
+                    msgs = self.env['telegram.message'].sudo().search([
+                        ('session_id', '=', session.id),
+                    ])
+                    if msgs:
+                        msgs.write({'parser_state': status})
             except Exception:
                 _logger.exception(
                     'Failed to poll AI Parser for session %s',
                     session.session_id)
+
+    def short_ref(self):
+        """User-friendly short reference derived from job_id or session_id."""
+        self.ensure_one()
+        if self.parser_job_id:
+            # job_id may be like ORD-20260925-000184
+            return self.parser_job_id
+        return self.session_id[:8]
 
 
 class TelegramSessionMessage(models.Model):

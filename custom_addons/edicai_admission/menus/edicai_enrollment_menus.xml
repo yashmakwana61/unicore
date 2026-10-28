@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ============================================================ -->
+        <!-- LEVEL 2: Enrollments sub-menu under Admission root            -->
+        <!-- ============================================================ -->
+
+        <menuitem id="menu_edicai_enrollment"
+                  name="Enrollments"
+                  parent="menu_edicai_admission_root"
+                  sequence="50"
+                  groups="edicai_base.group_edicai_admin,edicai_base.group_edicai_manager,edicai_base.group_edicai_registrar,edicai_base.group_edicai_staff"/>
+
+        <!-- ============================================================ -->
+        <!-- LEVEL 3: Sub-menus under Enrollments                          -->
+        <!-- ============================================================ -->
+
+        <menuitem id="menu_edicai_enrollment_my"
+                  name="My Registrations"
+                  parent="menu_edicai_enrollment"
+                  action="action_edicai_enrollment_my"
+                  sequence="10"
+                  groups="edicai_base.group_edicai_student"/>
+
+        <menuitem id="menu_edicai_enrollment_active"
+                  name="Active Enrollments"
+                  parent="menu_edicai_enrollment"
+                  action="action_edicai_enrollment_active"
+                  sequence="20"
+                  groups="edicai_base.group_edicai_staff"/>
+
+        <menuitem id="menu_edicai_enrollment_all"
+                  name="All Enrollments"
+                  parent="menu_edicai_enrollment"
+                  action="action_edicai_enrollment_all"
+                  sequence="30"
+                  groups="edicai_base.group_edicai_registrar"/>
+
+        <menuitem id="menu_edicai_enrollment_waitlist"
+                  name="Waitlist Management"
+                  parent="menu_edicai_enrollment"
+                  action="action_edicai_enrollment_waitlist"
+                  sequence="40"
+                  groups="edicai_base.group_edicai_registrar"/>
+
+        <menuitem id="menu_edicai_enrollment_log"
+                  name="Enrollment Audit Log"
+                  parent="menu_edicai_enrollment"
+                  action="action_edicai_enrollment_log"
+                  sequence="50"
+                  groups="edicai_base.group_edicai_manager"/>
+
+    </data>
+</odoo>

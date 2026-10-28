@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- ROOT MENU — Standalone App -->
+  <menuitem
+    id="menu_edicai_library_root"
+    name="Library"
+    sequence="170"
+    web_icon="edicai_library,static/description/icon.png"
+    groups="edicai_base.group_edicai_staff,edicai_base.group_edicai_admin"/>
+
+  <!-- Issue Book (Quick Action) -->
+  <menuitem
+    id="menu_edicai_library_issue_new"
+    name="Issue Book"
+    parent="menu_edicai_library_root"
+    action="action_edicai_library_issue_new"
+    sequence="10"
+    groups="edicai_base.group_edicai_staff"/>
+
+  <!-- Circulation -->
+  <menuitem
+    id="menu_edicai_library_circulation"
+    name="Circulation"
+    parent="menu_edicai_library_root"
+    sequence="20"
+    groups="edicai_base.group_edicai_staff"/>
+
+  <menuitem
+    id="menu_edicai_library_issues"
+    name="All Issues"
+    parent="menu_edicai_library_circulation"
+    action="action_edicai_library_issue"
+    sequence="10"
+    groups="edicai_base.group_edicai_staff"/>
+
+  <menuitem
+    id="menu_edicai_library_overdue"
+    name="Overdue Books"
+    parent="menu_edicai_library_circulation"
+    action="action_edicai_library_overdue"
+    sequence="20"
+    groups="edicai_base.group_edicai_staff"/>
+
+  <menuitem
+    id="menu_edicai_library_reservations"
+    name="Reservations"
+    parent="menu_edicai_library_circulation"
+    action="action_edicai_library_reservation"
+    sequence="30"
+    groups="edicai_base.group_edicai_staff"/>
+
+  <!-- Catalogue -->
+  <menuitem
+    id="menu_edicai_library_catalogue"
+    name="Catalogue"
+    parent="menu_edicai_library_root"
+    sequence="30"
+    groups="edicai_base.group_edicai_staff"/>
+
+  <menuitem
+    id="menu_edicai_library_books"
+    name="All Books"
+    parent="menu_edicai_library_catalogue"
+    action="action_edicai_library_book"
+    sequence="10"
+    groups="edicai_base.group_edicai_staff"/>
+
+  <menuitem
+    id="menu_edicai_library_available"
+    name="Available Now"
+    parent="menu_edicai_library_catalogue"
+    action="action_edicai_library_book_available"
+    sequence="20"
+    groups="edicai_base.group_edicai_staff"/>
+
+  <!-- Members -->
+  <menuitem
+    id="menu_edicai_library_members"
+    name="Members"
+    parent="menu_edicai_library_root"
+    action="action_edicai_library_member"
+    sequence="40"
+    groups="edicai_base.group_edicai_staff"/>
+
+  <!-- Configuration -->
+  <menuitem
+    id="menu_edicai_library_config"
+    name="Configuration"
+    parent="menu_edicai_library_root"
+    sequence="90"
+    groups="edicai_base.group_edicai_admin"/>
+
+  <menuitem
+    id="menu_edicai_library_subjects"
+    name="Subjects"
+    parent="menu_edicai_library_config"
+    action="action_edicai_library_subject"
+    sequence="10"
+    groups="edicai_base.group_edicai_admin"/>
+
+  <menuitem
+    id="menu_edicai_library_publishers"
+    name="Publishers"
+    parent="menu_edicai_library_config"
+    action="action_edicai_library_publisher"
+    sequence="20"
+    groups="edicai_base.group_edicai_admin"/>
+
+  <menuitem
+    id="menu_edicai_library_authors"
+    name="Authors"
+    parent="menu_edicai_library_config"
+    action="action_edicai_library_author"
+    sequence="30"
+    groups="edicai_base.group_edicai_admin"/>
+
+</odoo>

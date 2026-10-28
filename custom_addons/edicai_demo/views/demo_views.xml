@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_edicai_demo_generate_wizard_form" model="ir.ui.view">
+        <field name="name">edicai.demo.generate.wizard.form</field>
+        <field name="model">edicai.demo.generate.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generate Demo Data">
+                <group>
+                    <field name="company_id" options="{'no_create': True}"/>
+                    <field name="institution_type" readonly="1"/>
+                    <field name="demo_profile_id" options="{'no_create': True}"/>
+                    <field name="reset_existing"/>
+                    <field name="existing_demo_count" readonly="1"/>
+                </group>
+                <group string="Result">
+                    <field name="summary" readonly="1" nolabel="1"/>
+                </group>
+                <footer>
+                    <button name="action_generate" string="Generate Demo Data"
+                            type="object" class="btn-primary"/>
+                    <button name="action_reset" string="Reset Demo Data"
+                            type="object" class="btn-secondary"
+                            confirm="Remove all generated demo records for this institution? Real data is never touched."/>
+                    <button string="Close" class="btn-link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_edicai_demo_profile_tree" model="ir.ui.view">
+        <field name="name">edicai.demo.profile.tree</field>
+        <field name="model">edicai.demo.profile</field>
+        <field name="arch" type="xml">
+            <list string="Demo Profiles">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="institution_type"/>
+                <field name="student_count"/>
+                <field name="faculty_count"/>
+                <field name="course_count"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_edicai_demo_profile_form" model="ir.ui.view">
+        <field name="name">edicai.demo.profile.form</field>
+        <field name="model">edicai.demo.profile</field>
+        <field name="arch" type="xml">
+            <form string="Demo Profile">                <header>
+                    <button name="action_generate_demo" string="Generate Demo Data"
+                            type="object" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="institution_type"/>
+                        <field name="sequence"/>
+                        <field name="active"/>
+                    </group>
+                    <group string="Record Volumes">
+                        <field name="student_count"/>
+                        <field name="faculty_count"/>
+                        <field name="staff_count"/>
+                        <field name="course_count"/>
+                        <field name="guardian_every_n"/>
+                        <field name="attendance_sessions_per_offering"/>
+                        <field name="applicants_count"/>
+                    </group>
+                    <group string="Description">
+                        <field name="description" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_edicai_demo_generate_wizard" model="ir.actions.act_window">
+        <field name="name">Generate Demo Data</field>
+        <field name="res_model">edicai.demo.generate.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_edicai_demo_profile" model="ir.actions.act_window">
+        <field name="name">Demo Profiles</field>
+        <field name="res_model">edicai.demo.profile</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="menu_edicai_demo_generate" name="Generate Demo Data"
+              parent="menu_edicai_demo" action="action_edicai_demo_generate_wizard" sequence="10"/>
+    <menuitem id="menu_edicai_demo_profiles" name="Demo Profiles"
+              parent="menu_edicai_demo" action="action_edicai_demo_profile" sequence="20"/>
+</odoo>

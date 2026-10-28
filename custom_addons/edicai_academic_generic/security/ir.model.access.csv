@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_edicai_academic_unit_admin,edicai.academic.unit.admin,model_edicai_academic_unit,edicai_base.group_edicai_admin,1,1,1,1
+access_edicai_academic_unit_manager,edicai.academic.unit.manager,model_edicai_academic_unit,edicai_base.group_edicai_manager,1,1,1,0
+access_edicai_academic_unit_registrar,edicai.academic.unit.registrar,model_edicai_academic_unit,edicai_base.group_edicai_registrar,1,1,0,0
+access_edicai_academic_unit_staff,edicai.academic.unit.staff,model_edicai_academic_unit,edicai_base.group_edicai_staff,1,0,0,0
+access_edicai_academic_unit_faculty,edicai.academic.unit.faculty,model_edicai_academic_unit,edicai_base.group_edicai_faculty,1,0,0,0
+access_edicai_academic_unit_student,edicai.academic.unit.student,model_edicai_academic_unit,edicai_base.group_edicai_student,1,0,0,0
+access_edicai_academic_unit_type_admin,edicai.academic.unit.type.admin,model_edicai_academic_unit_type,edicai_base.group_edicai_admin,1,1,1,1
+access_edicai_academic_unit_type_manager,edicai.academic.unit.type.manager,model_edicai_academic_unit_type,edicai_base.group_edicai_manager,1,1,1,0
+access_edicai_academic_unit_type_registrar,edicai.academic.unit.type.registrar,model_edicai_academic_unit_type,edicai_base.group_edicai_registrar,1,1,0,0
+access_edicai_academic_unit_type_staff,edicai.academic.unit.type.staff,model_edicai_academic_unit_type,edicai_base.group_edicai_staff,1,0,0,0
+access_edicai_academic_unit_type_faculty,edicai.academic.unit.type.faculty,model_edicai_academic_unit_type,edicai_base.group_edicai_faculty,1,0,0,0
+access_edicai_academic_unit_type_student,edicai.academic.unit.type.student,model_edicai_academic_unit_type,edicai_base.group_edicai_student,1,0,0,0

@@ -1,0 +1,139 @@
+/* Edicai cards — modern SaaS kanban face for ALL edicai modules.
+ *
+ * Rules of the card (keep detailing light):
+ *   - one title, one state, ≤2 chips, one KPI; secondary text muted
+ *   - everything visual = token-driven (--edicai-card-*) so dark mode
+ *     is a token flip in edicai_web_theme/edicai_theme.scss
+ *   - scoped to .o_kanban_view only; list/form untouched
+ */
+
+.o_kanban_view .o_kanban_record {
+    background: var(--edicai-card-bg, #ffffff);
+    border: 1px solid var(--edicai-card-border, #e8e6dc);
+    border-radius: 12px;
+    box-shadow: var(--edicai-card-shadow, 0 1px 2px rgba(20, 20, 19, 0.05));
+    color: var(--edicai-card-text, #3d3d3a);
+    padding: 10px 12px;
+    transition: border-color 150ms ease, box-shadow 150ms ease,
+                transform 150ms ease;
+}
+
+.o_kanban_view .o_kanban_record:hover {
+    border-color: var(--edicai-card-border-strong, #d9d5c8);
+    box-shadow: var(--edicai-card-shadow-hover,
+                0 6px 16px -4px rgba(20, 20, 19, 0.14));
+}
+
+/* accent notch on hover only — calm-then-noticeable */
+.o_kanban_view .o_kanban_record::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 12px;
+    bottom: 12px;
+    width: 3px;
+    border-radius: 2px;
+    background: var(--edicai-accent, #d97757);
+    opacity: 0;
+    transition: opacity 150ms ease;
+}
+
+.o_kanban_view .o_kanban_record:hover::before {
+    opacity: 1;
+}
+
+/* typography discipline */
+.o_kanban_view .o_kanban_record_title,
+.o_kanban_view .o_kanban_record_headline,
+.o_kanban_view .o_kanban_record_top {
+    color: var(--edicai-card-title, #141413);
+    font-weight: 600;
+    font-size: 13.5px;
+    line-height: 1.35;
+}
+
+.o_kanban_view .o_kanban_record_subtitle,
+.o_kanban_view .o_kanban_record_body,
+.o_kanban_view .o_kanban_record_bottom {
+    color: var(--edicai-card-muted, #87867f);
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.o_kanban_view .o_kanban_record_title > br,
+.o_kanban_view .o_kanban_record_headline > br {
+    display: none;
+}
+
+/* chips: quieter, fewer, calmer (full trim lands in template batch) */
+.o_kanban_view .o_kanban_record .badge,
+.o_kanban_view .o_kanban_record .label {
+    background: var(--edicai-card-chip-bg, #faf9f5);
+    border: 1px solid var(--edicai-card-chip-border, #e8e6dc);
+    color: var(--edicai-card-text, #3d3d3a);
+    font-weight: 500;
+    font-size: 10.5px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+/* status pills keep meaning, lose noise: outline-only unless done */
+.o_kanban_view .o_kanban_record .badge.text-bg-primary,
+.o_kanban_view .o_kanban_record .badge.bg-primary {
+    background: rgba(217, 119, 87, 0.14) !important;
+    color: var(--edicai-accent-strong, #c96442);
+    border-color: transparent;
+}
+
+.o_kanban_view .o_kanban_record .badge.text-bg-success,
+.o_kanban_view .o_kanban_record .badge.bg-success {
+    background: rgba(35, 108, 74, 0.12) !important;
+    color: var(--edicai-ok, #236c4a);
+    border-color: transparent;
+}
+
+.o_kanban_view .o_kanban_record .badge.text-bg-danger,
+.o_kanban_view .o_kanban_record .badge.bg-danger {
+    background: rgba(179, 38, 30, 0.10) !important;
+    color: var(--edicai-danger, #b3261e);
+    border-color: transparent;
+}
+
+/* images / avatars */
+.o_kanban_view .o_kanban_record img {
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.o_kanban_view .o_kanban_record .o_kanban_image {
+    flex: none;
+    max-width: 64px;
+}
+
+/* quieter padding rhythm */
+.o_kanban_view .o_kanban_group .o_kanban_record {
+    margin: 6px 10px 6px 0;
+}
+
+.o_kanban_view.o_kanban_ungrouped .o_kanban_record,
+.o_kanban_view:not(.o_kanban_grouped) .o_kanban_record {
+    margin: 6px;
+}
+
+/* stat chips row (priority stars / kanban_states) trimmed */
+.o_kanban_view .o_kanban_record .o_priority {
+    gap: 4px;
+}
+
+.o_kanban_view .o_kanban_record .o_kanban_record_has_image {
+    gap: 12px;
+}
+
+/* selection stays readable on hover-lift */
+.o_kanban_view .o_kanban_record.o_record_hover .o_kanban_record_title,
+.o_kanban_view .o_kanban_record .o_form_label {
+    color: var(--edicai-card-title, #141413);
+}

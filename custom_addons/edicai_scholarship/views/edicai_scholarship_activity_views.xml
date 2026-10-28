@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ============================================================
+         Scholarship Application Activities
+         ============================================================ -->
+    
+
+    <record id="edicai_scholarship_application_activity_view" model="ir.ui.view">
+        <field name="name">edicai.scholarship.application.activity</field>
+        <field name="model">edicai.scholarship.application</field>
+        <field name="arch" type="xml">
+            <activity string="Scholarship Application Activities"/>
+        </field>
+    </record>
+
+</odoo>

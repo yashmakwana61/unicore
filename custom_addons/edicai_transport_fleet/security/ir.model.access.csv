@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_edicai_transport_fleet_vehicle_admin,fleet.vehicle admin,model_fleet_vehicle,edicai_base.group_edicai_admin,1,1,1,1
+access_edicai_transport_fleet_vehicle_manager,fleet.vehicle manager,model_fleet_vehicle,edicai_base.group_edicai_manager,1,1,1,0
+access_edicai_transport_fleet_vehicle_registrar,fleet.vehicle registrar,model_fleet_vehicle,edicai_base.group_edicai_registrar,1,1,1,0
+access_edicai_transport_fleet_vehicle_staff,fleet.vehicle staff,model_fleet_vehicle,edicai_base.group_edicai_staff,1,0,0,0
+access_edicai_transport_vehicle_admin,transport.vehicle admin,model_edicai_transport_vehicle,edicai_base.group_edicai_admin,1,1,1,1
+access_edicai_transport_vehicle_manager,transport.vehicle manager,model_edicai_transport_vehicle,edicai_base.group_edicai_manager,1,1,1,0
+access_edicai_transport_vehicle_registrar,transport.vehicle registrar,model_edicai_transport_vehicle,edicai_base.group_edicai_registrar,1,1,1,0
+access_edicai_transport_vehicle_staff,transport.vehicle staff,model_edicai_transport_vehicle,edicai_base.group_edicai_staff,1,0,0,0

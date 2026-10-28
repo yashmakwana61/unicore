@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <data noupdate="1">
+    <!--
+      WhatsApp interactive flow templates.
+
+      The template model has no button schema, so each record below
+      carries the human message body (with {variables}) plus the Meta
+      template binding in whatsapp_template_name. Button definitions
+      (CTA URL buttons) are attached by the matching builder in
+      models/whatsapp_flows.py, which substitutes the {*_url}
+      placeholders below into real interactive buttons:
+
+        Flow               Trigger              Meta template binding
+        fee_reminder       fee_overdue          edicai_fee_reminder_pay_cta
+        attendance_alert   attendance_warning   edicai_attendance_alert_view_cta
+        result_published   result_published     edicai_result_published_view_cta
+        leave_decision     custom               edicai_leave_approval_dual_cta
+
+      Triggers were chosen so no (trigger, whatsapp, company) pair
+      collides with existing template data in edicai_notify or
+      edicai_student_leave.
+    -->
+
+    <!-- ========== FLOW 1: FEE REMINDER (amount + due + pay link) ========== -->
+    <record id="template_flow_fee_reminder_whatsapp" model="edicai.notification.template">
+      <field name="name">Flow: Fee Reminder — WhatsApp</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="trigger_event">fee_overdue</field>
+      <field name="channel">whatsapp</field>
+      <field name="recipient_type">both</field>
+      <field name="whatsapp_body">Fee Reminder — {institution_name}
+
+Dear {student_name},
+
+Your fee payment of Rs.{amount} is due on {due_date}.
+Invoice: {invoice_number}
+
+Pay online: {pay_url}
+View fees: {portal_url}</field>
+      <field name="whatsapp_template_name">edicai_fee_reminder_pay_cta</field>
+      <field name="is_system_template" eval="True"/>
+      <field name="is_active_trigger" eval="True"/>
+      <field name="language_code">en</field>
+      <field name="active" eval="True"/>
+    </record>
+
+    <!-- ========== FLOW 2: ATTENDANCE ALERT (pct + sessions + view) ========== -->
+    <record id="template_flow_attendance_alert_whatsapp" model="edicai.notification.template">
+      <field name="name">Flow: Attendance Alert — WhatsApp</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="trigger_event">attendance_warning</field>
+      <field name="channel">whatsapp</field>
+      <field name="recipient_type">both</field>
+      <field name="whatsapp_body">Attendance Alert — {institution_name}
+
+Dear {student_name},
+
+Your attendance in {course_name} is {attendance}% (minimum: {minimum_required}%).
+{sessions_summary}
+
+View details: {portal_url}</field>
+      <field name="whatsapp_template_name">edicai_attendance_alert_view_cta</field>
+      <field name="is_system_template" eval="True"/>
+      <field name="is_active_trigger" eval="True"/>
+      <field name="language_code">en</field>
+      <field name="active" eval="True"/>
+    </record>
+
+    <!-- ========== FLOW 3: RESULT PUBLISHED (grade + view) ========== -->
+    <record id="template_flow_result_published_whatsapp" model="edicai.notification.template">
+      <field name="name">Flow: Result Published — WhatsApp</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="trigger_event">result_published</field>
+      <field name="channel">whatsapp</field>
+      <field name="recipient_type">both</field>
+      <field name="whatsapp_body">Results Published — {institution_name}
+
+Dear {student_name},
+
+Results for {course_name} are published.
+Your grade: {grade}
+
+View details: {portal_url}</field>
+      <field name="whatsapp_template_name">edicai_result_published_view_cta</field>
+      <field name="is_system_template" eval="True"/>
+      <field name="is_active_trigger" eval="True"/>
+      <field name="language_code">en</field>
+      <field name="active" eval="True"/>
+    </record>
+
+    <!-- ========== FLOW 4: LEAVE DECISION (approve / reject links) ========== -->
+    <record id="template_flow_leave_approval_whatsapp" model="edicai.notification.template">
+      <field name="name">Flow: Leave Approval Request — WhatsApp</field>
+      <field name="company_id" ref="base.main_company"/>
+      <field name="trigger_event">custom</field>
+      <field name="channel">whatsapp</field>
+      <field name="recipient_type">both</field>
+      <field name="whatsapp_body">Leave Approval Request — {institution_name}
+
+Student: {student_name}
+Request: {request_reference}
+Dates: {date_from} to {date_to}
+Reason: {reason}
+
+Tap to APPROVE: {approve_url}
+Tap to REJECT: {reject_url}
+
+Links expire in 48 hours. (Approve also rides as the message button; Meta allows one URL button per message.)</field>
+      <field name="whatsapp_template_name">edicai_leave_approval_dual_cta</field>
+      <field name="is_system_template" eval="True"/>
+      <field name="is_active_trigger" eval="True"/>
+      <field name="language_code">en</field>
+      <field name="active" eval="True"/>
+    </record>
+  </data>
+</odoo>

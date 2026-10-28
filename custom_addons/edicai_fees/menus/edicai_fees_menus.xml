@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ROOT MENU — Standalone App in Odoo navbar (no parent = own app icon) -->
+    <menuitem
+        id="menu_edicai_fees_root"
+        name="Fees"
+        sequence="200"
+        web_icon="edicai_fees,static/description/icon.png"
+        groups="edicai_base.group_edicai_finance,edicai_base.group_edicai_registrar,edicai_base.group_edicai_admin,edicai_base.group_edicai_student"/>
+
+    <!-- Level 2: Fee Operations -->
+    <menuitem
+        id="menu_edicai_fees_operations"
+        name="Fee Operations"
+        parent="menu_edicai_fees_root"
+        sequence="10"
+        groups="edicai_base.group_edicai_finance"/>
+
+    <menuitem
+        id="menu_edicai_fee_invoice_outstanding"
+        name="Outstanding Invoices"
+        parent="menu_edicai_fees_operations"
+        action="action_edicai_fee_invoice"
+        sequence="10"
+        groups="edicai_base.group_edicai_finance"/>
+
+    <menuitem
+        id="menu_edicai_fee_invoice_all"
+        name="All Invoices"
+        parent="menu_edicai_fees_operations"
+        action="action_edicai_fee_invoice_all"
+        sequence="20"
+        groups="edicai_base.group_edicai_finance"/>
+
+    <menuitem
+        id="menu_edicai_fee_overdue"
+        name="Overdue Fees"
+        parent="menu_edicai_fees_operations"
+        action="action_edicai_fee_overdue"
+        sequence="30"
+        groups="edicai_base.group_edicai_finance"/>
+
+    <!-- Payments are now recorded in Accounting module via "Record Payment" button on invoices -->
+    <!-- Fee Payment menu items removed (archived in favor of GL payment recording) -->
+
+    <!-- Level 2: Student Self-Service -->
+    <menuitem
+        id="menu_edicai_fees_student"
+        name="My Fees"
+        parent="menu_edicai_fees_root"
+        sequence="30"
+        groups="edicai_base.group_edicai_student"/>
+
+    <menuitem
+        id="menu_edicai_fee_invoice_my"
+        name="My Fee Invoice"
+        parent="menu_edicai_fees_student"
+        action="action_edicai_fee_invoice_my"
+        sequence="10"
+        groups="edicai_base.group_edicai_student"/>
+
+    <!-- Level 2: Configuration -->
+    <menuitem
+        id="menu_edicai_fees_config"
+        name="Configuration"
+        parent="menu_edicai_fees_root"
+        sequence="90"
+        groups="edicai_base.group_edicai_admin"/>
+
+    <menuitem
+        id="menu_edicai_fee_structure"
+        name="Fee Structures"
+        parent="menu_edicai_fees_config"
+        action="action_edicai_fee_structure"
+        sequence="10"
+        groups="edicai_base.group_edicai_admin"/>
+
+    <menuitem
+        id="menu_edicai_fee_batch_migrate"
+        name="Batch GL Migration"
+        parent="menu_edicai_fees_operations"
+        action="action_edicai_fee_batch_wizard"
+        sequence="50"
+        groups="edicai_base.group_edicai_admin,edicai_base.group_edicai_finance" />
+
+    <menuitem
+        id="edicai_fee_accounting_config_menu"
+        name="Accounting Configuration"
+        parent="menu_edicai_fees_config"
+        action="edicai_fee_accounting_config_action"
+        sequence="5" />
+
+</odoo>

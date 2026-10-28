@@ -39,6 +39,15 @@ class TelegramMessage(models.Model):
         ondelete='set null', readonly=True)
     error_message = fields.Text(string='Error Message', readonly=True)
     raw_update = fields.Text(string='Raw Update (JSON)', readonly=True)
+    # Job correlation (Phase 7 & 23)
+    parser_job_id = fields.Char(
+        string='Parser Job ID', index=True, readonly=True, copy=False)
+    telegram_message_id = fields.Char(
+        string='Telegram Message ID', index=True, readonly=True)
+    parser_state = fields.Char(
+        string='Parser State', readonly=True, copy=False)
+    tally_status = fields.Char(
+        string='Tally Status', readonly=True, copy=False)
 
     def _log_update(self, data):
         """Persist a raw Telegram update and return the created record."""
@@ -59,6 +68,11 @@ class TelegramMessage(models.Model):
                 or str(from_user.get('id') or '')
             ),
             'message_text': message.get('text') or '',
+            'telegram_message_id': str(message.get('message_id') or ''),
             'state': 'received',
             'raw_update': raw,
         })
+
+    _sql_constraints = [
+        ('unique_update_id', 'UNIQUE(update_id)', 'Update ID must be unique.'),
+    ]

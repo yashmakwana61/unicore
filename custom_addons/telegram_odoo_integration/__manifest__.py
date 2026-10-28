@@ -38,9 +38,12 @@ Compatibility: Odoo 19 Community Edition.
     'depends': [
         'base',
         'sale',
+        'edicai_student',
+        'edicai_guardian',
     ],
     'data': [
         'security/ir.model.access.csv',
+        'security/telegram_chat_link_rules.xml',
         'views/res_config_settings_views.xml',
         'views/telegram_session_views.xml',
         'views/telegram_message_views.xml',

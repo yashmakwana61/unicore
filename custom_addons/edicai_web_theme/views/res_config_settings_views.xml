@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_theme" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.edicai.web.theme</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Appearance" string="Appearance"
+                     name="edicai_appearance"
+                     logo="/edicai_base/static/description/icon.png">
+                    <div id="edicai_color_scheme">
+                        <block title="Color Scheme" name="edicai_color_scheme_container">
+                            <setting id="edicai_color_scheme_setting"
+                                     string="Color Scheme"
+                                     help="Switch the whole back-end between Light and Dark. Writes are never permission-related.">
+                                <field name="edicai_color_scheme" widget="radio"
+                                       options="{'horizontal': true}"/>
+                            </setting>
+                        </block>
+                    </div>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_appointment_slot_admin,edicai.appointment.slot.admin,model_edicai_appointment_slot,edicai_base.group_edicai_admin,1,1,1,1
+access_appointment_slot_manager,edicai.appointment.slot.manager,model_edicai_appointment_slot,edicai_base.group_edicai_manager,1,1,1,0
+access_appointment_slot_faculty,edicai.appointment.slot.faculty,model_edicai_appointment_slot,edicai_base.group_edicai_faculty,1,1,1,0
+access_appointment_slot_student,edicai.appointment.slot.student,model_edicai_appointment_slot,edicai_base.group_edicai_student,1,0,0,0
+
+access_appointment_booking_admin,edicai.appointment.booking.admin,model_edicai_appointment_booking,edicai_base.group_edicai_admin,1,1,1,1
+access_appointment_booking_manager,edicai.appointment.booking.manager,model_edicai_appointment_booking,edicai_base.group_edicai_manager,1,1,1,0
+access_appointment_booking_faculty,edicai.appointment.booking.faculty,model_edicai_appointment_booking,edicai_base.group_edicai_faculty,1,1,0,0
+access_appointment_booking_student,edicai.appointment.booking.student,model_edicai_appointment_booking,edicai_base.group_edicai_student,1,1,1,0

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ========================================================= -->
+        <!-- Calendar view of attendance sessions                      -->
+        <!-- session_date is a real Date field. course_offering_id,    -->
+        <!-- instructor_id, room_id are stored related fields.         -->
+        <!-- Exposed via view_mode=calendar on the main session action. -->
+        <!-- ========================================================= -->
+        <record id="view_edicai_attendance_session_calendar" model="ir.ui.view">
+            <field name="name">edicai.attendance.session.calendar</field>
+            <field name="model">edicai.attendance.session</field>
+            <field name="type">calendar</field>
+            <field name="arch" type="xml">
+                <calendar date_start="session_date" string="Session Calendar" color="course_offering_id">
+                    <field name="course_offering_id"/>
+                    <field name="time_slot_id"/>
+                    <field name="room_id"/>
+                    <field name="instructor_id" widget="many2one_avatar"/>
+                    <field name="session_state"/>
+                </calendar>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -9,6 +9,15 @@ class SaleOrder(models.Model):
         string='Telegram Messages',
         compute='_compute_telegram_message_count',
     )
+    tally_status = fields.Selection([
+        ('not_ready', 'Not Ready'),
+        ('ready', 'Ready'),
+        ('syncing', 'Syncing'),
+        ('synced', 'Synced'),
+        ('failed', 'Failed'),
+        ('pending', 'Pending'),
+    ], string='Tally Status', readonly=True, copy=False, default='not_ready',
+       help='Tally synchronization status - display only, managed by tally_odoo.')
 
     @api.depends('name')
     def _compute_telegram_message_count(self):

@@ -10,6 +10,7 @@
             <list string="Order Sessions">
                 <field name="create_date"/>
                 <field name="session_id" string="Session"/>
+                <field name="parser_job_id" string="Job ID"/>
                 <field name="telegram_username"/>
                 <field name="staff_id"/>
                 <field name="state"/>
@@ -48,6 +49,8 @@
                         </group>
                         <group>
                             <field name="request_id"/>
+                            <field name="parser_job_id"/>
+                            <field name="idempotency_key"/>
                             <field name="ai_parser_status"/>
                             <field name="sale_order_id" string="Sales Order"
                                    readonly="1"/>

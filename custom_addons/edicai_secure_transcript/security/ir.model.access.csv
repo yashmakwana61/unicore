@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_secure_transcript_admin,edicai.secure.transcript.admin,model_edicai_secure_transcript,edicai_base.group_edicai_admin,1,1,1,1
+access_secure_transcript_manager,edicai.secure.transcript.manager,model_edicai_secure_transcript,edicai_base.group_edicai_manager,1,1,1,0
+access_secure_transcript_registrar,edicai.secure.transcript.registrar,model_edicai_secure_transcript,edicai_base.group_edicai_registrar,1,1,1,0
+access_secure_transcript_student,edicai.secure.transcript.student,model_edicai_secure_transcript,edicai_base.group_edicai_student,1,0,0,0
