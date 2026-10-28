@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build EDICAI image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build image (odoo 19 + edicai addons)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          tags: edicai-odoo:19,edicai-odoo:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=min
+
+  static-checks:
+    name: Static checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: No legacy branding in tracked files
+        run: |
+          ! grep -ri 'oacis' --include='*.py' --include='*.xml' --include='*.csv' \
+            --include='*.js' --include='*.scss' --include='*.conf' \
+            custom_addons/ | grep -v __pycache__ && echo "clean"
+      - name: Compose config valid
+        run: docker compose config --quiet
