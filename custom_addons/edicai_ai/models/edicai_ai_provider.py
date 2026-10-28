@@ -224,6 +224,46 @@ class EdicaiAIProvider(models.AbstractModel):
         return model
 
     @api.model
+    def get_available_models(self, force_refresh=False):
+        """Sorted model ids offered in the Settings dropdown.
+
+        This integration has no live model-list endpoint: the catalog is
+        each enabled provider's configured model plus its known default
+        (``_DEFAULT_MODELS``).  ``force_refresh`` is accepted for
+        backward compatibility and simply re-computes.
+        Never raises — Settings must always open, even offline.
+        """
+        ids = set()
+        for key in PROVIDER_KEYS:
+            try:
+                if not self._provider_enabled(key):
+                    continue
+                profile = self.get_provider_profile(key)
+            except Exception:
+                _logger.exception(
+                    'Edicai AI: could not resolve models for provider %r.',
+                    key)
+                continue
+            if profile.get('model'):
+                ids.add(profile['model'])
+            default = _DEFAULT_MODELS.get(key)
+            if default:
+                ids.add(default)
+        return sorted(ids)
+
+    @api.model
+    def _model_protocol(self, model_id):
+        """Display-only protocol tag for a model id (best effort).
+
+        Used by the Settings selection label; carries no behavioural
+        weight.
+        """
+        try:
+            return self.get_active_provider_key()
+        except Exception:
+            return 'compatible'
+
+    @api.model
     def get_provider_profile(self, provider_key=None):
         """Full configuration profile for a provider (or the active
         one).  Includes the API key IN MEMORY ONLY for the current
