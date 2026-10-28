@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="1">
+    <data>
         <!-- AI User — can use the chatbot and text generator -->
         <record id="group_edicai_ai_user" model="res.groups">
             <field name="name">AI User</field>
@@ -13,6 +13,14 @@
              Give managers BOTH groups to let them also use the chatbot. -->
         <record id="group_edicai_ai_manager" model="res.groups">
             <field name="name">AI Manager</field>
+        </record>
+
+        <!-- Administrators (Settings role) automatically get full AI access.
+             Without this the AI app is invisible to admins: its menus point
+             at actions on models only AI groups can read, and menu
+             visibility propagates upward from accessible action menus. -->
+        <record id="base.group_system" model="res.groups">
+            <field name="implied_ids" eval="[(4, ref('group_edicai_ai_manager'))]"/>
         </record>
     </data>
 </odoo>
