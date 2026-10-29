@@ -6,7 +6,7 @@ Module shape per master prompt §5, adapted: single `views/workspaces_menus.xml`
 
 1. Create module skeleton with manifest listing all menu-owning custom modules as deps.
 2. `security/navigation_groups.xml` — the 6 proposed groups.
-3. `views/workspaces_menus.xml` — 11 workspace roots (stable XML IDs, web_icon assets can reuse module icons), then one `<menuitem id="existing_root_xmlid" parent="workspace_root"/>` reparent line per changed row in the manifest (36 reparents total), plus 2 shortcut menus.
+3. `views/workspaces_menus.xml` — 11 workspace roots (stable XML IDs, web_icon assets can reuse module icons), then one `<menuitem id="existing_root_xmlid" parent="workspace_root"/>` reparent line per changed row in the manifest (39 reparents — 30 app roots + 9 Edicai-root sections; side count verified), plus 2 shortcut menus.
 4. Load order: groups → workspace roots → reparents → shortcuts (single file order).
 5. Idempotency: all statements are declarative menuitem updates — safe across repeated `-u`.
 6. Tests: XML-ID resolution, no new orphan roots, launcher shows exactly 11 custom apps + standard Odoo apps, role visibility per matrix, regression subset from existing suites.
