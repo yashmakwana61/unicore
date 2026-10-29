@@ -143,7 +143,8 @@ class TestNavigationPreview(TransactionCase):
                              self.env.ref(dest).sudo().id)
 
     def test_calendar_website_untouched(self):
-        keep = ['calendar.mail_menu_calendar', 'website.menu_website_configuration']
+        keep = ['calendar.mail_menu_calendar', 'website.menu_website_configuration',
+                'base.menu_management', 'base.menu_administration']
         for xid in keep:
             root = self.env.ref(xid).sudo()
             self.assertFalse(root.parent_id.id,

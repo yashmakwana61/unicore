@@ -86,8 +86,6 @@ STANDARD_REPARENTS = [
     ("mail.menu_root_discuss", "edicai_navigation.menu_workspace_100", 1050),
     ("mass_mailing.mass_mailing_menu_root", "edicai_navigation.menu_workspace_100", 1055),
     ("im_livechat.menu_livechat_root", "edicai_navigation.menu_workspace_100", 1060),
-    ("base.menu_management", "edicai_navigation.menu_workspace_110", 1050),
-    ("base.menu_administration", "edicai_navigation.menu_workspace_110", 1055),
 ]
 
 ALL_REPARENTS = MANIFEST_REPARENTS + STANDARD_REPARENTS
@@ -138,16 +136,17 @@ class NavigationPreviewUtil(models.AbstractModel):
         Menu = self.env['ir.ui.menu'].sudo()
 
         sep_changed = 0
-        snapshot = {}
-        if not already_on and not icp.get_param(PARAM_SNAPSHOT, ''):
-            for xmlid, _dest, _seq in ALL_REPARENTS:
-                menu = self.env.ref(xmlid).sudo()
-                snapshot[xmlid] = {
-                    'parent_xmlid': (self._xmlid_of(menu.parent_id)
-                                     if menu.parent_id else ''),
-                    'sequence': menu.sequence,
-                }
-            icp.set_param(PARAM_SNAPSHOT, json.dumps(snapshot, sort_keys=True))
+        snapshot = json.loads(icp.get_param(PARAM_SNAPSHOT, '{}'))
+        for xmlid, _dest, _seq in ALL_REPARENTS:
+            if xmlid in snapshot:
+                continue
+            menu = self.env.ref(xmlid).sudo()
+            snapshot[xmlid] = {
+                'parent_xmlid': (self._xmlid_of(menu.parent_id)
+                                 if menu.parent_id else ''),
+                'sequence': menu.sequence,
+            }
+        icp.set_param(PARAM_SNAPSHOT, json.dumps(snapshot, sort_keys=True))
 
         # reconcile per-row: only write menus whose parent or sequence differs
         for xmlid, dest, new_seq in ALL_REPARENTS:
