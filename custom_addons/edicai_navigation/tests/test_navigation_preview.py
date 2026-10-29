@@ -25,6 +25,9 @@ class TestNavigationPreview(TransactionCase):
             missing.get('workspace'), 'all workspace xmlids must exist: %s' % missing)
 
     def test_enable_disable_roundtrip(self):
+        if self.util._state() == 'on':
+            self.util.disable_preview()
+            self.env.cr.commit()
         orig = {}
         IMD = self.env['ir.model.data'].sudo()
         for xid, _dest, _seq in ALL_REPARENTS:
@@ -76,6 +79,7 @@ class TestNavigationPreview(TransactionCase):
         api_admin_group = self.env.ref('edicai_api.group_edicai_api_admin')
         admin.group_ids = [(4, api_admin_group.id)]
         self.util.enable_preview()
+        self.env.registry.clear_cache()
         visible = self.env['ir.ui.menu'].with_user(admin)._visible_menu_ids()
         for xid in WORKSPACE_XMLIDS:
             root = self.env.ref(xid)
@@ -119,6 +123,9 @@ class TestNavigationPreview(TransactionCase):
 
     def test_standard_roots_reparented_and_restorable(self):
         # standard apps move; their subtrees remain intact
+        if self.util._state() == 'on':
+            self.util.disable_preview()
+            self.env.cr.commit()
         for xid, dest, _seq in STANDARD_REPARENTS:
             root = self.env.ref(xid).sudo()
             dest_id = self.env.ref(dest).sudo().id
