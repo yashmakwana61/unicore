@@ -115,6 +115,7 @@ class NavigationPreviewUtil(models.AbstractModel):
         if missing:
             return {'ok': False, 'error': 'Refusing: unresolved XML IDs %s' % missing}
         Menu = self.env['ir.ui.menu'].sudo()
+        dest_map = {xid: dest for xid, dest, _seq in MANIFEST_REPARENTS}
         sep_changed = 0
         if not already_on:
             snapshot = {}
@@ -126,9 +127,11 @@ class NavigationPreviewUtil(models.AbstractModel):
                     'sequence': menu.sequence,
                 }
                 menu.parent_id = self.env.ref(
-                    dict(MANIFEST_REPARENTS)[xmlid]).sudo().id
-                menu.sequence = int(dict(MANIFEST_REPARENTS)[xmlid])
-            icp.set_param(PARAM_SNAPSHOT, json.dumps(snapshot, sort_keys=True))
+                    dest_map[xmlid]).sudo().id
+                menu.sequence = int(dict(MANIFEST_REPARENTS and [
+                    (x[0], x[2]) for x in MANIFEST_REPARENTS])[xmlid])
+            icp.set_param(PARAM_SNAPSHOT,
+                          json.dumps(snapshot, sort_keys=True))
             sep_changed = len(MANIFEST_REPARENTS)
         else:
             # idempotent refresh: re-apply reparenting when a prior run was
