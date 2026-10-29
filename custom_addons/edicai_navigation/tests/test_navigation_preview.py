@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo.tests import TransactionCase, tagged
 
-from ..models.navigation_preview import MANIFEST_REPARENTS, WORKSPACE_XMLIDS
+from ..models.navigation_preview import ALL_REPARENTS, STANDARD_REPARENTS, WORKSPACE_XMLIDS
 
 
 @tagged('post_install', '-at_install')
@@ -27,7 +27,7 @@ class TestNavigationPreview(TransactionCase):
     def test_enable_disable_roundtrip(self):
         orig = {}
         IMD = self.env['ir.model.data'].sudo()
-        for xid, _dest, _seq in MANIFEST_REPARENTS:
+        for xid, _dest, _seq in ALL_REPARENTS:
             menu = self.env.ref(xid).sudo()
             data = IMD.search([('model', '=', 'ir.ui.menu'),
                                ('res_id', '=', menu.parent_id.id)], limit=1)
@@ -35,7 +35,7 @@ class TestNavigationPreview(TransactionCase):
                          menu.sequence)
         res_on = self.util.enable_preview()
         self.assertTrue(res_on.get('ok'), 'enable must succeed: %s' % res_on)
-        for xid, dest, _seq in MANIFEST_REPARENTS:
+        for xid, dest, _seq in ALL_REPARENTS:
             menu = self.env.ref(xid).sudo()
             dest_menu = self.env.ref(dest).sudo()
             self.assertEqual(menu.parent_id.id, dest_menu.id,
@@ -115,3 +115,29 @@ class TestNavigationPreview(TransactionCase):
         root110 = self.env.ref('edicai_navigation.menu_workspace_110')
         self.assertNotIn(root110.id, visible,
                          'Administration workspace must NOT be visible to plain users')
+
+
+    def test_standard_roots_reparented_and_restorable(self):
+        # standard apps move; their subtrees remain intact
+        for xid, dest, _seq in STANDARD_REPARENTS:
+            root = self.env.ref(xid).sudo()
+            dest_id = self.env.ref(dest).sudo().id
+            self.assertEqual(root.parent_id.id, dest_id,
+                             '%s must be reparented under %s' % (xid, dest))
+        self.util.disable_preview()
+        for xid, _dest, _seq in STANDARD_REPARENTS:
+            root = self.env.ref(xid).sudo()
+            self.assertIsNone(root.parent_id,
+                              '%s must be top-level again after disable' % xid)
+        self.util.enable_preview()
+        for xid, dest, _seq in STANDARD_REPARENTS:
+            root = self.env.ref(xid).sudo()
+            self.assertEqual(root.parent_id.id,
+                             self.env.ref(dest).sudo().id)
+
+    def test_calendar_website_untouched(self):
+        keep = ['calendar.mail_menu_calendar', 'website.menu_website_configuration']
+        for xid in keep:
+            root = self.env.ref(xid).sudo()
+            self.assertIsNone(root.parent_id,
+                              '%s must remain a top-level app root' % xid)

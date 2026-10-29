@@ -73,6 +73,26 @@ MANIFEST_REPARENTS = [
     ('edicai_api.menu_edicai_api_root', 'edicai_navigation.menu_workspace_110', 90),
 ]
 
+# Standard Odoo roots re-parented into workspaces (combined mapping),
+# reversible exactly like the custom rows via the same snapshot.
+STANDARD_REPARENTS = [
+    ("contacts.menu_contacts", "edicai_navigation.menu_workspace_10", 1050),
+    ("crm.crm_menu_root", "edicai_navigation.menu_workspace_20", 1055),
+    ("website_slides.website_slides_menu_root", "edicai_navigation.menu_workspace_40", 1060),
+    ("account.menu_finance", "edicai_navigation.menu_workspace_60", 1070),
+    ("fleet.menu_root", "edicai_navigation.menu_workspace_70", 1075),
+    ("event.event_main_menu", "edicai_navigation.menu_workspace_80", 1080),
+    ("spreadsheet_dashboard.spreadsheet_dashboard_menu_root", "edicai_navigation.menu_workspace_90", 1085),
+    ("mail.menu_root_discuss", "edicai_navigation.menu_workspace_100", 1050),
+    ("mass_mailing.mass_mailing_menu_root", "edicai_navigation.menu_workspace_100", 1055),
+    ("im_livechat.menu_livechat_root", "edicai_navigation.menu_workspace_100", 1060),
+    ("base.menu_management", "edicai_navigation.menu_workspace_110", 1050),
+    ("base.menu_administration", "edicai_navigation.menu_workspace_110", 1055),
+]
+
+ALL_REPARENTS = MANIFEST_REPARENTS + STANDARD_REPARENTS
+
+
 
 class NavigationPreviewUtil(models.AbstractModel):
     _name = 'navigation.preview.util'
@@ -90,7 +110,7 @@ class NavigationPreviewUtil(models.AbstractModel):
     def _validate_missing(self):
         """Return dict of xmlids that do not currently resolve in this DB."""
         missing = {}
-        for xmlid, _dest, _seq in MANIFEST_REPARENTS:
+        for xmlid, _dest, _seq in ALL_REPARENTS:
             if not self.env.ref(xmlid, raise_if_not_found=False):
                 missing.setdefault('menu', []).append(xmlid)
         for xid in WORKSPACE_XMLIDS:
@@ -119,7 +139,7 @@ class NavigationPreviewUtil(models.AbstractModel):
         sep_changed = 0
         if not already_on:
             snapshot = {}
-            for xmlid, _dest, _seq in MANIFEST_REPARENTS:
+            for xmlid, _dest, _seq in ALL_REPARENTS:
                 menu = self.env.ref(xmlid).sudo()
                 snapshot[xmlid] = {
                     'parent_xmlid': (self._xmlid_of(menu.parent_id)
@@ -132,18 +152,18 @@ class NavigationPreviewUtil(models.AbstractModel):
                     (x[0], x[2]) for x in MANIFEST_REPARENTS])[xmlid])
             icp.set_param(PARAM_SNAPSHOT,
                           json.dumps(snapshot, sort_keys=True))
-            sep_changed = len(MANIFEST_REPARENTS)
+            sep_changed = len(ALL_REPARENTS)
         else:
             # idempotent refresh: re-apply reparenting when a prior run was
             # reverted by a data reload (module data resets fields on -u).
-            first = self.env.ref(MANIFEST_REPARENTS[0][0]).sudo()
-            dest0 = self.env.ref(MANIFEST_REPARENTS[0][1]).sudo()
+            first = self.env.ref(ALL_REPARENTS[0][0]).sudo()
+            dest0 = self.env.ref(ALL_REPARENTS[0][1]).sudo()
             if first.parent_id.id != dest0.id:
-                for xmlid, dest, new_seq in MANIFEST_REPARENTS:
+                for xmlid, dest, new_seq in ALL_REPARENTS:
                     menu = self.env.ref(xmlid).sudo()
                     menu.parent_id = self.env.ref(dest).sudo().id
                     menu.sequence = int(new_seq)
-                sep_changed = len(MANIFEST_REPARENTS)
+                sep_changed = len(ALL_REPARENTS)
         # role-matrix visibility: which groups see each workspace while
         # the preview is enabled (docs/navigation_audit/role_navigation_matrix.csv)
         groups_xmlids = {
