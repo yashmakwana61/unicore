@@ -128,6 +128,8 @@ class TestNavigationPreview(TransactionCase):
         # standard apps move; their subtrees remain intact
         if self.util._state() == 'on':
             self.util.disable_preview()
+        res = self.util.enable_preview()
+        self.assertTrue(res.get('ok'), 'enable must succeed: %s' % res)
         for xid, dest, _seq in STANDARD_REPARENTS:
             root = self.env.ref(xid).sudo()
             dest_id = self.env.ref(dest).sudo().id
