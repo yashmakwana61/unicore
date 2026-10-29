@@ -24,11 +24,14 @@ class TestNavigationPreview(TransactionCase):
         self.assertFalse(
             missing.get('workspace'), 'all workspace xmlids must exist: %s' % missing)
 
+    def _commit(self):
+        # no-op inside tests; plain shell scripts may commit explicitly
+        pass
+
     def test_enable_disable_roundtrip(self):
         if self.util._state() == 'on':
             self.util.disable_preview()
-            self.env.cr.commit()
-        orig = {}
+            orig = {}
         IMD = self.env['ir.model.data'].sudo()
         for xid, _dest, _seq in ALL_REPARENTS:
             menu = self.env.ref(xid).sudo()
@@ -125,7 +128,6 @@ class TestNavigationPreview(TransactionCase):
         # standard apps move; their subtrees remain intact
         if self.util._state() == 'on':
             self.util.disable_preview()
-            self.env.cr.commit()
         for xid, dest, _seq in STANDARD_REPARENTS:
             root = self.env.ref(xid).sudo()
             dest_id = self.env.ref(dest).sudo().id
