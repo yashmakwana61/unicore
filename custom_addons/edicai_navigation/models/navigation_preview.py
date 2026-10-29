@@ -134,11 +134,12 @@ class NavigationPreviewUtil(models.AbstractModel):
         missing = self._validate_missing()
         if missing:
             return {'ok': False, 'error': 'Refusing: unresolved XML IDs %s' % missing}
+        IMD = self.env['ir.model.data'].sudo()
         Menu = self.env['ir.ui.menu'].sudo()
-        dest_map = {xid: dest for xid, dest, _seq in MANIFEST_REPARENTS}
+
         sep_changed = 0
-        if not already_on:
-            snapshot = {}
+        snapshot = {}
+        if not already_on and not icp.get_param(PARAM_SNAPSHOT, ''):
             for xmlid, _dest, _seq in ALL_REPARENTS:
                 menu = self.env.ref(xmlid).sudo()
                 snapshot[xmlid] = {
@@ -146,26 +147,19 @@ class NavigationPreviewUtil(models.AbstractModel):
                                      if menu.parent_id else ''),
                     'sequence': menu.sequence,
                 }
-                menu.parent_id = self.env.ref(
-                    dest_map[xmlid]).sudo().id
-                menu.sequence = int(dict(MANIFEST_REPARENTS and [
-                    (x[0], x[2]) for x in MANIFEST_REPARENTS])[xmlid])
-            icp.set_param(PARAM_SNAPSHOT,
-                          json.dumps(snapshot, sort_keys=True))
-            sep_changed = len(ALL_REPARENTS)
-        else:
-            # idempotent refresh: re-apply reparenting when a prior run was
-            # reverted by a data reload (module data resets fields on -u).
-            first = self.env.ref(ALL_REPARENTS[0][0]).sudo()
-            dest0 = self.env.ref(ALL_REPARENTS[0][1]).sudo()
-            if first.parent_id.id != dest0.id:
-                for xmlid, dest, new_seq in ALL_REPARENTS:
-                    menu = self.env.ref(xmlid).sudo()
-                    menu.parent_id = self.env.ref(dest).sudo().id
-                    menu.sequence = int(new_seq)
-                sep_changed = len(ALL_REPARENTS)
-        # role-matrix visibility: which groups see each workspace while
-        # the preview is enabled (docs/navigation_audit/role_navigation_matrix.csv)
+            icp.set_param(PARAM_SNAPSHOT, json.dumps(snapshot, sort_keys=True))
+
+        # reconcile per-row: only write menus whose parent or sequence differs
+        for xmlid, dest, new_seq in ALL_REPARENTS:
+            menu = self.env.ref(xmlid).sudo()
+            dest_menu = self.env.ref(dest).sudo()
+            if menu.parent_id.id != dest_menu.id:
+                menu.parent_id = dest_menu.id
+                sep_changed += 1
+            if int(menu.sequence) != int(new_seq) and xmlid.startswith('edicai_'):
+                menu.sequence = int(new_seq)
+
+        # role-matrix visibility for the 11 edicai workspace roots
         groups_xmlids = {
             'menu_workspace_10': ['base.group_system', 'edicai_base.group_edicai_admin',
                                   'edicai_base.group_edicai_registrar'],
@@ -202,21 +196,13 @@ class NavigationPreviewUtil(models.AbstractModel):
             root.active = True
             if not root.sequence or root.sequence == 0:
                 root.sequence = 100 + (idx + 1) * 10
-            key = xid.rsplit('_', 1)[1]  # workspace number as string
             group_ids = [self.env.ref(g).id for g in groups_xmlids[xid.split('.')[1]]]
             root.group_ids = [(6, 0, group_ids)]
+
         if not already_on:
-            if not icp.get_param(PARAM_SNAPSHOT, ''):
-                raw = self._snapshot_param()
-                if not raw:
-                    snapshot = {xid: {'parent_xmlid': self._xmlid_of(
-                        self.env.ref(xid).sudo().parent_id) if self.env.ref(
-                        xid).sudo().parent_id else '', 'sequence': self.env.ref(
-                        xid).sudo().sequence} for xid, _d, _x in MANIFEST_REPARENTS}
-                    icp.set_param(PARAM_SNAPSHOT, json.dumps(snapshot, sort_keys=True))
-        icp.set_param(PARAM_STATE, 'on')
-        _logger.info('Edicai navigation preview ENABLED (%s menus reparented).',
-                     sep_changed)
+            icp.set_param(PARAM_STATE, 'on')
+            _logger.info('Edicai navigation preview ENABLED (%s menus reconciled).',
+                         sep_changed)
         return {'ok': True, 'changed': sep_changed}
 
     @api.model

@@ -127,8 +127,8 @@ class TestNavigationPreview(TransactionCase):
         self.util.disable_preview()
         for xid, _dest, _seq in STANDARD_REPARENTS:
             root = self.env.ref(xid).sudo()
-            self.assertIsNone(root.parent_id,
-                              '%s must be top-level again after disable' % xid)
+            self.assertFalse(root.parent_id.id,
+                             '%s must be top-level again after disable' % xid)
         self.util.enable_preview()
         for xid, dest, _seq in STANDARD_REPARENTS:
             root = self.env.ref(xid).sudo()
@@ -139,5 +139,5 @@ class TestNavigationPreview(TransactionCase):
         keep = ['calendar.mail_menu_calendar', 'website.menu_website_configuration']
         for xid in keep:
             root = self.env.ref(xid).sudo()
-            self.assertIsNone(root.parent_id,
-                              '%s must remain a top-level app root' % xid)
+            self.assertFalse(root.parent_id.id,
+                             '%s must remain a top-level app root' % xid)
