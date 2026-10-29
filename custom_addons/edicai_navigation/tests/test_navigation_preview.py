@@ -12,10 +12,14 @@ class TestNavigationPreview(TransactionCase):
         self.util = self.env['navigation.preview.util'].sudo()
 
     def test_workspace_roots_ship_inactive(self):
+        # state-agnostic: normalize the DB to the boot-safe OFF state first
+        if self.util._state() == 'on':
+            self.util.disable_preview()
         for xid in WORKSPACE_XMLIDS:
             self.assertFalse(
                 self.env.ref(xid).sudo().active,
-                '%s must ship inactive (preview off by default)' % xid)
+                '%s must ship inactive once the preview is off' % xid)
+        self.util.enable_preview()
 
     def test_manifest_rows_resolve(self):
         missing = self.util._validate_missing()
@@ -65,12 +69,20 @@ class TestNavigationPreview(TransactionCase):
                              '%s must vanish (inactive) after disable' % xid)
 
     def test_no_duplicate_menus_created(self):
-        count_before = self.env['ir.ui.menu'].sudo().search_count([])
+        # compare two full cycles from the SAME starting state so the
+        # pre-existing ON/OFF state of the demo DB cannot skew the counts
+        if self.util._state() == 'on':
+            self.util.disable_preview()
+        base = self.env['ir.ui.menu'].sudo().search_count([])
         self.util.enable_preview()
         self.util.disable_preview()
-        count_after = self.env['ir.ui.menu'].sudo().search_count([])
-        self.assertEqual(count_before, count_after,
-                         'toggle must not create or delete menu records')
+        first = self.env['ir.ui.menu'].sudo().search_count([])
+        self.assertEqual(base, first, 'one cycle must not change menu rows')
+        self.util.enable_preview()
+        self.util.disable_preview()
+        second = self.env['ir.ui.menu'].sudo().search_count([])
+        self.assertEqual(first, second,
+                         'a second cycle must also be record-neutral')
 
     def test_role_visibility_admin(self):
         # In Odoo, menu visibility follows record accessibility: grouping menus
