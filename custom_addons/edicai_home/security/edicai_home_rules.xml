@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Onboarding progress: users may only see/own their own rows -->
+        <record id="rule_onboarding_state_own" model="ir.rule">
+            <field name="name">Edicai Home: own onboarding progress only</field>
+            <field name="model_id" ref="model_edicai_onboarding_state"/>
+            <field name="domain_force">[('user_id', '=', user.id)]</field>
+            <field name="groups" eval="[
+                ref('edicai_base.group_edicai_admin'),
+                ref('edicai_base.group_edicai_manager'),
+                ref('edicai_base.group_edicai_registrar'),
+                ref('edicai_base.group_edicai_finance'),
+                ref('edicai_base.group_edicai_faculty'),
+                ref('edicai_base.group_edicai_staff'),
+                ref('edicai_base.group_edicai_student'),
+            ]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <!-- Product updates: non-admin roles see only published + audience -->
+        <record id="rule_product_update_published" model="ir.rule">
+            <field name="name">Edicai Home: published product updates with audience</field>
+            <field name="model_id" ref="model_edicai_product_update"/>
+            <field name="domain_force">['&amp;',
+                ('state', '=', 'published'),
+                '|',
+                    ('audience_groups', '=', False),
+                    ('audience_groups', 'in', user.group_ids.ids)]</field>
+            <field name="groups" eval="[
+                ref('edicai_base.group_edicai_manager'),
+                ref('edicai_base.group_edicai_registrar'),
+                ref('edicai_base.group_edicai_finance'),
+                ref('edicai_base.group_edicai_faculty'),
+                ref('edicai_base.group_edicai_staff'),
+                ref('edicai_base.group_edicai_student'),
+            ]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <!-- Product updates: admins may see drafts too -->
+        <record id="rule_product_update_admin" model="ir.rule">
+            <field name="name">Edicai Home: product updates (admin)</field>
+            <field name="model_id" ref="model_edicai_product_update"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[ref('edicai_base.group_edicai_admin')]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+    </data>
+</odoo>

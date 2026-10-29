@@ -1,0 +1,370 @@
+/* Edicai Home — scoped design system (no global overrides). */
+.o_edicai_home {
+    --edicai_blue: #0b6bcb;
+    --edicai_cyan: #14b8c4;
+    --edicai_bg: #fafbfd;
+    --edicai_border: #e6e9ef;
+    --edicai_text: #17181c;
+    --edicai_muted: #6b7280;
+    --edicai_card: #ffffff;
+
+    padding: 1rem 1.25rem 3rem;
+    min-height: calc(100vh - 3rem);
+    background: var(--edicai_bg);
+    color: var(--edicai_text);
+    font-size: 0.875rem;
+
+    max-width: 1500px;
+    margin: 0 auto;
+
+    button { font: inherit; }
+
+    // ---------- header ----------
+    .o_home_header {
+        padding: 0.5rem 0 0.25rem;
+        .o_home_greeting {
+            font-size: 1.45rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+        .o_home_context { font-size: 0.82rem; }
+        .o_home_dot { margin: 0 0.4rem; color: var(--edicai_border); }
+    }
+    .o_home_header_main {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    .o_home_cta {
+        background: var(--edicai_blue);
+        color: #fff;
+        border-radius: 8px;
+        padding: 0.4rem 0.9rem;
+        border: 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 500;
+        &:hover { filter: brightness(1.06); }
+    }
+    .o_home_cta_badge {
+        background: rgba(255, 255, 255, 0.22);
+        border-radius: 10px;
+        padding: 0.05rem 0.45rem;
+        font-size: 0.75rem;
+    }
+
+    // ---------- tabs ----------
+    .o_home_tabs {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        margin: 1.1rem 0 0.25rem;
+        border-bottom: 1px solid var(--edicai_border);
+        padding-bottom: 0;
+    }
+    .o_home_tab_sep { color: var(--edicai_border); }
+    .o_home_tab {
+        background: transparent;
+        border: 0;
+        border-bottom: 2px solid transparent;
+        padding: 0.45rem 0.9rem;
+        color: var(--edicai_muted);
+        font-weight: 500;
+        &:hover { color: var(--edicai_text); }
+        &.active {
+            color: var(--edicai_blue);
+            border-bottom-color: var(--edicai_blue);
+        }
+        &:focus-visible { outline: 2px solid var(--edicai_cyan); outline-offset: -2px; }
+    }
+
+    // ---------- widgets grid ----------
+    .o_home_grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 0.9rem;
+        margin-top: 1rem;
+        @media (max-width: 480px) { grid-template-columns: 1fr; }
+    }
+    .o_home_widget {
+        background: var(--edicai_card);
+        border: 1px solid var(--edicai_border);
+        border-radius: 12px;
+        padding: 0.9rem 1rem 1rem;
+        box-shadow: 0 1px 2px rgba(23, 24, 28, 0.03);
+    }
+    .o_widget_error { border-color: #f4c3c3; }
+    .o_widget_state {
+        padding: 0.9rem 0.25rem;
+        color: var(--edicai_muted);
+        i { margin-right: 0.35rem; }
+        &.empty { text-align: center; padding: 1.2rem 0.5rem; }
+    }
+    .o_widget_head {
+        display: flex;
+        align-items: baseline;
+        gap: 0.4rem;
+        margin-bottom: 0.6rem;
+        i { color: var(--edicai_blue); }
+        h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin: 0;
+            flex: 1;
+        }
+        .o_widget_more {
+            background: transparent;
+            border: 0;
+            color: var(--edicai_blue);
+            font-size: 0.8rem;
+            &:hover { text-decoration: underline; }
+        }
+    }
+
+    // KPIs
+    .o_kpi_row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+        gap: 0.4rem;
+    }
+    .o_kpi {
+        background: #f7f9fc;
+        border: 1px solid var(--edicai_border);
+        border-radius: 8px;
+        padding: 0.45rem 0.5rem;
+        .o_kpi_value {
+            font-size: 1.2rem;
+            font-weight: 600;
+            line-height: 1.15;
+        }
+        .o_kpi_label {
+            color: var(--edicai_muted);
+            font-size: 0.72rem;
+        }
+    }
+    .o_breakdown {
+        list-style: none;
+        margin: 0.55rem 0 0;
+        padding: 0;
+        li {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.22rem 0;
+            border-top: 1px dashed var(--edicai_border);
+            font-size: 0.82rem;
+            &:first-child { border-top: 0; }
+        }
+    }
+
+    // rows
+    .o_widget_rows {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        li {
+            border-top: 1px solid var(--edicai_border);
+            &:first-child { border-top: 0; }
+        }
+        button.o_home_linklike {
+            background: transparent;
+            border: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.42rem 0.1rem;
+            width: 100%;
+            &:hover .o_row_title { color: var(--edicai_blue); }
+            &:focus-visible { outline: 2px solid var(--edicai_cyan); outline-offset: -2px; }
+        }
+        .o_row_title {
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 60%;
+        }
+        .o_row_sub {
+            color: var(--edicai_muted);
+            font-size: 0.78rem;
+            flex: 1;
+            text-align: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .badge { font-size: 0.68rem; text-transform: capitalize; }
+    }
+
+    // quick links
+    .o_quick_links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+    .o_quick_link {
+        border: 1px solid var(--edicai_border);
+        border-radius: 8px;
+        background: #fbfcfe;
+        padding: 0.32rem 0.7rem;
+        font-size: 0.8rem;
+        color: var(--edicai_text);
+        transition: border-color 0.15s ease, color 0.15s ease;
+        &:hover {
+            border-color: var(--edicai_blue);
+            color: var(--edicai_blue);
+        }
+        &:focus-visible { outline: 2px solid var(--edicai_cyan); outline-offset: 1px; }
+    }
+
+    .o_home_linklike {
+        background: transparent;
+        border: 0;
+        color: var(--edicai_blue);
+        padding: 0;
+        text-align: start;
+        &:hover { text-decoration: underline; }
+    }
+    .o_btn {
+        background: transparent;
+        border: 1px solid var(--edicai_border);
+        border-radius: 7px;
+        &.btn-primary {
+            background: var(--edicai_blue);
+            border-color: var(--edicai_blue);
+            color: #fff;
+        }
+    }
+
+    // ---------- getting started ----------
+    .o_onboard_progress {
+        margin: 1rem 0 0.8rem;
+        .o_progress_text { font-size: 0.85rem; margin-bottom: 0.35rem; }
+    }
+    .o_progress_bar {
+        height: 6px;
+        background: #edf0f5;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    .o_progress_fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--edicai_blue), var(--edicai_cyan));
+        border-radius: 4px;
+        transition: width 0.3s ease;
+    }
+    .o_onboard_list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        max-width: 900px;
+    }
+    .o_onboard_item {
+        display: flex;
+        gap: 0.8rem;
+        align-items: flex-start;
+        background: var(--edicai_card);
+        border: 1px solid var(--edicai_border);
+        border-radius: 10px;
+        padding: 0.7rem 0.9rem;
+        margin-bottom: 0.5rem;
+        .o_onboard_check {
+            color: var(--edicai_muted);
+            padding-top: 0.15rem;
+            i { font-size: 0.9rem; }
+        }
+        .o_onboard_title { font-weight: 600; font-size: 0.9rem; }
+        .o_onboard_desc { font-size: 0.8rem; }
+        .o_onboard_body { flex: 1; }
+        .o_onboard_actions {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+        &.done {
+            .o_onboard_check { color: #2e9e5b; }
+            .o_onboard_title { color: var(--edicai_muted); text-decoration: line-through; }
+        }
+        &.skipped {
+            opacity: 0.65;
+            .o_onboard_check { color: var(--edicai_muted); }
+        }
+    }
+
+    // ---------- recent updates ----------
+    .o_update_section {
+        font-size: 1rem;
+        font-weight: 600;
+        margin: 1.2rem 0 0.5rem;
+    }
+    .o_update_list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        max-width: 980px;
+    }
+    .o_update_item {
+        display: flex;
+        gap: 0.8rem;
+        align-items: flex-start;
+        padding: 0.65rem 0.2rem;
+        border-bottom: 1px solid var(--edicai_border);
+        cursor: pointer;
+        &:hover { background: #fff; }
+        &:last-child { border-bottom: 0; }
+        .o_update_icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: #eef4fb;
+            color: var(--edicai_blue);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            i { font-size: 0.85rem; }
+        }
+        .o_update_body { flex: 1; min-width: 0; }
+        .o_update_title { font-weight: 600; font-size: 0.88rem; }
+        .o_update_summary { font-size: 0.8rem; }
+        .o_update_meta {
+            font-size: 0.75rem;
+            color: var(--edicai_muted);
+            text-align: right;
+            white-space: nowrap;
+            .o_upd_cat {
+                display: block;
+                text-transform: capitalize;
+                margin-bottom: 0.15rem;
+            }
+        }
+    }
+
+    // ---------- skeleton ----------
+    .o_home_skeleton {
+        padding: 1rem 0;
+        .o_skel_header { height: 2rem; width: 40%; border-radius: 6px; }
+        .o_skel_tabs { height: 1.2rem; width: 30%; margin: 1rem 0; border-radius: 6px; }
+        .o_skel_grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 0.9rem;
+        }
+        .o_skel_card {
+            height: 9rem;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #eef1f6 25%, #f5f7fa 50%, #eef1f6 75%);
+            background-size: 200% 100%;
+            animation: o_home_shimmer 1.4s infinite linear;
+        }
+    }
+    .o_home_error { margin-top: 1rem; max-width: 700px; }
+}
+
+@keyframes o_home_shimmer {
+    0% { background-position: 150% 0; }
+    100% { background-position: -50% 0; }
+}

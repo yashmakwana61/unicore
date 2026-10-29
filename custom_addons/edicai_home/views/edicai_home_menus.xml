@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Sidebar "Home" app root: opens the Edicai Home dashboard on click.
+             Placed first (sequence 1) in the APPS list. Visible to every
+             Edicai role including the backend-facing student demo role. -->
+        <menuitem id="menu_edicai_home_app"
+                  name="Home"
+                  action="action_edicai_home"
+                  sequence="1"
+                  web_icon="edicai_home,static/src/img/home.png"
+                  groups="base.group_user,edicai_base.group_edicai_student"/>
+
+        <!-- Editorial menus live under standard Administration (kept
+             top-level by the navigation preview by design). -->
+        <menuitem id="menu_edicai_home_root"
+                  name="Edicai Home"
+                  parent="base.menu_administration"
+                  sequence="120"/>
+        <menuitem id="menu_edicai_product_updates"
+                  name="Product Updates"
+                  action="action_product_update"
+                  parent="menu_edicai_home_root"
+                  sequence="10"
+                  groups="edicai_base.group_edicai_admin"/>
+        <menuitem id="menu_edicai_onboarding_items"
+                  name="Getting Started Items"
+                  action="action_onboarding_item"
+                  parent="menu_edicai_home_root"
+                  sequence="20"
+                  groups="edicai_base.group_edicai_admin"/>
+    </data>
+</odoo>

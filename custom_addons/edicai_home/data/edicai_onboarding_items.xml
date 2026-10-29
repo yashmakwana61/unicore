@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Institution Administrator -->
+        <record id="onb_admin_profile" model="edicai.onboarding.item">
+            <field name="name">Review institution details</field>
+            <field name="description">Open the institution profile and verify name, contact, and academic settings.</field>
+            <field name="role">admin</field>
+            <field name="sequence">10</field>
+            <field name="completion_mode">derived</field>
+            <field name="derive_check">roles_assigned</field>
+        </record>
+        <record id="onb_admin_academic_year" model="edicai.onboarding.item">
+            <field name="name">Configure the academic year</field>
+            <field name="description">Create the current academic year so enrollments and fee terms can reference it.</field>
+            <field name="role">admin</field>
+            <field name="sequence">20</field>
+            <field name="completion_mode">derived</field>
+            <field name="derive_check">academic_year_exists</field>
+        </record>
+        <record id="onb_admin_semester" model="edicai.onboarding.item">
+            <field name="name">Schedule the running semester</field>
+            <field name="description">Publish date ranges for the active semester so timetables and results attach correctly.</field>
+            <field name="role">admin</field>
+            <field name="sequence">30</field>
+            <field name="completion_mode">derived</field>
+            <field name="derive_check">semester_scheduled</field>
+        </record>
+        <record id="onb_admin_roles" model="edicai.onboarding.item">
+            <field name="name">Review user roles and permissions</field>
+            <field name="description">Check who holds Registrar, Finance, Faculty and Staff roles before go-live.</field>
+            <field name="role">admin</field>
+            <field name="sequence">40</field>
+            <field name="completion_mode">manual</field>
+            <field name="link_label">Open Settings</field>
+            <field name="link_action">base_setup.action_general_configuration</field>
+        </record>
+        <record id="onb_admin_modules" model="edicai.onboarding.item">
+            <field name="name">Explore key Edicai modules</field>
+            <field name="description">Walk through the 11 workspaces to see where each academic workflow lives.</field>
+            <field name="role">admin</field>
+            <field name="sequence">50</field>
+            <field name="completion_mode">manual</field>
+        </record>
+
+        <!-- Registrar / Admissions -->
+        <record id="onb_registrar_pipeline" model="edicai.onboarding.item">
+            <field name="name">Understand the admissions pipeline</field>
+            <field name="description">Learn how anapplicant moves from inquiry to confirmed and which hooks trigger at each step.</field>
+            <field name="role">registrar</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="onb_registrar_review" model="edicai.onboarding.item">
+            <field name="name">Learn the application review workflow</field>
+            <field name="description">Practice moving an application through Under Review with document checks.</field>
+            <field name="role">registrar</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="onb_registrar_followups" model="edicai.onboarding.item">
+            <field name="name">Set up follow-ups for inquiries</field>
+            <field name="description">Schedule activities on new inquiries so no lead goes cold.</field>
+            <field name="role">registrar</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <!-- Finance -->
+        <record id="onb_finance_invoices" model="edicai.onboarding.item">
+            <field name="name">Review the fee invoice workflow</field>
+            <field name="description">Issuing, partial payments, overdue handling and GL statuses of fee invoices.</field>
+            <field name="role">finance</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="onb_finance_payments" model="edicai.onboarding.item">
+            <field name="name">Record and confirm payments</field>
+            <field name="description">Register a payment, confirm it, and watch invoice outstanding amounts update.</field>
+            <field name="role">finance</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <!-- Faculty -->
+        <record id="onb_faculty_classes" model="edicai.onboarding.item">
+            <field name="name">Find your assigned classes</field>
+            <field name="description">Open the timetable to see which offerings are linked to you.</field>
+            <field name="role">faculty</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="onb_faculty_attendance" model="edicai.onboarding.item">
+            <field name="name">Learn the attendance workflow</field>
+            <field name="description">Open a session, mark students, and review shortage alerts.</field>
+            <field name="role">faculty</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="onb_faculty_grading" model="edicai.onboarding.item">
+            <field name="name">Grade an assignment submission</field>
+            <field name="description">Move a submitted assignment to graded and enter marks.</field>
+            <field name="role">faculty</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <!-- Student -->
+        <record id="onb_student_courses" model="edicai.onboarding.item">
+            <field name="name">Find your courses and timetable</field>
+            <field name="description">See your enrollments and today's classes on the dashboard.</field>
+            <field name="role">student</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="onb_student_assignments" model="edicai.onboarding.item">
+            <field name="name">Submit your first assignment</field>
+            <field name="description">Open an assignment and submit your work before the deadline.</field>
+            <field name="role">student</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="onb_student_results" model="edicai.onboarding.item">
+            <field name="name">Find published results</field>
+            <field name="description">Result cards appear here once your institution publishes semester results.</field>
+            <field name="role">student</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <!-- Staff / Library -->
+        <record id="onb_staff_issue" model="edicai.onboarding.item">
+            <field name="name">Manage a book issue and return</field>
+            <field name="description">Issue a copy, renew if needed, and record the return.</field>
+            <field name="role">staff</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="onb_staff_notices" model="edicai.onboarding.item">
+            <field name="name">Publish a notice</field>
+            <field name="description">Post a pinned announcement for your audience on the notice board.</field>
+            <field name="role">staff</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <!-- Manager -->
+        <record id="onb_manager_drives" model="edicai.onboarding.item">
+            <field name="name">Set up a placement drive</field>
+            <field name="description">Create a drive, invite applications, and track shortlisting.</field>
+            <field name="role">manager</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="onb_manager_discipline" model="edicai.onboarding.item">
+            <field name="name">Review discipline workflow</field>
+            <field name="description">See how discipline records escalate and resolve.</field>
+            <field name="role">manager</field>
+            <field name="sequence">20</field>
+        </record>
+    </data>
+</odoo>

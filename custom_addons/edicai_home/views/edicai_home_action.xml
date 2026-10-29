@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_edicai_home" model="ir.actions.client">
+            <field name="name">Home</field>
+            <field name="tag">edicai_home.home</field>
+        </record>
+    </data>
+</odoo>
