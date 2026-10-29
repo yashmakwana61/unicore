@@ -23,7 +23,6 @@ Phase 2/3 of the navigation redesign, isolated from module data logic:
     'depends': [
         'web', 'calendar',
         'edicai_base', 'edicai_home', 'edicai_navigation',
-        'muk_web_theme', 'muk_web_appsbar',
     ],
     'data': [
         'data/navigation_icons.xml',

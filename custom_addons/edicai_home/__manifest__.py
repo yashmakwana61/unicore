@@ -33,9 +33,9 @@ Home experience for Edicai (Odoo 19 Community):
         'security/ir.model.access.csv',
         'security/edicai_home_rules.xml',
         'data/edicai_onboarding_items.xml',
+        'views/edicai_home_action.xml',
         'views/edicai_product_update_views.xml',
         'views/edicai_home_menus.xml',
-        'views/edicai_home_action.xml',
     ],
     'assets': {
         'web.assets_backend': [

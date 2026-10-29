@@ -16,13 +16,21 @@ class EdicaiNavPreviewBadge extends Component {
     setup() {
         this.state = useState({ on: false });
         onWillStart(async () => {
+            // never let a slow/missing endpoint stall the webclient boot:
+            // race the HTTP call against a hard 2-second cut-off — the flag
+            // simply stays off when the endpoint is unreachable.
+            const ctrl = new AbortController();
+            const timer = setTimeout(() => ctrl.abort(), 2000);
             try {
                 const resp = await fetch("/edicai_navigation/preview_state",
-                    { method: "GET", headers: { "Accept": "application/json" } });
+                    { method: "GET", headers: { "Accept": "application/json" },
+                      signal: ctrl.signal });
                 const data = await resp.json();
                 this.state.on = data && data.state === "on";
             } catch {
                 this.state.on = false;
+            } finally {
+                clearTimeout(timer);
             }
         });
     }
@@ -30,3 +38,4 @@ class EdicaiNavPreviewBadge extends Component {
 
 registry.category("main_components").add(
     "EdicaiNavPreviewBadge", { Component: EdicaiNavPreviewBadge });
+

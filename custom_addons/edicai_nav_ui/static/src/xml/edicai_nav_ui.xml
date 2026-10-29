@@ -2,52 +2,68 @@
 
 <templates xml:space="preserve">
 
-    <!-- Accordion submenu inside the muk AppsBar sidebar -->
-    <t t-name="edicai_nav_ui.AppsBar" t-inherit="muk_web_appsbar.AppsBar" t-inherit-mode="extension">
-        <xpath expr="//li[hasclass('nav-item')]" position="replace">
-            <li t-attf-class="nav-item nav-item-acc {{ app.id === this.appMenuService.getCurrentApp()?.id ? 'active' : '' }} {{ this.state.expandedApp === app.id ? 'o-acc-open' : '' }} {{ this.hasChildren(app) ? 'has-children' : '' }}">
-                <a t-att-href="app.href"
-                   t-att-data-menu-id="app.id"
-                   t-att-data-menu-xmlid="app.xmlid"
-                   t-att-data-action-id="app.actionID"
-                   t-att-title="this.state.isCollapsed ? app.label : ''"
-                   t-on-click.prevent="() => this.hasChildren(app) ? this.toggleExpanded(app) : this._onAppClick(app)"
-                   class="nav-link"
-                   role="menuitem">
-                    <img t-if="app.webIconData" class="mk_apps_sidebar_icon" t-att-src="app.webIconData" t-att-alt="app.label"/>
-                    <img t-else="" class="mk_apps_sidebar_icon" src="/base/static/description/icon.png" t-att-alt="app.label"/>
-                    <span class="mk_apps_sidebar_name"><t t-out="app.label"/></span>
-                    <i t-if="this.hasChildren(app)" class="fa fa-chevron-down mk_acc_chevron"/>
-                    <span class="mk_sidebar_floating_tooltip" t-out="app.label"/>
-                </a>
-                <ul t-if="this.hasChildren(app)" class="mk_acc_submenu">
-                    <t t-foreach="this.appChildren(app)" t-as="child" t-key="child.id">
-                        <li>
+    <!-- Edicai sidebar — own template (no inheritance), accordion navigation -->
+    <t t-name="edicai_nav_ui.EdicaiAppsBar" owl="1">
+        <div class="e_apps_panel" t-att-class="{ 'e_sidebar_is_collapsed': this.state.isCollapsed, 'e_sidebar_type_small': this.state.isCollapsed }">
+            <div class="e_apps_sidebar">
+                <div class="e_apps_header">
+                    <span class="e_apps_title">APPS</span>
+                    <button type="button"
+                            class="e_apps_toggle"
+                            t-on-click="toggleSidebar"
+                            t-att-aria-label="this.state.isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'"
+                            t-attf-title="{{ this.state.isCollapsed ? 'Expand sidebar' : 'Collapse sidebar' }}">
+                        <i t-attf-class="fa {{ this.state.isCollapsed ? 'fa-angle-double-right' : 'fa-angle-double-left' }}"/>
+                    </button>
+                </div>
+                <ul class="e_apps_menu" role="menu">
+                    <t t-foreach="this.state.apps" t-as="app" t-key="app.id">
+                        <li t-attf-class="e_app_row {{ app.id === this.state.activeAppId ? 'active' : '' }} {{ this.appHasChildren(app) ? 'has-children' : '' }}">
                             <a href="#"
-                               t-on-click.prevent="() => this.selectChild(child)"
-                               t-att-title="this.state.isCollapsed ? child.name : ''"
-                               t-att-data-action-id="child.actionID"
-                               t-attf-class="mk_acc_child {{ this.state.isCollapsed ? 'collapse-hidden' : '' }}">
-                                <span class="mk_acc_child_name" t-out="child.name"/>
+                               t-att-href="app.href"
+                               t-att-data-menu-id="app.id"
+                               t-att-data-menu-xmlid="app.xmlid"
+                               t-on-click.prevent="() => this.onAppClick(app)"
+                               class="e_app_link"
+                               role="menuitem"
+                               t-att-aria-label="app.label"
+                               t-att-title="this.state.isCollapsed ? app.label : ''">
+                                <img t-if="app.webIconData" class="e_app_icon" t-att-src="app.webIconData" t-att-alt="app.label"/>
+                                <img t-else="" class="e_app_icon" src="/base/static/description/icon.png" t-att-alt="app.label"/>
+                                <span class="e_app_name"><t t-out="app.label"/></span>
+                                <i t-if="this.appHasChildren(app)"
+                                   t-attf-class="fa fa-chevron-down e_acc_chevron {{ this.state.expandedAppId === app.id ? 'open' : '' }}"/>
                             </a>
+                            <ul t-if="this.appHasChildren(app)"
+                                class="e_acc_submenu"
+                                t-att-class="{ 'e_acc_open': this.state.expandedAppId === app.id }">
+                                <t t-foreach="this.appChildren(app)" t-as="child" t-key="child.id">
+                                    <li>
+                                        <a href="#" t-on-click.prevent="() => this.onChildClick(child)"
+                                           class="e_acc_child" role="menuitem">
+                                            <span t-out="child.name"/>
+                                        </a>
+                                    </li>
+                                </t>
+                            </ul>
                         </li>
                     </t>
                 </ul>
-            </li>
-        </xpath>
+            </div>
+        </div>
     </t>
 
     <!-- Top-bar companion buttons -->
     <t t-name="edicai_nav_ui.NavCalendarButton" owl="1">
-        <button type="button" class="o_navbar_editable o_navcom_btn o_navcom_calendar"
-                t-on-click="onClick" t-att-title="'Calendar'">
+        <button type="button" class="o_navcom_btn o_navcom_calendar"
+                t-on-click="onClick" title="Calendar" aria-label="Calendar">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M8 14h3M14 14h2M6.5 17h3M13 17h5"/></svg>
         </button>
     </t>
 
     <t t-name="edicai_nav_ui.NavSettingsButton" owl="1">
-        <button type="button" class="o_navbar_editable o_navcom_btn o_navcom_settings"
-                t-on-click="onClick" t-att-title="'Settings'">
+        <button type="button" class="o_navcom_btn o_navcom_settings"
+                t-on-click="onClick" title="Settings" aria-label="Settings">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33h0a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51h0a1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82v0a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
         </button>
     </t>
