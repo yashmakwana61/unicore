@@ -109,22 +109,38 @@ class NavigationPreviewUtil(models.AbstractModel):
 
     @api.model
     def enable_preview(self):
-        if self._state() == 'on':
-            return {'ok': False, 'error': 'Preview is already enabled.'}
+        icp = self.env['ir.config_parameter'].sudo()
+        already_on = self._state() == 'on'
         missing = self._validate_missing()
         if missing:
             return {'ok': False, 'error': 'Refusing: unresolved XML IDs %s' % missing}
-        icp = self.env['ir.config_parameter'].sudo()
-        snapshot = {}
-        for xmlid, dest, new_seq in MANIFEST_REPARENTS:
-            menu = self.env.ref(xmlid).sudo()
-            snapshot[xmlid] = {
-                'parent_xmlid': (self._xmlid_of(menu.parent_id)
-                                 if menu.parent_id else ''),
-                'sequence': menu.sequence,
-            }
-            menu.parent_id = self.env.ref(dest).sudo().id
-            menu.sequence = int(new_seq)
+        Menu = self.env['ir.ui.menu'].sudo()
+        sep_changed = 0
+        if not already_on:
+            snapshot = {}
+            for xmlid, _dest, _seq in MANIFEST_REPARENTS:
+                menu = self.env.ref(xmlid).sudo()
+                snapshot[xmlid] = {
+                    'parent_xmlid': (self._xmlid_of(menu.parent_id)
+                                     if menu.parent_id else ''),
+                    'sequence': menu.sequence,
+                }
+                menu.parent_id = self.env.ref(
+                    dict(MANIFEST_REPARENTS)[xmlid]).sudo().id
+                menu.sequence = int(dict(MANIFEST_REPARENTS)[xmlid])
+            icp.set_param(PARAM_SNAPSHOT, json.dumps(snapshot, sort_keys=True))
+            sep_changed = len(MANIFEST_REPARENTS)
+        else:
+            # idempotent refresh: re-apply reparenting when a prior run was
+            # reverted by a data reload (module data resets fields on -u).
+            first = self.env.ref(MANIFEST_REPARENTS[0][0]).sudo()
+            dest0 = self.env.ref(MANIFEST_REPARENTS[0][1]).sudo()
+            if first.parent_id.id != dest0.id:
+                for xmlid, dest, new_seq in MANIFEST_REPARENTS:
+                    menu = self.env.ref(xmlid).sudo()
+                    menu.parent_id = self.env.ref(dest).sudo().id
+                    menu.sequence = int(new_seq)
+                sep_changed = len(MANIFEST_REPARENTS)
         for xid in WORKSPACE_XMLIDS:
             root = self.env.ref(xid).sudo()
             root.active = True
@@ -157,11 +173,19 @@ class NavigationPreviewUtil(models.AbstractModel):
             }[root.xmlid]
             group_ids = [self.env.ref(g).id for g in groups_xmlids]
             root.group_ids = [(6, 0, group_ids)]
-        icp.set_param(PARAM_SNAPSHOT, json.dumps(snapshot, sort_keys=True))
+        if not already_on:
+            if not icp.get_param(PARAM_SNAPSHOT, ''):
+                raw = self._snapshot_param()
+                if not raw:
+                    snapshot = {xid: {'parent_xmlid': self._xmlid_of(
+                        self.env.ref(xid).sudo().parent_id) if self.env.ref(
+                        xid).sudo().parent_id else '', 'sequence': self.env.ref(
+                        xid).sudo().sequence} for xid, _d, _x in MANIFEST_REPARENTS}
+                    icp.set_param(PARAM_SNAPSHOT, json.dumps(snapshot, sort_keys=True))
         icp.set_param(PARAM_STATE, 'on')
         _logger.info('Edicai navigation preview ENABLED (%s menus reparented).',
-                     len(MANIFEST_REPARENTS))
-        return {'ok': True, 'changed': len(MANIFEST_REPARENTS)}
+                     sep_changed)
+        return {'ok': True, 'changed': sep_changed}
 
     @api.model
     def disable_preview(self):
