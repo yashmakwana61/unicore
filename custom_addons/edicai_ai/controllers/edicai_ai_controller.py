@@ -165,6 +165,26 @@ class EdicaiAIController(http.Controller):
         }
 
     # ------------------------------------------------------------------
+    # Starter prompts (safe: static public labels, no secrets)
+    # ------------------------------------------------------------------
+
+    STARTER_PROMPTS = [
+        {'label': 'Show my fee status', 'prompt': 'Show my fee status'},
+        {'label': 'Check my attendance', 'prompt': 'Check my attendance'},
+        {'label': 'Any timetable clashes?',
+         'prompt': 'Are there any timetable clashes?'},
+        {'label': 'List admission programs',
+         'prompt': 'List admission programs'},
+    ]
+
+    @http.route('/edicai_ai/chat/prompts', type='json', auth='user')
+    def chat_prompts(self):
+        """Starter suggestions for the chatbot panel. Static public list —
+        contains no user data or provider internals."""
+        return [{'label': p['label'], 'prompt': p['prompt'],
+                 'icon': 'fa-comment-o'} for p in self.STARTER_PROMPTS]
+
+    # ------------------------------------------------------------------
     # Chat session endpoints
     # ------------------------------------------------------------------
 
