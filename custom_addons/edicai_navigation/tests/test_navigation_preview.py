@@ -153,3 +153,26 @@ class TestNavigationPreview(TransactionCase):
             root = self.env.ref(xid).sudo()
             self.assertFalse(root.parent_id.id,
                              '%s must remain a top-level app root' % xid)
+
+
+    def test_relocated_apps_hidden_and_restorable(self):
+        from ..models.navigation_preview import HIDE_IN_PREVIEW
+        if self.util._state() == 'on':
+            self.util.disable_preview()
+        for xid in HIDE_IN_PREVIEW:
+            root = self.env.ref(xid).sudo()
+            self.assertTrue(root.active,
+                            '%s must be visible before preview' % xid)
+        res = self.util.enable_preview()
+        self.assertTrue(res.get('ok'), res)
+        for xid in HIDE_IN_PREVIEW:
+            root = self.env.ref(xid).sudo()
+            self.assertFalse(root.active,
+                             '%s must be hidden from the sidebar while ON' % xid)
+        res = self.util.disable_preview()
+        self.assertTrue(res.get('ok'), res)
+        for xid in HIDE_IN_PREVIEW:
+            root = self.env.ref(xid).sudo()
+            self.assertTrue(root.active,
+                            '%s must be restored after disable' % xid)
+        self.util.enable_preview()

@@ -90,6 +90,13 @@ STANDARD_REPARENTS = [
 
 ALL_REPARENTS = MANIFEST_REPARENTS + STANDARD_REPARENTS
 
+# Roots hidden from the APPS sidebar while the preview is ON (relocated to
+# the top bar). Reversible: the snapshot records their original active state.
+HIDE_IN_PREVIEW = [
+    'calendar.mail_menu_calendar',   # calendar icon, top bar (all internal)
+    'base.menu_administration',      # gear icon, top bar (admins only)
+]
+
 
 
 class NavigationPreviewUtil(models.AbstractModel):
@@ -117,6 +124,9 @@ class NavigationPreviewUtil(models.AbstractModel):
         for _xmlid, dest, _seq in MANIFEST_REPARENTS:
             if not self.env.ref(dest, raise_if_not_found=False):
                 missing.setdefault('workspace', []).append(dest)
+        for xmlid in HIDE_IN_PREVIEW:
+            if not self.env.ref(xmlid, raise_if_not_found=False):
+                missing.setdefault('relocate', []).append(xmlid)
         return missing
 
     @api.model
@@ -146,6 +156,11 @@ class NavigationPreviewUtil(models.AbstractModel):
                                  if menu.parent_id else ''),
                 'sequence': menu.sequence,
             }
+        for xmlid in HIDE_IN_PREVIEW:
+            if xmlid in snapshot:
+                continue
+            menu = self.env.ref(xmlid).sudo()
+            snapshot[xmlid] = {'active': menu.active}
         icp.set_param(PARAM_SNAPSHOT, json.dumps(snapshot, sort_keys=True))
 
         # reconcile per-row: only write menus whose parent or sequence differs
@@ -198,6 +213,10 @@ class NavigationPreviewUtil(models.AbstractModel):
             group_ids = [self.env.ref(g).id for g in groups_xmlids[xid.split('.')[1]]]
             root.group_ids = [(6, 0, group_ids)]
 
+        # relocate Calendar + Settings to the top bar (snapshot already taken)
+        for xmlid in HIDE_IN_PREVIEW:
+            self.env.ref(xmlid).sudo().active = False
+
         if not already_on:
             icp.set_param(PARAM_STATE, 'on')
             _logger.info('Edicai navigation preview ENABLED (%s menus reconciled).',
@@ -224,6 +243,13 @@ class NavigationPreviewUtil(models.AbstractModel):
                 parent = self.env.ref(snap['parent_xmlid'], raise_if_not_found=False)
             menu.parent_id = parent.id if parent else None
             menu.sequence = int(snap.get('sequence') or 0)
+        for xmlid in HIDE_IN_PREVIEW:
+            snap = snapshot.get(xmlid)
+            menu = self.env.ref(xmlid, raise_if_not_found=False)
+            if not menu:
+                continue
+            # reveal again (original state snaps to True for these roots)
+            menu.sudo().active = bool(snap.get('active')) if snap else True
         for xid in WORKSPACE_XMLIDS:
             root = self.env.ref(xid, raise_if_not_found=False)
             if root:
