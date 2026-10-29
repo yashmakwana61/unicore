@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from odoo.tests import TransactionCase, tagged
 
+from ..models.navigation_preview import MANIFEST_REPARENTS, WORKSPACE_XMLIDS
+
 
 @tagged('post_install', '-at_install')
 class TestNavigationPreview(TransactionCase):
@@ -9,39 +11,52 @@ class TestNavigationPreview(TransactionCase):
         super().setUp()
         self.util = self.env['navigation.preview.util'].sudo()
 
-    def test_workspace_roots_inactive_by_default(self):
-        for xid in self.util.WORKSPACE_XMLIDS:
-            root = self.env.ref(xid)
-            self.assertFalse(root.active, f'{xid} must ship inactive')
+    def test_workspace_roots_ship_inactive(self):
+        for xid in WORKSPACE_XMLIDS:
+            self.assertFalse(
+                self.env.ref(xid).sudo().active,
+                '%s must ship inactive (preview off by default)' % xid)
 
     def test_manifest_rows_resolve(self):
         missing = self.util._validate_missing()
-        self.assertFalse(missing.get('menu'), 'all manifest menus must exist')
-        self.assertFalse(missing.get('workspace'), 'all workspace xmlids must exist')
+        self.assertFalse(
+            missing.get('menu'), 'all manifest menus must exist: %s' % missing)
+        self.assertFalse(
+            missing.get('workspace'), 'all workspace xmlids must exist: %s' % missing)
 
     def test_enable_disable_roundtrip(self):
-        before = {xid: (m.parent_id.id, m.sequence)
-                  for xid, m in
-                  ((x, self.env.ref(x).sudo())
-                   for x, _d, _s in self.util.MANIFEST_REPARENTS)}
+        orig = {}
+        IMD = self.env['ir.model.data'].sudo()
+        for xid, _dest, _seq in MANIFEST_REPARENTS:
+            menu = self.env.ref(xid).sudo()
+            data = IMD.search([('model', '=', 'ir.ui.menu'),
+                               ('res_id', '=', menu.parent_id.id)], limit=1)
+            orig[xid] = ('%s.%s' % (data.module, data.name) if data else '',
+                         menu.sequence)
         res_on = self.util.enable_preview()
-        self.assertTrue(res_on['ok'])
-        for xid, dest, _seq in self.util.MANIFEST_REPARENTS:
+        self.assertTrue(res_on.get('ok'), 'enable must succeed: %s' % res_on)
+        for xid, dest, _seq in MANIFEST_REPARENTS:
             menu = self.env.ref(xid).sudo()
             dest_menu = self.env.ref(dest).sudo()
             self.assertEqual(menu.parent_id.id, dest_menu.id,
-                             f'{xid} must be reparented under {dest}')
-        for xid in self.util.WORKSPACE_XMLIDS:
-            self.assertTrue(self.env.ref(xid).sudo().active)
+                             '%s must be reparented under %s' % (xid, dest))
+        for xid in WORKSPACE_XMLIDS:
+            self.assertTrue(self.env.ref(xid).sudo().active,
+                            '%s must go active when preview is on' % xid)
         res_off = self.util.disable_preview()
-        self.assertTrue(res_off['ok'])
-        for xid, (old_parent, old_seq) in before.items():
+        self.assertTrue(res_off.get('ok'), 'disable must succeed: %s' % res_off)
+        for xid, (old_parent_xmlid, old_seq) in orig.items():
             menu = self.env.ref(xid).sudo()
-            self.assertEqual(menu.parent_id.id, old_parent,
-                             f'{xid} must be restored to its original parent')
-            self.assertEqual(menu.sequence, old_seq)
-        for xid in self.util.WORKSPACE_XMLIDS:
-            self.assertFalse(self.env.ref(xid).sudo().active)
+            data = IMD.search([('model', '=', 'ir.ui.menu'),
+                               ('res_id', '=', menu.parent_id.id)], limit=1)
+            restored = '%s.%s' % (data.module, data.name) if data else ''
+            self.assertEqual(restored, old_parent_xmlid,
+                             '%s must be restored to parent %s' % (xid, old_parent_xmlid))
+            self.assertEqual(menu.sequence, old_seq,
+                             '%s sequence must be restored' % xid)
+        for xid in WORKSPACE_XMLIDS:
+            self.assertFalse(self.env.ref(xid).sudo().active,
+                             '%s must vanish (inactive) after disable' % xid)
 
     def test_no_duplicate_menus_created(self):
         count_before = self.env['ir.ui.menu'].sudo().search_count([])
@@ -51,19 +66,34 @@ class TestNavigationPreview(TransactionCase):
         self.assertEqual(count_before, count_after,
                          'toggle must not create or delete menu records')
 
-    def test_role_visibility_admin_sees_all(self):
+    def test_role_visibility_admin(self):
         self.util.enable_preview()
-        Admin = self.env.ref('base.user_admin').sudo()
-        admin_env = self.env(user=Admin.id)
-        menus = self.env['ir.ui.menu'].with_user(Admin).sudo(False)
-        visible = admin_env._visible_menu_ids()
-        for xid in self.util.WORKSPACE_XMLIDS:
+        admin = self.env.ref('base.user_admin')
+        visible = self.env['ir.ui.menu'].with_user(admin)._visible_menu_ids()
+        for xid in WORKSPACE_XMLIDS:
             root = self.env.ref(xid)
             self.assertIn(root.id, visible,
-                          f'{xid} must be visible to system admin when preview on')
+                          '%s must be visible to admin when preview is on' % xid)
         self.util.disable_preview()
-        visible = admin_env._visible_menu_ids()
-        for xid in self.util.WORKSPACE_XMLIDS:
+        visible = self.env['ir.ui.menu'].with_user(admin)._visible_menu_ids()
+        for xid in WORKSPACE_XMLIDS:
+            root = self.env.ref(xid, raise_if_not_found=False)
+            if root:
+                self.assertNotIn(
+                    root.id, visible,
+                    '%s must be invisible to admin when preview is off' % xid)
+
+    def test_role_visibility_plain_user(self):
+        """A plain internal user (no edicai roles) must NOT see workspaces."""
+        self.util.enable_preview()
+        user = self.env['res.users'].sudo().create({
+            'name': 'Nav Visibility Test',
+            'login': 'nav_visibility_test',
+            'email': 'nav_visibility_test@example.invalid',
+            'group_ids': [(6, 0, [self.env.ref('base.group_user').id])],
+        })
+        visible = self.env['ir.ui.menu'].with_user(user)._visible_menu_ids()
+        for xid in WORKSPACE_XMLIDS:
             root = self.env.ref(xid)
             self.assertNotIn(root.id, visible,
-                             f'{xid} must vanish when preview is off')
+                             '%s must NOT be visible to plain users' % xid)
