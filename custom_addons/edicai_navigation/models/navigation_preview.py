@@ -141,37 +141,37 @@ class NavigationPreviewUtil(models.AbstractModel):
                     menu.parent_id = self.env.ref(dest).sudo().id
                     menu.sequence = int(new_seq)
                 sep_changed = len(MANIFEST_REPARENTS)
-        for xid in WORKSPACE_XMLIDS:
+        # role-matrix visibility: which groups see each workspace while
+        # the preview is enabled (docs/navigation_audit/role_navigation_matrix.csv)
+        groups_xmlids = {
+            'menu_workspace_10': ['base.group_system', 'edicai_base.group_edicai_admin',
+                                  'edicai_base.group_edicai_registrar'],
+            'menu_workspace_20': ['base.group_user', 'edicai_base.group_edicai_registrar'],
+            'menu_workspace_30': ['base.group_user', 'edicai_base.group_edicai_student',
+                                  'edicai_base.group_edicai_registrar',
+                                  'edicai_base.group_edicai_faculty',
+                                  'edicai_base.group_edicai_staff'],
+            'menu_workspace_40': ['base.group_user', 'edicai_base.group_edicai_faculty',
+                                  'edicai_base.group_edicai_staff',
+                                  'edicai_base.group_edicai_registrar'],
+            'menu_workspace_50': ['base.group_user', 'edicai_base.group_edicai_registrar',
+                                  'edicai_base.group_edicai_manager'],
+            'menu_workspace_60': ['base.group_user', 'edicai_base.group_edicai_finance',
+                                  'edicai_base.group_edicai_manager'],
+            'menu_workspace_70': ['base.group_user', 'edicai_base.group_edicai_staff'],
+            'menu_workspace_80': ['base.group_user', 'edicai_base.group_edicai_staff'],
+            'menu_workspace_90': ['base.group_user', 'edicai_base.group_edicai_finance',
+                                  'edicai_base.group_edicai_registrar',
+                                  'edicai_base.group_edicai_manager'],
+            'menu_workspace_100': ['base.group_user'],
+            'menu_workspace_110': ['base.group_system', 'edicai_base.group_edicai_admin'],
+        }
+        for idx, xid in enumerate(WORKSPACE_XMLIDS):
             root = self.env.ref(xid).sudo()
             root.active = True
             if not root.sequence or root.sequence == 0:
-                root.sequence = 1000
-            # role-matrix visibility: which groups see each workspace while
-            # the preview is enabled (docs/navigation_audit/role_navigation_matrix.csv)
-            groups_xmlids = {
-                'menu_workspace_10': ['base.group_system', 'edicai_base.group_edicai_admin',
-                                      'edicai_base.group_edicai_registrar'],
-                'menu_workspace_20': ['base.group_user', 'edicai_base.group_edicai_registrar'],
-                'menu_workspace_30': ['base.group_user', 'edicai_base.group_edicai_student',
-                                      'edicai_base.group_edicai_registrar',
-                                      'edicai_base.group_edicai_faculty',
-                                      'edicai_base.group_edicai_staff'],
-                'menu_workspace_40': ['base.group_user', 'edicai_base.group_edicai_faculty',
-                                      'edicai_base.group_edicai_staff',
-                                      'edicai_base.group_edicai_registrar'],
-                'menu_workspace_50': ['base.group_user', 'edicai_base.group_edicai_registrar',
-                                      'edicai_base.group_edicai_manager'],
-                'menu_workspace_60': ['base.group_user', 'edicai_base.group_edicai_finance',
-                                      'edicai_base.group_edicai_manager'],
-                'menu_workspace_70': ['base.group_user', 'edicai_base.group_edicai_staff'],
-                'menu_workspace_80': ['base.group_user', 'edicai_base.group_edicai_staff'],
-                'menu_workspace_90': ['base.group_user', 'edicai_base.group_edicai_finance',
-                                      'edicai_base.group_edicai_registrar',
-                                      'edicai_base.group_edicai_manager'],
-                'menu_workspace_100': ['base.group_user'],
-                'menu_workspace_110': ['base.group_system', 'edicai_base.group_edicai_admin'],
-            }[root.xmlid]
-            group_ids = [self.env.ref(g).id for g in groups_xmlids]
+                root.sequence = 100 + (idx + 1) * 10
+            group_ids = [self.env.ref(g).id for g in groups_xmlids[xid.rsplit('_', 1)[1]]]
             root.group_ids = [(6, 0, group_ids)]
         if not already_on:
             if not icp.get_param(PARAM_SNAPSHOT, ''):
