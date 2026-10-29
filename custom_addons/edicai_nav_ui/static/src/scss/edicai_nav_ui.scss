@@ -1,0 +1,89 @@
+/* edicai_nav_ui — accordion transitions + top-bar companion buttons.
+   Scoped: never touches core webclient styles outside these classes. */
+
+/* ---------- AppsBar accordion ---------- */
+.mk_apps_sidebar_menu {
+    .nav-item-acc {
+        .mk_acc_chevron {
+            margin-left: auto;
+            color: #8b93a3;
+            transition: transform 150ms ease;
+        }
+        &.o-acc-open .mk_acc_chevron {
+            transform: rotate(180deg);
+        }
+
+        .mk_acc_submenu {
+            list-style: none;
+            margin: 0;
+            padding: 0 0 0 40px;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 180ms ease, opacity 150ms ease;
+
+            li {
+                border-left: 1px solid #e6e9ef;
+                margin-left: 2px;
+            }
+            .mk_acc_child {
+                display: block;
+                padding: 4px 8px;
+                font-size: 12.5px;
+                color: #5f6b7a;
+                border-radius: 6px;
+                &:hover {
+                    background: #f4f7fb;
+                    color: #17181c;
+                }
+                &:focus-visible { outline: 2px solid #0b6bcb; outline-offset: -2px; }
+                &.collapse-hidden {
+                    visibility: hidden;
+                    width: 0;
+                }
+            }
+        }
+
+        &.o-acc-open .mk_acc_submenu {
+            max-height: 420px;
+            opacity: 1;
+        }
+    }
+}
+
+/* collapsed sidebar hides the accordion entirely */
+body.mk_sidebar_type_small .mk_apps_sidebar_menu .nav-item-acc .nav-link {
+    .mk_acc_chevron { display: none; }
+}
+
+/* ---------- top-bar companion buttons ---------- */
+.o_navbar_editable.o_navcom_btn {
+    background: transparent;
+    border: 0;
+    border-radius: 8px;
+    padding: 6px;
+    color: var(--text, #5f6b7a);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 2px;
+
+    svg {
+        width: 20px;
+        height: 20px;
+        color: currentcolor;
+    }
+    &:hover {
+        background: rgba(15, 23, 42, 0.06);
+        color: #17181c;
+    }
+    &:focus-visible { outline: 2px solid #14b8c4; outline-offset: 1px; }
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .mk_apps_sidebar_menu .nav-item-acc .mk_acc_chevron,
+    .mk_apps_sidebar_menu .nav-item-acc .mk_acc_submenu {
+        transition: none;
+    }
+}
