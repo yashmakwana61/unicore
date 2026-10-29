@@ -171,7 +171,8 @@ class NavigationPreviewUtil(models.AbstractModel):
             root.active = True
             if not root.sequence or root.sequence == 0:
                 root.sequence = 100 + (idx + 1) * 10
-            group_ids = [self.env.ref(g).id for g in groups_xmlids[xid.rsplit('_', 1)[1]]]
+            key = xid.rsplit('_', 1)[1]  # workspace number as string
+            group_ids = [self.env.ref(g).id for g in groups_xmlids[key]]
             root.group_ids = [(6, 0, group_ids)]
         if not already_on:
             if not icp.get_param(PARAM_SNAPSHOT, ''):
