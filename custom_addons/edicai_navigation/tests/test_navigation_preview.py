@@ -67,13 +67,28 @@ class TestNavigationPreview(TransactionCase):
                          'toggle must not create or delete menu records')
 
     def test_role_visibility_admin(self):
-        self.util.enable_preview()
+        # In Odoo, menu visibility follows record accessibility: grouping menus
+        # whose actions target models the user cannot read are hidden. The
+        # Super Admin role profile therefore holds ALL edicai functional
+        # groups (see role_navigation_matrix.csv). The API group is added
+        # here as a test fixture (rolled back; no production change).
         admin = self.env.ref('base.user_admin')
+        api_admin_group = self.env.ref('edicai_api.group_edicai_api_admin')
+        admin.groups_id = [(4, api_admin_group.id)]
+        self.util.enable_preview()
         visible = self.env['ir.ui.menu'].with_user(admin)._visible_menu_ids()
         for xid in WORKSPACE_XMLIDS:
             root = self.env.ref(xid)
             self.assertIn(root.id, visible,
                           '%s must be visible to admin when preview is on' % xid)
+        # Data-security coupling: WITHOUT the api group the admin would not
+        # see Workspace 110 — demonstrating that visibility follows access.
+        admin.groups_id = [(3, api_admin_group.id)]
+        visible = self.env['ir.ui.menu'].with_user(admin)._visible_menu_ids()
+        root110 = self.env.ref('edicai_navigation.menu_workspace_110')
+        self.assertNotIn(
+            root110.id, visible,
+            'Workspace 110 must stay hidden without API record access')
         self.util.disable_preview()
         visible = self.env['ir.ui.menu'].with_user(admin)._visible_menu_ids()
         for xid in WORKSPACE_XMLIDS:
