@@ -26,11 +26,11 @@
             </t>
 
             <t t-elif="state.data">
-                <!-- ================= Header ================= -->
-                <header class="o_home_header" t-att-data-company="state.data.header.company">
+                <!-- ============ Header ============================= -->
+                <header class="o_home_header">
                     <div class="o_home_header_main">
-                        <div>
-                            <h1 class="o_home_greeting mb-1">
+                        <div class="o_home_header_text">
+                            <h1 class="o_home_greeting mb-0">
                                 <t t-esc="state.data.header.greeting"/>,
                                 <t t-esc="state.data.header.user_name"/>
                             </h1>
@@ -40,12 +40,17 @@
                                     <span class="o_home_dot">·</span>
                                 </t>
                                 <t t-if="state.data.header.semester">
-                                    <span>
-                                        <t t-esc="state.data.header.semester.name"/>
-                                        <t t-if="state.data.header.semester.code">
+                                    <span><t t-esc="state.data.header.semester.name"/></span>
+                                    <t t-if="state.data.header.semester.code">
+                                        <span class="text-muted">
                                             (<t t-esc="state.data.header.semester.code"/>)
-                                        </t>
-                                    </span>
+                                        </span>
+                                    </t>
+                                    <t t-if="state.data.header.semester.year">
+                                        <span class="text-muted">
+                                            | <t t-esc="state.data.header.semester.year"/>
+                                        </span>
+                                    </t>
                                     <span class="o_home_dot">·</span>
                                 </t>
                                 <span><t t-esc="state.data.header.date"/></span>
@@ -53,11 +58,16 @@
                         </div>
                         <div class="o_home_header_action">
                             <t t-if="state.data.onboarding and state.data.onboarding.progress and state.data.onboarding.progress.percent &lt; 100">
-                                <button class="btn o_home_cta" t-on-click="continueSetup"
+                                <button class="o_home_cta" t-on-click="continueSetup"
                                         aria-label="Continue setup">
-                                    Continue setup
-                                    <span class="o_home_cta_badge">
+                                    <span class="o_home_cta_pct">
                                         <t t-esc="Math.round(state.data.onboarding.progress.percent)"/>%
+                                    </span>
+                                    <span class="o_home_cta_label">
+                                        <t t-if="nextOnboardingStep() &amp;&amp; state.data.onboarding.progress.percent &lt; 100">
+                                            Continue setup — <t t-esc="nextOnboardingStep()"/>
+                                        </t>
+                                        <t t-else="">Continue setup</t>
                                     </span>
                                 </button>
                             </t>
@@ -84,101 +94,51 @@
                     </nav>
                 </header>
 
-                <!-- ================= DASHBOARD ================= -->
+                <!-- ============ DASHBOARD =========================== -->
                 <section t-if="state.tab === 'dashboard'" class="o_home_tabpane">
-                    <div class="o_home_grid">
-                        <t t-foreach="state.data.widgets" t-as="widget" t-key="widget.key">
-                            <t t-set="w" t-value="widget"/>
-                            <article t-att-class="'o_home_widget o_widget_' + w.kind + (w.error ? ' o_widget_error' : '')">
-                                <t t-if="w.error">
-                                    <div class="o_widget_state">
-                                        <i class="fa fa-plug"/> Widget unavailable —
-                                        <button class="o_home_linklike"
-                                                t-on-click="() => this.loadData()">reload</button>
-                                    </div>
-                                </t>
-                                <t t-elif="w.restricted">
-                                    <div class="o_widget_state text-muted">
-                                        <i class="fa fa-lock"/> You do not have access
-                                        to this data.
-                                    </div>
-                                </t>
-                                <t t-else="">
-                                    <header class="o_widget_head">
-                                        <i t-att-class="'fa ' + (w.icon || 'fa-square')"/>
-                                        <h3><t t-esc="w.title"/></h3>
-                                        <button t-if="w.view_all" class="o_widget_more"
-                                                t-on-click="() => this.openList(w)"
-                                                tabindex="0">View all</button>
-                                    </header>
-                                    <p t-if="w.title_extra" class="text-muted small mb-1">
-                                        <t t-esc="w.title_extra"/>
-                                    </p>
-
-                                    <!-- KPI -->
-                                    <div t-if="w.kind === 'kpi' and w.kpis" class="o_kpi_row">
-                                        <t t-foreach="w.kpis" t-as="kpi" t-key="kpi.label">
-                                            <div class="o_kpi">
-                                                <div class="o_kpi_value"><t t-esc="kpi.value"/></div>
-                                                <div class="o_kpi_label"><t t-esc="kpi.label"/></div>
-                                            </div>
-                                        </t>
-                                    </div>
-                                    <ul t-if="w.breakdown" class="o_breakdown">
-                                        <t t-foreach="w.breakdown" t-as="bd" t-key="bd.label">
-                                            <li>
-                                                <span><t t-esc="bd.label"/></span>
-                                                <strong><t t-esc="bd.count"/></strong>
-                                            </li>
-                                        </t>
-                                    </ul>
-
-                                    <!-- generic rows -->
-                                    <ul t-if="w.rows" class="o_widget_rows">
-                                        <t t-foreach="w.rows" t-as="row" t-key="row.id">
-                                            <li>
-                                                <button class="o_home_linklike w-100 text-start"
-                                                        t-att-aria-label="row.title"
-                                                        t-on-click="() => this.openRow(row)">
-                                                    <span class="o_row_title"><t t-esc="row.title"/></span>
-                                                    <span class="o_row_sub muted">
-                                                        <t t-if="row.values and row.values.amount">
-                                                            Amount: <t t-esc="row.values.amount"/>
-                                                        </t>
-                                                        <t t-esc="row.subtitle"/>
-                                                    </span>
-                                                    <span t-if="row.badge"
-                                                          t-att-class="badgeClass(row.badge_type)">
-                                                        <t t-esc="row.badge"/>
-                                                    </span>
-                                                </button>
-                                            </li>
-                                        </t>
-                                    </ul>
-                                    <div t-if="w.rows and w.rows.length === 0 and !w.kpis and !w.actions"
-                                         class="o_widget_state empty">Nothing needs attention here.</div>
-
-                                    <!-- actions -->
-                                    <div t-if="w.actions" class="o_quick_links">
-                                        <t t-foreach="w.actions" t-as="act" t-key="act.label">
-                                            <button class="o_quick_link"
-                                                    t-att-aria-label="'Open ' + act.label"
-                                                    t-on-click="() => this.openQuickLink(act)">
-                                                <t t-esc="act.label"/>
-                                            </button>
-                                        </t>
-                                    </div>
-                                </t>
-                            </article>
+                    <!-- Primary metrics -->
+                    <t t-set="prim" t-value="widgetsIn('primary')"/>
+                    <div t-if="prim.length" class="o_metrics_grid">
+                        <t t-foreach="prim" t-as="widget" t-key="widget.key">
+                            <t t-call="edicai_home.WidgetCard"/>
                         </t>
                     </div>
+
+                    <!-- Attention + schedule side by side -->
+                    <t t-set="attention" t-value="widgetsIn('attention')"/>
+                    <t t-set="schedule" t-value="widgetsIn('schedule')"/>
+                    <div t-if="attention.length or schedule.length" class="o_two_col">
+                        <div class="o_col_stack">
+                            <t t-foreach="attention" t-as="widget" t-key="widget.key">
+                                <t t-call="edicai_home.WidgetCard"/>
+                            </t>
+                        </div>
+                        <div class="o_col_stack">
+                            <t t-foreach="schedule" t-as="widget" t-key="widget.key">
+                                <t t-call="edicai_home.WidgetCard"/>
+                            </t>
+                        </div>
+                    </div>
+
+                    <!-- Secondary / supporting -->
+                    <t t-set="sec" t-value="widgetsIn('secondary')"/>
+                    <div t-if="sec.length" class="o_metrics_grid o_metrics_grid-secondary">
+                        <t t-foreach="sec" t-as="widget" t-key="widget.key">
+                            <t t-call="edicai_home.WidgetCard"/>
+                        </t>
+                    </div>
+                    <t t-if="!prim.length and !attention.length and !schedule.length and !sec.length">
+                        <div class="o_widget_state empty">Nothing needs your attention right now.</div>
+                    </t>
                 </section>
 
-                <!-- ================= GETTING STARTED ================= -->
+                <!-- ============ GETTING STARTED ===================== -->
                 <section t-if="state.tab === 'getting-started' and state.data.onboarding"
                          class="o_home_tabpane">
                     <t t-if="!state.data.onboarding.items.length">
-                        <div class="o_widget_state empty">No onboarding guidance exists for your role yet.</div>
+                        <div class="o_widget_state empty">
+                            No onboarding guidance exists for your role yet.
+                        </div>
                     </t>
                     <t t-else="">
                         <div class="o_onboard_progress" role="status">
@@ -199,10 +159,16 @@
                                     </span>
                                     <div class="o_onboard_body">
                                         <div class="o_onboard_title"><t t-esc="item.name"/></div>
-                                        <div class="o_onboard_desc text-muted"><t t-esc="item.description"/></div>
+                                        <div class="o_onboard_desc text-muted">
+                                            <t t-if="item.completion_mode === 'derived' and item.state === 'done'">
+                                                Complete
+                                                <t t-if="item.completed_on">· <t t-esc="item.completed_on"/></t> (auto-detected)
+                                            </t>
+                                            <t t-else=""><t t-esc="item.description"/></t>
+                                        </div>
                                     </div>
                                     <div class="o_onboard_actions">
-                                        <button t-if="item.link_action"
+                                        <button t-if="item.link_action and item.state !== 'done'"
                                                 class="o_home_linklike"
                                                 t-on-click="() => this.openItemLink(item)">
                                             <t t-esc="item.link_label || 'Open'"/>
@@ -214,12 +180,13 @@
                                                     t-on-click="() => this.setItemState(item, 'skipped')">Skip</button>
                                         </t>
                                         <t t-elif="item.state === 'done'">
-                                            <span class="o_auto_done text-success">
-                                                Complete <t t-if="item.completed_on">· <t t-esc="item.completed_on"/></t>
+                                            <span class="text-success small">
+                                                <i class="fa fa-check me-1"/>Done
                                             </span>
                                         </t>
-                                        <t t-else="">
-                                            <span class="text-muted small">auto-detected from system state</span>
+                                        <t t-elif="item.state === 'skipped'">
+                                            <button class="o_home_linklike small"
+                                                    t-on-click="() => this.setItemState(item, 'todo')">Restore</button>
                                         </t>
                                     </div>
                                 </li>
@@ -228,7 +195,7 @@
                     </t>
                 </section>
 
-                <!-- ================= RECENT UPDATES ================= -->
+                <!-- ============ RECENT UPDATES ====================== -->
                 <section t-if="state.tab === 'recent-updates'" class="o_home_tabpane">
                     <t t-if="state.data.updates and state.data.updates.product and state.data.updates.product.length">
                         <h2 class="o_update_section">Edicai Product Updates</h2>
@@ -262,7 +229,7 @@
                                         id: n.id, res_model: n.res_model,
                                         title: n.title, subtitle: n.summary,
                                         values: {}, badge: null, badge_type: null})">
-                                    <span class="o_update_icon" aria-readonly="true">
+                                    <span class="o_update_icon">
                                         <i t-att-class="'fa ' + noticeIcon(n.notice_type)"/>
                                     </span>
                                     <div class="o_update_body">
@@ -288,4 +255,73 @@
             </t>
         </div>
     </t>
+
+    <!-- ============ Shared widget card ============ -->
+    <t t-name="edicai_home.WidgetCard" owl="1">
+        <article t-att-class="'o_home_widget o_widget_' + widget.kind + ' o_widget_sec-' + widget.section + (widget.error ? ' o_widget_error' : '')">
+            <t t-if="widget.error">
+                <div class="o_widget_state">
+                    <i class="fa fa-plug"/> Widget unavailable —
+                    <button class="o_home_linklike"
+                            t-on-click="() => this.loadData()">reload</button>
+                </div>
+            </t>
+            <t t-elif="widget.restricted">
+                <div class="o_widget_state text-muted">
+                    <i class="fa fa-lock"/> You do not have access to this data.
+                </div>
+            </t>
+            <t t-else="">
+                <header class="o_widget_head">
+                    <i t-att-class="'fa ' + (widget.icon || 'fa-square')"/>
+                    <h3><t t-esc="widget.title"/></h3>
+                    <button t-if="widget.view_all" class="o_widget_more"
+                            t-on-click="() => this.openList(widget)"
+                            tabindex="0">View all</button>
+                </header>
+                <p t-if="widget.title_extra" class="text-muted small mb-1">
+                    <t t-esc="widget.title_extra"/>
+                </p>
+
+                <div t-if="widget.kind === 'kpi' and widget.kpis" class="o_kpi_row">
+                    <t t-foreach="widget.kpis" t-as="kpi" t-key="kpi.label">
+                        <div class="o_kpi">
+                            <div class="o_kpi_value"><t t-esc="kpi.value"/></div>
+                            <div class="o_kpi_label"><t t-esc="kpi.label"/></div>
+                        </div>
+                    </t>
+                </div>
+
+                <ul t-if="widget.rows" class="o_widget_rows">
+                    <t t-foreach="widget.rows" t-as="row" t-key="row.id">
+                        <li>
+                            <button class="o_home_linklike w-100 text-start"
+                                    t-att-aria-label="row.title"
+                                    t-on-click="() => this.openRow(row)">
+                                <span class="o_row_title"><t t-esc="row.title"/></span>
+                                <span class="o_row_sub muted"><t t-esc="row.subtitle"/></span>
+                                <span t-if="row.badge"
+                                      t-att-class="badgeClass(row.badge_type)">
+                                    <t t-esc="row.badge"/>
+                                </span>
+                            </button>
+                        </li>
+                    </t>
+                </ul>
+                <div t-if="widget.rows and widget.rows.length === 0 and !widget.kpis and !widget.actions"
+                     class="o_widget_state empty">Nothing needs attention here.</div>
+
+                <div t-if="widget.actions" class="o_quick_links">
+                    <t t-foreach="widget.actions" t-as="act" t-key="act.label">
+                        <button class="o_quick_link"
+                                t-att-aria-label="'Open ' + act.label"
+                                t-on-click="() => this.openQuickLink(act)">
+                            <t t-esc="act.label"/>
+                        </button>
+                    </t>
+                </div>
+            </t>
+        </article>
+    </t>
+
 </templates>

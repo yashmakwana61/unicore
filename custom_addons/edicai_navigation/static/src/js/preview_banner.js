@@ -7,10 +7,10 @@ class EdicaiNavPreviewBadge extends Component {
     static props = {};
     static template = xml`
         <div t-if="state.on" class="o_edicai_nav_preview_badge"
-             style="position:fixed;bottom:6px;left:6px;z-index:1050;
-                    background:#714B67;color:#fff;border-radius:4px;
-                    padding:2px 8px;font-size:11px;font-weight:500;
-                    letter-spacing:.3px;pointer-events:none;">
+             style="position:fixed;bottom:4px;left:4px;z-index:1050;
+                    background:#714B67;opacity:.72;color:#fff;border-radius:4px;
+                    padding:1px 6px;font-size:10px;font-weight:500;
+                    letter-spacing:.2px;pointer-events:none;">
             🧪 NAVIGATION PREVIEW (experimental)
         </div>`;
     setup() {

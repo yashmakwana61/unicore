@@ -8,18 +8,15 @@
     --edicai_muted: #6b7280;
     --edicai_card: #ffffff;
 
-    // The action wrapper (.o_action/.o_action_manager) is overflow:hidden with
-    // a fixed height — scrolling must happen on this root element itself.
     display: flex;
     flex-direction: column;
     height: 100%;
     min-height: 0;
     overflow-y: auto;
-    padding: 1rem 1.25rem 3rem;
+    padding: 1rem 1.5rem 2rem;
     background: var(--edicai_bg);
     color: var(--edicai_text);
     font-size: 0.875rem;
-
     max-width: 1500px;
     margin: 0 auto;
 
@@ -27,14 +24,14 @@
 
     // ---------- header ----------
     .o_home_header {
-        padding: 0.5rem 0 0.25rem;
+        padding: 0.4rem 0 0.2rem;
         .o_home_greeting {
-            font-size: 1.45rem;
-            font-weight: 600;
+            font-size: 1.5rem;
+            font-weight: 650;
             letter-spacing: -0.02em;
         }
-        .o_home_context { font-size: 0.82rem; }
-        .o_home_dot { margin: 0 0.4rem; color: var(--edicai_border); }
+        .o_home_context { font-size: 0.84rem; margin-top: 0.15rem; }
+        .o_home_dot { margin: 0 0.45rem; color: #d4d9e2; }
     }
     .o_home_header_main {
         display: flex;
@@ -42,24 +39,39 @@
         justify-content: space-between;
         gap: 1rem;
         flex-wrap: wrap;
+        background: var(--edicai_card);
+        border: 1px solid var(--edicai_border);
+        border-radius: 14px;
+        padding: 0.9rem 1.2rem;
+        box-shadow: 0 1px 2px rgba(23, 24, 28, 0.03);
     }
     .o_home_cta {
-        background: var(--edicai_blue);
-        color: #fff;
-        border-radius: 8px;
-        padding: 0.4rem 0.9rem;
-        border: 0;
         display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
-        font-weight: 500;
-        &:hover { filter: brightness(1.06); }
-    }
-    .o_home_cta_badge {
-        background: rgba(255, 255, 255, 0.22);
+        gap: 0.55rem;
+        background: var(--edicai_blue);
+        color: #fff;
+        border: 0;
         border-radius: 10px;
-        padding: 0.05rem 0.45rem;
-        font-size: 0.75rem;
+        padding: 0.45rem 0.95rem;
+        font-weight: 500;
+        max-width: 420px;
+        &:hover { filter: brightness(1.06); }
+        &:focus-visible { outline: 2px solid var(--edicai_cyan); outline-offset: 2px; }
+        .o_home_cta_pct {
+            background: rgba(255, 255, 255, 0.22);
+            border-radius: 8px;
+            padding: 0.05rem 0.45rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        .o_home_cta_label {
+            font-size: 0.82rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     }
 
     // ---------- tabs ----------
@@ -69,7 +81,6 @@
         gap: 0.35rem;
         margin: 1.1rem 0 0.25rem;
         border-bottom: 1px solid var(--edicai_border);
-        padding-bottom: 0;
     }
     .o_home_tab_sep { color: var(--edicai_border); }
     .o_home_tab {
@@ -83,89 +94,104 @@
         &.active {
             color: var(--edicai_blue);
             border-bottom-color: var(--edicai_blue);
+            font-weight: 600;
         }
         &:focus-visible { outline: 2px solid var(--edicai_cyan); outline-offset: -2px; }
     }
 
-    // ---------- widgets grid ----------
-    .o_home_grid {
+    // ---------- dashboard layout ----------
+    .o_metrics_grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
         gap: 0.9rem;
         margin-top: 1rem;
+        align-content: start;
         @media (max-width: 480px) { grid-template-columns: 1fr; }
     }
+    .o_two_col {
+        display: grid;
+        grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+        gap: 0.9rem;
+        margin-top: 0.9rem;
+        align-items: start;
+        @media (max-width: 1024px) { grid-template-columns: 1fr; }
+    }
+    .o_col_stack {
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+        min-width: 0;
+    }
+
     .o_home_widget {
         background: var(--edicai_card);
         border: 1px solid var(--edicai_border);
         border-radius: 12px;
         padding: 0.9rem 1rem 1rem;
         box-shadow: 0 1px 2px rgba(23, 24, 28, 0.03);
+        min-width: 0;
     }
     .o_widget_error { border-color: #f4c3c3; }
-    .o_widget_state {
-        padding: 0.9rem 0.25rem;
-        color: var(--edicai_muted);
-        i { margin-right: 0.35rem; }
-        &.empty { text-align: center; padding: 1.2rem 0.5rem; }
-    }
     .o_widget_head {
         display: flex;
         align-items: baseline;
-        gap: 0.4rem;
-        margin-bottom: 0.6rem;
-        i { color: var(--edicai_blue); }
+        gap: 0.45rem;
+        margin-bottom: 0.55rem;
+        i { color: var(--edicai_blue); font-size: 0.9rem; }
         h3 {
             font-size: 0.95rem;
             font-weight: 600;
             margin: 0;
             flex: 1;
-        }
-        .o_widget_more {
-            background: transparent;
-            border: 0;
-            color: var(--edicai_blue);
-            font-size: 0.8rem;
-            &:hover { text-decoration: underline; }
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     }
 
-    // KPIs
-    .o_kpi_row {
+    // hero-style primary KPI: first metric large, rest as compact lines
+    .o_widget_sec-primary .o_kpi_row {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-        gap: 0.4rem;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+    }
+    .o_widget_sec-primary .o_kpi:first-child {
+        grid-column: 1 / -1;
+        .o_kpi_value {
+            font-size: 1.8rem;
+            font-weight: 650;
+            line-height: 1.1;
+            color: var(--edicai_text);
+        }
+        .o_kpi_label { font-size: 0.8rem; }
     }
     .o_kpi {
         background: #f7f9fc;
         border: 1px solid var(--edicai_border);
         border-radius: 8px;
-        padding: 0.45rem 0.5rem;
+        padding: 0.5rem 0.6rem;
+        min-width: 0;
         .o_kpi_value {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 600;
             line-height: 1.15;
         }
         .o_kpi_label {
             color: var(--edicai_muted);
-            font-size: 0.72rem;
-        }
-    }
-    .o_breakdown {
-        list-style: none;
-        margin: 0.55rem 0 0;
-        padding: 0;
-        li {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.22rem 0;
-            border-top: 1px dashed var(--edicai_border);
-            font-size: 0.82rem;
-            &:first-child { border-top: 0; }
+            font-size: 0.73rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     }
 
-    // rows
+    .o_widget_state {
+        padding: 0.85rem 0.25rem;
+        color: var(--edicai_muted);
+        i { margin-right: 0.35rem; }
+        &.empty { text-align: center; padding: 1.1rem 0.5rem; }
+    }
+
     .o_widget_rows {
         list-style: none;
         margin: 0;
@@ -201,14 +227,17 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
-        .badge { font-size: 0.68rem; text-transform: capitalize; }
+        .badge { font-size: 0.68rem; text-transform: capitalize; flex-shrink: 0; }
+    }
+    .o_widget_sec-attention .o_widget_rows button.o_home_linklike {
+        padding: 0.5rem 0.1rem;
     }
 
-    // quick links
     .o_quick_links {
         display: flex;
         flex-wrap: wrap;
         gap: 0.4rem;
+        margin-top: 0.35rem;
     }
     .o_quick_link {
         border: 1px solid var(--edicai_border);
@@ -218,10 +247,7 @@
         font-size: 0.8rem;
         color: var(--edicai_text);
         transition: border-color 0.15s ease, color 0.15s ease;
-        &:hover {
-            border-color: var(--edicai_blue);
-            color: var(--edicai_blue);
-        }
+        &:hover { border-color: var(--edicai_blue); color: var(--edicai_blue); }
         &:focus-visible { outline: 2px solid var(--edicai_cyan); outline-offset: 1px; }
     }
 
@@ -261,12 +287,7 @@
         border-radius: 4px;
         transition: width 0.3s ease;
     }
-    .o_onboard_list {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        max-width: 900px;
-    }
+    .o_onboard_list { list-style: none; margin: 0; padding: 0; max-width: 900px; }
     .o_onboard_item {
         display: flex;
         gap: 0.8rem;
@@ -283,7 +304,7 @@
         }
         .o_onboard_title { font-weight: 600; font-size: 0.9rem; }
         .o_onboard_desc { font-size: 0.8rem; }
-        .o_onboard_body { flex: 1; }
+        .o_onboard_body { flex: 1; min-width: 0; }
         .o_onboard_actions {
             display: flex;
             align-items: center;
@@ -292,7 +313,11 @@
         }
         &.done {
             .o_onboard_check { color: #2e9e5b; }
-            .o_onboard_title { color: var(--edicai_muted); text-decoration: line-through; }
+            .o_onboard_title {
+                color: var(--edicai_muted);
+                text-decoration: line-through;
+                font-weight: 500;
+            }
         }
         &.skipped {
             opacity: 0.65;
@@ -306,12 +331,7 @@
         font-weight: 600;
         margin: 1.2rem 0 0.5rem;
     }
-    .o_update_list {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        max-width: 980px;
-    }
+    .o_update_list { list-style: none; margin: 0; padding: 0; max-width: 980px; }
     .o_update_item {
         display: flex;
         gap: 0.8rem;
@@ -319,8 +339,15 @@
         padding: 0.65rem 0.2rem;
         border-bottom: 1px solid var(--edicai_border);
         cursor: pointer;
-        &:hover { background: #fff; }
-        &:last-child { border-bottom: 0; }
+        background: var(--edicai_card);
+        border-left: 1px solid var(--edicai_border);
+        border-right: 1px solid var(--edicai_border);
+        border-top: 1px solid var(--edicai_border);
+        border-bottom: 0;
+        margin-bottom: -1px;
+        &:hover { background: #fdfefe; }
+        &:last-child { border-bottom: 1px solid var(--edicai_border); border-radius: 0 0 10px 10px; }
+        &:first-of-type { border-radius: 10px 10px 0 0; }
         .o_update_icon {
             width: 30px;
             height: 30px;

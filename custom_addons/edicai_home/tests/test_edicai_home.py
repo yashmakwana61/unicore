@@ -205,3 +205,36 @@ class TestLandingWire(TransactionCase):
         self.assertTrue(res2['ok'])
         admin.invalidate_recordset(['action_id'])
         self.assertEqual(admin.action_id.id, action.id)
+
+
+@common.tagged('post_install', '-at_install')
+class TestHomeSections(TransactionCase):
+
+    def test_sections_and_labels(self):
+        """Phase-4 grouping contract: primary/attention/schedule/secondary."""
+        user = make_user(self.env, 'admin', 'sec1')
+        data = self.env['edicai.home.data'].with_user(user).get_home_data()
+        sections = {w['section'] for w in data['widgets']}
+        self.assertIn('primary', sections)
+        self.assertIn('attention', sections)
+        # the enrollment breakdown box (source of the stray "enrolled 10"
+        # row) must be gone
+        enr = next(w for w in data['widgets']
+                   if w['key'] == 'enrollment_overview')
+        self.assertNotIn('breakdown', enr)
+        first = enr['kpis'][0]
+        self.assertEqual(first['label'], 'Active students')
+        # ambiguous label renamed
+        adm = next(w for w in data['widgets']
+                   if w['key'] == 'admissions_pipeline')
+        self.assertTrue(any(kpi['label'] == 'At offer stage'
+                            for kpi in adm['kpis']))
+        self.assertFalse(any('Shortlisted+' in kpi['label']
+                             for kpi in adm['kpis']))
+        # upcoming schedule widget exists, sorted, dates present
+        sched = next(w for w in data['widgets']
+                     if w['key'] == 'upcoming_schedule')
+        self.assertIn('schedule', sched['section'])
+        for row in sched['rows']:
+            self.assertTrue(row.get('subtitle'),
+                            'schedule rows must carry a date subtitle')

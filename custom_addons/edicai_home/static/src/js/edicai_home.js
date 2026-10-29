@@ -118,6 +118,20 @@ export class EdicaiHome extends Component {
             ? badgeType : "secondary");
     }
 
+    widgetsIn(section) {
+        return (this.state.data && this.state.data.widgets || [])
+            .filter((w) => w.section === section && !w.empty);
+    }
+
+    nextOnboardingStep() {
+        const ob = this.state.data && this.state.data.onboarding;
+        if (!ob || !ob.items) {
+            return null;
+        }
+        const next = ob.items.find((it) => it.state === "todo");
+        return next ? next.name : null;
+    }
+
     noticeIcon(type) {
         const icons = {
             general: "fa-bullhorn", academic: "fa-graduation-cap",

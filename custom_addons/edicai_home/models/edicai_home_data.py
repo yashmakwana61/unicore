@@ -50,6 +50,32 @@ WIDGET_ROLES = {
     'website_shortcuts': ['admin'],   # built only when a website-editor group is held
     'institution_notices': None,      # everyone
     'quick_links': None,              # everyone (role-keyed content)
+    'upcoming_schedule': None,        # everyone (exams + drives; role-aware)
+}
+
+# Dashboard information architecture (Phase-4 grouping)
+SECTION_OF = {
+    'enrollment_overview': 'primary',
+    'admissions_pipeline': 'primary',
+    'fee_collection': 'primary',
+    'attendance_overview': 'primary',
+    'pending_approvals': 'attention',
+    'overdue_alerts': 'attention',
+    'assignments_review': 'attention',
+    'pending_grading': 'attention',
+    'library_overdue': 'attention',
+    'my_assignments': 'attention',
+    'today_classes_faculty': 'schedule',
+    'today_classes_student': 'schedule',
+    'upcoming_schedule': 'schedule',
+    'recent_payments': 'secondary',
+    'my_attendance': 'secondary',
+    'my_results': 'secondary',
+    'library_activity': 'secondary',
+    'placement_overview': 'secondary',
+    'website_shortcuts': 'secondary',
+    'institution_notices': 'secondary',
+    'quick_links': 'secondary',
 }
 
 QUICK_LINKS = {
@@ -277,6 +303,7 @@ class EdicaiHomeData(models.Model):
     def _build_widget(self, key, user, roles):
         builder = getattr(self, '_widget_%s' % key, None)
         widget = {'key': key, 'title': '', 'icon': '', 'kind': 'list',
+                  'section': SECTION_OF.get(key, 'secondary'),
                   'restricted': False, 'error': False, 'empty': False,
                   'kpis': [], 'rows': [], 'actions': [], 'view_all': None}
         if not builder:
@@ -327,10 +354,9 @@ class EdicaiHomeData(models.Model):
 
     # ---- Admin / Manager ------------------------------------------------
     def _widget_enrollment_overview(self, user, widget, roles):
-        widget.update(title='Enrollment Overview', icon='fa-users', kind='kpi')
-        Student = self.env['edicai.student']
+        widget.update(title='Enrollment', icon='fa-users', kind='kpi')
         widget['kpis'] = [
-            {'label': 'Total active', 'value': self._count('edicai.student')},
+            {'label': 'Active students', 'value': self._count('edicai.student')},
             {'label': 'Enrolled', 'value': self._count('edicai.student',
                 [('student_state', 'in', ['enrolled', 'active'])])},
             {'label': 'On leave', 'value': self._count('edicai.student',
@@ -338,9 +364,6 @@ class EdicaiHomeData(models.Model):
             {'label': 'New this month', 'value': self._count('edicai.student',
                 [('create_date', '>', str(date.today().replace(day=1)))])},
         ]
-        widget['breakdown'] = self._group_counts(
-            'edicai.student', 'student_state',
-            [('student_state', 'in', ['enrolled', 'active', 'on_leave'])])
         widget['view_all'] = self._open_list('edicai.student', 'Students')
 
     def _widget_admissions_pipeline(self, user, widget, roles):
@@ -350,7 +373,7 @@ class EdicaiHomeData(models.Model):
                 [('state', 'in', ['inquiry', 'applied'])])},
             {'label': 'Under review', 'value': self._count('edicai.admission.applicant',
                 [('state', '=', 'under_review')])},
-            {'label': 'Shortlisted+', 'value': self._count('edicai.admission.applicant',
+            {'label': 'At offer stage', 'value': self._count('edicai.admission.applicant',
                 [('state', 'in', ['shortlisted', 'entrance_scheduled',
                                   'merit_listed', 'offer_sent'])])},
             {'label': 'Confirmed', 'value': self._count('edicai.admission.applicant',
@@ -688,6 +711,42 @@ class EdicaiHomeData(models.Model):
         ]
 
     # ---- Everyone --------------------------------------------------------
+    def _widget_upcoming_schedule(self, user, widget, roles):
+        widget.update(title='Upcoming', icon='fa-calendar', kind='list')
+        today = fields.Date.context_today(self)
+        soon = str(today + timedelta(days=14))
+        rows = []
+        try:
+            rows.extend([
+                {'id': r['id'], 'res_model': 'edicai.exam.schedule',
+                 'title': r.get('display_name') or '',
+                 'subtitle': 'Exam · %s' % (r['exam_date'] or ''),
+                 'values': r}
+                for r in self.env['edicai.exam.schedule'].search_read(
+                    [('exam_date', '>=', str(today)), ('exam_date', '<=', soon)],
+                    ['display_name', 'exam_date'], limit=4,
+                    order='exam_date asc')])
+        except AccessError:
+            pass
+        except Exception:
+            _logger.warning('upcoming exam feed failed', exc_info=True)
+        if 'manager' in roles:
+            try:
+                rows.extend([
+                    {'id': r['id'], 'res_model': 'edicai.placement.drive',
+                     'title': r.get('display_name') or '',
+                     'subtitle': 'Placement drive · %s' % (r['date'] or ''),
+                     'values': r}
+                    for r in self.env['edicai.placement.drive'].search_read(
+                        [('date', '>=', str(today)), ('state', '=', 'active')],
+                        ['display_name', 'date'], limit=3,
+                        order='date asc')])
+            except AccessError:
+                pass
+            except Exception:
+                _logger.warning('drive feed failed', exc_info=True)
+        widget['rows'] = rows
+
     def _widget_institution_notices(self, user, widget, roles):
         widget.update(title='Announcements', icon='fa-bullhorn', kind='notices')
         widget['rows'] = self.env['edicai.notice']._home_feed(user, limit=5)
