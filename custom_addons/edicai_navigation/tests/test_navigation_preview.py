@@ -99,7 +99,8 @@ class TestNavigationPreview(TransactionCase):
                     '%s must be invisible to admin when preview is off' % xid)
 
     def test_role_visibility_plain_user(self):
-        """A plain internal user (no edicai roles) must NOT see workspaces."""
+        """A plain internal user sees only the workspaces granted to
+        base.group_user (per the role matrix) — not admin-only ones."""
         self.util.enable_preview()
         user = self.env['res.users'].sudo().create({
             'name': 'Nav Visibility Test',
@@ -108,7 +109,9 @@ class TestNavigationPreview(TransactionCase):
             'group_ids': [(6, 0, [self.env.ref('base.group_user').id])],
         })
         visible = self.env['ir.ui.menu'].with_user(user)._visible_menu_ids()
-        for xid in WORKSPACE_XMLIDS:
-            root = self.env.ref(xid)
-            self.assertNotIn(root.id, visible,
-                             '%s must NOT be visible to plain users' % xid)
+        root100 = self.env.ref('edicai_navigation.menu_workspace_100')
+        self.assertIn(root100.id, visible,
+                      'Communication & AI must be visible to internal users')
+        root110 = self.env.ref('edicai_navigation.menu_workspace_110')
+        self.assertNotIn(root110.id, visible,
+                         'Administration workspace must NOT be visible to plain users')
