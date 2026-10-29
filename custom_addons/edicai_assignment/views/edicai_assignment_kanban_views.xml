@@ -22,7 +22,7 @@
                     <field name="enrolled_count"/>
                     <field name="color"/>
                     <templates>
-                        <t t-name="kanban-box">
+                        <t t-name="card">
                             <div t-attf-class="oe_kanban_card oe_kanban_global_click">
                                 <div class="oe_kanban_content">
                                     <div class="d-flex justify-content-between align-items-start">
@@ -83,7 +83,7 @@
                     <field name="grade_letter"/>
                     <field name="color"/>
                     <templates>
-                        <t t-name="kanban-box">
+                        <t t-name="card">
                             <div t-attf-class="oe_kanban_card oe_kanban_global_click">
                                 <div class="oe_kanban_content">
                                     <div class="d-flex justify-content-between align-items-start">

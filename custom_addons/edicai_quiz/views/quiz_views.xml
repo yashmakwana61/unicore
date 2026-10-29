@@ -247,7 +247,7 @@
 
     <record id="action_edicai_quiz_take" model="ir.actions.client">
       <field name="name">Take Quiz</field>
-      <field name="tag">edicai_quiz_portal</field>
+      <field name="tag">edicai_quiz.take_quiz_client_action</field>
     </record>
   </data>
 </odoo>

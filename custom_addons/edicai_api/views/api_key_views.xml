@@ -94,7 +94,7 @@
         <field name="expires_on"/>
         <field name="active"/>
         <templates>
-          <t t-name="kanban-card">
+          <t t-name="card">
             <div class="oe_kanban_global_click">
               <div class="o_kanban_card_header">
                 <field name="name"/>
