@@ -29,6 +29,7 @@ export function createNavbarEnhancer(env) {
         navbar.style.setProperty('background-color', '#0d1a33', 'important');
         navbar.style.setProperty('background', '#0d1a33', 'important');
         if (!navbar.querySelector('#e_brand')) {
+            // Case 1: home/dashboard view has .o_menu_toggle (hamburger)
             const toggle = navbar.querySelector('.o_menu_toggle');
             if (toggle) {
                 toggle.classList.add('e_menu_toggle_hidden');
@@ -48,6 +49,26 @@ export function createNavbarEnhancer(env) {
                 toggle.style.border = '0';
                 toggle.style.padding = '4px 10px';
             }
+            // Case 3: neither exists — create a brand element at the start
+            const brandElCheck = navbar.querySelector('.o_menu_brand');
+            if (!toggle && !brandElCheck) {
+                const brand = document.createElement('span');
+                brand.id = 'e_brand';
+                brand.className = 'e_brand';
+                brand.innerHTML = BRAND_SVG + '<span class="e_brand_name">Edic<span class="e_brand_ai">AI</span></span>';
+                brand.style.display = 'inline-flex';
+                brand.style.alignItems = 'center';
+                brand.style.padding = '4px 10px';
+                navbar.insertBefore(brand, navbar.firstChild);
+            }
+        }
+        // Hide .o_menu_brand (module name) — always, regardless of brand state
+        const brandElHide = navbar.querySelector('.o_menu_brand');
+        if (brandElHide) {
+            brandElHide.style.setProperty('display', 'none', 'important');
+            brandElHide.style.setProperty('visibility', 'hidden', 'important');
+            brandElHide.style.setProperty('width', '0', 'important');
+            brandElHide.style.setProperty('overflow', 'hidden', 'important');
         }
         if (!navbar.querySelector('#e_universal_search')) {
             const btn = document.createElement('button');
