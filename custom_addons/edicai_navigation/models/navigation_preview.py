@@ -94,7 +94,6 @@ ALL_REPARENTS = MANIFEST_REPARENTS + STANDARD_REPARENTS
 # the top bar). Reversible: the snapshot records their original active state.
 HIDE_IN_PREVIEW = [
     'calendar.mail_menu_calendar',   # calendar icon, top bar (all internal)
-    'base.menu_administration',      # gear icon, top bar (admins only)
 ]
 
 
