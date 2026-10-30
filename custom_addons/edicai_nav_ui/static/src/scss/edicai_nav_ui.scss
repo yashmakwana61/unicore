@@ -2,18 +2,26 @@
    Scoped styles, no inheritance from core or muk. */
 
 .e_apps_panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;          /* true full-height rail (user-reported: sidebar
+                            was clipped because it rendered inline after
+                            the action container) */
+    z-index: 5;          /* under the sticky navbar */
     background: #fbfcfe;
     border-right: 1px solid #e6e9ef;
     min-width: 240px;
     width: 240px;
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    height: 100%;
     transition: width 180ms ease;
+    padding-top: 46px;   /* clear the .o_main_navbar */
 }
 .e_apps_panel.e_sidebar_type_small {
-    min-width: 56px;
-    width: 56px;
+    min-width: 80px;
+    width: 80px;
 }
 
 .e_apps_header {
@@ -41,8 +49,10 @@
 .e_apps_menu {
     list-style: none;
     margin: 0;
-    padding: 4px 8px 24px;
+    padding: 4px 8px 40px;   /* 40px: room for the preview badge */
     overflow-y: auto;
+    flex: 1 1 auto;
+    min-height: 0;
 
     .e_app_row {
         &.active > .e_app_link .e_app_name {
@@ -115,6 +125,13 @@
     .e_apps_menu .e_app_row > .e_app_link { justify-content: center; padding: 8px 0; }
     .e_app_name, .e_acc_chevron, .e_acc_submenu { display: none; }
 }
+
+/* content offset so the action area never hides under the rail; body may
+   itself carry .o_web_client at narrow widths, so cover both shapes */
+body.e_sidebar_type_large.o_web_client,
+body.e_sidebar_type_large .o_web_client { margin-left: 240px; }
+body.e_sidebar_type_small.o_web_client,
+body.e_sidebar_type_small .o_web_client { margin-left: 80px; }
 
 /* top-bar companion buttons */
 .o_navcom_btn {

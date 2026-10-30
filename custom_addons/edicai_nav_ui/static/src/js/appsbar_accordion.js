@@ -3,7 +3,6 @@
 import { Component, useState, onMounted, onWillStart } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
-import { computeAppsAndMenuItems } from "@web/webclient/menus/menu_helpers";
 
 /**
  * Edicai sidebar (accordion) — replaces the muk AppsBar entirely so the
@@ -45,10 +44,37 @@ export class EdicaiAppsBar extends Component {
         }
     }
 
+    _iconSrc(app) {
+        // load_menus returns raw base64 (no data: prefix) — svg files
+        // base64 start with "P" (PHN2Zy…), png with iVBOR
+        const raw = app.webIconData || "";
+        if (!raw) {
+            return "/base/static/description/icon.png";
+        }
+        if (raw.startsWith("data:image")) {
+            return raw;
+        }
+        const prefix = raw.startsWith("P")
+            ? "data:image/svg+xml;base64," : "data:image/png;base64,";
+        return prefix + raw.replace(/\s/g, "");
+    }
+
     async _loadApps() {
-        const menus = this.menuService.getMenuAsTree("root");
-        const items = computeAppsAndMenuItems(menus);
-        this.state.apps = items.apps;
+        // build the list from the raw menu tree — the stock helper drops
+        // action-less section roots (the Edicai workspaces), which is why
+        // they vanished from the sidebar.
+        const tree = this.menuService.getMenuAsTree("root");
+        const toItem = (t) => ({
+            id: t.id,
+            xmlid: t.xmlid || '',
+            label: t.name,
+            actionID: t.action_id !== undefined ? t.action_id : t.actionID,
+            webIconData: t.web_icon_data !== undefined
+                ? t.web_icon_data : t.webIconData,
+        });
+        const roots = tree.childrenTree || [];
+        this.state.apps = roots.map((sub) => toItem.call(this, sub));
+        // preload children caches lazily when used
         const cur = this.menuService.getCurrentApp();
         this.state.activeAppId = cur ? cur.id : null;
     }
@@ -73,8 +99,16 @@ export class EdicaiAppsBar extends Component {
     appChildren(app) {
         if (!app.libChildren) {
             const menu = this.menuService.getMenu(app.id);
+            const toChild = (t) => ({
+                id: t.id, xmlid: t.xmlid || '', name: t.name,
+                actionID: t.action_id !== undefined ? t.action_id : t.actionID,
+                _tree: t,
+            });
             app.libChildren = (menu && menu.children
-                ? menu.children.map((mid) => this.menuService.getMenu(mid))
+                ? menu.children.map((mid) => {
+                    const t = this.menuService.getMenuAsTree(mid);
+                    return toChild(t);
+                })
                 : []);
         }
         return app.libChildren;

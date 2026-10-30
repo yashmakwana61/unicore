@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Edicai Navigation Preview',
-    'version': '19.0.1.1.0',
+    'version': '19.0.1.2.0',
     'category': 'Education/Navigation',
     'summary': 'Reversible workspace navigation preview (custom + standard apps)',
     'description': """
