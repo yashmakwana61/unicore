@@ -5,12 +5,13 @@ import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 
 /**
- * Edicai sidebar (accordion) — replaces the muk AppsBar entirely so the
- * navigation UI layer owns the chrome without template inheritance.
+ * Edicai sidebar (accordion, recursive) — replaces the muk AppsBar entirely.
  *
- * Behavior: apps without first-level children navigate directly; apps with
- * children expand/collapse in place with an animated chevron; expand state
- * is local (never persisted), matched to the approved UX.
+ * Behavior (user-approved UX):
+ * - clicking a parent opens its children directly below it in the sidebar;
+ * - children with their own children expand recursively the same way;
+ * - clicking a leaf navigates;
+ * - multiple branches may be open at once (open-set state, never persisted).
  */
 export class EdicaiAppsBar extends Component {
     static template = "edicai_nav_ui.EdicaiAppsBar";
@@ -20,9 +21,9 @@ export class EdicaiAppsBar extends Component {
         this.menuService = useService("menu");
         this.action = useService("action");
         this.state = useState({
-            apps: [],
+            roots: [],
             activeAppId: null,
-            expandedAppId: null,
+            openIds: new Set(),
             isCollapsed:
                 localStorage.getItem("edicai_sidebar_collapsed") === "1",
         });
@@ -36,7 +37,6 @@ export class EdicaiAppsBar extends Component {
             });
         });
 
-        // collapse toggle persisted in localStorage, like the stock behavior
         if (this.state.isCollapsed) {
             document.body.classList.add("e_sidebar_type_small");
         } else {
@@ -44,10 +44,69 @@ export class EdicaiAppsBar extends Component {
         }
     }
 
-    _iconSrc(app) {
+    _loadApps() {
+        const tree = this.menuService.getMenuAsTree("root");
+        const nodes = tree.childrenTree || [];
+        this.state.roots = nodes.map((t) => this._toNode(t));
+        const cur = this.menuService.getCurrentApp();
+        this.state.activeAppId = cur ? cur.id : null;
+    }
+
+    _toNode(t) {
+        return {
+            id: t.id,
+            xmlid: t.xmlid || "",
+            label: t.name,
+            actionID: (t.action_id !== undefined) ? t.action_id : t.actionID,
+            children: (t.childrenTree || []).map((c) => this._toNode(c)),
+        };
+    }
+
+    isOpen(node) {
+        return this.state.openIds.has(node.id);
+    }
+
+    onNodeClick(node) {
+        if (node.children.length) {
+            const opening = !this.state.openIds.has(node.id);
+            if (opening) {
+                this.state.openIds.add(node.id);
+                // a section-only parent (no action) still opens its first leaf
+                if (!node.actionID) {
+                    const first = this._firstLeaf(node);
+                    if (first && first.actionID) {
+                        this.menuService.selectMenu(
+                            this.menuService.getMenuAsTree(first.id));
+                    }
+                }
+            } else {
+                this.state.openIds.delete(node.id);
+            }
+            return;
+        }
+        if (node.actionID) {
+            this.menuService.selectMenu(this.menuService.getMenuAsTree(node.id));
+            this.state.activeAppId = node.id;
+        }
+    }
+
+    _firstLeaf(node) {
+        if (node.actionID) {
+            return node;
+        }
+        for (const child of node.children) {
+            const leaf = this._firstLeaf(child);
+            if (leaf) {
+                return leaf;
+            }
+        }
+        return null;
+    }
+
+    _iconSrc(node) {
         // load_menus returns raw base64 (no data: prefix) — svg files
         // base64 start with "P" (PHN2Zy…), png with iVBOR
-        const raw = app.webIconData || "";
+        const raw = node.webIconData || "";
         if (!raw) {
             return "/base/static/description/icon.png";
         }
@@ -59,27 +118,6 @@ export class EdicaiAppsBar extends Component {
         return prefix + raw.replace(/\s/g, "");
     }
 
-    async _loadApps() {
-        // build the list from the raw menu tree — the stock helper drops
-        // action-less section roots (the Edicai workspaces), which is why
-        // they vanished from the sidebar.
-        const tree = this.menuService.getMenuAsTree("root");
-        const toItem = (t) => ({
-            id: t.id,
-            xmlid: t.xmlid || '',
-            label: t.name,
-            actionID: t.action_id !== undefined ? t.action_id : t.actionID,
-            webIconData: t.web_icon_data !== undefined
-                ? t.web_icon_data : t.webIconData,
-        });
-        const roots = tree.childrenTree || [];
-        this.state.apps = roots.map((sub) => toItem.call(this, sub));
-        // preload children caches lazily when used
-        const cur = this.menuService.getCurrentApp();
-        this.state.activeAppId = cur ? cur.id : null;
-    }
-
-    /** toggle collapse/expand of the whole sidebar */
     toggleSidebar() {
         this.state.isCollapsed = !this.state.isCollapsed;
         localStorage.setItem("edicai_sidebar_collapsed",
@@ -90,73 +128,8 @@ export class EdicaiAppsBar extends Component {
             !this.state.isCollapsed);
         window.dispatchEvent(new Event("resize"));
     }
-
-    appHasChildren(app) {
-        const menu = this.menuService.getMenu(app.id);
-        return Boolean(menu && menu.children && menu.children.length);
-    }
-
-    appChildren(app) {
-        if (!app.libChildren) {
-            const menu = this.menuService.getMenu(app.id);
-            const toChild = (t) => ({
-                id: t.id, xmlid: t.xmlid || '', name: t.name,
-                actionID: t.action_id !== undefined ? t.action_id : t.actionID,
-                _tree: t,
-            });
-            app.libChildren = (menu && menu.children
-                ? menu.children.map((mid) => {
-                    const t = this.menuService.getMenuAsTree(mid);
-                    return toChild(t);
-                })
-                : []);
-        }
-        return app.libChildren;
-    }
-
-    onAppClick(app) {
-        if (this.appHasChildren(app)) {
-            if (app.id === this.state.activeAppId) {
-                // already inside this app: just toggle the accordion
-                this.state.expandedAppId =
-                    this.state.expandedAppId === app.id ? null : app.id;
-                return;
-            }
-            // entering a section app: expand its children instead of pressing
-            // a (section-only) menu with no action
-            const menu = this.menuService.getMenu(app.id);
-            if (menu && !menu.actionID) {
-                this.state.expandedAppId = app.id;
-                const first = this.appChildren(app)[0];
-                if (first && first.actionID) {
-                    this.menuService.selectMenu(first);
-                }
-                return;
-            }
-        }
-        this.menuService.selectMenu(app);
-    }
-
-    onChildClick(child) {
-        if (child && child.actionID) {
-            this.menuService.selectMenu(child);
-            return;
-        }
-        const grand = child && child.children && child.children.length
-            ? this.menuService.getMenu(child.children[0])
-            : null;
-        if (grand && grand.actionID) {
-            this.menuService.selectMenu(grand);
-        }
-    }
 }
 
-// SAFEGUARD: only register the sidebar when its dependencies resolve;
-// never let a chrome issue kill the webclient boot.
-try {
-    registry.category("main_components").add("edicai_nav_ui.EdicaiAppsBar", {
-        Component: EdicaiAppsBar,
-    });
-} catch (err) {
-    console.error("edicai_nav_ui sidebar registration failed", err);
-}
+registry.category("main_components").add("edicai_nav_ui.EdicaiAppsBar", {
+    Component: EdicaiAppsBar,
+});

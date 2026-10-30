@@ -2,55 +2,55 @@
 
 <templates xml:space="preserve">
 
-    <!-- Edicai sidebar — own template (no inheritance), accordion navigation -->
+    <!-- Edicai sidebar — recursive accordion, all levels inline -->
     <t t-name="edicai_nav_ui.EdicaiAppsBar" owl="1">
         <div class="e_apps_panel" t-att-class="{ 'e_sidebar_is_collapsed': this.state.isCollapsed, 'e_sidebar_type_small': this.state.isCollapsed }">
-            <div class="e_apps_sidebar">
-                <div class="e_apps_header">
-                    <span class="e_apps_title">APPS</span>
-                    <button type="button"
-                            class="e_apps_toggle"
-                            t-on-click="toggleSidebar"
-                            t-att-aria-label="this.state.isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'"
-                            t-attf-title="{{ this.state.isCollapsed ? 'Expand sidebar' : 'Collapse sidebar' }}">
-                        <i t-attf-class="fa {{ this.state.isCollapsed ? 'fa-angle-double-right' : 'fa-angle-double-left' }}"/>
-                    </button>
-                </div>
-                <ul class="e_apps_menu" role="menu">
-                    <t t-foreach="this.state.apps" t-as="app" t-key="app.id">
-                        <li t-attf-class="e_app_row {{ app.id === this.state.activeAppId ? 'active' : '' }} {{ this.appHasChildren(app) ? 'has-children' : '' }}">
-                            <a href="#"
-                               t-att-href="app.href"
-                               t-att-data-menu-id="app.id"
-                               t-att-data-menu-xmlid="app.xmlid"
-                               t-on-click.prevent="() => this.onAppClick(app)"
-                               class="e_app_link"
-                               role="menuitem"
-                               t-att-aria-label="app.label"
-                               t-att-title="this.state.isCollapsed ? app.label : ''">
-                                <img t-if="app.webIconData" class="e_app_icon" t-att-src="_iconSrc(app)" t-att-alt="app.label"/>
-                                <img t-else="" class="e_app_icon" src="/edicai_nav_ui/static/src/icons/ic_apps.svg" t-att-alt="app.label"/>
-                                <span class="e_app_name"><t t-out="app.label"/></span>
-                                <i t-if="this.appHasChildren(app)"
-                                   t-attf-class="fa fa-chevron-down e_acc_chevron {{ this.state.expandedAppId === app.id ? 'open' : '' }}"/>
-                            </a>
-                            <ul t-if="this.appHasChildren(app)"
-                                class="e_acc_submenu"
-                                t-att-class="{ 'e_acc_open': this.state.expandedAppId === app.id }">
-                                <t t-foreach="this.appChildren(app)" t-as="child" t-key="child.id">
-                                    <li>
-                                        <a href="#" t-on-click.prevent="() => this.onChildClick(child)"
-                                           class="e_acc_child" role="menuitem">
-                                            <span t-out="child.name"/>
-                                        </a>
-                                    </li>
-                                </t>
-                            </ul>
-                        </li>
-                    </t>
-                </ul>
+            <div class="e_apps_header">
+                <span class="e_apps_title">APPS</span>
+                <button type="button"
+                        class="e_apps_toggle"
+                        t-on-click="toggleSidebar"
+                        t-att-aria-label="this.state.isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'"
+                        t-att-title="this.state.isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'">
+                    <i t-attf-class="fa {{ this.state.isCollapsed ? 'fa-angle-double-right' : 'fa-angle-double-left' }}"/>
+                </button>
             </div>
+            <ul class="e_apps_menu" role="menu">
+                <t t-foreach="this.state.roots" t-as="node" t-key="node.id">
+                    <t t-set="level" t-value="0"/>
+                    <t t-call="edicai_nav_ui.NodeRow"/>
+                </t>
+            </ul>
         </div>
+    </t>
+
+    <!-- recursive node row: chevron + nested submenu below (any depth) -->
+    <t t-name="edicai_nav_ui.NodeRow" owl="1">
+        <li t-attf-class="e_app_row e_lvl{{ level }} {{ this.state.activeAppId === node.id ? 'active' : '' }} {{ node.children.length ? 'has-children' : '' }}">
+            <a href="#"
+               t-att-href="node.actionID ? '/odoo/action-' + node.actionID : '#'"
+               t-att-data-menu-id="node.id"
+               t-att-data-menu-xmlid="node.xmlid"
+               t-on-click.prevent="() => this.onNodeClick(node)"
+               class="e_app_link"
+               role="menuitem"
+               t-att-aria-label="node.label"
+               t-att-title="this.state.isCollapsed ? node.label : ''">
+                <img t-if="node.webIconData" class="e_app_icon" t-att-src="_iconSrc(node)" t-att-alt="node.label"/>
+                <img t-else="" class="e_app_icon" src="/edicai_nav_ui/static/src/icons/ic_apps.svg" t-att-alt="node.label"/>
+                <span class="e_app_name"><t t-out="node.label"/></span>
+                <i t-if="node.children.length"
+                   t-attf-class="fa fa-chevron-down e_acc_chevron {{ this.isOpen(node) ? 'open' : '' }}"/>
+            </a>
+            <ul t-if="node.children.length and this.isOpen(node)"
+                class="e_acc_submenu e_acc_open" role="menu">
+                <t t-foreach="node.children" t-as="childNode" t-key="childNode.id">
+                    <t t-set="node" t-value="childNode"/>
+                    <t t-set="level" t-value="level + 1"/>
+                    <t t-call="edicai_nav_ui.NodeRow"/>
+                </t>
+            </ul>
+        </li>
     </t>
 
     <!-- Top-bar companion buttons -->
