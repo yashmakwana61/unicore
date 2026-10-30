@@ -43,7 +43,7 @@ function brandHTML(logoUrl) {
     if (logoUrl) {
         return [
             '<span id="e_brand" class="e_brand">',
-            '<img src="' + logoUrl + '" class="e_brand_logo" alt="Company Logo" style="width:32px;height:32px;object-fit:contain;border-radius:4px;"/>',
+            '<img src="' + logoUrl + '" class="e_brand_logo" alt="Company Logo" style="width:100px;height:100px;object-fit:contain;border-radius:8px;"/>',
             '</span>',
         ].join('');
     }
@@ -90,7 +90,7 @@ export function createNavbarEnhancer(env) {
                 brand.id = 'e_brand';
                 brand.className = 'e_brand';
                 if (_companyLogo) {
-                    brand.innerHTML = '<img src="' + _companyLogo + '" class="e_brand_logo" alt="Company Logo" style="width:32px;height:32px;object-fit:contain;border-radius:4px;"/>';
+                    brand.innerHTML = '<img src="' + _companyLogo + '" class="e_brand_logo" alt="Company Logo" style="width:100px;height:100px;object-fit:contain;border-radius:8px;"/>';
                 } else {
                     brand.innerHTML = BRAND_SVG;
                 }
@@ -115,7 +115,7 @@ export function createNavbarEnhancer(env) {
                     img.src = _companyLogo;
                     img.className = 'e_brand_logo';
                     img.alt = 'Company Logo';
-                    img.style.cssText = 'width:26px;height:26px;object-fit:contain;border-radius:4px;';
+                    img.style.cssText = 'width:100px;height:100px;object-fit:contain;border-radius:8px;';
                     brandSvg.replaceWith(img);
                 }
             }

@@ -199,9 +199,10 @@ body .o_menu_sections_more {
         gap: 8px;
         user-select: none;
         .e_brand_logo {
-            width: 26px;
-            height: 26px;
+            width: 100px;
+            height: 100px;
             flex-shrink: 0;
+            object-fit: contain;
         }
         .e_brand_name {
             font-size: 1.05rem;
@@ -266,6 +267,15 @@ body .o_menu_sections_more {
         max-width: none;
         top: 5px;
     }
+}
+
+/* brand logo sizing — 100x100, dynamic for any uploaded logo */
+.o_main_navbar .e_brand_logo,
+.o_main_navbar img.e_brand_logo {
+    width: 100px !important;
+    height: 100px !important;
+    object-fit: contain !important;
+    flex-shrink: 0;
 }
 
 /* hide the default module name and apps menu in the navbar (replaced by EdicAI brand) */
