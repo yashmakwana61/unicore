@@ -268,12 +268,19 @@ body .o_menu_sections_more {
     }
 }
 
-/* hide the default module name in the navbar (replaced by EdicAI brand) */
-.o_main_navbar .o_menu_brand {
+/* hide the default module name and apps menu in the navbar (replaced by EdicAI brand) */
+.o_main_navbar .o_menu_brand,
+.o_main_navbar .o_navbar_apps_menu {
     display: none !important;
     visibility: hidden !important;
     width: 0 !important;
     overflow: hidden !important;
+}
+
+/* EdicAI brand — top-left with padding */
+.o_main_navbar #e_brand,
+.o_main_navbar .e_brand {
+    padding-left: 12px;
 }
 
 /* ---------- top-bar companion buttons — light glyphs on the dark navbar ---------- */

@@ -70,6 +70,14 @@ export function createNavbarEnhancer(env) {
             brandElHide.style.setProperty('width', '0', 'important');
             brandElHide.style.setProperty('overflow', 'hidden', 'important');
         }
+        // Hide .o_navbar_apps_menu (hamburger/apps grid) — always
+        const appsMenu = navbar.querySelector('.o_navbar_apps_menu');
+        if (appsMenu) {
+            appsMenu.style.setProperty('display', 'none', 'important');
+            appsMenu.style.setProperty('visibility', 'hidden', 'important');
+            appsMenu.style.setProperty('width', '0', 'important');
+            appsMenu.style.setProperty('overflow', 'hidden', 'important');
+        }
         if (!navbar.querySelector('#e_universal_search')) {
             const btn = document.createElement('button');
             btn.id = 'e_universal_search';
