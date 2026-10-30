@@ -106,11 +106,12 @@ export class EdicaiAppsBar extends Component {
     }
 
     _iconSrc(node) {
-        // load_menus returns raw base64 (no data: prefix) — svg files
-        // base64 start with "P" (PHN2Zy…), png with iVBOR
+        // load_menus returns either raw base64 (no data: prefix; svg files
+        // base64 start with "P"/"PHN2Zy…, png with "iVBOR") or an URL
+        // (e.g. /web/static/img/default_icon_app.png) — never prefix a URL.
         const raw = node.webIconData || "";
-        if (!raw) {
-            return "/base/static/description/icon.png";
+        if (!raw || raw.startsWith("/") || raw.startsWith("http")) {
+            return "/edicai_nav_ui/static/src/icons/ic_apps.svg";
         }
         if (raw.startsWith("data:image")) {
             return raw;
