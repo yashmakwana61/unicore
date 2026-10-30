@@ -1,6 +1,14 @@
 /* edicai_nav_ui — standalone sidebar + top-bar companion buttons.
    Scoped styles, no inheritance from core or muk. */
 
+/* global horizontal guard: the AI chatbot parks its fixed panel beyond the
+   viewport edge when closed; with a transformed ancestor a fixed child
+   behaves absolute and widens the page (user-reported horizontal overflow
+   with the sidebar open). */
+html, body {
+    overflow-x: hidden;
+}
+
 .e_apps_panel {
     position: fixed;
     top: 0;
@@ -127,11 +135,33 @@
 }
 
 /* content offset so the action area never hides under the rail; body may
-   itself carry .o_web_client at narrow widths, so cover both shapes */
+   itself carry .o_web_client at narrow widths, so cover both shapes.
+   Uses padding (NOT margin+width — the SCSS pipeline mis-evaluates
+   calc(100% - px) and aborts the whole bundle with
+   "Incompatible units: '%' and 'px'"). */
 body.e_sidebar_type_large.o_web_client,
-body.e_sidebar_type_large .o_web_client { margin-left: 240px; }
+body.e_sidebar_type_large .o_web_client {
+    padding-left: 240px;
+}
 body.e_sidebar_type_small.o_web_client,
-body.e_sidebar_type_small .o_web_client { margin-left: 80px; }
+body.e_sidebar_type_small .o_web_client {
+    padding-left: 80px;
+}
+
+/* the navbar always stays full-width at the top (its left part would
+   otherwise expose the rail's top gap as a floating color block)
+   and only the content columns are offset */
+body.e_sidebar_type_large .o_main_navbar,
+body.e_sidebar_type_large > header.o_navbar .o_main_navbar,
+body.e_sidebar_type_small .o_main_navbar,
+body.e_sidebar_type_small > header.o_navbar .o_main_navbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 10;
+    padding-left: 0;
+}
 
 /* top-bar companion buttons */
 .o_navcom_btn {

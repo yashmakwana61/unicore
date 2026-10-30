@@ -102,6 +102,8 @@
     // ---------- dashboard layout ----------
     .o_metrics_grid {
         display: grid;
+        // plain unit forms only — the SCSS compiler mis-evaluates nested
+        // min()/calc() mixing '%' and 'px' and aborts the whole bundle
         grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
         gap: 0.9rem;
         margin-top: 1rem;
