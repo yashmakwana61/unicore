@@ -58,6 +58,8 @@ export class EdicaiAppsBar extends Component {
             xmlid: t.xmlid || "",
             label: t.name,
             actionID: (t.action_id !== undefined) ? t.action_id : t.actionID,
+            webIconData: (t.web_icon_data !== undefined) ? t.web_icon_data
+                : t.webIconData,
             children: (t.childrenTree || []).map((c) => this._toNode(c)),
         };
     }
