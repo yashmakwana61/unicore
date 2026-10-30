@@ -43,15 +43,13 @@ function brandHTML(logoUrl) {
     if (logoUrl) {
         return [
             '<span id="e_brand" class="e_brand">',
-            '<img src="' + logoUrl + '" class="e_brand_logo" alt="Company Logo" style="width:26px;height:26px;object-fit:contain;border-radius:4px;"/>',
-            '<span class="e_brand_name">Edic<span class="e_brand_ai">AI</span></span>',
+            '<img src="' + logoUrl + '" class="e_brand_logo" alt="Company Logo" style="width:32px;height:32px;object-fit:contain;border-radius:4px;"/>',
             '</span>',
         ].join('');
     }
     return [
         '<span id="e_brand" class="e_brand">',
         BRAND_SVG,
-        '<span class="e_brand_name">Edic<span class="e_brand_ai">AI</span></span>',
         '</span>',
     ].join('');
 }
@@ -91,7 +89,11 @@ export function createNavbarEnhancer(env) {
                 const brand = document.createElement('span');
                 brand.id = 'e_brand';
                 brand.className = 'e_brand';
-                brand.innerHTML = BRAND_SVG + '<span class="e_brand_name">Edic<span class="e_brand_ai">AI</span></span>';
+                if (_companyLogo) {
+                    brand.innerHTML = '<img src="' + _companyLogo + '" class="e_brand_logo" alt="Company Logo" style="width:32px;height:32px;object-fit:contain;border-radius:4px;"/>';
+                } else {
+                    brand.innerHTML = BRAND_SVG;
+                }
                 brand.style.display = 'inline-flex';
                 brand.style.alignItems = 'center';
                 brand.style.padding = '4px 10px';
@@ -117,6 +119,30 @@ export function createNavbarEnhancer(env) {
                     brandSvg.replaceWith(img);
                 }
             }
+        }
+
+        // Universal search button (centered)
+        if (!navbar.querySelector('#e_universal_search')) {
+            const btn = document.createElement('button');
+            btn.id = 'e_universal_search';
+            btn.className = 'e_searchbar';
+            btn.type = 'button';
+            btn.setAttribute('aria-label', 'Search (Ctrl+K)');
+            btn.innerHTML = [
+                '<i class="fa fa-search e_search_icon" aria-hidden="true"></i>',
+                '<span class="e_search_ph">Search in EdicAI…</span>',
+                '<span class="e_search_kbd">Ctrl K</span>',
+            ].join('');
+            btn.addEventListener('click', function () {
+                try {
+                    if (env && env.services && env.services.command) {
+                        env.services.command.openMainPalette({ searchValue: '' });
+                    }
+                } catch (err) {
+                    console.warn('edicai_nav_ui: palette open failed', err);
+                }
+            });
+            navbar.appendChild(btn);
         }
 
         // Hide .o_menu_brand (module name) — always
