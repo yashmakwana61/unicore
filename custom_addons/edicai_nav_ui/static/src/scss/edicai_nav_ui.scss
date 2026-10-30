@@ -147,14 +147,19 @@ html, body {
    itself carry .o_web_client at narrow widths, so cover both shapes.
    Uses padding (NOT margin+width — the SCSS pipeline mis-evaluates
    calc(100% - px) and aborts the whole bundle with
-   "Incompatible units: '%' and 'px'"). */
+   "Incompatible units: '%' and 'px'").
+   padding-top clears the fixed navbar (46px measured) — without it every
+   page's top (Home greeting, Control Panel with search bar + view
+   switchers) is hidden underneath. */
 body.e_sidebar_type_large.o_web_client,
 body.e_sidebar_type_large .o_web_client {
     padding-left: 240px;
+    padding-top: 46px;
 }
 body.e_sidebar_type_small.o_web_client,
 body.e_sidebar_type_small .o_web_client {
     padding-left: 80px;
+    padding-top: 46px;
 }
 
 /* the navbar always stays full-width at the top (its left part would
