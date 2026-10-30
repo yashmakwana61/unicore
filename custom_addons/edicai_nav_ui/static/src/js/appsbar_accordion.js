@@ -3,6 +3,7 @@
 import { Component, useState, onMounted, onWillStart } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
+import { createNavbarEnhancer } from "./navbar_brand";
 
 /**
  * Edicai sidebar (accordion, recursive) — replaces the muk AppsBar entirely.
@@ -42,6 +43,13 @@ export class EdicaiAppsBar extends Component {
         } else {
             document.body.classList.add("e_sidebar_type_large");
         }
+
+        // navbar brand + universal search (keeps itself re-injected)
+        onMounted(() => {
+            const refresh = createNavbarEnhancer(this.env);
+            refresh();
+            this.env.bus.addEventListener("MENUS:APP-CHANGED", refresh);
+        });
     }
 
     _loadApps() {

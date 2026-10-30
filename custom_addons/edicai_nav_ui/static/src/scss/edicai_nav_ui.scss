@@ -164,23 +164,108 @@ body.e_sidebar_type_small .o_web_client {
 
 /* the navbar always stays full-width at the top (its left part would
    otherwise expose the rail's top gap as a floating color block)
-   and only the content columns are offset */
+   and only the content columns are offset.
+   Background matches the EdicAI logo navy. */
 body.e_sidebar_type_large .o_main_navbar,
 body.e_sidebar_type_large > header.o_navbar .o_main_navbar,
 body.e_sidebar_type_small .o_main_navbar,
-body.e_sidebar_type_small > header.o_navbar .o_main_navbar {
-    position: fixed;
+body.e_sidebar_type_small > header.o_navbar .o_main_navbar,
+nav.o_main_navbar,
+header.o_navbar,
+.o_main_navbar {
+    position: fixed !important;
     left: 0;
     right: 0;
     top: 0;
-    z-index: 10;
+    z-index: 1000;
     padding-left: 0;
+    background-color: #0d1a33 !important;
+    background: #0d1a33 !important;
 }
 
 /* submenus live in the sidebar only — the navbar section strip is removed */
 body .o_menu_sections,
 body .o_menu_sections_more {
     display: none !important;
+}
+
+// ---------- brand (replaces the hamburger) ----------
+.o_main_navbar .o_menu_toggle.e_menu_toggle_hidden {
+    border: 0;
+    color: #fff;
+    .e_brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        user-select: none;
+        .e_brand_logo {
+            width: 26px;
+            height: 26px;
+            flex-shrink: 0;
+        }
+        .e_brand_name {
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: .01em;
+            color: #fff;
+            .e_brand_ai {
+                color: #14b8a6;   /* logo teal */
+            }
+        }
+    }
+}
+
+// ---------- universal search, centered in the navbar ----------
+.e_searchbar {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 6px;
+    width: min(420px, 34vw);
+    max-width: 46vw;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 8px;
+    padding: 5px 12px;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 150ms ease, border-color 150ms ease;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.16);
+        border-color: rgba(255, 255, 255, 0.34);
+    }
+    &:focus-visible {
+        outline: 2px solid #14b8c4;
+        outline-offset: 1px;
+    }
+    .e_search_icon { color: rgba(255, 255, 255, 0.75); }
+    .e_search_ph {
+        flex: 1;
+        text-align: left;
+        opacity: 0.9;
+    }
+    .e_search_kbd {
+        background: rgba(255, 255, 255, 0.14);
+        border-radius: 5px;
+        padding: 1px 7px;
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.85);
+    }
+
+    /* keep out of the avatar/systray zone on narrow screens */
+    @media (max-width: 991px) {
+        left: 56px;
+        transform: none;
+        width: calc(100% - 130px);
+        max-width: none;
+        top: 5px;
+    }
 }
 
 /* ---------- top-bar companion buttons — light glyphs on the dark navbar ---------- */

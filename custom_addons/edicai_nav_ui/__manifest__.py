@@ -31,6 +31,7 @@ Phase 2/3 of the navigation redesign, isolated from module data logic:
         'web.assets_backend': [
             'edicai_nav_ui/static/src/scss/edicai_nav_ui.scss',
             'edicai_nav_ui/static/src/xml/edicai_nav_ui.xml',
+            'edicai_nav_ui/static/src/js/navbar_brand.js',
             'edicai_nav_ui/static/src/js/appsbar_accordion.js',
             'edicai_nav_ui/static/src/js/topbar_buttons.js',
         ],
