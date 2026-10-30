@@ -100,6 +100,7 @@
     <field name="model">edicai.document</field>
     <field name="arch" type="xml">
       <kanban>
+          <field name="is_verified"/>
         <templates>
           <t t-name="card">
             <div class="edicai-kanban-document w-100 h-100 d-flex flex-column position-relative">

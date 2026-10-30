@@ -168,6 +168,7 @@
       <field name="model">edicai.course</field>
       <field name="arch" type="xml">
         <kanban default_group_by="course_state">
+          <field name="course_state"/>
           <templates>
             <t t-name="card">
               <div class="oe_kanban_card oe_kanban_global_click">

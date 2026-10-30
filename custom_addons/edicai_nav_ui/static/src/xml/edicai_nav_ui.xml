@@ -36,8 +36,8 @@
                role="menuitem"
                t-att-aria-label="node.label"
                t-att-title="this.state.isCollapsed ? node.label : ''">
-                <img t-if="node.webIconData" class="e_app_icon" t-att-src="_iconSrc(node)" t-att-alt="node.label"/>
-                <img t-else="" class="e_app_icon" src="/edicai_nav_ui/static/src/icons/ic_apps.svg" t-att-alt="node.label"/>
+                <img t-if="level === 0 and node.webIconData" class="e_app_icon" t-att-src="_iconSrc(node)" t-att-alt="node.label"/>
+                <img t-elif="level === 0" class="e_app_icon" src="/edicai_nav_ui/static/src/icons/ic_apps.svg" t-att-alt="node.label"/>
                 <span class="e_app_name"><t t-out="node.label"/></span>
                 <i t-if="node.children.length"
                    t-attf-class="fa fa-chevron-down e_acc_chevron {{ this.isOpen(node) ? 'open' : '' }}"/>

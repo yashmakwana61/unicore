@@ -205,6 +205,7 @@
     <field name="model">edicai.faculty.member</field>
     <field name="arch" type="xml">
       <kanban class="o_kanban_mobile" highlight_color="color">
+          <field name="id"/>
         <field name="employee_id_number"/>
         <field name="display_name"/>
         <field name="designation"/>

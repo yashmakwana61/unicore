@@ -133,6 +133,7 @@
             <field name="model">edicai.course.offering</field>
             <field name="arch" type="xml">
                 <kanban default_group_by="offering_state">
+          <field name="offering_state"/>
                     <templates>
                         <t t-name="card">
                             <div class="oe_kanban_card oe_kanban_global_click">
