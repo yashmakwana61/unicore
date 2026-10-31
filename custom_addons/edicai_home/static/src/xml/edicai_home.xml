@@ -26,6 +26,39 @@
             </t>
 
             <t t-elif="state.data">
+                <!-- ============ Customize Modal ===================== -->
+                <div t-if="state.showCustomize" class="o_customize_overlay" t-on-click="toggleCustomize">
+                    <div class="o_customize_modal" t-on-click.stop="">
+                        <div class="o_customize_header">
+                            <h3>Customize Dashboard</h3>
+                            <button class="o_customize_close" t-on-click="toggleCustomize">
+                                <i class="fa fa-times"/>
+                            </button>
+                        </div>
+                        <div class="o_customize_body">
+                            <p class="text-muted small mb-2">Choose which widgets to display on your dashboard.</p>
+                            <div class="o_customize_list">
+                                <t t-foreach="state.availableWidgets" t-as="wkey" t-key="wkey">
+                                    <label class="o_customize_item">
+                                        <input type="checkbox"
+                                               t-att-checked="isWidgetEnabled(wkey) ? 'checked' : null"
+                                               t-on-change="() => this.toggleWidget(wkey)"/>
+                                        <span><t t-esc="widgetLabel(wkey)"/></span>
+                                    </label>
+                                </t>
+                            </div>
+                        </div>
+                        <div class="o_customize_footer">
+                            <button class="btn btn-sm btn-outline-secondary" t-on-click="resetWidgetPrefs">
+                                Reset to defaults
+                            </button>
+                            <button class="btn btn-sm btn-primary" t-on-click="saveWidgetPrefs">
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- ============ Header ============================= -->
                 <header class="o_home_header">
                     <div class="o_home_header_main">
@@ -57,6 +90,10 @@
                             </div>
                         </div>
                         <div class="o_home_header_action">
+                            <button class="o_home_customize_btn" t-on-click="toggleCustomize"
+                                    title="Customize dashboard widgets" aria-label="Customize dashboard">
+                                <i class="fa fa-sliders"/> Customize
+                            </button>
                             <t t-if="state.data.onboarding and state.data.onboarding.progress and state.data.onboarding.progress.percent &lt; 100">
                                 <button class="o_home_cta" t-on-click="continueSetup"
                                         aria-label="Continue setup">

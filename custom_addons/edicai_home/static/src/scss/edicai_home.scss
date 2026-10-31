@@ -572,3 +572,88 @@
     white-space: nowrap;
 }
 .o_ai_insight_action:hover { text-decoration: underline; }
+﻿/* Customize modal */
+.o_customize_overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.o_customize_modal {
+    background: #fff;
+    border-radius: 14px;
+    width: 420px;
+    max-width: 90vw;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.o_customize_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+.o_customize_header h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+}
+.o_customize_close {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 0.25rem;
+}
+.o_customize_close:hover { color: #374151; }
+.o_customize_body {
+    padding: 1rem 1.25rem;
+    overflow-y: auto;
+    flex: 1;
+}
+.o_customize_list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.o_customize_item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    padding: 0.35rem 0.5rem;
+    border-radius: 6px;
+    transition: background 0.1s;
+}
+.o_customize_item:hover { background: #f3f4f6; }
+.o_customize_item input { width: 16px; height: 16px; }
+.o_customize_footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    border-top: 1px solid #e5e7eb;
+}
+.o_home_customize_btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #374151;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.o_home_customize_btn:hover { background: #e5e7eb; }

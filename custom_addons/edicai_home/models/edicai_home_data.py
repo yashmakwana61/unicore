@@ -230,6 +230,47 @@ class EdicaiHomeData(models.Model):
         return [role for role in PROFILE_ROLE_ORDER
                 if user.has_group(ROLE_GROUPS[role])]
 
+    @api.model
+    def _pref_key(self, user):
+        return 'edicai_home.widgets.%s' % user.id
+
+    @api.model
+    def _get_widget_prefs(self, user):
+        import json
+        icp = self.env['ir.config_parameter'].sudo()
+        raw = icp.get_param(self._pref_key(user), '')
+        if not raw.strip():
+            return None
+        try:
+            return set(json.loads(raw))
+        except (ValueError, TypeError):
+            return None
+
+    @api.model
+    def get_available_widgets(self):
+        user = self.env.user
+        roles = self._profile_roles(user)
+        keys = []
+        for key in WIDGET_ROLES:
+            widget_roles = self._roles_for_widget(key)
+            if any(role in widget_roles for role in roles):
+                keys.append(key)
+        return keys
+
+    @api.model
+    def save_widget_prefs(self, enabled_keys):
+        import json
+        user = self.env.user
+        icp = self.env['ir.config_parameter'].sudo()
+        icp.set_param(self._pref_key(user), json.dumps(sorted(enabled_keys)))
+        return {'ok': True}
+
+    @api.model
+    def reset_widget_prefs(self):
+        icp = self.env['ir.config_parameter'].sudo()
+        icp.set_param(self._pref_key(self.env.user), '')
+        return {'ok': True}
+
     def _roles_for_widget(self, key):
         return WIDGET_ROLES.get(key) or PROFILE_ROLE_ORDER
 
@@ -245,6 +286,9 @@ class EdicaiHomeData(models.Model):
             widget_roles = self._roles_for_widget(key)
             if any(role in widget_roles for role in roles):
                 widget_keys.append(key)
+        prefs = self._get_widget_prefs(user)
+        if prefs is not None:
+            widget_keys = [k for k in widget_keys if k in prefs]
         widgets = [self._build_widget(key, user, roles)
                    for key in widget_keys]
         return {

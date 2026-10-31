@@ -19,8 +19,14 @@ export class EdicaiHome extends Component {
             data: null,
             tab: sessionStorage.getItem("edicai_home_tab") || "dashboard",
             perWidgetError: {},
+            showCustomize: false,
+            availableWidgets: [],
+            widgetPrefs: null,
         });
-        onWillStart(() => this.loadData());
+        onWillStart(async () => {
+            await this.loadData();
+            await this.loadWidgetPrefs();
+        });
     }
 
     async loadData() {
@@ -35,6 +41,89 @@ export class EdicaiHome extends Component {
         }
         this.state.loading = false;
         sessionStorage.setItem("edicai_home_tab", this.state.tab);
+    }
+
+    async loadWidgetPrefs() {
+        try {
+            this.state.availableWidgets = await this.orm.call(
+                "edicai.home.data", "get_available_widgets", [], {});
+            this.state.widgetPrefs = null;
+        } catch (err) {
+            console.warn("edicai_home: could not load widget prefs", err);
+        }
+    }
+
+    toggleCustomize() {
+        this.state.showCustomize = !this.state.showCustomize;
+    }
+
+    isWidgetEnabled(key) {
+        if (!this.state.widgetPrefs) return true;
+        return this.state.widgetPrefs.includes(key);
+    }
+
+    async toggleWidget(key) {
+        const comp = this;
+        if (!comp.state.widgetPrefs) {
+            comp.state.widgetPrefs = [...comp.state.availableWidgets];
+        }
+        const idx = comp.state.widgetPrefs.indexOf(key);
+        if (idx >= 0) {
+            comp.state.widgetPrefs.splice(idx, 1);
+        } else {
+            comp.state.widgetPrefs.push(key);
+        }
+    }
+
+    async saveWidgetPrefs() {
+        try {
+            await this.orm.call("edicai.home.data", "save_widget_prefs",
+                [this.state.widgetPrefs || this.state.availableWidgets], {});
+            this.state.showCustomize = false;
+            await this.loadData();
+            this.notification.add("Dashboard preferences saved", { type: "success" });
+        } catch (err) {
+            this.notification.add("Could not save preferences", { type: "danger" });
+        }
+    }
+
+    async resetWidgetPrefs() {
+        try {
+            await this.orm.call("edicai.home.data", "reset_widget_prefs", [], {});
+            this.state.widgetPrefs = null;
+            this.state.showCustomize = false;
+            await this.loadData();
+            this.notification.add("Dashboard reset to defaults", { type: "success" });
+        } catch (err) {
+            this.notification.add("Could not reset preferences", { type: "danger" });
+        }
+    }
+
+    widgetLabel(key) {
+        const labels = {
+            'enrollment_overview': 'Enrollment Overview',
+            'admissions_pipeline': 'Admissions Pipeline',
+            'fee_collection': 'Fee Collection',
+            'attendance_overview': 'Attendance Overview',
+            'pending_approvals': 'Pending Approvals',
+            'overdue_alerts': 'Overdue Alerts',
+            'recent_payments': 'Recent Payments',
+            'today_classes_faculty': "Today's Classes (Faculty)",
+            'assignments_review': 'Assignments to Review',
+            'pending_grading': 'Pending Grading',
+            'today_classes_student': "Today's Classes (Student)",
+            'my_attendance': 'My Attendance',
+            'my_assignments': 'My Assignments',
+            'my_results': 'My Results',
+            'library_overdue': 'Overdue Books',
+            'library_activity': 'Library Activity',
+            'placement_overview': 'Placement Overview',
+            'website_shortcuts': 'Website Shortcuts',
+            'institution_notices': 'Announcements',
+            'quick_links': 'Quick Links',
+            'upcoming_schedule': 'Upcoming Schedule',
+        };
+        return labels[key] || key;
     }
 
     selectTab(ev) {
