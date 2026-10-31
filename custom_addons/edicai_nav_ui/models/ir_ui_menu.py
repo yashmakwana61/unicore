@@ -70,3 +70,42 @@ class IrUiMenu(models.Model):
             if vals.get('edicai_icon'):
                 vals['web_icon'] = 'edicai_nav_ui,static/src/icons/%s.svg' % vals['edicai_icon']
         return super().create(vals_list)
+
+    @api.model
+    def edicai_apply_workspace_icons(self):
+        """Force-apply the premium 3D PNG icon set to the workspace roots,
+        Home root and the Settings menu.
+
+        The workspace/home menus are declared in noupdate="1" data files, so
+        plain <record> overrides from this module are silently skipped by the
+        data loader on existing databases. An imperative ORM write is not
+        subject to that guard, hence this helper (called from
+        data/navigation_icons.xml on every edicai_nav_ui upgrade)."""
+        assignments = [
+            ('edicai_navigation.menu_workspace_10', 'ic_institution.png'),
+            ('edicai_navigation.menu_workspace_20', 'ic_admissions.png'),
+            ('edicai_navigation.menu_workspace_30', 'ic_student.png'),
+            ('edicai_navigation.menu_workspace_40', 'ic_teaching.png'),
+            ('edicai_navigation.menu_workspace_50', 'ic_exams.png'),
+            ('edicai_navigation.menu_workspace_60', 'ic_finance.png'),
+            ('edicai_navigation.menu_workspace_70', 'ic_campus.png'),
+            ('edicai_navigation.menu_workspace_80', 'ic_careers.png'),
+            ('edicai_navigation.menu_workspace_90', 'ic_insights.png'),
+            ('edicai_navigation.menu_workspace_100', 'ic_communication.png'),
+            ('edicai_navigation.menu_workspace_110', 'ic_administration.png'),
+            ('edicai_home.menu_edicai_home_app', 'ic_home.png'),
+        ]
+        IMD = self.env['ir.model.data'].sudo()
+        applied = 0
+        for xmlid, icon in assignments:
+            data = IMD.search([('model', '=', 'ir.ui.menu'),
+                               ('module', '=', xmlid.split('.')[0]),
+                               ('name', '=', xmlid.split('.')[1])], limit=1)
+            if not data:
+                continue
+            menu = self.browse(data.res_id).sudo()
+            path = 'edicai_nav_ui,static/src/icons/%s' % icon
+            if menu.web_icon != path:
+                menu.web_icon = path
+                applied += 1
+        return applied

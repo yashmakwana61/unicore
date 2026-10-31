@@ -1,10 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <!-- App-menu icon assignments (minimal transparent line icons).
+        <!-- App-menu icon assignments (premium 3D icon set, 256px PNG).
              NOT noupdate: re-asserted on every edicai_nav_ui upgrade so core
-             module upgrades cannot revert them (Website/Apps are core menus). -->
-        <!-- Website and Apps retain their original Odoo icons (not overridden) -->
-        <!-- Settings (base.menu_administration) and Link Tracker retain Odoo defaults -->
+             module upgrades cannot revert them. -->
+        <!-- Workspace roots -->
+        <record id="edicai_navigation.menu_workspace_10" model="ir.ui.menu">
+            <field name="web_icon">edicai_nav_ui,static/src/icons/ic_institution.png</field>
+        </record>
+        <record id="edicai_navigation.menu_workspace_20" model="ir.ui.menu">
+            <field name="web_icon">edicai_nav_ui,static/src/icons/ic_admissions.png</field>
+        </record>
+        <record id="edicai_navigation.menu_workspace_30" model="ir.ui.menu">
+            <field name="web_icon">edicai_nav_ui,static/src/icons/ic_student.png</field>
+        </record>
+        <record id="edicai_navigation.menu_workspace_40" model="ir.ui.menu">
+            <field name="web_icon">edicai_nav_ui,static/src/icons/ic_teaching.png</field>
+        </record>
+        <record id="edicai_navigation.menu_workspace_50" model="ir.ui.menu">
+            <field name="web_icon">edicai_nav_ui,static/src/icons/ic_exams.png</field>
+        </record>
+        <record id="edicai_navigation.menu_workspace_60" model="ir.ui.menu">
+            <field name="web_icon">edicai_nav_ui,static/src/icons/ic_finance.png</field>
+        </record>
+        <record id="edicai_navigation.menu_workspace_70" model="ir.ui.menu">
+            <field name="web_icon">edicai_nav_ui,static/src/icons/ic_campus.png</field>
+        </record>
+        <record id="edicai_navigation.menu_workspace_80" model="ir.ui.menu">
+            <field name="web_icon">edicai_nav_ui,static/src/icons/ic_careers.png</field>
+        </record>
+        <record id="edicai_navigation.menu_workspace_90" model="ir.ui.menu">
+            <field name="web_icon">edicai_nav_ui,static/src/icons/ic_insights.png</field>
+        </record>
+        <record id="edicai_navigation.menu_workspace_100" model="ir.ui.menu">
+            <field name="web_icon">edicai_nav_ui,static/src/icons/ic_communication.png</field>
+        </record>
+        <record id="edicai_navigation.menu_workspace_110" model="ir.ui.menu">
+            <field name="web_icon">edicai_nav_ui,static/src/icons/ic_administration.png</field>
+        </record>
+        <!-- Home root (icon ships in edicai_home) -->
+        <record id="edicai_home.menu_edicai_home_app" model="ir.ui.menu">
+            <field name="web_icon">edicai_home,static/src/icons/ic_home.png</field>
+        </record>
+        <!-- Settings row in the sidebar (Administration) -->
+        <record id="base.menu_administration" model="ir.ui.menu">
+            <field name="web_icon">edicai_nav_ui,static/src/icons/ic_administration.png</field>
+        </record>
+        <!-- noupdate="1" menus (workspaces, Home root): plain <record> writes
+             are skipped by the data loader for those xmlids, so force-apply
+             via ORM on every upgrade. -->
+        <function model="ir.ui.menu" name="edicai_apply_workspace_icons"/>
     </data>
 </odoo>

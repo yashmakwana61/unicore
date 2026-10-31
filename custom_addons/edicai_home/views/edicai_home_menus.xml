@@ -8,7 +8,7 @@
                   name="Home"
                   action="action_edicai_home"
                   sequence="1"
-                  web_icon="edicai_home,static/src/icons/ic_home.svg"
+                  web_icon="edicai_home,static/src/icons/ic_home.png"
                   groups="base.group_user,edicai_base.group_edicai_student"/>
 
         <!-- Editorial menus live under standard Administration (kept

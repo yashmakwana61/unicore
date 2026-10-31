@@ -57,7 +57,8 @@
     <t t-name="edicai_nav_ui.NavCalendarButton" owl="1">
         <button type="button" class="o_navcom_btn o_navcom_calendar"
                 t-on-click="onClick" title="Calendar" aria-label="Calendar">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="16" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M8 14h3M14 14h2M6.5 17h3M13 17h5"/></svg>
+            <img class="e_navcom_img" src="/edicai_nav_ui/static/src/icons/ic_calendar.png"
+                 width="22" height="22" alt="Calendar"/>
         </button>
     </t>
 
