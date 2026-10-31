@@ -32,6 +32,13 @@ class FeatureIntelligenceTests(unittest.TestCase):
             self.assertEqual(len(x["menus"]),1)
             self.assertEqual(x["actions"][0]["model"],"edicai.applicant")
             self.assertEqual(len(x["views"]),1)
+    def test_report_action(self):
+        with tempfile.TemporaryDirectory() as t:
+            p=Path(t)/"report.xml"
+            p.write_text('<odoo><record id="report_x" model="ir.actions.report"><field name="name">Student Card</field><field name="model">edicai.student</field></record></odoo>')
+            x=fi.xml_details(p)
+            self.assertEqual(len(x["reports"]),1)
+            self.assertEqual(len(x["actions"]),1)
     def test_acl(self):
         with tempfile.TemporaryDirectory() as t:
             p=Path(t)/"ir.model.access.csv"

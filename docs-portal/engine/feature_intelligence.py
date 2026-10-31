@@ -77,6 +77,9 @@ def xml_details(path):
         fields={x.get("name"): (x.text or "").strip() or x.get("ref") for x in elem.findall("field") if x.get("name")}
         item=located(path,None,xml_id=elem.get("id"),name=fields.get("name"))
         if typ=="ir.ui.menu":out["menus"].append({**item,"parent":fields.get("parent_id"),"action":fields.get("action")})
+        elif typ=="ir.actions.report":
+            out["reports"].append({**item,"report_model":fields.get("model")})
+            out["actions"].append({**item,"action_type":typ,"model":fields.get("model")})
         elif typ.startswith("ir.actions."):
             out["actions"].append({**item,"action_type":typ,"model":fields.get("res_model")})
         elif typ=="ir.ui.view":
