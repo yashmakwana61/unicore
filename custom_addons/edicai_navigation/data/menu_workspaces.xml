@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
+    <data noupdate="1">
         <record id="menu_workspace_10" model="ir.ui.menu">
             <field name="name">Institution</field>
             <field name="sequence">10</field>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
+    <data noupdate="1">
         <!-- Sidebar "Home" app root: opens the Edicai Home dashboard on click.
              Placed first (sequence 1) in the APPS list. Visible to every
              Edicai role including the backend-facing student demo role. -->
