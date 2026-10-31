@@ -42,11 +42,7 @@ Stage D of the navigation restructuring — combined custom + standard edition:
         'data/menu_workspaces.xml',
         'wizards/navigation_preview_views.xml',
     ],
-    'assets': {
-        'web.assets_backend': [
-            'edicai_navigation/static/src/js/preview_banner.js',
-        ],
-    },
+    'assets': {},
     'application': False,
     'installable': True,
     'auto_install': False,
