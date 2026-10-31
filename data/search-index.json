@@ -1,0 +1,434 @@
+[
+  {
+    "title": "Edicai Academic Structure 🏠",
+    "description": "Faculty, Department, Program and Specialisation management",
+    "path": "/docs/modules/edicai_academic",
+    "keywords": "edicai_academic"
+  },
+  {
+    "title": "Edicai Generic Academic Structure",
+    "description": "Generic self-referencing academic unit tree (Faculty, Department, Grade Level, Wing...)",
+    "path": "/docs/modules/edicai_academic_generic",
+    "keywords": "edicai_academic_generic"
+  },
+  {
+    "title": "Admission Management 🏠",
+    "description": "Complete admission lifecycle from inquiry to confirmed enrollment",
+    "path": "/docs/modules/edicai_admission",
+    "keywords": "edicai_admission"
+  },
+  {
+    "title": "Admission Fees Bridge",
+    "description": "Bridge between admission and fee management",
+    "path": "/docs/modules/edicai_admission_fees",
+    "keywords": "edicai_admission_fees"
+  },
+  {
+    "title": "Edicai AI 🏠",
+    "description": "AI-Powered Assistant for Edicai — Powered by OpenCode Zen",
+    "path": "/docs/modules/edicai_ai",
+    "keywords": "edicai_ai"
+  },
+  {
+    "title": "Alumni Engagement",
+    "description": "Bridge Edicai alumni into Odoo mass mailing and events",
+    "path": "/docs/modules/edicai_alumni",
+    "keywords": "edicai_alumni"
+  },
+  {
+    "title": "Analytics 🏠",
+    "description": "Institutional analytics dashboards for academic, financial and student data",
+    "path": "/docs/modules/edicai_analytics",
+    "keywords": "edicai_analytics"
+  },
+  {
+    "title": "Edicai API",
+    "description": "RESTful API gateway for Edicai ERP",
+    "path": "/docs/modules/edicai_api",
+    "keywords": "edicai_api"
+  },
+  {
+    "title": "Edicai Appointment 🏠",
+    "description": "Online Appointment Booking",
+    "path": "/docs/modules/edicai_appointment",
+    "keywords": "edicai_appointment"
+  },
+  {
+    "title": "Asset Request 🏠",
+    "description": "Equipment and facility request and approval workflow",
+    "path": "/docs/modules/edicai_asset_request",
+    "keywords": "edicai_asset_request"
+  },
+  {
+    "title": "Edicai Assignments 🏠",
+    "description": "Course assignments, submissions, rubrics and grading for Edicai ERP",
+    "path": "/docs/modules/edicai_assignment",
+    "keywords": "edicai_assignment"
+  },
+  {
+    "title": "Attendance Management 🏠",
+    "description": "Session attendance tracking, policy enforcement and shortage alerts",
+    "path": "/docs/modules/edicai_attendance",
+    "keywords": "edicai_attendance"
+  },
+  {
+    "title": "SIS 🏠",
+    "description": "Base module for Education Management Suite",
+    "path": "/docs/modules/edicai_base",
+    "keywords": "edicai_base"
+  },
+  {
+    "title": "Edicai Academic Calendar",
+    "description": "Academic year, semester, term and holiday management",
+    "path": "/docs/modules/edicai_calendar",
+    "keywords": "edicai_calendar"
+  },
+  {
+    "title": "Edicai Campus Management",
+    "description": "Complete campus, building, room and facility management",
+    "path": "/docs/modules/edicai_campus",
+    "keywords": "edicai_campus"
+  },
+  {
+    "title": "Convocation Management",
+    "description": "Bridge Edicai convocation into Odoo events",
+    "path": "/docs/modules/edicai_convocation",
+    "keywords": "edicai_convocation"
+  },
+  {
+    "title": "Admissions CRM",
+    "description": "Bridge Edicai admission applicants into Odoo CRM pipeline",
+    "path": "/docs/modules/edicai_crm",
+    "keywords": "edicai_crm"
+  },
+  {
+    "title": "Edicai Curriculum 🏠",
+    "description": "Program and Curriculum Management for Edicai ERP",
+    "path": "/docs/modules/edicai_curriculum",
+    "keywords": "edicai_curriculum"
+  },
+  {
+    "title": "Edicai Demo Data",
+    "description": "Realistic demo data for Edicai ERP — institution-aware datasets",
+    "path": "/docs/modules/edicai_demo",
+    "keywords": "edicai_demo"
+  },
+  {
+    "title": "Edicai Digital Library 🏠",
+    "description": "Digital Library Materials",
+    "path": "/docs/modules/edicai_digital_library",
+    "keywords": "edicai_digital_library"
+  },
+  {
+    "title": "Edicai Discipline 🏠",
+    "description": "Discipline Management",
+    "path": "/docs/modules/edicai_discipline",
+    "keywords": "edicai_discipline"
+  },
+  {
+    "title": "Documents 🏠",
+    "description": "Centralised document management for students, faculty and institution",
+    "path": "/docs/modules/edicai_documents",
+    "keywords": "edicai_documents"
+  },
+  {
+    "title": "Examination Management 🏠",
+    "description": "Exam scheduling, hall tickets, seating plans and eligibility checks",
+    "path": "/docs/modules/edicai_exam",
+    "keywords": "edicai_exam"
+  },
+  {
+    "title": "Edicai Faculty & Staff 🏠",
+    "description": "Faculty member and administrative staff profile management",
+    "path": "/docs/modules/edicai_faculty_profile",
+    "keywords": "edicai_faculty_profile"
+  },
+  {
+    "title": "Fees 🏠",
+    "description": "Student fee management, invoicing and payment tracking",
+    "path": "/docs/modules/edicai_fees",
+    "keywords": "edicai_fees"
+  },
+  {
+    "title": "Finance Reports 🏠",
+    "description": "Financial dashboards, fee analytics and revenue reporting",
+    "path": "/docs/modules/edicai_finance_report",
+    "keywords": "edicai_finance_report"
+  },
+  {
+    "title": "Edicai Grade Book 🏠",
+    "description": "Per-course assignment grade book with CA weighting, integrated with Grading & Results",
+    "path": "/docs/modules/edicai_gradebook",
+    "keywords": "edicai_gradebook"
+  },
+  {
+    "title": "Grading & Results 🏠",
+    "description": "Marks entry, grade computation, GPA/CGPA and semester results",
+    "path": "/docs/modules/edicai_grading",
+    "keywords": "edicai_grading"
+  },
+  {
+    "title": "Edicai Grievance 🏠",
+    "description": "Grievance Management",
+    "path": "/docs/modules/edicai_grievance",
+    "keywords": "edicai_grievance"
+  },
+  {
+    "title": "Edicai Guardians 🏠",
+    "description": "Parent and guardian profile management with portal access",
+    "path": "/docs/modules/edicai_guardian",
+    "keywords": "edicai_guardian"
+  },
+  {
+    "title": "Home",
+    "description": "Source addon; detailed reference pending analysis",
+    "path": "/docs/modules/edicai_home",
+    "keywords": "edicai_home"
+  },
+  {
+    "title": "Hostel 🏠",
+    "description": "University hostel and accommodation management for student residences",
+    "path": "/docs/modules/edicai_hostel",
+    "keywords": "edicai_hostel"
+  },
+  {
+    "title": "Edicai Institution Profile",
+    "description": "Institution type, terminology and feature profiles driving multi-entity behavior",
+    "path": "/docs/modules/edicai_institution_profile",
+    "keywords": "edicai_institution_profile"
+  },
+  {
+    "title": "Library 🏠",
+    "description": "University library management with catalogue, issue tracking and fines",
+    "path": "/docs/modules/edicai_library",
+    "keywords": "edicai_library"
+  },
+  {
+    "title": "Edicai LMS 🏠",
+    "description": "Advanced Learning Management System for Edicai",
+    "path": "/docs/modules/edicai_lms",
+    "keywords": "edicai_lms"
+  },
+  {
+    "title": "Edicai Student Mentor 🏠",
+    "description": "Student Mentoring System",
+    "path": "/docs/modules/edicai_mentor",
+    "keywords": "edicai_mentor"
+  },
+  {
+    "title": "Nav Ui",
+    "description": "Source addon; detailed reference pending analysis",
+    "path": "/docs/modules/edicai_nav_ui",
+    "keywords": "edicai_nav_ui"
+  },
+  {
+    "title": "Navigation",
+    "description": "Source addon; detailed reference pending analysis",
+    "path": "/docs/modules/edicai_navigation",
+    "keywords": "edicai_navigation"
+  },
+  {
+    "title": "Edicai Notice Board 🏠",
+    "description": "Persistent circulars and notices for students, faculty and guardians",
+    "path": "/docs/modules/edicai_notice_board",
+    "keywords": "edicai_notice_board"
+  },
+  {
+    "title": "Notifications 🏠",
+    "description": "Multi-channel notification engine for email, WhatsApp and in-app alerts",
+    "path": "/docs/modules/edicai_notify",
+    "keywords": "edicai_notify"
+  },
+  {
+    "title": "Online Fee Payments",
+    "description": "Online fee payment for Edicai through Odoo payment providers",
+    "path": "/docs/modules/edicai_payment",
+    "keywords": "edicai_payment"
+  },
+  {
+    "title": "Edicai Placement 🏠",
+    "description": "Placement Management",
+    "path": "/docs/modules/edicai_placement",
+    "keywords": "edicai_placement"
+  },
+  {
+    "title": "Edicai Faculty Portal 🏠",
+    "description": "Faculty self-service portal for schedule, attendance and grade entry",
+    "path": "/docs/modules/edicai_portal_faculty",
+    "keywords": "edicai_portal_faculty"
+  },
+  {
+    "title": "Edicai Guardian Portal 🏠",
+    "description": "Guardian self-service portal for ward academic and fee monitoring",
+    "path": "/docs/modules/edicai_portal_guardian",
+    "keywords": "edicai_portal_guardian"
+  },
+  {
+    "title": "Edicai Student Portal 🏠",
+    "description": "Student self-service portal for academic records, fees and results",
+    "path": "/docs/modules/edicai_portal_student",
+    "keywords": "edicai_portal_student"
+  },
+  {
+    "title": "Edicai Progression 🏠",
+    "description": "Student Progression Management",
+    "path": "/docs/modules/edicai_progression",
+    "keywords": "edicai_progression"
+  },
+  {
+    "title": "Edicai Quiz 🏠",
+    "description": "Quiz / Question Bank + Anti-Cheating",
+    "path": "/docs/modules/edicai_quiz",
+    "keywords": "edicai_quiz"
+  },
+  {
+    "title": "Scholarships 🏠",
+    "description": "Scholarship programs, applications and financial aid disbursement",
+    "path": "/docs/modules/edicai_scholarship",
+    "keywords": "edicai_scholarship"
+  },
+  {
+    "title": "Edicai Secure Transcript 🏠",
+    "description": "Secure Transcript with QR Verification",
+    "path": "/docs/modules/edicai_secure_transcript",
+    "keywords": "edicai_secure_transcript"
+  },
+  {
+    "title": "Edicai Security",
+    "description": "Security and access control for Edicai Education Management Suite",
+    "path": "/docs/modules/edicai_security",
+    "keywords": "edicai_security"
+  },
+  {
+    "title": "Edicai Student Skill Assessment 🏠",
+    "description": "Student Skill Assessment System",
+    "path": "/docs/modules/edicai_skill_assessment",
+    "keywords": "edicai_skill_assessment"
+  },
+  {
+    "title": "Edicai Students 🏠",
+    "description": "Complete student profile and lifecycle management",
+    "path": "/docs/modules/edicai_student",
+    "keywords": "edicai_student"
+  },
+  {
+    "title": "Edicai Student Leave Requests 🏠",
+    "description": "Student/guardian-initiated leave request workflow with approval routing",
+    "path": "/docs/modules/edicai_student_leave",
+    "keywords": "edicai_student_leave"
+  },
+  {
+    "title": "Forge Studio — AI No-Code Platform (Odoo Studio UX Parity) 🏠",
+    "description": "Odoo Studio UX Parity: 3-pane shell, Selection Manager, Properties, Drag-Drop, AI Copilot",
+    "path": "/docs/modules/edicai_studio",
+    "keywords": "edicai_studio"
+  },
+  {
+    "title": "Edicai Premium Theme 🏠",
+    "description": "Enterprise-style premium backend theme for Edicai ERP",
+    "path": "/docs/modules/edicai_theme",
+    "keywords": "edicai_theme"
+  },
+  {
+    "title": "Edicai Thesis 🏠",
+    "description": "Thesis Management",
+    "path": "/docs/modules/edicai_thesis",
+    "keywords": "edicai_thesis"
+  },
+  {
+    "title": "Timetable & Scheduling 🏠",
+    "description": "Class scheduling, time slots and conflict-free timetable generation",
+    "path": "/docs/modules/edicai_timetable",
+    "keywords": "edicai_timetable"
+  },
+  {
+    "title": "Transport 🏠",
+    "description": "University student transport management with routes and passes",
+    "path": "/docs/modules/edicai_transport",
+    "keywords": "edicai_transport"
+  },
+  {
+    "title": "Transport Fleet Integration",
+    "description": "Bridge Edicai transport vehicles into Odoo Fleet management",
+    "path": "/docs/modules/edicai_transport_fleet",
+    "keywords": "edicai_transport_fleet"
+  },
+  {
+    "title": "Edicai Web Theme",
+    "description": "Light/dark color scheme with a General Settings toggle (modern SaaS UI base)",
+    "path": "/docs/modules/edicai_web_theme",
+    "keywords": "edicai_web_theme"
+  },
+  {
+    "title": "Admissions Website",
+    "description": "Bridge Edicai admissions into Odoo website, livechat and CRM",
+    "path": "/docs/modules/edicai_website",
+    "keywords": "edicai_website"
+  },
+  {
+    "title": "MuK AppsBar",
+    "description": "Adds a sidebar to the main screen",
+    "path": "/docs/modules/muk_web_appsbar",
+    "keywords": "muk_web_appsbar"
+  },
+  {
+    "title": "MuK Chatter",
+    "description": "Adds options for the chatter",
+    "path": "/docs/modules/muk_web_chatter",
+    "keywords": "muk_web_chatter"
+  },
+  {
+    "title": "MuK Colors",
+    "description": "Customize your Odoo colors",
+    "path": "/docs/modules/muk_web_colors",
+    "keywords": "muk_web_colors"
+  },
+  {
+    "title": "MuK Dialog",
+    "description": "Adds options for the dialogs",
+    "path": "/docs/modules/muk_web_dialog",
+    "keywords": "muk_web_dialog"
+  },
+  {
+    "title": "MuK Groups",
+    "description": "Adds expand/collapse for views",
+    "path": "/docs/modules/muk_web_group",
+    "keywords": "muk_web_group"
+  },
+  {
+    "title": "MuK Web Refresh",
+    "description": "Refresh views manually, automatically, or from the backend",
+    "path": "/docs/modules/muk_web_refresh",
+    "keywords": "muk_web_refresh"
+  },
+  {
+    "title": "MuK Backend Theme",
+    "description": "Odoo Community Backend Theme",
+    "path": "/docs/modules/muk_web_theme",
+    "keywords": "muk_web_theme"
+  },
+  {
+    "title": "Odoo Modern SaaS Backend UX 🏠",
+    "description": "Modern SaaS shell, OWL components, dashboards, dynamic sidebar and live theme customization for Odoo Community",
+    "path": "/docs/modules/odoo_modern_backend_full",
+    "keywords": "odoo_modern_backend_full"
+  },
+  {
+    "title": "Telegram Odoo Integration",
+    "description": "Collect orders via Telegram and submit to AI Parser for Sales Order creation",
+    "path": "/docs/modules/telegram_odoo_integration",
+    "keywords": "telegram_odoo_integration"
+  },
+  {
+    "title": "Complete Module Catalog",
+    "description": "All Odoo modules",
+    "path": "/docs/reference/module-catalog",
+    "keywords": "catalog inventory"
+  },
+  {
+    "title": "Welcome to Edicai",
+    "description": "Start here",
+    "path": "/docs/getting-started/overview",
+    "keywords": "getting started"
+  }
+]

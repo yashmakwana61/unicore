@@ -1,0 +1,7 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule (^|/)\.git(/|$) - [F,L,NC]
+</IfModule>
+<IfModule mod_autoindex.c>
+Options -Indexes
+</IfModule>
