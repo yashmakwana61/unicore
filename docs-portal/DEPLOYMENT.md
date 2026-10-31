@@ -1,4 +1,4 @@
-# Deploying to docs.clasflow.io
+# Deploying to docs.edicai.io
 
 Recommended: connect this GitHub repository to Cloudflare Pages and choose the `docs-portal` root directory.
 
@@ -6,7 +6,7 @@ Recommended: connect this GitHub repository to Cloudflare Pages and choose the `
 - Working directory: `docs-portal`
 - Build command: `npm install --no-audit && npm run build`
 - Output directory from the working directory: `build`
-- Custom domain: `docs.clasflow.io`
+- Custom domain: `docs.edicai.io`
 
 If your provider builds from repository root, use `cd docs-portal && npm install --no-audit && npm run build` and output path `docs-portal/build`.
 

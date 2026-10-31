@@ -1,6 +1,6 @@
-# Clasflow Documentation Portal
+# Edicai Documentation Portal
 
-Docusaurus documentation under `docs-portal/` for the source-backed Odoo 19 Clasflow project.
+Docusaurus documentation under `docs-portal/` for the source-backed Odoo 19 Edicai project.
 
 ## Implemented
 

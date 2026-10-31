@@ -116,7 +116,7 @@ def main():
     folder.mkdir(parents=True,exist_ok=True)
     for x in modules:(folder/(x["slug"]+".md")).write_text(markdown(x,names),encoding="utf-8")
     dataset=[{"title":x["name"],"description":x["summary"],"path":"/docs/modules/"+x["slug"],"keywords":x["slug"]+" "+" ".join(x["depends"])} for x in modules]
-    dataset.append({"title":"Complete Module Catalog","description":"All Clasflow modules","path":"/docs/reference/module-catalog","keywords":"catalog modules"})
+    dataset.append({"title":"Complete Module Catalog","description":"All Edicai modules","path":"/docs/reference/module-catalog","keywords":"catalog modules"})
     data=SITE/"static/data";data.mkdir(parents=True,exist_ok=True)
     (data/"search-index.json").write_text(json.dumps(dataset,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
     (data/"source-inventory.json").write_text(json.dumps(modules,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")

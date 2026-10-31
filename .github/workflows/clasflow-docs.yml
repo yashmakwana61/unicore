@@ -1,10 +1,10 @@
-name: Clasflow Documentation
+name: Edicai Documentation
 on:
   pull_request:
-    paths: ['docs-portal/**','custom_addons/**','.github/workflows/clasflow-docs.yml']
+    paths: ['docs-portal/**','custom_addons/**','.github/workflows/edicai-docs.yml']
   push:
     branches: [main]
-    paths: ['docs-portal/**','custom_addons/**','.github/workflows/clasflow-docs.yml']
+    paths: ['docs-portal/**','custom_addons/**','.github/workflows/edicai-docs.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -28,4 +28,4 @@ jobs:
         working-directory: docs-portal
         run: npm run build
       - uses: actions/upload-artifact@v4
-        with: {name: clasflow-docs-site, path: docs-portal/build}
+        with: {name: edicai-docs-site, path: docs-portal/build}

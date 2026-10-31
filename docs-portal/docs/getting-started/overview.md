@@ -1,11 +1,11 @@
 ---
 id: overview
-title: "Welcome to Clasflow"
+title: "Welcome to Edicai"
 sidebar_position: 1
 ---
-# Welcome to Clasflow
+# Welcome to Edicai
 
-Clasflow is an education management platform developed by **Precisefect Solutions Pvt. Ltd.**, built on Odoo 19 Community Edition.
+Edicai is an education management platform developed by **Precisefect Solutions Pvt. Ltd.**, built on Odoo 19 Community Edition.
 
 The repository includes student records, admissions, academics, attendance, finance, learning, campus management, analytics and portals.
 

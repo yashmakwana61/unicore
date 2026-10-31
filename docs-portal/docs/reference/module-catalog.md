@@ -3,7 +3,7 @@ id: module-catalog
 title: "Complete Module Catalog"
 sidebar_position: 1
 ---
-# Clasflow Module Catalog
+# Edicai Module Catalog
 
 The audited source tree contains **70 Odoo addon manifests** under `custom_addons/`. 67 modules are described in the existing repository addon index, and 3 additional manifests appear in the current tree.
 

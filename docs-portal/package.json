@@ -1,5 +1,5 @@
 {
-  "name": "clasflow-documentation",
+  "name": "edicai-documentation",
   "private": true,
   "version": "0.1.0",
   "scripts": {
@@ -19,5 +19,8 @@
   },
   "engines": {
     "node": ">=20"
+  },
+  "overrides": {
+    "webpack": "5.105.4"
   }
 }

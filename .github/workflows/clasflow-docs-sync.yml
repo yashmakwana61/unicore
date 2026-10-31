@@ -1,4 +1,4 @@
-name: Propose Clasflow Doc Updates
+name: Propose Edicai Doc Updates
 on:
   workflow_dispatch:
   push:
