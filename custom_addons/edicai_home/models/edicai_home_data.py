@@ -251,12 +251,76 @@ class EdicaiHomeData(models.Model):
             'header': self._build_header(user),
             'roles': roles,
             'widgets': widgets,
+            'charts': self._build_charts(user, roles),
             'onboarding': self.env['edicai.onboarding.item'].get_role_onboarding(user, roles),
             'updates': {
                 'product': self.env['edicai.product.update'].get_recent_updates(limit=15),
                 'notices': self.env['edicai.notice']._home_feed(user, limit=8),
             },
         }
+
+    # ------------------------------------------------------------------
+    # Charts
+    # ------------------------------------------------------------------
+    def _build_charts(self, user, roles):
+        charts = []
+        if any(r in roles for r in ('admin', 'manager')):
+            try:
+                data = self.env['edicai.student'].read_group(
+                    [], ['student_state'], ['student_state'], lazy=False)
+                charts.append({
+                    'key': 'enrollment_by_state',
+                    'title': 'Enrollment by Status',
+                    'type': 'donut',
+                    'labels': [d.get('student_state') or 'Unknown' for d in data],
+                    'values': [d.get('__count', 0) for d in data],
+                    'colors': ['#875A7B', '#00A09D', '#F0AD4E', '#F05545', '#5BC0DE'],
+                })
+            except Exception:
+                _logger.warning('enrollment chart failed', exc_info=True)
+        if any(r in roles for r in ('admin', 'registrar', 'manager')):
+            try:
+                data = self.env['edicai.admission.applicant'].read_group(
+                    [], ['state'], ['state'], lazy=False)
+                charts.append({
+                    'key': 'admissions_pipeline',
+                    'title': 'Admissions Pipeline',
+                    'type': 'bar',
+                    'labels': [d.get('state') or 'Unknown' for d in data],
+                    'values': [d.get('__count', 0) for d in data],
+                    'colors': ['#3498DB'],
+                })
+            except Exception:
+                _logger.warning('admissions chart failed', exc_info=True)
+        if any(r in roles for r in ('admin', 'finance', 'manager')):
+            try:
+                data = self.env['edicai.fee.invoice'].read_group(
+                    [], ['invoice_state'], ['invoice_state'], lazy=False)
+                charts.append({
+                    'key': 'fee_status',
+                    'title': 'Fee Invoice Status',
+                    'type': 'donut',
+                    'labels': [d.get('invoice_state') or 'Unknown' for d in data],
+                    'values': [d.get('__count', 0) for d in data],
+                    'colors': ['#5CB85C', '#F0AD4E', '#F05545', '#5BC0DE', '#875A7B'],
+                })
+            except Exception:
+                _logger.warning('fee chart failed', exc_info=True)
+        if any(r in roles for r in ('admin', 'staff', 'manager')):
+            try:
+                data = self.env['edicai.attendance.record'].read_group(
+                    [], ['status'], ['status'], lazy=False)
+                charts.append({
+                    'key': 'attendance_status',
+                    'title': 'Attendance Status',
+                    'type': 'bar',
+                    'labels': [d.get('status') or 'Unknown' for d in data],
+                    'values': [d.get('__count', 0) for d in data],
+                    'colors': ['#21B799'],
+                })
+            except Exception:
+                _logger.warning('attendance chart failed', exc_info=True)
+        return charts
 
     # ------------------------------------------------------------------
     # Header

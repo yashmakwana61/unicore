@@ -104,6 +104,68 @@
                         </t>
                     </div>
 
+                    <!-- Interactive Charts -->
+                    <div t-if="state.data.charts and state.data.charts.length" class="o_charts_grid">
+                        <t t-foreach="state.data.charts" t-as="chart" t-key="chart.key">
+                            <div class="o_chart_card">
+                                <header class="o_chart_head">
+                                    <h3><t t-esc="chart.title"/></h3>
+                                </header>
+                                <div class="o_chart_body">
+                                    <t t-if="chart.type === 'donut'">
+                                        <svg class="o_chart_donut" viewBox="0 0 120 120" width="120" height="120">
+                                            <t t-set="total" t-value="chart.values.reduce((a,b)=>a+b,0)"/>
+                                            <t t-set="offset" t-value="0"/>
+                                            <t t-foreach="chart.values" t-as="val" t-key="val_index">
+                                                <t t-set="pct" t-value="total ? val/total : 0"/>
+                                                <t t-set="dash" t-value="pct * 314"/>
+                                                <circle cx="60" cy="60" r="50" fill="none"
+                                                        t-att-stroke="chart.colors[val_index % chart.colors.length]"
+                                                        stroke-width="20"
+                                                        t-att-stroke-dasharray="dash + ' 314'"
+                                                        t-att-transform="'rotate(' + (offset*360-90) + ' 60 60)'"/>
+                                                <t t-set="offset" t-value="offset + pct"/>
+                                            </t>
+                                            <text x="60" y="60" text-anchor="middle" dominant-baseline="central"
+                                                  class="o_chart_center_text">
+                                                <t t-esc="total"/>
+                                            </text>
+                                        </svg>
+                                        <div class="o_chart_legend">
+                                            <t t-foreach="chart.labels" t-as="lbl" t-key="lbl_index">
+                                                <div class="o_chart_legend_item">
+                                                    <span class="o_chart_dot"
+                                                          t-att-style="'background:' + chart.colors[lbl_index % chart.colors.length]"/>
+                                                    <span><t t-esc="lbl"/> (<t t-esc="chart.values[lbl_index]"/>)</span>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </t>
+                                    <t t-elif="chart.type === 'bar'">
+                                        <svg class="o_chart_bar" viewBox="0 0 300 150" width="300" height="150">
+                                            <t t-set="maxVal" t-value="Math.max(...chart.values, 1)"/>
+                                            <t t-foreach="chart.values" t-as="val" t-key="val_index">
+                                                <t t-set="barH" t-value="(val/maxVal)*120"/>
+                                                <t t-set="barW" t-value="300/chart.values.length - 8"/>
+                                                <t t-set="barX" t-value="val_index*(300/chart.values.length)+4"/>
+                                                <rect t-att-x="barX" t-att-y="150-barH-20" t-att-width="barW" t-att-height="barH"
+                                                      t-att-fill="chart.colors[0]" rx="4"/>
+                                                <text t-att-x="barX+barW/2" y="145" text-anchor="middle"
+                                                      class="o_chart_bar_label">
+                                                    <t t-esc="chart.labels[val_index]"/>
+                                                </text>
+                                                <text t-att-x="barX+barW/2" t-att-y="150-barH-25" text-anchor="middle"
+                                                      class="o_chart_bar_value">
+                                                    <t t-esc="val"/>
+                                                </text>
+                                            </t>
+                                        </svg>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+
                     <!-- Attention + schedule side by side -->
                     <t t-set="attention" t-value="widgetsIn('attention')"/>
                     <t t-set="schedule" t-value="widgetsIn('schedule')"/>
