@@ -3,3 +3,4 @@ build/
 .docusaurus/
 __pycache__/
 *.pyc
+audit/

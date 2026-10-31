@@ -23,7 +23,14 @@ jobs:
       - name: Check module parity
         run: python3 docs-portal/engine/audit.py --check
       - name: Test extractors
-        run: cd docs-portal/engine && python3 -m unittest -v test_audit.py
+        run: cd docs-portal/engine && python3 -m unittest discover -v -p 'test_*.py'
+      - name: Generate deep source feature inventory
+        run: python3 docs-portal/engine/feature_intelligence.py --output docs-portal/audit
+      - name: Store audit evidence separately from public website
+        uses: actions/upload-artifact@v4
+        with:
+          name: edicai-feature-audit
+          path: docs-portal/audit/
       - name: Install dependencies
         working-directory: docs-portal
         run: npm install --no-audit --no-fund
