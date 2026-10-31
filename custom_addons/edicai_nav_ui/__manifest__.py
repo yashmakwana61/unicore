@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Edicai Navigation UI',
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.1.0',
     'category': 'Education/Navigation',
     'summary': 'Minimal line icons, accordion sidebar, top-bar Calendar/Settings buttons',
     'description': """
@@ -26,6 +26,7 @@ Phase 2/3 of the navigation redesign, isolated from module data logic:
     ],
     'data': [
         'data/navigation_icons.xml',
+        'views/ir_ui_menu_views.xml',
     ],
     'assets': {
         'web.assets_backend': [

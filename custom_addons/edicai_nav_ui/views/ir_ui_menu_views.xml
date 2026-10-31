@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="edicai_ir_ui_menu_form" model="ir.ui.view">
+        <field name="name">ir.ui.menu.form.edicai</field>
+        <field name="model">ir.ui.menu</field>
+        <field name="inherit_id" ref="base.edit_menu_access"/>
+        <field name="arch" type="xml">
+            <field name="web_icon" position="after">
+                <field name="edicai_icon" widget="selection"/>
+            </field>
+        </field>
+    </record>
+</odoo>
