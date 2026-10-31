@@ -1,15 +1,18 @@
 name: Edicai Documentation
 on:
   pull_request:
-    paths: ['docs-portal/**','custom_addons/**','.github/workflows/edicai-docs.yml']
+    paths: ['docs-portal/**', 'custom_addons/**', '.github/workflows/clasflow-docs.yml']
   push:
     branches: [main]
-    paths: ['docs-portal/**','custom_addons/**','.github/workflows/edicai-docs.yml']
+    paths: ['docs-portal/**', 'custom_addons/**', '.github/workflows/clasflow-docs.yml']
   workflow_dispatch:
+
 permissions:
   contents: read
+
 jobs:
   build:
+    name: Build & validate documentation
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,5 +30,38 @@ jobs:
       - name: Build docs
         working-directory: docs-portal
         run: npm run build
+      - name: Protect git metadata when served from Hostinger
+        run: |
+          cat > docs-portal/build/.htaccess <<'EOT'
+          <IfModule mod_rewrite.c>
+          RewriteEngine On
+          RewriteRule (^|/)\.git(/|$) - [F,L,NC]
+          </IfModule>
+          <IfModule mod_autoindex.c>
+          Options -Indexes
+          </IfModule>
+          EOT
       - uses: actions/upload-artifact@v4
-        with: {name: edicai-docs-site, path: docs-portal/build}
+        with: {name: edicai-docs-site, path: docs-portal/build, include-hidden-files: true}
+
+  publish-static:
+    name: Publish public build to isolated Git branch
+    needs: build
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'docs/clasflow-portal-initial' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: edicai-docs-site
+          path: compiled-site
+      - name: Publish compiled files only
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: edicai-docs-static
+          publish_dir: ./compiled-site
+          force_orphan: true
+          enable_jekyll: false
+          commit_message: 'Deploy Edicai static documentation'
