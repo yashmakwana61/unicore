@@ -69,6 +69,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: edicai-docs-static
           publish_dir: ./compiled-site
-          force_orphan: true
+          # Preserve branch ancestry for Hostinger git pull deployments.
           enable_jekyll: false
           commit_message: 'Deploy Edicai static documentation'
