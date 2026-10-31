@@ -1,0 +1,23 @@
+{
+  "name": "clasflow-documentation",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "start": "docusaurus start",
+    "build": "docusaurus build",
+    "serve": "docusaurus serve",
+    "audit": "python3 engine/audit.py --write",
+    "check": "python3 engine/audit.py --check"
+  },
+  "dependencies": {
+    "@docusaurus/core": "3.9.2",
+    "@docusaurus/preset-classic": "3.9.2",
+    "clsx": "^2.1.1",
+    "prism-react-renderer": "^2.3.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,31 @@
+name: Clasflow Documentation
+on:
+  pull_request:
+    paths: ['docs-portal/**','custom_addons/**','.github/workflows/clasflow-docs.yml']
+  push:
+    branches: [main]
+    paths: ['docs-portal/**','custom_addons/**','.github/workflows/clasflow-docs.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - uses: actions/setup-node@v4
+        with: {node-version: '20'}
+      - name: Check module parity
+        run: python3 docs-portal/engine/audit.py --check
+      - name: Test extractors
+        run: cd docs-portal/engine && python3 -m unittest -v test_audit.py
+      - name: Install dependencies
+        working-directory: docs-portal
+        run: npm install --no-audit --no-fund
+      - name: Build docs
+        working-directory: docs-portal
+        run: npm run build
+      - uses: actions/upload-artifact@v4
+        with: {name: clasflow-docs-site, path: docs-portal/build}

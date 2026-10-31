@@ -1,0 +1,27 @@
+name: Propose Clasflow Doc Updates
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['custom_addons/**']
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: python3 docs-portal/engine/audit.py --write
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          branch: docs/auto-update-source-inventory
+          delete-branch: true
+          commit-message: 'docs: refresh module inventory'
+          title: 'docs: propose source-backed module reference updates'
+          body: 'Generated from source declarations only. Verify and approve before publishing.'
+          add-paths: |
+            docs-portal/docs/modules
+            docs-portal/static/data

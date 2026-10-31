@@ -1,0 +1,5 @@
+node_modules/
+build/
+.docusaurus/
+__pycache__/
+*.pyc
