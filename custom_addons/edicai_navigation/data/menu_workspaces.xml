@@ -2,77 +2,77 @@
 <odoo>
     <data>
         <record id="menu_workspace_10" model="ir.ui.menu">
-            <field name="name">Institution [PREVIEW]</field>
+            <field name="name">Institution</field>
             <field name="sequence">10</field>
             <field name="active" eval="False"/>
             <field name="web_icon">edicai_nav_ui,static/src/icons/ic_institution.svg</field>
             <field name="group_ids" eval="[(6, 0, [ref('base.group_system'), ref('edicai_base.group_edicai_admin')])]"/>
         </record>
         <record id="menu_workspace_20" model="ir.ui.menu">
-            <field name="name">Admissions &amp; Enrollment [PREVIEW]</field>
+            <field name="name">Admissions</field>
             <field name="sequence">20</field>
             <field name="active" eval="False"/>
             <field name="web_icon">edicai_nav_ui,static/src/icons/ic_admissions.svg</field>
             <field name="group_ids" eval="[(6, 0, [ref('base.group_system'), ref('edicai_base.group_edicai_admin')])]"/>
         </record>
         <record id="menu_workspace_30" model="ir.ui.menu">
-            <field name="name">Student Lifecycle [PREVIEW]</field>
+            <field name="name">Student Life</field>
             <field name="sequence">30</field>
             <field name="active" eval="False"/>
             <field name="web_icon">edicai_nav_ui,static/src/icons/ic_student.svg</field>
             <field name="group_ids" eval="[(6, 0, [ref('base.group_system'), ref('edicai_base.group_edicai_admin')])]"/>
         </record>
         <record id="menu_workspace_40" model="ir.ui.menu">
-            <field name="name">Teaching &amp; Learning [PREVIEW]</field>
+            <field name="name">Teaching</field>
             <field name="sequence">40</field>
             <field name="active" eval="False"/>
             <field name="web_icon">edicai_nav_ui,static/src/icons/ic_teaching.svg</field>
             <field name="group_ids" eval="[(6, 0, [ref('base.group_system'), ref('edicai_base.group_edicai_admin')])]"/>
         </record>
         <record id="menu_workspace_50" model="ir.ui.menu">
-            <field name="name">Examinations &amp; Scheduling [PREVIEW]</field>
+            <field name="name">Examinations</field>
             <field name="sequence">50</field>
             <field name="active" eval="False"/>
             <field name="web_icon">edicai_nav_ui,static/src/icons/ic_exams.svg</field>
             <field name="group_ids" eval="[(6, 0, [ref('base.group_system'), ref('edicai_base.group_edicai_admin')])]"/>
         </record>
         <record id="menu_workspace_60" model="ir.ui.menu">
-            <field name="name">Finance &amp; Scholarships [PREVIEW]</field>
+            <field name="name">Finance</field>
             <field name="sequence">60</field>
             <field name="active" eval="False"/>
             <field name="web_icon">edicai_nav_ui,static/src/icons/ic_finance.svg</field>
             <field name="group_ids" eval="[(6, 0, [ref('base.group_system'), ref('edicai_base.group_edicai_admin')])]"/>
         </record>
         <record id="menu_workspace_70" model="ir.ui.menu">
-            <field name="name">Campus Operations [PREVIEW]</field>
+            <field name="name">Campus Ops</field>
             <field name="sequence">70</field>
             <field name="active" eval="False"/>
             <field name="web_icon">edicai_nav_ui,static/src/icons/ic_campus.svg</field>
             <field name="group_ids" eval="[(6, 0, [ref('base.group_system'), ref('edicai_base.group_edicai_admin')])]"/>
         </record>
         <record id="menu_workspace_80" model="ir.ui.menu">
-            <field name="name">Careers &amp; Research [PREVIEW]</field>
+            <field name="name">Careers</field>
             <field name="sequence">80</field>
             <field name="active" eval="False"/>
             <field name="web_icon">edicai_nav_ui,static/src/icons/ic_careers.svg</field>
             <field name="group_ids" eval="[(6, 0, [ref('base.group_system'), ref('edicai_base.group_edicai_admin')])]"/>
         </record>
         <record id="menu_workspace_90" model="ir.ui.menu">
-            <field name="name">Insights &amp; Reports [PREVIEW]</field>
+            <field name="name">Insights</field>
             <field name="sequence">90</field>
             <field name="active" eval="False"/>
             <field name="web_icon">edicai_nav_ui,static/src/icons/ic_insights.svg</field>
             <field name="group_ids" eval="[(6, 0, [ref('base.group_system'), ref('edicai_base.group_edicai_admin')])]"/>
         </record>
         <record id="menu_workspace_100" model="ir.ui.menu">
-            <field name="name">Communication &amp; AI [PREVIEW]</field>
+            <field name="name">Comms &amp; AI</field>
             <field name="sequence">100</field>
             <field name="active" eval="False"/>
             <field name="web_icon">edicai_nav_ui,static/src/icons/ic_communication.svg</field>
             <field name="group_ids" eval="[(6, 0, [ref('base.group_system'), ref('edicai_base.group_edicai_admin')])]"/>
         </record>
         <record id="menu_workspace_110" model="ir.ui.menu">
-            <field name="name">Administration [PREVIEW]</field>
+            <field name="name">Admin</field>
             <field name="sequence">110</field>
             <field name="active" eval="False"/>
             <field name="web_icon">edicai_nav_ui,static/src/icons/ic_administration.svg</field>
