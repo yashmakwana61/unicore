@@ -4,3 +4,6 @@ build/
 __pycache__/
 *.pyc
 audit/
+
+verification/output/
+verification/*.json
