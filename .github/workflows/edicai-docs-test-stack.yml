@@ -1,0 +1,23 @@
+name: Edicai Documentation Test-Stack Safety
+on:
+  pull_request:
+    paths:
+      - 'docs-portal/testing/**'
+      - '.github/workflows/edicai-docs-test-stack.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check read-only script syntax
+        run: bash -n docs-portal/testing/preflight-readonly.sh
+      - name: Check safety invariants
+        run: python3 -m unittest discover -s docs-portal/testing -p 'test_*.py' -v
+      - name: Confirm Docker Compose syntax and environment resolution
+        env:
+          EDICAI_DOCS_DB_PASSWORD: ci-synthetic-unused-password
+          EDICAI_DOCS_PORT: '18069'
+        run: docker compose -f docs-portal/testing/compose.yaml config --quiet

@@ -1,0 +1,60 @@
+# Isolated Edicai Odoo 19 documentation verification environment.
+# PREPARATION ONLY: never run this against a production DB or production volumes.
+# Requires a completed VPS read-only preflight and an operator-approved installation.
+name: edicai_docs_testing
+services:
+  database:
+    image: postgres:16
+    restart: "no"
+    environment:
+      POSTGRES_USER: docs_odoo
+      POSTGRES_PASSWORD: ${EDICAI_DOCS_DB_PASSWORD:?Set an independent, strong documentation-only password}
+      POSTGRES_DB: edicai_docs_test
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - edicai_docs_pgdata:/var/lib/postgresql/data
+    networks:
+      - sandbox
+    mem_limit: 1g
+    cpus: 0.5
+    pids_limit: 128
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U docs_odoo -d edicai_docs_test"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  odoo:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    image: edicai-docs-test-odoo:19
+    restart: "no"
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      HOST: database
+      PORT: "5432"
+      USER: docs_odoo
+      PASSWORD: ${EDICAI_DOCS_DB_PASSWORD:?Set an independent, strong documentation-only password}
+    volumes:
+      - edicai_docs_filestore:/var/lib/odoo
+      - ./odoo-docs.conf:/etc/odoo/odoo.conf:ro
+    command: ["odoo", "-c", "/etc/odoo/odoo.conf", "-d", "edicai_docs_test"]
+    ports:
+      - "127.0.0.1:${EDICAI_DOCS_PORT:-18069}:8069"
+    networks:
+      - sandbox
+    mem_limit: 3g
+    cpus: 1.5
+    pids_limit: 256
+    init: true
+
+networks:
+  sandbox:
+    internal: true
+
+volumes:
+  edicai_docs_pgdata:
+  edicai_docs_filestore:
