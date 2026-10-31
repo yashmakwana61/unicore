@@ -182,6 +182,20 @@
                         </div>
                     </div>
 
+                    <!-- AI Insights -->
+                    <div class="o_ai_insights">
+                        <h3><i class="fa fa-lightbulb-o"/> Edicai AI Insights</h3>
+                        <div class="o_ai_insight_item">
+                            <i class="fa fa-info-circle"/>
+                            <span>AI-powered institutional insights will appear here once the Edicai AI engine is connected to your data.</span>
+                            <span class="o_ai_insight_action">Learn more</span>
+                        </div>
+                        <div class="o_ai_insight_item">
+                            <i class="fa fa-line-chart"/>
+                            <span>Trend analysis, anomaly detection, and predictive recommendations will be available in a future update.</span>
+                        </div>
+                    </div>
+
                     <!-- Secondary / supporting -->
                     <t t-set="sec" t-value="widgetsIn('secondary')"/>
                     <div t-if="sec.length" class="o_metrics_grid o_metrics_grid-secondary">
