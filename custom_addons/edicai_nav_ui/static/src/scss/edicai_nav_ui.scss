@@ -222,8 +222,10 @@ body .o_menu_sections_more {
     left: 50%;
     transform: translateX(-50%);
     top: 6px;
-    width: 420px;
-    max-width: 46vw;
+    width: 360px !important;
+    max-width: 20vw !important;
+    min-width: 0 !important;
+    flex: none !important;
     display: inline-flex;
     align-items: center;
     gap: 10px;
@@ -266,6 +268,11 @@ body .o_menu_sections_more {
         width: calc(100% - 130px);
         max-width: none;
         top: 5px;
+    }
+
+    /* dev-mode / many systray icons: shrink and shift left */
+    @media (min-width: 992px) {
+        max-width: 30vw;
     }
 }
 

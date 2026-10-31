@@ -92,7 +92,7 @@
                                     <button class="o_edicai_ai_suggestion" t-on-click="askAboutRecord">
                                         🎯 Summarize this record
                                     </button>
-                                    <t t-foreach="state.prompts.slice(0, 4)" t-as="pr" t-key="pr.id">
+                                    <t t-foreach="state.prompts.slice(0, 4)" t-as="pr" t-key="pr_index">
                                         <button class="o_edicai_ai_suggestion o_edicai_ai_prompt_chip" t-on-click="() => this.sendSuggestion(pr.prompt_text)">
                                             ✨ <t t-esc="pr.name"/>
                                         </button>
