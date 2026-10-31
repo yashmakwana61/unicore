@@ -7,3 +7,6 @@ audit/
 
 verification/output/
 verification/*.json
+
+# Local synthetic database credential file
+testing/.env
