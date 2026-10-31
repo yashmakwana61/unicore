@@ -657,3 +657,40 @@
     transition: background 0.15s;
 }
 .o_home_customize_btn:hover { background: #e5e7eb; }
+﻿/* Space around customize and continue setup buttons */
+.o_home_header_action {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding: 0.25rem 0;
+}
+.o_home_customize_btn {
+    margin: 0.25rem 0.5rem;
+}
+.o_home_cta {
+    margin: 0.25rem 0.5rem;
+}
+/* Ensure customize modal is a true overlay */
+.o_customize_overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 9999 !important;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.o_customize_modal {
+    position: relative;
+    z-index: 10000;
+    max-height: 85vh;
+    overflow: hidden;
+}
+.o_customize_body {
+    overflow-y: auto;
+    max-height: 50vh;
+}
