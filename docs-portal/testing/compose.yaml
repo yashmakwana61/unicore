@@ -42,21 +42,39 @@ services:
       - edicai_docs_filestore:/var/lib/odoo
       - ./odoo-docs.conf:/etc/odoo/odoo.conf:ro
     command: ["odoo", "-c", "/etc/odoo/odoo.conf", "-d", "edicai_docs_test"]
-    ports:
-      - "127.0.0.1:${EDICAI_DOCS_PORT:-18069}:8069"
+    # No host ports or non-internal networks on application container.
     networks:
       - sandbox
-      - access
     mem_limit: 3g
     cpus: 1.5
     pids_limit: 256
     init: true
 
+  # Restrict application egress while retaining localhost browser access:
+  # only this Nginx proxy joins the non-internal access network.
+  gateway:
+    image: nginx:1.27-alpine
+    restart: "no"
+    depends_on:
+      - odoo
+    ports:
+      - "127.0.0.1:${EDICAI_DOCS_PORT:-18069}:8080"
+    volumes:
+      - ./nginx-docs.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - sandbox
+      - access
+    mem_limit: 128m
+    cpus: 0.25
+    pids_limit: 64
+    security_opt:
+      - no-new-privileges:true
+
 networks:
   sandbox:
     internal: true
-  # Secondary non-internal bridge required by Docker 29 for localhost published ports.
-  # Created explicitly by the operator; never connect the DB to this network.
+  # Non-internal bridge for the gateway only (Docker 29 port publishing).
+  # Never attach the Odoo or PostgreSQL services here.
   access:
     external: true
     name: edicai_docs_lab_access
