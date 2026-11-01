@@ -23,6 +23,12 @@ class TestIsolation(unittest.TestCase):
         self.assertIn('mem_limit: 3g',COMPOSE)
         self.assertIn('mem_limit: 1g',COMPOSE)
         self.assertIn('internal: true',COMPOSE)
+        self.assertIn('name: edicai_docs_lab_access',COMPOSE)
+        self.assertIn('external: true',COMPOSE)
+        database=COMPOSE.split('  database:',1)[1].split('  odoo:',1)[0]
+        self.assertNotIn('      - access',database)
+        odoo=COMPOSE.split('  odoo:',1)[1].split('\nnetworks:',1)[0]
+        self.assertIn('      - access',odoo)
     def test_cron_and_db_manager(self):
         self.assertIn('max_cron_threads = 0',CONF)
         self.assertIn('list_db = False',CONF)

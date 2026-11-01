@@ -46,6 +46,7 @@ services:
       - "127.0.0.1:${EDICAI_DOCS_PORT:-18069}:8069"
     networks:
       - sandbox
+      - access
     mem_limit: 3g
     cpus: 1.5
     pids_limit: 256
@@ -54,6 +55,11 @@ services:
 networks:
   sandbox:
     internal: true
+  # Secondary non-internal bridge required by Docker 29 for localhost published ports.
+  # Created explicitly by the operator; never connect the DB to this network.
+  access:
+    external: true
+    name: edicai_docs_lab_access
 
 volumes:
   edicai_docs_pgdata:

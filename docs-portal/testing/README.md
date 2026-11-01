@@ -36,6 +36,7 @@ planning gates, not definitive workload benchmarks.
 - Unique Compose project `edicai_docs_testing`, database `edicai_docs_test`.
 - Isolated named volumes and Docker-internal network.
 - No host PostgreSQL port published.
+- Test Odoo uses a second existing bridge network `edicai_docs_lab_access` for host localhost port publishing; PostgreSQL stays on the internal network only. This bridge permits outbound connections from Odoo, so external integrations must be blocked/disabled before functional testing.
 - Odoo binds only to `127.0.0.1:18069` by default; no public domain or DNS changes.
 - Maximum aggregate container memory 4 GiB and CPU reservations are **not** implied;
   these are runtime limits. Host and Docker overhead need additional headroom.
@@ -50,6 +51,8 @@ planning gates, not definitive workload benchmarks.
 
 1. Inspect host via `preflight-readonly.sh` and confirm rollback/backup.
 2. Clone an approved Edicai source commit into a new isolated directory.
+   Create the network with `docker network create edicai_docs_lab_access` if it does not exist.
+   Inspect this network before first use; never connect production services or the test DB to it.
 3. From this directory create a local `.env` (never commit), with a **new**
    strong database password; keep permissions restrictive.
 4. Run `docker compose --env-file .env -f compose.yaml config` to validate.
