@@ -8,16 +8,16 @@
 
 ## Table of Contents
 
-**Act I — Orientation & Setup**
+**Act I — Orientation & Setup** ✅
 1. [Getting Started — Login, Home & the 17-Step Checklist](01_getting_started.md)
 2. [Settings — Institution Setup, Users & Roles](02_settings_institution.md)
 3. [Teaching I — Academic Calendar: Years, Semesters](03_teaching_calendar.md)
 4. [Teaching II — Academic Structure: Faculties, Departments, Programs](04_teaching_structure.md)
 
-**Act II — People & Operations** *(in progress)*
-5. Student Life — Students, Guardians & Hostels
-6. Admissions — Pipeline & Applicant Conversion
-7. Finance — Fee Structures, Invoices & Payments
+**Act II — People & Operations** (in progress)
+5. [Student Life — Students, Guardians & Discipline](05_student_life.md)
+6. [Admissions — Cycles, Seats & the Applicant Pipeline](06_admissions.md)
+7. Finance — Fee Structures, Invoices & Payments *(next)*
 8. Examinations — Schedules, Grading & Results
 9. Campus Ops — Facilities, Transport & Appointments
 10. Careers — Placement, Alumni & Scholarships
@@ -39,17 +39,31 @@ Company (Institution Details)
               └─→ Department
                     └─→ Program  (+Campus assignment)
                           └─→ Courses / Offerings / Sections
+                          └─→ Academic Year → Semester
+                                └─→ Admission Cycle (+Seat allocation)
+                                      └─→ Applicant pipeline → Student → Fees → Classes
 ```
 
 `Draft → Confirmed/Operational/Approved → Active/Current` workflows appear everywhere — always confirm top rows first, then activate children.
+
+## Known quirks found during the live walkthrough
+
+| Quirk | Where | Status |
+|---|---|---|
+| Year fields display with thousand separators (`2,026`) | Company/Faculty/Student forms | Cosmetic — fix in field widget options |
+| `[False] False` breadcrumb on unsaved Campus | Campuses New record | Cosmetic |
+| Technical model names in breadcrumb on unsaved Guardian-Student Relationships | `edicai.guardian.student.rel` | Missing `_rec_name` — dev backlog |
+| Applicant kanban shows "No stages yet" on fresh DB despite 13 stage records | Applicants | Investigate `edicai_admission` stage domain/cycle filter |
+| `Esc` in edit mode discards the whole record | All forms | Odoo behaviour — train users to click away instead of Esc |
+| Discipline "Reported By" needs a staff member; the inline quick-create modal targets HR departments | Discipline Records | Create staff via Institution → Faculty & Staff first |
 
 ## The Edicai Workspace Map
 
 | Workspace | What lives there |
 |---|---|
 | 🏠 Home | Personal dashboard, KPIs, setup progress |
-| 🏛️ Institution | Company/institution profile, campuses, academic structure, calendar |
-| 🧑‍🤝‍🧑 Admissions | Applicants, admission funnel, entrance tests |
+| 🏛️ Institution | Institution profile, campuses, academic structure & calendar |
+| 🧑‍🤝‍🧑 Admissions | Cycles, applicants, entrance tests, offer letters |
 | 🎓 Student Life | Students, guardians, hostel, library, discipline |
 | 📚 Teaching | Faculties, departments, programs, courses, timetables |
 | 📝 Examinations | Exam schedules, grading, gradebook, results |
