@@ -1,3 +1,8 @@
+---
+title: "Academic Years & Semesters"
+sidebar_position: 4
+---
+
 # 3. Teaching — Academic Calendar: Years, Semesters & Setup
 
 This chapter provides the operational setup sequence; it does not require completing the demo onboarding checklist.

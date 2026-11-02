@@ -1,3 +1,8 @@
+---
+title: "Getting Started & Orientation"
+sidebar_position: 2
+---
+
 # 1. Getting Started — Login & Orientation
 
 ## 1.1 Logging in

@@ -1,3 +1,8 @@
+---
+title: "Institution Settings & Users"
+sidebar_position: 3
+---
+
 # 2. Settings — Institution Setup, Users & Roles
 
 This chapter documents institution setup and user roles directly; using the demo onboarding checklist is optional.

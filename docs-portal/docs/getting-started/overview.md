@@ -11,7 +11,7 @@ The repository includes student records, admissions, academics, attendance, fina
 
 ## Verified administrator training
 
-For a screenshot-backed walkthrough of institution setup, company settings, roles, academic years, semesters, campuses, faculties, departments, and programs, see the [Administrator Training Guide](../training/README.md). The separate Home **Getting Started** checklist is optional demo/onboarding functionality.
+For a screenshot-backed walkthrough of institution setup, company settings, roles, academic years, semesters, campuses, faculties, departments, and programs, see the [Administrator Training Guide](../training/overview.md). The separate Home **Getting Started** checklist is optional demo/onboarding functionality.
 
 ## First steps
 

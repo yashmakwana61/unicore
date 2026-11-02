@@ -1,3 +1,8 @@
+---
+title: "Academic Structure & Campuses"
+sidebar_position: 5
+---
+
 # 4. Teaching — Academic Structure (Faculties → Departments → Programs)
 
 Navigation: **Institution → Academic Structure** (`Faculties`, `Departments`, `Programs`, `Specialisations`).

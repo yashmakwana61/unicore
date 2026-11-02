@@ -5,7 +5,7 @@ sidebar_position: 1
 ---
 # Academic and institution setup
 
-> **Documentation status:** This section contains source-reviewed background. The separate [Administrator Training Guide](../training/README.md) contains 38 UAT screenshots and tested setup steps for a university-style environment; untested institution variants still require verification.
+> **Documentation status:** This section contains source-reviewed background. The separate [Administrator Training Guide](../training/overview.md) contains 38 UAT screenshots and tested setup steps for a university-style environment; untested institution variants still require verification.
 
 Edicai supports multiple educational institution types rather than requiring every organization to use a university structure.
 
