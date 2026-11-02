@@ -1,6 +1,7 @@
 from . import (
     ai_parser_client,
     res_config_settings,
+    res_partner,
     res_partner_link,
     sale_order,
     telegram_bot_service,
@@ -9,6 +10,7 @@ from . import (
     telegram_link_commands,
     telegram_message,
     telegram_metrics,
+    telegram_parser,
     telegram_rate_limiter,
     telegram_session,
     telegram_status_mapper,
