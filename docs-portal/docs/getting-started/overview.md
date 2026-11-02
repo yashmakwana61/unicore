@@ -9,6 +9,10 @@ Edicai is an education management platform developed by **Precisefect Solutions 
 
 The repository includes student records, admissions, academics, attendance, finance, learning, campus management, analytics and portals.
 
+## Verified administrator training
+
+For a screenshot-backed walkthrough of institution setup, company settings, roles, academic years, semesters, campuses, faculties, departments, and programs, see the [Administrator Training Guide](../training/README.md). The separate Home **Getting Started** checklist is optional demo/onboarding functionality.
+
 ## First steps
 
 1. Browse the [module catalog](../reference/module-catalog.md).
