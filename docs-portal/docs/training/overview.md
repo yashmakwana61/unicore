@@ -19,9 +19,9 @@ sidebar_position: 1
 3. [Teaching I — Academic Calendar: Years, Semesters](03_teaching_calendar.md)
 4. [Teaching II — Academic Structure: Faculties, Departments, Programs](04_teaching_structure.md)
 
-**Act II — People & Operations** *(not yet documented; planned)*
-5. Student Life — Students, Guardians & Hostels
-6. Admissions — Pipeline & Applicant Conversion
+**Act II — People & Operations** *(in progress)*
+5. [Student Life — Students, Guardians & Discipline](05_student_life.md)
+6. [Admissions — Cycles, Seats & Applicant Pipeline](06_admissions.md)
 7. Finance — Fee Structures, Invoices & Payments
 8. Examinations — Schedules, Grading & Results
 9. Campus Ops — Facilities, Transport & Appointments
@@ -44,13 +44,23 @@ Company (Institution Details)
               └─→ Department
                     └─→ Program  (+Campus assignment)
                           └─→ Courses / Offerings / Sections
+                          └─→ Academic Year → Semester
+                                └─→ Admission Cycle (+Seat allocation)
+                                      └─→ Applicant pipeline → Student → Fees → Classes
 ```
 
 `Draft → Confirmed/Operational/Approved → Active/Current` workflows appear everywhere — always confirm top rows first, then activate children.
 
 ## Training evidence and scope
 
-The four Act I chapters and their screenshots were captured in a UAT browser walkthrough on 2 November 2026. They demonstrate this particular university-style setup, not every institution configuration. They do not establish that the unfinished Act II workflows have been tested. The Home “Getting Started” checklist is a demo/onboarding feature and **is not required** to perform the administrator setup steps below.
+The Act I chapters and the first two Act II chapters were captured during a UAT browser walkthrough on 2 November 2026. They demonstrate this particular university-style setup, not every institution configuration. Student Life and Admissions show recorded setup states and validations; they do not demonstrate completion of every related workflow. The Home “Getting Started” checklist is a demo/onboarding feature and **is not required** to perform the administrator setup steps below.
+
+## Known UAT observations
+
+- The unsaved Guardian–Student relationship can show a technical model name in its breadcrumb.
+- Applicants can display “No stages yet” in an empty kanban even when admission stage records exist; the cause has not been fully verified.
+- An Admissions Cycle cannot be activated without program seat allocation.
+- A Discipline record's “Reported By” requires a staff/faculty record; the inline quick-create flow uses HR department fields.
 
 ## The Edicai Workspace Map
 
