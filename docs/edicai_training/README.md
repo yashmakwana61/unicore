@@ -23,8 +23,8 @@
 10. [Careers — Placement, Alumni & Scholarships](10_careers.md)
 11. [Insights — Dashboards & Reports](11_insights.md)
 12. [Comms & AI — Notifications, Notices & AI Tools](12_comms_ai.md)
-13. Website & Apps — Overview *(next)*
-14. Quick Reference Cheat Sheet
+13. [Website & Apps — Overview](13_website_apps.md)
+14. Quick Reference Cheat Sheet *(next)*
 
 ---
 
@@ -69,6 +69,7 @@ Company (Institution Details)
 | Edicai AI shows Provider unavailable in this UAT workspace | Comms & AI → Edicai AI | Treat AI answers as unavailable until an approved provider is configured and tested; never paste private data into an unverified service |
 | Notification log rows may say Sent while external provider/inbox delivery is not verified | Comms & AI → Notifications | Check failed notifications and the provider/channel audit separately; confirm receipt before relying on a communication |
 | Insights → Dashboards includes general Odoo gallery tiles with seeded/demo-looking figures, not Edicai student KPIs | Insights → Dashboards | Use Insights → Analytics for Edicai enrollment, attendance, grades, fees and admissions; confirm filters before interpreting values |
+| The UAT homepage is the unapproved Odoo starter/eCommerce template, not an institution-approved site | Website → Site | Replace placeholder content, verify public journeys and do not publish until owner approves |
 
 ## The Edicai Workspace Map
 
