@@ -14,7 +14,7 @@
 3. [Teaching I — Academic Calendar: Years, Semesters](03_teaching_calendar.md)
 4. [Teaching II — Academic Structure: Faculties, Departments, Programs](04_teaching_structure.md)
 
-**Act II — People & Operations** (in progress)
+**Act II — People & Operations** ✅
 5. [Student Life — Students, Guardians & Discipline](05_student_life.md)
 6. [Admissions — Cycles, Seats & the Applicant Pipeline](06_admissions.md)
 7. [Finance — Fee Structures, Invoices & Payments](07_finance.md)
@@ -24,7 +24,7 @@
 11. [Insights — Dashboards & Reports](11_insights.md)
 12. [Comms & AI — Notifications, Notices & AI Tools](12_comms_ai.md)
 13. [Website & Apps — Overview](13_website_apps.md)
-14. Quick Reference Cheat Sheet *(next)*
+14. [Quick Reference Cheat Sheet](14_quick_reference.md)
 
 ---
 
