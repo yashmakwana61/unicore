@@ -22,8 +22,8 @@
 9. [Campus Ops — Facilities, Transport & Appointments](09_campus_ops.md)
 10. [Careers — Placement, Alumni & Scholarships](10_careers.md)
 11. [Insights — Dashboards & Reports](11_insights.md)
-12. Comms & AI — Notifications & AI Tools *(next)*
-13. Website & Apps — Overview
+12. [Comms & AI — Notifications, Notices & AI Tools](12_comms_ai.md)
+13. Website & Apps — Overview *(next)*
 14. Quick Reference Cheat Sheet
 
 ---
@@ -66,6 +66,8 @@ Company (Institution Details)
 | Semester Results generation has no normal UI button in this build | Grading → Semester Results | The list/publish form is available; ask an administrator/developer to run the supported generation operation if no result is listed |
 | Appointment Slot save raises Access Error for Administrator in the clean UAT database, despite an appointment-admin ACL being present | Comms & AI → Appointments → Slots | No slot was created; investigate effective permissions through the approved access process and do not weaken ACLs |
 | Alumni add-on has no standalone Alumni register; it extends Student with mailing-list/event links | Student record | Keep the existing student identity and manage relationships through its alumni smart buttons |
+| Edicai AI shows Provider unavailable in this UAT workspace | Comms & AI → Edicai AI | Treat AI answers as unavailable until an approved provider is configured and tested; never paste private data into an unverified service |
+| Notification log rows may say Sent while external provider/inbox delivery is not verified | Comms & AI → Notifications | Check failed notifications and the provider/channel audit separately; confirm receipt before relying on a communication |
 | Insights → Dashboards includes general Odoo gallery tiles with seeded/demo-looking figures, not Edicai student KPIs | Insights → Dashboards | Use Insights → Analytics for Edicai enrollment, attendance, grades, fees and admissions; confirm filters before interpreting values |
 
 ## The Edicai Workspace Map
