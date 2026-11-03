@@ -19,17 +19,17 @@ sidebar_position: 1
 3. [Teaching I — Academic Calendar: Years, Semesters](03_teaching_calendar.md)
 4. [Teaching II — Academic Structure: Faculties, Departments, Programs](04_teaching_structure.md)
 
-**Act II — People & Operations** *(in progress)*
+**Act II — People & Operations**
 5. [Student Life — Students, Guardians & Discipline](05_student_life.md)
 6. [Admissions — Cycles, Seats & Applicant Pipeline](06_admissions.md)
 7. [Finance — Fee Structures, Invoices & Payments](07_finance.md)
 8. [Examinations — Schedules, Hall Tickets, Grading & Results](08_examinations.md)
-9. Campus Ops — Facilities, Transport & Appointments
-10. Careers — Placement, Alumni & Scholarships
-11. Insights — Dashboards & Reports
-12. Comms & AI — Notifications & AI Tools
-13. Website & Apps — Overview
-14. Quick Reference Cheat Sheet
+9. [Campus Ops — Facilities, Transport & Appointments](09_campus_ops.md)
+10. [Careers — Placement, Alumni & Scholarships](10_careers.md)
+11. [Insights — Dashboards & Reports](11_insights.md)
+12. [Comms & AI — Notices, Notifications & AI Tools](12_comms_ai.md)
+13. [Website & Apps — Review & Safety](13_website_apps.md)
+14. [Administrator Quick Reference](14_quick_reference.md)
 
 ---
 
@@ -53,7 +53,7 @@ Company (Institution Details)
 
 ## Training evidence and scope
 
-Chapters 1–8 are based on UAT browser walkthroughs conducted on 2–3 November 2026. They demonstrate a university-style setup rather than every institution configuration. Student Life and Admissions include partial workflows and recorded validations. The Finance and Examinations chapters document end-to-end UAT examples, with important accounting, attendance, relational selector and semester-result limitations noted; do not treat these examples as production certification. The Home “Getting Started” checklist is a demo/onboarding feature and **is not required** to perform the administrator setup steps below.
+Chapters 1–14 are based on UAT browser walkthroughs conducted on 2–3 November 2026. They demonstrate a university-style setup rather than every institution configuration. Student Life and Admissions include partial workflows and recorded validations. The Finance and Examinations chapters document end-to-end UAT examples, with important accounting, attendance, relational selector and semester-result limitations noted. Later chapters record partial workflows, access errors, unconfigured AI providers and unpublished website/communications; do not treat the guide as production certification. The Home “Getting Started” checklist is a demo/onboarding feature and **is not required** to perform the administrator setup steps below.
 
 ## Additional finance and examination observations
 
@@ -68,6 +68,14 @@ Chapters 1–8 are based on UAT browser walkthroughs conducted on 2–3 November
 - Applicants can display “No stages yet” in an empty kanban even when admission stage records exist; the cause has not been fully verified.
 - An Admissions Cycle cannot be activated without program seat allocation.
 - A Discipline record's “Reported By” requires a staff/faculty record; the inline quick-create flow uses HR department fields.
+
+## Additional UAT limitations from chapters 9–13
+
+- Appointment Slot creation returned an Administrator access error; no slot was created and ACLs were not bypassed.
+- The Edicai AI provider was unavailable in UAT; no successful AI response was verified.
+- Notification log status is not evidence that an external message reached an inbox.
+- The Website workspace still showed a placeholder starter website; no public website changes were made.
+- Some Insights dashboard cards contain general Odoo or demo-style figures rather than verified education KPIs.
 
 ## The Edicai Workspace Map
 
