@@ -20,8 +20,8 @@
 7. [Finance — Fee Structures, Invoices & Payments](07_finance.md)
 8. [Examinations — Schedules, Grading & Results](08_examinations.md)
 9. [Campus Ops — Facilities, Transport & Appointments](09_campus_ops.md)
-10. Careers — Placement, Alumni & Scholarships *(next)*
-11. Insights — Dashboards & Reports
+10. [Careers — Placement, Alumni & Scholarships](10_careers.md)
+11. Insights — Dashboards & Reports *(next)*
 12. Comms & AI — Notifications & AI Tools
 13. Website & Apps — Overview
 14. Quick Reference Cheat Sheet
@@ -65,6 +65,7 @@ Company (Institution Details)
 | Closing an attendance session after marking can fail during the attendance-statistics recompute | Attendance Sessions | Preserve the attendance records and report the error; ticket eligibility still evaluates the recorded attendance |
 | Semester Results generation has no normal UI button in this build | Grading → Semester Results | The list/publish form is available; ask an administrator/developer to run the supported generation operation if no result is listed |
 | Appointment Slot save raises Access Error for Administrator in the clean UAT database, despite an appointment-admin ACL being present | Comms & AI → Appointments → Slots | No slot was created; investigate effective permissions through the approved access process and do not weaken ACLs |
+| Alumni add-on has no standalone Alumni register; it extends Student with mailing-list/event links | Student record | Keep the existing student identity and manage relationships through its alumni smart buttons |
 
 ## The Edicai Workspace Map
 
