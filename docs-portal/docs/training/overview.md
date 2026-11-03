@@ -22,8 +22,8 @@ sidebar_position: 1
 **Act II — People & Operations** *(in progress)*
 5. [Student Life — Students, Guardians & Discipline](05_student_life.md)
 6. [Admissions — Cycles, Seats & Applicant Pipeline](06_admissions.md)
-7. Finance — Fee Structures, Invoices & Payments
-8. Examinations — Schedules, Grading & Results
+7. [Finance — Fee Structures, Invoices & Payments](07_finance.md)
+8. [Examinations — Schedules, Hall Tickets, Grading & Results](08_examinations.md)
 9. Campus Ops — Facilities, Transport & Appointments
 10. Careers — Placement, Alumni & Scholarships
 11. Insights — Dashboards & Reports
@@ -53,7 +53,14 @@ Company (Institution Details)
 
 ## Training evidence and scope
 
-The Act I chapters and the first two Act II chapters were captured during a UAT browser walkthrough on 2 November 2026. They demonstrate this particular university-style setup, not every institution configuration. Student Life and Admissions show recorded setup states and validations; they do not demonstrate completion of every related workflow. The Home “Getting Started” checklist is a demo/onboarding feature and **is not required** to perform the administrator setup steps below.
+Chapters 1–8 are based on UAT browser walkthroughs conducted on 2–3 November 2026. They demonstrate a university-style setup rather than every institution configuration. Student Life and Admissions include partial workflows and recorded validations. The Finance and Examinations chapters document end-to-end UAT examples, with important accounting, attendance, relational selector and semester-result limitations noted; do not treat these examples as production certification. The Home “Getting Started” checklist is a demo/onboarding feature and **is not required** to perform the administrator setup steps below.
+
+## Additional finance and examination observations
+
+- New Fee Structure lines may inherit the preceding Fee Type; reselect the type on each line and verify totals after saving.
+- Fee invoices require an active, institution-specific accounting configuration to generate a GL invoice; when auto-posting is off, post the GL invoice before recording payments.
+- Hall-ticket eligibility uses the configured attendance and outstanding-fee policies (75% attendance in the recorded UAT example).
+- Attendance session closure, some relational selectors, and semester-result generation have known UI limitations in the UAT build; follow the chapter cautions and escalate errors rather than editing records directly.
 
 ## Known UAT observations
 
