@@ -10,7 +10,11 @@ const config = {
   onBrokenMarkdownLinks: 'warn',
   i18n: {defaultLocale: 'en', locales: ['en']},
   presets: [['classic', {
-    docs: {routeBasePath: 'docs', sidebarPath: require.resolve('./sidebars.js'),
+    docs: {routeBasePath: 'docs',
+      // Publish only screenshot-backed administrator workflow training.
+      // Draft/source-only modules, workspace inventories and placeholders remain in Git.
+      include: ['training/**/*.{md,mdx}'],
+      sidebarPath: require.resolve('./sidebars.js'),
       editUrl: 'https://github.com/yashmakwana61/unicore/edit/main/docs-portal/'},
     blog: false,
     theme: {customCss: require.resolve('./src/css/custom.css')},
@@ -23,7 +27,7 @@ const config = {
         {to:'/search',position:'left',label:'Search'},
         {href:'https://github.com/yashmakwana61/unicore',position:'right',label:'GitHub'}]},
     footer: {style:'light', links:[
-      {title:'Explore',items:[{label:'Getting Started',to:'/docs/getting-started/overview'},{label:'All Modules',to:'/docs/reference/module-catalog'}]},
+      {title:'Training',items:[{label:'Administrator Guide',to:'/docs/training/overview'},{label:'Quick Reference',to:'/docs/training/quick_reference'}]},
       {title:'About',items:[{label:'Edicai',href:'https://edicai.com'},{label:'Precisefect',href:'https://precisefect.com'}]}
     ],copyright:'© Precisefect Solutions Pvt. Ltd.'},
     prism: {theme: require('prism-react-renderer').themes.github,
