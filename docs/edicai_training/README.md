@@ -18,8 +18,8 @@
 5. [Student Life — Students, Guardians & Discipline](05_student_life.md)
 6. [Admissions — Cycles, Seats & the Applicant Pipeline](06_admissions.md)
 7. [Finance — Fee Structures, Invoices & Payments](07_finance.md)
-8. Examinations — Schedules, Grading & Results *(next)*
-9. Campus Ops — Facilities, Transport & Appointments
+8. [Examinations — Schedules, Grading & Results](08_examinations.md)
+9. Campus Ops — Facilities, Transport & Appointments *(next)*
 10. Careers — Placement, Alumni & Scholarships
 11. Insights — Dashboards & Reports
 12. Comms & AI — Notifications & AI Tools
@@ -60,6 +60,10 @@ Company (Institution Details)
 | Sales Journal dropdown only offers "Create" until the Institution is committed | Fee Accounting Configuration | Pick Institution from the dropdown first |
 | `Send to Student` fails until an active Fee Accounting Configuration exists | Fee Invoices | Configure Finance → Fees → Configuration → Accounting Configuration |
 | GL invoices stay in Draft when "Auto-Post to GL" is off; Record Payment is hidden until posted | Fee Invoices → GL Invoice | Open the GL Invoice and Confirm it |
+| Hall tickets require the active attendance threshold (75% in the UAT policy) and no unpaid fee invoices | Examinations → Generate Hall Tickets | Read the eligibility note, resolve the source record, then regenerate; do not use override for routine issuance |
+| Timetable-entry and grade-entry relational selectors can show only "Create" when the related Institution field is still empty | Timetable Entries; Grade Entry | Do not create duplicate offerings/enrollments; report the selector/domain issue for a UI fix |
+| Closing an attendance session after marking can fail during the attendance-statistics recompute | Attendance Sessions | Preserve the attendance records and report the error; ticket eligibility still evaluates the recorded attendance |
+| Semester Results generation has no normal UI button in this build | Grading → Semester Results | The list/publish form is available; ask an administrator/developer to run the supported generation operation if no result is listed |
 
 ## The Edicai Workspace Map
 
