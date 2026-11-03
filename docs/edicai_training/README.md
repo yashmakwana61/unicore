@@ -19,8 +19,8 @@
 6. [Admissions — Cycles, Seats & the Applicant Pipeline](06_admissions.md)
 7. [Finance — Fee Structures, Invoices & Payments](07_finance.md)
 8. [Examinations — Schedules, Grading & Results](08_examinations.md)
-9. Campus Ops — Facilities, Transport & Appointments *(next)*
-10. Careers — Placement, Alumni & Scholarships
+9. [Campus Ops — Facilities, Transport & Appointments](09_campus_ops.md)
+10. Careers — Placement, Alumni & Scholarships *(next)*
 11. Insights — Dashboards & Reports
 12. Comms & AI — Notifications & AI Tools
 13. Website & Apps — Overview
@@ -64,6 +64,7 @@ Company (Institution Details)
 | Timetable-entry and grade-entry relational selectors can show only "Create" when the related Institution field is still empty | Timetable Entries; Grade Entry | Do not create duplicate offerings/enrollments; report the selector/domain issue for a UI fix |
 | Closing an attendance session after marking can fail during the attendance-statistics recompute | Attendance Sessions | Preserve the attendance records and report the error; ticket eligibility still evaluates the recorded attendance |
 | Semester Results generation has no normal UI button in this build | Grading → Semester Results | The list/publish form is available; ask an administrator/developer to run the supported generation operation if no result is listed |
+| Appointment Slot save raises Access Error for Administrator in the clean UAT database, despite an appointment-admin ACL being present | Comms & AI → Appointments → Slots | No slot was created; investigate effective permissions through the approved access process and do not weaken ACLs |
 
 ## The Edicai Workspace Map
 
