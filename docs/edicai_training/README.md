@@ -17,8 +17,8 @@
 **Act II — People & Operations** (in progress)
 5. [Student Life — Students, Guardians & Discipline](05_student_life.md)
 6. [Admissions — Cycles, Seats & the Applicant Pipeline](06_admissions.md)
-7. Finance — Fee Structures, Invoices & Payments *(next)*
-8. Examinations — Schedules, Grading & Results
+7. [Finance — Fee Structures, Invoices & Payments](07_finance.md)
+8. Examinations — Schedules, Grading & Results *(next)*
 9. Campus Ops — Facilities, Transport & Appointments
 10. Careers — Placement, Alumni & Scholarships
 11. Insights — Dashboards & Reports
@@ -56,6 +56,10 @@ Company (Institution Details)
 | Applicant kanban shows "No stages yet" on fresh DB despite 13 stage records | Applicants | Investigate `edicai_admission` stage domain/cycle filter |
 | `Esc` in edit mode discards the whole record | All forms | Odoo behaviour — train users to click away instead of Esc |
 | Discipline "Reported By" needs a staff member; the inline quick-create modal targets HR departments | Discipline Records | Create staff via Institution → Faculty & Staff first |
+| New fee lines inherit the previous row's Fee Type; totals refresh only after save | Fee Structures → Lines | Re-pick Fee Type per row before saving |
+| Sales Journal dropdown only offers "Create" until the Institution is committed | Fee Accounting Configuration | Pick Institution from the dropdown first |
+| `Send to Student` fails until an active Fee Accounting Configuration exists | Fee Invoices | Configure Finance → Fees → Configuration → Accounting Configuration |
+| GL invoices stay in Draft when "Auto-Post to GL" is off; Record Payment is hidden until posted | Fee Invoices → GL Invoice | Open the GL Invoice and Confirm it |
 
 ## The Edicai Workspace Map
 
