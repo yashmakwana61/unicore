@@ -14,8 +14,7 @@ const config = {
       // Publish only screenshot-backed administrator workflow training.
       // Draft/source-only modules, workspace inventories and placeholders remain in Git.
       include: ['training/**/*.{md,mdx}'],
-      sidebarPath: require.resolve('./sidebars.js'),
-      editUrl: 'https://github.com/yashmakwana61/unicore/edit/main/docs-portal/'},
+      sidebarPath: require.resolve('./sidebars.js')},
     blog: false,
     theme: {customCss: require.resolve('./src/css/custom.css')},
     sitemap: {changefreq: 'weekly', priority: 0.5}
@@ -24,8 +23,7 @@ const config = {
     colorMode: {defaultMode: 'light', respectPrefersColorScheme: true},
     navbar: {title:'Edicai Docs', logo:{alt:'Edicai',src:'img/edicai-mark.svg'},
       items:[{type:'docSidebar',sidebarId:'main',position:'left',label:'Documentation'},
-        {to:'/search',position:'left',label:'Search'},
-        {href:'https://github.com/yashmakwana61/unicore',position:'right',label:'GitHub'}]},
+        {to:'/search',position:'left',label:'Search'}]},
     footer: {style:'light', links:[
       {title:'Training',items:[{label:'Administrator Guide',to:'/docs/training/overview'},{label:'Quick Reference',to:'/docs/training/quick_reference'}]},
       {title:'About',items:[{label:'Edicai',href:'https://edicai.com'},{label:'Precisefect',href:'https://precisefect.com'}]}
