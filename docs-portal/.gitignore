@@ -1,0 +1,12 @@
+node_modules/
+build/
+.docusaurus/
+__pycache__/
+*.pyc
+audit/
+
+verification/output/
+verification/*.json
+
+# Local synthetic database credential file
+testing/.env
